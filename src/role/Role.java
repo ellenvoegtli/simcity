@@ -13,27 +13,30 @@ public abstract class Role extends Agent {
 		this.isActive = a;
 	}
 	
-	protected PersonAgent getPerson() {
+	public PersonAgent getPerson() {
 		return person;
 	}
 
-	protected void setPerson(PersonAgent p) {
+	public void setPerson(PersonAgent p) {
 		person = p;
 	}
 
-	protected void setActive() {
+	public void setActive() {
 		isActive = true;
 	}
 
-	protected void setInactive() {
+	public void setInactive() {
 		isActive = false;
+		this.person.roleInactive();
 	}
 
-	protected boolean isActive() {
+	public boolean isActive() {
 		return isActive;
 	}
 
 	protected void stateChanged() {
 		person.stateChanged();
 	}
+	
+	public abstract boolean pickAndExecuteAnAction();
 }
