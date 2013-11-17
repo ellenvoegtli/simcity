@@ -1,14 +1,14 @@
-package bank.gui;
+package mainCity.bank.gui;
 
 
 
 import javax.swing.*;
 
+import mainCity.bank.gui.BankGui;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
-
-import bank.gui.BankGui;
 
 /**
  * Panel in frame that contains all the restaurant information,

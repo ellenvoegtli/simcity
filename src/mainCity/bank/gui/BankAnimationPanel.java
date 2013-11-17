@@ -1,4 +1,4 @@
-package bank.gui;
+package mainCity.bank.gui;
 
 import javax.swing.*;
 
