@@ -52,8 +52,8 @@ public class PersonAgent extends Agent {
 
 	//A message received from the system or GUI to tell person to get hungry
 	public void msgGotHungry() {
-		//add new action to list of actions of type restauraunt or home
-		event = PersonEvent.gotHungry;
+		//add new action to list of actions of type restaurant or home
+		//event = PersonEvent.gotHungry;
 		stateChanged();
 	}
 
@@ -66,7 +66,7 @@ public class PersonAgent extends Agent {
 	//A message received to tell the person to go to the bank
 	public void msgGoToBank() {
 		//add new action to list of actions of type bank (with desired action)
-		event = PersonEvent.needToBank;
+		//event = PersonEvent.needToBank;
 		stateChanged();
 	}
 
@@ -75,6 +75,7 @@ public class PersonAgent extends Agent {
 		if(actions.peek().type == ActionType.bankDeposit || actions.peek().type == ActionType.bankWithdraw) {
 			actions.peek().state = ActionState.done;
 		}
+		
 		state = PersonState.normal;			
 		stateChanged();
 	}
@@ -84,9 +85,9 @@ public class PersonAgent extends Agent {
 		if(actions.peek().type == ActionType.market) {
 			actions.peek().state = ActionState.done;
 		}
+		
 		state = PersonState.normal;
 		//event = PersonEvent.gotFood;
-		
 		stateChanged();
 	}
 
@@ -221,6 +222,112 @@ public class PersonAgent extends Agent {
 	
 	public void stateChanged() {
 		this.stateChanged();
+	}
+	
+	/*
+	public addRole(String occupation) {
+		roles.add(new Role(this, occupation, false)); //pointer to person, occupation, isActive?
+	}
+	*/
+
+	public int getCash() {
+		return cash;
+	}
+
+	public void setCash(int c) {
+		this.cash = c;
+	}
+
+	private void handleAction(ActionType action) {
+		switch(action) {
+			default:
+				//set appropriate event based on action type
+		}
+		stateChanged();
+	}
+
+	private void travelToLocation(CityLocation d) {
+		traveling = true;
+		this.destination = d;
+
+		//Check for a way to travel: public transporation, car, or walking
+		boolean temp = false;
+		
+		if(temp) { //chose to walk
+			//DoGoToLocation(d); //call gui
+			waitForGui(); 
+		}
+		else if(temp) { //chose bus
+			//DoGoToStop(); // walk to the closest bus stop or subway station?
+			waitForGui();
+			//bus.myDestination(d); //send message to transportation object of where they want to go
+			//will receive an arrived at destination message when done
+		}
+		else if(temp) {//chose car
+			//DoGoToCar(); //walk to car
+			waitForGui();
+			//car.msgGoToPlace(d); //some message to tell the car where to go, will receive an arrived at destination message when done
+		}
+	}
+
+	private void goToWork() {
+		//check occupation & set destination appropriately
+
+		travelToLocation(destination);
+		event = PersonEvent.arrivedAtWork;
+		stateChanged();
+	}
+
+	private void goToMarket() {
+		travelToLocation(CityLocation.market);
+		event = PersonEvent.arrivedAtMarket;
+		stateChanged();
+	}
+
+	private void goHome() {
+		travelToLocation(CityLocation.home);
+		event = PersonEvent.arrivedAtHome;
+		stateChanged();
+	}
+
+	private void goToRestaurant() {
+		travelToLocation(destination); //should have been set to appropriate restaurant earlier;
+		event = PersonEvent.arrivedAtRestaurant;
+		stateChanged();
+	}
+
+	private void goToBank() {
+		travelToLocation(CityLocation.bank);
+		event = PersonEvent.arrivedAtBank;
+		stateChanged();
+	}
+
+	private void decideWhereToEat() {
+		//Decide between restaurant or home
+
+		if(true) { //chose restaurant
+			destination = null;//some sort of way to decide what restaurant to eat at
+			event = PersonEvent.decidedRestaurant;
+		}
+
+		else if(true) {//chose home
+			if(true) { //need food
+				event = PersonEvent.needFood;
+			}
+			else {
+				event = PersonEvent.gotFood; // already has food at home?
+			}
+		}
+
+		stateChanged();
+	}
+	
+	private void waitForGui() {
+		try {
+			isMoving.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} 
 	}
 	
 	private enum ActionState {created, inProgress, done}
