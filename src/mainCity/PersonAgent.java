@@ -25,7 +25,7 @@ public class PersonAgent extends Agent {
 		
 		traveling = false;
 		onBreak = false;
-		state = PersonState.normal;//maybe different if we start everyone in home
+		state = PersonState.normal;//maybe 'inBuilding' if we start everyone in home
 		event = PersonEvent.none;
 		destination = CityLocation.home;
 		roles = Collections.synchronizedList(new ArrayList<Role>());
