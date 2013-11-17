@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class BankAnimationPanel extends JPanel implements ActionListener {
 
 	//Dimensions for the window that will have the City in it
     private final int WINDOWX = 500;
@@ -22,7 +22,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
     //Will be Added in CityPanel analogous to RestaurantPanel
     private List<Gui> guis = new ArrayList<Gui>();
 
-    public AnimationPanel() {
+    public BankAnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         
