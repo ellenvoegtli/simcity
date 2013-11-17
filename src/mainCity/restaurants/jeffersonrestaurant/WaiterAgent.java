@@ -1,7 +1,7 @@
 package mainCity.restaurants.jeffersonrestaurant;
 
 import agent.Agent;
-import sun.awt.windows.WWindowPeer;
+//import sun.awt.windows.WWindowPeer;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
