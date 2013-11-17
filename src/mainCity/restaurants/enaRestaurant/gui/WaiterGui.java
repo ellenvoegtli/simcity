@@ -4,7 +4,6 @@ package mainCity.restaurants.enaRestaurant.gui;
 import mainCity.restaurants.enaRestaurant.CustomerRole;
 import mainCity.restaurants.enaRestaurant.HostRole.Table;
 import mainCity.restaurants.enaRestaurant.WaiterRole;
-import sun.tools.javap.Tables;
 
 import java.awt.*;
 
