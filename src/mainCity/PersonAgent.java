@@ -145,16 +145,26 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtHome) {
 				//set appropriate role to active
 
-				//if actions.front().type == market or home, set to done
+				if(actions.peek().type == ActionType.market || actions.peek().type == ActionType.home) {
+					actions.peek().state = ActionState.done;
+				}
+				
 				state = PersonState.inBuilding;
 				return true;
 			}
 
 			if(event == PersonEvent.arrivedAtWork) {
-				//set appropriate role to active && set that roles initial state?
-				//different if onBreak is active -- set to false if it is
+				if(onBreak) {
+					onBreak = false;
+				}
+				else {
+					//set appropriate role to active && set that roles initial state
+				}
 
-				//if actions.front().type == work, set to done
+				if(actions.peek().type == ActionType.work) {
+					actions.peek().state = ActionState.done;
+				}
+				
 				state = PersonState.working;
 				return true;
 			}
@@ -169,7 +179,11 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtRestaurant) {
 				//set appropriate role
 				print("arrived at the restaurant!");
-				//if actions.front().type == restaurant, set to done
+
+				if(actions.peek().type == ActionType.restaurant) {
+					actions.peek().state = ActionState.done;
+				}
+				
 				state = PersonState.inBuilding;
 				return true;
 			}
@@ -177,7 +191,10 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtBank) {
 				//set appropriate role and initial state for different actions
 
-				//if actions.front().type == bankWithdraw, bankDesposit, bankLoan - set to done
+				if(actions.peek().type == ActionType.bankWithdraw || actions.peek().type == ActionType.bankDeposit || actions.peek().type == ActionType.bankLoan) {
+					actions.peek().state = ActionState.done;
+				}
+				
 				state = PersonState.inBuilding;
 				return true;
 			}
