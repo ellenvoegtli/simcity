@@ -5,11 +5,14 @@ import role.Role;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import mainCity.gui.PersonGui;
+
 public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding}
 	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needFood, gotFood, gotHungry, decidedRestaurant, needToBank}
-	private enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
+	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
 	
+	private PersonGui gui;
 	private int cash;
 	private boolean traveling;
 	private boolean onBreak;
@@ -29,6 +32,10 @@ public class PersonAgent extends Agent {
 		event = PersonEvent.none;
 		destination = CityLocation.home;
 		roles = Collections.synchronizedList(new ArrayList<Role>());
+	}
+	
+	public void setGui(PersonGui g) {
+		this.gui = g;
 	}
 	
 	//----------Messages----------//
@@ -53,7 +60,7 @@ public class PersonAgent extends Agent {
 	//A message received from the system or GUI to tell person to get hungry
 	public void msgGotHungry() {
 		//add new action to list of actions of type restaurant or home
-		//event = PersonEvent.gotHungry;
+		event = PersonEvent.gotHungry;
 		stateChanged();
 	}
 
@@ -160,7 +167,7 @@ public class PersonAgent extends Agent {
 
 			if(event == PersonEvent.arrivedAtRestaurant) {
 				//set appropriate role
-
+				print("arrived at the restaurant!");
 				//if actions.front().type == restaurant, set to done
 				state = PersonState.inBuilding;
 				return true;
@@ -175,32 +182,32 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.timeToWork) {
-				//goToWork();
+				goToWork();
 				return true;
 			}
 
 			if(event == PersonEvent.needFood) {
-				//goToMarket();
+				goToMarket();
 				return true;
 			}
 
 			if(event == PersonEvent.gotFood) {
-				//goHome();
+				goHome();
 				return true;
 			}
 
 			if(event == PersonEvent.gotHungry) {
-				//decideWhereToEat();
+				decideWhereToEat();
 				return true;
 			}
 
 			if(event == PersonEvent.decidedRestaurant) {
-				//goToRestaurant();
+				goToRestaurant();
 				return true;
 			}
 
 			if(event == PersonEvent.needToBank) {
-				//goToBank();
+				goToBank();
 				return true;
 			}
 		}
@@ -250,12 +257,12 @@ public class PersonAgent extends Agent {
 		traveling = true;
 		this.destination = d;
 
-		//Check for a way to travel: public transporation, car, or walking
+		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = false;
 		
-		if(temp) { //chose to walk
-			//DoGoToLocation(d); //call gui
-			waitForGui(); 
+		if(true) { //chose to walk
+			gui.DoGoToLocation(d); //call gui
+			waitForGui();
 		}
 		else if(temp) { //chose bus
 			//DoGoToStop(); // walk to the closest bus stop or subway station?
@@ -279,18 +286,21 @@ public class PersonAgent extends Agent {
 	}
 
 	private void goToMarket() {
+		print("Going to the market");
 		travelToLocation(CityLocation.market);
 		event = PersonEvent.arrivedAtMarket;
 		stateChanged();
 	}
 
 	private void goHome() {
+		print("Going home");
 		travelToLocation(CityLocation.home);
 		event = PersonEvent.arrivedAtHome;
 		stateChanged();
 	}
 
 	private void goToRestaurant() {
+		print("Going to the restaurant");
 		travelToLocation(destination); //should have been set to appropriate restaurant earlier;
 		event = PersonEvent.arrivedAtRestaurant;
 		stateChanged();
@@ -303,11 +313,14 @@ public class PersonAgent extends Agent {
 	}
 
 	private void decideWhereToEat() {
+		print("Deciding where to eat..");
 		//Decide between restaurant or home
 
 		if(true) { //chose restaurant
-			destination = null;//some sort of way to decide what restaurant to eat at
+			print("Chose to eat at a restaurant");
+			destination = CityLocation.restaurant_david;//some sort of way to decide what restaurant to eat at
 			event = PersonEvent.decidedRestaurant;
+			return;
 		}
 
 		else if(true) {//chose home
