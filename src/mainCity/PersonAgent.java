@@ -9,7 +9,7 @@ import mainCity.gui.PersonGui;
 
 public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding}
-	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needFood, gotFood, gotHungry, decidedRestaurant, needToBank}
+	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needFood, gotHungry, gotFood, decidedRestaurant, needToBank, goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
 	
 	private PersonGui gui;
@@ -59,6 +59,7 @@ public class PersonAgent extends Agent {
 
 	//A message received from the system or GUI to tell person to get hungry
 	public void msgGotHungry() {
+		print("Person got hungry");
 		//add new action to list of actions of type restaurant or home
 		event = PersonEvent.gotHungry;
 		stateChanged();
@@ -135,7 +136,7 @@ public class PersonAgent extends Agent {
 
 			if(actions.peek().state == ActionState.created) {
 				actions.peek().state = ActionState.inProgress;
-				//handleAction(action.type);
+				handleAction(actions.peek().type);
 				return true;
 			}
 		}
@@ -212,8 +213,8 @@ public class PersonAgent extends Agent {
 			}
 		}
 
-		if(actions.isEmpty()) { //If nothing else to do, go home
-			//goHome();
+		if(actions.isEmpty()) {
+			goHome();
 			return true;
 		}
 		
@@ -246,9 +247,23 @@ public class PersonAgent extends Agent {
 	}
 
 	private void handleAction(ActionType action) {
+		//need to check if appropriate role exists in the list, if it does not, make one, if it does--do nothing
 		switch(action) {
+			case work:
+				event = PersonEvent.timeToWork;
+				break;
+			case restaurant:
+				event = PersonEvent.gotHungry;//different event maybe to go strictly to restaurant
+				break;
+			case bankWithdraw:
+			case bankDeposit:
+			case bankLoan: 
+				event = PersonEvent.needToBank;
+				break;
+			case home:
+				event = PersonEvent.goHome;
+				break;
 			default:
-				//set appropriate event based on action type
 		}
 		stateChanged();
 	}
