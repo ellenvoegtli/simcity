@@ -6,7 +6,6 @@ import mainCity.restaurants.enaRestaurant.HostRole;
 import mainCity.restaurants.enaRestaurant.HostRole.Table;
 import mainCity.restaurants.enaRestaurant.WaiterRole.MyCustomers;
 import mainCity.restaurants.enaRestaurant.WaiterRole;
-import sun.tools.javap.Tables;
 
 import java.awt.*;
 
