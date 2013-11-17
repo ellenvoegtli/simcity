@@ -1,4 +1,4 @@
-package bank;
+package mainCity.bank;
 
 import agent.Agent;
 
