@@ -16,6 +16,7 @@ import mainCity.restaurants.jeffersonrestaurant.CustomerRole.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Market;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
+import mainCity.restaurants.jeffersonrestaurant.sharedData.RevolvingStand;
 import mainCity.restaurants.jeffersonrestaurant.WaiterRole.Table;
 
 public class CookRole extends Agent{
@@ -27,6 +28,7 @@ public class CookRole extends Agent{
 	private OrderState state=OrderState.pending;
 	private String name;
 	public CookGui cookGui = null;
+	private RevolvingStand revolvingstand;
 	Map<String, Integer> cookingTimes = new HashMap<String, Integer>();
 	Map<String, Integer> inventory =  new HashMap<String,Integer>();
 	public List<Market> markets = Collections.synchronizedList ( new ArrayList<Market>());
@@ -93,6 +95,13 @@ public class CookRole extends Agent{
 		markets.add(m);
 	}
 	
+	public RevolvingStand getRevolvingstand() {
+		return revolvingstand;
+	}
+
+	public void setRevolvingstand(RevolvingStand revolvingstand) {
+		this.revolvingstand = revolvingstand;
+	}
 	
 	
 	
@@ -352,6 +361,8 @@ public class CookRole extends Agent{
 		o.w.msgOrderIsReady(o.tableNumber);
 		
 	}
+
+
 	
 	
 	
