@@ -23,7 +23,7 @@ public class PersonAgent extends Agent {
 	private List<Role> roles;
 	private PriorityQueue<Action> actions;
 	
-	PersonAgent() {
+	public PersonAgent() {
 		super();
 		
 		traveling = false;
