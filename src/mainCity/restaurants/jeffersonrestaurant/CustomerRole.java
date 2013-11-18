@@ -10,7 +10,7 @@ import java.util.TimerTask;
 import java.util.Random;
 
 import mainCity.restaurants.jeffersonrestaurant.Menu;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent.Table;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole.Table;
 import mainCity.restaurants.jeffersonrestaurant.gui.CustomerGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
@@ -18,7 +18,7 @@ import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 /**
  * Restaurant customer agent.
  */
-public class CustomerAgent extends Agent implements Customer {
+public class CustomerRole extends Agent implements Customer {
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -28,7 +28,7 @@ public class CustomerAgent extends Agent implements Customer {
 	private Menu menu;
 	// agent correspondents
 	private Waiter waiter;
-	private HostAgent host;
+	private HostRole host;
 	String choice;
 	private Random randomGenerator = new Random();
 	private double money;
@@ -61,7 +61,7 @@ public class CustomerAgent extends Agent implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerAgent(String name){
+	public CustomerRole(String name){
 		super();
 		this.name = name;
 		//this.money= 100;
@@ -78,7 +78,7 @@ public class CustomerAgent extends Agent implements Customer {
 	/**
 	 * hack to establish connection to Host agent.
 	 */
-	public void setHost(HostAgent host) {
+	public void setHost(HostRole host) {
 		this.host = host;
 		
 	}

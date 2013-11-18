@@ -12,13 +12,13 @@ import java.util.TimerTask;
 import java.util.AbstractMap;
 import java.util.HashMap;
 
-import mainCity.restaurants.jeffersonrestaurant.CustomerAgent.*;
+import mainCity.restaurants.jeffersonrestaurant.CustomerRole.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Market;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent.Table;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole.Table;
 
-public class CookAgent extends Agent{
+public class CookRole extends Agent{
 
 
 	public enum OrderState
@@ -43,7 +43,7 @@ public class CookAgent extends Agent{
 	
 	
 	
-	public CookAgent(String name){
+	public CookRole(String name){
 		super();
 		this.name=name;
 		cookingTimes.put("steak",8);

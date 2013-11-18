@@ -3,12 +3,12 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 import java.awt.*;
 import java.util.Random;
 
-import mainCity.restaurants.jeffersonrestaurant.CustomerAgent;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent.*;
+import mainCity.restaurants.jeffersonrestaurant.CustomerRole;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole.*;
 
 public class CustomerGui implements Gui{
 
-	private CustomerAgent agent = null;
+	private CustomerRole agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
@@ -30,7 +30,7 @@ public class CustomerGui implements Gui{
 	int tablecount = 3;
 	int waitingloc;
 
-	public CustomerGui(CustomerAgent c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(CustomerRole c, RestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;

@@ -6,9 +6,9 @@ import agent.Agent;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import mainCity.restaurants.jeffersonrestaurant.HostAgent;
+import mainCity.restaurants.jeffersonrestaurant.HostRole;
 //import mainCity.restaurants.jeffersonrestaurant.Menu;
-import mainCity.restaurants.jeffersonrestaurant.HostAgent.Table;
+import mainCity.restaurants.jeffersonrestaurant.HostRole.Table;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
 import mainCity.restaurants.jeffersonrestaurant.gui.WaiterGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
@@ -21,7 +21,7 @@ import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class WaiterAgent extends Agent implements Waiter {
+public class WaiterRole extends Agent implements Waiter {
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -39,9 +39,9 @@ public class WaiterAgent extends Agent implements Waiter {
 	private Semaphore atCook =new Semaphore(0, false);
 	private Semaphore atPlating =new Semaphore(0, false);
 	
-	private CookAgent cook;
-	private HostAgent host;
-	private CashierAgent cashier;
+	private CookRole cook;
+	private HostRole host;
+	private CashierRole cashier;
 	public WaiterGui waiterGui = null;
 	public enum waiterCustState
 	{notSeated, seated, readyToOrder,waitingForWaiter, ordered,waitingForOrder,foodReady,eating,requestedCheck,waitingForCheck, 
@@ -58,7 +58,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	private Menu menu;
 	
 
-	public WaiterAgent(String name) {
+	public WaiterRole(String name) {
 		super();
 		this.name = name;
 		this.wantToBreak=false;
@@ -68,15 +68,15 @@ public class WaiterAgent extends Agent implements Waiter {
 		//cookgui=cook.cookGui;
 		}
 	
-	public void setCook(CookAgent ck){
+	public void setCook(CookRole ck){
 		this.cook=ck;
 	}
 	
-	public void setHost(HostAgent h){
+	public void setHost(HostRole h){
 		this.host=h;
 	}
 	
-	public void setCashier(CashierAgent c){
+	public void setCashier(CashierRole c){
 		this.cashier=c;
 	}
 	

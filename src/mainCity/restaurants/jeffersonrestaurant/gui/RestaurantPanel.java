@@ -2,12 +2,12 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 
 import javax.swing.*;
 
-import mainCity.restaurants.jeffersonrestaurant.CashierAgent;
-import mainCity.restaurants.jeffersonrestaurant.CookAgent;
-import mainCity.restaurants.jeffersonrestaurant.CustomerAgent;
-import mainCity.restaurants.jeffersonrestaurant.HostAgent;
-import mainCity.restaurants.jeffersonrestaurant.MarketAgent;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent;
+import mainCity.restaurants.jeffersonrestaurant.CashierRole;
+import mainCity.restaurants.jeffersonrestaurant.CookRole;
+import mainCity.restaurants.jeffersonrestaurant.CustomerRole;
+import mainCity.restaurants.jeffersonrestaurant.HostRole;
+import mainCity.restaurants.jeffersonrestaurant.MarketRole;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,23 +21,23 @@ public class RestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
   // private WaiterAgent waiter = new WaiterAgent("Sarah");
-    private HostAgent host =new HostAgent ("Sal");
+    private HostRole host =new HostRole ("Sal");
   // private WaiterGui waiterGui = new WaiterGui(waiter);
-    private CookAgent cook = new CookAgent("Jim");
-    private CashierAgent cashier = new CashierAgent("Dave");
+    private CookRole cook = new CookRole("Jim");
+    private CashierRole cashier = new CashierRole("Dave");
     
-    private MarketAgent m1 = new MarketAgent();
-    private MarketAgent m2 = new MarketAgent();
-    private MarketAgent m3 = new MarketAgent();
-    private MarketAgent m4 = new MarketAgent();
+    private MarketRole m1 = new MarketRole();
+    private MarketRole m2 = new MarketRole();
+    private MarketRole m3 = new MarketRole();
+    private MarketRole m4 = new MarketRole();
     
     
     
     
   
 
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
-    private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
+    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
+    private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
 
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -47,7 +47,7 @@ public class RestaurantPanel extends JPanel {
 
     private RestaurantGui gui; //reference to main gui
     
-    public void addWaiterToList(WaiterAgent w){
+    public void addWaiterToList(WaiterRole w){
     	host.waiters.add(w);
     	
     }
@@ -135,7 +135,7 @@ public class RestaurantPanel extends JPanel {
         if (type.equals("Customers")) {
 
             for (int i = 0; i < customers.size(); i++) {
-                CustomerAgent temp = customers.get(i);
+                CustomerRole temp = customers.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
@@ -143,7 +143,7 @@ public class RestaurantPanel extends JPanel {
         if (type.equals("Waiters")) {
 
             for (int i = 0; i < waiters.size(); i++) {
-                WaiterAgent temp = waiters.get(i);
+                WaiterRole temp = waiters.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
@@ -176,9 +176,10 @@ public class RestaurantPanel extends JPanel {
     }
     */
     public void addPerson(String type, String name, boolean hungry) {
-
+    	
+    	
     	if (type.equals("Customers")) {
-    		CustomerAgent c = new CustomerAgent(name);
+    		CustomerRole c = new CustomerRole(name);
     		c.setHost(host);
     		//host.waitingCustomers.add(c);
     		//for now only setting 1 waiter, not addlist
@@ -211,7 +212,7 @@ public class RestaurantPanel extends JPanel {
     		
     	}
     	if (type.equals("Waiters")) {
-    		WaiterAgent w =  new WaiterAgent(name);
+    		WaiterRole w =  new WaiterRole(name);
         	WaiterGui waiterGui = new WaiterGui(w);
         	w.setCook(cook);
             w.setHost(host);
@@ -224,6 +225,7 @@ public class RestaurantPanel extends JPanel {
     		
     		System.out.println("waiter added");
             w.startThread();
+            //host.msgWaitersUpdate();
             //host.msgWaiterAdded();
     	}
     	

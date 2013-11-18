@@ -1,9 +1,9 @@
 package mainCity.restaurants.jeffersonrestaurant.interfaces;
 
 import mainCity.restaurants.jeffersonrestaurant.Menu;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent;
-import mainCity.restaurants.jeffersonrestaurant.CustomerAgent.AgentEvent;
-import mainCity.restaurants.jeffersonrestaurant.CustomerAgent.AgentState;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
+import mainCity.restaurants.jeffersonrestaurant.CustomerRole.AgentEvent;
+import mainCity.restaurants.jeffersonrestaurant.CustomerRole.AgentState;
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.

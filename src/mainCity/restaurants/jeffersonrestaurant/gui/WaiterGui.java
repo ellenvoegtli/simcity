@@ -3,14 +3,14 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 
 import java.awt.*;
 
-import mainCity.restaurants.jeffersonrestaurant.CustomerAgent;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent.*;
+import mainCity.restaurants.jeffersonrestaurant.CustomerRole;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole.*;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 
 public class WaiterGui implements Gui {
 
-    private WaiterAgent agent = null;
+    private WaiterRole agent = null;
     
     private int xHome, yHome;
     
@@ -24,7 +24,7 @@ public class WaiterGui implements Gui {
     int t;
     public boolean atOrigin= true;
     public CookGui cookgui =null;
-    public WaiterGui(WaiterAgent agent) {
+    public WaiterGui(WaiterRole agent) {
         this.agent = agent;
     }
 

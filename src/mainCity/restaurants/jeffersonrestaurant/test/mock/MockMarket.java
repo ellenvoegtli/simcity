@@ -1,8 +1,8 @@
 package mainCity.restaurants.jeffersonrestaurant.test.mock;
-import mainCity.restaurants.jeffersonrestaurant.CashierAgent;
-import mainCity.restaurants.jeffersonrestaurant.CookAgent;
-import mainCity.restaurants.jeffersonrestaurant.HostAgent;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent;
+import mainCity.restaurants.jeffersonrestaurant.CashierRole;
+import mainCity.restaurants.jeffersonrestaurant.CookRole;
+import mainCity.restaurants.jeffersonrestaurant.HostRole;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
 
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
@@ -19,8 +19,8 @@ public class MockMarket extends Mock implements Market {
 	}
 
 
-	public CashierAgent cashier;
-	public CookAgent cook;
+	public CashierRole cashier;
+	public CookRole cook;
 	public EventLog log;
 	
 	

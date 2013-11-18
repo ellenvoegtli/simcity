@@ -2,8 +2,8 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 
 import javax.swing.*;
 
-import mainCity.restaurants.jeffersonrestaurant.CustomerAgent;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent;
+import mainCity.restaurants.jeffersonrestaurant.CustomerRole;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -23,8 +23,8 @@ public class ListPanel extends JPanel implements ActionListener {
     private List<JButton> list = new ArrayList<JButton>();
     private JButton addPersonB = new JButton("Add");
     //private JButton addWaiterB = new JButton("AddWaiter");
-    private JButton pause = new JButton("Pause");
-    private JButton run = new JButton("Run");
+    //private JButton pause = new JButton("Pause");
+    //private JButton run = new JButton("Run");
     //create a textfield
     JTextField Entry = new JTextField(25);
     //JTextField waiterEntry = new JTextField(25);
@@ -44,10 +44,10 @@ public class ListPanel extends JPanel implements ActionListener {
         restPanel = rp;
         this.type = type;
         
-        pause.addActionListener(this);
-        add(pause);
-        run.addActionListener(this);
-        add(run);
+        //pause.addActionListener(this);
+        //add(pause);
+        //run.addActionListener(this);
+        //add(run);
         
        
         

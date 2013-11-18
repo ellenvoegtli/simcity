@@ -5,8 +5,9 @@ import agent.Agent;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent.*;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole.*;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
+import mainCity.restaurants.jeffersonrestaurant.interfaces.Host;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 
 /**
@@ -15,7 +16,7 @@ import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 
 
 
-public class HostAgent extends Agent{
+public class HostRole extends Agent implements Host{
 	
 	
 	static final int NTABLES = 3;
@@ -31,14 +32,14 @@ public class HostAgent extends Agent{
 	public List<Customer> waitingCustomers
 	= Collections.synchronizedList (new ArrayList<Customer>());
 	
-	private WaiterAgent waiter;
-	public List<WaiterAgent> waiters = Collections.synchronizedList (new ArrayList<WaiterAgent>());
+	private WaiterRole waiter;
+	public List<WaiterRole> waiters = Collections.synchronizedList (new ArrayList<WaiterRole>());
 	public List<myWaiters> breakWaiters = Collections.synchronizedList (new ArrayList<myWaiters>());
 	
 	
 	 
 	
-	public HostAgent(String name) {
+	public HostRole(String name) {
 		super();
 
 		this.name = name;
@@ -62,6 +63,10 @@ public class HostAgent extends Agent{
 	*/
 	
 	//messages
+	public void msgWaitersUpdate(){
+		stateChanged();
+	}
+	
 	public void msgIWantFood(Customer cust) {
 		
 		waitingCustomers.add(cust);

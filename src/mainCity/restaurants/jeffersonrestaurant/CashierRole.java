@@ -4,15 +4,17 @@ import mainCity.restaurants.jeffersonrestaurant.*;
 
 import java.util.*;
 
-import mainCity.restaurants.jeffersonrestaurant.MarketAgent;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent;
-import mainCity.restaurants.jeffersonrestaurant.CookAgent.Order;
+import mainCity.restaurants.jeffersonrestaurant.MarketRole;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
+import mainCity.restaurants.jeffersonrestaurant.CookRole.Order;
+import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
+import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Market;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 import agent.Agent;
 
 
-public class CashierAgent extends Agent{
+public class CashierRole extends Agent implements Cashier{
 
 	private String name;
 	public List <Check> checks = Collections.synchronizedList(new ArrayList<Check>());
@@ -54,7 +56,7 @@ public class CashierAgent extends Agent{
 		
 	}
 	
-	public CashierAgent(String name){
+	public CashierRole(String name){
 		super();
 		this.name=name;
 		profits=0;
@@ -158,6 +160,20 @@ public class CashierAgent extends Agent{
 		}
 		
 		b.m.msgHereIsMonies(b.amount);
+		
+	}
+
+
+	@Override
+	public void ReadyToPay(Customer c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void HereIsMymoney(Customer c, double money) {
+		// TODO Auto-generated method stub
 		
 	}
 		

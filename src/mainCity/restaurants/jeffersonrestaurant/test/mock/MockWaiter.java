@@ -1,7 +1,7 @@
 package mainCity.restaurants.jeffersonrestaurant.test.mock;
 
-import mainCity.restaurants.jeffersonrestaurant.HostAgent;
-import mainCity.restaurants.jeffersonrestaurant.WaiterAgent;
+import mainCity.restaurants.jeffersonrestaurant.HostRole;
+import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
 
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
@@ -16,7 +16,7 @@ public class MockWaiter extends Mock implements Waiter {
 
 	public Cashier cashier;
 	
-	public HostAgent host;
+	public HostRole host;
 	
 	public EventLog log;
 
