@@ -14,7 +14,7 @@ public class BankGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
-	JFrame animationFrame = new JFrame("Bank Animation");
+	//JFrame animationFrame = new JFrame("Bank Animation");
 	BankAnimationPanel bankAnimationPanel = new BankAnimationPanel();
 	
     /* restPanel holds 2 panels
@@ -43,11 +43,12 @@ public class BankGui extends JFrame implements ActionListener {
         int WINDOWX = 500;
         int WINDOWY = 500;
 
+        /*
         animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         animationFrame.setBounds(100+WINDOWX, 50 , WINDOWX+100, WINDOWY+100);
         animationFrame.setVisible(true);
     	animationFrame.add(bankAnimationPanel);
-    	
+    	*/
     	
     	
     	setBounds(0, 0, WINDOWX, WINDOWY);
@@ -59,7 +60,7 @@ public class BankGui extends JFrame implements ActionListener {
         bankPanel.setPreferredSize(bankrestDim);
         bankPanel.setMinimumSize(bankrestDim);
         bankPanel.setMaximumSize(bankrestDim);
-        add(bankPanel);
+        //add(bankPanel);
         
     
         add(bankAnimationPanel,BorderLayout.CENTER);
@@ -74,7 +75,7 @@ public class BankGui extends JFrame implements ActionListener {
    
     public static void main(String[] args) {
         BankGui gui = new BankGui();
-        gui.setTitle("csci201 Bank");
+        gui.setTitle("theBank");
         gui.setVisible(true);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

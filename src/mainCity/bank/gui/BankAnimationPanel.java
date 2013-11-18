@@ -16,8 +16,8 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     private final int WINDOWY = 500;
     private Image bufferImage;
     private Dimension bufferSize;
-    static final int  X = 200;
-    static final int  Y = 350;
+    static final int  X = 0;
+    static final int  Y = 0;
     static final int width = 50;
     static final int height = 50;
 
@@ -46,12 +46,24 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
 
         //Teller Area
         g2.setColor(Color.DARK_GRAY);
-        g2.fillRect(X, Y, 100, 100);//200 and 250 need to be table params
+        g2.fillRect(X+100, Y+75, 125, 40);//200 and 250 need to be table params
+        g2.fillRect(X+275, Y+75, 125, 40);
         
-       
+        //Banker Area
+        g2.drawLine(350,230 , 500, 230);
+        
+        g2.drawLine(350,230 , 350, 300);
+        g2.drawLine(350,400 , 350, 500);
+        g2.setColor(Color.RED);
+        g2.drawString("Account Services", 380, 260);
+        
+        g2.setColor(Color.BLUE);
+        g2.fillRect(410, 315, 30, 90);
+        
+        
         //Draw customer waiting area
-        g2.setColor(Color.cyan);
-        g2.fillRect( 0, 400, 100, 100 );
+        g2.setColor(Color.orange);
+        g2.fillRect( 0, 350, 100, 150 );
         
        
         
