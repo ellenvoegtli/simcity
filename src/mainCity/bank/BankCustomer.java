@@ -62,15 +62,17 @@ public class BankCustomer extends Agent {
 		b=bk;
 		bankernumber=bn;
 		bcstate=BankCustomerState.assignedBanker;
+		stateChanged();
 		
 	}
 
 	
-	public void msgRequestComplete(int change, int balance){
-	    p.setCash(p.getCash()+change);
+	public void msgRequestComplete(double change, double balance){
+	    p.setCash((int) (p.getCash()+change));
 		//mymoney += change;
 	    bankbalance=balance;
 	    bcstate=BankCustomerState.done;
+	    stateChanged();
 	}
 
 	
@@ -78,11 +80,13 @@ public class BankCustomer extends Agent {
 		
 		p.setCash(p.getCash()+loanamount);
 		bcstate=BankCustomerState.done;
+		stateChanged();
 	}
 	
 public void msgLoanDenied(int loanamount){
 	
 		bcstate=BankCustomerState.done;
+		stateChanged();
 	}
 	
 	
@@ -138,6 +142,7 @@ public void msgLoanDenied(int loanamount){
 			
 			if(tstate==BankCustomerTransactionState.wantLoan){
 				requestLoan(amount);
+				return true;
 			}
 			
 			
@@ -170,12 +175,12 @@ public void msgLoanDenied(int loanamount){
 	}
 
 	private void withdrawTeller( int n){
-	   // t.msgIWantToWithdraw(this, n);
+	   t.msgIWantToWithdraw(this,myaccountnumber ,n);
 
 	}
 
 	private void depositTeller( int n){
-	    //t.msgIWantToDeposit(this, n);
+	   t.msgIWantToDeposit(this,myaccountnumber, n);
 
 	}
 
