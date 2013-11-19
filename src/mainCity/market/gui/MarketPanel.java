@@ -1,6 +1,7 @@
 package mainCity.market.gui;
 
 import mainCity.market.*;
+import mainCity.restaurants.EllenRestaurant.gui.*;
 
 import javax.swing.*;
 
@@ -28,8 +29,8 @@ public class MarketPanel extends JPanel implements ActionListener{
     private Vector<MarketEmployeeRole> employees = new Vector<MarketEmployeeRole>();
 
     private JPanel restLabel = new JPanel();
-    //private ListPanel customerPanel = new ListPanel(this, "Customers");
-    //private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    private ListPanel customerPanel = new ListPanel(this, "Customers");
+    private ListPanel employeePanel = new ListPanel(this, "Waiters");
     private JPanel group = new JPanel();
     public JPanel pausePanel = new JPanel();
     JButton pauseBtn = new JButton("Pause");
@@ -52,8 +53,8 @@ public class MarketPanel extends JPanel implements ActionListener{
         setLayout(new GridLayout(1, 2, 0, 0));
         group.setLayout(new GridLayout(1, 3, 0, 0));
         
-        //employeePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        //customerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        employeePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        customerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         //group.add(waiterPanel);
         //group.add(customerPanel);
@@ -199,7 +200,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     		int x = 0, y = 0;
     		for (MarketEmployeeRole em : employees){
     			if (em.equals(e)){
-    				g.setHomePosition((WINDOWX + i*70)/3, 30);
+    				g.setHomePosition(200, 100);
     				x = (WINDOWX + i*70)/3;
     				y = 30;
     			}

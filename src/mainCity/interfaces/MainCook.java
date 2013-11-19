@@ -1,6 +1,6 @@
 package mainCity.interfaces;
-import java.util.HashMap;
+import java.util.Map;
 
 public interface MainCook {
-	public abstract void msgHereIsYourOrder(HashMap<String, Integer> inventory);
+	public abstract void msgHereIsYourOrder(Map<String, Integer> inventory);
 }
