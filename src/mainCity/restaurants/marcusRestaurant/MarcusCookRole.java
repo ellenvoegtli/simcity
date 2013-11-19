@@ -6,7 +6,6 @@ import mainCity.restaurants.marcusRestaurant.gui.CookGui;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
 import java.util.*;
-import java.util.concurrent.Semaphore;
 
 /**
  * Restaurant Cook Agent
@@ -21,7 +20,6 @@ public class MarcusCookRole extends Agent implements Cook {
 	private RevolvingStand stand;
 
 	Timer timer = new Timer();
-	private Semaphore moving = new Semaphore(0, true);
 	public enum CookStatus {normal, checkingStand, lowFood, checkingFulfillment};
 	private CookStatus status;
 	private String order;
@@ -199,6 +197,7 @@ public class MarcusCookRole extends Agent implements Cook {
 		synchronized(foods) {
 			Food f = foods.get(order);
 			markets.get(selector).msgRequestForFood(this, order, (f.capacity - f.amount));
+			//msgINeedInventory(String name, MainCook (self), MainCashier cashier, HashMap<String, Integer> inventory)
 			status = CookStatus.normal;
 		}
 	}
