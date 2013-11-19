@@ -64,8 +64,8 @@ public class CashierRole extends Agent implements Cashier{
 	
 	
 	// Messages
-	@Override
-	public void msgHereIsMarketBill(HashMap<String, Integer> inventory,
+	
+	public void msgHereIsMarketBill(Map<String, Integer> inventory,
 			double billAmount, String deliveryPerson) {
 		// TODO generate a bill with proper data 
 		
@@ -167,7 +167,7 @@ public class CashierRole extends Agent implements Cashier{
 		}
 		
 		b.m.msgHereIsMonies(b.amount);
-		// TODO Message Ellen's market with (double amount)
+		// TODO c
 		
 	}
 
