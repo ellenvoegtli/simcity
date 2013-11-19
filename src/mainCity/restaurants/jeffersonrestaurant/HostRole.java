@@ -145,7 +145,7 @@ public class HostRole extends Agent implements Host{
 				if (tablesFull==true){
 					if(!waitingCustomers.isEmpty()){
 						Random gen = new Random();
-						int leave=gen.nextInt(2);
+						int leave=gen.nextInt(5);
 						if(leave==1){
 							
 							waitingCustomers.get(0).msgRestaurantFullLeave();
