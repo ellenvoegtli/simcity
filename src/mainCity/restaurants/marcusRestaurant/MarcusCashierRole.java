@@ -75,6 +75,11 @@ public class MarcusCashierRole extends Agent implements Cashier {
 		marketBills.add(new MarketBill(m, amount));
 		stateChanged();
 	}
+	
+
+	public void msgHereIsMarketBill(HashMap<String, Integer> inventory, double billAmount, String deliveryPerson) {
+		
+	}
 
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.

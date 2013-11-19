@@ -1,7 +1,8 @@
 package mainCity.restaurants.marcusRestaurant.interfaces;
+import mainCity.interfaces.MainCashier;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 
-public interface Cashier {
+public interface Cashier extends MainCashier {
 	public abstract void msgPayingMyDebt(Customer c, int amount);
 	
 	public abstract void msgComputeBill(Waiter w, String choice, MarcusTable t);

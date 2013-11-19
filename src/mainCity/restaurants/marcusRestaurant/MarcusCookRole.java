@@ -90,6 +90,10 @@ public class MarcusCookRole extends Agent implements Cook {
 		}
 	}
 	
+	public void msgHereIsYourOrder(HashMap<String, Integer> inventory) {
+		//stuff for market
+	}
+	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
