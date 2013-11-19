@@ -1,8 +1,8 @@
 package mainCity.interfaces;
-import java.util.HashMap;
+import java.util.Map;
 
 public interface MainCashier {
-	public abstract void msgHereIsMarketBill(HashMap<String, Integer> inventory, double billAmount, String deliveryPerson);
+	public abstract void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, String deliveryPerson);
 	
 	public abstract void msgHereIsChange(double amount);
 }

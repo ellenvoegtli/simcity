@@ -13,7 +13,7 @@ public class PersonAgent extends Agent {
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
 	
 	private PersonGui gui;
-	private int cash;
+	private double cash;
 	private boolean traveling;
 	private boolean onBreak;
 	private PersonState state;
@@ -258,12 +258,12 @@ public class PersonAgent extends Agent {
 	}
 	*/
 
-	public int getCash() {
+	public double getCash() {
 		return cash;
 	}
 
-	public void setCash(int c) {
-		this.cash = c;
+	public void setCash(double d) {
+		this.cash = d;
 	}
 
 	private void handleAction(ActionType action) {

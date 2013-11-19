@@ -77,7 +77,7 @@ public class MarcusCashierRole extends Agent implements Cashier {
 	}
 	
 
-	public void msgHereIsMarketBill(HashMap<String, Integer> inventory, double billAmount, String deliveryPerson) {
+	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, String deliveryPerson) {
 		
 	}
 	

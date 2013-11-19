@@ -20,6 +20,7 @@ import mainCity.restaurants.jeffersonrestaurant.interfaces.Market;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 import mainCity.restaurants.jeffersonrestaurant.sharedData.RevolvingStand;
 import mainCity.restaurants.jeffersonrestaurant.WaiterRole.Table;
+import mainCity.restaurants.jeffersonrestaurant.sharedData.OrderTicket;
 
 public class CookRole extends Agent implements Cook{
 
@@ -57,10 +58,10 @@ public class CookRole extends Agent implements Cook{
 		cookingTimes.put("pizza",4);
 		
 		//Initial cook inventory
-		inventory.put("steak",2);
-		inventory.put("chicken",2);
-		inventory.put("salad",2);
-		inventory.put("pizza",2);
+		inventory.put("steak",3);
+		inventory.put("chicken",3);
+		inventory.put("salad",3);
+		inventory.put("pizza",3);
 		
 		//sets to first market
 		steakmarketcounter =1;
@@ -256,7 +257,23 @@ public class CookRole extends Agent implements Cook{
 	
 	// Actions
 	
-	
+	private void checkStand() {
+		
+		
+		print("Checking the stand for orders");
+		
+		
+		if(revolvingstand.isEmpty()) {
+			print("No orders here...");
+			return;
+		}
+
+		while(!revolvingstand.isEmpty()) {
+			OrderTicket temp = revolvingstand.remove();
+			orders.add(new Order(temp.getTable(), temp.getChoice(), temp.getWaiter()));
+			stateChanged();
+		}
+	}
 	private void cook( Order o){
 		String order=o.Choice;
 		
@@ -303,12 +320,35 @@ public class CookRole extends Agent implements Cook{
 	}
 	
 	private void orderStock(Order o, int i) {
-		Do("ordering stock of " + o.Choice);
+		Do("ordering stock");
+		
+		marketOrder = new TreeMap<String, Integer>();
+		
+		if(inventory.get("steak")<2){
+			marketOrder.put("steak", 5);
+		}
+		
+		if(inventory.get("chicken")<2){
+			marketOrder.put("chicken", 5);
+		}
+		
+		if(inventory.get("pizza")<2){
+			marketOrder.put("pizza", 5);
+		}
+		if(inventory.get("salad")<2){
+			marketOrder.put("salad", 5);
+		}
+			
+		// TODO Insert messaging to Ellen's Market Here
 	
+		
+		
+		
 	/*
 	 * To TAs and Graders. I sincerely apologize for using this switch-case and recognize that there is a better way to do this
 	 * 	
 	 */
+		
 		switch (o.Choice) {
 		case "steak":
 			if(steakmarketcounter>=4){
@@ -351,6 +391,7 @@ public class CookRole extends Agent implements Cook{
 			break;
 		}
 		
+		
 	}
 
 
@@ -363,6 +404,18 @@ public class CookRole extends Agent implements Cook{
 	private void tellWaiterAboutFood(Order o){
 		o.w.msgOrderIsReady(o.tableNumber);
 		
+	}
+
+	@Override
+	public void msgHereIsYourOrder(Map<String, Integer> restock) {
+		for(Map.Entry<String,Integer> entry : restock.entrySet()) {
+			  String key = entry.getKey();
+			  Integer value = entry.getValue();
+			  
+			  inventory.put(key, inventory.get(key)+value);
+			  
+			  System.out.println(key + " => " + value + "added to cook inventory");
+			}
 	}
 
 

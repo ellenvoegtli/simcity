@@ -1,8 +1,9 @@
 package mainCity.market;
 
 import agent.Agent;
-import mainCity.market.MarketEmployeeRole;
+import mainCity.market.*;
 //import restaurant.gui.HostGui;
+import mainCity.interfaces.*;
 
 //import restaurant.interfaces.*;
 
@@ -51,19 +52,20 @@ public class MarketGreeterRole extends Agent {
 	
 	// Messages
 	
-	public void msgINeedInventory(MarketCustomerRole c){
+	//from customers
+	public void msgINeedInventory(MarketCustomerRole c, int x, int y){
 		print("Received msgINeedInventory");
-		waitingCustomers.add(new MyWaitingCustomer(c));
+		waitingCustomers.add(new MyWaitingCustomer(c, x, y));
 		stateChanged();
 	}
 	
-	/*
-	public void msgINeedInventory(Restaurant r, String delivery, Map<String, Integer> inventoryNeeded){
+	//from businesses
+	public void msgINeedInventory(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer> inventoryNeeded){
 		print("Received msgINeedInventory");
-		waitingBusinesses.add(new MyWaitingBusiness(r, delivery, inventoryNeeded));
+		waitingBusinesses.add(new MyWaitingBusiness(restaurantName, cook, cashier, inventoryNeeded));
 		stateChanged();
 	}
-	*/
+
 	
 
 	/**
@@ -119,14 +121,14 @@ public class MarketGreeterRole extends Agent {
 		print("Assigning " + cust.c.getName() + " to " + me.e.getName());
 		
 		me.e.msgAssignedToCustomer(cust.c, cust.waitingPosX, cust.waitingPosY);
-		cust.c.msgAssignedToEmployee(me.e, me.homeX, me.homeY);
+		//cust.c.msgAssignedToEmployee(me.e, me.homeX, me.homeY);
 		waitingCustomers.remove(cust);
 	}
-	private void assignBusinessToEmployee(MyWaitingBusiness busin, MyEmployee e){
-		/*print("Assigning " + busin.r.getName() + " to " + e.getName());*/
+	private void assignBusinessToEmployee(MyWaitingBusiness business, MyEmployee e){
+		/*print("Assigning " + business.r.getName() + " to " + e.getName());*/
 		
-		//e.msgAssignedToBusiness(busin.r, busin.deliveryMethod, busin.inventory);
-		waitingBusinesses.remove(busin);
+		e.e.msgAssignedToBusiness(business.restaurantName, business.cook, business.cashier, business.inventory);
+		waitingBusinesses.remove(business);
 	}
 
 
@@ -160,13 +162,17 @@ public class MarketGreeterRole extends Agent {
 	
 	
 	private class MyWaitingBusiness {
-		//Restaurant r;
-		String deliveryMethod;
+		String restaurantName;
+		MainCook cook;
+		MainCashier cashier;
+		//String deliveryMethod;
 		Map<String, Integer> inventory;
 		
-		MyWaitingBusiness(/*Restaurant r,*/ String delivery, Map<String, Integer> inventoryNeeded){
+		MyWaitingBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer> inventoryNeeded){
 			//this.r = r;
-			deliveryMethod = delivery;
+			this.restaurantName = restaurantName;
+			this.cook = cook;
+			this.cashier = cashier;
 			inventory = inventoryNeeded;
 		}
 	}

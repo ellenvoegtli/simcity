@@ -88,7 +88,7 @@ public class MarcusCookRole extends Agent implements Cook {
 		}
 	}
 	
-	public void msgHereIsYourOrder(HashMap<String, Integer> inventory) {
+	public void msgHereIsYourOrder(Map<String, Integer> inventory) {
 		//stuff for market
 	}
 	

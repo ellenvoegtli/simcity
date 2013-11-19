@@ -14,7 +14,7 @@ public class EllenCashierRole extends Agent implements Cashier{
 	static final int NTABLES = 3;//a global for the number of tables.
 
 	private String name;
-	//private int availableMoney = 500;
+	private int availableMoney = 500;		//modify
 	private int amountToPayMarket = 0;
 	Timer timer = new Timer();
 	
@@ -26,7 +26,7 @@ public class EllenCashierRole extends Agent implements Cashier{
 	Map<String, Integer> prices = new TreeMap<String, Integer>();
 	
 	public enum CheckState {newCheck, computing, waitingForPayment, calculatingChange, done};
-	public enum MarketBillState {newBill, computing, done};	//is this ok???
+	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, done};	//is this ok???
 	
 	
 	boolean opened = true;
@@ -94,12 +94,37 @@ public class EllenCashierRole extends Agent implements Cashier{
 		stateChanged();
 	}
 	
+
+	//not the correct message anymore; see MainCashier
 	public void msgHereIsMarketBill(int amount, Market market){		
 		print("Received msgHereIsMarketBill from " + market.getName() + " for $" + amount);
 		marketBills.add(new MarketBill(market, amount, MarketBillState.computing));
 		stateChanged();
 	}
+
+	//new message
+	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, String deliveryPerson){
+		print("Received msgHereIsMarketBill from " + deliveryPerson + " for $" + billAmount);
+		marketBills.add(new MarketBill(deliveryPerson, billAmount, inventory, MarketBillState.computing));
+		stateChanged();
+	}
 	
+	public void msgHereIsChange(double amount, String deliveryPerson){
+		print("Received msgHereIsChange");
+		MarketBill b = null;
+		synchronized(marketBills){
+			for (MarketBill thisMB : marketBills){
+				if (thisMB.deliveryPerson.equalsIgnoreCase(deliveryPerson)){
+					b = thisMB;
+					break;
+				}
+			}
+		}
+		
+		b.amountChange = amount;
+		b.s = MarketBillState.receivedChange;
+		stateChanged();
+	}
 	
 
 	 // Scheduler.  Determine what action is called for, and do it.
@@ -129,6 +154,14 @@ public class EllenCashierRole extends Agent implements Cashier{
 			for (MarketBill b : marketBills){
 				if (b.s == MarketBillState.computing){
 					PayMarketBill(b);
+					return true;
+				}
+			}
+		}
+		synchronized(marketBills){
+			for (MarketBill b : marketBills){
+				if (b.s == MarketBillState.receivedChange){
+					VerifyChange(b);
 					return true;
 				}
 			}
@@ -169,11 +202,32 @@ public class EllenCashierRole extends Agent implements Cashier{
 	public void PayMarketBill(MarketBill b){
 		print("Paying market bill");
 		
-		amountToPayMarket = b.checkAmount;	//for testing purposes
 		
-		b.m.msgHereIsPayment(amountToPayMarket);
-		b.s = MarketBillState.done;		//not really necessary; for clarity
-		marketBills.remove(b);
+		//old implementation
+		amountToPayMarket = b.checkAmount;	//for testing purposes
+		//b.m.msgHereIsPayment(amountToPayMarket);
+		
+		if(availableMoney >= b.checkAmount){
+			availableMoney -= b.checkAmount;
+			b.amountPaid = b.checkAmount;
+		}
+		//else
+			//non-norm??*****
+		
+		//new method call
+		//b.deliveryPerson.msgHereIsPayment(b.checkAmount);
+		b.s = MarketBillState.waitingForChange;
+	}
+	
+	public void VerifyChange(MarketBill b){
+		print("Verifying market bill change from deliveryMan");
+		
+		if (b.amountChange == (b.amountPaid - b.billAmount)){
+			//correct change
+			b.s = MarketBillState.done;		//unnecessary
+			marketBills.remove(b);
+		}
+		//else?******
 	}
 	
 
@@ -210,15 +264,30 @@ public class EllenCashierRole extends Agent implements Cashier{
 	}
 	public class MarketBill {
 		Market m;
-		int checkAmount;
+		String deliveryPerson;
+		int checkAmount;	//irrelevant for new implementation; kept to keep tests compiling
+		double billAmount;
+		double amountPaid;
+		double amountChange;
 		MarketBillState s;
 		
+		Map<String, Integer> itemsBought; 
+		
+		//old constructor
 		MarketBill(Market market, int amount, MarketBillState st){
 			m = market;
 			checkAmount = amount;
 			s = st;
 		}
+
+		MarketBill(String name, double amount, Map<String, Integer> inventory, MarketBillState s){
+			deliveryPerson = name;
+			billAmount = amount;
+			itemsBought = new TreeMap<String, Integer>(inventory);
+			this.s = s;
+		}
 		
+
 		public Market getMarket(){
 			return m;
 		}

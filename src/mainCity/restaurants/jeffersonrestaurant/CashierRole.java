@@ -64,6 +64,13 @@ public class CashierRole extends Agent implements Cashier{
 	
 	
 	// Messages
+	
+	public void msgHereIsMarketBill(Map<String, Integer> inventory,
+			double billAmount, String deliveryPerson) {
+		// TODO generate a bill with proper data 
+		
+	}
+	
 	public void msgCustWantsCheck (int table, String Choice, Waiter w){
 	
 		checks.add(new Check(table,w));
@@ -160,21 +167,25 @@ public class CashierRole extends Agent implements Cashier{
 		}
 		
 		b.m.msgHereIsMonies(b.amount);
+		// TODO c
 		
 	}
 
 
 	@Override
 	public void ReadyToPay(Customer c) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 
 	@Override
 	public void HereIsMymoney(Customer c, double money) {
-		// TODO Auto-generated method stub
+		
 		
 	}
+
+
+	
 		
 }

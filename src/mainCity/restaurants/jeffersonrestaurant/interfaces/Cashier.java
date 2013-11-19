@@ -1,6 +1,8 @@
 package mainCity.restaurants.jeffersonrestaurant.interfaces;
 
-public interface Cashier {
+import mainCity.interfaces.MainCashier;
+
+public interface Cashier extends MainCashier {
 
 	
 	public abstract void ReadyToPay(Customer c);

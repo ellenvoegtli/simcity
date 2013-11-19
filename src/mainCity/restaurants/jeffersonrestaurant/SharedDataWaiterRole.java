@@ -66,6 +66,10 @@ public class SharedDataWaiterRole extends Agent implements Waiter {
 		//hack to establish connection  to cookgui
 		//cookgui=cook.cookGui;
 		}
+
+	public void setStand(RevolvingStand s) {
+		this.revolvingstand = s;
+	}
 	
 	public void setCook(CookRole ck){
 		this.cook=ck;

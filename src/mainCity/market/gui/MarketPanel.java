@@ -1,6 +1,7 @@
 package mainCity.market.gui;
 
 import mainCity.market.*;
+import mainCity.restaurants.EllenRestaurant.gui.*;
 
 import javax.swing.*;
 
@@ -17,6 +18,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     //Host and cook
     private MarketGreeterRole host = new MarketGreeterRole("Host");
     private MarketCashierRole cashier = new MarketCashierRole("Cashier");
+    //private MarketMenu marketMenu = new MarketMenu();
     
     
     private int NMARKETS = 3;
@@ -28,8 +30,8 @@ public class MarketPanel extends JPanel implements ActionListener{
     private Vector<MarketEmployeeRole> employees = new Vector<MarketEmployeeRole>();
 
     private JPanel restLabel = new JPanel();
-    //private ListPanel customerPanel = new ListPanel(this, "Customers");
-    //private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    private ListPanel customerPanel = new ListPanel(this, "Customers");
+    private ListPanel employeePanel = new ListPanel(this, "Employees");
     private JPanel group = new JPanel();
     public JPanel pausePanel = new JPanel();
     JButton pauseBtn = new JButton("Pause");
@@ -52,11 +54,11 @@ public class MarketPanel extends JPanel implements ActionListener{
         setLayout(new GridLayout(1, 2, 0, 0));
         group.setLayout(new GridLayout(1, 3, 0, 0));
         
-        //employeePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        //customerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        employeePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        customerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
-        //group.add(waiterPanel);
-        //group.add(customerPanel);
+        group.add(employeePanel);
+        group.add(customerPanel);
         
 
         initRestLabel();
@@ -194,25 +196,27 @@ public class MarketPanel extends JPanel implements ActionListener{
     	else if (type.equals("Employees")){
     		MarketEmployeeRole e = new MarketEmployeeRole(name);
     		EmployeeGui g = new EmployeeGui(e, gui);
+    		System.out.println("Creating new employee");
+    		
+    		gui.animationPanel.addGui(g);
+    		e.setHost(host);
+    		e.setCashier(cashier);
+    		e.setGui(g);
+    		employees.add(e);
     		
     		int i = 0;
     		int x = 0, y = 0;
     		for (MarketEmployeeRole em : employees){
     			if (em.equals(e)){
-    				g.setHomePosition((WINDOWX + i*70)/3, 30);
-    				x = (WINDOWX + i*70)/3;
-    				y = 30;
+    				g.setHomePosition(200, 100);
+    				x = 200;
+    				y = 100;
     			}
     			else
     				i++;
     		}
     		
-    		gui.animationPanel.addGui(g);
-    		e.setHost(host);
-    		e.setCashier(cashier);
     		host.addEmployee(e, x, y);
-    		e.setGui(g);
-    		employees.add(e);
     		
     		//set the home positions based on position in waiter list
     		/*
@@ -226,6 +230,8 @@ public class MarketPanel extends JPanel implements ActionListener{
     		}
     		*/
     		e.startThread();
+    		e.getGui().setReadyToWork();
+    		
     		
     		/*
     		if (isChecked){

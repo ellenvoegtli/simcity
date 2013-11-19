@@ -12,7 +12,7 @@ public class MarketCashierRole extends Agent{
 	private String name;
 	//private int availableMoney = 500;
 	Timer timer = new Timer();
-	private MarketMenu marketMenu;
+	private MarketMenu marketMenu = new MarketMenu();
 	
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());	//from waiters
 	private List<MarketEmployeeRole> employees = Collections.synchronizedList(new ArrayList<MarketEmployeeRole>());
@@ -43,11 +43,19 @@ public class MarketCashierRole extends Agent{
 
 	// Messages
 	
+	//customer
 	public void msgComputeBill(Map<String, Integer> inventory, MarketCustomerRole c, MarketEmployeeRole e){
-		Bill b = new Bill(inventory, c, BillState.computing, e);
-		bills.add(b);
+		bills.add(new Bill(inventory, c, BillState.computing, e));
 		
 		print(e.getName() + ", received msgComputeBill for " + c.getName());
+		stateChanged();
+	}
+	
+	//business
+	public void msgComputeBill(Map<String, Integer> inventory, String name, MarketEmployeeRole e){
+		print("Received msgComputeBill");
+		
+		bills.add(new Bill(inventory, name, BillState.computing, e));
 		stateChanged();
 	}
 	
@@ -105,12 +113,6 @@ public class MarketCashierRole extends Agent{
 	public void ComputeBill(final Bill b){
 		print("Computing bill");
 		
-		/*
-		for (OrderItem i: b.itemsBought){
-			if (i.s == OrderItemState.fulfilled || i.s == OrderItemState.partFulfilled)
-				b.amountCharged += marketMenu.getPrice(i.itemType) * i.numFulfilled;
-		}
-		*/
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
 			b.amountCharged += marketMenu.getPrice(entry.getKey()) * entry.getValue();
 		}
@@ -123,25 +125,16 @@ public class MarketCashierRole extends Agent{
 		print("Calculating change");
 		
 		//check to make sure payment is large enough
-		if (b.amountPaid >= b.amountCharged)
+		if (b.amountPaid >= b.amountCharged){
 			b.c.msgHereIsYourChange((b.amountPaid - b.amountCharged), b.amountCharged);
+			b.s = BillState.paid;
+			b = null;
+		}
 		//else?
 			//you still owe ...
 		
 		//delete Bill?
 	}
-	
-	/*
-	public void PayMarketBill(MarketBill b){
-		print("Paying market bill");
-		
-		amountToPayMarket = b.checkAmount;	//for testing purposes
-		
-		b.m.msgHereIsPayment(amountToPayMarket);
-		b.s = MarketBillState.done;		//not really necessary; for clarity
-		marketBills.remove(b);
-	}
-	*/
 
 	
 
@@ -152,12 +145,19 @@ public class MarketCashierRole extends Agent{
 		double amountPaid;
 		double amountOwed;
 		MarketCustomerRole c;
+		String restaurantName;
 		BillState s;
 		MarketEmployeeRole e;
 		
 		Bill(Map<String, Integer> inventory, MarketCustomerRole cust, BillState state, MarketEmployeeRole em){
 			itemsBought = inventory;
 			c = cust;
+			s = state;
+			e = em;
+		}
+		Bill(Map<String, Integer> inventory, String name, BillState state, MarketEmployeeRole em){
+			itemsBought = inventory;
+			restaurantName = name;
 			s = state;
 			e = em;
 		}

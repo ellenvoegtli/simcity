@@ -1,6 +1,8 @@
 package mainCity.restaurants.jeffersonrestaurant.interfaces;
 
-public interface Cook {
+import mainCity.interfaces.MainCook;
+
+public interface Cook extends MainCook {
 
 	public abstract void msghereIsAnOrder (int table, String Choice, Waiter w);
 	
