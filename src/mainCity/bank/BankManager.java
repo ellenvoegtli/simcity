@@ -30,6 +30,11 @@ public class BankManager extends Agent {
 	
 	
 	//Messages
+	public void msgDirectDeposit(double accountNumber, int amount){
+		//TODO what parameter should be used to identify a person? is accountNumber too private?
+		
+	}
+	
 	public void msgIWantToDeposit( BankCustomer bc){
 	    teller_bankCustomers.add(bc);
 	}
@@ -68,17 +73,21 @@ public class BankManager extends Agent {
 	
 	
 	protected boolean pickAndExecuteAnAction() {
-		// TODO Auto-generated method stub
+		for(myTeller mt:tellers){
+			if(!mt.Occupied && !teller_bankCustomers.isEmpty()){
+				assignTeller(mt);
+				return true;
+			}
+		}
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		for(myBanker mb: bankers){
+			if(!mb.Occupied && !banker_bankCustomers.isEmpty()){
+				assignBanker(mb);
+				return true;
+			}
+			
+		}
+			
 		
 		return false;
 	}
