@@ -258,7 +258,7 @@ public class PersonAgent extends Agent {
 	}
 	*/
 
-	public int getCash() {
+	public double getCash() {
 		return cash;
 	}
 
