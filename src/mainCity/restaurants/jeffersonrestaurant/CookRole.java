@@ -407,7 +407,7 @@ public class CookRole extends Agent implements Cook{
 	}
 
 	@Override
-	public void msgHereIsYourOrder(HashMap<String, Integer> restock) {
+	public void msgHereIsYourOrder(Map<String, Integer> restock) {
 		for(Map.Entry<String,Integer> entry : restock.entrySet()) {
 			  String key = entry.getKey();
 			  Integer value = entry.getValue();
