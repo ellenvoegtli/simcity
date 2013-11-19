@@ -13,9 +13,13 @@ public class CityPanel extends JPanel{
 	
 	public CityPanel(CityGui gui) { 
 		this.gui = gui; 
-		//person.startThread(); 
 		PersonGui pg = new PersonGui(person, gui); 
 		gui.getAnimationPanel().addPersonGui(pg);
+		person.msgGotHungry(); 
+		person.setGui(pg);
+		gui.getAnimationPanel().addPersonGui(pg);
+
+		person.startThread(); 
 	}
 
 }

@@ -32,6 +32,7 @@ public class PersonAgent extends Agent {
 		event = PersonEvent.none;
 		destination = CityLocation.home;
 		roles = Collections.synchronizedList(new ArrayList<Role>());
+		actions = new PriorityQueue<Action>(); 
 	}
 	
 	public void setGui(PersonGui g) {
@@ -245,9 +246,11 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 	
+	/*
 	public void stateChanged() {
 		this.stateChanged();
 	}
+	*/
 	
 	/*
 	public addRole(String occupation) {
