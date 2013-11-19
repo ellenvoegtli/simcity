@@ -30,6 +30,11 @@ public class PersonGui implements Gui{
 			yPos++;
 		else if (yPos > yDestination)
 			yPos--;
+		
+		if ((xPos == xDestination) && (yPos == yDestination) 
+				& (xDestination == 400) & (yDestination == 400)) {
+			agent.msgAtDestination();
+		}
 	}
 	
 	public void draw(Graphics2D g) {
@@ -38,7 +43,7 @@ public class PersonGui implements Gui{
 	}
 
 	public boolean isPresent() {
-		return isPresent;
+		return true;
 	}
 
 	public void setPresent(boolean p) {
