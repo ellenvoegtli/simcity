@@ -246,11 +246,11 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 	
-	/*
+	
 	public void stateChanged() {
-		this.stateChanged();
+		super.stateChanged();
 	}
-	*/
+	
 	
 	/*
 	public addRole(String occupation) {

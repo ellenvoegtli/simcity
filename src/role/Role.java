@@ -33,10 +33,10 @@ public abstract class Role extends Agent {
 	public boolean isActive() {
 		return isActive;
 	}
-/*
+
 	protected void stateChanged() {
 		person.stateChanged();
 	}
-*/
+
 	public abstract boolean pickAndExecuteAnAction();
 }
