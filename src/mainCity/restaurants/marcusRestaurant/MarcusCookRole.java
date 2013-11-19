@@ -12,7 +12,7 @@ import java.util.concurrent.Semaphore;
  * Restaurant Cook Agent
  */
 
-public class MarcusCookRole extends Agent {
+public class MarcusCookRole extends Agent implements Cook {
 	private CookGui cookGui;
 	private List<Market> markets;
 	private int tracker, selector;
