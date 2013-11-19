@@ -11,15 +11,17 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 import mainCity.restaurants.jeffersonrestaurant.CustomerRole.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
+import mainCity.restaurants.jeffersonrestaurant.interfaces.Cook;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Market;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 import mainCity.restaurants.jeffersonrestaurant.sharedData.RevolvingStand;
 import mainCity.restaurants.jeffersonrestaurant.WaiterRole.Table;
 
-public class CookRole extends Agent{
+public class CookRole extends Agent implements Cook{
 
 
 	public enum OrderState
@@ -34,6 +36,7 @@ public class CookRole extends Agent{
 	public List<Market> markets = Collections.synchronizedList ( new ArrayList<Market>());
 	public List <Order> orders =Collections.synchronizedList ( new ArrayList<Order>());
 	Timer timer = new Timer();
+	Map<String,Integer> marketOrder;// = new TreeMap<String, Integer>();
 	
 	private List<Integer> ordersTaken =Collections.synchronizedList(new ArrayList<Integer>()); 
 	
