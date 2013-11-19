@@ -55,7 +55,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
         this.setAlignmentX(Component.LEFT_ALIGNMENT);
  
 	    //***WAITERS****
-        if (type == "Waiters"){
+        if (type == "Employees"){
 	        setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));
         	//setLayout(new FlowLayout());
         	
@@ -77,6 +77,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
 	        enterWaiterField.setAlignmentX(Component.LEFT_ALIGNMENT);
 	        add(enterWaiterField);
 	        
+	        /*
 	        onBreakB = new JCheckBox();
 	        onBreakB.addActionListener(this);
 	        onBreakB.setVisible(true);
@@ -84,10 +85,11 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
 	        onBreakB.setEnabled(false);
 	        onBreakB.setAlignmentX(Component.LEFT_ALIGNMENT);
 	        add(onBreakB);
-
+			*/
 	        addWaiterB.addActionListener(this);
 	        addWaiterB.setAlignmentX(Component.LEFT_ALIGNMENT);
 	        add(addWaiterB);
+
         }
         
         //***CUSTOMERS****
@@ -120,7 +122,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
 	        hungryB = new JCheckBox();
 	        hungryB.addActionListener(this);
 	        hungryB.setVisible(true);
-	        hungryB.setText("Hungry?");
+	        hungryB.setText("Need inventory?");
 	        hungryB.setEnabled(false);
 	        hungryB.setAlignmentX(Component.LEFT_ALIGNMENT);
 	        add(hungryB);
@@ -154,14 +156,16 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
         else if (e.getSource() == hungryB){
         		hungryB.setSelected(true);
         }
+        /*
         else if (e.getSource() == onBreakB){
         		onBreakB.setSelected(true);
         }
+        */
         else if (e.getSource() == addWaiterB){
-        	addWaiter(enterWaiterField.getText(), onBreakB.isSelected());
+        	addWaiter(enterWaiterField.getText());
         	enterWaiterField.setText(null);
         	restPanel.showInfo(type, enterWaiterField.getText());
-        	onBreakB.setEnabled(false);
+        	//onBreakB.setEnabled(false);
         }
 
         else {
@@ -210,7 +214,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
             customerList.add(button);
             customerView.add(button);
 
-            
+            //System.out.println("ListPanel: addperson customer");
             restPanel.addPerson(type, name, isChecked);//puts customer on list            
             restPanel.showInfo(type, name);//puts hungry button on panel
             
@@ -219,7 +223,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
             validate();
         }
     }
-    public void addWaiter(String name, boolean isChecked) {
+    public void addWaiter(String name) {
 
         if (name != null) {
             JButton button = new JButton(name);
@@ -235,11 +239,11 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
             waiterList.add(button);
             waiterView.add(button);
 
-            
-            restPanel.addPerson(type, name, isChecked);//puts customer on list            
+            //System.out.println("ListPanel: addperson employee");
+            restPanel.addPerson(type, name, false);//puts customer on list            
             restPanel.showInfo(type, name);//puts hungry button on panel
             
-            onBreakB.setEnabled(false);
+            //onBreakB.setEnabled(false);
             
             validate();
         }
@@ -252,10 +256,12 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
 			hungryB.setEnabled(true);
 			hungryB.setSelected(false);
 		}
+		/*
 		else if (e.getSource() == enterWaiterField){
 			onBreakB.setEnabled(true);
 			onBreakB.setSelected(false);
 		}
+		*/
 	}
 
 	@Override

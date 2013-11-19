@@ -18,12 +18,14 @@ public class CustomerGui implements Gui{
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 	private boolean needsInventory = false;
+	
+	private Map<String, Integer>inventoryNeeded = new TreeMap<String, Integer>();	//empty for now
 
 	MarketGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
-	private enum Command {noCommand, GoToSeat, GoToCashier, LeaveRestaurant};
+	private enum Command {noCommand, GoToStation, GoToSeat, GoToCashier, LeaveRestaurant};
 	private Command command=Command.noCommand;
 	
 	private int waitingRoomX;
@@ -32,11 +34,12 @@ public class CustomerGui implements Gui{
 	static final int customerWidth = 20;
 	static final int customerHeight = 20;
 	static final int exitLocationX = -40;
-	static final int exitLocationY = -40;
+	static final int exitLocationY = 10;
     private final int cookX = WINDOWX + 20;
     private final int cookY = WINDOWY/2;
     private final int cashierX = 10;
     private final int cashierY = 110;
+    private final int hostX = 10, hostY = 10;
 	
 	Map<Integer, Integer> tableX = new TreeMap<Integer, Integer>();
 	Map<Integer, Integer> tableY = new TreeMap<Integer, Integer>();
@@ -45,7 +48,6 @@ public class CustomerGui implements Gui{
 	private boolean gotFood = false;		//for food text label drawing
 	private String myChoice;
 	private int myTable;
-	private boolean atDestination = false;
 	
 
 	public CustomerGui(MarketCustomerRole c, MarketGui gui){ //HostAgent m) {
@@ -62,6 +64,9 @@ public class CustomerGui implements Gui{
         
         tableX.put(4, 300);
         tableY.put(4, 250);
+        
+        inventoryNeeded.put("steak", 1);		//hard-coded for now; should come from personAgent
+        inventoryNeeded.put("soup", 1);
 		
         //initialize other variables
 		agent = c;
@@ -85,6 +90,8 @@ public class CustomerGui implements Gui{
 			yPos--;
 
 		if (xPos == xDestination && yPos == yDestination) {
+			//if (command==Command.GoToStation)
+				//agent.msgAnimationFinishedGoToStation();
 
 			//if (command==Command.GoToSeat) 
 			//	agent.msgAnimationFinishedGoToSeat();
@@ -148,24 +155,29 @@ public class CustomerGui implements Gui{
 	public boolean isPresent() {
 		return isPresent;
 	}
-	/*
-	public void setHungry() {
-		isHungry = true;
-		agent.gotHungry();
-		setPresent(true);
-	}
-	*/
+
 	public void setNeedsInventory(){
 		needsInventory = true;
-		//agent.goGetInventory(inventoryNeeded, deliveryMethod);
+		//agent.goGetInventory(agent.personAgent.inventoryNeeded);
+		agent.goGetInventory(inventoryNeeded);
 		setPresent(true);
 	}
-	public boolean isHungry() {
-		return isHungry;
+	public boolean needsInventory() {
+		return needsInventory;
 	}
 
 	public void setPresent(boolean p) {
 		isPresent = p;
+	}
+	
+	public void DoGoToMarket(){
+		xDestination = hostX;
+		yDestination = hostY;
+	}
+	public void DoGoToEmployeeStation(int x, int y){
+		xDestination = x;
+		yDestination = y;
+    	command = Command.GoToStation;
 	}
 	
 	public void DoDrawFood(String choice, int table){
@@ -188,6 +200,11 @@ public class CustomerGui implements Gui{
 	public void DoGoToWaitingArea(){
 		xDestination = waitingRoomX;
 		yDestination = waitingRoomY;
+	}
+	public void DoExitMarket() {
+		xDestination = exitLocationX;
+		yDestination = exitLocationY;
+		command = Command.LeaveRestaurant;
 	}
 
 

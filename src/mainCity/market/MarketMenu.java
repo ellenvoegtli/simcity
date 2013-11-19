@@ -30,6 +30,9 @@ public class MarketMenu {
         prices.put("pasta", 20);
         prices.put("soup", 5);
         
+        stockAmounts.put("steak", 10);
+        stockAmounts.put("soup", 10);
+        
         
 	}
 	

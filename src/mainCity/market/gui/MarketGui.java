@@ -98,10 +98,12 @@ public class MarketGui extends JFrame implements ActionListener {
         stateCB.addActionListener(this);
         
         //waiter
+        /*
         breakB = new JButton();
         breakB.setText("Want break?");
         breakB.setVisible(false);
         breakB.addActionListener(this);
+        */
 
         infoPanel.setLayout(new GridLayout(1, 2, 30, 0));
         
@@ -109,7 +111,7 @@ public class MarketGui extends JFrame implements ActionListener {
         infoLabel.setText("<html><i>Click Add to make customers or waiters</i></html>");
         infoPanel.add(infoLabel);
         infoPanel.add(stateCB);
-        infoPanel.add(breakB);
+        //infoPanel.add(breakB);
         nonAnimPanel.add(infoPanel);
         
         //from marketPanel (better formatting)
@@ -142,35 +144,23 @@ public class MarketGui extends JFrame implements ActionListener {
         currentPerson = person;
 
         if (person instanceof MarketCustomerRole) {
-        	breakB.setVisible(false);
+        	//breakB.setVisible(false);
         	stateCB.setVisible(true);
             MarketCustomerRole customer = (MarketCustomerRole) person;
-            stateCB.setText("Hungry?");
+            stateCB.setText("Needs inventory?");
           //Should checkmark be there? 
-            stateCB.setSelected(customer.getGui().isHungry());
+            stateCB.setSelected(customer.getGui().needsInventory());
           //Is customer hungry? Hack. Should ask customerGui
-            stateCB.setEnabled(!customer.getGui().isHungry());
+            stateCB.setEnabled(!customer.getGui().needsInventory());
           // Hack. Should ask customerGui
             infoLabel.setText(
                "<html><pre>     Name: " + customer.getName() + " </pre></html>");
         }
         else if (person instanceof MarketEmployeeRole){
         	stateCB.setVisible(false);
-        	breakB.setVisible(true);
+        	//breakB.setVisible(true);
         	MarketEmployeeRole waiter = (MarketEmployeeRole) person;
 
-        	if (waiter.getGui().onBreak()){
-        		breakB.setText("Come back");
-        		breakB.setEnabled(true);
-        	}
-        	else if (waiter.getGui().wantsBreak()){
-        		breakB.setText("Want break");
-        		breakB.setEnabled(false);
-        	}
-        	else if (waiter.getGui().offBreak()){
-        		breakB.setText("Want break");
-        		breakB.setEnabled(true);
-        	}
           // Hack. Should ask customerGui
         	infoLabel.setText(
         		"<html><pre>     Name: " + waiter.getName() + " </pre></html>");
@@ -193,23 +183,6 @@ public class MarketGui extends JFrame implements ActionListener {
                 stateCB.setEnabled(false);
             }
         }
-        /*
-        else if (e.getSource() == breakB){
-        	if (currentPerson instanceof EmployeeAgent) {
-                EmployeeAgent w = (EmployeeAgent) currentPerson;
-                if (!w.getGui().onBreak()){
-	                w.getGui().IWantBreak();
-	                breakB.setEnabled(false);
-                }
-                else if (w.getGui().onBreak()){
-                	w.getGui().GoOffBreak();
-                	breakB.setText("Want break");
-	                breakB.setEnabled(true);
-                }
-                updateInfoPanel(currentPerson);
-            }
-        }
-        */
     }
     /**
      * Message sent from a customer gui to enable that customer's

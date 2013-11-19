@@ -12,7 +12,7 @@ public class MarketCashierRole extends Agent{
 	private String name;
 	//private int availableMoney = 500;
 	Timer timer = new Timer();
-	private MarketMenu marketMenu;
+	private MarketMenu marketMenu = new MarketMenu();
 	
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());	//from waiters
 	private List<MarketEmployeeRole> employees = Collections.synchronizedList(new ArrayList<MarketEmployeeRole>());
@@ -125,8 +125,11 @@ public class MarketCashierRole extends Agent{
 		print("Calculating change");
 		
 		//check to make sure payment is large enough
-		if (b.amountPaid >= b.amountCharged)
+		if (b.amountPaid >= b.amountCharged){
 			b.c.msgHereIsYourChange((b.amountPaid - b.amountCharged), b.amountCharged);
+			b.s = BillState.paid;
+			b = null;
+		}
 		//else?
 			//you still owe ...
 		

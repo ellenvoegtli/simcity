@@ -32,14 +32,15 @@ public class EmployeeGui implements Gui {
     private final int cookX = WINDOWX - 110;
     private final int cookY = WINDOWY/2;
     
-    private int homeX;
-    private int homeY;
+    public int homeX, homeY;
+    private int cashierX = 20, cashierY = 250;
     
     private int waitingRoomX;
     private int waitingRoomY;
+    private int stockRoomX = 300, stockRoomY = 450;
     
-	Map<Integer, Integer> tableX = new TreeMap<Integer, Integer>();
-	Map<Integer, Integer> tableY = new TreeMap<Integer, Integer>();
+	Map<Integer, Integer> stationX = new TreeMap<Integer, Integer>();
+	Map<Integer, Integer> stationY = new TreeMap<Integer, Integer>();
 	
 	private boolean atDestination = true;
 	private boolean isDeliveringFood = false;
@@ -53,17 +54,17 @@ public class EmployeeGui implements Gui {
         this.gui = gui;
         
         //initialize table locations map
-        tableX.put(1, 200);
-        tableY.put(1, 150);
-        
-        tableX.put(2, 300);
-        tableY.put(2, 150);
-        
-        tableX.put(3, 200);
-        tableY.put(3, 250);
-        
-        tableX.put(4, 300);
-        tableY.put(4, 250);
+        stationX.put(1, 200);
+    	stationY.put(1, 100);
+         
+         stationX.put(2, 250);
+         stationY.put(2, 100);
+         
+         stationX.put(3, 300);
+         stationY.put(3, 100);
+         
+         stationX.put(4, 350);
+         stationY.put(4, 100);
 
     }
     
@@ -83,6 +84,7 @@ public class EmployeeGui implements Gui {
         else if (yPos > yDestination)
             yPos--;
 
+        /*
         if (xPos == xDestination && yPos == yDestination
         		&& (xDestination == tableX.get(1) + 20) 
         		&& (yDestination == tableY.get(1) - 20) && !atDestination) {
@@ -108,19 +110,22 @@ public class EmployeeGui implements Gui {
            agent.msgAtTable();
            atDestination = true;
         }
-        else if ((xPos == xDestination && yPos == yDestination) && (xPos == cookX && yPos == cookY) && !atDestination) {		//cook location (off-screen)
-           agent.msgAtCook();
-           atDestination = true;
-        }
-        /*
-        else if ((xPos == xDestination && yPos == yDestination) && (xPos == homeX && yPos == homeY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
-    		agent.msgReadyAtCheckpoint();
+        */
+        if ((xPos == xDestination && yPos == yDestination) && (xPos == cashierX && yPos == cashierY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
+    		agent.msgAtCashier();
     		atDestination = true;
         }
-        */
-        else if ((xPos == xDestination && yPos == yDestination) && (xPos == waitingRoomX && yPos == waitingRoomY) && !atDestination){
-        	agent.msgAtStart();
-        	atDestination = true;
+        else if ((xPos == xDestination && yPos == yDestination) && (xPos == stockRoomX && yPos == stockRoomY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
+    		//agent.msgAtStockRoom();
+    		atDestination = true;
+        }
+        else if ((xPos == xDestination && yPos == yDestination) && (xPos == waitingRoomX && yPos == waitingRoomY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
+    		agent.msgAtWaitingRoom();
+    		atDestination = true;
+        }
+        else if ((xPos == xDestination && yPos == yDestination) && (xPos == homeX && yPos == homeY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
+    		agent.msgAtStation();
+    		atDestination = true;
         }
     }
     
@@ -156,88 +161,37 @@ public class EmployeeGui implements Gui {
     	isPresent = p;
     }
     
-    //getter functions
-	public boolean wantsBreak() {
-		return (s == State.wantsBreak);
-	}
-	public boolean onBreak(){
-		return (s == State.onBreak);
-	}
-	public boolean offBreak(){
-		return (s == State.offBreak);
-	}
-	
-	//setter functions
-	/*
-	public void IWantBreak() {
-		s = State.wantsBreak;
-		agent.wantToGoOnBreak();
-		gui.updateInfoPanel(agent);
-	}
-
-	public void GoOnBreak(){
-		s = State.onBreak;
-		gui.updateInfoPanel(agent);
-	}
-	
-	public void GoOffBreak(){		//called from either RestaurantGui (if coming back) or HostAgent (if denied break request)
-		if (s == State.onBreak)
-			agent.wantToGoOffBreak();
-		
-		s = State.offBreak;
-		gui.updateInfoPanel(agent);
-	}
-	*/
-    public void DoGoToTable(int table) {
+    public void setReadyToWork(){
+    	setPresent(true);
+    	xDestination = homeX;
+    	yDestination = homeY;
     	atDestination = false;
-    	if (table == 1){
-    		xDestination = tableX.get(1) + 20;
-    		yDestination = tableY.get(1) - 20;
-    	}
-    	else if (table == 2){
-    		xDestination = tableX.get(2) + 20;
-    		yDestination = tableY.get(2) - 20;
-    	}
-    	else if (table == 3){
-    		xDestination = tableX.get(3) + 20;
-    		yDestination = tableY.get(3) - 20;
-    	}
-    	else if (table == 4){
-    		xDestination = tableX.get(4) + 20;
-    		yDestination = tableY.get(4) - 20;
-    	}
     }
+    
+    public void DoGoToStation(){
+    	atDestination = false;
+    	xDestination = homeX;
+    	yDestination = homeY;
+    }
+    public void DoGoToCashier(){
+    	atDestination = false;
+    	xDestination = cashierX;
+    	yDestination = cashierY;
+    }
+    public void DoFulfillOrder(){
+    	atDestination = false;
+    	xDestination = stockRoomX;
+    	yDestination = stockRoomY;
+    	//...
+    }
+	
     
     public void DoGoToCook() {
     	atDestination = false;
     	xDestination = cookX;
     	yDestination = cookY;
     }
-    
-    public void DoDeliverFood(int table, String choice){
-    	atDestination = false;
-
-    	if (table == 1){
-    		xDestination = tableX.get(1) + 20;
-    		yDestination = tableY.get(1) - 20;
-    	}
-    	else if (table == 2){
-    		xDestination = tableX.get(2) + 20;
-    		yDestination = tableY.get(2) - 20;
-    	}
-    	else if (table == 3){
-    		xDestination = tableX.get(3) + 20;
-    		yDestination = tableY.get(3) - 20;
-    	}
-    	else if (table == 4){
-    		xDestination = tableX.get(4) + 20;
-    		yDestination = tableY.get(4) - 20;
-    	}
-    	
-    	//to display food text label:
-    	isDeliveringFood = true;
-    	customerChoice = choice;
-    }
+   
    
     public void setIsDeliveringFood(boolean isDeliveringFood){	//for food text label
     	this.isDeliveringFood = isDeliveringFood;
@@ -259,8 +213,8 @@ public class EmployeeGui implements Gui {
     
     public void DoPickUpWaitingCustomer(int x, int y){
     	atDestination = false;
-    	waitingRoomX = x;
-    	waitingRoomY = y;
+    	waitingRoomX = x + 20;
+    	waitingRoomY = y + 20;
     	
     	xDestination = waitingRoomX;
     	yDestination = waitingRoomY;

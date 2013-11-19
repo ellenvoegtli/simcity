@@ -27,10 +27,10 @@ public class MarketCustomerRole extends Agent{
 	private MarketGreeterRole host;
 	private MarketEmployeeRole employee;
 	private MarketCashierRole cashier;
-	private MarketMenu marketMenu;
+	private MarketMenu marketMenu = new MarketMenu();
 	
-	private int waitingAreaX;
-	private int waitingAreaY;
+	private int stationX;
+	private int stationY;
 	
 	//private int checkAmount;
 	private int myCash;
@@ -44,13 +44,13 @@ public class MarketCustomerRole extends Agent{
 
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
-	{DoingNothing, WaitingInMarket, WaitingForEmployee, Ordering, OrderProcessing, WaitingForOrder, Paying,
+	{DoingNothing, WaitingInMarket, WaitingForEmployee, GoingToStation, Ordering, OrderProcessing, WaitingForOrder, Paying,
 		WaitingForChange, Leaving};
 	private AgentState state = AgentState.DoingNothing;//The start state
 	
 	
 	public enum AgentEvent 
-	{none, toldToGetInventory, toldToWaitForEmployee, askedForOrder, gotOrderAndBill, 
+	{none, toldToGetInventory, toldToWaitForEmployee, followEmployee, atStation, askedForOrder, gotOrderAndBill, 
 		atCashierAgent, gotChange, doneLeaving};
 	AgentEvent event = AgentEvent.none;
 
@@ -98,34 +98,27 @@ public class MarketCustomerRole extends Agent{
 	// Messages
 
 	
-	public void goGetInventory(Map<String, Integer> inventoryNeeded, String deliveryMethod){
-		print("Told to get inventory");
+	public void goGetInventory(Map<String, Integer> inventoryNeeded){
+		print("Told to go to market to order inventory");
 		this.inventoryToOrder = inventoryNeeded;	//does this work?
 		for (Map.Entry<String, Integer> entry : inventoryToOrder.entrySet()){
-			System.out.println("Entry 1: " + entry.getKey() + "; Value: " + entry.getValue());
+			System.out.println("Entry: " + entry.getKey() + "; Value: " + entry.getValue());
 		}
-		this.deliveryMethod = deliveryMethod;
 		
 		event = AgentEvent.toldToGetInventory;
 		stateChanged();
 	}
-	
-	public void msgAssignedToEmployee(MarketEmployeeRole e, int x, int y){
-		print("Received msgAssignedToEmployee");
-		
-		waitingAreaX = x;
-		waitingAreaY = y;
+
+	public void msgFollowMe(MarketEmployeeRole e, int x, int y){
+		print("Received msgFollowMe");
+		stationX = x;
+		stationY = y - 20;
 		employee = e;
-		event = AgentEvent.toldToWaitForEmployee;
+		
+		event = AgentEvent.followEmployee;
 		stateChanged();
 	}
-	/*
-	public void msgPleaseWait(){
-		print("Received msgPleaseWait");
-		event = AgentEvent.toldToWaitForEmployee;
-		stateChanged();
-	}
-	*/
+
 	public void msgMayITakeYourOrder(MarketEmployeeRole e){
 		print("Received msgMayITakeYourOrder from: " + e.getName());
 		//employee = e;
@@ -162,6 +155,10 @@ public class MarketCustomerRole extends Agent{
 		event = AgentEvent.seated;
 		stateChanged();
 	}
+	public void msgAnimationFinishedGoToStation(){
+		event = AgentEvent.atStation;
+		stateChanged();
+	}
 	*/
 	public void msgAnimationFinishedGoToCashier(){
 		//print("msg AnimationFinished GoToCashierAgent");
@@ -185,12 +182,12 @@ public class MarketCustomerRole extends Agent{
 			GoToMarket();
 			return true;
 		}
-		if (state == AgentState.WaitingInMarket && event == AgentEvent.toldToWaitForEmployee){
-			state = AgentState.WaitingForEmployee;
-			GoToWaitingArea();
+		if (state == AgentState.WaitingInMarket && event == AgentEvent.followEmployee){
+			state = AgentState.GoingToStation;
+			GoToEmployeeStation();
 			return true;
 		}
-		if (state == AgentState.WaitingForEmployee && event == AgentEvent.askedForOrder){
+		if (state == AgentState.GoingToStation && event == AgentEvent.askedForOrder){
 			state = AgentState.OrderProcessing;
 			PlaceOrder();
 			return true;
@@ -216,12 +213,13 @@ public class MarketCustomerRole extends Agent{
 	// Actions
 	private void GoToMarket(){
 		Do("Going to market");
-		//customerGui.DoGoToMarket();
-		host.msgINeedInventory(this);
+		customerGui.DoGoToWaitingArea();
+		host.msgINeedInventory(this, this.getGui().getWaitingPosX(), this.getGui().getWaitingPosY());
 	}
 	
-	private void GoToWaitingArea(){
-		//customerGui.DoGoToWaitingArea();
+	private void GoToEmployeeStation(){
+		Do("Going to station");
+		customerGui.DoGoToEmployeeStation(stationX, stationY);
 		
 	}
 	
@@ -232,11 +230,7 @@ public class MarketCustomerRole extends Agent{
 	
 	private void PayBill(){
 		double expected = 0;
-		/*
-		for (OrderItem i: inventoryToOrder){
-			expected += marketMenu.getPrice(i.itemType) * i.numFulfilled;
-		}
-		*/
+
 		for (Map.Entry<String, Integer> entry : bill.inventoryFulfilled.entrySet()){
 			expected += marketMenu.getPrice(entry.getKey())*entry.getValue();	//price of each item * # that was fulfilled
 		}
@@ -244,6 +238,7 @@ public class MarketCustomerRole extends Agent{
 			if (myCash >= bill.charge){
 				cashier.msgHereIsPayment(bill.charge, this);
 				myCash -= bill.charge;
+				bill.amountPaid = bill.charge;
 				return;
 			}
 			//else?
@@ -252,8 +247,11 @@ public class MarketCustomerRole extends Agent{
 	}
 	
 	private void LeaveMarket(){
-		if (bill.changeReceived == (bill.amountPaid - bill.charge))
+		if (bill.changeReceived == (bill.amountPaid - bill.charge)){
+			print("Equal");
 			employee.msgDoneAndLeaving(this);
+			customerGui.DoExitMarket();
+		}
 		//else?
 	}
 	

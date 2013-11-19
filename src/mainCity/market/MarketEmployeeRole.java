@@ -5,11 +5,6 @@ import agent.Agent;
 import mainCity.market.gui.*;
 import mainCity.market.*;
 import mainCity.interfaces.*;
-//import mainCity.market.OrderItem;
-
-//import restaurant.interfaces.*;
-
-
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -28,12 +23,12 @@ import javax.swing.JLabel;
 //is proceeded as he wishes.
 public class MarketEmployeeRole extends Agent {
 	private String name;
-	Timer timer;
+	Timer timer = new Timer();
 	
 	private MarketGreeterRole host;
 	private MarketCashierRole cashier;
 	private MarketDeliveryManRole deliveryMan;
-	private MarketMenu marketMenu;
+	private MarketMenu marketMenu = new MarketMenu();
 	
 	public EmployeeGui employeeGui = null;
 	
@@ -45,13 +40,11 @@ public class MarketEmployeeRole extends Agent {
 	WaiterState wState;
 	enum WaiterState {doingNothing, busy};
 	
-	private Semaphore atTable = new Semaphore(0,true);
-	private Semaphore atCook = new Semaphore(0, true);
-	private Semaphore atStart = new Semaphore(0, true);
+	private Semaphore atStation = new Semaphore(0,true);
+	private Semaphore atCashier = new Semaphore(0, true);
+	private Semaphore atWaitingRoom = new Semaphore(0, true);
 
-	
-	//enum OrderItemState {fulfilled, partFulfilled, noneFulfilled};
-	
+		
 
 	public MarketEmployeeRole(String name) {
 		super();
@@ -171,20 +164,22 @@ public class MarketEmployeeRole extends Agent {
 	
 
 
-	public void msgAtTable() {
-		atTable.release();// = true;
+	public void msgAtStation() {
+		print("msgAtStation called");
+		atStation.release();// = true;
+		stateChanged();
+	}
+	public void msgAtCashier(){
+		print("msgAtCashier called");
+		atCashier.release();
+		stateChanged();
+	}
+	public void msgAtWaitingRoom(){
+		print("msgAtWaitingRoom called");
+		atWaitingRoom.release();
 		stateChanged();
 	}
 	
-	public void msgAtCook() {
-		atCook.release();// = true;
-		stateChanged();
-	}
-	
-	public void msgAtStart(){
-		atStart.release();// = true;
-		stateChanged();
-	}
 	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
@@ -289,9 +284,23 @@ public class MarketEmployeeRole extends Agent {
 	// Actions
 
 	private void GreetCustomer(MyCustomer mc){
-		//gui
-		//semaphore
+		employeeGui.DoPickUpWaitingCustomer(mc.waitingAreaX, mc.waitingAreaY);
+		try {
+			atWaitingRoom.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		mc.c.msgFollowMe(this, this.getGui().homeX, this.getGui().homeY);	//****don't access these directly
+		
+		employeeGui.DoGoToStation();		//sometimes doesn't go all the way to the station before going to the cashier...
+		try {
+			atStation.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		mc.c.msgMayITakeYourOrder(this);
 		mc.s = CustomerState.waitingForOrder;
 	}
@@ -299,6 +308,9 @@ public class MarketEmployeeRole extends Agent {
 	private void ProcessOrder(MyCustomer mc){
 		
 		for (Map.Entry<String, Integer> entry : mc.inventoryOrdered.entrySet()){
+			//print("entry: key = " + entry.getKey());
+			//print("entry: value = " + entry.getValue());
+			//print("marketMenu: stock = " + marketMenu.getStock(entry.getKey()));
 			if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
 				mc.inventoryFulfilled.put(entry.getKey(), entry.getValue());
 			}
@@ -316,25 +328,39 @@ public class MarketEmployeeRole extends Agent {
 	}
 	
 	private void SendBillToCashier(MyCustomer mc){
-		//gui to go to cashier
+		employeeGui.DoGoToCashier();
+		try {
+			atCashier.acquire();
+		} catch(InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		cashier.msgComputeBill(mc.inventoryFulfilled, mc.c, this);
 	}
 	
 	private void FulfillOrder(final MyCustomer mc){
-		//DoFulfillOrder(mc);
+		employeeGui.DoFulfillOrder();		//in actual implementation, pass in inventory strings?
 		//gui semaphore (timer for now) to gather items from stock room
 		
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
-				print("Done cooking, cookie=" + cookie);
+				print("Done fulfilling order, cookie=" + cookie);
 				msgOrderFulfilled(mc);
 			}
 		}, 5000);
 	}
 	
 	private void DeliverOrder(MyCustomer mc){
-		//gui to go to customer
+		employeeGui.DoGoToStation();
+		try {
+			atStation.acquire();
+		} catch(InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		mc.c.msgHereIsYourOrder(mc.inventoryFulfilled, mc.billAmount);
 		mc.s = CustomerState.gotOrderAndBill;
 	}
