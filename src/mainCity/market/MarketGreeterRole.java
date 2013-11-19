@@ -53,9 +53,9 @@ public class MarketGreeterRole extends Agent {
 	// Messages
 	
 	//from customers
-	public void msgINeedInventory(MarketCustomerRole c){
+	public void msgINeedInventory(MarketCustomerRole c, int x, int y){
 		print("Received msgINeedInventory");
-		waitingCustomers.add(new MyWaitingCustomer(c));
+		waitingCustomers.add(new MyWaitingCustomer(c, x, y));
 		stateChanged();
 	}
 	
@@ -121,7 +121,7 @@ public class MarketGreeterRole extends Agent {
 		print("Assigning " + cust.c.getName() + " to " + me.e.getName());
 		
 		me.e.msgAssignedToCustomer(cust.c, cust.waitingPosX, cust.waitingPosY);
-		cust.c.msgAssignedToEmployee(me.e, me.homeX, me.homeY);
+		//cust.c.msgAssignedToEmployee(me.e, me.homeX, me.homeY);
 		waitingCustomers.remove(cust);
 	}
 	private void assignBusinessToEmployee(MyWaitingBusiness business, MyEmployee e){

@@ -31,23 +31,23 @@ public class AnimationPanel extends JPanel implements ActionListener {
     static final int platingX = WINDOWX - 90;
     static final int platingY = WINDOWY/2 - 60;
     
-	Map<Integer, Integer> tableX = new TreeMap<Integer, Integer>();
-	Map<Integer, Integer> tableY = new TreeMap<Integer, Integer>();
+	Map<Integer, Integer> stationX = new TreeMap<Integer, Integer>();
+	Map<Integer, Integer> stationY = new TreeMap<Integer, Integer>();
 
     private List<Gui> guis = new ArrayList<Gui>();
 
     public AnimationPanel() {
-    	 tableX.put(1, 200);
-         tableY.put(1, 150);
+    	stationX.put(1, 200);
+    	stationY.put(1, 100);
          
-         tableX.put(2, 300);
-         tableY.put(2, 150);
+         stationX.put(2, 250);
+         stationY.put(2, 100);
          
-         tableX.put(3, 200);
-         tableY.put(3, 250);
+         stationX.put(3, 300);
+         stationY.put(3, 100);
          
-         tableX.put(4, 300);
-         tableY.put(4, 250);
+         stationX.put(4, 350);
+         stationY.put(4, 100);
     	
     	
     	setSize(WINDOWX, WINDOWY);
@@ -73,32 +73,23 @@ public class AnimationPanel extends JPanel implements ActionListener {
         Color purple = new Color(147, 112, 219);
         //Here is the table
         g2.setColor(purple);
-        g2.fillRect(tableX.get(1), tableY.get(1), tableWidth, tableHeight);
+        g2.fillRect(stationX.get(1), stationY.get(1), tableWidth, tableHeight);
 
         
         g2.setColor(purple);
-        g2.fillRect(tableX.get(2), tableY.get(2), tableWidth, tableHeight);
+        g2.fillRect(stationX.get(2), stationY.get(2), tableWidth, tableHeight);
         
         g2.setColor(purple);
-        g2.fillRect(tableX.get(3), tableY.get(3), tableWidth, tableHeight);
+        g2.fillRect(stationX.get(3), stationY.get(3), tableWidth, tableHeight);
         
         
         g2.setColor(purple);
-        g2.fillRect(tableX.get(4), tableY.get(4), tableWidth, tableHeight);
+        g2.fillRect(stationX.get(4), stationY.get(4), tableWidth, tableHeight);
         
         //cashier
         Color grun = new Color(46, 139, 87);
         g2.setColor(grun);
-        g2.fillRect(10, 100, 25, 50);
-        
-        //cook - grill
-        Color blue = new Color(135, 206, 250);
-        g2.setColor(blue);
-        g2.fillRect(grillX, grillY, kitchenWidth, kitchenHeight);
-        
-        //cook - plating area
-        g2.setColor(Color.YELLOW);
-        g2.fillRect(platingX, platingY, kitchenWidth, kitchenHeight);
+        g2.fillRect(20, 250, 25, 50);
         
         
 
