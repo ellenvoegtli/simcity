@@ -21,7 +21,7 @@ public class BankAccounts {
 	    
 	    public BankAccount(String n, double a, PersonAgent pa, double newaccnum){
 	    	name=n;
-	    	creditScore=620;
+	    	creditScore=630;
 	    	balance = a;
 	    	debt=0;
 	    	accountNumber=newaccnum;
@@ -31,6 +31,10 @@ public class BankAccounts {
 	    
 	}
 	
+	public double getNumberOfAccounts(){
+		return accounts.size();
+		
+	}
 	public void addAccount(String cname, double amount, PersonAgent pa, double newaccnum){
 		accounts.add(new BankAccount(cname, amount, pa, newaccnum));
 		

@@ -65,7 +65,11 @@ public class BankCustomer extends Agent {
 		stateChanged();
 		
 	}
-
+	
+	public void msgAccountCreated(double temp) {
+		myaccountnumber=temp;
+		
+	}
 	
 	public void msgRequestComplete(double change, double balance){
 	    p.setCash((int) (p.getCash()+change));
@@ -76,14 +80,14 @@ public class BankCustomer extends Agent {
 	}
 
 	
-	public void msgLoanApproved(int loanamount){
+	public void msgLoanApproved(double loanamount){
 		
 		p.setCash(p.getCash()+loanamount);
 		bcstate=BankCustomerState.done;
 		stateChanged();
 	}
 	
-public void msgLoanDenied(int loanamount){
+public void msgLoanDenied(double loanamount){
 	
 		bcstate=BankCustomerState.done;
 		stateChanged();
@@ -91,7 +95,7 @@ public void msgLoanDenied(int loanamount){
 	
 	
 	
-	
+//Scheduler	
 	protected boolean pickAndExecuteAnAction() {
 		if(bcstate==BankCustomerState.none & tstate==BankCustomerTransactionState.wantToDeposit){
 			bcstate=BankCustomerState.waitingInBank;
@@ -148,7 +152,11 @@ public void msgLoanDenied(int loanamount){
 			
 		}	
 			
-		
+		if(bcstate==BankCustomerState.done){
+			bcstate=BankCustomerState.leaving;
+			//TODO leaving gui
+			//doLeaveBank();
+		}
 			
 			
 			
@@ -185,13 +193,15 @@ public void msgLoanDenied(int loanamount){
 	}
 
 	private void requestLoan(int n){
-	    //b.msgIWantALoan(this, amount);
+	    b.msgIWantALoan(this, myaccountnumber ,amount);
 	}
 
 	private void requestNewAccount(int n){
-	    //b.msgIWantNewAccount(this, amount);
+	    b.msgIWantNewAccount(p, this, name, amount);
 
 	}
+
+	
 
 
 }
