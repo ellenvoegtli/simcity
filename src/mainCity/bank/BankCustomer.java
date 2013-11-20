@@ -12,11 +12,11 @@ public class BankCustomer extends Agent {
 	BankTeller t;
 	int tellernumber;
 	//customer should know how much money he has beforehand
-	double myaccountnumber;
-	double bankbalance;
+	private double myaccountnumber;
+	private double bankbalance;
 	//double mymoney;
 	//will be used for all transactions, loan requests, etc
-	int amount;
+	private int amount;
 	
 	public enum BankCustomerTransactionState{ none,wantToDeposit, wantToWithdraw, wantNewAccount, wantLoan}
 
@@ -26,31 +26,54 @@ public class BankCustomer extends Agent {
 	}
 	
 	BankCustomerState bcstate=BankCustomerState.none;
+	
+	public BankCustomer(PersonAgent p,String name){
+		Do("bank customer initiated");
+		this.p=p;
+		this.name=name;
+	}
+	
+	public void setBankManager(BankManager bm){
+		this.bm=bm;
+	}
+	
+	public void setBanker(Banker b){
+		this.b=b;
+	}
+	
+	public void setBankTeller(BankTeller t){
+		this.t=t;
+	}
 
 //Messages
 	
 	public void msgNeedLoan(){
+		Do("Recieved message need loan");
 	    tstate=BankCustomerTransactionState.wantLoan;
 	    stateChanged();
 	}
 	
 	public void msgWantNewAccount(){
+		Do("Recieved message want new account");
 		tstate=BankCustomerTransactionState.wantNewAccount;
 		stateChanged();
 	}
 	
 	public void msgWantToDeposit(){
+		Do("Recieved message want to deposit");
 		tstate=BankCustomerTransactionState.wantToDeposit;
 		stateChanged();
 	}
 	
 	public void msgWantToWithdraw(){
+		Do("Recieved message want to withdraw");
 		tstate=BankCustomerTransactionState.wantToWithdraw;
 		stateChanged();
 	}
 	
 	
 	public void msgGoToTeller(BankTeller te, int tn) {
+		Do("Recieved message go to teller");
 		t=te;
 	    tellernumber=tn;
 	    bcstate=BankCustomerState.assignedTeller;
@@ -59,6 +82,7 @@ public class BankCustomer extends Agent {
 	}
 
 	public void msgGoToBanker(Banker bk, int bn) {
+		Do("Recieved message go to banker");
 		b=bk;
 		bankernumber=bn;
 		bcstate=BankCustomerState.assignedBanker;
@@ -67,28 +91,30 @@ public class BankCustomer extends Agent {
 	}
 	
 	public void msgAccountCreated(double temp) {
-		myaccountnumber=temp;
+		Do("Recieved message account created");
+		setMyaccountnumber(temp);
 		
 	}
 	
 	public void msgRequestComplete(double change, double balance){
+		Do("Recieved message request complete");
 	    p.setCash((int) (p.getCash()+change));
 		//mymoney += change;
-	    bankbalance=balance;
+	    setBankbalance(balance);
 	    bcstate=BankCustomerState.done;
 	    stateChanged();
 	}
 
 	
 	public void msgLoanApproved(double loanamount){
-		
+		Do("Recieved message loan approved");
 		p.setCash(p.getCash()+loanamount);
 		bcstate=BankCustomerState.done;
 		stateChanged();
 	}
 	
 public void msgLoanDenied(double loanamount){
-	
+		Do("Recieved message loan denied");
 		bcstate=BankCustomerState.done;
 		stateChanged();
 	}
@@ -110,12 +136,14 @@ public void msgLoanDenied(double loanamount){
 		}
 		
 		if(bcstate==BankCustomerState.assignedTeller){
-			//TODO Gui setup
+			//TODO Gui setup, temporarily bypassing
+			bcstate=BankCustomerState.atTeller;
 			//doGoToTeller();	
 			return true;
 		}
 		if(bcstate==BankCustomerState.assignedBanker){
-			//TODO Gui setup
+			//TODO Gui setup, temporarily bypassing
+			bcstate=BankCustomerState.atBanker;
 			//doGoToBanker();	
 			return true;
 		}
@@ -126,12 +154,12 @@ public void msgLoanDenied(double loanamount){
 			bcstate=BankCustomerState.talking;
 			
 			if(tstate==BankCustomerTransactionState.wantToWithdraw){
-				withdrawTeller(amount);
+				withdrawTeller(getAmount());
 				return true;
 			}
 			
 			if(tstate==BankCustomerTransactionState.wantToDeposit){
-				depositTeller(amount);
+				depositTeller(getAmount());
 				return true;
 			}
 		}	
@@ -140,12 +168,12 @@ public void msgLoanDenied(double loanamount){
 			bcstate=BankCustomerState.talking;
 			
 			if(tstate==BankCustomerTransactionState.wantNewAccount){
-				requestNewAccount(amount);
+				requestNewAccount(getAmount());
 				return true;
 			}
 			
 			if(tstate==BankCustomerTransactionState.wantLoan){
-				requestLoan(amount);
+				requestLoan(getAmount());
 				return true;
 			}
 			
@@ -154,6 +182,8 @@ public void msgLoanDenied(double loanamount){
 			
 		if(bcstate==BankCustomerState.done){
 			bcstate=BankCustomerState.leaving;
+			Do("leaving");
+			Do("New account balance is " + bankbalance);
 			//TODO leaving gui
 			//doLeaveBank();
 		}
@@ -170,35 +200,63 @@ public void msgLoanDenied(double loanamount){
 //Actions
 	
 	private void tellBankManagerDeposit(){
-
+		Do("Telling Bank manager i want to deposit");
 	    bm.msgIWantToDeposit(this);
 
 
 	}
 
 	private void tellBankManagerWithdraw(){
-
+		Do("Telling Bank manager i want to withdraw");
 	    bm.msgIWantToWithdraw(this);
 
 	}
 
 	private void withdrawTeller( int n){
-	   t.msgIWantToWithdraw(this,myaccountnumber ,n);
+		Do("Telling teller i want to withdraw");
+	   t.msgIWantToWithdraw(this,getMyaccountnumber() ,n);
 
 	}
 
 	private void depositTeller( int n){
-	   t.msgIWantToDeposit(this,myaccountnumber, n);
+		Do("Telling teller i want to deposit");
+	   t.msgIWantToDeposit(this,getMyaccountnumber(), n);
 
 	}
 
 	private void requestLoan(int n){
-	    b.msgIWantALoan(this, myaccountnumber ,amount);
+		Do("requesting loan");
+	    b.msgIWantALoan(this, getMyaccountnumber() ,getAmount());
 	}
 
 	private void requestNewAccount(int n){
-	    b.msgIWantNewAccount(p, this, name, amount);
+		Do("requesting new acccount");
+	    b.msgIWantNewAccount(p, this, name, getAmount());
 
+	}
+
+	public int getAmount() {
+		return amount;
+	}
+
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
+
+	public double getMyaccountnumber() {
+		return myaccountnumber;
+	}
+
+	public void setMyaccountnumber(double myaccountnumber) {
+		this.myaccountnumber = myaccountnumber;
+	}
+
+	public double getBankbalance() {
+		return bankbalance;
+	}
+
+	public void setBankbalance(double bankbalance) {
+		this.bankbalance = bankbalance;
 	}
 
 	

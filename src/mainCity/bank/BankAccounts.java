@@ -37,7 +37,7 @@ public class BankAccounts {
 	}
 	public void addAccount(String cname, double amount, PersonAgent pa, double newaccnum){
 		accounts.add(new BankAccount(cname, amount, pa, newaccnum));
-		
+		System.out.println("Account added");
 		
 	}
 	
