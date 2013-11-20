@@ -21,7 +21,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     /*				steak	|	pizza	|	pasta	|	soup
      * Cook: 		8			8			8			8
      */
-    EllenCookRole cook = new EllenCookRole("Cook", 8, 8, 8, 8);
+    EllenCookRole cook = new EllenCookRole("Cook", 8, 8, 8, 0);
     
     
     private int NMARKETS = 3;

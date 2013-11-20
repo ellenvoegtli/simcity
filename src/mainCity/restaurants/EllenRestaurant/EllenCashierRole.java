@@ -6,6 +6,7 @@ import agent.Agent;
 import java.util.*;
 
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
+import mainCity.market.*;
 
 
  // Restaurant Cook Agent
@@ -103,18 +104,18 @@ public class EllenCashierRole extends Agent implements Cashier{
 	}
 
 	//new message
-	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, String deliveryPerson){
-		print("Received msgHereIsMarketBill from " + deliveryPerson + " for $" + billAmount);
-		marketBills.add(new MarketBill(deliveryPerson, billAmount, inventory, MarketBillState.computing));
+	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, MarketDeliveryManRole d){
+		print("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
+		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
 		stateChanged();
 	}
 	
-	public void msgHereIsChange(double amount, String deliveryPerson){
+	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson){
 		print("Received msgHereIsChange");
 		MarketBill b = null;
 		synchronized(marketBills){
 			for (MarketBill thisMB : marketBills){
-				if (thisMB.deliveryPerson.equalsIgnoreCase(deliveryPerson)){
+				if (thisMB.deliveryMan == deliveryPerson){
 					b = thisMB;
 					break;
 				}
@@ -215,7 +216,7 @@ public class EllenCashierRole extends Agent implements Cashier{
 			//non-norm??*****
 		
 		//new method call
-		//b.deliveryPerson.msgHereIsPayment(b.checkAmount);
+		b.deliveryMan.msgHereIsPayment(b.checkAmount);
 		b.s = MarketBillState.waitingForChange;
 	}
 	
@@ -264,7 +265,8 @@ public class EllenCashierRole extends Agent implements Cashier{
 	}
 	public class MarketBill {
 		Market m;
-		String deliveryPerson;
+		//String deliveryPerson;
+		MarketDeliveryManRole deliveryMan;
 		int checkAmount;	//irrelevant for new implementation; kept to keep tests compiling
 		double billAmount;
 		double amountPaid;
@@ -280,8 +282,8 @@ public class EllenCashierRole extends Agent implements Cashier{
 			s = st;
 		}
 
-		MarketBill(String name, double amount, Map<String, Integer> inventory, MarketBillState s){
-			deliveryPerson = name;
+		MarketBill(MarketDeliveryManRole d, double amount, Map<String, Integer> inventory, MarketBillState s){
+			deliveryMan = d;
 			billAmount = amount;
 			itemsBought = new TreeMap<String, Integer>(inventory);
 			this.s = s;

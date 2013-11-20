@@ -5,18 +5,21 @@ import agent.Agent;
 
 import java.util.*;
 
+import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 
  // Restaurant Cook Agent
 
-public class EllenCookRole extends Agent {
+public class EllenCookRole extends Agent implements Cook{
 	static final int NTABLES = 3;//a global for the number of tables.
 
 	private String name;
 	EllenMenu menu;
+	EllenCashierRole cashier;
 	KitchenGui kitchenGui = null;
+	MarketGreeterRole restGreeter;
 	Timer timer = new Timer();
 	
 	private Collection<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
@@ -52,6 +55,14 @@ public class EllenCookRole extends Agent {
 	
 	public void addMarket(EllenMarketRole m){	//hack
 		markets.add(m);
+	}
+	
+	public void setMarketGreeter(MarketGreeterRole g){		//we only have 1 market right now
+		restGreeter = g;
+	}
+	
+	public void setCashier(EllenCashierRole c){
+		this.cashier = c;
 	}
 	
 	public void setMenu(EllenMenu m){
@@ -110,6 +121,21 @@ public class EllenCookRole extends Agent {
 		
 		Food f = inventory.get(choice);
 		f.s = FoodState.delivered;
+	}
+	
+	//new market message
+	public void msgHereIsYourOrder(Map<String, Integer>inventoryFulfilled){
+		print("Received msgHereIsYourOrder");
+		
+		for (Map.Entry<String, Integer> entry : inventoryFulfilled.entrySet()){
+			print("Had " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
+			inventory.get(entry.getKey()).amount += entry.getValue();
+			print("Now have " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
+			Food f = inventory.get(entry.getKey());
+			f.s = FoodState.delivered;
+		}
+		
+		//stateChanged(); ?
 	}
 	
 	public void msgCantFulfill(String choice, int amountStillNeeded){
@@ -177,23 +203,31 @@ public class EllenCookRole extends Agent {
 		}
 		
 		synchronized(menu.menuItems){
+			Map<String, Integer>inventoryNeeded = new TreeMap<String, Integer>();
 			for (String i : menu.menuItems){
 				if (inventory.get(i).s == FoodState.depleted){
-					OrderFromMarket(inventory.get(i), inventory.get(i).amountToOrder, inventory.get(i).nextMarket);
-					return true;
+					inventoryNeeded.put(i, inventory.get(i).amountToOrder);
+					//OrderFromMarket(inventory.get(i), inventory.get(i).amountToOrder, inventory.get(i).nextMarket);
+					//return true;
 				}
+			}
+			if(!inventoryNeeded.isEmpty()){
+				OrderFromMarket(inventoryNeeded);	//market number?
+				return true;
 			}
 		}
 		
+		//include in SimCity?
+		/*
 		synchronized(menu.menuItems){
 			for (String i : menu.menuItems){
 				if (inventory.get(i).s == FoodState.tryAgain){
-					OrderFromMarket(inventory.get(i), inventory.get(i).amountToOrder, inventory.get(i).nextMarket);
+					//OrderFromMarket(inventory.get(i), inventory.get(i).amountToOrder, inventory.get(i).nextMarket);
 					return true;
 				}
 			}
 		}
-		
+		*/
 		
 		
 
@@ -205,20 +239,31 @@ public class EllenCookRole extends Agent {
 	
 
 	// Actions
+	//public void OrderFromMarket(Map<String, Integer>inventory, int marketNum){
+	public void OrderFromMarket(Map<String, Integer>inventory){
+		//print("Ordering from: " + markets.get(marketNum).getName());
+		//markets.get(marketNum).msgINeedInventory(inventory);
+		print("restGreeter = " + restGreeter);
+		restGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
+	}
 	
+	/*
 	public void OrderFromMarket(Food f, int amountToOrder, int marketNum){
 		print("Ordering from: " + markets.get(marketNum).getName());
 		markets.get(marketNum).msgINeedInventory(f.type, amountToOrder);	//can't go above capacity (10)
 		f.s = FoodState.requested;
 	}
-	
+	*/
 	public void TryToCookIt(final Order o){
+		Map<String, Integer>inventoryNeeded = new TreeMap<String, Integer>();
 		Food f = inventory.get(o.choice);
 		print("Amount of " + f.type + " left = " + f.amount);
 		
 		//still some left, but hit the low point
 		if (f.amount <= f.low && f.s == FoodState.none){
-			OrderFromMarket(f, (f.capacity - f.amount), f.nextMarket);
+			inventoryNeeded.put(f.type, (f.capacity-f.amount));
+			//OrderFromMarket(f, (f.capacity - f.amount), f.nextMarket);
+			OrderFromMarket(inventoryNeeded);
 		}
 		if (f.amount == 0){
 			//do "OutOfFood" stuff
@@ -271,13 +316,18 @@ public class EllenCookRole extends Agent {
 	}
 	
 	public void OrderFoodThatIsLow(){
-		//needs to be synchronized??
+		Map<String, Integer>lowInventory = new TreeMap<String, Integer>();
+		
 		for (String c : menu.menuItems){
 			if (inventory.get(c).amount <= inventory.get(c).low){
-				print("Ordering from market for " + inventory.get(c).type);
+				print("Adding " + inventory.get(c).type + " to market order");
 				inventory.get(c).amountToOrder = (inventory.get(c).capacity - inventory.get(c).amount);
-				OrderFromMarket(inventory.get(c), inventory.get(c).amountToOrder, inventory.get(c).nextMarket);
+				lowInventory.put(c, inventory.get(c).amountToOrder);
+				//OrderFromMarket(inventory.get(c), inventory.get(c).amountToOrder, inventory.get(c).nextMarket);
 			}
+		}
+		if(!lowInventory.isEmpty()){
+			OrderFromMarket(lowInventory);
 		}
 	}
 	

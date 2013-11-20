@@ -47,6 +47,7 @@ public class MarketPanel extends JPanel implements ActionListener{
         this.gui = gui;
         //host.setGui(hostGui);
 
+        
         host.startThread();
         cashier.startThread();
         
