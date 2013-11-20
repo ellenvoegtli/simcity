@@ -7,23 +7,23 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import mainCity.restaurants.jeffersonrestaurant.CookRole;
-import mainCity.restaurants.jeffersonrestaurant.CookRole.OrderState;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole.OrderState;
 import agent.Agent;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.*;
 
 
 
-public class MarketRole extends Agent implements Market {
+public class JeffersonMarketRole extends Agent implements Market {
 
 	
-	private CookRole cook;
-	private CashierRole cashier;
+	private JeffersonCookRole cook;
+	private JeffersonCashierRole cashier;
 	private double monies;
 	
 	
 	
-	public MarketRole() {
+	public JeffersonMarketRole() {
 		inventory.put("steak",1);
 		inventory.put("chicken",1);
 		inventory.put("salad",1);
@@ -31,12 +31,12 @@ public class MarketRole extends Agent implements Market {
 		monies=0;
 	}
 	
-	public void setCook(CookRole c){
+	public void setCook(JeffersonCookRole c){
 		cook=c;
 		
 	}
 	
-	public void setCashier(CashierRole ca){
+	public void setCashier(JeffersonCashierRole ca){
 		cashier=ca;
 		
 	}

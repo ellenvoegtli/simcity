@@ -3,15 +3,15 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import mainCity.restaurants.jeffersonrestaurant.CookRole;
-import mainCity.restaurants.jeffersonrestaurant.CustomerRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
 
 public class CookGui implements Gui {
 	private int xHome=370;
 	private int yHome = 200;
 	RestaurantGui gui;
 	Graphics2D g2;
-	private CookRole agent = null;
+	private JeffersonCookRole agent = null;
 	
 	boolean c1,c2,c3 = false;
 	boolean p1,p2,p3 = false;
@@ -19,7 +19,7 @@ public class CookGui implements Gui {
 	
 	int table;
 	
-	public CookGui(CookRole c, RestaurantGui gui){ //HostAgent m) {
+	public CookGui(JeffersonCookRole c, RestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xHome=370;
 		yHome = 200;
