@@ -22,6 +22,7 @@ public class PersonAgent extends Agent {
 	private Semaphore isMoving = new Semaphore(0, true);
 	private List<Role> roles;
 	private PriorityQueue<Action> actions;
+	private Action currentAction;
 	
 	public PersonAgent() {
 		super();
@@ -33,6 +34,7 @@ public class PersonAgent extends Agent {
 		destination = CityLocation.home;
 		roles = Collections.synchronizedList(new ArrayList<Role>());
 		actions = new PriorityQueue<Action>(); 
+		currentAction = null;
 	}
 	
 	public void setGui(PersonGui g) {
@@ -62,7 +64,8 @@ public class PersonAgent extends Agent {
 	public void msgGotHungry() {
 		print("Person got hungry");
 		//add new action to list of actions of type restaurant or home
-		event = PersonEvent.gotHungry;
+		actions.add(new Action(ActionType.restaurant, 5));
+		//event = PersonEvent.gotHungry;
 		stateChanged();
 	}
 
@@ -81,8 +84,8 @@ public class PersonAgent extends Agent {
 
 	//A message received from the MarketCustomerAgent when they are done at the market
 	public void msgFinishedAtBank() {
-		if(actions.peek().type == ActionType.bankDeposit || actions.peek().type == ActionType.bankWithdraw) {
-			actions.peek().state = ActionState.done;
+		if((currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankWithdraw) && currentAction.state == ActionState.inProgress) {
+			currentAction.state = ActionState.done;
 		}
 		
 		state = PersonState.normal;			
@@ -91,8 +94,8 @@ public class PersonAgent extends Agent {
 	
 	//A message received from the MarketCustomerAgent when they are done at the market
 	public void msgFinishedAtMarket() {
-		if(actions.peek().type == ActionType.market) {
-			actions.peek().state = ActionState.done;
+		if(currentAction.type == ActionType.market && currentAction.state == ActionState.inProgress) {
+			currentAction.state = ActionState.done;
 		}
 		
 		state = PersonState.normal;
@@ -102,8 +105,8 @@ public class PersonAgent extends Agent {
 
 	//A message received from the RestaurauntAgent when they are done at the restaurant
 	public void msgFinishedAtRestaurant() {
-		if(actions.peek().type == ActionType.restaurant) {
-			actions.peek().state = ActionState.done;
+		if(currentAction.type == ActionType.restaurant && currentAction.state == ActionState.inProgress) {
+			currentAction.state = ActionState.done;
 		}
 		
 		state = PersonState.normal;
@@ -129,25 +132,24 @@ public class PersonAgent extends Agent {
 			}
 		}
 
-		if(!actions.isEmpty()) {
-			if(actions.peek().state == ActionState.done) {
-				actions.poll();
-				return true;
-			}
-
-			if(actions.peek().state == ActionState.created) {
-				actions.peek().state = ActionState.inProgress;
-				handleAction(actions.peek().type);
-				return true;
-			}
+		if(currentAction != null && currentAction.state == ActionState.done) {
+			currentAction = null;
+			return true;
+		}
+		
+		if(!actions.isEmpty() && currentAction == null) {
+			actions.peek().state = ActionState.inProgress;
+			currentAction = actions.poll();
+			handleAction(currentAction.type);
+			return true;
 		}
 
 		if(state == PersonState.normal && !traveling) {
 			if(event == PersonEvent.arrivedAtHome) {
 				//set appropriate role to active
 
-				if(actions.peek().type == ActionType.market || actions.peek().type == ActionType.home) {
-					actions.peek().state = ActionState.done;
+				if(currentAction != null && currentAction.type == ActionType.market || currentAction.type == ActionType.home) {
+					currentAction.state = ActionState.done;
 				}
 				
 				state = PersonState.inBuilding;
@@ -162,8 +164,8 @@ public class PersonAgent extends Agent {
 					//set appropriate role to active && set that roles initial state
 				}
 
-				if(actions.peek().type == ActionType.work) {
-					actions.peek().state = ActionState.done;
+				if(currentAction != null && currentAction.type == ActionType.work) {
+					currentAction.state = ActionState.done;
 				}
 				
 				state = PersonState.working;
@@ -181,8 +183,8 @@ public class PersonAgent extends Agent {
 				//set appropriate role
 				print("arrived at the restaurant!");
 
-				if(actions.peek().type == ActionType.restaurant) {
-					actions.peek().state = ActionState.done;
+				if(currentAction != null && currentAction.type == ActionType.restaurant) {
+					currentAction.state = ActionState.done;
 				}
 				
 				state = PersonState.inBuilding;
@@ -192,8 +194,8 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtBank) {
 				//set appropriate role and initial state for different actions
 
-				if(actions.peek().type == ActionType.bankWithdraw || actions.peek().type == ActionType.bankDeposit || actions.peek().type == ActionType.bankLoan) {
-					actions.peek().state = ActionState.done;
+				if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
+					currentAction.state = ActionState.done;
 				}
 				
 				state = PersonState.inBuilding;
@@ -384,5 +386,22 @@ public class PersonAgent extends Agent {
 		ActionState state;
 		ActionType type;
 		int priority;
+		
+		Action(ActionType t, int p) {
+			this.state = ActionState.created;
+			this.type = t;
+			this.priority = p;
+		}
+		
+		public int compare(Action one, Action two) {
+			if(one.priority < two.priority) {
+				return -1;
+			}
+			else if(one.priority > two.priority) {
+				return 1;
+			}
+			
+			return 0;
+		}
 	}
 }

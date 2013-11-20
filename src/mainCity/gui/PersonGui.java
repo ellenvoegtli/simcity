@@ -12,12 +12,14 @@ public class PersonGui implements Gui{
 	private static final int w = 20;
 	private static final int h = 20;
 	private boolean isPresent = false;
+	private boolean traveling;
 
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
 		xDestination = xPos = 100;
 		yDestination = yPos = 100;
+		traveling = false;
 	}
 
 	public void updatePosition() {
@@ -31,14 +33,15 @@ public class PersonGui implements Gui{
 		else if (yPos > yDestination)
 			yPos--;
 		
-		if ((xPos == xDestination) && (yPos == yDestination) 
-				& (xDestination == 400) & (yDestination == 400)) {
+		if ((xPos == xDestination) && (yPos == yDestination) && traveling) {
+			traveling = false;
 			agent.msgAtDestination();
+			//hide self from GUI
 		}
 	}
 	
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
+		g.setColor(Color.ORANGE);
 		g.fillRect(xPos, yPos, w, h);
 	}
 
@@ -55,6 +58,7 @@ public class PersonGui implements Gui{
 		
 		xDestination = 400;
 		yDestination = 400;
+		traveling = true;
 	}
 	
 	public int getX() {
