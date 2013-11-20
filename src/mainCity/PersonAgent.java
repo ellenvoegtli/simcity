@@ -56,29 +56,40 @@ public class PersonAgent extends Agent {
 
 	//A message received from the system or GUI to tell person to go to work
 	public void msgGoToWork() {
-		//add new action to list of actions of type work
+		actions.add(new Action(ActionType.work, 1));
 		stateChanged();
 	}
 
 	//A message received from the system or GUI to tell person to get hungry
 	public void msgGotHungry() {
 		print("Person got hungry");
-		//add new action to list of actions of type restaurant or home
+
 		actions.add(new Action(ActionType.restaurant, 5));
-		//event = PersonEvent.gotHungry;
+		//actions.add(new Action(ActionType.home, 10));
+
 		stateChanged();
 	}
 
 	//A message received from the HomeAgent or GUI (possibly?) to go to the market
 	public void msgGoToMarket() {
-		//add new action to list of actions of type market
+		actions.add(new Action(ActionType.market, 3));
 		stateChanged();
 	}
 
 	//A message received to tell the person to go to the bank
-	public void msgGoToBank() {
-		//add new action to list of actions of type bank (with desired action)
-		//event = PersonEvent.needToBank;
+	public void msgGoToBank(String purpose) {
+		switch(purpose) {
+		case "deposit":
+			actions.add(new Action(ActionType.bankDeposit, 2));
+			break;
+		case "withdraw":
+			actions.add(new Action(ActionType.bankWithdraw, 2));
+			break;
+		case "loan":
+			actions.add(new Action(ActionType.bankLoan, 2));
+			break;
+		}
+
 		stateChanged();
 	}
 
@@ -111,13 +122,15 @@ public class PersonAgent extends Agent {
 		
 		state = PersonState.normal;
 			
-		if(onBreak)
-			//add go to work
+		if(onBreak) {
+			actions.add(new Action(ActionType.work, 1));
 			event = PersonEvent.timeToWork;
-		else
+		}
+		else {
 			//do nothing maybe? go home
 			event = PersonEvent.gotFood; // different event maybe? this one sends them home or back to work if they were on break?
-
+		}
+		
 		stateChanged();
 	}
 
@@ -157,6 +170,8 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtWork) {
+				print("Arrived at work!");
+				
 				if(onBreak) {
 					onBreak = false;
 				}
@@ -181,7 +196,7 @@ public class PersonAgent extends Agent {
 
 			if(event == PersonEvent.arrivedAtRestaurant) {
 				//set appropriate role
-				print("arrived at the restaurant!");
+				print("Arrived at the restaurant!");
 
 				if(currentAction != null && currentAction.type == ActionType.restaurant) {
 					currentAction.state = ActionState.done;
@@ -233,7 +248,7 @@ public class PersonAgent extends Agent {
 			}
 		}
 
-		if(actions.isEmpty()) {
+		if(actions.isEmpty() && state == PersonState.normal) {
 			goHome();
 			return true;
 		}
@@ -287,6 +302,7 @@ public class PersonAgent extends Agent {
 				break;
 			default:
 		}
+
 		stateChanged();
 	}
 
@@ -380,9 +396,11 @@ public class PersonAgent extends Agent {
 		} 
 	}
 	
+	
+	//Lower the priority level, the more "important" it is (it'll get done faster)
 	private enum ActionState {created, inProgress, done}
 	private enum ActionType {work, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
-	class Action {
+	class Action implements Comparable<Object> {
 		ActionState state;
 		ActionType type;
 		int priority;
@@ -393,13 +411,17 @@ public class PersonAgent extends Agent {
 			this.priority = p;
 		}
 		
-		public int compare(Action one, Action two) {
-			if(one.priority < two.priority) {
-				return -1;
-			}
-			else if(one.priority > two.priority) {
-				return 1;
-			}
+		public int compareTo(Object o) {
+			if(o instanceof Action) {
+				Action other = (Action) o;
+				
+				if(this.priority < other.priority) {
+					return -1;
+				}
+				else if(this.priority > other.priority) {
+					return 1;
+				}	
+			}			
 			
 			return 0;
 		}
