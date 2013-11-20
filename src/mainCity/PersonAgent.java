@@ -7,6 +7,14 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.gui.PersonGui;
 
+/*
+ * To Do for the personagent:
+ * 	implement a way for roles to get added
+ * 	handle the decision between market/restaurant since i use individual actions?
+ * 	handle decision making for person (car/bus/walk) (which restaurant/market or restaurant)
+ * 
+ */
+
 public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding}
 	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needFood, gotHungry, gotFood, decidedRestaurant, needToBank, goHome}
