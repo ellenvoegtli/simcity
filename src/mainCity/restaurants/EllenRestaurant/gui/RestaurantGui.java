@@ -1,6 +1,7 @@
 package mainCity.restaurants.EllenRestaurant.gui;
 
 import mainCity.restaurants.EllenRestaurant.*;
+import mainCity.contactList.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -15,6 +16,7 @@ import java.io.File;
  * Contains the main frame and subsequent panels
  */
 public class RestaurantGui extends JFrame implements ActionListener {
+	ContactList contactList;
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
@@ -129,6 +131,13 @@ public class RestaurantGui extends JFrame implements ActionListener {
         
         add(animationPanel);
         
+    }
+    
+    public RestaurantPanel getRestPanel(){
+    	return restPanel;
+    }
+    public void setContactList(ContactList c){
+    	contactList = c;
     }
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and

@@ -2,7 +2,8 @@ package mainCity.market.gui;
 
 import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
-
+import mainCity.interfaces.*;
+import mainCity.contactList.*;
 import javax.swing.*;
 
 import java.awt.*;
@@ -14,12 +15,13 @@ import java.util.Vector;
  * including host, cook, waiters, and customers.
  */
 public class MarketPanel extends JPanel implements ActionListener{
+	//private ContactList contactList;
 
     //Host and cook
     private MarketGreeterRole host = new MarketGreeterRole("Host");
     private MarketCashierRole cashier = new MarketCashierRole("Cashier");
+    private MarketDeliveryManRole deliveryMan = new MarketDeliveryManRole("Delivery Man");
     //private MarketMenu marketMenu = new MarketMenu();
-    
     
     private int NMARKETS = 3;
     
@@ -47,9 +49,10 @@ public class MarketPanel extends JPanel implements ActionListener{
         this.gui = gui;
         //host.setGui(hostGui);
 
-        
         host.startThread();
         cashier.startThread();
+        
+        
         
         
         setLayout(new GridLayout(1, 2, 0, 0));
@@ -84,6 +87,10 @@ public class MarketPanel extends JPanel implements ActionListener{
         pausePanel.add(cookInventoryPanel);
         
         add(pausePanel);
+    }
+    
+    public MarketGreeterRole getGreeter(){
+    	return host;
     }
     
     public void actionPerformed(ActionEvent e) {
@@ -202,6 +209,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     		gui.animationPanel.addGui(g);
     		e.setHost(host);
     		e.setCashier(cashier);
+    		e.setDeliveryMan(deliveryMan);
     		e.setGui(g);
     		employees.add(e);
     		

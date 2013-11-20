@@ -59,6 +59,10 @@ public class MarketEmployeeRole extends Agent {
 		this.cashier = cashier;
 	}
 	
+	public void setDeliveryMan(MarketDeliveryManRole d){
+		this.deliveryMan = d;
+	}
+	
 	public MarketGreeterRole getHost(){
 		return this.host;
 	}
@@ -125,6 +129,8 @@ public class MarketEmployeeRole extends Agent {
 		mc.s = CustomerState.gotCheckFromCashier;
 		stateChanged();
 	}
+	
+	//for businesses
 	public void msgHereIsBill(String name, double amount){		//from cashier
 		MyBusiness mb = null;
 		for (MyBusiness thisMB : myBusinesses){	//to find the myCustomer with this specific Customer within myCustomers list

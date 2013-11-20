@@ -9,6 +9,7 @@ import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
+import mainCity.interfaces.*;
 
  // Restaurant Cook Agent
 
@@ -21,6 +22,9 @@ public class EllenCookRole extends Agent implements Cook{
 	KitchenGui kitchenGui = null;
 	MarketGreeterRole restGreeter;
 	Timer timer = new Timer();
+	MainCook cook;
+	boolean notAdded = true;
+	boolean greeterNull = true;
 	
 	private Collection<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
 	private List<EllenMarketRole> markets = Collections.synchronizedList(new ArrayList<EllenMarketRole>());
@@ -51,6 +55,9 @@ public class EllenCookRole extends Agent implements Cook{
         foodAtAvailableMarket.put("pizza", 0);
         foodAtAvailableMarket.put("pasta", 0);
         foodAtAvailableMarket.put("soup", 0);
+        
+        print("Instantiating EllenCookRole");
+        print("MainCook = " + cook);
 	}
 	
 	public void addMarket(EllenMarketRole m){	//hack
@@ -58,7 +65,10 @@ public class EllenCookRole extends Agent implements Cook{
 	}
 	
 	public void setMarketGreeter(MarketGreeterRole g){		//we only have 1 market right now
+		print("Setting market greeter: " + g.getName());
 		restGreeter = g;
+		greeterNull = false;
+		stateChanged();
 	}
 	
 	public void setCashier(EllenCashierRole c){
@@ -169,11 +179,17 @@ public class EllenCookRole extends Agent implements Cook{
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	protected boolean pickAndExecuteAnAction() {
+		
 		if (opened){
-			//check inventory when restaurant opens
-			OrderFoodThatIsLow();
-			opened = false;
-			return true;
+			if (!greeterNull){
+				//check inventory when restaurant opens
+				OrderFoodThatIsLow();
+				opened = false;
+				return true;
+			}
+			else{
+				return false;
+			}
 		}
 		
 		synchronized(orders){
@@ -243,7 +259,7 @@ public class EllenCookRole extends Agent implements Cook{
 	public void OrderFromMarket(Map<String, Integer>inventory){
 		//print("Ordering from: " + markets.get(marketNum).getName());
 		//markets.get(marketNum).msgINeedInventory(inventory);
-		print("restGreeter = " + restGreeter);
+		print("restGreeter = " + restGreeter.getName());
 		restGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
 	}
 	

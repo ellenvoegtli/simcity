@@ -53,7 +53,7 @@ public class MarketCashierRole extends Agent{
 	
 	//business
 	public void msgComputeBill(Map<String, Integer> inventory, String name, MarketEmployeeRole e){
-		print("Received msgComputeBill");
+		print("Received msgComputeBill for " + name);
 		
 		bills.add(new Bill(inventory, name, BillState.computing, e));
 		stateChanged();
@@ -116,7 +116,10 @@ public class MarketCashierRole extends Agent{
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
 			b.amountCharged += marketMenu.getPrice(entry.getKey()) * entry.getValue();
 		}
-		b.e.msgHereIsBill(b.c, b.amountCharged);
+		if (b.c == null)
+			b.e.msgHereIsBill(b.restaurantName, b.amountCharged);
+		else
+			b.e.msgHereIsBill(b.c, b.amountCharged);
 		b.s = BillState.waitingForPayment;
 
 	}

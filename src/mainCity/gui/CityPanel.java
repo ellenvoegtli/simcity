@@ -3,6 +3,8 @@ package mainCity.gui;
 import javax.swing.JPanel;
 
 import mainCity.PersonAgent;
+import mainCity.market.*;
+import mainCity.market.gui.*;
 
 public class CityPanel extends JPanel{
 	
@@ -23,6 +25,7 @@ public class CityPanel extends JPanel{
 		gui.getAnimationPanel().addPersonGui(pg);
 
 		person.startThread(); 
+		
 	}
 
 }
