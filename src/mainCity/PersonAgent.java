@@ -202,7 +202,7 @@ public class PersonAgent extends Agent {
 				state = PersonState.inBuilding;
 				
 				//temporary to test!
-				this.msgFinishedAtMarket();
+				//this.msgFinishedAtMarket();
 				//
 				return true;
 			}
@@ -218,7 +218,7 @@ public class PersonAgent extends Agent {
 				state = PersonState.inBuilding;
 				
 				//temporary to test!
-				this.msgFinishedAtRestaurant();
+				//this.msgFinishedAtRestaurant();
 				//
 				return true;
 			}
