@@ -1,8 +1,8 @@
 package mainCity.restaurants.jeffersonrestaurant.test.mock;
 
 
-import mainCity.restaurants.jeffersonrestaurant.HostRole;
-import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
@@ -17,7 +17,7 @@ public class MockCustomer extends Mock implements Customer {
 	 */
 	public Cashier cashier;
 	
-	public HostRole host;
+	public JeffersonHostRole host;
 	
 	public EventLog log;
 
@@ -69,7 +69,7 @@ public class MockCustomer extends Mock implements Customer {
 
 
 	
-	public void msgSitAtTable(int t, Menu m, WaiterRole waiterAgent) {
+	public void msgSitAtTable(int t, Menu m, JeffersonWaiterRole waiterAgent) {
 		log.add(new LoggedEvent("Received msgSitAtTable from . table = " + t));
 	}
 

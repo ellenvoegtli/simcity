@@ -1,12 +1,13 @@
 package mainCity.restaurants.jeffersonrestaurant;
 
+import mainCity.market.MarketDeliveryManRole;
 import mainCity.restaurants.jeffersonrestaurant.*;
 
 import java.util.*;
 
-import mainCity.restaurants.jeffersonrestaurant.MarketRole;
-import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
-import mainCity.restaurants.jeffersonrestaurant.CookRole.Order;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonMarketRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole.Order;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Market;
@@ -14,7 +15,7 @@ import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 import agent.Agent;
 
 
-public class CashierRole extends Agent implements Cashier{
+public class JeffersonCashierRole extends Agent implements Cashier{
 
 	private String name;
 	public List <Check> checks = Collections.synchronizedList(new ArrayList<Check>());
@@ -56,7 +57,7 @@ public class CashierRole extends Agent implements Cashier{
 		
 	}
 	
-	public CashierRole(String name){
+	public JeffersonCashierRole(String name){
 		super();
 		this.name=name;
 		profits=0;
@@ -182,6 +183,22 @@ public class CashierRole extends Agent implements Cashier{
 	@Override
 	public void HereIsMymoney(Customer c, double money) {
 		
+		
+	}
+
+
+	@Override
+	public void msgHereIsMarketBill(Map<String, Integer> inventory,
+			double billAmount, MarketDeliveryManRole deliveryPerson) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void msgHereIsChange(double amount,
+			MarketDeliveryManRole deliveryPerson) {
+		// TODO Auto-generated method stub
 		
 	}
 

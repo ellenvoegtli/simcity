@@ -21,9 +21,22 @@ public class Banker extends Agent {
 	    double amount;
 	    ClientState cs;
 	}
+	
+	
+	public Banker(String name){
+		super();
+		this.name=name;
+		Do("Bank Teller initiated");
+	}
+	public void setBankAccounts(BankAccounts singular){
+		this.ba=singular;
+	}
+	
+	
 //Messages
 	
 	public void msgIWantALoan(BankCustomer b, double accnum, double amnt){
+		Do("Recieved msgIWantALoan from customer");
 		mc.bc=b;
 		mc.amount=amnt;
 		mc.cs=ClientState.wantsLoan;
@@ -32,6 +45,7 @@ public class Banker extends Agent {
 	}
 	
 	public void msgIWantNewAccount(PersonAgent p, BankCustomer b, String name, double amnt){
+		Do("Recieved msgIWantNewAccount from customer");
 		mc.p=p;
 		mc.bc=b;
 		mc.amount=amnt;
@@ -68,6 +82,7 @@ public class Banker extends Agent {
 //Actions
 	
 	private void createAccount(myClient mc){
+		Do("Creating new account");
 		double temp =ba.getNumberOfAccounts();
 		ba.addAccount(mc.mcname, mc.amount, mc.p, temp);
 		mc.bc.msgAccountCreated(temp);
@@ -77,6 +92,7 @@ public class Banker extends Agent {
 	
 	
 	private void processLoan(myClient mc){
+		Do("processing loan");
 		for(BankAccount b: ba.accounts){
 			if(mc.accountnumber==b.accountNumber){
 				if(b.creditScore>=600){

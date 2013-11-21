@@ -13,16 +13,17 @@ import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import mainCity.restaurants.jeffersonrestaurant.CustomerRole.*;
+import mainCity.market.MarketGreeterRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cook;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Market;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 import mainCity.restaurants.jeffersonrestaurant.sharedData.RevolvingStand;
-import mainCity.restaurants.jeffersonrestaurant.WaiterRole.Table;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.Table;
 import mainCity.restaurants.jeffersonrestaurant.sharedData.OrderTicket;
 
-public class CookRole extends Agent implements Cook{
+public class JeffersonCookRole extends Agent implements Cook{
 
 
 	public enum OrderState
@@ -49,7 +50,7 @@ public class CookRole extends Agent implements Cook{
 	
 	
 	
-	public CookRole(String name){
+	public JeffersonCookRole(String name){
 		super();
 		this.name=name;
 		cookingTimes.put("steak",8);
@@ -416,6 +417,12 @@ public class CookRole extends Agent implements Cook{
 			  
 			  System.out.println(key + " => " + value + "added to cook inventory");
 			}
+	}
+
+	@Override
+	public void setMarketGreeter(MarketGreeterRole g) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

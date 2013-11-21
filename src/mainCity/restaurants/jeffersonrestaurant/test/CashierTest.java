@@ -2,8 +2,8 @@ package mainCity.restaurants.jeffersonrestaurant.test;
 
 import junit.framework.TestCase;
 
-import mainCity.restaurants.jeffersonrestaurant.CashierRole;
-import mainCity.restaurants.jeffersonrestaurant.MarketRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonMarketRole;
 import mainCity.restaurants.jeffersonrestaurant.test.mock.MockCustomer;
 import mainCity.restaurants.jeffersonrestaurant.test.mock.MockMarket;
 import mainCity.restaurants.jeffersonrestaurant.test.mock.MockWaiter;
@@ -21,7 +21,7 @@ import mainCity.restaurants.jeffersonrestaurant.test.mock.EventLog;
 public class CashierTest extends TestCase
 {
 	//these are instantiated for each test separately via the setUp() method.
-	CashierRole cashier;
+	JeffersonCashierRole cashier;
 	MockWaiter waiter;
 	MockCustomer customer;
 	MockMarket market1;
@@ -33,7 +33,7 @@ public class CashierTest extends TestCase
 	 */
 	public void setUp() throws Exception{
 		super.setUp();		
-		cashier = new CashierRole("cashier");		
+		cashier = new JeffersonCashierRole("cashier");		
 		customer = new MockCustomer("mockcustomer");		
 		waiter = new MockWaiter("mockwaiter");
 		market1 = new MockMarket("mockmarket");
