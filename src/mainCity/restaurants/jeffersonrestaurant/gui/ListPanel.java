@@ -2,8 +2,8 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 
 import javax.swing.*;
 
-import mainCity.restaurants.jeffersonrestaurant.CustomerRole;
-import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;

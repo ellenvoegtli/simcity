@@ -1,27 +1,25 @@
 package mainCity.restaurants.jeffersonrestaurant;
 
-import agent.Agent;
-//import sun.awt.windows.WWindowPeer;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import mainCity.restaurants.jeffersonrestaurant.HostRole;
-//import mainCity.restaurants.jeffersonrestaurant.Menu;
-import mainCity.restaurants.jeffersonrestaurant.HostRole.Table;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.Table;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.WaiterCust;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.waiterCustState;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
 import mainCity.restaurants.jeffersonrestaurant.gui.WaiterGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
+import mainCity.restaurants.jeffersonrestaurant.sharedData.OrderTicket;
+import mainCity.restaurants.jeffersonrestaurant.sharedData.RevolvingStand;
+import agent.Agent;
 
-/**
- * Restaurant Waiter Agent
- */
-//We only have 2 types of agents in this prototype. A customer and an agent that
-//does all the rest. Rather than calling the other agent a waiter, we called him
-//the HostAgent. A Host is the manager of a restaurant who sees that all
-//is proceeded as he wishes.
-public class WaiterRole extends Agent implements Waiter {
+public class JeffersonSharedDataWaiterRole extends Agent implements Waiter {
+
+
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -39,9 +37,10 @@ public class WaiterRole extends Agent implements Waiter {
 	private Semaphore atCook =new Semaphore(0, false);
 	private Semaphore atPlating =new Semaphore(0, false);
 	
-	private CookRole cook;
-	private HostRole host;
-	private CashierRole cashier;
+	private JeffersonCookRole cook;
+	private JeffersonHostRole host;
+	private RevolvingStand revolvingstand;
+	private JeffersonCashierRole cashier;
 	public WaiterGui waiterGui = null;
 	public enum waiterCustState
 	{notSeated, seated, readyToOrder,waitingForWaiter, ordered,waitingForOrder,foodReady,eating,requestedCheck,waitingForCheck, 
@@ -58,7 +57,7 @@ public class WaiterRole extends Agent implements Waiter {
 	private Menu menu;
 	
 
-	public WaiterRole(String name) {
+	public JeffersonSharedDataWaiterRole(String name) {
 		super();
 		this.name = name;
 		this.wantToBreak=false;
@@ -67,16 +66,20 @@ public class WaiterRole extends Agent implements Waiter {
 		//hack to establish connection  to cookgui
 		//cookgui=cook.cookGui;
 		}
+
+	public void setStand(RevolvingStand s) {
+		this.revolvingstand = s;
+	}
 	
-	public void setCook(CookRole ck){
+	public void setCook(JeffersonCookRole ck){
 		this.cook=ck;
 	}
 	
-	public void setHost(HostRole h){
+	public void setHost(JeffersonHostRole h){
 		this.host=h;
 	}
 	
-	public void setCashier(CashierRole c){
+	public void setCashier(JeffersonCashierRole c){
 		this.cashier=c;
 	}
 	
@@ -465,7 +468,9 @@ public class WaiterRole extends Agent implements Waiter {
 			e.printStackTrace();
 		}
 		
-		cook.msghereIsAnOrder(table, choice,this);
+		//cook.msghereIsAnOrder(table, choice,this);
+		revolvingstand.insert(new OrderTicket(table, choice, this));
+		
 		
 		waiterGui.DoLeaveCustomer();
 		try {
@@ -666,10 +671,4 @@ public class WaiterRole extends Agent implements Waiter {
 	
 
 	
-		
 }
-
-
-
-
-

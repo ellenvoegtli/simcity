@@ -1,7 +1,7 @@
 package mainCity.restaurants.jeffersonrestaurant.interfaces;
 
-import mainCity.restaurants.jeffersonrestaurant.WaiterRole.WaiterCust;
-import mainCity.restaurants.jeffersonrestaurant.WaiterRole.waiterCustState;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.WaiterCust;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.waiterCustState;
 
 public interface Waiter {
 

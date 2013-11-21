@@ -10,6 +10,7 @@ import mainCity.interfaces.*;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+import role.Role;
 
 /**
  * Restaurant Host Agent
@@ -24,6 +25,8 @@ public class MarketGreeterRole extends Agent {
 	= Collections.synchronizedList(new ArrayList<MyWaitingBusiness>());
 	private List<MyEmployee> myEmployees
 	= Collections.synchronizedList(new ArrayList<MyEmployee>());
+	private List<MainCook> cooks
+	= Collections.synchronizedList(new ArrayList<MainCook>());
 
 	
 	int nextEmployee = 0;
@@ -33,7 +36,10 @@ public class MarketGreeterRole extends Agent {
 		super();
 
 		this.name = name;
-		
+	}
+	
+	public void addCook(MainCook c){
+		cooks.add(c);
 	}
 
 	public String getMaitreDName() {
@@ -61,7 +67,7 @@ public class MarketGreeterRole extends Agent {
 	
 	//from businesses
 	public void msgINeedInventory(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer> inventoryNeeded){
-		print("Received msgINeedInventory");
+		print("Received msgINeedInventory from " + restaurantName);
 		waitingBusinesses.add(new MyWaitingBusiness(restaurantName, cook, cashier, inventoryNeeded));
 		stateChanged();
 	}

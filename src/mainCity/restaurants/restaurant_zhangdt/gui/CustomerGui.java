@@ -1,13 +1,13 @@
 package mainCity.restaurants.restaurant_zhangdt.gui;
 
-import mainCity.restaurants.restaurant_zhangdt.CustomerAgent;
-import mainCity.restaurants.restaurant_zhangdt.WaiterAgent;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 
 import java.awt.*;
 
 public class CustomerGui implements Gui{
 
-	private CustomerAgent agent = null;
+	private DavidCustomerRole agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
@@ -33,7 +33,7 @@ public class CustomerGui implements Gui{
 	private int width = 20;
 	private int height = 20;
 
-	public CustomerGui(CustomerAgent c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(DavidCustomerRole c, RestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = 40;
 		yPos = 40;

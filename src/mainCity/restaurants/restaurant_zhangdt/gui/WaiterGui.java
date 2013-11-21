@@ -1,15 +1,15 @@
 package mainCity.restaurants.restaurant_zhangdt.gui;
 
 
-import mainCity.restaurants.restaurant_zhangdt.CustomerAgent;
-import mainCity.restaurants.restaurant_zhangdt.WaiterAgent;
-import mainCity.restaurants.restaurant_zhangdt.CookAgent;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
 
 import java.awt.*;
 
 public class WaiterGui implements Gui {
 
-    private WaiterAgent agent = null;
+    private DavidWaiterRole agent = null;
 
     enum WaiterStates
     { none, OrderInHand, Delivered }; 
@@ -36,7 +36,7 @@ public class WaiterGui implements Gui {
     
     private boolean onlyOnce = false;
 
-    public WaiterGui(WaiterAgent agent, int xStart, int yStart, int xStartDest, int yStartDest) {
+    public WaiterGui(DavidWaiterRole agent, int xStart, int yStart, int xStartDest, int yStartDest) {
         this.agent = agent;
         xPos = xStart; 
         yPos = yStart; 
@@ -141,7 +141,7 @@ public class WaiterGui implements Gui {
     	yDestination = 60;
     }
     
-    public void DoBringToTable(CustomerAgent customer, int tableX, int tableY) {
+    public void DoBringToTable(DavidCustomerRole customer, int tableX, int tableY) {
     	xTable = tableX;
     	yTable = tableY;
         xDestination = tableX + 20;

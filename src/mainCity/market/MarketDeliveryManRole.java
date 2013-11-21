@@ -3,6 +3,7 @@ package mainCity.market;
 
 import agent.Agent;
 import mainCity.interfaces.*;
+import role.Role;
 
 import java.util.*;
 
@@ -19,7 +20,7 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 	//public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());	//from waiters
 	private List<MarketEmployeeRole> employees = Collections.synchronizedList(new ArrayList<MarketEmployeeRole>());
 		
-	private DeliveryState s;
+	private DeliveryState s = DeliveryState.doingNothing;
 	enum DeliveryState {doingNothing, enRoute, waitingForPayment, calculatingChange, done};
 	private DeliveryEvent event;
 	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment};

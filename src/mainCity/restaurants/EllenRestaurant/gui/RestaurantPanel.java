@@ -1,6 +1,7 @@
 package mainCity.restaurants.EllenRestaurant.gui;
 
 import mainCity.restaurants.EllenRestaurant.*;
+import mainCity.market.*;
 
 import javax.swing.*;
 
@@ -8,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
 
+import mainCity.contactList.*;
 /**
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
@@ -21,8 +23,9 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     /*				steak	|	pizza	|	pasta	|	soup
      * Cook: 		8			8			8			8
      */
-    EllenCookRole cook = new EllenCookRole("Cook", 8, 8, 8, 8);
-    
+    private EllenCookRole cook = new EllenCookRole("Cook", 8, 8, 8, 0);
+    private MarketGreeterRole marketGreeter;
+    private ContactList contactList;
     
     private int NMARKETS = 3;
     
@@ -73,6 +76,13 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         host.startThread();
         cashier.startThread();
         cook.startThread();
+        
+        
+        //*****
+        System.out.println("CONTACT LIST = " + contactList);
+        //contactList.addCook(cook);
+        //contactList.setEllenHost(host);
+        //*****
 
         KitchenGui kitchenGui = new KitchenGui(gui);
         cook.setKitchenGui(kitchenGui);
@@ -111,6 +121,13 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         pausePanel.add(cookInventoryPanel);
         
         add(pausePanel);
+    }
+    
+    public EllenCookRole getCook(){
+    	return cook;
+    }
+    public void setContactList(ContactList c){
+    	contactList = c;
     }
     
     public void actionPerformed(ActionEvent e) {

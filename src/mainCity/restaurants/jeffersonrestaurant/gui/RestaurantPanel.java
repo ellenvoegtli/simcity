@@ -2,12 +2,12 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 
 import javax.swing.*;
 
-import mainCity.restaurants.jeffersonrestaurant.CashierRole;
-import mainCity.restaurants.jeffersonrestaurant.CookRole;
-import mainCity.restaurants.jeffersonrestaurant.CustomerRole;
-import mainCity.restaurants.jeffersonrestaurant.HostRole;
-import mainCity.restaurants.jeffersonrestaurant.MarketRole;
-import mainCity.restaurants.jeffersonrestaurant.WaiterRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonMarketRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -21,23 +21,23 @@ public class RestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
   // private WaiterAgent waiter = new WaiterAgent("Sarah");
-    private HostRole host =new HostRole ("Sal");
+    private JeffersonHostRole host =new JeffersonHostRole ("Sal");
   // private WaiterGui waiterGui = new WaiterGui(waiter);
-    private CookRole cook = new CookRole("Jim");
-    private CashierRole cashier = new CashierRole("Dave");
+    private JeffersonCookRole cook = new JeffersonCookRole("Jim");
+    private JeffersonCashierRole cashier = new JeffersonCashierRole("Dave");
     
-    private MarketRole m1 = new MarketRole();
-    private MarketRole m2 = new MarketRole();
-    private MarketRole m3 = new MarketRole();
-    private MarketRole m4 = new MarketRole();
+    private JeffersonMarketRole m1 = new JeffersonMarketRole();
+    private JeffersonMarketRole m2 = new JeffersonMarketRole();
+    private JeffersonMarketRole m3 = new JeffersonMarketRole();
+    private JeffersonMarketRole m4 = new JeffersonMarketRole();
     
     
     
     
   
 
-    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
-    private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
+    private Vector<JeffersonCustomerRole> customers = new Vector<JeffersonCustomerRole>();
+    private Vector<JeffersonWaiterRole> waiters = new Vector<JeffersonWaiterRole>();
 
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -47,7 +47,7 @@ public class RestaurantPanel extends JPanel {
 
     private RestaurantGui gui; //reference to main gui
     
-    public void addWaiterToList(WaiterRole w){
+    public void addWaiterToList(JeffersonWaiterRole w){
     	host.waiters.add(w);
     	
     }
@@ -135,7 +135,7 @@ public class RestaurantPanel extends JPanel {
         if (type.equals("Customers")) {
 
             for (int i = 0; i < customers.size(); i++) {
-                CustomerRole temp = customers.get(i);
+                JeffersonCustomerRole temp = customers.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
@@ -143,7 +143,7 @@ public class RestaurantPanel extends JPanel {
         if (type.equals("Waiters")) {
 
             for (int i = 0; i < waiters.size(); i++) {
-                WaiterRole temp = waiters.get(i);
+                JeffersonWaiterRole temp = waiters.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
@@ -179,7 +179,7 @@ public class RestaurantPanel extends JPanel {
     	
     	
     	if (type.equals("Customers")) {
-    		CustomerRole c = new CustomerRole(name);
+    		JeffersonCustomerRole c = new JeffersonCustomerRole(name);
     		c.setHost(host);
     		//host.waitingCustomers.add(c);
     		//for now only setting 1 waiter, not addlist
@@ -212,7 +212,7 @@ public class RestaurantPanel extends JPanel {
     		
     	}
     	if (type.equals("Waiters")) {
-    		WaiterRole w =  new WaiterRole(name);
+    		JeffersonWaiterRole w =  new JeffersonWaiterRole(name);
         	WaiterGui waiterGui = new WaiterGui(w);
         	w.setCook(cook);
             w.setHost(host);

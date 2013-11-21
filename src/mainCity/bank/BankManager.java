@@ -13,21 +13,37 @@ public class BankManager extends Agent {
 	public List <BankCustomer>  teller_bankCustomers = new ArrayList<BankCustomer>();
 	public List <BankCustomer>  banker_bankCustomers = new ArrayList<BankCustomer>();
 
-	public class myTeller{
+	public static class myTeller{
 	    BankTeller t;
 	    int tellernumber;
 	    BankCustomer bc;
 	    boolean Occupied;
+	    
+	    public myTeller(BankTeller bt){
+	    	t=bt;
+	    	Occupied=false;
+	    	
+	    }
 	}
 
-	public class myBanker{
+	public static class myBanker{
+		
 	    Banker b;
 	    int bankernumber;
 	    BankCustomer bc;
 	    boolean Occupied;
+	    public myBanker(Banker ba){
+	    	b=ba;
+	    	Occupied=false;
+	    }
 	}
 	
-	
+	public BankManager(String name){
+		super();
+		this.name=name;
+		Do("Bank Manager instantiated");
+		
+	}
 	
 	//Messages
 	public void msgDirectDeposit(double accountNumber, int amount){
@@ -36,19 +52,26 @@ public class BankManager extends Agent {
 	}
 	
 	public void msgIWantToDeposit( BankCustomer bc){
+		Do("recieved message IWantToDeposit");
 	    teller_bankCustomers.add(bc);
+	    stateChanged();
 	}
 
 	public void msgIWantToWithdraw( BankCustomer bc){
+		Do("recieved message IWantToWithdraw");
 	    teller_bankCustomers.add(bc);
+	    stateChanged();
 	}
 
 
 	public void msgIWantALoan(BankCustomer bc){
+		Do("recieved message IWantALoan");
 	    banker_bankCustomers.add(bc);
+	    stateChanged();
 	}
 
 	public void msgImLeaving(BankCustomer bc){
+		Do("recieved message ImLeavingt");
 	    for (myTeller mt: tellers){
 	        if( mt.bc==bc){                                                  
 	            mt.bc=null;
@@ -64,6 +87,7 @@ public class BankManager extends Agent {
 	            mb.Occupied=false;
 	        }   
 	    }
+	    stateChanged();
 	}
 	
 	
@@ -96,10 +120,12 @@ public class BankManager extends Agent {
 //Actions
 	
 	private void assignTeller(myTeller mt){
+	Do("assigning teller");
 	    teller_bankCustomers.get(0).msgGoToTeller(mt.t, mt.tellernumber);
 	    mt.Occupied=true;
 	}
 	private void assignBanker(myBanker mb){
+		Do("Assigning banker");
 	    banker_bankCustomers.get(0).msgGoToBanker(mb.b, mb.bankernumber);
 	    mb.Occupied=true;
 	}
