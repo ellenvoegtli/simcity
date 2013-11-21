@@ -32,6 +32,7 @@ public class CookRole extends Agent {
 			public HostGui hostGui;
 			public CookGui cookGui;
 			public MarketRole market;
+			public CashierRole cashier;
 
 	public CookRole(String name) {
 		super();
@@ -192,11 +193,11 @@ synchronized(Orders)
 		//Random rnd = new Random();
 		//int mk = rnd.nextInt(3)+1;
 		if(marketCount == 1)
-			Bazaar.get(0).msgOrderRestock(this, Stock);
+			Bazaar.get(0).msgOrderRestock("enaRestaurant", this, cashier,  Stock);
 		if(marketCount == 2)
-			Bazaar.get(1).msgOrderRestock(this, Stock);
+			Bazaar.get(1).msgOrderRestock("enaRestaurant" , this, cashier, Stock);
 		if(marketCount == 3)
-			Bazaar.get(2).msgOrderRestock(this, Stock);
+			Bazaar.get(2).msgOrderRestock("enaRestaurant" , this, cashier,  Stock);
 
 		print("Going to market" + marketCount);
 		
@@ -223,6 +224,10 @@ synchronized(Orders)
 	public void setMarket(MarketRole market)
 	{
 		this.market = market;
+	}
+	public void setCashier(CashierRole cshr)
+	{
+		this.cashier = cshr;
 	}
 	
 	////HELPER CLASSES/////

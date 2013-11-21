@@ -1,10 +1,11 @@
 package mainCity.restaurants.enaRestaurant.interfaces;
 
+import mainCity.interfaces.MainCashier;
 import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
 import mainCity.restaurants.enaRestaurant.CashierRole.Tab;
 import mainCity.restaurants.enaRestaurant.CashierRole.payStatus;
 
-public interface Cashier {
+public interface Cashier extends MainCashier {
 	
 	public abstract void msgComputeBill(String choice, Customer c);
 	

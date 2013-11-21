@@ -2,11 +2,8 @@ package mainCity.restaurants.enaRestaurant;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import mainCity.restaurants.enaRestaurant.gui.HostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
@@ -15,8 +12,7 @@ import mainCity.restaurants.enaRestaurant.interfaces.Market;
 import mainCity.restaurants.enaRestaurant.test.mock.EventLog;
 import mainCity.restaurants.enaRestaurant.test.mock.LoggedEvent;
 import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
-import mainCity.restaurants.enaRestaurant.CustomerRole;
-import mainCity.restaurants.enaRestaurant.WaiterRole;
+import mainCity.market.MarketDeliveryManRole;
 import agent.Agent;
 
 public class CashierRole extends Agent implements Cashier{
@@ -69,6 +65,30 @@ public class CashierRole extends Agent implements Cashier{
 			Tabs.add(new Tab(choice, c, payStatus.pending));
 			stateChanged();
 		}
+		public void msgHereIsMarketBill(Map<String,Integer> order, double bill, MarketDeliveryManRole name)
+		{
+			log.add(new LoggedEvent("recieved message to pay the market"));
+			marketChecks.add(new MarketTab(name, bill, marketPay.pending));
+			stateChanged();
+			
+		}//0000000000000000000 CHANGE ALL CODE AFTER THE MSGRESTOCKBILL IS CALLED 000000000000000000000000000000
+		
+		public void msgHereIsChange(double amount, MarketDeliveryManRole name)
+		{
+			
+			
+			setRestCash(getRestCash() + amount);
+			stateChanged();
+			
+		}
+		
+		private double getRestCash() 
+		{
+			return restCash;
+		}
+
+
+
 		public void msgRestockBill(double reciept, Market ma)
 		{
 			log.add(new LoggedEvent("recieved message to pay the market"));
@@ -191,21 +211,24 @@ public boolean pickAndExecuteAnAction()
 		public void payTheMarket(MarketTab checks)
 		{
 			print("the restaurant has money : $ " +restCash);
-			if(restCash == 0)
+			//^^^^^^^^^^^^^^^^^^^^^^^^ NON NORM IF RESTAURANT DOES NOT HAVE ENOUGH MONEY TO PAY THE MARKET BILL ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+			/*if(restCash == 0)
 			{
 				print("The restaurant does not have any money to pay the market's bill");
-				checks.ma.msgRestCantPay();
+				checks.deliveryMan.msgRestCantPay();
 				print("Restaurant is looking for donations to pay off the debt and giving combinign it with coupons to even out tab");
 				restCash = 54;
-			}
+			}*/
 			
 				print("The cashier is has taken care of the market's bill for: $ " +checks.checks);
 				restCash = restCash - checks.checks;
-				checks.ma.msgPaidMarketBill(checks.checks);
+				checks.deliveryMan.msgHereIsPayment(checks.checks);
 				print("The restaurant now has $ " +restCash);
 				marketChecks.remove(checks);
 			
 		}
+		
+		
 		
 
 		//utilities
@@ -232,10 +255,18 @@ public boolean pickAndExecuteAnAction()
 		public Market ma;
 		public double checks;
 		public marketPay mState;
+		public MarketDeliveryManRole deliveryMan;
 		
 		public MarketTab(Market mrk, double ch, marketPay mSt)
 		{
 			ma = mrk;
+			checks = ch;
+			mState = mSt;
+		}
+		
+		public MarketTab(MarketDeliveryManRole name, double ch, marketPay mSt)
+		{
+			deliveryMan = name;
 			checks = ch;
 			mState = mSt;
 		}

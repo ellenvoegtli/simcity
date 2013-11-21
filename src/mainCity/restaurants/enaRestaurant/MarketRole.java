@@ -1,5 +1,6 @@
 package mainCity.restaurants.enaRestaurant;
 
+
 import agent.Agent;
 import mainCity.restaurants.enaRestaurant.CookRole.Order;
 import mainCity.restaurants.enaRestaurant.CookRole.OrderStatus;
@@ -8,6 +9,8 @@ import mainCity.restaurants.enaRestaurant.gui.HostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Market;
 import mainCity.restaurants.enaRestaurant.CookRole.Food;
 import mainCity.restaurants.enaRestaurant.CustomerRole.AgentEvent;
+import mainCity.market.*;
+import mainCity.market.MarketGreeterRole;
 
 import java.util.*;
 //import java.util.concurrent.Semaphore;
@@ -45,9 +48,9 @@ public class MarketRole extends Agent implements Market {
 
 	// Messages
 
-	public void msgOrderRestock(CookRole ck, Map<String, Integer> stock)
+	public void msgOrderRestock(String restName, CookRole cook, CashierRole cashier, Map<String, Integer> stock)
 	{
-		cook = ck;
+		//cook = ck;
 		print("messaging the market");
 		ShoppingList.add(new Request(stock));
 		status = status.recieving;
