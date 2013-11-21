@@ -36,6 +36,7 @@ public class MarcusCustomerRole extends Role implements Customer {
 	public enum AgentEvent 
 	{none, gotHungry, restaurantFull, followWaiter, seated, choosing, readyToOrder, waiting, respond, ordered, hereIsFood, doneEating, payingCheck, doneLeaving};
 	AgentEvent event = AgentEvent.none;
+	private boolean forcedLeaving;
 
 	/**
 	 * Constructor for CustomerAgent class
@@ -48,12 +49,13 @@ public class MarcusCustomerRole extends Role implements Customer {
 		this.name = name;
 		orderCount = 0;
 		cash = (int) (Math.random() * 35);
+		forcedLeaving = false;
 		
 		if(name.equals("THIEF")) {
 			cash = 0;
 		}
 		if(name.equals("POOR")) {
-			cash = 7;
+			cash = 5;
 		}
 	}
 
@@ -141,7 +143,15 @@ public class MarcusCustomerRole extends Role implements Customer {
 	
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
-		event = AgentEvent.payingCheck;
+		if(forcedLeaving) {
+			state = AgentState.Leaving;
+			//event = AgentEvent.doneLeaving;
+			forcedLeaving = false;
+		}
+		else {
+			event = AgentEvent.payingCheck;
+		}
+		
 		stateChanged();
 	}
 
@@ -351,9 +361,9 @@ public class MarcusCustomerRole extends Role implements Customer {
 	
 	private void hasToLeave() {
 		customerGui.DoClearLabel();
-
 		state = AgentState.DoingNothing;
 		event = AgentEvent.doneLeaving;
+		forcedLeaving = true;
 		orderCount = 0;
 
 		waiter.msgLeavingTable(this);

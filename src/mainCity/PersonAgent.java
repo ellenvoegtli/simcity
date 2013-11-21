@@ -182,6 +182,8 @@ public class PersonAgent extends Agent {
 		
 		if(currentAction != null && state == PersonState.normal && !traveling) {
 			if(event == PersonEvent.arrivedAtHome) {
+				print("Arrived at home!");
+
 				roles.get(currentAction.type).setActive();
 
 				if(currentAction != null && (currentAction.type == ActionType.market || currentAction.type == ActionType.home)) {
@@ -249,14 +251,6 @@ public class PersonAgent extends Agent {
 				state = PersonState.inBuilding;
 				return true;
 			}
-			
-			if(event == PersonEvent.arrivedAtHome) {
-				print("Arrived at home!");
-				roles.get(currentAction.type).setActive();
-	
-				state = PersonState.inBuilding;
-				return true;
-			}
 
 			if(event == PersonEvent.timeToWork) {
 				goToWork();
@@ -268,7 +262,7 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
-			if(event == PersonEvent.gotFood) {
+			if(event == PersonEvent.gotFood || event == PersonEvent.goHome) {
 				goHome();
 				return true;
 			}
@@ -290,7 +284,8 @@ public class PersonAgent extends Agent {
 		}
 
 		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
-			goHome(); //bug here
+			print("My action list is empty. Going home");
+			actions.add(new Action(ActionType.home, 10));
 			return true;
 		}
 		
@@ -335,12 +330,14 @@ public class PersonAgent extends Agent {
 		if(!roles.containsKey(action)) {
 			switch(action) {
 				//stuff to create appropriate role
+				case restaurant:
+					MarcusCustomerRole temp = new MarcusCustomerRole(this, "POOR");
+					ContactList.getInstance().getMarcusRestaurant().handleNewCustomer(temp);
+					roles.put(action, temp);
+					break;
 				default:
 					break;
 			}
-			MarcusCustomerRole temp = new MarcusCustomerRole(this, "TestCustomer");
-			ContactList.getInstance().getMarcusRestaurant().handleNewCustomer(temp);
-			roles.put(action, temp);
 		}
 		
 		switch(action) {
@@ -365,7 +362,7 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.goHome;
 				break;
 		}
-
+		
 		stateChanged();
 	}
 
