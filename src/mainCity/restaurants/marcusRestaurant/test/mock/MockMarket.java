@@ -7,7 +7,7 @@ import mainCity.restaurants.marcusRestaurant.test.mock.LoggedEvent;
 
 public class MockMarket extends Mock implements Market {
 	public Cashier cashier;
-	public int cash;
+	public double cash;
 	EventLog log;
 	
 	public MockMarket(String name) {
@@ -23,7 +23,7 @@ public class MockMarket extends Mock implements Market {
 		log.add(new LoggedEvent("Cook " + c + " just requested for " + quantity + " of choice"));
 	}
 	
-	public void msgHereIsPayment(Cashier c, int amount) {
+	public void msgHereIsPayment(Cashier c, double amount) {
 		cash += amount;
 		log.add(new LoggedEvent("Just received $" + amount + " from " + c));
 	}

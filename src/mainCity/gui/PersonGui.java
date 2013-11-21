@@ -1,6 +1,7 @@
 package mainCity.gui;
 
 import mainCity.PersonAgent;
+import mainCity.PersonAgent.CityLocation;
 
 import java.awt.*;
 
@@ -53,11 +54,28 @@ public class PersonGui implements Gui{
 		isPresent = p;
 	}
 
-	public void DoGoToLocation(PersonAgent.CityLocation d) {
-		System.out.println("Gui is told to go to " + d);
+	public void DoGoToLocation(PersonAgent.CityLocation destination) {
+		System.out.println("Gui is told to go to " + destination);
 		
-		xDestination = 400;
-		yDestination = 400;
+		switch(destination) {
+			case market:
+				xDestination = 400;
+				yDestination = 400;
+				break;
+			case bank:
+				xDestination = 200;
+				yDestination = 100;
+				break;
+			case home:
+				xDestination = 100;
+				yDestination = 500;
+				break;
+			default:
+				xDestination = 0;
+				yDestination = 0;
+				break;
+		}
+
 		traveling = true;
 	}
 	

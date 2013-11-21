@@ -19,7 +19,7 @@ public interface Waiter {
 
 	public abstract void msgReadyForCheck(Customer cust);
 	
-	public abstract void msgHereIsCheck(int amount, int table);
+	public abstract void msgHereIsCheck(double amount, int table);
 	
 	public abstract void msgLeavingTable(Customer cust);
 	
