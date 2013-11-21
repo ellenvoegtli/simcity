@@ -82,7 +82,7 @@ public class PersonAgent extends Agent {
 	public void msgGotHungry() {
 		print("Person got hungry");
 
-		actions.add(new Action(ActionType.restaurant, 5));
+		actions.add(new Action(ActionType.hungry, 5));
 		//actions.add(new Action(ActionType.home, 10));
 
 		stateChanged();
@@ -184,6 +184,7 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtHome) {
 				print("Arrived at home!");
 
+				handleRole(currentAction.type);
 				roles.get(currentAction.type).setActive();
 
 				if(currentAction != null && (currentAction.type == ActionType.market || currentAction.type == ActionType.home)) {
@@ -201,6 +202,7 @@ public class PersonAgent extends Agent {
 					onBreak = false;
 				}
 				else {
+					handleRole(currentAction.type);
 					roles.get(currentAction.type).setActive();
 					//set appropriate role to active && set that roles initial state
 				}
@@ -215,6 +217,7 @@ public class PersonAgent extends Agent {
 
 			if(event == PersonEvent.arrivedAtMarket) {
 				print("Arrived at market!");
+				handleRole(currentAction.type);
 				roles.get(currentAction.type).setActive();
 	
 				state = PersonState.inBuilding;
@@ -223,6 +226,7 @@ public class PersonAgent extends Agent {
 
 			if(event == PersonEvent.arrivedAtRestaurant) {
 				print("Arrived at " + destination);	
+				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				
 				if(customer instanceof MarcusCustomerRole) {
@@ -329,11 +333,16 @@ public class PersonAgent extends Agent {
 		//this way works well except for the banking part
 		if(!roles.containsKey(action)) {
 			switch(action) {
-				//stuff to create appropriate role maybe using the destination for restaurant?
-				case restaurant:
-					MarcusCustomerRole temp = new MarcusCustomerRole(this, "TestCustomer");
-					ContactList.getInstance().getMarcusRestaurant().handleNewCustomer(temp);
-					roles.put(action, temp);
+				case hungry:
+					switch(destination) {
+						case restaurant_marcus:
+							MarcusCustomerRole temp = new MarcusCustomerRole(this, "TestCustomer");
+							ContactList.getInstance().getMarcusRestaurant().handleNewCustomer(temp);
+							roles.put(action, temp);
+							break;
+						default:
+							break;
+					}
 					break;
 				default:
 					break;
@@ -346,7 +355,7 @@ public class PersonAgent extends Agent {
 			case work:
 				event = PersonEvent.timeToWork;
 				break;
-			case restaurant:
+			case hungry:
 				event = PersonEvent.gotHungry;//different event maybe to go strictly to restaurant
 				break;
 			case market:
@@ -360,10 +369,6 @@ public class PersonAgent extends Agent {
 			default://If can't find anything or if home. go home
 				event = PersonEvent.goHome;
 				break;
-		}
-		
-		if(event != PersonEvent.gotHungry) {
-			handleRole(action);
 		}
 		
 		stateChanged();
@@ -463,7 +468,7 @@ public class PersonAgent extends Agent {
 	
 	//Lower the priority level, the more "important" it is (it'll get done faster)
 	private enum ActionState {created, inProgress, done}
-	private enum ActionType {work, performCheck, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
+	private enum ActionType {work, performCheck, hungry, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
 	class Action implements Comparable<Object> {
 		ActionState state;
 		ActionType type;
