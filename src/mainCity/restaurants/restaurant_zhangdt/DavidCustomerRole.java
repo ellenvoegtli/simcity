@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * Restaurant customer agent.
  */
-public class CustomerAgent extends Agent implements Customer {
+public class DavidCustomerRole extends Agent implements Customer {
 	
 /*   Data   */ 
 	
@@ -27,9 +27,9 @@ public class CustomerAgent extends Agent implements Customer {
 	private boolean morallyUpright = true;
 
 	// agent correspondents
-	private WaiterAgent cWaiter;
+	private DavidWaiterRole cWaiter;
 	private CashierAgent cashier;
-	private HostAgent host; 
+	private DavidHostRole host; 
 	
 	private int tableNum = 0;
 	private int tableX = 0;
@@ -51,7 +51,7 @@ public class CustomerAgent extends Agent implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerAgent(String name){
+	public DavidCustomerRole(String name){
 		super();
 		this.name = name;
 		Random ChoiceGenerator = new Random(); 
@@ -62,11 +62,11 @@ public class CustomerAgent extends Agent implements Customer {
 	/**
 	 * hack to establish connection to Host agent.
 	 */
-	public void setHost(HostAgent h) {
+	public void setHost(DavidHostRole h) {
 		this.host = h;
 	}
 	
-	public void setWaiter(WaiterAgent w) {
+	public void setWaiter(DavidWaiterRole w) {
 		this.cWaiter = w;
 	}
 	
@@ -455,7 +455,7 @@ public class CustomerAgent extends Agent implements Customer {
 
 	// Accessors, Utilities etc.
 
-	public WaiterAgent getWaiter() { 
+	public DavidWaiterRole getWaiter() { 
 		return cWaiter;
 	}
 	

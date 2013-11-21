@@ -1,7 +1,7 @@
 package mainCity.restaurants.restaurant_zhangdt;
 
 import agent.Agent;
-import mainCity.restaurants.restaurant_zhangdt.CustomerAgent.AgentState;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 
 import java.util.*;
@@ -11,7 +11,7 @@ import java.util.concurrent.Semaphore;
  * Restaurant Host Agent
  */
 
-public class HostAgent extends Agent {
+public class DavidHostRole extends Agent {
 	
 /*   Data   */
 	
@@ -19,15 +19,15 @@ public class HostAgent extends Agent {
 	static final int NTABLES = 3;
 	
 	//List that stores all the customers that are hungry and are waiting to get seated
-	public List<CustomerAgent> waitingCustomers
-	= new ArrayList<CustomerAgent>();
+	public List<DavidCustomerRole> waitingCustomers
+	= new ArrayList<DavidCustomerRole>();
 	
 	//Collection stores all the available tables
 	public Collection<Table> tables;
 	
 	//List that stores all available waiters
-	public List<WaiterAgent> waiters 
-	= new ArrayList<WaiterAgent>(); 
+	public List<DavidWaiterRole> waiters 
+	= new ArrayList<DavidWaiterRole>(); 
 	
 	//Waiter Index, used to locate certain waiters
 	private int waiterLoc;
@@ -36,7 +36,7 @@ public class HostAgent extends Agent {
 	private String name;
 
 	//Constructor
-	public HostAgent(String name) {
+	public DavidHostRole(String name) {
 		super();
 		waiterLoc = -1;
 		this.name = name;
@@ -85,13 +85,13 @@ public class HostAgent extends Agent {
 	
 /*  Messages   */
 
-	public void msgIWantFood(CustomerAgent cust) {
+	public void msgIWantFood(DavidCustomerRole cust) {
 		print("msgIWantFood() called");
 		waitingCustomers.add(cust);
 		stateChanged();
 	}
 
-	public void msgLeavingTable(CustomerAgent cust) {
+	public void msgLeavingTable(DavidCustomerRole cust) {
 		for (Table table : tables) {
 			if (table.getOccupant() == cust) {
 				print(cust + " leaving " + table);
@@ -101,7 +101,7 @@ public class HostAgent extends Agent {
 		}
 	}
 	
-	public void msgRequestBreak(WaiterAgent w) {
+	public void msgRequestBreak(DavidWaiterRole w) {
 		print("msgRequestBreak called by " + w); 
 		
 		for(int i=0; i<waiters.size(); i++){
@@ -114,7 +114,7 @@ public class HostAgent extends Agent {
 		stateChanged();
 	}
 	
-	public void msgImOffBreak(WaiterAgent w){ 
+	public void msgImOffBreak(DavidWaiterRole w){ 
 		print("msgWaiterOffBreak called by " + w); 
 		waiters.add(w); 
 		stateChanged();
@@ -155,8 +155,8 @@ public class HostAgent extends Agent {
 
 /*   Actions    */
 
-	private void designateCustomer(CustomerAgent customer, Table table) {
-		WaiterAgent w = new WaiterAgent(""); 
+	private void designateCustomer(DavidCustomerRole customer, Table table) {
+		DavidWaiterRole w = new DavidWaiterRole(""); 
 		w = waiters.get(0); 
 		
 		
@@ -193,7 +193,7 @@ public class HostAgent extends Agent {
 
 /*   Utilities   */ 
 	
-	public void addWaiter(WaiterAgent w) { 
+	public void addWaiter(DavidWaiterRole w) { 
 		waiters.add(w); 
 		stateChanged();
 	}
@@ -206,7 +206,7 @@ public class HostAgent extends Agent {
 	}
 	
 	public class Table {
-		CustomerAgent occupiedBy;
+		DavidCustomerRole occupiedBy;
 		int tableNumber;
 		int xPos;
 		int yPos;
@@ -222,7 +222,7 @@ public class HostAgent extends Agent {
 			this.yPos = yPos;
 		}
 
-		void setOccupant(CustomerAgent cust) {
+		void setOccupant(DavidCustomerRole cust) {
 			occupiedBy = cust;
 		}
 
@@ -230,7 +230,7 @@ public class HostAgent extends Agent {
 			occupiedBy = null;
 		}
 
-		CustomerAgent getOccupant() {
+		DavidCustomerRole getOccupant() {
 			return occupiedBy;
 		}
 

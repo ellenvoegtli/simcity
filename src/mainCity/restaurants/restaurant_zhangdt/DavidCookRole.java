@@ -1,10 +1,10 @@
 package mainCity.restaurants.restaurant_zhangdt;
 
 import agent.Agent;
-import mainCity.restaurants.restaurant_zhangdt.MarketAgent;
-import mainCity.restaurants.restaurant_zhangdt.CustomerAgent.AgentEvent;
-import mainCity.restaurants.restaurant_zhangdt.CustomerAgent.AgentState;
-import mainCity.restaurants.restaurant_zhangdt.WaiterAgent.myCustomer;
+import mainCity.restaurants.restaurant_zhangdt.DavidMarketRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole.myCustomer;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
@@ -12,7 +12,7 @@ import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-public class CookAgent extends Agent{
+public class DavidCookRole extends Agent{
 	
 /*   Data   */ 
 	
@@ -27,6 +27,8 @@ public class CookAgent extends Agent{
 		String Choice; 
 		int quantity;
 		int cookingTime; 
+		int amountToOrder; 
+		int low = 3; 
 		
 		public Food(String c, int q, int ct){
 			Choice = c; 
@@ -35,9 +37,11 @@ public class CookAgent extends Agent{
 		}
 	}
 	
-	List<Food> Inventory = new ArrayList<Food>(); 
+	//List<Food> Inventory = new ArrayList<Food>(); 
+	Map<String, Food> Inventory = new TreeMap<String, Food>(); 
+	Map<String, Integer> foodAvailableAtMarket = new TreeMap<String, Integer>(); 
 	
-	List<MarketAgent> marketAgent = new ArrayList<MarketAgent>();
+	List<DavidMarketRole> marketAgent = new ArrayList<DavidMarketRole>();
 	
 	String MarketOrder;
 	
@@ -47,11 +51,11 @@ public class CookAgent extends Agent{
 	
 	class Order { 
 		
-		WaiterAgent Waiter; 
+		DavidWaiterRole Waiter; 
 		String Choice; 
 		int tableNum; 
 		
-		public Order(WaiterAgent w, String choice2, int table) {
+		public Order(DavidWaiterRole w, String choice2, int table) {
 			Waiter = w; 
 			Choice = choice2; 
 			tableNum = table; 
@@ -69,7 +73,7 @@ public class CookAgent extends Agent{
 	private Semaphore atGrill = new Semaphore(0,true);
 	
 	//Constructor
-	public CookAgent(String name) { 
+	public DavidCookRole(String name) { 
 		super(); 
 		this.name = name; 
 		
@@ -80,7 +84,7 @@ public class CookAgent extends Agent{
 	}
 	
 /*   Messages   */ 
-	public void msgHereIsAnOrder (WaiterAgent w, String choice, int table) {
+	public void msgHereIsAnOrder (DavidWaiterRole w, String choice, int table) {
 		print("msgHereIsAnOrder Called");
 		gui.DoMoveToFridge();
 		Order newOrder = new Order(w, choice, table);
@@ -293,7 +297,7 @@ public class CookAgent extends Agent{
 		gui = RG;
 	}
 	
-	public void addMarket(MarketAgent m) {
+	public void addMarket(DavidMarketRole m) {
 		marketAgent.add(m);
 	}
 	

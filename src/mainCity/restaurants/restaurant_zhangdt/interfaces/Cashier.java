@@ -1,6 +1,8 @@
 package mainCity.restaurants.restaurant_zhangdt.interfaces;
 
-public interface Cashier {
+import mainCity.interfaces.MainCashier;
+
+public interface Cashier extends MainCashier{
 	
 	public abstract void msgHeresACheck(Waiter w, String order, int tableNumber);
 	
