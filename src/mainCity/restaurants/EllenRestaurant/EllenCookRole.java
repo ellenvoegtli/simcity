@@ -10,6 +10,7 @@ import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.interfaces.*;
+import mainCity.contactList.*;
 
  // Restaurant Cook Agent
 
@@ -25,6 +26,7 @@ public class EllenCookRole extends Agent implements Cook{
 	MainCook cook;
 	boolean notAdded = true;
 	boolean greeterNull = true;
+	ContactList contactList;
 	
 	private Collection<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
 	private List<EllenMarketRole> markets = Collections.synchronizedList(new ArrayList<EllenMarketRole>());
@@ -64,12 +66,6 @@ public class EllenCookRole extends Agent implements Cook{
 		markets.add(m);
 	}
 	
-	public void setMarketGreeter(MarketGreeterRole g){		//we only have 1 market right now
-		print("Setting market greeter: " + g.getName());
-		restGreeter = g;
-		greeterNull = false;
-		stateChanged();
-	}
 	
 	public void setCashier(EllenCashierRole c){
 		this.cashier = c;
@@ -179,17 +175,14 @@ public class EllenCookRole extends Agent implements Cook{
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	protected boolean pickAndExecuteAnAction() {
+		print("In cook scheduler");
 		
 		if (opened){
-			if (!greeterNull){
 				//check inventory when restaurant opens
 				OrderFoodThatIsLow();
 				opened = false;
 				return true;
-			}
-			else{
-				return false;
-			}
+
 		}
 		
 		synchronized(orders){
@@ -260,7 +253,7 @@ public class EllenCookRole extends Agent implements Cook{
 		//print("Ordering from: " + markets.get(marketNum).getName());
 		//markets.get(marketNum).msgINeedInventory(inventory);
 		print("restGreeter = " + restGreeter.getName());
-		restGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
+		contactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
 	}
 	
 	/*
