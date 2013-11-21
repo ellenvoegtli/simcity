@@ -18,9 +18,9 @@ public class MarketPanel extends JPanel implements ActionListener{
 	ContactList contactList;
 
     //Host and cook
-    private MarketGreeterRole host = new MarketGreeterRole("Host");
-    private MarketCashierRole cashier = new MarketCashierRole("Cashier");
-    private MarketDeliveryManRole deliveryMan = new MarketDeliveryManRole("Delivery Man");
+    private MarketGreeterRole host = new MarketGreeterRole("Market Greeter");
+    private MarketCashierRole cashier = new MarketCashierRole("Market Cashier");
+    private MarketDeliveryManRole deliveryMan = new MarketDeliveryManRole("Market Delivery Man");
     //private MarketMenu marketMenu = new MarketMenu();
     
     private int NMARKETS = 3;

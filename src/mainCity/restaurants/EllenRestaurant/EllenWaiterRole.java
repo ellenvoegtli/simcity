@@ -19,33 +19,31 @@ import javax.swing.JLabel;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class EllenWaiterRole extends Agent implements Waiter {
-	private String name;
+public abstract class EllenWaiterRole extends Agent implements Waiter {
+	protected String name;
 	
-	private EllenHostRole host;
-	private EllenCookRole cook;
-	private EllenCashierRole cashier;
+	protected EllenHostRole host;
+	protected EllenCookRole cook;
+	protected EllenCashierRole cashier;
 	public WaiterGui waiterGui = null;
 	
-	private Collection<MyCustomer> myCustomers;
+	protected Collection<MyCustomer> myCustomers;
 	enum CustomerState {waiting, seated, readyToOrder, deciding, askedToOrder, hasOrdered, 
 							needToReorder, orderReady, waitingForFood,
 							gotFood, waitingForCheck, paying, leavingRestaurant};
 	
-	private Semaphore atTable = new Semaphore(0,true);
-	private Semaphore atCook = new Semaphore(0, true);
-	private Semaphore atStart = new Semaphore(0, true);
+	protected Semaphore atTable = new Semaphore(0,true);
+	protected Semaphore atCook = new Semaphore(0, true);
+	protected Semaphore atStart = new Semaphore(0, true);
 
 	
-	WaiterState wState;
+	protected WaiterState wState;
 	enum WaiterState {doingNothing, busy};
-	BreakState bState;
+	protected BreakState bState;
 	enum BreakState {wantToGoOnBreak, acceptedToGoOnBreak, onBreak, offBreak};
-	WaiterStatus wStatus;
-	enum WaiterStatus {newWaiter, oldWaiter};	//to deal with "atStart" semaphore: when to try to acquire
-
-	boolean wantToGoOnBreak = false;
-	boolean wantToGoOffBreak = false;
+	
+	protected boolean wantToGoOnBreak = false;
+	protected boolean wantToGoOffBreak = false;
 	
 
 	public EllenWaiterRole(String name) {
@@ -420,6 +418,9 @@ public class EllenWaiterRole extends Agent implements Waiter {
 		mc.s = CustomerState.deciding;			//don't do anything yet
 	}
 	
+	protected abstract void sendOrderToCook(MyCustomer mc);
+	
+	/*
 	public void sendOrderToCook(MyCustomer mc){
 		print("Going to send order to cook");
 		
@@ -435,6 +436,7 @@ public class EllenWaiterRole extends Agent implements Waiter {
 		cook.msgHereIsOrder(mc.choice, mc.table, this);
 		mc.s = CustomerState.waitingForFood;
 	}
+	*/
 	
 	public void deliverFood(MyCustomer mc){
 		print("Going to pick up finished order");
@@ -499,7 +501,7 @@ public class EllenWaiterRole extends Agent implements Waiter {
 	}
 	
 	
-	private class MyCustomer {
+	protected class MyCustomer {
 		Customer c;
 		int table;
 		String choice;

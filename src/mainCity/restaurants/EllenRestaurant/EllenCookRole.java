@@ -9,6 +9,8 @@ import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
+import mainCity.restaurants.EllenRestaurant.sharedData.*;
+import mainCity.restaurants.marcusRestaurant.MarcusCookRole.CookStatus;
 import mainCity.interfaces.*;
 import mainCity.contactList.*;
 
@@ -18,24 +20,30 @@ public class EllenCookRole extends Agent implements Cook{
 	static final int NTABLES = 3;//a global for the number of tables.
 
 	private String name;
-	EllenMenu menu;
-	EllenCashierRole cashier;
-	KitchenGui kitchenGui = null;
-	MarketGreeterRole restGreeter;
-	Timer timer = new Timer();
-	MainCook cook;
+	private RevolvingStand stand;
+	private EllenMenu menu;
+	private EllenCashierRole cashier;
+	private KitchenGui kitchenGui = null;
+	private MarketGreeterRole marketGreeter;
+	private MainCook cook;
 	boolean notAdded = true;
 	boolean greeterNull = true;
+	Timer timer = new Timer();
 	ContactList contactList;
 	
 	private Collection<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
 	private List<EllenMarketRole> markets = Collections.synchronizedList(new ArrayList<EllenMarketRole>());
 	
-	Map<String, Food> inventory = new TreeMap<String, Food>();	//what the cook has available
-	Map<String, Integer> foodAtAvailableMarket = new TreeMap<String, Integer>();
+	private Map<String, Food> inventory = new TreeMap<String, Food>();	//what the cook has available
+	private Map<String, Integer> foodAtAvailableMarket = new TreeMap<String, Integer>();
 		
 	enum OrderState {pending, cooking, plated, finished, pickedUp};
 	enum FoodState {none, depleted, requested, delivered, tryAgain};
+	
+	//private CookState s;
+	//enum CookState {normal, checkingRevolvingStand};
+	
+	private boolean isCheckingStand;
 	
 	boolean opened = true;
 	
@@ -46,6 +54,7 @@ public class EllenCookRole extends Agent implements Cook{
 
 		this.name = name;
 		opened = true;
+		isCheckingStand = false;
 		
 		//initialize inventory map
         inventory.put("steak", new Food("steak", 5000, steakAmount));	//type, cookingTime, amount
@@ -57,9 +66,6 @@ public class EllenCookRole extends Agent implements Cook{
         foodAtAvailableMarket.put("pizza", 0);
         foodAtAvailableMarket.put("pasta", 0);
         foodAtAvailableMarket.put("soup", 0);
-        
-        print("Instantiating EllenCookRole");
-        print("MainCook = " + cook);
 	}
 	
 	public void addMarket(EllenMarketRole m){	//hack
@@ -73,6 +79,10 @@ public class EllenCookRole extends Agent implements Cook{
 	
 	public void setMenu(EllenMenu m){
 		this.menu = m;
+	}
+	
+	public void setStand(RevolvingStand s){
+		stand = s;
 	}
 	
 	public void setOpened(boolean o){
@@ -171,6 +181,14 @@ public class EllenCookRole extends Agent implements Cook{
 		stateChanged();
 	}
 	
+	public void msgCheckStand() {		//from RestaurantPanel
+		print("Received msgCheckStand");
+		if(!isCheckingStand) {
+			isCheckingStand = true;
+			stateChanged();
+		}
+	}
+	
 
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
@@ -226,6 +244,11 @@ public class EllenCookRole extends Agent implements Cook{
 			}
 		}
 		
+		if (isCheckingStand){
+			checkRevolvingStand();
+			return true;
+		}
+		
 		//include in SimCity?
 		/*
 		synchronized(menu.menuItems){
@@ -252,7 +275,7 @@ public class EllenCookRole extends Agent implements Cook{
 	public void OrderFromMarket(Map<String, Integer>inventory){
 		//print("Ordering from: " + markets.get(marketNum).getName());
 		//markets.get(marketNum).msgINeedInventory(inventory);
-		print("restGreeter = " + restGreeter.getName());
+		//print("marketGreeter = " + contactList.getInstance().marketGreeter.getName());
 		contactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
 	}
 	
@@ -345,14 +368,30 @@ public class EllenCookRole extends Agent implements Cook{
 		orders.remove(o);
 	}
 	
+	private void checkRevolvingStand(){
+		print("Checking revolving stand");
+		isCheckingStand = false;
+		
+		if(stand.isEmpty()){
+			print("No orders to pick up.");
+			return;
+		}
+		
+		while(!stand.isEmpty()){
+			OrderTicket t = stand.remove();
+			orders.add(new Order(t.getChoice(), t.getTable(), t.getWaiter()));
+		}
+			
+	}
+	
 
 	private class Order {
-		EllenWaiterRole waiter;
+		Waiter waiter;
 		String choice;
 		int table;
 		OrderState s;
 		
-		Order(String choice, int table, EllenWaiterRole w){
+		Order(String choice, int table, Waiter w){
 			this.choice = choice;
 			this.table = table;
 			this.waiter = w;
