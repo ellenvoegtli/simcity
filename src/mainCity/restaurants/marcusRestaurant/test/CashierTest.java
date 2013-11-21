@@ -1,8 +1,8 @@
 package mainCity.restaurants.marcusRestaurant.test;
 
-import mainCity.restaurants.marcusRestaurant.MarcusCashierRole;
+import role.marcusRestaurant.MarcusCashierRole;
+import role.marcusRestaurant.MarcusCashierRole.BillState;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
-import mainCity.restaurants.marcusRestaurant.MarcusCashierRole.BillState;
 import mainCity.restaurants.marcusRestaurant.test.mock.*;
 import junit.framework.*;
 

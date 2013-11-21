@@ -1,7 +1,8 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
-import mainCity.restaurants.marcusRestaurant.MarcusCookRole;
 import java.awt.*;
+
+import role.marcusRestaurant.MarcusCookRole;
 
 public class CookGui implements Gui{
 	private MarcusCookRole agent = null;

@@ -5,6 +5,14 @@ import mainCity.restaurants.marcusRestaurant.sharedData.RevolvingStand;
 
 import javax.swing.*;
 
+import role.marcusRestaurant.MarcusCashierRole;
+import role.marcusRestaurant.MarcusCookRole;
+import role.marcusRestaurant.MarcusCustomerRole;
+import role.marcusRestaurant.MarcusHostRole;
+import role.marcusRestaurant.MarcusNormalWaiterRole;
+import role.marcusRestaurant.MarcusSharedWaiterRole;
+import role.marcusRestaurant.MarcusWaiterRole;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -152,8 +160,8 @@ public class RestaurantPanel extends JPanel {
     public void addWaiter(String name) {
     		MarcusWaiterRole w;
     		if(name.contains("share")) {
-    			w = new MarcusSharedWaiterAgent(name);
-    			MarcusSharedWaiterAgent a = (MarcusSharedWaiterAgent) w;
+    			w = new MarcusSharedWaiterRole(name);
+    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) w;
     			a.setStand(stand);
     		}
     		else {

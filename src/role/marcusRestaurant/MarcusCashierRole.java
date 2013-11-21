@@ -1,7 +1,8 @@
-package mainCity.restaurants.marcusRestaurant;
+package role.marcusRestaurant;
 
 import agent.Agent;
 import mainCity.market.MarketDeliveryManRole;
+import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
 import java.util.*;

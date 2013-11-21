@@ -11,6 +11,8 @@ import mainCity.interfaces.*;
 
 import java.util.*;
 
+import role.marcusRestaurant.MarcusHostRole;
+
 
 public class ContactList {
 	BankManager bankManager;

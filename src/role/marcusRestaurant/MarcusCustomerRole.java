@@ -1,4 +1,4 @@
-package mainCity.restaurants.marcusRestaurant;
+package role.marcusRestaurant;
 
 import mainCity.restaurants.marcusRestaurant.gui.CustomerGui;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
@@ -275,9 +275,9 @@ public class MarcusCustomerRole extends Agent implements Customer {
 		++orderCount;
 		
 		//Chooses from menu based on how much money they have
-		for(int i = 0; i < menu.menu.size(); ++i) {
-			if(cash > menu.menu.get(i).price || name.equals("THIEF")) {
-				choice = menu.menu.get(i).food;
+		for(int i = 0; i < menu.getMenu().size(); ++i) {
+			if(cash > menu.getMenu().get(i).price || name.equals("THIEF")) {
+				choice = menu.getMenu().get(i).food;
 				break;
 			}
 		}

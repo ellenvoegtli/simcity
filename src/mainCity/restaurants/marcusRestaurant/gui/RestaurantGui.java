@@ -1,9 +1,9 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
-import mainCity.restaurants.marcusRestaurant.MarcusCustomerRole;
-import mainCity.restaurants.marcusRestaurant.MarcusWaiterRole;
-
 import javax.swing.*;
+
+import role.marcusRestaurant.MarcusCustomerRole;
+import role.marcusRestaurant.MarcusWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;

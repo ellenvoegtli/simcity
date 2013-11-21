@@ -1,8 +1,8 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
-import mainCity.restaurants.marcusRestaurant.MarcusWaiterRole;
-
 import java.awt.*;
+
+import role.marcusRestaurant.MarcusWaiterRole;
 
 public class WaiterGui implements Gui {
 

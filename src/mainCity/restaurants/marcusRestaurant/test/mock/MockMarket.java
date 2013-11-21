@@ -1,6 +1,6 @@
 package mainCity.restaurants.marcusRestaurant.test.mock;
 
-import mainCity.restaurants.marcusRestaurant.MarcusCookRole;
+import role.marcusRestaurant.MarcusCookRole;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import mainCity.restaurants.marcusRestaurant.test.mock.EventLog;
 import mainCity.restaurants.marcusRestaurant.test.mock.LoggedEvent;

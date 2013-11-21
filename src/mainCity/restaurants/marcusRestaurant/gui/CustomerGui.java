@@ -1,9 +1,10 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
-import mainCity.restaurants.marcusRestaurant.MarcusCustomerRole;
-
 import java.awt.*;
+
 import javax.swing.JLabel;
+
+import role.marcusRestaurant.MarcusCustomerRole;
 
 public class CustomerGui implements Gui{
 
