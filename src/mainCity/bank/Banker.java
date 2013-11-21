@@ -11,7 +11,7 @@ public class Banker extends Agent {
 	BankAccounts ba;
 	String name;
 	myClient mc;
-	public enum ClientState{wantsLoan, wantsAccount}
+	public enum ClientState{none,wantsLoan, wantsAccount,done}
 	
 	public class myClient{
 		PersonAgent p;
@@ -19,7 +19,7 @@ public class Banker extends Agent {
 	    String mcname;
 	    double accountnumber;
 	    double amount;
-	    ClientState cs;
+	    ClientState cs=ClientState.none;
 	}
 	
 	
@@ -37,6 +37,7 @@ public class Banker extends Agent {
 	
 	public void msgIWantALoan(BankCustomer b, double accnum, double amnt){
 		Do("Recieved msgIWantALoan from customer");
+		mc=new myClient();
 		mc.bc=b;
 		mc.amount=amnt;
 		mc.cs=ClientState.wantsLoan;
@@ -46,6 +47,7 @@ public class Banker extends Agent {
 	
 	public void msgIWantNewAccount(PersonAgent p, BankCustomer b, String name, double amnt){
 		Do("Recieved msgIWantNewAccount from customer");
+		mc=new myClient();
 		mc.p=p;
 		mc.bc=b;
 		mc.amount=amnt;
@@ -61,11 +63,13 @@ public class Banker extends Agent {
 			
 			if(mc.cs==ClientState.wantsAccount){
 				createAccount(mc);
+				mc.cs=ClientState.done;
 				return true;
 			}
 			
 			if(mc.cs==ClientState.wantsLoan){
 				processLoan(mc);
+				mc.cs=ClientState.done;
 				return true;
 			}
 			
@@ -93,24 +97,27 @@ public class Banker extends Agent {
 	
 	private void processLoan(myClient mc){
 		Do("processing loan");
+		if(mc.accountnumber==-1){
+			mc.bc.msgLoanDenied(mc.amount);
+			Do("Loan denied, no account exists");
+			return;
+		}
 		for(BankAccount b: ba.accounts){
 			if(mc.accountnumber==b.accountNumber){
 				if(b.creditScore>=600){
 					b.debt+=mc.amount;
 					mc.bc.msgLoanApproved(mc.amount);
+					Do("Loan approved");
 					return;
 				}
-				else{
-					
-					mc.bc.msgLoanDenied(mc.amount);
-					return;
-				}
-				
-				
-			}
+		
+			}		
+		}//end for
+		//else
 			
-			
-		}
+			mc.bc.msgLoanDenied(mc.amount);
+			Do("Loan denied");
+			return;
 		
 	}
 	

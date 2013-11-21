@@ -15,7 +15,6 @@ import mainCity.contactList.*;
  * including host, cook, waiters, and customers.
  */
 public class RestaurantPanel extends JPanel implements ActionListener{
-
     //Host and cook
     private EllenHostRole host = new EllenHostRole("Host");
     private EllenCashierRole cashier = new EllenCashierRole("Cashier");
@@ -51,6 +50,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     private RestaurantGui gui; //reference to main gui
 
     public RestaurantPanel(RestaurantGui gui) {
+    	
         this.gui = gui;
         //host.setGui(hostGui);
         
@@ -80,8 +80,8 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         
         //*****
         System.out.println("CONTACT LIST = " + contactList);
-        //contactList.addCook(cook);
-        //contactList.setEllenHost(host);
+        contactList.getInstance().addCook(cook);
+        contactList.getInstance().setEllenHost(host);
         //*****
 
         KitchenGui kitchenGui = new KitchenGui(gui);
@@ -126,9 +126,11 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     public EllenCookRole getCook(){
     	return cook;
     }
+    /*
     public void setContactList(ContactList c){
     	contactList = c;
     }
+    */
     
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == pauseBtn){

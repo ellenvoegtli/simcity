@@ -51,7 +51,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Sets up all the gui components.
      */
     public RestaurantGui() {
-
+    	
         int WINDOWX = 550;
         int WINDOWY = 350;
 
@@ -237,6 +237,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
     /**
      * Main routine to get gui started
      */
+
     public static void main(String[] args) {
         RestaurantGui gui = new RestaurantGui();
         gui.setTitle("csci201 Restaurant");
