@@ -19,6 +19,7 @@ public class CityPanel extends JPanel{
 	
 	//Hardcoding one person for now.
 	private PersonAgent person = new PersonAgent();
+	private PersonAgent person2 = new PersonAgent();
 	
 	public CityPanel(CityGui gui) { 
 		this.gui = gui; 
@@ -33,17 +34,23 @@ public class CityPanel extends JPanel{
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
     	marcusRestaurant.setVisible(true);
 		
-		PersonGui pg = new PersonGui(person, gui); 
-		gui.getAnimationPanel().addPersonGui(pg);
+		PersonGui pg1 = new PersonGui(person, gui); 
+		gui.getAnimationPanel().addPersonGui(pg1);
 		//person.msgGotHungry();
 		person.msgGoToRestaurant();
 		//person.msgGoToMarket();
 		//person.msgGoToWork();
+		person.setGui(pg1);
+		gui.getAnimationPanel().addPersonGui(pg1);
 		
-		person.setGui(pg);
-		gui.getAnimationPanel().addPersonGui(pg);
-
+		PersonGui pg2 = new PersonGui(person2, gui); 
+		gui.getAnimationPanel().addPersonGui(pg2);
+		person2.msgGoToRestaurant();
+		person2.setGui(pg2);
+		gui.getAnimationPanel().addPersonGui(pg2);
+		
 		person.startThread(); 
+		person2.startThread(); 
 		
 	}
 

@@ -53,6 +53,10 @@ public class PersonAgent extends Agent {
 		this.gui = g;
 	}
 	
+	public void updateOccupation(String o) {
+		this.occupation = o;
+	}
+	
 	//----------Messages----------//
 	//From a timer to tell the person to do a checkup
 	public void msgPerformCheck() {
