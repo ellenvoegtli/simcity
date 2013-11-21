@@ -331,7 +331,7 @@ public class PersonAgent extends Agent {
 			switch(action) {
 				//stuff to create appropriate role
 				case restaurant:
-					MarcusCustomerRole temp = new MarcusCustomerRole(this, "POOR");
+					MarcusCustomerRole temp = new MarcusCustomerRole(this, "TestCustomer");
 					ContactList.getInstance().getMarcusRestaurant().handleNewCustomer(temp);
 					roles.put(action, temp);
 					break;
