@@ -14,7 +14,6 @@ import java.awt.event.*;
 public class CityGui extends JFrame{
 	
 	private AnimationPanel animationPanel = new AnimationPanel(); 
-	public ContactList contactList = new ContactList();
 	
 	private CityPanel cityPanel = new CityPanel(this); 
 	//private MarketGui marketGui = new MarketGui();
@@ -52,18 +51,6 @@ public class CityGui extends JFrame{
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        MarketGui marketGui = new MarketGui();
-        marketGui.setVisible(true);
-        //marketGui.setContactList(contactList);
-        
-        RestaurantGui ellenRestGui = new RestaurantGui();
-        ellenRestGui.setVisible(true);
-        
-        //ellenRestGui.getRestPanel().setContactList(contactList);
-                
-        marketGui.getMarketPanel().getGreeter().addCook(ellenRestGui.getRestPanel().getCook());
-        //contactList.addCook(cook);
-        ellenRestGui.getRestPanel().getCook().setMarketGreeter(marketGui.getMarketPanel().getGreeter());
     }
 	
 	public AnimationPanel getAnimationPanel() {

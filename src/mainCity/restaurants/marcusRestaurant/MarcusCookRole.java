@@ -19,6 +19,7 @@ public class MarcusCookRole extends Agent implements Cook {
 	private MarcusCashierRole cashier;
 	private MarketGreeterRole market;
 	private int tracker, selector;
+	private MarketGreeterRole marketGreeter;
 	private List<Order> orders;
 	private Map<String, Food> foods;
 	private RevolvingStand stand;
@@ -64,6 +65,10 @@ public class MarcusCookRole extends Agent implements Cook {
 	
 	public void setCashier(MarcusCashierRole c) {
 		cashier = c;
+	}
+	
+	public void setMarketGreeter(MarketGreeterRole g) {
+		this.marketGreeter = g;
 	}
 /*
 	public void addMarket(Market m) {

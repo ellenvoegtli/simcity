@@ -17,7 +17,7 @@ import java.io.File;
  * Contains the main frame and subsequent panels
  */
 public class MarketGui extends JFrame implements ActionListener {
-	ContactList contactList;
+	//public ContactList contactList;
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
@@ -52,7 +52,8 @@ public class MarketGui extends JFrame implements ActionListener {
      * Sets up all the gui components.
      */
     public MarketGui() {
-
+    	//contactList = c;
+    	
         int WINDOWX = 550;
         int WINDOWY = 350;
 
@@ -139,9 +140,14 @@ public class MarketGui extends JFrame implements ActionListener {
     public MarketPanel getMarketPanel(){
     	return marketPanel;
     }
+    /*
     public void setContactList(ContactList c){
     	contactList = c;
     }
+    public ContactList getContactList(){
+    	return contactList;
+    }
+    */
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
@@ -214,6 +220,7 @@ public class MarketGui extends JFrame implements ActionListener {
     /**
      * Main routine to get gui started
      */
+
     public static void main(String[] args) {
         MarketGui gui = new MarketGui();
         gui.setTitle("csci201 Restaurant");
@@ -221,4 +228,5 @@ public class MarketGui extends JFrame implements ActionListener {
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
 }

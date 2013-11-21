@@ -15,7 +15,7 @@ import java.util.Vector;
  * including host, cook, waiters, and customers.
  */
 public class MarketPanel extends JPanel implements ActionListener{
-	//private ContactList contactList;
+	ContactList contactList;
 
     //Host and cook
     private MarketGreeterRole host = new MarketGreeterRole("Host");
@@ -45,7 +45,9 @@ public class MarketPanel extends JPanel implements ActionListener{
 
     private MarketGui gui; //reference to main gui
 
-    public MarketPanel(MarketGui gui) {
+    //public MarketPanel(MarketGui gui) {
+    public MarketPanel(MarketGui gui){
+    	//contactList = c;
         this.gui = gui;
         //host.setGui(hostGui);
 
@@ -53,6 +55,8 @@ public class MarketPanel extends JPanel implements ActionListener{
         cashier.startThread();
         deliveryMan.startThread();
         
+        contactList.getInstance().addMarketGreeter(host);
+        contactList.getInstance().addMarketCashier(cashier);
         
         
         setLayout(new GridLayout(1, 2, 0, 0));

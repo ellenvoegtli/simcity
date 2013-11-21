@@ -31,6 +31,8 @@ public class BankCustomer extends Agent {
 		Do("bank customer initiated");
 		this.p=p;
 		this.name=name;
+		this.myaccountnumber= -1;
+		this.bankbalance= -1;
 	}
 	
 	public void setBankManager(BankManager bm){
@@ -123,15 +125,27 @@ public void msgLoanDenied(double loanamount){
 	
 //Scheduler	
 	protected boolean pickAndExecuteAnAction() {
-		if(bcstate==BankCustomerState.none & tstate==BankCustomerTransactionState.wantToDeposit){
+		if(bcstate==BankCustomerState.none && tstate==BankCustomerTransactionState.wantToDeposit){
 			bcstate=BankCustomerState.waitingInBank;
 			tellBankManagerDeposit();	
 			return true;
 		}
 		
-		if(bcstate==BankCustomerState.none & tstate==BankCustomerTransactionState.wantToWithdraw){
+		if(bcstate==BankCustomerState.none && tstate==BankCustomerTransactionState.wantToWithdraw){
 			bcstate=BankCustomerState.waitingInBank;
 			tellBankManagerWithdraw();	
+			return true;
+		}
+		
+		if(bcstate == BankCustomerState.none && tstate==BankCustomerTransactionState.wantNewAccount){
+			bcstate=BankCustomerState.waitingInBank;
+			tellBankManagerNewAccount();
+			return true;
+		}
+		
+		if(bcstate == BankCustomerState.none && tstate==BankCustomerTransactionState.wantLoan){
+			bcstate=BankCustomerState.waitingInBank;
+			tellBankManagerLoan();
 			return true;
 		}
 		
@@ -184,6 +198,7 @@ public void msgLoanDenied(double loanamount){
 			bcstate=BankCustomerState.leaving;
 			Do("leaving");
 			Do("New account balance is " + bankbalance);
+			Do("current cash balance is " + p.getCash());
 			//TODO leaving gui
 			//doLeaveBank();
 		}
@@ -211,7 +226,18 @@ public void msgLoanDenied(double loanamount){
 	    bm.msgIWantToWithdraw(this);
 
 	}
+	
+	private void tellBankManagerNewAccount(){
+		Do("Telling Bank Manager i want new account");
+		bm.msgIWantNewAccount(this);
+		
+	}
 
+	private void tellBankManagerLoan(){
+		Do("Telling bank manager want loan");
+		bm.msgIWantALoan(this);
+	}
+	
 	private void withdrawTeller( int n){
 		Do("Telling teller i want to withdraw");
 	   t.msgIWantToWithdraw(this,getMyaccountnumber() ,n);
