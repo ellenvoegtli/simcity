@@ -24,12 +24,9 @@ public class CityPanel extends JPanel{
 		
 		MarketGui marketGui = new MarketGui();
         marketGui.setVisible(true);
-        //marketGui.setContactList(contactList);
         
 	    RestaurantGui ellenRestGui = new RestaurantGui();
         ellenRestGui.setVisible(true);
-        //ellenRestGui.setContactList(contactList);
-
 		
 		
 		
