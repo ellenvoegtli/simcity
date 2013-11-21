@@ -18,7 +18,7 @@ public class MarcusCustomerRole extends Agent implements Customer {
 
 	private int hungerLevel = 5;        // determines length of meal
 	private int tableNumber;
-	private int cash;
+	private double cash;
 	private int orderCount;
 	MarcusMenu menu;
 	
@@ -122,7 +122,7 @@ public class MarcusCustomerRole extends Agent implements Customer {
 		stateChanged();
 	}
 	
-	public void msgDebtOwed(int amount) {
+	public void msgDebtOwed(double amount) {
 		this.cash = amount;
 		print("Next time I come back, I'll be sure to settle my debt of $" + -amount);
 		
@@ -130,7 +130,7 @@ public class MarcusCustomerRole extends Agent implements Customer {
 		event = AgentEvent.doneLeaving;
 	}
 	
-	public void msgHereIsChange(int c) {
+	public void msgHereIsChange(double c) {
 		this.cash = c;
 		print("Received my change, I now have $" + cash);
 		print("I can now leave");

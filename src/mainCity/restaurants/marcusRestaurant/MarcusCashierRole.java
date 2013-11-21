@@ -1,6 +1,7 @@
 package mainCity.restaurants.marcusRestaurant;
 
 import agent.Agent;
+import mainCity.market.MarketDeliveryManRole;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
 import java.util.*;
@@ -9,7 +10,7 @@ public class MarcusCashierRole extends Agent implements Cashier {
 	public List<Bill> bills;
 	public List<MarketBill> marketBills;
 	private Map<String, Integer> prices;
-	private int cash;
+	private double cash;
 
 	public MarcusCashierRole() {
 		super();
@@ -38,11 +39,11 @@ public class MarcusCashierRole extends Agent implements Cashier {
 		cash = c;
 	}
 	
-	public int getCash() {
+	public double getCash() {
 		return cash;
 	}
 	// Messages
-	public void msgPayingMyDebt(Customer c, int amount) {
+	public void msgPayingMyDebt(Customer c, double amount) {
 		print(c + " has just settled their debt with the restaurant of $" + amount);
 		cash += amount;
 	}
@@ -53,7 +54,7 @@ public class MarcusCashierRole extends Agent implements Cashier {
 		stateChanged();
 	}
 	
-	public void msgHereIsPayment(Customer c, int amount, int table) {
+	public void msgHereIsPayment(Customer c, double amount, int table) {
 		print("Received payment from " + c + " of $" + amount + " for table " + table);
 		
 		synchronized(bills) {
@@ -77,11 +78,11 @@ public class MarcusCashierRole extends Agent implements Cashier {
 	}
 	
 
-	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, String deliveryPerson) {
+	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, MarketDeliveryManRole deliveryPerson) {
 		
 	}
 	
-	public void msgHereIsChange(double amount) {
+	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
 		
 	}
 
@@ -181,8 +182,8 @@ public class MarcusCashierRole extends Agent implements Cashier {
 		public Customer customer;
 		String choice;
 		int table;
-		public int bill;
-		int receivedAmount;
+		public double bill;
+		double receivedAmount;
 		public BillState state = BillState.unpaid;
 
 		Bill(Waiter w, String c, int t) {

@@ -15,9 +15,9 @@ public interface Customer {
 	
 	public abstract void msgHereIsCheck();
 	
-	public abstract void msgDebtOwed(int amount);
+	public abstract void msgDebtOwed(double amount);
 	
-	public abstract void msgHereIsChange(int c);
+	public abstract void msgHereIsChange(double c);
 	
 	public abstract int getXPos();
 	
