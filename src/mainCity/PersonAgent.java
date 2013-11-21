@@ -19,7 +19,7 @@ import mainCity.gui.PersonGui;
 
 public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding}
-	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needFood, gotHungry, gotFood, decidedRestaurant, needToBank, goHome}
+	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needFood, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
 	
 	private PersonGui gui;
@@ -78,13 +78,20 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-	//A message received from the system or GUI to tell person to get hungry
+	//A message received from the system or GUI to tell person to get hungry - they will choose between restaurant and home
 	public void msgGotHungry() {
 		print("Person got hungry");
 
 		actions.add(new Action(ActionType.hungry, 5));
 		//actions.add(new Action(ActionType.home, 10));
 
+		stateChanged();
+	}
+	
+	//A message received from the HomeAgent or GUI (possibly?) to go to a restaurant
+	public void msgGoToRestaurant() {
+		print("Person will go to restaurant");
+		actions.add(new Action(ActionType.restaurant, 4));
 		stateChanged();
 	}
 
@@ -276,6 +283,11 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
+			if(event == PersonEvent.chooseRestaurant) {
+				chooseRestaurant();
+				return true;
+			}
+			
 			if(event == PersonEvent.decidedRestaurant) {
 				goToRestaurant();
 				return true;
@@ -334,6 +346,7 @@ public class PersonAgent extends Agent {
 		if(!roles.containsKey(action)) {
 			switch(action) {
 				case hungry:
+				case restaurant: //need to figure out a better way
 					switch(destination) {
 						case restaurant_marcus:
 							MarcusCustomerRole temp = new MarcusCustomerRole(this, "TestCustomer");
@@ -360,6 +373,9 @@ public class PersonAgent extends Agent {
 				break;
 			case market:
 				event = PersonEvent.needFood;
+				break;
+			case restaurant:
+				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
 			case bankDeposit:
@@ -433,15 +449,20 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
+	private void chooseRestaurant() {
+		//choose which restaurant here
+		destination = CityLocation.restaurant_marcus;
+		event = PersonEvent.decidedRestaurant;
+		handleRole(currentAction.type);
+	}
+	
 	private void decideWhereToEat() {
 		print("Deciding where to eat..");
 		//Decide between restaurant or home
 
 		if(true) { //chose restaurant
 			print("Chose to eat at a restaurant");
-			destination = CityLocation.restaurant_marcus;//some sort of way to decide what restaurant to eat at
-			event = PersonEvent.decidedRestaurant;
-			handleRole(currentAction.type);
+			chooseRestaurant();
 			return;
 		}
 
