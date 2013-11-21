@@ -62,7 +62,15 @@ public class BankManager extends Agent {
 	    teller_bankCustomers.add(bc);
 	    stateChanged();
 	}
-
+	
+	public void msgIWantNewAccount(BankCustomer bc) {
+		Do("recieved message want new account");
+		banker_bankCustomers.add(bc);
+		stateChanged();
+		
+	}
+	
+	
 
 	public void msgIWantALoan(BankCustomer bc){
 		Do("recieved message IWantALoan");
@@ -129,8 +137,8 @@ public class BankManager extends Agent {
 	    banker_bankCustomers.get(0).msgGoToBanker(mb.b, mb.bankernumber);
 	    mb.Occupied=true;
 	}
-	
-	
+
+
 	
 	
 	

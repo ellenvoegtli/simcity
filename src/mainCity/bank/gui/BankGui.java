@@ -75,10 +75,10 @@ public class BankGui extends JFrame implements ActionListener {
    
     public static void main(String[] args) {
         BankGui gui = new BankGui();
-        gui.setTitle("theBank");
-        gui.setVisible(true);
-        gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //gui.setTitle("theBank");
+        //gui.setVisible(true);
+        //gui.setResizable(false);
+        //gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 	@Override
 	public void actionPerformed(ActionEvent arg0) {

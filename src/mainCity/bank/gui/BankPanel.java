@@ -74,7 +74,7 @@ public class BankPanel extends JPanel {
         this.gui = gui;
         //hack creating a new account with 0 monies
         
-        mainaccounts.addAccount("bob", 1000, p, 0);
+       mainaccounts.addAccount("bob", 1000, p, 0);
         
         p.setCash(400);
         
@@ -109,7 +109,8 @@ public class BankPanel extends JPanel {
         //System.out.println(bankmanager.bankers.size());
         //System.out.println(bankmanager.tellers.size());
 
-        bankcust.msgWantToDeposit();
+        bankcust.msgNeedLoan();
+        
         
         add(group);
     }
