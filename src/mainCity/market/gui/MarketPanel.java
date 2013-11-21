@@ -51,7 +51,7 @@ public class MarketPanel extends JPanel implements ActionListener{
 
         host.startThread();
         cashier.startThread();
-        
+        deliveryMan.startThread();
         
         
         

@@ -80,8 +80,8 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         
         //*****
         System.out.println("CONTACT LIST = " + contactList);
-        contactList.addCook(cook);
-        contactList.setEllenHost(host);
+        //contactList.addCook(cook);
+        //contactList.setEllenHost(host);
         //*****
 
         KitchenGui kitchenGui = new KitchenGui(gui);

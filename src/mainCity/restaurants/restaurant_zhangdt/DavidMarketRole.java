@@ -7,15 +7,15 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import agent.Agent;
-import mainCity.restaurants.restaurant_zhangdt.CookAgent.Order;
-import mainCity.restaurants.restaurant_zhangdt.CookAgent.OrderStatus;
-import mainCity.restaurants.restaurant_zhangdt.CustomerAgent.AgentEvent;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.OrderStatus;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
 import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Market;
 
-public class MarketAgent extends Agent implements Market{
+public class DavidMarketRole extends Agent implements Market{
 /*   Data   */ 
-	private CookAgent cookAgent;
+	private DavidCookRole cookAgent;
 	private CashierAgent cashierAgent;
 	
 	class Food {
@@ -43,7 +43,7 @@ public class MarketAgent extends Agent implements Market{
 	
 	private RestaurantGui gui; 
 	
-	public MarketAgent(int mn, int st, int c, int sa, int p) {
+	public DavidMarketRole(int mn, int st, int c, int sa, int p) {
 		super(); 
 		MarketNumber = mn;
 		MarketInventory.add(new Food("Steak", st, 5000, 15.99));
@@ -170,7 +170,7 @@ public class MarketAgent extends Agent implements Market{
 		this.gui = RG;
 	}
 	
-	public void addCook(CookAgent c){
+	public void addCook(DavidCookRole c){
 		cookAgent = c;
 	}
 	

@@ -7,6 +7,14 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.gui.PersonGui;
 
+/*
+ * To Do for the personagent:
+ * 	implement a way for roles to get added
+ * 	handle the decision between market/restaurant since i use individual actions?
+ * 	handle decision making for person (car/bus/walk) (which restaurant/market or restaurant)
+ * 
+ */
+
 public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding}
 	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needFood, gotHungry, gotFood, decidedRestaurant, needToBank, goHome}
@@ -161,7 +169,7 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtHome) {
 				//set appropriate role to active
 
-				if(currentAction != null && currentAction.type == ActionType.market || currentAction.type == ActionType.home) {
+				if(currentAction != null && (currentAction.type == ActionType.market || currentAction.type == ActionType.home)) {
 					currentAction.state = ActionState.done;
 				}
 				
@@ -189,8 +197,13 @@ public class PersonAgent extends Agent {
 
 			if(event == PersonEvent.arrivedAtMarket) {
 				//set appropriate role active
-
+				print("Arrived at market!");
+								
 				state = PersonState.inBuilding;
+				
+				//temporary to test!
+				//this.msgFinishedAtMarket();
+				//
 				return true;
 			}
 
@@ -203,6 +216,10 @@ public class PersonAgent extends Agent {
 				}
 				
 				state = PersonState.inBuilding;
+				
+				//temporary to test!
+				//this.msgFinishedAtRestaurant();
+				//
 				return true;
 			}
 
@@ -292,6 +309,9 @@ public class PersonAgent extends Agent {
 			case restaurant:
 				event = PersonEvent.gotHungry;//different event maybe to go strictly to restaurant
 				break;
+			case market:
+				event = PersonEvent.needFood;
+				break;
 			case bankWithdraw:
 			case bankDeposit:
 			case bankLoan: 
@@ -300,7 +320,9 @@ public class PersonAgent extends Agent {
 			case home:
 				event = PersonEvent.goHome;
 				break;
-			default:
+			default://If can't find anything. go home
+				event = PersonEvent.goHome;
+				break;
 		}
 
 		stateChanged();

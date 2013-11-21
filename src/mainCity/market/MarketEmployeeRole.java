@@ -35,7 +35,7 @@ public class MarketEmployeeRole extends Agent {
 	private List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
 	private List<MyBusiness> myBusinesses = new ArrayList<MyBusiness>();
 	enum CustomerState {newCustomer, waitingForOrder, ordered, waitingForBill, fulfillingOrder, doneFulfillingOrder, gotCheckFromCashier, gotOrderAndBill, leaving};
-	enum BusinessState {ordered, waitingForBill, fulfillingOrder, doneFulfillingOrder, gotCheckFromCashier, sentForDelivery};
+	enum BusinessState {ordered, waitingForBill, fulfillingOrder, waiting, doneFulfillingOrder, gotCheckFromCashier, sentForDelivery};
 	
 	WaiterState wState;
 	enum WaiterState {doingNothing, busy};
@@ -356,6 +356,8 @@ public class MarketEmployeeRole extends Agent {
 				msgOrderFulfilled(mc);
 			}
 		}, 5000);
+		
+		//mc.s = CustomerState.waiting;
 	}
 	
 	private void DeliverOrder(MyCustomer mc){
@@ -400,11 +402,11 @@ public class MarketEmployeeRole extends Agent {
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
-				print("Done cooking, cookie=" + cookie);
+				print("Done fulfilling order, cookie=" + cookie);
 				msgOrderFulfilled(mb);
 			}
 		}, 4000);
-		//mb.s = BusinessState.doneFulfillingOrder;
+		mb.s = BusinessState.waiting;
 	}
 	
 	private void DeliverOrder(MyBusiness mb){

@@ -50,11 +50,11 @@ public class MockCustomer extends Mock implements Customer {
 		log.add(new LoggedEvent("Received the check"));
 	}
 	
-	public void msgDebtOwed(int remaining_cost) {
+	public void msgDebtOwed(double remaining_cost) {
 		log.add(new LoggedEvent("Have a debt to cashier. Debt = "+ remaining_cost));
 	}
 	
-	public void msgHereIsChange(int total) {
+	public void msgHereIsChange(double total) {
 		log.add(new LoggedEvent("Received change from cashier. Change = "+ total));
 	}
 	

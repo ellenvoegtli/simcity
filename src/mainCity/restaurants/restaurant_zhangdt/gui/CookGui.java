@@ -3,12 +3,12 @@ package mainCity.restaurants.restaurant_zhangdt.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import mainCity.restaurants.restaurant_zhangdt.CookAgent;
-import mainCity.restaurants.restaurant_zhangdt.WaiterAgent;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 
 public class CookGui implements Gui{
 
-	private CookAgent agent = null;
+	private DavidCookRole agent = null;
 	
 	private int xPos, yPos;//default waiter position
     private int xDestination, yDestination;//default start position 
@@ -16,7 +16,7 @@ public class CookGui implements Gui{
     private int GrillX, GrillY; 
     private int PlatingX, PlatingY;
     
-    public CookGui(CookAgent agent, int xStart, int yStart, int xStartDest, int yStartDest) {
+    public CookGui(DavidCookRole agent, int xStart, int yStart, int xStartDest, int yStartDest) {
         this.agent = agent;
         xPos = xStart; 
         yPos = yStart; 

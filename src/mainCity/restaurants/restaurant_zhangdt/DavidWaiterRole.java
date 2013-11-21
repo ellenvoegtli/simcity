@@ -1,22 +1,22 @@
 package mainCity.restaurants.restaurant_zhangdt;
 
 import agent.Agent;
-import mainCity.restaurants.restaurant_zhangdt.CustomerAgent.AgentState;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
-import mainCity.restaurants.restaurant_zhangdt.CookAgent.Order; 
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order; 
 import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Waiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import mainCity.restaurants.restaurant_zhangdt.HostAgent.Table; 
+import mainCity.restaurants.restaurant_zhangdt.DavidHostRole.Table; 
 
 /**
  * Restaurant Waiter Agent
  */
 
-public class WaiterAgent extends Agent implements Waiter {
+public class DavidWaiterRole extends Agent implements Waiter {
 
 /*   Data   */	
 
@@ -30,7 +30,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	private RestaurantGui restGui;
 	
 	class myCustomer { 
-		CustomerAgent c; 
+		DavidCustomerRole c; 
 		Table t; 
 		String orderChoice; 
 		CustomerStates custState = CustomerStates.none; 
@@ -48,8 +48,8 @@ public class WaiterAgent extends Agent implements Waiter {
 	List<myCustomer> customerList = new ArrayList<myCustomer>(); 
 	List<Order> orderList = new ArrayList<Order>();
 	
-	private HostAgent hAgent; 
-	private CookAgent cookAgent; 
+	private DavidHostRole hAgent; 
+	private DavidCookRole cookAgent; 
 	private CashierAgent cashierAgent;
 	
 	private String name;
@@ -71,7 +71,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	
 	public WaiterGui waiterGui = null;
 
-	public WaiterAgent(String name) {
+	public DavidWaiterRole(String name) {
 		super();
 		this.name = name;
 	}
@@ -84,11 +84,11 @@ public class WaiterAgent extends Agent implements Waiter {
 		return name;
 	}
 	
-	public void setHost(HostAgent h) {
+	public void setHost(DavidHostRole h) {
 		hAgent = h;
 	}
 
-	public void setCook(CookAgent c){ 
+	public void setCook(DavidCookRole c){ 
 		cookAgent = c; 
 	}
 	
@@ -98,7 +98,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	
 /*   Messages   */
 	
-	public void msgSeatCustomer(CustomerAgent cust, Table table) { 
+	public void msgSeatCustomer(DavidCustomerRole cust, Table table) { 
 		print("msgSeatCustomer() called"); 
 		myCustomer newCustomer = new myCustomer();
 		newCustomer.c = cust; 
@@ -108,7 +108,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		stateChanged();
 	}
 	
-	public void msgReadyToOrder(CustomerAgent c) {
+	public void msgReadyToOrder(DavidCustomerRole c) {
 		print("msgReadyToOrder() called");
 		for(myCustomer customer : customerList){ 
 			if(c == customer.c){ 
@@ -119,7 +119,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 	
 	
-	public void msgHeresMyOrder(CustomerAgent c, String o){ 
+	public void msgHeresMyOrder(DavidCustomerRole c, String o){ 
 		print("msgHeresMyOrder() called"); 
 		for(myCustomer customer : customerList){ 
 			if(c == customer.c){ 
@@ -162,7 +162,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		stateChanged();
 	}
 	
-	public void msgReadyForCheck(CustomerAgent c){ 
+	public void msgReadyForCheck(DavidCustomerRole c){ 
 		for(myCustomer customer : customerList){ 
 			if(c == customer.c){ 
 				customer.custState = CustomerStates.ReadyForCheck; 
@@ -189,7 +189,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		}
 	}
 	
-	public void msgCustomerLeaving(CustomerAgent c) {
+	public void msgCustomerLeaving(DavidCustomerRole c) {
 		//print ("msgCustomerLeaving() called"); 
 		for(myCustomer customer : customerList){ 
 			if(c == customer.c){
@@ -369,7 +369,7 @@ public class WaiterAgent extends Agent implements Waiter {
 	}
 
 	// The animation DoXYZ() routines
-	private void DoSeatCustomer(CustomerAgent customer, Table table) {
+	private void DoSeatCustomer(DavidCustomerRole customer, Table table) {
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"
 		print("Seating " + customer + " at " + table);
@@ -521,7 +521,7 @@ public class WaiterAgent extends Agent implements Waiter {
 		return waiterGui;
 	}
 	
-	public CookAgent getCook() {
+	public DavidCookRole getCook() {
 		return cookAgent; 
 	}
 	

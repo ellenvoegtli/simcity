@@ -17,8 +17,8 @@ public class CityPanel extends JPanel{
 		this.gui = gui; 
 		PersonGui pg = new PersonGui(person, gui); 
 		gui.getAnimationPanel().addPersonGui(pg);
-		//person.msgGotHungry(); 
-		//person.msgGoToMarket();
+		person.msgGotHungry(); 
+		person.msgGoToMarket();
 		//person.msgGoToWork();
 		
 		person.setGui(pg);
