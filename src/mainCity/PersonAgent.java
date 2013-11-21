@@ -1,10 +1,12 @@
 package mainCity;
 import agent.Agent;
-import role.Role;
+import role.*;
+import role.marcusRestaurant.*;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import mainCity.contactList.ContactList;
 import mainCity.gui.PersonGui;
 
 /*
@@ -24,6 +26,7 @@ public class PersonAgent extends Agent {
 	private double cash;
 	private boolean traveling;
 	private boolean onBreak;
+	private String occupation;
 	private PersonState state;
 	private PersonEvent event;
 	private CityLocation destination;
@@ -37,6 +40,7 @@ public class PersonAgent extends Agent {
 		
 		traveling = false;
 		onBreak = false;
+		occupation = "";
 		state = PersonState.normal;//maybe 'inBuilding' if we start everyone in home
 		event = PersonEvent.none;
 		destination = CityLocation.home;
@@ -171,12 +175,12 @@ public class PersonAgent extends Agent {
 			return true;
 		}
 
-		if(currentAction.type == ActionType.performCheck) {
+		if(currentAction != null && currentAction.type == ActionType.performCheck) {
 			checkSelf();
 			return true;
 		}
 		
-		if(state == PersonState.normal && !traveling) {
+		if(currentAction != null && state == PersonState.normal && !traveling) {
 			if(event == PersonEvent.arrivedAtHome) {
 				roles.get(currentAction.type).setActive();
 
@@ -212,27 +216,26 @@ public class PersonAgent extends Agent {
 				roles.get(currentAction.type).setActive();
 	
 				state = PersonState.inBuilding;
-				
-				//temporary to test!
-				//this.msgFinishedAtMarket();
-				//
 				return true;
 			}
 
 			if(event == PersonEvent.arrivedAtRestaurant) {
-				print("Arrived at the restaurant!");
-
-				roles.get(currentAction.type).setActive();
+				print("Arrived at " + destination);	
+				Role customer = roles.get(currentAction.type);
 				
+				if(customer instanceof MarcusCustomerRole) {
+					((MarcusCustomerRole) customer).getGui().setHungry();
+				}
+				//
+				//other type of customer roles for each restaurant
+				//
+				customer.setActive();
+
 				if(currentAction != null && currentAction.type == ActionType.restaurant) {
 					currentAction.state = ActionState.done;
 				}
 				
 				state = PersonState.inBuilding;
-				
-				//temporary to test!
-				//this.msgFinishedAtRestaurant();
-				//
 				return true;
 			}
 
@@ -243,6 +246,14 @@ public class PersonAgent extends Agent {
 					currentAction.state = ActionState.done;
 				}
 				
+				state = PersonState.inBuilding;
+				return true;
+			}
+			
+			if(event == PersonEvent.arrivedAtHome) {
+				print("Arrived at home!");
+				roles.get(currentAction.type).setActive();
+	
 				state = PersonState.inBuilding;
 				return true;
 			}
@@ -278,8 +289,8 @@ public class PersonAgent extends Agent {
 			}
 		}
 
-		if(actions.isEmpty() && state == PersonState.normal) {
-			goHome();
+		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
+			goHome(); //bug here
 			return true;
 		}
 		
@@ -289,8 +300,10 @@ public class PersonAgent extends Agent {
 	
 	//----------Actions----------//
 	public void roleInactive() {
+		print("Setting inactive");
 		state = PersonState.normal;
 		stateChanged();
+		//possibly have the msgFinished...messages in here instead
 	}
 	
 	
@@ -318,10 +331,16 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void handleAction(ActionType action) {
-		//need to check if appropriate role exists in the list, if it does not, make one, if it does--do nothing
-		
+		//this way works well except for the banking part
 		if(!roles.containsKey(action)) {
-			//roles.put(action, ROLE);
+			switch(action) {
+				//stuff to create appropriate role
+				default:
+					break;
+			}
+			MarcusCustomerRole temp = new MarcusCustomerRole(this, "TestCustomer");
+			ContactList.getInstance().getMarcusRestaurant().handleNewCustomer(temp);
+			roles.put(action, temp);
 		}
 		
 		switch(action) {
@@ -415,7 +434,7 @@ public class PersonAgent extends Agent {
 
 		if(true) { //chose restaurant
 			print("Chose to eat at a restaurant");
-			destination = CityLocation.restaurant_david;//some sort of way to decide what restaurant to eat at
+			destination = CityLocation.restaurant_marcus;//some sort of way to decide what restaurant to eat at
 			event = PersonEvent.decidedRestaurant;
 			return;
 		}

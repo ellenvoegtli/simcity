@@ -31,7 +31,7 @@ public class ListPanel extends JPanel implements ActionListener {
     
     private JCheckBox isHungryButton;
     
-    private RestaurantPanel restPanel;
+    private MarcusRestaurantPanel restPanel;
     private String type;
 
     /**
@@ -40,7 +40,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, final String type) {
+    public ListPanel(MarcusRestaurantPanel rp, final String type) {
         restPanel = rp;
         this.type = type;
 

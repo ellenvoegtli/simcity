@@ -4,15 +4,13 @@ import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.*;
-import mainCity.restaurants.marcusRestaurant.*;
+import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
+import role.marcusRestaurant.*;
 import mainCity.restaurants.restaurant_zhangdt.*;
 import mainCity.bank.*;
 import mainCity.interfaces.*;
 
 import java.util.*;
-
-import role.marcusRestaurant.MarcusHostRole;
-
 
 public class ContactList {
 	private static ContactList contactList = null;
@@ -46,6 +44,9 @@ public class ContactList {
 	JeffersonHostRole jeffersonHost;
 	//DavidHostRole davidHost;
 	
+	//TESTING
+	MarcusRestaurantPanel marcusRestaurant;
+	
 	//anything else? apartment landlords?
 	
 
@@ -76,6 +77,20 @@ public class ContactList {
 	public void setMarcusHost(MarcusHostRole h){
 		marcusHost = h;
 	}
+	
+	public MarcusHostRole getMarcusHost() {
+		return marcusHost;
+	}
+	
+	//THIS IS TO TEST - MARCUS
+	public void setMarcusRestaurant(MarcusRestaurantPanel m) {
+		this.marcusRestaurant = m;
+	}
+	
+	public MarcusRestaurantPanel getMarcusRestaurant() {
+		return marcusRestaurant;
+	}
+	//------
 	
 	/*
 	public void setEnaHost(EnaHostRole h){
