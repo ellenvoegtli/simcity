@@ -28,7 +28,7 @@ public class PersonAgent extends Agent {
 	private PersonEvent event;
 	private CityLocation destination;
 	private Semaphore isMoving = new Semaphore(0, true);
-	private List<Role> roles;
+	private HashMap<ActionType, Role> roles;
 	private PriorityQueue<Action> actions;
 	private Action currentAction;
 	
@@ -40,7 +40,7 @@ public class PersonAgent extends Agent {
 		state = PersonState.normal;//maybe 'inBuilding' if we start everyone in home
 		event = PersonEvent.none;
 		destination = CityLocation.home;
-		roles = Collections.synchronizedList(new ArrayList<Role>());
+		roles = new HashMap<ActionType, Role>();
 		actions = new PriorityQueue<Action>(); 
 		currentAction = null;
 	}
@@ -50,6 +50,12 @@ public class PersonAgent extends Agent {
 	}
 	
 	//----------Messages----------//
+	//From a timer to tell the person to do a checkup
+	public void msgPerformCheck() {
+		actions.add(new Action(ActionType.performCheck, 1));
+		stateChanged();
+	}
+	
 	//A message received from the GUI
 	public void msgAtDestination() {
 		traveling = false;
@@ -146,9 +152,9 @@ public class PersonAgent extends Agent {
 	public boolean pickAndExecuteAnAction() {
 		//Handling active roles takes top priority
 		if(!roles.isEmpty()) {
-			for(Role r : roles) {
-				if(r.isActive()) {
-					return r.pickAndExecuteAnAction();
+			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
+				if(r.getValue().isActive()) {
+					return r.getValue().pickAndExecuteAnAction();
 				}
 			}
 		}
@@ -165,9 +171,14 @@ public class PersonAgent extends Agent {
 			return true;
 		}
 
+		if(currentAction.type == ActionType.performCheck) {
+			checkSelf();
+			return true;
+		}
+		
 		if(state == PersonState.normal && !traveling) {
 			if(event == PersonEvent.arrivedAtHome) {
-				//set appropriate role to active
+				roles.get(currentAction.type).setActive();
 
 				if(currentAction != null && (currentAction.type == ActionType.market || currentAction.type == ActionType.home)) {
 					currentAction.state = ActionState.done;
@@ -184,6 +195,7 @@ public class PersonAgent extends Agent {
 					onBreak = false;
 				}
 				else {
+					roles.get(currentAction.type).setActive();
 					//set appropriate role to active && set that roles initial state
 				}
 
@@ -196,9 +208,9 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				//set appropriate role active
 				print("Arrived at market!");
-								
+				roles.get(currentAction.type).setActive();
+	
 				state = PersonState.inBuilding;
 				
 				//temporary to test!
@@ -208,9 +220,10 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtRestaurant) {
-				//set appropriate role
 				print("Arrived at the restaurant!");
 
+				roles.get(currentAction.type).setActive();
+				
 				if(currentAction != null && currentAction.type == ActionType.restaurant) {
 					currentAction.state = ActionState.done;
 				}
@@ -300,8 +313,17 @@ public class PersonAgent extends Agent {
 		this.cash = d;
 	}
 
+	private void checkSelf() {
+		//FOR AI - need to check self to do things? bank, eat, etc.
+	}
+	
 	private void handleAction(ActionType action) {
 		//need to check if appropriate role exists in the list, if it does not, make one, if it does--do nothing
+		
+		if(!roles.containsKey(action)) {
+			//roles.put(action, ROLE);
+		}
+		
 		switch(action) {
 			case work:
 				event = PersonEvent.timeToWork;
@@ -421,7 +443,7 @@ public class PersonAgent extends Agent {
 	
 	//Lower the priority level, the more "important" it is (it'll get done faster)
 	private enum ActionState {created, inProgress, done}
-	private enum ActionType {work, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
+	private enum ActionType {work, performCheck, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
 	class Action implements Comparable<Object> {
 		ActionState state;
 		ActionType type;
