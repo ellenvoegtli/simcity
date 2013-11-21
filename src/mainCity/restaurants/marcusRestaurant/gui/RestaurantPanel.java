@@ -39,17 +39,18 @@ public class RestaurantPanel extends JPanel {
 
     public RestaurantPanel(RestaurantGui gui) {
         this.gui = gui;
-        
+        /*
         for(int i = 0; i < 3; ++i) {
         	MarcusMarketRole m = new MarcusMarketRole(i);
             cook.addMarket(m);
             m.setCashier(cashier);
             m.startThread();
-        }
+        }*/
         cookGui = new CookGui(cook, gui);
         cook.setStand(stand);
 		gui.animationPanel.addGui(cookGui);
         cook.setGui(cookGui);
+        cook.setCashier(cashier);
         
         host.startThread();
         cook.startThread();

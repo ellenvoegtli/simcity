@@ -7,11 +7,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import agent.Agent;
-import mainCity.restaurants.restaurant_zhangdt.CookAgent.Food;
-import mainCity.restaurants.restaurant_zhangdt.CookAgent.Order;
-import mainCity.restaurants.restaurant_zhangdt.CookAgent.OrderStatus;
-import mainCity.restaurants.restaurant_zhangdt.CustomerAgent.AgentEvent;
-import mainCity.restaurants.restaurant_zhangdt.WaiterAgent.myCustomer;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Food;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.OrderStatus;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole.myCustomer;
 import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cashier;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
@@ -19,14 +19,14 @@ import mainCity.restaurants.restaurant_zhangdt.interfaces.Market;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Waiter;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.EventLog;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.LoggedEvent;
-import mainCity.restaurants.restaurant_zhangdt.WaiterAgent;
-import mainCity.restaurants.restaurant_zhangdt.CustomerAgent;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
 
 public class CashierAgent extends Agent implements Cashier {
 /*   Data   */ 
 	
 	String name;
-	CookAgent cookAgent; 
+	DavidCookRole cookAgent; 
 	boolean CashierFree = true;
 	Timer checkTimer;
 	public double Money = 1000; 
@@ -192,7 +192,7 @@ public class CashierAgent extends Agent implements Cashier {
 		this.gui = RG;
 	}
 	
-	public void setCook(CookAgent c) {
+	public void setCook(DavidCookRole c) {
 		cookAgent = c;
 	}
 	

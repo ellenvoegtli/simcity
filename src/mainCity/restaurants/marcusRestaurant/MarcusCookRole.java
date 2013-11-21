@@ -1,6 +1,8 @@
 package mainCity.restaurants.marcusRestaurant;
 
 import agent.Agent;
+import mainCity.interfaces.MainCashier;
+import mainCity.market.MarketGreeterRole;
 import mainCity.restaurants.marcusRestaurant.sharedData.*;
 import mainCity.restaurants.marcusRestaurant.gui.CookGui;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
@@ -13,8 +15,11 @@ import java.util.*;
 
 public class MarcusCookRole extends Agent implements Cook {
 	private CookGui cookGui;
-	private List<Market> markets;
+	//private List<Market> markets;
+	private MarcusCashierRole cashier;
+	private MarketGreeterRole market;
 	private int tracker, selector;
+	private MarketGreeterRole marketGreeter;
 	private List<Order> orders;
 	private Map<String, Food> foods;
 	private RevolvingStand stand;
@@ -28,7 +33,7 @@ public class MarcusCookRole extends Agent implements Cook {
 	public MarcusCookRole() {
 		super();
 		orders = Collections.synchronizedList(new ArrayList<Order>());
-		markets = Collections.synchronizedList(new ArrayList<Market>());
+		//markets = Collections.synchronizedList(new ArrayList<Market>());
 		status = CookStatus.normal;
 		
 		foods = Collections.synchronizedMap(new HashMap<String, Food>());
@@ -57,10 +62,19 @@ public class MarcusCookRole extends Agent implements Cook {
 	public List getOrders() {
 		return orders;
 	}
-
+	
+	public void setCashier(MarcusCashierRole c) {
+		cashier = c;
+	}
+	
+	public void setMarketGreeter(MarketGreeterRole g) {
+		this.marketGreeter = g;
+	}
+/*
 	public void addMarket(Market m) {
 		markets.add(m);
 	}
+*/
 	// Messages
 
 	public void msgHereIsAnOrder(Waiter w, String choice, MarcusTable t) {
@@ -70,6 +84,17 @@ public class MarcusCookRole extends Agent implements Cook {
 		stateChanged();
 	}
 	
+	public void msgHereIsYourOrder(Map<String, Integer> inventory) {
+		print("Received my order from the market!");
+
+		for(Map.Entry<String, Integer> entry : inventory.entrySet()) {
+			foods.get(entry.getKey()).addQuantity(entry.getValue());
+		}
+		
+		status = CookStatus.checkingFulfillment;
+		stateChanged();
+	}
+/*
 	public void msgOrderFulfillment(String choice, int q) {
 		print("Received " + q + " of " + choice);
 		
@@ -80,7 +105,7 @@ public class MarcusCookRole extends Agent implements Cook {
 		status = CookStatus.checkingFulfillment;
 		stateChanged();
 	}
-
+*/
 	public void msgCheckStand() {
 		if(status == CookStatus.normal) {
 			status = CookStatus.checkingStand;
@@ -88,26 +113,22 @@ public class MarcusCookRole extends Agent implements Cook {
 		}
 	}
 	
-	public void msgHereIsYourOrder(Map<String, Integer> inventory) {
-		//stuff for market
-	}
-	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	protected boolean pickAndExecuteAnAction() {		
-		synchronized(markets) {
+		//synchronized(markets) {
 			if(status == CookStatus.lowFood) {
-				if(tracker < markets.size()) {
+				//if(tracker < markets.size()) {
 					orderFromMarket();
-				}
-				else {
-					tracker = 0;
-					status = CookStatus.normal;
-				}
+//				}
+//				else {
+//					tracker = 0;
+//					status = CookStatus.normal;
+//				}
 				return true;
 			}
-		}
+		//}
 		
 		if(status == CookStatus.checkingFulfillment) {
 			checkFulfillment();
@@ -175,29 +196,41 @@ public class MarcusCookRole extends Agent implements Cook {
 	
 	private void checkFulfillment() {
 		synchronized(foods) {
+			/* Only have 1 market for now
+
 			Food f = foods.get(order);
 	
 			if(f.amount < f.threshold) {
 				status = CookStatus.lowFood;
-				selector = (selector+1) % markets.size();
+				//selector = (selector+1) % markets.size();
 				tracker++;
 	
 				stateChanged();
 				return;
 			}
-
+			*/
 			status = CookStatus.normal;
-			tracker = 0;
+			//tracker = 0;
 		}
 	}
 	
 	private void orderFromMarket() {
-		print("Sending an order to Market #" + selector);
+		//print("Sending an order to Market #" + selector);
 		
 		synchronized(foods) {
-			Food f = foods.get(order);
-			markets.get(selector).msgRequestForFood(this, order, (f.capacity - f.amount));
-			//msgINeedInventory(String name, MainCook (self), MainCashier cashier, HashMap<String, Integer> inventory)
+			//Food f = foods.get(order);
+			//markets.get(selector).msgRequestForFood(this, order, (f.capacity - f.amount));//old way - selector and messages
+			
+			Map<String, Integer> inventoryOrder = new HashMap<String, Integer>();
+			//Populating the order with stuff needed
+			for (Map.Entry<String, Food> entry : foods.entrySet()) {
+				Food item = entry.getValue();
+				if(item.amount < item.threshold) {
+					inventoryOrder.put(item.name, item.capacity-item.amount);
+				}
+			}
+
+			market.msgINeedInventory("marcusRestaurant", this, cashier, inventoryOrder);
 			status = CookStatus.normal;
 		}
 	}

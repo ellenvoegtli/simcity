@@ -47,7 +47,7 @@ public class MockWaiter extends Mock implements Waiter {
 		getLog().add(new LoggedEvent(cust + " is ready for check"));
 	}
 	
-	public void msgHereIsCheck(int amount, int table) {
+	public void msgHereIsCheck(double amount, int table) {
 		getLog().add(new LoggedEvent("Check received for table " + table + " of $" + amount));
 	}
 	

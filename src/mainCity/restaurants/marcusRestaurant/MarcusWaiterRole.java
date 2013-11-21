@@ -153,7 +153,7 @@ public abstract class MarcusWaiterRole extends Agent implements Waiter {
 		}
 	}
 	
-	public void msgHereIsCheck(int amount, int table) {
+	public void msgHereIsCheck(double amount, int table) {
 		synchronized(customers) {
 			for(MyCustomer c : customers) {
 				if (c.table.getTableNumber() == table) {
@@ -401,7 +401,7 @@ public abstract class MarcusWaiterRole extends Agent implements Waiter {
 		MarcusTable table;
 		String choice;
 		CustomerState state;
-		int check;
+		double check;
 
 		MyCustomer(Customer c, MarcusTable t, CustomerState s) {
 			this.customer = c;

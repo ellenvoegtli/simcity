@@ -3,7 +3,7 @@ package mainCity.restaurants.restaurant_zhangdt.test;
 import mainCity.restaurants.restaurant_zhangdt.CashierAgent;
 import mainCity.restaurants.restaurant_zhangdt.CashierAgent.CashierState;
 import mainCity.restaurants.restaurant_zhangdt.CashierAgent.CheckState;
-import mainCity.restaurants.restaurant_zhangdt.WaiterAgent;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockCashier;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockCustomer;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockMarket;

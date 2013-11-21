@@ -1,10 +1,10 @@
 package mainCity.restaurants.restaurant_zhangdt.gui;
 
-import mainCity.restaurants.restaurant_zhangdt.CustomerAgent;
-import mainCity.restaurants.restaurant_zhangdt.HostAgent;
-import mainCity.restaurants.restaurant_zhangdt.WaiterAgent;
-import mainCity.restaurants.restaurant_zhangdt.CookAgent;
-import mainCity.restaurants.restaurant_zhangdt.MarketAgent;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidMarketRole;
 import mainCity.restaurants.restaurant_zhangdt.CashierAgent;
 
 import javax.swing.*;
@@ -20,13 +20,13 @@ import java.util.Vector;
 public class RestaurantPanel extends JPanel implements ActionListener{
 
     //Host, cook, waiters and customers
-    private HostAgent host = new HostAgent("Sarah");
-    private CookAgent cook = new CookAgent("Jim");
+    private DavidHostRole host = new DavidHostRole("Sarah");
+    private DavidCookRole cook = new DavidCookRole("Jim");
     private CashierAgent cashier = new CashierAgent("Bob");
     
-    private Vector<MarketAgent> markets = new Vector<MarketAgent>();
-    private Vector<CustomerAgent> customers = new Vector<CustomerAgent>();
-    private Vector<WaiterAgent> waiters = new Vector<WaiterAgent>();
+    private Vector<DavidMarketRole> markets = new Vector<DavidMarketRole>();
+    private Vector<DavidCustomerRole> customers = new Vector<DavidCustomerRole>();
+    private Vector<DavidWaiterRole> waiters = new Vector<DavidWaiterRole>();
 
     private JPanel restLabel = new JPanel();
     private JTabbedPane CWPane = new JTabbedPane();
@@ -50,7 +50,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         cook.setGui(cg);
         
         for(int i=0; i<3; i++){
-	        markets.add(new MarketAgent(i,5,5,5,5));
+	        markets.add(new DavidMarketRole(i,5,5,5,5));
 	        markets.get(i).addCook(cook);
 	        markets.get(i).addCashier(cashier);
 	        markets.get(i).setGui(gui);
@@ -118,7 +118,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         if (type.equals("Customers")) {
 
             for (int i = 0; i < customers.size(); i++) {
-                CustomerAgent temp = customers.get(i);
+                DavidCustomerRole temp = customers.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
@@ -126,7 +126,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         
         if (type.equals("Waiters")) { 
         	for (int i = 0; i < waiters.size(); i++) { 
-        		WaiterAgent temp = waiters.get(i); 
+        		DavidWaiterRole temp = waiters.get(i); 
         		if (temp.getName() == name) 
         			gui.updateInfoPanel(temp);
         	}
@@ -142,7 +142,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     public void addPerson(String type, String name, boolean hungry) {
 
     	if (type.equals("Customers")) {
-    		CustomerAgent c = new CustomerAgent(name);	
+    		DavidCustomerRole c = new DavidCustomerRole(name);	
     		CustomerGui g = new CustomerGui(c, gui);
 
     		gui.getAnimationPanel().addGui(g);// dw
@@ -158,7 +158,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     	}
     	
     	if (type.equals("Waiters")) { 
-    		WaiterAgent w = new WaiterAgent(name); 
+    		DavidWaiterRole w = new DavidWaiterRole(name); 
     		
     		WaiterGui h = new WaiterGui(w, WaiterXLoc, WaiterYLoc, WaiterXLoc, WaiterYLoc); 
     		
