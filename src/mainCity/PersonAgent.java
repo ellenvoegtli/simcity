@@ -325,11 +325,11 @@ public class PersonAgent extends Agent {
 		//FOR AI - need to check self to do things? bank, eat, etc.
 	}
 	
-	private void handleAction(ActionType action) {
+	private void handleRole(ActionType action) {
 		//this way works well except for the banking part
 		if(!roles.containsKey(action)) {
 			switch(action) {
-				//stuff to create appropriate role
+				//stuff to create appropriate role maybe using the destination for restaurant?
 				case restaurant:
 					MarcusCustomerRole temp = new MarcusCustomerRole(this, "TestCustomer");
 					ContactList.getInstance().getMarcusRestaurant().handleNewCustomer(temp);
@@ -339,7 +339,9 @@ public class PersonAgent extends Agent {
 					break;
 			}
 		}
-		
+	}
+	
+	private void handleAction(ActionType action) {
 		switch(action) {
 			case work:
 				event = PersonEvent.timeToWork;
@@ -355,12 +357,13 @@ public class PersonAgent extends Agent {
 			case bankLoan: 
 				event = PersonEvent.needToBank;
 				break;
-			case home:
+			default://If can't find anything or if home. go home
 				event = PersonEvent.goHome;
 				break;
-			default://If can't find anything. go home
-				event = PersonEvent.goHome;
-				break;
+		}
+		
+		if(event != PersonEvent.gotHungry) {
+			handleRole(action);
 		}
 		
 		stateChanged();
@@ -433,6 +436,7 @@ public class PersonAgent extends Agent {
 			print("Chose to eat at a restaurant");
 			destination = CityLocation.restaurant_marcus;//some sort of way to decide what restaurant to eat at
 			event = PersonEvent.decidedRestaurant;
+			handleRole(currentAction.type);
 			return;
 		}
 
