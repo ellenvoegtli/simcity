@@ -67,7 +67,7 @@ public class MarcusRestaurantPanel extends JPanel {
         add(restLabel);
         add(group);
         
-        addWaiter("CityTestWaiter"); // for testing
+        addWaiter("shareTestCityWaiter"); // for testing
         
         //Thread to tell cook to check every so often
         Runnable standChecker = new Runnable() {

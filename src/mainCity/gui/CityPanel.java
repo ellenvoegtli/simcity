@@ -25,10 +25,10 @@ public class CityPanel extends JPanel{
 		this.gui = gui; 
 		
 	    EllenRestaurantGui ellenRestGui = new EllenRestaurantGui();
-        ellenRestGui.setVisible(true);
+        //ellenRestGui.setVisible(true);
 		
 		EnaRestaurantGui enaRestGui = new EnaRestaurantGui();
-		enaRestGui.setVisible(true);
+		//enaRestGui.setVisible(true);
 		
     	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
