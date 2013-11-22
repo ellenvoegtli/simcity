@@ -52,8 +52,28 @@ public class ContactList {
 	
 	//anything else? apartment landlords?
 	
-
 	
+	
+	//*****SETTERS********
+	
+	
+	//Bank*******
+	public void setBankManager(BankManager m){
+		bankManager = m;
+	}
+	
+	//Market********
+	public void setMarketGreeter(MarketGreeterRole g){
+		marketGreeter = g;
+	}
+	public void setMarketCashier(MarketCashierRole c){
+		marketCashier = c;
+	}
+	
+	//Ellen Restaurant******
+	public void setEllenHost(EllenHostRole h){
+		ellenHost = h;
+	}
 	public void setEllenCook(EllenCookRole cook){
 		System.out.println("Adding restaurant cook");
 		ellenCook = cook;
@@ -61,18 +81,23 @@ public class ContactList {
 	public void setEllenCashier(EllenCashierRole cashier){
 		ellenCashier = cashier;
 	}
+	
+	//Marcus Restaurant******
+	public void setMarcusHost(MarcusHostRole h){
+		marcusHost = h;
+	}
 	public void setMarcusCook(MarcusCookRole cook){
-		System.out.println("Adding restaurant cook");
 		marcusCook = cook;
 	}
-	
+	public void setMarcusCashier(MarcusCashierRole c){
+		marcusCashier = c;
+	}
 	
 	//Jefferson's Restaurant******
 	public void setJeffersonHost(JeffersonHostRole h){
 		jeffersonHost = h;
 	}
 	public void setJeffersonCook(JeffersonCookRole cook){
-		System.out.println("Adding restaurant cook");
 		jeffersonCook = cook;
 	}
 	public void setJeffersonCashier(JeffersonCashierRole c){
@@ -90,27 +115,6 @@ public class ContactList {
 		davidCashier = cashier;
 	}
 	
-
-	public void setBankManager(BankManager m){
-		bankManager = m;
-	}
-	
-	public void setMarketGreeter(MarketGreeterRole g){
-		marketGreeter = g;
-	}
-	
-	public void setMarketCashier(MarketCashierRole c){
-		marketCashier = c;
-	}
-	
-	public void setEllenHost(EllenHostRole h){
-		ellenHost = h;
-	}
-	
-	public void setMarcusHost(MarcusHostRole h){
-		marcusHost = h;
-	}
-	
 	//Ena's Restaurant
 	public void setEnaHost(EnaHostRole h){
 		enaHost = h;
@@ -123,13 +127,4 @@ public class ContactList {
 		enaCashier = c;
 	}
 	
-	
-	
-	//GETTERS
-	/*
-	public MainCook getCook(String restaurantName){
-		if (restaurantName.equalsIgnoreCase("ellenRestaurant"))
-			return ellenCook;
-	}
-	*/
 }
