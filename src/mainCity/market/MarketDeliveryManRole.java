@@ -22,9 +22,9 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 	private Bill b;
 	private List<MarketEmployeeRole> employees = Collections.synchronizedList(new ArrayList<MarketEmployeeRole>());
 	private DeliveryState s = DeliveryState.doingNothing;
-	enum DeliveryState {doingNothing, enRoute, waitingForPayment, calculatingChange, done};
+	enum DeliveryState {doingNothing, enRoute, waitingForPayment, calculatingChange, goingBackToMarket, done};
 	private DeliveryEvent event;
-	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment};
+	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, arrivedAtMarket};
 	
 	private Semaphore atHome = new Semaphore(0, true);
 	private Semaphore atDestination = new Semaphore(0, true);
@@ -63,10 +63,16 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 		event = DeliveryEvent.receivedPayment;
 		stateChanged();
 	}
+	public void msgChangeVerified(){
+		print("Received msgChangeVerified");
+		event = DeliveryEvent.changeVerified;
+		stateChanged();
+	}
 	
 	public void msgAtHome(){		//from gui
 		print("msgAtHome called");
-		atHome.release();
+		//atHome.release();
+		event = DeliveryEvent.arrivedAtMarket;
 		stateChanged();
 	}
 	public void msgAtDestination(){
@@ -96,6 +102,16 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 			else if (s == DeliveryState.waitingForPayment && event == DeliveryEvent.receivedPayment){
 				CalculateChange();
 				s = DeliveryState.calculatingChange;
+				return true;
+			}
+			else if (s == DeliveryState.calculatingChange && event == DeliveryEvent.changeVerified){
+				ReturnToMarket();
+				s = DeliveryState.goingBackToMarket;
+				return true;
+			}
+			else if (s == DeliveryState.goingBackToMarket && event == DeliveryEvent.arrivedAtMarket){
+				//no action
+				s = DeliveryState.doingNothing;
 				return true;
 			}
 		}
@@ -171,9 +187,19 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 			b.cashier.msgHereIsChange((b.amountPaid - b.amountCharged), this);
 		//else?
 			//you still owe ..
-
-		//delete bill?
+	}
+	
+	public void ReturnToMarket(){
+		print("Returning to market");
 		b = null;
+		
+		//deliveryGui.DoGoToHomePosition();
+		timer.schedule(new TimerTask() {
+			public void run() {
+				msgAtHome();
+			}
+		}, 5000);
+		
 	}
 
 	//utilities

@@ -28,16 +28,19 @@ public class MarketMenu {
 		menuItems.add("lambchops");
 		menuItems.add("porkchops");
 		menuItems.add("steak");
+		menuItems.add("chicken");
+		menuItems.add("salad");
 		
 		//prices.put("steak", 30.00);	//type, $$price
-        prices.put("pizza", 10.00);
+        prices.put("pizza", 8.99);
         prices.put("pasta", 20.00);
         prices.put("soup", 5.00);
-
         prices.put("steak", 15.99);
         prices.put("porkchops", 10.99);
         prices.put("lamb", 5.99);
         prices.put("lambchops", 8.99);
+        prices.put("chicken", 10.99);
+        prices.put("salad", 5.99);
 
         stockAmounts.put("steak", 10);
         stockAmounts.put("pizza", 10);
@@ -46,14 +49,18 @@ public class MarketMenu {
         stockAmounts.put("porkchops", 10);
         stockAmounts.put("lamb", 10);
         stockAmounts.put("lambchops", 10);
+        stockAmounts.put("chicken", 10);
+        stockAmounts.put("salad", 10);
 	}
 	
 	public int getStock(String choice){
-		return (stockAmounts.get(choice));
+		String temp = choice.toLowerCase();
+		return (stockAmounts.get(temp));
 	}
 	
 	public double getPrice(String choice){
-		return (prices.get(choice));
+		String temp = choice.toLowerCase();
+		return (prices.get(temp));
 	}
 	
 	
