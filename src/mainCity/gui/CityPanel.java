@@ -17,8 +17,8 @@ public class CityPanel extends JPanel{
 	private CityGui gui; 
 	
 	//Hardcoding one person for now.
-	private PersonAgent person = new PersonAgent();
-	private PersonAgent person2 = new PersonAgent();
+	private PersonAgent person = new PersonAgent("MarcusCustomer");
+	private PersonAgent person2 = new PersonAgent("MarcusWaiter");
 	
 	public CityPanel(CityGui gui) { 
 		this.gui = gui; 

@@ -23,6 +23,7 @@ public class PersonAgent extends Agent {
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
 	
 	private PersonGui gui;
+	private String name;
 	private double cash;
 	private boolean traveling;
 	private boolean onBreak;
@@ -35,9 +36,10 @@ public class PersonAgent extends Agent {
 	private PriorityQueue<Action> actions;
 	private Action currentAction;
 	
-	public PersonAgent() {
+	public PersonAgent(String n) {
 		super();
 		
+		name = n;
 		traveling = false;
 		onBreak = false;
 		occupation = "";
@@ -344,8 +346,8 @@ public class PersonAgent extends Agent {
 				case work:
 					switch(occupation) {
 						case "marcusWaiter":
-							MarcusNormalWaiterRole temp = new MarcusNormalWaiterRole(this, "TestWaiter");
-							ContactList.getInstance().getMarcusRestaurant().handleRole(temp);
+							MarcusNormalWaiterRole temp = new MarcusNormalWaiterRole(this, name);
+							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(temp);
 							roles.put(action, temp);
 							break;
 						default:
@@ -356,8 +358,8 @@ public class PersonAgent extends Agent {
 				case restaurant: //need to figure out a better way
 					switch(destination) {
 						case restaurant_marcus:
-							MarcusCustomerRole temp = new MarcusCustomerRole(this, "TestCustomer");
-							ContactList.getInstance().getMarcusRestaurant().handleRole(temp);
+							MarcusCustomerRole temp = new MarcusCustomerRole(this, name);
+							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(temp);
 							roles.put(action, temp);
 							break;
 						default:
@@ -497,6 +499,9 @@ public class PersonAgent extends Agent {
 		} 
 	}
 	
+	public String toString() {
+		return name;
+	}
 	
 	//Lower the priority level, the more "important" it is (it'll get done faster)
 	private enum ActionState {created, inProgress, done}

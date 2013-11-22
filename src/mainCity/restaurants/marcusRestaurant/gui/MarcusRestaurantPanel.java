@@ -1,6 +1,5 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
-import mainCity.restaurants.marcusRestaurant.*;
 import mainCity.restaurants.marcusRestaurant.sharedData.RevolvingStand;
 
 import javax.swing.*;
@@ -15,7 +14,6 @@ import role.marcusRestaurant.MarcusSharedWaiterRole;
 import role.marcusRestaurant.MarcusWaiterRole;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.Vector;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -41,9 +39,9 @@ public class MarcusRestaurantPanel extends JPanel {
     private MarcusCashierRole cashier = new MarcusCashierRole();
     
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
-    private JPanel group = new JPanel();
+    //private ListPanel customerPanel = new ListPanel(this, "Customers");
+    //private ListPanel waiterPanel = new ListPanel(this, "Waiters");
+    //private JPanel group = new JPanel();
 
 
     public MarcusRestaurantPanel(MarcusRestaurantGui gui) {
@@ -59,14 +57,14 @@ public class MarcusRestaurantPanel extends JPanel {
         cashier.startThread();
         
         setLayout(new GridLayout(1, 2, 20, 20));
-        group.setLayout(new GridLayout(1, 2, 10, 10));
+        //group.setLayout(new GridLayout(1, 2, 10, 10));
 
-        group.add(customerPanel);
-        group.add(waiterPanel);
+        //group.add(customerPanel);
+        //group.add(waiterPanel);
 
         initRestLabel();
         add(restLabel);
-        add(group);
+        //add(group);
         
         //addWaiter("shareTestCityWaiter"); // for testing
         
@@ -212,7 +210,7 @@ public class MarcusRestaurantPanel extends JPanel {
     	return cashier;
     }
     
-    public void handleRole(Role r) {
+    public void handleRoleGui(Role r) {
     	if(r instanceof MarcusWaiterRole) {
         	MarcusNormalWaiterRole w = (MarcusNormalWaiterRole) r;
 
