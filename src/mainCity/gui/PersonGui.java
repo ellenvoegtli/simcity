@@ -4,6 +4,11 @@ import mainCity.PersonAgent;
 import mainCity.PersonAgent.CityLocation;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class PersonGui implements Gui{
 	CityGui gui;
@@ -14,6 +19,7 @@ public class PersonGui implements Gui{
 	private static final int h = 20;
 	private boolean isPresent = false;
 	private boolean traveling;
+	private BufferedImage personImg = null;
 
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
@@ -21,6 +27,13 @@ public class PersonGui implements Gui{
 		xDestination = xPos = 100;
 		yDestination = yPos = 100;
 		traveling = false;
+		StringBuilder path = new StringBuilder("imgs/");
+		try {
+			personImg = ImageIO.read(new File(path.toString() + "person.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void updatePosition() {
@@ -43,7 +56,8 @@ public class PersonGui implements Gui{
 	
 	public void draw(Graphics2D g) {
 		g.setColor(Color.ORANGE);
-		g.fillRect(xPos, yPos, w, h);
+		g.drawImage(personImg, xPos,yPos,null);
+		//g.fillRect(xPos, yPos, w, h);
 	}
 
 	public boolean isPresent() {
