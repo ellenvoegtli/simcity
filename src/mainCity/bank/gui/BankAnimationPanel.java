@@ -1,5 +1,6 @@
 package mainCity.bank.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import mainCity.gui.Gui;
@@ -7,6 +8,9 @@ import mainCity.gui.Gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -20,6 +24,9 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     static final int  Y = 0;
     static final int width = 50;
     static final int height = 50;
+    
+    private BufferedImage teller_areaImg = null;
+    private BufferedImage banker_areaImg = null;
 
     private List<Gui> guis = new ArrayList<Gui>();
 
@@ -31,6 +38,14 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
  
     	Timer timer = new Timer(20, this );
     	timer.start();
+    	StringBuilder path = new StringBuilder("imgs/");
+	    try {
+			teller_areaImg = ImageIO.read(new File(path.toString() + "teller_area.png"));
+			banker_areaImg = ImageIO.read(new File(path.toString() + "banker_area.png"));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
     }
 
 	public void actionPerformed(ActionEvent e) {
@@ -46,10 +61,13 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
 
         //Teller Area
         g2.setColor(Color.DARK_GRAY);
-        g2.fillRect(X+100, Y+75, 125, 40);//200 and 250 need to be table params
-        g2.fillRect(X+275, Y+75, 125, 40);
+        g.drawImage(teller_areaImg,X+100, Y+75,null);
+        //g2.fillRect(X+100, Y+75, 125, 40);//200 and 250 need to be table params
+        g.drawImage(teller_areaImg,X+275, Y+75,null);
+        //g2.fillRect(X+275, Y+75, 125, 40);
         
         //Banker Area
+        g.drawImage(banker_areaImg, 410, 315, null);
         g2.drawLine(350,230 , 500, 230);
         
         g2.drawLine(350,230 , 350, 300);
@@ -58,7 +76,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
         g2.drawString("Account Services", 380, 260);
         
         g2.setColor(Color.BLUE);
-        g2.fillRect(410, 315, 30, 90);
+        //g2.fillRect(410, 315, 30, 90);
         
         
         //Draw customer waiting area

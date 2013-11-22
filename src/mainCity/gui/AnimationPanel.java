@@ -1,10 +1,14 @@
 package mainCity.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -14,9 +18,19 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private final int WINDOWX = 1050;
     private final int WINDOWY = 700;
     
-    //Size of House 
+    //Size of House
+    private BufferedImage houseImg1 = null;
+    private BufferedImage houseImg2 = null;
+    private BufferedImage restaurantLeft=null;
+    private BufferedImage restaurantRight=null;
+    private BufferedImage topGrassImg = null;
+    private BufferedImage bankImg = null;
+    private BufferedImage marketImg = null;
+    
     private final int HouseWidth = 80; 
-    private final int HouseLength = 80; 
+    private final int HouseLength = 80;
+    private final int topHouseY = -4;
+    private final int bottomHouseY = 585;
     
     //Size of Road
     private final int RoadWidth = 70; 
@@ -33,7 +47,25 @@ public class AnimationPanel extends JPanel implements ActionListener {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         
+        StringBuilder path = new StringBuilder("imgs/");
+        
+        try {
+			//Size is 80 x 64
+        	houseImg1 = ImageIO.read(new File(path.toString() + "house1.png"));
+        	houseImg2 = ImageIO.read(new File(path.toString() + "house2.png"));
+        	restaurantLeft = ImageIO.read(new File(path.toString() + "restaurant_left.png"));
+        	restaurantRight = ImageIO.read(new File(path.toString() + "restaurant_right.png"));
+        	topGrassImg = ImageIO.read(new File(path.toString() + "grass.png"));
+        	bankImg = ImageIO.read(new File(path.toString() + "bank.png"));
+        	marketImg = ImageIO.read(new File(path.toString() + "market.png"));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+        
+        
         bufferSize = this.getSize();
+        
  
     	Timer timer = new Timer(20, this );
     	timer.start();
@@ -69,83 +101,114 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(817, 150, 5, 345);
         
         //Northern Houses
-        g2.setColor(Color.red);
-        g2.fillRect(20, 0, HouseWidth, HouseLength);
+        g.drawImage(topGrassImg, 0,0,null);
         
         g2.setColor(Color.red);
-        g2.fillRect(120, 0, HouseWidth, HouseLength);
+        g.drawImage(houseImg1, 20, topHouseY, null);
+        //g2.fillRect(20, 0, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(220, 0, HouseWidth, HouseLength);
+        g.drawImage(houseImg1, 120, topHouseY, null);
+        //g2.fillRect(120, 0, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(320, 0, HouseWidth, HouseLength);
+        g.drawImage(houseImg1, 220, topHouseY, null);
+        //g2.fillRect(220, 0, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(420, 0, HouseWidth, HouseLength);
+        g.drawImage(houseImg1, 320, topHouseY, null);
+        //g2.fillRect(320, 0, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(520, 0, HouseWidth, HouseLength);
+        g.drawImage(houseImg1, 420, topHouseY, null);
+        //g2.fillRect(420, 0, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(620, 0, HouseWidth, HouseLength);
+        g.drawImage(houseImg1, 520, topHouseY, null);
+        //g2.fillRect(520, 0, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(720, 0, HouseWidth, HouseLength);
+        g.drawImage(houseImg1, 620, topHouseY, null);
+        //g2.fillRect(620, 0, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(820, 0, HouseWidth, HouseLength);
+        g.drawImage(houseImg1, 720, topHouseY, null);
+        //g2.fillRect(720, 0, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(920, 0, HouseWidth, HouseLength);
+        g.drawImage(houseImg1, 820, topHouseY, null);
+        //g2.fillRect(820, 0, HouseWidth, HouseLength);
+        
+        g2.setColor(Color.red);
+        g.drawImage(houseImg1, 920, topHouseY, null);
+        //g2.fillRect(920, 0, HouseWidth, HouseLength);
         
         //Southern Houses
         g2.setColor(Color.red);
-        g2.fillRect(20, 565, HouseWidth, HouseLength);
+        g.drawImage(topGrassImg,0,bottomHouseY,null);
+        g.drawImage(houseImg2, 20, bottomHouseY, null);
+        //g2.fillRect(20, 565, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(120, 565, HouseWidth, HouseLength);
+        g.drawImage(houseImg2, 120, bottomHouseY, null);
+        //g2.fillRect(120, 565, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(220, 565, HouseWidth, HouseLength);
+        g.drawImage(houseImg2, 220, bottomHouseY, null);
+        //g2.fillRect(220, 565, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(320, 565, HouseWidth, HouseLength);
+        g.drawImage(houseImg2, 320, bottomHouseY, null);
+        //g2.fillRect(320, 565, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(420, 565, HouseWidth, HouseLength);
+        g.drawImage(houseImg2, 420, bottomHouseY, null);
+        //g2.fillRect(420, 565, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(520, 565, HouseWidth, HouseLength);
+        g.drawImage(houseImg2, 520, bottomHouseY, null);
+        //g2.fillRect(520, 565, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(620, 565, HouseWidth, HouseLength);
+        g.drawImage(houseImg2, 620, bottomHouseY, null);
+        //g2.fillRect(620, 565, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(720, 565, HouseWidth, HouseLength);
+        g.drawImage(houseImg2, 720, bottomHouseY, null);
+        //g2.fillRect(720, 565, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(820, 565, HouseWidth, HouseLength);
+        g.drawImage(houseImg2, 820, bottomHouseY, null);
+        //g2.fillRect(820, 565, HouseWidth, HouseLength);
         
         g2.setColor(Color.red);
-        g2.fillRect(920, 565, HouseWidth, HouseLength);
+        g.drawImage(houseImg2, 920, bottomHouseY, null);
+        //g2.fillRect(920, 565, HouseWidth, HouseLength);
         
         //Restaurants 
         g2.setColor(Color.BLACK);
-        g2.fillRect(105, 200, HouseWidth, HouseLength);
-        g2.fillRect(105, 350, HouseWidth, HouseLength);
-        g2.fillRect(405, 200, HouseWidth, HouseLength);
-        g2.fillRect(405, 350, HouseWidth, HouseLength);
-        g2.fillRect(405, 200, HouseWidth, HouseLength);
-        g2.fillRect(705, 275, HouseWidth, HouseLength);
+        
+        g.drawImage(restaurantLeft,105,200,null);
+        //g2.fillRect(105, 200, HouseWidth, HouseLength);
+        g.drawImage(restaurantLeft,105,350,null);
+        //g2.fillRect(105, 350, HouseWidth, HouseLength);
+        
+        g.drawImage(restaurantRight,405,375,null);
+        //g2.fillRect(405, 350, HouseWidth, HouseLength);
+        g.drawImage(restaurantRight,405,150,null);
+        //g2.fillRect(405, 200, HouseWidth, HouseLength);
+        g.drawImage(restaurantLeft,705,275,null);
+        //g2.fillRect(705, 275, HouseWidth, HouseLength);
         
         //Bank
-        g2.setColor(Color.GREEN); 
-        g2.fillRect(255, 275, HouseWidth, HouseLength);
+        g2.setColor(Color.GREEN);
+        g.drawImage(bankImg,255,275,null);
+        //g2.fillRect(255, 275, HouseWidth, HouseLength);
         
         //Market 
         g2.setColor(Color.ORANGE);
-        g2.fillRect(555, 275, HouseWidth, HouseLength);
+        g.drawImage(marketImg,555,275,null);
+        //g2.fillRect(555, 275, HouseWidth, HouseLength);
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {

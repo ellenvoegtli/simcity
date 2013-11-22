@@ -15,7 +15,6 @@ import mainCity.restaurants.enaRestaurant.gui.*;
 public class CityPanel extends JPanel{
 	
 	private CityGui gui; 
-	public ContactList contactList;
 	
 	//Hardcoding one person for now.
 	private PersonAgent person = new PersonAgent();
@@ -23,6 +22,9 @@ public class CityPanel extends JPanel{
 	
 	public CityPanel(CityGui gui) { 
 		this.gui = gui; 
+		
+    	MarketGui marketGui = new MarketGui();
+    	marketGui.setVisible(true);
 		
 	    EllenRestaurantGui ellenRestGui = new EllenRestaurantGui();
         //ellenRestGui.setVisible(true);
@@ -33,6 +35,7 @@ public class CityPanel extends JPanel{
     	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
     	marcusRestaurant.setVisible(true);
+    	
 		
 		PersonGui pg1 = new PersonGui(person, gui); 
 		gui.getAnimationPanel().addPersonGui(pg1);

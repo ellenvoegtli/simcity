@@ -3,7 +3,6 @@ package mainCity.restaurants.enaRestaurant.gui;
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.enaRestaurant.EnaCashierRole;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaMarketRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.EnaCookRole;
@@ -18,21 +17,16 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel {
+public class RestaurantPanel extends JPanel 
+{
 
-    //Host, cook, waiters and customers
-    //private WaiterRole waiter;
-    //private WaiterGui waiterGui;
 	
-	private ContactList contactList;
     private EnaHostRole host;
     private HostGui hostGui = new HostGui(host);
     private EnaCookRole cook = new EnaCookRole("Bob");
     private CookGui cookGui = new CookGui(cook);
     private EnaCashierRole cashier = new EnaCashierRole("Tim");
-    private EnaMarketRole market1 = new EnaMarketRole("market1");
-    private EnaMarketRole market2 = new EnaMarketRole("market2");
-    private EnaMarketRole market3 = new EnaMarketRole("market3");
+
 
 
     private Vector<EnaCustomerRole> customers = new Vector<EnaCustomerRole>();
@@ -58,20 +52,10 @@ public class RestaurantPanel extends JPanel {
         host.startThread();
         cook.startThread();
         cashier.startThread();
-        	/*
-        	market1.startThread();
-        	market2.startThread();
-        	market3.startThread();
-        	cook.addMarkets(market1);
-        	cook.addMarkets(market2);
-        	cook.addMarkets(market3);
-        	market1.setCashierRole(cashier);
-        	market2.setCashierRole(cashier);
-        	market3.setCashierRole(cashier);*/
-        
-        contactList.getInstance().setEnaCook(cook);
-        contactList.getInstance().setEnaCashier(cashier);
-        contactList.getInstance().setEnaHost(host);
+        	
+        ContactList.getInstance().setEnaCook(cook);
+        ContactList.getInstance().setEnaCashier(cashier);
+        ContactList.getInstance().setEnaHost(host);
 
         
 
@@ -216,9 +200,7 @@ public class RestaurantPanel extends JPanel {
     	host.pause();
     	cook.pause();
     	cashier.pause();
-    	market1.pause();
-    	market2.pause();
-    	market3.pause();
+    	
     	
     }
     public void restartAll()
@@ -226,9 +208,7 @@ public class RestaurantPanel extends JPanel {
     	host.restart();
     	cook.restart();
     	cashier.restart();
-    	market1.restart();
-    	market2.restart();
-    	market3.restart();
+    	
     	for(EnaWaiterRole waiter: waiters)
     	{
     		 waiter.restart();
