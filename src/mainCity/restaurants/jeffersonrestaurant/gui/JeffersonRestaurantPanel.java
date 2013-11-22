@@ -2,6 +2,8 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 
 import javax.swing.*;
 
+import role.Role;
+
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
@@ -17,7 +19,7 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel {
+public class JeffersonRestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
   // private WaiterAgent waiter = new WaiterAgent("Sarah");
@@ -45,7 +47,7 @@ public class RestaurantPanel extends JPanel {
     
     private JPanel group = new JPanel();
 
-    private RestaurantGui gui; //reference to main gui
+    private JeffersonRestaurantGui gui; //reference to main gui
     
     public void addWaiterToList(JeffersonWaiterRole w){
     	host.waiters.add(w);
@@ -55,13 +57,17 @@ public class RestaurantPanel extends JPanel {
 
 
 
-    public RestaurantPanel(RestaurantGui gui) {
+    public JeffersonRestaurantPanel(JeffersonRestaurantGui gui) {
         this.gui = gui;
        // waiter.setGui(waiterGui);
         //waiter.setCook(cook);
        // waiter.setHost(host);
         //gui.animationPanel.addGui(waiterGui);
        // waiter.startThread();
+        addPerson("waiter", "dave", false);
+        
+        
+        
         cook.startThread();
         m1.startThread();
         m2.startThread();
@@ -102,6 +108,11 @@ public class RestaurantPanel extends JPanel {
         initRestLabel();
         add(restLabel);
         add(group);
+        
+    
+    
+        
+        
     }
 
     /**
@@ -179,7 +190,7 @@ public class RestaurantPanel extends JPanel {
     	
     	
     	if (type.equals("Customers")) {
-    		JeffersonCustomerRole c = new JeffersonCustomerRole(name);
+    		JeffersonCustomerRole c = new JeffersonCustomerRole(null,name );
     		c.setHost(host);
     		//host.waitingCustomers.add(c);
     		//for now only setting 1 waiter, not addlist
@@ -230,20 +241,44 @@ public class RestaurantPanel extends JPanel {
     	}
     	
     }
-    /*
-    public void addWaiter(String waitername){
-    	WaiterAgent w =  new WaiterAgent(waitername);
-    	WaiterGui waiterGui = new WaiterGui(w);
-    	
-        w.setGui(waiterGui);
-        w.setCook(cook);
-        w.setHost(host);
-        host.waiters.add(w);
-        gui.animationPanel.addGui(waiterGui);
-        waiters.add(w);
-        System.out.println("waiter added");
-        w.startThread();
-    	
+    public void handleRoleGui(Role r) {
+    	/*
+    	if(r instanceof JeffersonWaiterRole) {
+        	JeffersonWaiterRole w = (MarcusNormalWaiterRole) r;
+
+    		if(r.getName().contains("share")) {
+    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
+    			a.setStand(stand);
+    		}
+    		
+    		WaiterGui g = new WaiterGui(w, waiters.size());
+    		
+    		gui.animationPanel.addGui(g);
+    		w.setHost(host);
+    		w.setGui(g);
+            w.setCook(cook);
+            w.setCashier(cashier);
+            host.addWaiter(w);
+    		waiters.add(w);
+    	}
+    	*/
+    	if(r instanceof JeffersonCustomerRole) {
+    		JeffersonCustomerRole c = (JeffersonCustomerRole) r;
+	    	
+    		for(JeffersonCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+	    		if(cust == c) {
+	    			return;
+	    		}
+	    	}
+	    	
+			customers.add(c);
+			CustomerGui g = new CustomerGui(c, gui);
+	
+			gui.animationPanel.addGui(g);
+			c.setHost(host);
+			c.setGui(g);
+			
+    	}
     }
-   */ 
 }
+

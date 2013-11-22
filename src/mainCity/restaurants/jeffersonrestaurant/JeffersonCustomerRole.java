@@ -9,16 +9,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
 
+import mainCity.PersonAgent;
 import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.Table;
 import mainCity.restaurants.jeffersonrestaurant.gui.CustomerGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
+import role.*;
 
 /**
  * Restaurant customer agent.
  */
-public class JeffersonCustomerRole extends Agent implements Customer {
+public class JeffersonCustomerRole extends Role implements Customer {
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -61,8 +63,8 @@ public class JeffersonCustomerRole extends Agent implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public JeffersonCustomerRole(String name){
-		super();
+	public JeffersonCustomerRole(PersonAgent p, String name){
+		super(p, false);
 		this.name = name;
 		//this.money= 100;
 		orderedOnce=false;
@@ -174,7 +176,7 @@ public class JeffersonCustomerRole extends Agent implements Customer {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 		
 		if(state == AgentState.LeavingBeforeSeated){
@@ -437,6 +439,8 @@ public class JeffersonCustomerRole extends Agent implements Customer {
 	public CustomerGui getGui() {
 		return customerGui;
 	}
+
+
 
 
 	

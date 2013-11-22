@@ -174,7 +174,7 @@ public class ListPanel extends JPanel implements ActionListener {
             list.add(button);
             view.add(button);
            
-           
+           /////////===========NO MORE ADDING PERSON FUNCTION++++++++++++////////////////
             //restPanel.addPerson(type, name);//puts customer on list
             restPanel.showInfo(type, name);//puts hungry button on panel
             validate();

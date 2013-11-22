@@ -2,9 +2,13 @@ package mainCity.market.gui;
 
 import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
+import mainCity.gui.DeliveryManGui;
 import mainCity.interfaces.*;
 import mainCity.contactList.*;
+
 import javax.swing.*;
+
+import role.market.MarketDeliveryManRole;
 
 import java.awt.*;
 import java.awt.event.*;

@@ -5,6 +5,7 @@ import agent.Agent;
 
 import java.util.*;
 
+import role.market.MarketDeliveryManRole;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.market.*;
 

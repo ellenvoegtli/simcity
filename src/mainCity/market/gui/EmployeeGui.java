@@ -25,8 +25,8 @@ public class EmployeeGui implements Gui {
     private int xDestination = -20, yDestination = -20;//default start position
     private final int startX = -20;
     private final int startY = -20;
-    private final int cookX = WINDOWX - 110;
-    private final int cookY = WINDOWY/2;
+    private final int deliveryX = WINDOWX - 20;
+    private final int deliveryY = WINDOWY/2;
     public int homeX, homeY;
     private int cashierX = 20, cashierY = 250;
     private int waitingRoomX;
@@ -117,6 +117,10 @@ public class EmployeeGui implements Gui {
     		agent.msgAtWaitingRoom();
     		atDestination = true;
         }
+        else if ((xPos == xDestination && yPos == yDestination) && (xPos == deliveryX && yPos == deliveryY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
+    		agent.msgAtDeliveryMan();
+    		atDestination = true;
+        }
         else if ((xPos == xDestination && yPos == yDestination) && (xPos == homeX && yPos == homeY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
     		agent.msgAtStation();
     		atDestination = true;
@@ -178,12 +182,10 @@ public class EmployeeGui implements Gui {
     	yDestination = stockRoomY;
     	//...
     }
-	
-    
-    public void DoGoToCook() {
+    public void DoGoToDeliveryMan(){
     	atDestination = false;
-    	xDestination = cookX;
-    	yDestination = cookY;
+    	xDestination = deliveryX;
+    	yDestination = deliveryY;
     }
    
    

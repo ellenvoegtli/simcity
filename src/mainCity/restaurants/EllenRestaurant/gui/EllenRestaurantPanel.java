@@ -29,11 +29,9 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     /*				steak	|	pizza	|	pasta	|	soup
      * Cook: 		8			8			8			8
      */
-    private EllenCookRole cook = new EllenCookRole("EllenRestaurant Cook", 8, 8, 8, 0);
+    private EllenCookRole cook = new EllenCookRole("EllenRestaurant Cook", 8, 8, 0, 0);
     private RevolvingStand revolvingStand = new RevolvingStand();
-    
-    private int NMARKETS = 3;
-    
+        
     private final int WINDOWX = 550;
     private final int WINDOWY = 350;
         

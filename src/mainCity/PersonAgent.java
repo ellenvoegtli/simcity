@@ -8,9 +8,10 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.contactList.ContactList;
 import mainCity.gui.PersonGui;
-import mainCity.restaurants.EllenRestaurant.EllenCustomerRole;
+import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
 
 /*
  * To Do for the personagent:
@@ -251,7 +252,11 @@ public class PersonAgent extends Agent {
 					((EllenCustomerRole) customer).gotHungry();
 				}
 				if(customer instanceof EnaCustomerRole) {
-					((EnaCustomerRole) customer).gotHungry();
+					((EnaCustomerRole) customer).getGui().setHungry();
+				}
+				if(customer instanceof JeffersonCustomerRole){
+					((JeffersonCustomerRole) customer).gotHungry();
+					((JeffersonCustomerRole) customer).getGui().setHungry();
 				}
 				//
 				//other type of customer roles for each restaurant
@@ -364,6 +369,11 @@ public class PersonAgent extends Agent {
 							ContactList.getInstance().getEnaRestaurant().handleRoleGui(en);
 							roles.put(action, en);
 							break;
+						case "ellenWaiter":
+							EllenNormalWaiterRole el = new EllenNormalWaiterRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRoleGui(el);
+							roles.put(action, el);
+							break;
 						default:
 							break;
 					}
@@ -384,6 +394,11 @@ public class PersonAgent extends Agent {
 							EnaCustomerRole en = new EnaCustomerRole(this, name);
 							ContactList.getInstance().getEnaRestaurant().handleRoleGui(en);
 							roles.put(action, en);
+						case restaurant_jefferson:
+							JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
+							ContactList.getInstance().getJeffersonRestaurant().handleRoleGui(jc);
+							roles.put(action,jc);
+							
 						default:
 							break;
 					}
@@ -486,7 +501,7 @@ public class PersonAgent extends Agent {
 
 	private void chooseRestaurant() {
 		//choose which restaurant here
-		destination = CityLocation.restaurant_ena;
+		destination = CityLocation.restaurant_jefferson;
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
