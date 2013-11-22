@@ -18,7 +18,7 @@ public class WaiterGui implements Gui {
 	
 
     private EllenWaiterRole agent = null;
-    RestaurantGui gui;
+    EllenRestaurantGui gui;
     private boolean isPresent;
 
     private int xPos = -20, yPos = -20;//default waiter position
@@ -48,7 +48,7 @@ public class WaiterGui implements Gui {
 	State s;
 	enum State {wantsBreak, onBreak, offBreak};
 
-    public WaiterGui(EllenWaiterRole agent, RestaurantGui gui) {
+    public WaiterGui(EllenWaiterRole agent, EllenRestaurantGui gui) {
         this.agent = agent;
         this.gui = gui;
         

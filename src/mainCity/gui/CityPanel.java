@@ -6,8 +6,10 @@ import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.market.*;
 import mainCity.market.gui.*;
-import mainCity.restaurants.EllenRestaurant.gui.RestaurantGui;
+import mainCity.restaurants.EllenRestaurant.gui.EllenRestaurantGui;
 import mainCity.restaurants.marcusRestaurant.gui.RestaurantPanel;
+import mainCity.restaurants.enaRestaurant.*;
+import mainCity.restaurants.enaRestaurant.gui.*;
 
 public class CityPanel extends JPanel{
 	
@@ -25,10 +27,11 @@ public class CityPanel extends JPanel{
 		MarketGui marketGui = new MarketGui();
         marketGui.setVisible(true);
         
-	    RestaurantGui ellenRestGui = new RestaurantGui();
+	    EllenRestaurantGui ellenRestGui = new EllenRestaurantGui();
         ellenRestGui.setVisible(true);
 		
-		
+		EnaRestaurantGui enaRestGui = new EnaRestaurantGui();
+		enaRestGui.setVisible(true);
 		
 		
 		PersonGui pg = new PersonGui(person, gui); 

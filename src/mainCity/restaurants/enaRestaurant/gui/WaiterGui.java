@@ -1,9 +1,9 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
 
-import mainCity.restaurants.enaRestaurant.CustomerRole;
-import mainCity.restaurants.enaRestaurant.HostRole.Table;
-import mainCity.restaurants.enaRestaurant.WaiterRole;
+import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
+import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
 import java.awt.*;
 
@@ -12,9 +12,9 @@ public class WaiterGui implements Gui
 {
 	
 		
-	    private WaiterRole agent = null;
+	    private EnaWaiterRole agent = null;
 	    
-	   private RestaurantGui gui;
+	   private EnaRestaurantGui gui;
 
 	    private int xPos = 500, yPos = 100;//default waiter position
 	    private int xDestination = 500, yDestination = 100;//default start position
@@ -31,7 +31,7 @@ public class WaiterGui implements Gui
 	    boolean onBreak = false;
 	    public static final int yTable = 350;
 	    private boolean fdChoice = false;
-	    public WaiterGui(WaiterRole w, RestaurantGui gui, int yP)
+	    public WaiterGui(EnaWaiterRole w, EnaRestaurantGui gui, int yP)
 		{ //HostAgent m) {
 			agent = w;
 			xPos =500;
@@ -68,7 +68,7 @@ public class WaiterGui implements Gui
 		tableXX = tablePlace;
 	}
 	    
-	public  WaiterGui(WaiterRole agent) 
+	public  WaiterGui(EnaWaiterRole agent) 
 	{
 	        this.agent = agent;
 	}
@@ -146,18 +146,18 @@ public class WaiterGui implements Gui
 	        	{
 	        			g.drawString("ST", xPos, yPos);
 	        	}
-	        	if(fd.equals("chicken"))
+	        	if(fd.equals("porkchops"))
 	        	{
-	        		g.drawString("CH", xPos, yPos);
+	        		g.drawString("PC", xPos, yPos);
 
 	        	}
-	        	if (fd.equals("salad"))
+	        	if (fd.equals("lamb"))
 	        	{
-	        		g.drawString("SAL", xPos, yPos);
+	        		g.drawString("LA", xPos, yPos);
 	        	}
-	        	if (fd.equals("pizza"))
+	        	if (fd.equals("lambchops"))
 	        	{
-	        		g.drawString("PZ", xPos, yPos);
+	        		g.drawString("LC", xPos, yPos);
 	        	}
 	        }
 	}
@@ -193,13 +193,13 @@ public class WaiterGui implements Gui
 		fd = ch;
 	}
 	
-	public void DoGetCustomer(CustomerRole customer)
+	public void DoGetCustomer(EnaCustomerRole customer)
 	{
 		xDestination = customer.getXPos();
 		yDestination = 10+20;
 	}
 	    
-	public void DoBringToTable(CustomerRole customer, int tableN) 
+	public void DoBringToTable(EnaCustomerRole customer, int tableN) 
 	{
 			//DoGetCustomer(customer);
 	    	xDestination = setPositionX(tableXX) + 20;
@@ -207,7 +207,7 @@ public class WaiterGui implements Gui
 	    
 	 }
 	    
-	    public void DoGoToTable(CustomerRole customer, Table t)
+	    public void DoGoToTable(EnaCustomerRole customer, Table t)
 		{
 	    	setXNum(t.getTableNumber());
 			xDestination = setPositionX(tableXX)+20;

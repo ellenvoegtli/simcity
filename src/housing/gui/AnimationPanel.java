@@ -11,7 +11,7 @@ public class AnimationPanel extends JPanel implements ActionListener
 {
 	
 
-	    private final int WINDOWX = 550;
+	    private final int WINDOWX = 750;
 	    private final int WINDOWY = 350;
 	    private int tableX = 200;
 	    private int tableY = 350;

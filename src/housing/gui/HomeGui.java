@@ -35,16 +35,12 @@ AnimationPanel animationPanel = new AnimationPanel();
     private HomePanel homePanel = new HomePanel(this);
     private Agent agent = null;
     private JPanel ProjectPanel = new JPanel();
-    private boolean paused = false;
     
     /* infoPanel holds information about the clicked customer, if there is one*/
     private JPanel infoPanel;
-   // private JPanel personalPanel;
-   // private JLabel personalLabel;
-    //private ImageIcon(restaurant_trokic, th.jpeg)
+   
     private JLabel infoLabel; //part of infoPanel
     private JCheckBox stateCB;//part of infoLabel
-    private JButton pauseB; //part of info label
 
     private Object currentPerson;/* Holds the agent that the info is about.
     								Seems like a hack */
@@ -85,28 +81,23 @@ AnimationPanel animationPanel = new AnimationPanel();
         stateCB.setVisible(false);
         stateCB.addActionListener(this);
         
-        pauseB = new JButton("Pause/Restart");
-        pauseB.setVisible(true);
-        pauseB.addActionListener(this);
+ 
 
         infoPanel.setLayout(new GridLayout());
         
-        infoLabel = new JLabel(); 
-        infoLabel.setText("<html><pre><i>Click Add to make customers</i></pre></html>");
-        infoPanel.add(infoLabel);
+       // infoLabel = new JLabel(); 
+        //infoLabel.setText("<html><pre><i>Click to cook</i></pre></html>");
+        //infoPanel.add(infoLabel);
         infoPanel.add(stateCB);
-        infoPanel.add(pauseB);
         add(infoPanel);
         
-        
-        //Adding personal info to the information panel
-       
+               
         
         ProjectPanel.setVisible(true);
         			// ProjectPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         			// ProjectPanel.setBounds(100+WINDOWX, 50 , WINDOWX+100, WINDOWY+100);
         
-        Dimension projectDim = new Dimension((int)(WINDOWX * .5), WINDOWY);
+        Dimension projectDim = new Dimension((int)(WINDOWX * .45), WINDOWY);
         
         ProjectPanel.setPreferredSize(projectDim);
         ProjectPanel.setMinimumSize(projectDim);
@@ -118,7 +109,7 @@ AnimationPanel animationPanel = new AnimationPanel();
         ProjectPanel.add(infoPanel, BorderLayout.SOUTH);
         	
         
-        Dimension animDim = new Dimension((int)(WINDOWX * .5), WINDOWY);
+        Dimension animDim = new Dimension((int)(WINDOWX * .55), WINDOWY);
         
         animationPanel.setPreferredSize(animDim);
         animationPanel.setMinimumSize(animDim);
@@ -148,20 +139,10 @@ AnimationPanel animationPanel = new AnimationPanel();
             stateCB.setEnabled(!customer.getGui().isHungry());
           // Hack. Should ask customerGui
             infoLabel.setText(
-               "<html><pre>     Customer Name: " + customer.getName() + " </pre></html>");
+               "<html><pre> Name: " + customer.getName() + " </pre></html>");
         }
         infoPanel.validate();
-        
-        /*if(person instanceof WaiterAgent)
-        {
-        	WaiterAgent waiter = (WaiterAgent) person;
-        	stateCB.setText("Want Break");
-        	stateCB.setSelected(waiter.getGui().onBreak());
-        	stateCB.setEnabled(true);
-            infoLabel.setText(
-                    "<html><pre>     Waiter Name: " + waiter.getName() + " </pre></html>");
-        	
-        }*/
+     
     }
     /**
      * Action listener method that reacts to the checkbox being clicked;
@@ -178,13 +159,7 @@ AnimationPanel animationPanel = new AnimationPanel();
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
-            /*if(currentPerson instanceof WaiterAgent)
-            {
-            	WaiterAgent w = (WaiterAgent) currentPerson;
-            	System.out.println(w.getName());
-            	w.getGui().setBreak();
-            	stateCB.setEnabled(false);
-            }*/
+            
         }        
         
         

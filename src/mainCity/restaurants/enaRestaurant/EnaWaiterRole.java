@@ -1,8 +1,8 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
-import mainCity.restaurants.enaRestaurant.CustomerRole.AgentEvent;
-import mainCity.restaurants.enaRestaurant.HostRole.Table;
+import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
+import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -19,7 +19,7 @@ import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class WaiterRole extends Agent implements Waiter{
+public class EnaWaiterRole extends Agent implements Waiter{
 	Timer timer = new Timer();
 	public List<MyCustomers> MyCust= new ArrayList<MyCustomers>();
 	public List<String> Menu = new ArrayList<String>();
@@ -40,19 +40,19 @@ public class WaiterRole extends Agent implements Waiter{
 	public WaiterGui waiterGui;
 	public boolean breakTime = false;
 	public HostGui hostGui;
-	public HostRole host;
-	public CookRole cook;
-	public CashierRole cashier;
+	public EnaHostRole host;
+	public EnaCookRole cook;
+	public EnaCashierRole cashier;
 
-	public WaiterRole(String name)
+	public EnaWaiterRole(String name)
 	{
 		super();
 		this.name = name;
 		
 		Menu.add("steak");
-		Menu.add("chicken");
-		Menu.add("salad");
-		Menu.add("pizza");
+		Menu.add("porkchops");
+		Menu.add("lamb");
+		Menu.add("lambchops");
 	}
 
 	public String getMaitreDName()
@@ -111,13 +111,13 @@ public class WaiterRole extends Agent implements Waiter{
 		
 	}
 	
-	public void msgSeatCustomer(CustomerRole c, Table t) 
+	public void msgSeatCustomer(EnaCustomerRole c, Table t) 
 	{
 		MyCust.add(new MyCustomers(c,t, custState.waiting, c.getChoice()));
 		stateChanged();
 	}
 	
-	public void msgReadyToOrder( CustomerRole c)
+	public void msgReadyToOrder( EnaCustomerRole c)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -129,7 +129,7 @@ public class WaiterRole extends Agent implements Waiter{
 			}
 		}
 	}
-	public void msgHereIsMyChoice(String choice, CustomerRole c)
+	public void msgHereIsMyChoice(String choice, EnaCustomerRole c)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -166,7 +166,7 @@ public class WaiterRole extends Agent implements Waiter{
 			}
 		}
 	}
-	public void msgDoneEating(CustomerRole c)
+	public void msgDoneEating(EnaCustomerRole c)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -179,7 +179,7 @@ public class WaiterRole extends Agent implements Waiter{
 		}
 	}
 	
-	public void msgCheckPlease(CustomerRole c, String choice)
+	public void msgCheckPlease(EnaCustomerRole c, String choice)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -205,7 +205,7 @@ public class WaiterRole extends Agent implements Waiter{
 		}
 	}
 	
-	public void msgDoneandPaying(CustomerRole c)
+	public void msgDoneandPaying(EnaCustomerRole c)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -604,15 +604,15 @@ catch(ConcurrentModificationException e){};
 		return waiterGui;
 	}
 	
-	public void setCook(CookRole cook)
+	public void setCook(EnaCookRole cook)
 	{
 		this.cook = cook;
 	}
-	public void setHost(HostRole host)
+	public void setHost(EnaHostRole host)
 	{
 		this.host = host;
 	}
-	public void setCashier(CashierRole cashier)
+	public void setCashier(EnaCashierRole cashier)
 	{
 		this.cashier = cashier;
 		if(name.equals("noCash"))
@@ -633,12 +633,12 @@ catch(ConcurrentModificationException e){};
 	
 	public class MyCustomers 
 	{
-		CustomerRole cust;
+		EnaCustomerRole cust;
 		Table table;
 		String choice;
 		custState customerState;
 
-		MyCustomers(CustomerRole c, Table t, custState cSt, String fdc )
+		MyCustomers(EnaCustomerRole c, Table t, custState cSt, String fdc )
 		{
 			cust = c;
 			table = t;

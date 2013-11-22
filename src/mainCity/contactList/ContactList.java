@@ -32,13 +32,13 @@ public class ContactList {
 	
 	//all of the restaurants' cooks
 	public EllenCookRole ellenCook;
-	//public EnaCookRole enaCook;
+	public EnaCookRole enaCook;
 	public JeffersonCookRole jeffersonCook;
 	public MarcusCookRole marcusCook;
 	public DavidCookRole davidCook;
 	
 	public EllenCashierRole ellenCashier;
-	//public EnaCashierRole enaCashier;
+	public EnaCashierRole enaCashier;
 	public JeffersonCashierRole jeffersonCashier;
 	public MarcusCashierRole marcusCashier;
 	//public DavidCashierRole davidCashier;
@@ -46,7 +46,7 @@ public class ContactList {
 	//all of the restaurants' hosts
 	public EllenHostRole ellenHost;
 	public MarcusHostRole marcusHost;
-	//public EnaHostRole enaHost;
+	public EnaHostRole enaHost;
 	public JeffersonHostRole jeffersonHost;
 	public DavidHostRole davidHost;
 	
@@ -65,20 +65,26 @@ public class ContactList {
 		System.out.println("Adding restaurant cook");
 		marcusCook = cook;
 	}
+	
+	
+	//Jefferson's Restaurant******
+	public void setJeffersonHost(JeffersonHostRole h){
+		jeffersonHost = h;
+	}
 	public void setJeffersonCook(JeffersonCookRole cook){
 		System.out.println("Adding restaurant cook");
 		jeffersonCook = cook;
 	}
+	public void setJeffersonCashier(JeffersonCashierRole c){
+		jeffersonCashier = c;
+	}
+	
+	//David's Restaurant*****
 	public void setDavidCook(DavidCookRole cook){
 		System.out.println("Adding restaurant cook");
 		davidCook = cook;
 	}
-	/*
-	public void setEnaCook(EnaCookRole cook){
-		System.out.println("Adding restaurant cook");
-		enaCook = cook;
-	}
-	*/
+
 	public void setBankManager(BankManager m){
 		bankManager = m;
 	}
@@ -101,13 +107,16 @@ public class ContactList {
 		marcusHost = h;
 	}
 	
-	/*
+	//Ena's Restaurant
 	public void setEnaHost(EnaHostRole h){
 		enaHost = h;
 	}
-	*/
-	public void setJeffersonHost(JeffersonHostRole h){
-		jeffersonHost = h;
+	public void setEnaCook(EnaCookRole cook){
+		System.out.println("Adding restaurant cook");
+		enaCook = cook;
+	}
+	public void setEnaCashier(EnaCashierRole c){
+		enaCashier = c;
 	}
 
 	public void setDavidHost(DavidHostRole h){

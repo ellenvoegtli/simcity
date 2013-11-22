@@ -1,7 +1,7 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
-import mainCity.restaurants.enaRestaurant.CustomerRole;
-import mainCity.restaurants.enaRestaurant.WaiterRole;
+import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import javax.swing.*;
 
 import agent.Agent;
@@ -12,7 +12,7 @@ import java.awt.event.*;
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class RestaurantGui extends JFrame implements ActionListener {
+public class EnaRestaurantGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
@@ -45,7 +45,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
      */
-    public RestaurantGui() {
+    public EnaRestaurantGui() {
         int WINDOWX = 1200;
         int WINDOWY = 750;
 
@@ -131,8 +131,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         stateCB.setVisible(true);
         currentPerson = person;
 
-        if (person instanceof CustomerRole) {
-            CustomerRole customer = (CustomerRole) person;
+        if (person instanceof EnaCustomerRole) {
+            EnaCustomerRole customer = (EnaCustomerRole) person;
             stateCB.setText("Hungry?");
           //Should checkmark be there? 
             stateCB.setSelected(customer.getGui().isHungry());
@@ -144,9 +144,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
         }
         infoPanel.validate();
         
-        if(person instanceof WaiterRole)
+        if(person instanceof EnaWaiterRole)
         {
-        	WaiterRole waiter = (WaiterRole) person;
+        	EnaWaiterRole waiter = (EnaWaiterRole) person;
         	stateCB.setText("Want Break");
         	stateCB.setSelected(waiter.getGui().onBreak());
         	stateCB.setEnabled(true);
@@ -164,15 +164,15 @@ public class RestaurantGui extends JFrame implements ActionListener {
     {
         if (e.getSource() == stateCB) 
         {
-            if (currentPerson instanceof CustomerRole) 
+            if (currentPerson instanceof EnaCustomerRole) 
             {
-                CustomerRole c = (CustomerRole) currentPerson;
+                EnaCustomerRole c = (EnaCustomerRole) currentPerson;
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
-            if(currentPerson instanceof WaiterRole)
+            if(currentPerson instanceof EnaWaiterRole)
             {
-            	WaiterRole w = (WaiterRole) currentPerson;
+            	EnaWaiterRole w = (EnaWaiterRole) currentPerson;
             	System.out.println(w.getName());
             	w.getGui().setBreak();
             	stateCB.setEnabled(false);
@@ -206,10 +206,10 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerRole c) 
+    public void setCustomerEnabled(EnaCustomerRole c) 
     {
-        if (currentPerson instanceof CustomerRole) {
-            CustomerRole cust = (CustomerRole) currentPerson;
+        if (currentPerson instanceof EnaCustomerRole) {
+            EnaCustomerRole cust = (EnaCustomerRole) currentPerson;
             if (c.equals(cust)) {
                 stateCB.setEnabled(true);
                 stateCB.setSelected(false);
@@ -223,7 +223,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      */
     public static void main(String[] args)
     {
-        RestaurantGui gui = new RestaurantGui();
+        EnaRestaurantGui gui = new EnaRestaurantGui();
         gui.setTitle("csci201 Restaurant");
         gui.setVisible(true);
         gui.setResizable(false);

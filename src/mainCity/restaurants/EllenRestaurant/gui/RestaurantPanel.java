@@ -37,7 +37,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         
     private Vector<EllenCustomerRole> customers = new Vector<EllenCustomerRole>();
     private Vector<EllenWaiterRole> waiters = new Vector<EllenWaiterRole>();
-    private Vector<EllenMarketRole> markets = new Vector<EllenMarketRole>();
+    //private Vector<EllenMarketRole> markets = new Vector<EllenMarketRole>();
 
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -51,9 +51,9 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     JButton pizzaBtn = new JButton("Deplete pizza");
     //private HostGui hostGui = new HostGui(host);
 
-    private RestaurantGui gui; //reference to main gui
+    private EllenRestaurantGui gui; //reference to main gui
 
-    public RestaurantPanel(RestaurantGui gui) {
+    public RestaurantPanel(EllenRestaurantGui gui) {
     	
         this.gui = gui;
         //host.setGui(hostGui);
@@ -151,10 +151,10 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         	}
         	for (EllenWaiterRole waiter : waiters){
         		waiter.pause();
-        	}
+        	}/*
         	for (EllenMarketRole m : markets){
         		m.pause();
-        	}
+        	}*/
         }
         else if (e.getSource() == unpauseBtn){
         	System.out.println("RESTART BUTTON PRESSED.");
@@ -165,10 +165,10 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         	}
         	for (EllenWaiterRole waiter : waiters){
         		waiter.restart();
-        	}
+        	}/*
         	for (EllenMarketRole m : markets){
         		m.restart();
-        	}
+        	}*/
         }
         else if (e.getSource() == soupBtn){
         	System.out.println("DEPLETE SOUP BUTTON PRESSED.");
