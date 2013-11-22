@@ -133,7 +133,7 @@ public class EllenRestaurantGui extends JFrame implements ActionListener {
         
     }
     
-    public EllenRestaurantPanel getRestPanel(){
+    public EllenRestaurantPanel getEllenRestaurantPanel(){
     	return restPanel;
     }
     public void setContactList(ContactList c){

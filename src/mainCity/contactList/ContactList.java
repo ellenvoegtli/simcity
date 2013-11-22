@@ -85,6 +85,12 @@ public class ContactList {
 	public void setEllenCashier(EllenCashierRole cashier){
 		ellenCashier = cashier;
 	}
+	public void setEllenRestaurant(EllenRestaurantPanel m){
+		ellenRestaurant = m;
+	}
+	public EllenRestaurantPanel getEllenRestaurant(){
+		return ellenRestaurant;
+	}
 	
 	//Marcus's Restaurant******
 	public void setMarcusHost(MarcusHostRole h){
