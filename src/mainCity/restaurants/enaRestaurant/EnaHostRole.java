@@ -3,7 +3,7 @@ package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
 import mainCity.restaurants.enaRestaurant.CustomerRole.AgentEvent;
-import mainCity.restaurants.enaRestaurant.WaiterRole;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
 import java.util.*;
 //import java.util.concurrent.Semaphore;
@@ -17,7 +17,7 @@ import mainCity.restaurants.enaRestaurant.gui.HostGui;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class HostRole extends Agent {
+public class EnaHostRole extends Agent {
 	static final int NTABLES = 3;
 	//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
@@ -25,7 +25,7 @@ public class HostRole extends Agent {
 	public List<CustomerRole> waitingCustomers = Collections.synchronizedList(new ArrayList<CustomerRole>());
 	public List<CustomerRole> waitingLine = Collections.synchronizedList(new ArrayList<CustomerRole>());
 
-	public List<WaiterRole> waiters = Collections.synchronizedList(new ArrayList<WaiterRole>());
+	public List<EnaWaiterRole> waiters = Collections.synchronizedList(new ArrayList<EnaWaiterRole>());
 	public boolean OnBreak = false;
 	public static Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
@@ -33,7 +33,7 @@ public class HostRole extends Agent {
 	private String name;
 	public HostGui hostGui;
 	Timer timer = new Timer();
-	public HostRole(String name) 
+	public EnaHostRole(String name) 
 	{
 		super();
 
@@ -64,12 +64,12 @@ public class HostRole extends Agent {
 		return tables;
 	}
 	
-	public void addWaiterRole(WaiterRole w) 
+	public void addWaiterRole(EnaWaiterRole w) 
 	{
 		waiters.add(w);
 	}
 	
-	public void WantsBreak(WaiterRole w)
+	public void WantsBreak(EnaWaiterRole w)
 	{
 		OnBreak = true;
 	}
@@ -140,7 +140,7 @@ public class HostRole extends Agent {
 		}
 		synchronized(waiters)
 		{
-		for(WaiterRole waiter: waiters)
+		for(EnaWaiterRole waiter: waiters)
 		{
 			if(!CanGoOnBreak(waiter))
 			{
@@ -165,11 +165,11 @@ public class HostRole extends Agent {
 						print("there is an empty table and a customer waiting and an available waiter");
 						int min = waiters.get(0).getMyCustomers().size();
 						int t;
-						WaiterRole select = waiters.get(0);
+						EnaWaiterRole select = waiters.get(0);
 						//////looking for waiters with the smallest customer lists
 						synchronized(waiters)
 						{
-							for(WaiterRole waiter : waiters)
+							for(EnaWaiterRole waiter : waiters)
 							{
 								if(waiter.breakTime == false)
 								{
@@ -202,7 +202,7 @@ public class HostRole extends Agent {
 
 	// Actions
 
-	private void AssignWaiter(CustomerRole c, Table t, WaiterRole w)
+	private void AssignWaiter(CustomerRole c, Table t, EnaWaiterRole w)
 	{
 		System.out.println("Assgning waiter to the customer");
 		c.setWaiter(w);
@@ -214,7 +214,7 @@ public class HostRole extends Agent {
 		}
 	}
 	
-public boolean CanGoOnBreak(WaiterRole w)
+public boolean CanGoOnBreak(EnaWaiterRole w)
 {
 	int waitersWorking = 0;
 	for(int i=0; i<waiters.size(); i++)
@@ -229,7 +229,7 @@ public boolean CanGoOnBreak(WaiterRole w)
 	
 }
 
-public void WaiterBreak(final WaiterRole  waiter)
+public void WaiterBreak(final EnaWaiterRole  waiter)
 {
 	waiter.msgBreakApproved();	
 

@@ -2,8 +2,8 @@ package mainCity.restaurants.enaRestaurant.gui;
 
 
 import mainCity.restaurants.enaRestaurant.CustomerRole;
-import mainCity.restaurants.enaRestaurant.HostRole.Table;
-import mainCity.restaurants.enaRestaurant.WaiterRole;
+import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
 import java.awt.*;
 
@@ -12,7 +12,7 @@ public class WaiterGui implements Gui
 {
 	
 		
-	    private WaiterRole agent = null;
+	    private EnaWaiterRole agent = null;
 	    
 	   private RestaurantGui gui;
 
@@ -31,7 +31,7 @@ public class WaiterGui implements Gui
 	    boolean onBreak = false;
 	    public static final int yTable = 350;
 	    private boolean fdChoice = false;
-	    public WaiterGui(WaiterRole w, RestaurantGui gui, int yP)
+	    public WaiterGui(EnaWaiterRole w, RestaurantGui gui, int yP)
 		{ //HostAgent m) {
 			agent = w;
 			xPos =500;
@@ -68,7 +68,7 @@ public class WaiterGui implements Gui
 		tableXX = tablePlace;
 	}
 	    
-	public  WaiterGui(WaiterRole agent) 
+	public  WaiterGui(EnaWaiterRole agent) 
 	{
 	        this.agent = agent;
 	}

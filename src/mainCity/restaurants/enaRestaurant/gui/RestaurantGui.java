@@ -1,7 +1,7 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
 import mainCity.restaurants.enaRestaurant.CustomerRole;
-import mainCity.restaurants.enaRestaurant.WaiterRole;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import javax.swing.*;
 
 import agent.Agent;
@@ -144,9 +144,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
         }
         infoPanel.validate();
         
-        if(person instanceof WaiterRole)
+        if(person instanceof EnaWaiterRole)
         {
-        	WaiterRole waiter = (WaiterRole) person;
+        	EnaWaiterRole waiter = (EnaWaiterRole) person;
         	stateCB.setText("Want Break");
         	stateCB.setSelected(waiter.getGui().onBreak());
         	stateCB.setEnabled(true);
@@ -170,9 +170,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
-            if(currentPerson instanceof WaiterRole)
+            if(currentPerson instanceof EnaWaiterRole)
             {
-            	WaiterRole w = (WaiterRole) currentPerson;
+            	EnaWaiterRole w = (EnaWaiterRole) currentPerson;
             	System.out.println(w.getName());
             	w.getGui().setBreak();
             	stateCB.setEnabled(false);

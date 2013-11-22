@@ -2,7 +2,7 @@ package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
 import mainCity.restaurants.enaRestaurant.CustomerRole.AgentEvent;
-import mainCity.restaurants.enaRestaurant.HostRole.Table;
+import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -19,7 +19,7 @@ import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class WaiterRole extends Agent implements Waiter{
+public class EnaWaiterRole extends Agent implements Waiter{
 	Timer timer = new Timer();
 	public List<MyCustomers> MyCust= new ArrayList<MyCustomers>();
 	public List<String> Menu = new ArrayList<String>();
@@ -40,11 +40,11 @@ public class WaiterRole extends Agent implements Waiter{
 	public WaiterGui waiterGui;
 	public boolean breakTime = false;
 	public HostGui hostGui;
-	public HostRole host;
+	public EnaHostRole host;
 	public CookRole cook;
-	public CashierRole cashier;
+	public EnaCashierRole cashier;
 
-	public WaiterRole(String name)
+	public EnaWaiterRole(String name)
 	{
 		super();
 		this.name = name;
@@ -608,11 +608,11 @@ catch(ConcurrentModificationException e){};
 	{
 		this.cook = cook;
 	}
-	public void setHost(HostRole host)
+	public void setHost(EnaHostRole host)
 	{
 		this.host = host;
 	}
-	public void setCashier(CashierRole cashier)
+	public void setCashier(EnaCashierRole cashier)
 	{
 		this.cashier = cashier;
 		if(name.equals("noCash"))

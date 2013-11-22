@@ -4,7 +4,7 @@ package mainCity.restaurants.enaRestaurant;
 import agent.Agent;
 import mainCity.restaurants.enaRestaurant.CookRole.Order;
 import mainCity.restaurants.enaRestaurant.CookRole.OrderStatus;
-import mainCity.restaurants.enaRestaurant.HostRole.Table;
+import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 import mainCity.restaurants.enaRestaurant.gui.HostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Market;
 import mainCity.restaurants.enaRestaurant.CookRole.Food;
@@ -15,7 +15,7 @@ import mainCity.market.MarketGreeterRole;
 import java.util.*;
 //import java.util.concurrent.Semaphore;
 
-public class MarketRole extends Agent implements Market {
+public class EnaMarketRole extends Agent implements Market {
 	Timer timer = new Timer();
 
 	public Map<String, Integer> Stock = new HashMap<String, Integer>();
@@ -23,12 +23,12 @@ public class MarketRole extends Agent implements Market {
 	
 	private String name;
 		public CookRole cook;
-		public CashierRole cashier;
+		public EnaCashierRole cashier;
 	public enum ReStockStatus 
 	{pending, recieving, reStocking, orderDone};
 	ReStockStatus status = ReStockStatus.pending;
 
-	public MarketRole(String name) {
+	public EnaMarketRole(String name) {
 		super();
 
 		this.name = name;
@@ -48,7 +48,7 @@ public class MarketRole extends Agent implements Market {
 
 	// Messages
 
-	public void msgOrderRestock(String restName, CookRole cook, CashierRole cashier, Map<String, Integer> stock)
+	public void msgOrderRestock(String restName, CookRole cook, EnaCashierRole cashier, Map<String, Integer> stock)
 	{
 		//cook = ck;
 		print("messaging the market");
@@ -173,7 +173,7 @@ synchronized(ShoppingList)
 		this.cook = cook;
 	}
 	
-	public void setCashierRole(CashierRole cashier)
+	public void setCashierRole(EnaCashierRole cashier)
 	{
 		this.cashier = cashier;
 	}

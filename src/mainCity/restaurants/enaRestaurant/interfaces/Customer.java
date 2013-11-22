@@ -1,6 +1,6 @@
 package mainCity.restaurants.enaRestaurant.interfaces;
 
-import mainCity.restaurants.enaRestaurant.WaiterRole;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
 /**
  * A sample Customer interface built to unit test a CashierAgent.

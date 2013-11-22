@@ -2,17 +2,17 @@ package mainCity.restaurants.enaRestaurant.gui;
 
 
 import mainCity.restaurants.enaRestaurant.CustomerRole;
-import mainCity.restaurants.enaRestaurant.HostRole;
-import mainCity.restaurants.enaRestaurant.HostRole.Table;
-import mainCity.restaurants.enaRestaurant.WaiterRole.MyCustomers;
-import mainCity.restaurants.enaRestaurant.WaiterRole;
+import mainCity.restaurants.enaRestaurant.EnaHostRole;
+import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
 import java.awt.*;
 
 public class HostGui implements Gui {
 
    // private WaiterAgent agent = null;
-    private HostRole agent = null;
+    private EnaHostRole agent = null;
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
     public int tableXX;
@@ -47,7 +47,7 @@ public void setXNum(int tablePlace)
 	tableXX = tablePlace;
 }
     
-public HostGui(HostRole agent) 
+public HostGui(EnaHostRole agent) 
     {
         this.agent = agent;
     }

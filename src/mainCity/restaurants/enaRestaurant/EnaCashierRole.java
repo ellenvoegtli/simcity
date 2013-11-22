@@ -15,13 +15,13 @@ import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
 import mainCity.market.MarketDeliveryManRole;
 import agent.Agent;
 
-public class CashierRole extends Agent implements Cashier{
+public class EnaCashierRole extends Agent implements Cashier{
 
 		public List<Tab> Tabs= Collections.synchronizedList(new ArrayList<Tab>());
 		public List<MarketTab> marketChecks = Collections.synchronizedList(new ArrayList<MarketTab>());
 		public double restCash;
 		public double marketBill;
-		public MarketRole market;
+		public EnaMarketRole market;
 		public EventLog log = new EventLog();
 		private String name;
 		public enum payStatus 
@@ -33,7 +33,7 @@ public class CashierRole extends Agent implements Cashier{
 		
 				public HostGui hostGui;
 
-		public CashierRole(String name) 
+		public EnaCashierRole(String name) 
 		{
 			super();
 

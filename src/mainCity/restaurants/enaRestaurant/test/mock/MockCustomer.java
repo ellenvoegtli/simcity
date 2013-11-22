@@ -2,7 +2,7 @@ package mainCity.restaurants.enaRestaurant.test.mock;
 
 
 import mainCity.restaurants.enaRestaurant.CustomerRole.AgentEvent;
-import mainCity.restaurants.enaRestaurant.WaiterRole;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 import mainCity.restaurants.enaRestaurant.interfaces.Waiter;

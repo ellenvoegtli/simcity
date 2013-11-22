@@ -1,10 +1,10 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
-import mainCity.restaurants.enaRestaurant.CashierRole;
+import mainCity.restaurants.enaRestaurant.EnaCashierRole;
 import mainCity.restaurants.enaRestaurant.CustomerRole;
-import mainCity.restaurants.enaRestaurant.MarketRole;
-import mainCity.restaurants.enaRestaurant.WaiterRole;
-import mainCity.restaurants.enaRestaurant.HostRole;
+import mainCity.restaurants.enaRestaurant.EnaMarketRole;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
+import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.CookRole;
 
 import javax.swing.*;
@@ -22,18 +22,18 @@ public class RestaurantPanel extends JPanel {
     //Host, cook, waiters and customers
     //private WaiterRole waiter;
     //private WaiterGui waiterGui;
-    private HostRole host;
+    private EnaHostRole host;
     private HostGui hostGui = new HostGui(host);
     private CookRole cook = new CookRole("Bob");
     private CookGui cookGui = new CookGui(cook);
-    private CashierRole cashier = new CashierRole("Tim");
-    private MarketRole market1 = new MarketRole("market1");
-    private MarketRole market2 = new MarketRole("market2");
-    private MarketRole market3 = new MarketRole("market3");
+    private EnaCashierRole cashier = new EnaCashierRole("Tim");
+    private EnaMarketRole market1 = new EnaMarketRole("market1");
+    private EnaMarketRole market2 = new EnaMarketRole("market2");
+    private EnaMarketRole market3 = new EnaMarketRole("market3");
 
 
     private Vector<CustomerRole> customers = new Vector<CustomerRole>();
-    private Vector<WaiterRole> waiters = new Vector<WaiterRole>();
+    private Vector<EnaWaiterRole> waiters = new Vector<EnaWaiterRole>();
 
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -44,7 +44,7 @@ public class RestaurantPanel extends JPanel {
 
     public RestaurantPanel(RestaurantGui gui) {
         this.gui = gui;
-        host = new HostRole("Mr. Jeeves");
+        host = new EnaHostRole("Mr. Jeeves");
         host.setGui(hostGui);
        // cookGui = new CookGui(cook, gui);
         cook.setGui(cookGui);
@@ -119,7 +119,7 @@ public class RestaurantPanel extends JPanel {
         {
         	for(int j=0; j<waiters.size(); j++)
         	{
-        		WaiterRole tempW = waiters.get(j);
+        		EnaWaiterRole tempW = waiters.get(j);
         		if(tempW.getName()==name)
         		{
         			gui.updateInfoPanel(tempW);
@@ -176,7 +176,7 @@ public class RestaurantPanel extends JPanel {
     	}
     	if(type.equals("Waiters"))
     	{
-    		WaiterRole w = new WaiterRole(name);    
+    		EnaWaiterRole w = new EnaWaiterRole(name);    
     		host.addWaiterRole(w);
     		int pos = 22* host.waiters.size();
     		WaiterGui wg = new WaiterGui(w, gui, pos);  
@@ -194,7 +194,7 @@ public class RestaurantPanel extends JPanel {
     
     public void pauseAll()
     {
-    	for ( WaiterRole waiter: waiters)
+    	for ( EnaWaiterRole waiter: waiters)
     	{
     		waiter.pause();
 
@@ -219,7 +219,7 @@ public class RestaurantPanel extends JPanel {
     	market1.restart();
     	market2.restart();
     	market3.restart();
-    	for(WaiterRole waiter: waiters)
+    	for(EnaWaiterRole waiter: waiters)
     	{
     		 waiter.restart();
     	}

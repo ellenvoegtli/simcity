@@ -1,6 +1,6 @@
 package mainCity.restaurants.enaRestaurant;
 
-import mainCity.restaurants.enaRestaurant.WaiterRole.MyCustomers;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
 import agent.Agent;
 
 import java.util.Random;
@@ -24,9 +24,9 @@ public class CustomerRole extends Agent implements Customer{
 	public double debt;
 	private boolean returnCustomer = false;
 	// agent correspondents
-	private HostRole host;
-	private WaiterRole waiter;
-	private CashierRole cashier;
+	private EnaHostRole host;
+	private EnaWaiterRole waiter;
+	private EnaCashierRole cashier;
 
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
@@ -117,19 +117,19 @@ public class CustomerRole extends Agent implements Customer{
 	{
 		choice = ch;
 	}
-	public void setWaiter(WaiterRole waiter) 
+	public void setWaiter(EnaWaiterRole waiter) 
 	{
 		this.waiter = waiter;
 	}
-	public WaiterRole getWaiter()
+	public EnaWaiterRole getWaiter()
 	{
 		return waiter;
 	}
-	public void setHost(HostRole host)
+	public void setHost(EnaHostRole host)
 	{
 		this.host = host;
 	}
-	public void setCashier(CashierRole cashier)
+	public void setCashier(EnaCashierRole cashier)
 	{
 		this.cashier = cashier;
 	}

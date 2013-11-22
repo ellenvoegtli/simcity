@@ -2,7 +2,7 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
-import mainCity.restaurants.enaRestaurant.HostRole.Table;
+import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
 import java.util.*;
 //import java.util.concurrent.Semaphore;
@@ -17,7 +17,7 @@ import mainCity.restaurants.enaRestaurant.gui.HostGui;
 public class CookRole extends Agent {
 	Timer timer = new Timer();
 
-	public List<MarketRole> Bazaar = Collections.synchronizedList(new ArrayList<MarketRole>());
+	public List<EnaMarketRole> Bazaar = Collections.synchronizedList(new ArrayList<EnaMarketRole>());
 	public List<Order> Orders= Collections.synchronizedList(new ArrayList<Order>());
 	public Map<String, Food> Foods = new HashMap<String, Food>();
 	//public List<Food> Foods = new ArrayList<Food>();
@@ -31,8 +31,8 @@ public class CookRole extends Agent {
 	
 			public HostGui hostGui;
 			public CookGui cookGui;
-			public MarketRole market;
-			public CashierRole cashier;
+			public EnaMarketRole market;
+			public EnaCashierRole cashier;
 
 	public CookRole(String name) {
 		super();
@@ -46,7 +46,7 @@ public class CookRole extends Agent {
 		
 	}
 	
-	public void addMarkets(MarketRole market)
+	public void addMarkets(EnaMarketRole market)
 	{
 		Bazaar.add(market);
 	}
@@ -58,7 +58,7 @@ public class CookRole extends Agent {
 
 	// Messages
 
-	public void msgHereIsTheOrder(WaiterRole w, String choice, Table table)
+	public void msgHereIsTheOrder(EnaWaiterRole w, String choice, Table table)
 	{
 		Orders.add(new Order(w,choice,table, OrderStatus.pending));
 		print("ORDER ADDED TO LIST OF TYPE:  " +choice); 
@@ -221,11 +221,11 @@ synchronized(Orders)
 	public HostGui getGui() {
 		return hostGui;
 	}
-	public void setMarket(MarketRole market)
+	public void setMarket(EnaMarketRole market)
 	{
 		this.market = market;
 	}
-	public void setCashier(CashierRole cshr)
+	public void setCashier(EnaCashierRole cshr)
 	{
 		this.cashier = cshr;
 	}
@@ -260,12 +260,12 @@ synchronized(Orders)
 
 	public class Order 
 	{
-		WaiterRole w;
+		EnaWaiterRole w;
 		String choice;
 		Table table;
 		OrderStatus oStat;
 		
-		Order(WaiterRole wtr, String ch, Table t, OrderStatus ost)
+		Order(EnaWaiterRole wtr, String ch, Table t, OrderStatus ost)
 		{
 			this.choice = ch;
 			this.table = t;
