@@ -30,12 +30,8 @@ public class ListPanel extends JPanel implements ActionListener {
     private List<JButton> list = new ArrayList<JButton>();
     private List<JButton> listL = new ArrayList<JButton>();
     private List<JCheckBox> hungryBoxes = new ArrayList<JCheckBox>();
-    private List<JCheckBox> breakBoxes = new ArrayList<JCheckBox>();
     private JButton addPersonB = new JButton("Add");
     private JCheckBox checkHunger = new JCheckBox("Hungry?");
-    private JCheckBox desireBreak = new JCheckBox("Break?");
-    private JButton addWaiterB = new JButton("Add");
-    private JTextField waiterNames = new JTextField();
     private HomePanel homePanel;
     private String type;
     private JTextField personNames = new JTextField();
@@ -60,15 +56,7 @@ public class ListPanel extends JPanel implements ActionListener {
             checkHunger.addActionListener(this);
             
              add(personNames);
-             if(type == "LandLord")
-             {
-            	add(desireBreak); 
-             }
-             if(type == "Occupant")
-             {
-            	 add(checkHunger);
-             }
-             
+             add(checkHunger);
              add(addPersonB);
              
                    

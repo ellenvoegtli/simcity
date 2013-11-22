@@ -32,8 +32,8 @@ public class OccupantGui implements Gui
 		person = occupant;
 		xPos = 175;
 		yPos = 150;
-		xDestination = 50 ;
-		yDestination = 10;
+		xDestination = 175 ;
+		yDestination = 150;
 		this.gui = gui;
 	}
 
@@ -100,5 +100,13 @@ public class OccupantGui implements Gui
 	        return yPos;
 	    
 	    }
+
+
+		public void DoGoToStove() 
+		{
+			xDestination = 200;
+			yDestination = 35;
+			command = Command.GoCook;
+		}
 
 }
