@@ -27,7 +27,11 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
     public JTextField nameSlot = new JTextField(); 
     private JCheckBox hungerCB = new JCheckBox(); 
 
+<<<<<<< HEAD
     private DavidRestaurantPanel restPanel;
+=======
+    private EllenRestaurantPanel restPanel;
+>>>>>>> 466cee64e3a3c5f63f1bb5c49530f195a4b78789
     private String type;
     
     private Object currentPerson;
@@ -38,7 +42,11 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
+<<<<<<< HEAD
     public ListPanel(DavidRestaurantPanel rp, String type) {
+=======
+    public ListPanel(EllenRestaurantPanel rp, String type) {
+>>>>>>> 466cee64e3a3c5f63f1bb5c49530f195a4b78789
         restPanel = rp;
         this.type = type;
 

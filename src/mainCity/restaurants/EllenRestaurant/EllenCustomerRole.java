@@ -1,9 +1,11 @@
 package mainCity.restaurants.EllenRestaurant;
 
+import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import agent.Agent;
+import role.Role;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -12,7 +14,7 @@ import java.util.Random;
 /**
  * Restaurant customer agent.
  */
-public class EllenCustomerRole extends Agent implements Customer{
+public class EllenCustomerRole extends Role implements Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -51,8 +53,8 @@ public class EllenCustomerRole extends Agent implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public EllenCustomerRole(String name){
-		super();
+	public EllenCustomerRole(PersonAgent p, String name){
+		super(p, false);
 		this.name = name;
 		
 		if (name.equalsIgnoreCase("flake"))		//he orders steak
@@ -167,7 +169,7 @@ public class EllenCustomerRole extends Agent implements Customer{
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){

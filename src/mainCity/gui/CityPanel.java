@@ -28,8 +28,9 @@ public class CityPanel extends JPanel{
     	MarketGui marketGui = new MarketGui();
     	marketGui.setVisible(true);
 		
-	    EllenRestaurantGui ellenRestGui = new EllenRestaurantGui();
-        //ellenRestGui.setVisible(true);
+	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
+	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
+        ellenRestaurant.setVisible(true);
 		
 		EnaRestaurantGui enaRestGui = new EnaRestaurantGui();
 		//enaRestGui.setVisible(true);
@@ -39,7 +40,7 @@ public class CityPanel extends JPanel{
 		
     	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
-    	marcusRestaurant.setVisible(true);
+    	//marcusRestaurant.setVisible(true);
 		
 		PersonGui pg1 = new PersonGui(person, gui); 
 		gui.getAnimationPanel().addPersonGui(pg1);

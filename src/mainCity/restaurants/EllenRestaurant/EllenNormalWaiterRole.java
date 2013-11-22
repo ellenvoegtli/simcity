@@ -3,10 +3,12 @@ package mainCity.restaurants.EllenRestaurant;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import java.util.concurrent.*;
+import mainCity.PersonAgent;
+
 
 public class EllenNormalWaiterRole extends EllenWaiterRole {	
-	public EllenNormalWaiterRole(String name){
-		super(name);
+	public EllenNormalWaiterRole(PersonAgent p, String name){
+		super(p, name);
 	}
 	
 	protected void sendOrderToCook(MyCustomer mc){
