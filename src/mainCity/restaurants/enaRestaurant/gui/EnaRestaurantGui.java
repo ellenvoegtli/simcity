@@ -24,7 +24,7 @@ public class EnaRestaurantGui extends JFrame implements ActionListener {
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private RestaurantPanel restPanel = new RestaurantPanel(this);
+    private EnaRestaurantPanel restPanel = new EnaRestaurantPanel(this);
     private Agent agent = null;
     private JPanel ProjectPanel = new JPanel();
     private boolean paused = false;

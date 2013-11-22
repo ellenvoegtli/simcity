@@ -4,6 +4,7 @@ import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.enaRestaurant.*;
+import mainCity.restaurants.enaRestaurant.gui.EnaRestaurantPanel;
 import mainCity.restaurants.jeffersonrestaurant.*;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
 import role.marcusRestaurant.*;
@@ -54,6 +55,7 @@ public class ContactList {
 	//TESTING
 	MarcusRestaurantPanel marcusRestaurant;
 	EllenRestaurantPanel ellenRestaurant;
+	EnaRestaurantPanel enaRestaurant;
 	
 	//anything else? apartment landlords?
 	
@@ -141,6 +143,13 @@ public class ContactList {
 	}
 	public void setEnaCashier(EnaCashierRole c){
 		enaCashier = c;
+	}
+	public void setEnaRestaurant(EnaRestaurantPanel e) {
+		this.enaRestaurant = e;
+	}
+	
+	public EnaRestaurantPanel getEnaRestaurant() {
+		return enaRestaurant;
 	}
 	
 }
