@@ -32,13 +32,13 @@ public class ContactList {
 	
 	//all of the restaurants' cooks
 	public EllenCookRole ellenCook;
-	//public EnaCookRole enaCook;
+	public EnaCookRole enaCook;
 	public JeffersonCookRole jeffersonCook;
 	public MarcusCookRole marcusCook;
 	public DavidCookRole davidCook;
 	
 	public EllenCashierRole ellenCashier;
-	//public EnaCashierRole enaCashier;
+	public EnaCashierRole enaCashier;
 	public JeffersonCashierRole jeffersonCashier;
 	public MarcusCashierRole marcusCashier;
 	//public DavidCashierRole davidCashier;
@@ -46,7 +46,7 @@ public class ContactList {
 	//all of the restaurants' hosts
 	public EllenHostRole ellenHost;
 	public MarcusHostRole marcusHost;
-	//public EnaHostRole enaHost;
+	public EnaHostRole enaHost;
 	public JeffersonHostRole jeffersonHost;
 	public DavidHostRole davidHost;
 	
