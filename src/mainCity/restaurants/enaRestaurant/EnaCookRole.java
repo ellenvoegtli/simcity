@@ -17,12 +17,9 @@ import mainCity.restaurants.enaRestaurant.gui.HostGui;
 
 public class EnaCookRole extends Agent implements MainCook {
 	Timer timer = new Timer();
-	private ContactList contactList;
-	public List<EnaMarketRole> Bazaar = Collections.synchronizedList(new ArrayList<EnaMarketRole>());
 	public List<Order> Orders= Collections.synchronizedList(new ArrayList<Order>());
 	public Map<String, Food> Foods = new HashMap<String, Food>();
 	//public List<Food> Foods = new ArrayList<Food>();
-	private int marketCount = 1;
 	private String name;
 	private boolean fullOrder;
 	private boolean inventoryChecked = false;
@@ -32,7 +29,6 @@ public class EnaCookRole extends Agent implements MainCook {
 	
 			public HostGui hostGui;
 			public CookGui cookGui;
-			public EnaMarketRole market;
 			public EnaCashierRole cashier;
 
 	public EnaCookRole(String name) {
@@ -46,11 +42,7 @@ public class EnaCookRole extends Agent implements MainCook {
 
 		
 	}
-	
-	public void addMarkets(EnaMarketRole market)
-	{
-		Bazaar.add(market);
-	}
+
 
 	public String getName()
 	{
@@ -214,7 +206,7 @@ synchronized(Orders)
 		//Random rnd = new Random();
 		//int mk = rnd.nextInt(3)+1;
 		
-		contactList.getInstance().marketGreeter.msgINeedInventory("enaRestaurant", this, cashier, Stock);
+		ContactList.getInstance().marketGreeter.msgINeedInventory("enaRestaurant", this, cashier, Stock);
 			
 		
 		/*Bazaar.get(0).msgOrderRestock("enaRestaurant", this, cashier,  Stock);
@@ -245,10 +237,7 @@ synchronized(Orders)
 	public HostGui getGui() {
 		return hostGui;
 	}
-	public void setMarket(EnaMarketRole market)
-	{
-		this.market = market;
-	}
+	
 	public void setCashier(EnaCashierRole cshr)
 	{
 		this.cashier = cshr;

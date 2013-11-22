@@ -21,7 +21,6 @@ public class EnaCashierRole extends Agent implements Cashier{
 		public List<MarketTab> marketChecks = Collections.synchronizedList(new ArrayList<MarketTab>());
 		public double restCash;
 		public double marketBill;
-		//public EnaMarketRole market;
 		public EventLog log = new EventLog();
 		private String name;
 		public enum payStatus 
