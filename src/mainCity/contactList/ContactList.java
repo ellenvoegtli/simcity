@@ -70,19 +70,18 @@ public class ContactList {
 		marketCashier = c;
 	}
 	
-	//Ellen Restaurant******
+	//Ellen's Restaurant******
 	public void setEllenHost(EllenHostRole h){
 		ellenHost = h;
 	}
 	public void setEllenCook(EllenCookRole cook){
-		System.out.println("Adding restaurant cook");
 		ellenCook = cook;
 	}
 	public void setEllenCashier(EllenCashierRole cashier){
 		ellenCashier = cashier;
 	}
 	
-	//Marcus Restaurant******
+	//Marcus's Restaurant******
 	public void setMarcusHost(MarcusHostRole h){
 		marcusHost = h;
 	}
@@ -120,7 +119,6 @@ public class ContactList {
 		enaHost = h;
 	}
 	public void setEnaCook(EnaCookRole cook){
-		System.out.println("Adding restaurant cook");
 		enaCook = cook;
 	}
 	public void setEnaCashier(EnaCashierRole c){
