@@ -43,6 +43,7 @@ public class MarketEmployeeRole extends Agent {
 	private Semaphore atStation = new Semaphore(0,true);
 	private Semaphore atCashier = new Semaphore(0, true);
 	private Semaphore atWaitingRoom = new Semaphore(0, true);
+	private Semaphore atDeliveryMan = new Semaphore(0, true);
 
 		
 
@@ -86,7 +87,6 @@ public class MarketEmployeeRole extends Agent {
     
 	// Messages
     public void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory){
-    	//don't do anything with deliveryMethod for now
     	print("Received msgAssignedToBusiness");
     	
     	myBusinesses.add(new MyBusiness(restaurantName, cook, cashier, inventory, BusinessState.ordered));
@@ -185,6 +185,11 @@ public class MarketEmployeeRole extends Agent {
 		atWaitingRoom.release();
 		stateChanged();
 	}
+	public void msgAtDeliveryMan(){
+		print("msgAtDeliveryMan called");
+		atDeliveryMan.release();
+		stateChanged();
+	}
 	
 	
 	/**
@@ -275,6 +280,7 @@ public class MarketEmployeeRole extends Agent {
 			//else, if none of these loops or statements were entered, go to home position
 			//employeeGui.DoWait();
 			wState = WaiterState.doingNothing;
+			//employeeGui.DoGoToStation();
 			
 		}catch(ConcurrentModificationException e){
 			return false;
@@ -374,6 +380,7 @@ public class MarketEmployeeRole extends Agent {
 	
 	//businesses
 	private void ProcessOrder(MyBusiness mb){
+		print("Processing order for " + mb.restaurantName);
 		for (Map.Entry<String, Integer> entry : mb.inventoryOrdered.entrySet()){
 			if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
 				mb.inventoryFulfilled.put(entry.getKey(), entry.getValue());
@@ -384,16 +391,24 @@ public class MarketEmployeeRole extends Agent {
 		}
 		
 		SendBillToCashier(mb);
-		mb.s = BusinessState.waitingForBill;
 	}
 	
 	private void SendBillToCashier(MyBusiness mb){
 		//gui to go to cashier
+		employeeGui.DoGoToCashier();
+		try {
+			atCashier.acquire();
+		} catch(InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		cashier.msgComputeBill(mb.inventoryFulfilled, mb.restaurantName, this);
+		mb.s = BusinessState.waitingForBill;
 	}
 	
 	private void FulfillOrder(final MyBusiness mb){
-		//DoFulfillOrder(mb);
+		employeeGui.DoFulfillOrder();
+		print("Fulfilling order for " + mb.restaurantName);
 		//gui semaphore (timer for now) to gather items from stock room
 		
 		timer.schedule(new TimerTask() {
@@ -402,22 +417,27 @@ public class MarketEmployeeRole extends Agent {
 				print("Done fulfilling order, cookie=" + cookie);
 				msgOrderFulfilled(mb);
 			}
-		}, 4000);
-		mb.s = BusinessState.waiting;
+		}, 5000);
 	}
 	
 	private void DeliverOrder(MyBusiness mb){
+		print("Delivering order to delivery man");
+		employeeGui.DoGoToDeliveryMan();
+		try {
+			atDeliveryMan.acquire();
+		} catch(InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		deliveryMan.msgHereIsOrderForDelivery(mb.restaurantName, mb.cook, mb.cashier, mb.inventoryFulfilled, mb.billAmount);
 		mb.s = BusinessState.sentForDelivery;	//unnecessary
+		employeeGui.DoGoToStation();
 		
-		//print("Removing: " + mb.r.getName());
 		myBusinesses.remove(mb);
 	}
 	
 	
 	private void RemoveCustomer(MyCustomer mc){
-		//print("Notifying host of leaving customer: " + mc.c.getName());
-		//host.msgTableFree(mc.table);
 		print("Removing: " + mc.c.getName());
 		myCustomers.remove(mc);
 	}
