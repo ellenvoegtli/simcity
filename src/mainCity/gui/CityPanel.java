@@ -7,6 +7,8 @@ import mainCity.contactList.ContactList;
 import mainCity.market.*;
 import mainCity.market.gui.*;
 import mainCity.restaurants.EllenRestaurant.gui.EllenRestaurantGui;
+import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
+import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantGui;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
 import mainCity.restaurants.enaRestaurant.*;
@@ -27,15 +29,17 @@ public class CityPanel extends JPanel{
     	marketGui.setVisible(true);
 		
 	    EllenRestaurantGui ellenRestGui = new EllenRestaurantGui();
-        ellenRestGui.setVisible(true);
+        //ellenRestGui.setVisible(true);
 		
 		EnaRestaurantGui enaRestGui = new EnaRestaurantGui();
-		enaRestGui.setVisible(true);
+		//enaRestGui.setVisible(true);
+		
+		DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
+		davidRestGui.setVisible(true);
 		
     	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
     	marcusRestaurant.setVisible(true);
-    	
 		
 		PersonGui pg1 = new PersonGui(person, gui); 
 		gui.getAnimationPanel().addPersonGui(pg1);

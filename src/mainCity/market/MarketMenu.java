@@ -30,7 +30,7 @@ public class MarketMenu {
 		menuItems.add("steak");
 		
 		//prices.put("steak", 30.00);	//type, $$price
-        prices.put("pizza", 10.00);
+        prices.put("pizza", 8.99);
         prices.put("pasta", 20.00);
         prices.put("soup", 5.00);
 
@@ -38,6 +38,8 @@ public class MarketMenu {
         prices.put("porkchops", 10.99);
         prices.put("lamb", 5.99);
         prices.put("lambchops", 8.99);
+        prices.put("chicken", 10.99);
+        prices.put("salad", 5.99);
 
         stockAmounts.put("steak", 10);
         stockAmounts.put("pizza", 10);
