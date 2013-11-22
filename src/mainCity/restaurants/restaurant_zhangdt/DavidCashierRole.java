@@ -17,7 +17,7 @@ import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.OrderStatus;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole.myCustomer;
-import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
+import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cashier;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Market;
@@ -78,7 +78,7 @@ public class DavidCashierRole extends Agent implements Cashier {
 	public double Payment;
 	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, done};
 	
-	private RestaurantGui gui;
+	private DavidRestaurantGui gui;
 	
 /*   Messages   */ 
 	
@@ -202,7 +202,7 @@ public class DavidCashierRole extends Agent implements Cashier {
 	
 // utilities 
 	
-	public void setGui(RestaurantGui RG) {
+	public void setGui(DavidRestaurantGui RG) {
 		this.gui = RG;
 	}
 	

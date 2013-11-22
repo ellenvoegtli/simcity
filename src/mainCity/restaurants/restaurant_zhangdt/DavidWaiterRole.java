@@ -4,7 +4,7 @@ import agent.Agent;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order; 
-import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
+import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Waiter;
 
 import java.util.*;
@@ -27,7 +27,7 @@ public class DavidWaiterRole extends Agent implements Waiter {
 	{none, AskForBreak, GotBreak, ComingOffBreak, OffBreak, breakGranted, breakDenied, onBreak, notOnBreak}; 
 	private WaiterStates wState = WaiterStates.none;
 	
-	private RestaurantGui restGui;
+	private DavidRestaurantGui restGui;
 	
 	class myCustomer { 
 		DavidCustomerRole c; 
@@ -513,7 +513,7 @@ public class DavidWaiterRole extends Agent implements Waiter {
 		waiterGui = gui;
 	}
 	
-	public void setRGui(RestaurantGui gui){ 
+	public void setRGui(DavidRestaurantGui gui){ 
 		restGui = gui;
 	}
 

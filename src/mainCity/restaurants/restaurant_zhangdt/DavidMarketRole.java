@@ -10,7 +10,7 @@ import agent.Agent;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.OrderStatus;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
-import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
+import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Market;
 
 public class DavidMarketRole extends Agent implements Market{
@@ -41,7 +41,7 @@ public class DavidMarketRole extends Agent implements Market{
 	int MarketNumber;
 	String CurrentOrder;
 	
-	private RestaurantGui gui; 
+	private DavidRestaurantGui gui; 
 	
 	public DavidMarketRole(int mn, int st, int c, int sa, int p) {
 		super(); 
@@ -166,7 +166,7 @@ public class DavidMarketRole extends Agent implements Market{
 	}
 	
 	// utilities 
-	public void setGui(RestaurantGui RG) {
+	public void setGui(DavidRestaurantGui RG) {
 		this.gui = RG;
 	}
 	
