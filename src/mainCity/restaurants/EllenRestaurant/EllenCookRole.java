@@ -32,7 +32,7 @@ public class EllenCookRole extends Agent implements Cook{
 	ContactList contactList;
 	
 	private Collection<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
-	private List<EllenMarketRole> markets = Collections.synchronizedList(new ArrayList<EllenMarketRole>());
+	//private List<EllenMarketRole> markets = Collections.synchronizedList(new ArrayList<EllenMarketRole>());
 	
 	private Map<String, Food> inventory = new TreeMap<String, Food>();	//what the cook has available
 	private Map<String, Integer> foodAtAvailableMarket = new TreeMap<String, Integer>();
@@ -40,15 +40,10 @@ public class EllenCookRole extends Agent implements Cook{
 	enum OrderState {pending, cooking, plated, finished, pickedUp};
 	enum FoodState {none, depleted, requested, delivered, tryAgain};
 	
-	//private CookState s;
-	//enum CookState {normal, checkingRevolvingStand};
-	
 	private boolean isCheckingStand;
-	
 	boolean opened = true;
 	
-	
-	
+
 	public EllenCookRole(String name, int steakAmount, int pizzaAmount, int pastaAmount, int soupAmount) {
 		super();
 
@@ -67,11 +62,11 @@ public class EllenCookRole extends Agent implements Cook{
         foodAtAvailableMarket.put("pasta", 0);
         foodAtAvailableMarket.put("soup", 0);
 	}
-	
+	/*
 	public void addMarket(EllenMarketRole m){	//hack
 		markets.add(m);
 	}
-	
+	*/
 	
 	public void setCashier(EllenCashierRole c){
 		this.cashier = c;
@@ -127,16 +122,6 @@ public class EllenCookRole extends Agent implements Cook{
 		o.s = OrderState.plated;
 		print(o.choice + " done cooking!");
 		stateChanged();
-	}
-	
-	public void msgHereIsInventory(String choice, int addAmount, EllenMarketRole m){
-		print("Received msgHereIsInventory: got " + addAmount + " more " + choice + "(s)");
-		
-		inventory.get(choice).amount += addAmount;
-		print("Now have " + inventory.get(choice).amount + " " + inventory.get(choice).type + "(s)");
-		
-		Food f = inventory.get(choice);
-		f.s = FoodState.delivered;
 	}
 	
 	//new market message
@@ -274,13 +259,6 @@ public class EllenCookRole extends Agent implements Cook{
 		contactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
 	}
 	
-	/*
-	public void OrderFromMarket(Food f, int amountToOrder, int marketNum){
-		print("Ordering from: " + markets.get(marketNum).getName());
-		markets.get(marketNum).msgINeedInventory(f.type, amountToOrder);	//can't go above capacity (10)
-		f.s = FoodState.requested;
-	}
-	*/
 	public void TryToCookIt(final Order o){
 		Map<String, Integer>inventoryNeeded = new TreeMap<String, Integer>();
 		Food f = inventory.get(o.choice);
