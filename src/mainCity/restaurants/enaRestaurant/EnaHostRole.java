@@ -82,7 +82,7 @@ public class EnaHostRole extends Agent {
 		
 		waitingCustomers.add(cust);
 		waitingLine.add(cust);
-		System.out.println("customer added to waiting list");
+		System.out.println("customer added to waiting list......");
 		stateChanged();
 	}
 	
@@ -124,6 +124,7 @@ public class EnaHostRole extends Agent {
 	 */
 	public boolean pickAndExecuteAnAction() 
 	{
+		print("host scheduler");
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
