@@ -77,7 +77,6 @@ public class MarcusCookRole extends Agent implements Cook {
 	}
 */
 	// Messages
-
 	public void msgHereIsAnOrder(Waiter w, String choice, MarcusTable t) {
 		print("msgHereIsAnOrder: received an order of "+ choice + " for table " + t.getTableNumber());
 		orders.add(new Order(w, choice, t.getTableNumber()));
