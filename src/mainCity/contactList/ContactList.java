@@ -73,12 +73,11 @@ public class ContactList {
 		System.out.println("Adding restaurant cook");
 		davidCook = cook;
 	}
-	/*
+
 	public void setEnaCook(EnaCookRole cook){
 		System.out.println("Adding restaurant cook");
 		enaCook = cook;
 	}
-	*/
 	public void setBankManager(BankManager m){
 		bankManager = m;
 	}
@@ -101,11 +100,13 @@ public class ContactList {
 		marcusHost = h;
 	}
 	
-	/*
+
 	public void setEnaHost(EnaHostRole h){
 		enaHost = h;
 	}
-	*/
+	public void setEnaCashier(EnaCashierRole c){
+		enaCashier = c;
+	}
 	public void setJeffersonHost(JeffersonHostRole h){
 		jeffersonHost = h;
 	}
