@@ -26,7 +26,7 @@ public class CityPanel extends JPanel{
 		this.gui = gui; 
 		
     	MarketGui marketGui = new MarketGui();
-    	marketGui.setVisible(true);
+    	//marketGui.setVisible(true);
 		
 	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
 	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
@@ -52,7 +52,7 @@ public class CityPanel extends JPanel{
 		//person.msgGoToWork();
 		
 		PersonGui pg2 = new PersonGui(person2, gui); 
-		person2.updateOccupation("enaWaiter");
+		person2.updateOccupation("marcusWaiter");
 		gui.getAnimationPanel().addPersonGui(pg2);
 		person2.setGui(pg2);
 		person2.msgGoToWork();
