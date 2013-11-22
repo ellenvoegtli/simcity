@@ -1,5 +1,7 @@
 package mainCity.interfaces;
 import java.util.Map;
+
+import role.market.MarketDeliveryManRole;
 import mainCity.market.*;
 
 public interface MainCashier {

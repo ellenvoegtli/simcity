@@ -1,7 +1,9 @@
-package mainCity.market.gui;
+package mainCity.gui;
 
 
 import mainCity.market.*;
+import mainCity.market.gui.Gui;
+import mainCity.market.gui.MarketGui;
 
 import java.awt.*;
 import java.util.Map;
@@ -10,6 +12,8 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+
+import role.market.MarketDeliveryManRole;
 
 public class DeliveryManGui implements Gui {
 

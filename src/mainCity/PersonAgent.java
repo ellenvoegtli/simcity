@@ -8,7 +8,7 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.contactList.ContactList;
 import mainCity.gui.PersonGui;
-import mainCity.restaurants.EllenRestaurant.EllenCustomerRole;
+import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
@@ -252,7 +252,7 @@ public class PersonAgent extends Agent {
 					((EllenCustomerRole) customer).gotHungry();
 				}
 				if(customer instanceof EnaCustomerRole) {
-					((EnaCustomerRole) customer).gotHungry();
+					((EnaCustomerRole) customer).getGui().setHungry();
 				}
 				if(customer instanceof JeffersonCustomerRole){
 					((JeffersonCustomerRole) customer).gotHungry();
@@ -368,6 +368,11 @@ public class PersonAgent extends Agent {
 							EnaWaiterRole en = new EnaWaiterRole(this, name);
 							ContactList.getInstance().getEnaRestaurant().handleRoleGui(en);
 							roles.put(action, en);
+							break;
+						case "ellenWaiter":
+							EllenNormalWaiterRole el = new EllenNormalWaiterRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRoleGui(el);
+							roles.put(action, el);
 							break;
 						default:
 							break;

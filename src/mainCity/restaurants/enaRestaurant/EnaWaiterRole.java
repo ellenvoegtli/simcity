@@ -246,6 +246,7 @@ public class EnaWaiterRole extends Role implements Waiter{
 	 */
 	public boolean pickAndExecuteAnAction() 
 	{
+		print("waiter scheduler");
 	
 		if(state == waiterState.wantsBreak)
 		{
