@@ -2,12 +2,16 @@ package mainCity.restaurants.EllenRestaurant.gui;
 
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.market.*;
+import mainCity.restaurants.EllenRestaurant.sharedData.*;
 
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import mainCity.contactList.*;
 /**
@@ -16,15 +20,15 @@ import mainCity.contactList.*;
  */
 public class RestaurantPanel extends JPanel implements ActionListener{
     //Host and cook
-    private EllenHostRole host = new EllenHostRole("Host");
-    private EllenCashierRole cashier = new EllenCashierRole("Cashier");
+    private EllenHostRole host = new EllenHostRole("EllenRestaurant Host");
+    private EllenCashierRole cashier = new EllenCashierRole("EllenRestaurant Cashier");
     
     /*				steak	|	pizza	|	pasta	|	soup
      * Cook: 		8			8			8			8
      */
-    private EllenCookRole cook = new EllenCookRole("Cook", 8, 8, 8, 0);
-    private MarketGreeterRole marketGreeter;
+    private EllenCookRole cook = new EllenCookRole("EllenRestaurant Cook", 8, 8, 8, 0);
     private ContactList contactList;
+    private RevolvingStand revolvingStand = new RevolvingStand();
     
     private int NMARKETS = 3;
     
@@ -62,6 +66,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
          * Market 3:	20			15			10			5
          */
 
+        /*
         for (int i=1; i<=NMARKETS; i++){
         	System.out.println("Creating market");
         	EllenMarketRole m = new EllenMarketRole(("Market " + i), 20, 15, 10, 5);
@@ -71,16 +76,18 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         	m.startThread();
         	markets.add(m);
         }
+        */
         
         cook.setMenu(new EllenMenu());
+        cook.setStand(revolvingStand);
         host.startThread();
         cashier.startThread();
         cook.startThread();
         
         
         //*****
-        System.out.println("CONTACT LIST = " + contactList);
-        contactList.getInstance().addCook(cook);
+        contactList.getInstance().setEllenCook(cook);
+        contactList.getInstance().setEllenCashier(cashier);
         contactList.getInstance().setEllenHost(host);
         //*****
 
@@ -121,21 +128,22 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         pausePanel.add(cookInventoryPanel);
         
         add(pausePanel);
+        
+      //Thread to tell cook to check every so often
+        Runnable standChecker = new Runnable() {
+			 public void run() {
+				cook.msgCheckStand();
+			 }
+		 };
+		 
+		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		 executor.scheduleAtFixedRate(standChecker, 0, 15, TimeUnit.SECONDS);
     }
     
-    public EllenCookRole getCook(){
-    	return cook;
-    }
-    /*
-    public void setContactList(ContactList c){
-    	contactList = c;
-    }
-    */
     
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == pauseBtn){
         	System.out.println("PAUSE BUTTON PRESSED.");
-        	//baseAgent.pause();
         	host.pause();
         	cook.pause();
         	for (EllenCustomerRole cust : customers){
@@ -150,7 +158,6 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         }
         else if (e.getSource() == unpauseBtn){
         	System.out.println("RESTART BUTTON PRESSED.");
-        	//baseAgent.restart();
         	host.restart();
         	cook.restart();
         	for (EllenCustomerRole cust : customers){
@@ -236,7 +243,6 @@ public class RestaurantPanel extends JPanel implements ActionListener{
 
     		gui.animationPanel.addGui(g);// dw
     		c.setHost(host);
-
     		c.setCashier(cashier);
     		c.setGui(g);
     		customers.add(c);
@@ -251,18 +257,21 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     			else
     				i++;
     		}
-    		
-    		
     		c.startThread();
-
-    		if (isChecked){
+    		if (isChecked)
     			c.getGui().setHungry(); 
-    		}
     	}
     	else if (type.equals("Waiters")){
-    		EllenWaiterRole w = new EllenWaiterRole(name);
-    		WaiterGui g = new WaiterGui(w, gui);
+    		EllenWaiterRole w;
+    		if (name.equalsIgnoreCase("share")){
+    			w = new EllenSharedDataWaiterRole(name);
+    			EllenSharedDataWaiterRole s = (EllenSharedDataWaiterRole) w;
+    			s.setStand(revolvingStand);
+    		}
+    		else
+    			w = new EllenNormalWaiterRole(name);
     		
+    		WaiterGui g = new WaiterGui(w, gui);
     		gui.animationPanel.addGui(g);
     		w.setHost(host);
     		w.setCook(cook);

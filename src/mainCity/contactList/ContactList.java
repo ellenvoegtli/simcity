@@ -26,23 +26,29 @@ public class ContactList {
 	BankManager bankManager;
 	
 	public MarketGreeterRole marketGreeter;
-	MarketCashierRole marketCashier;
+	public MarketCashierRole marketCashier;
 	
-	List<MainCook> cooks = new ArrayList<MainCook>();		//will this work with different subclasses?
+	//List<MainCook> cooks = new ArrayList<MainCook>();		//will this work with different subclasses?
 	
 	//all of the restaurants' cooks
-	EllenCookRole ellenCook;
-	//EnaCookRole enaCook;
-	JeffersonCookRole jeffersonCook;
-	MarcusCookRole marcusCook;
-	//DavidCookRole davidCook;
+	public EllenCookRole ellenCook;
+	//public EnaCookRole enaCook;
+	public JeffersonCookRole jeffersonCook;
+	public MarcusCookRole marcusCook;
+	public DavidCookRole davidCook;
+	
+	public EllenCashierRole ellenCashier;
+	//public EnaCashierRole enaCashier;
+	public JeffersonCashierRole jeffersonCashier;
+	public MarcusCashierRole marcusCashier;
+	//public DavidCashierRole davidCashier;
 	
 	//all of the restaurants' hosts
-	EllenHostRole ellenHost;
-	MarcusHostRole marcusHost;
-	//EnaHostRole enaHost;
-	JeffersonHostRole jeffersonHost;
-	//DavidHostRole davidHost;
+	public EllenHostRole ellenHost;
+	public MarcusHostRole marcusHost;
+	//public EnaHostRole enaHost;
+	public JeffersonHostRole jeffersonHost;
+	public DavidHostRole davidHost;
 	
 	//TESTING
 	MarcusRestaurantPanel marcusRestaurant;
@@ -51,21 +57,41 @@ public class ContactList {
 	
 
 	
-	public void addCook(MainCook cook){		//will this take in any cook class that extends MainCook? And differentiate between them?
+	public void setEllenCook(EllenCookRole cook){
 		System.out.println("Adding restaurant cook");
-		cooks.add(cook);
+		ellenCook = cook;
 	}
-	
-	public void addBankManager(BankManager m){
+	public void setEllenCashier(EllenCashierRole cashier){
+		ellenCashier = cashier;
+	}
+	public void setMarcusCook(MarcusCookRole cook){
+		System.out.println("Adding restaurant cook");
+		marcusCook = cook;
+	}
+	public void setJeffersonCook(JeffersonCookRole cook){
+		System.out.println("Adding restaurant cook");
+		jeffersonCook = cook;
+	}
+	public void setDavidCook(DavidCookRole cook){
+		System.out.println("Adding restaurant cook");
+		davidCook = cook;
+	}
+	/*
+	public void setEnaCook(EnaCookRole cook){
+		System.out.println("Adding restaurant cook");
+		enaCook = cook;
+	}
+	*/
+	public void setBankManager(BankManager m){
 		bankManager = m;
 	}
 	
-	public void addMarketGreeter(MarketGreeterRole g){
+	public void setMarketGreeter(MarketGreeterRole g){
 		System.out.println("Setting market host");
 		marketGreeter = g;
 	}
 	
-	public void addMarketCashier(MarketCashierRole c){
+	public void setMarketCashier(MarketCashierRole c){
 		marketCashier = c;
 	}
 	
@@ -100,11 +126,18 @@ public class ContactList {
 	public void setJeffersonHost(JeffersonHostRole h){
 		jeffersonHost = h;
 	}
-	/*
+
 	public void setDavidHost(DavidHostRole h){
 		davidHost = h;
 	}
+	
+	
+	
+	//GETTERS
+	/*
+	public MainCook getCook(String restaurantName){
+		if (restaurantName.equalsIgnoreCase("ellenRestaurant"))
+			return ellenCook;
+	}
 	*/
-	
-	
 }

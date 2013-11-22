@@ -31,14 +31,10 @@ public class CustomerGui implements Gui{
 	private int waitingRoomX;
 	private int waitingRoomY;
 
-	static final int customerWidth = 20;
-	static final int customerHeight = 20;
-	static final int exitLocationX = -40;
-	static final int exitLocationY = 10;
-    private final int cookX = WINDOWX + 20;
-    private final int cookY = WINDOWY/2;
-    private final int cashierX = 10;
-    private final int cashierY = 110;
+	static final int customerWidth = 20, customerHeight = 20;
+	static final int exitLocationX = 10, exitLocationY = -40;
+    private final int cookX = WINDOWX + 20, cookY = WINDOWY/2;
+    private final int cashierX = 20, cashierY = 250;
     private final int hostX = 10, hostY = 10;
 	
 	Map<Integer, Integer> tableX = new TreeMap<Integer, Integer>();

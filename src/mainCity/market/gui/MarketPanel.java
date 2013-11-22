@@ -18,9 +18,9 @@ public class MarketPanel extends JPanel implements ActionListener{
 	ContactList contactList;
 
     //Host and cook
-    private MarketGreeterRole host = new MarketGreeterRole("Host");
-    private MarketCashierRole cashier = new MarketCashierRole("Cashier");
-    private MarketDeliveryManRole deliveryMan = new MarketDeliveryManRole("Delivery Man");
+    private MarketGreeterRole host = new MarketGreeterRole("Market Greeter");
+    private MarketCashierRole cashier = new MarketCashierRole("Market Cashier");
+    private MarketDeliveryManRole deliveryMan = new MarketDeliveryManRole("Market DeliveryMan");
     //private MarketMenu marketMenu = new MarketMenu();
     
     private int NMARKETS = 3;
@@ -41,7 +41,6 @@ public class MarketPanel extends JPanel implements ActionListener{
     private JPanel cookInventoryPanel = new JPanel();
     JButton soupBtn = new JButton("Deplete soup");
     JButton pizzaBtn = new JButton("Deplete pizza");
-    //private HostGui hostGui = new HostGui(host);
 
     private MarketGui gui; //reference to main gui
 
@@ -50,13 +49,16 @@ public class MarketPanel extends JPanel implements ActionListener{
     	//contactList = c;
         this.gui = gui;
         //host.setGui(hostGui);
+        
+        DeliveryManGui deliveryGui = new DeliveryManGui(deliveryMan, gui);
+        deliveryMan.setGui(deliveryGui);
 
         host.startThread();
         cashier.startThread();
         deliveryMan.startThread();
         
-        contactList.getInstance().addMarketGreeter(host);
-        contactList.getInstance().addMarketCashier(cashier);
+        contactList.getInstance().setMarketGreeter(host);
+        contactList.getInstance().setMarketCashier(cashier);
         
         
         setLayout(new GridLayout(1, 2, 0, 0));
