@@ -41,7 +41,7 @@ public class ContactList {
 	public EnaCashierRole enaCashier;
 	public JeffersonCashierRole jeffersonCashier;
 	public MarcusCashierRole marcusCashier;
-	//public DavidCashierRole davidCashier;
+	public DavidCashierRole davidCashier;
 	
 	//all of the restaurants' hosts
 	public EllenHostRole ellenHost;
@@ -80,17 +80,22 @@ public class ContactList {
 	}
 	
 	//David's Restaurant*****
+	public void setDavidHost(DavidHostRole h){
+		davidHost = h;
+	}
 	public void setDavidCook(DavidCookRole cook){
-		System.out.println("Adding restaurant cook");
 		davidCook = cook;
 	}
+	public void setDavidCashier(DavidCashierRole cashier){
+		davidCashier = cashier;
+	}
+	
 
 	public void setBankManager(BankManager m){
 		bankManager = m;
 	}
 	
 	public void setMarketGreeter(MarketGreeterRole g){
-		System.out.println("Setting market host");
 		marketGreeter = g;
 	}
 	
@@ -99,7 +104,6 @@ public class ContactList {
 	}
 	
 	public void setEllenHost(EllenHostRole h){
-		System.out.println("Setting ellenRestaurant host");
 		ellenHost = h;
 	}
 	
@@ -117,10 +121,6 @@ public class ContactList {
 	}
 	public void setEnaCashier(EnaCashierRole c){
 		enaCashier = c;
-	}
-
-	public void setDavidHost(DavidHostRole h){
-		davidHost = h;
 	}
 	
 	

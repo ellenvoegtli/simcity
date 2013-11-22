@@ -41,7 +41,12 @@ public class MarketMenu {
 
         
         stockAmounts.put("steak", 10);
+        stockAmounts.put("pizza", 10);
+        stockAmounts.put("pasta", 10);
         stockAmounts.put("soup", 10);
+        stockAmounts.put("porkchops", 10);
+        stockAmounts.put("lamb", 10);
+        stockAmounts.put("lambchops", 10);
         
         
 	}

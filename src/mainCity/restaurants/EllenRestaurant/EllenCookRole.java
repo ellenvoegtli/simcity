@@ -166,7 +166,7 @@ public class EllenCookRole extends Agent implements Cook{
 	}
 	
 	public void msgCheckStand() {		//from RestaurantPanel
-		print("Received msgCheckStand");
+		//print("Received msgCheckStand");
 		if(!isCheckingStand) {
 			isCheckingStand = true;
 			stateChanged();
@@ -177,7 +177,7 @@ public class EllenCookRole extends Agent implements Cook{
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	protected boolean pickAndExecuteAnAction() {
-		print("In cook scheduler");
+		//print("In cook scheduler");
 		
 		if (opened){
 				//check inventory when restaurant opens
@@ -336,11 +336,11 @@ public class EllenCookRole extends Agent implements Cook{
 	}
 	
 	private void checkRevolvingStand(){
-		print("Checking revolving stand");
+		//print("Checking revolving stand");
 		isCheckingStand = false;
 		
 		if(stand.isEmpty()){
-			print("No orders to pick up.");
+			//print("No orders to pick up.");
 			return;
 		}
 		
