@@ -15,7 +15,7 @@ public class MarketMenu {
 	public List<String> menuItems
 	= Collections.synchronizedList(new ArrayList<String>());
 	
-	Map<String, Integer> prices = new TreeMap<String, Integer>();
+	Map<String, Double> prices = new TreeMap<String, Double>();
 	Map<String, Integer> stockAmounts = new TreeMap<String, Integer>();
 
 
@@ -24,11 +24,21 @@ public class MarketMenu {
 		menuItems.add("pasta");
 		menuItems.add("pizza");
 		menuItems.add("soup");
+		menuItems.add("lamb");
+		menuItems.add("lambchops");
+		menuItems.add("porkchops");
+		menuItems.add("steak");
 		
-		prices.put("steak", 30);	//type, $$price
-        prices.put("pizza", 10);
-        prices.put("pasta", 20);
-        prices.put("soup", 5);
+		prices.put("steak", 30.00);	//type, $$price
+        prices.put("pizza", 10.00);
+        prices.put("pasta", 20.00);
+        prices.put("soup", 5.00);
+
+        prices.put("steak", 15.99);
+        prices.put("porkchops", 10.99);
+        prices.put("lamb", 5.99);
+        prices.put("lambchops", 8.99);
+
         
         stockAmounts.put("steak", 10);
         stockAmounts.put("soup", 10);
@@ -40,7 +50,7 @@ public class MarketMenu {
 		return (stockAmounts.get(choice));
 	}
 	
-	public int getPrice(String choice){	//should return a double, not an int
+	public double getPrice(String choice){
 		return (prices.get(choice));
 	}
 	
