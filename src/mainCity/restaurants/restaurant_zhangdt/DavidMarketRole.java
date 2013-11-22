@@ -16,7 +16,7 @@ import mainCity.restaurants.restaurant_zhangdt.interfaces.Market;
 public class DavidMarketRole extends Agent implements Market{
 /*   Data   */ 
 	private DavidCookRole cookAgent;
-	private CashierAgent cashierAgent;
+	private DavidCashierRole cashierAgent;
 	
 	class Food {
 		String Choice; 
@@ -123,8 +123,8 @@ public class DavidMarketRole extends Agent implements Market{
 					DeliveryTimer.schedule(new TimerTask() {
 						public void run() { 
 							print("Now Delivering...");
-							cookAgent.msgOrderFromMarket();
-							cashierAgent.msgPayMarket(MarketNumber, MarketBill);
+							//cookAgent.msgOrderFromMarket();
+							//cashierAgent.msgPayMarket(MarketNumber, MarketBill);
 							stateChanged();
 						}
 					},
@@ -174,7 +174,7 @@ public class DavidMarketRole extends Agent implements Market{
 		cookAgent = c;
 	}
 	
-	public void addCashier(CashierAgent c){
+	public void addCashier(DavidCashierRole c){
 		cashierAgent = c;
 	}
 	

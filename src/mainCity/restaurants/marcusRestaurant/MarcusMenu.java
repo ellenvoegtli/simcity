@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MarcusMenu {
 	List<Food> menu;		
-	MarcusMenu() {
+	public MarcusMenu() {
 		menu = new ArrayList<Food>();
 		
 		menu.add(new Food("Steak", 16));
@@ -23,9 +23,13 @@ public class MarcusMenu {
 		}
 	}
 	
-	class Food {
-		String food;
-		double price;
+	public List<Food> getMenu() {
+		return menu;
+	}
+	
+	public class Food {
+		public String food;
+		public double price;
 		
 		Food(String name, double p) {
 			food = name;

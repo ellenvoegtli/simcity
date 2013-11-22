@@ -22,7 +22,6 @@ public class EllenCashierRole extends Agent implements Cashier{
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());	//from waiters
 	private List<Waiter> waiters = Collections.synchronizedList(new ArrayList<Waiter>());
 	public List<MarketBill> marketBills = Collections.synchronizedList(new ArrayList<MarketBill>());
-	//private List<Customer> customers = Collections.synchronizedList(new ArrayList<Customer>());
 	
 	Map<String, Integer> prices = new TreeMap<String, Integer>();
 	

@@ -2,10 +2,11 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
-import mainCity.restaurants.enaRestaurant.HostRole.Table;
+import mainCity.contactList.ContactList;
+import mainCity.interfaces.MainCook;
+import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
 import java.util.*;
-//import java.util.concurrent.Semaphore;
 
 import mainCity.restaurants.enaRestaurant.gui.CookGui;
 import mainCity.restaurants.enaRestaurant.gui.HostGui;
@@ -14,14 +15,11 @@ import mainCity.restaurants.enaRestaurant.gui.HostGui;
  * Restaurant Cook Agent
  */
 
-public class CookRole extends Agent {
+public class EnaCookRole extends Agent implements MainCook {
 	Timer timer = new Timer();
-
-	public List<MarketRole> Bazaar = Collections.synchronizedList(new ArrayList<MarketRole>());
 	public List<Order> Orders= Collections.synchronizedList(new ArrayList<Order>());
 	public Map<String, Food> Foods = new HashMap<String, Food>();
 	//public List<Food> Foods = new ArrayList<Food>();
-	private int marketCount = 1;
 	private String name;
 	private boolean fullOrder;
 	private boolean inventoryChecked = false;
@@ -31,25 +29,20 @@ public class CookRole extends Agent {
 	
 			public HostGui hostGui;
 			public CookGui cookGui;
-			public MarketRole market;
-			public CashierRole cashier;
+			public EnaCashierRole cashier;
 
-	public CookRole(String name) {
+	public EnaCookRole(String name) {
 		super();
 
 		this.name = name;
-		Foods.put( "steak", new Food("steak", 0));
-		Foods.put("chicken", new Food("chicken", 0));
-		Foods.put("salad" , new Food("salad", 0));
-		Foods.put("pizza", new Food("pizza", 0));
+		Foods.put( "steak", new Food("steak", 1));
+		Foods.put("porkchops", new Food("porkchops", 2));
+		Foods.put("lamb" , new Food("lamb", 0));
+		Foods.put("lambchops", new Food("lambchops", 1));
 
 		
 	}
-	
-	public void addMarkets(MarketRole market)
-	{
-		Bazaar.add(market);
-	}
+
 
 	public String getName()
 	{
@@ -58,7 +51,7 @@ public class CookRole extends Agent {
 
 	// Messages
 
-	public void msgHereIsTheOrder(WaiterRole w, String choice, Table table)
+	public void msgHereIsTheOrder(EnaWaiterRole w, String choice, Table table)
 	{
 		Orders.add(new Order(w,choice,table, OrderStatus.pending));
 		print("ORDER ADDED TO LIST OF TYPE:  " +choice); 
@@ -77,6 +70,26 @@ public class CookRole extends Agent {
 				print("now has more" +f);
 			}
 		}
+		print("the cook has replenished its inventory");
+		stateChanged();
+	}
+	
+	public void msgHereIsYourOrder(Map<String, Integer> inventory)
+	{
+		inventoryChecked = true;
+		//fullOrder = fullInvoice;
+		for (String f : Foods.keySet())
+		{
+			Foods.get(f).setAmount(Foods.get(f).getAmount()+inventory.get(f));
+			print("now has more" +f);
+		}
+	
+			/*if(newInventory.get(f) != null)
+			{
+				Foods.get(f).setAmount(Foods.get(f).getAmount()+newInventory.get(f));
+				print("now has more" +f);
+			}
+		}*/
 		print("the cook has replenished its inventory");
 		stateChanged();
 	}
@@ -192,8 +205,11 @@ synchronized(Orders)
 		}
 		//Random rnd = new Random();
 		//int mk = rnd.nextInt(3)+1;
-		if(marketCount == 1)
-			Bazaar.get(0).msgOrderRestock("enaRestaurant", this, cashier,  Stock);
+		
+		ContactList.getInstance().marketGreeter.msgINeedInventory("enaRestaurant", this, cashier, Stock);
+			
+		
+		/*Bazaar.get(0).msgOrderRestock("enaRestaurant", this, cashier,  Stock);
 		if(marketCount == 2)
 			Bazaar.get(1).msgOrderRestock("enaRestaurant" , this, cashier, Stock);
 		if(marketCount == 3)
@@ -208,7 +224,7 @@ synchronized(Orders)
 		for(int i=0; i<Bazaar.size(); i++)
 		{
 			
-		}
+		}*/
 		
 	}
 	//utilities
@@ -221,11 +237,8 @@ synchronized(Orders)
 	public HostGui getGui() {
 		return hostGui;
 	}
-	public void setMarket(MarketRole market)
-	{
-		this.market = market;
-	}
-	public void setCashier(CashierRole cshr)
+	
+	public void setCashier(EnaCashierRole cshr)
 	{
 		this.cashier = cshr;
 	}
@@ -260,12 +273,12 @@ synchronized(Orders)
 
 	public class Order 
 	{
-		WaiterRole w;
+		EnaWaiterRole w;
 		String choice;
 		Table table;
 		OrderStatus oStat;
 		
-		Order(WaiterRole wtr, String ch, Table t, OrderStatus ost)
+		Order(EnaWaiterRole wtr, String ch, Table t, OrderStatus ost)
 		{
 			this.choice = ch;
 			this.table = t;
@@ -280,15 +293,15 @@ synchronized(Orders)
 			{
 				time = 10000;
 			}
-			if (ch == "chicken")
+			if (ch == "porkchops")
 			{
 				time = 8000;
 			}
-			if(ch == "salad")
+			if(ch == "lamb")
 			{
 				time= 5000;
 			}
-			if(ch == "pizza")
+			if(ch == "lambchops")
 			{
 				time= 9000;
 			}
@@ -311,5 +324,7 @@ synchronized(Orders)
 	{
 		cookGui.platingDone(fdPlate);
 	}
+
+	
 }
 

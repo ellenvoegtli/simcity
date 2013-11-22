@@ -30,7 +30,7 @@ public abstract class personHome
 	personHome(OccupantRole occ, LandlordRole lndlrd, type home)
 	{
 		super();
-		homeType = home;
+		//homeType = home;
 		occupant = occ;
 		if(home == type.apartment)
 		{
@@ -74,7 +74,7 @@ public abstract class personHome
 		}
 		else
 		{
-			cookFood(meal);
+			occupant.msgCookFood(meal);
 		}
 		
 	}

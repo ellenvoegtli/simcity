@@ -5,6 +5,14 @@ import mainCity.restaurants.marcusRestaurant.sharedData.RevolvingStand;
 
 import javax.swing.*;
 
+import role.marcusRestaurant.MarcusCashierRole;
+import role.marcusRestaurant.MarcusCookRole;
+import role.marcusRestaurant.MarcusCustomerRole;
+import role.marcusRestaurant.MarcusHostRole;
+import role.marcusRestaurant.MarcusNormalWaiterRole;
+import role.marcusRestaurant.MarcusSharedWaiterRole;
+import role.marcusRestaurant.MarcusWaiterRole;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -16,8 +24,8 @@ import java.util.concurrent.TimeUnit;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel {
-    private RestaurantGui gui; //reference to main gui
+public class MarcusRestaurantPanel extends JPanel {
+    private MarcusRestaurantGui gui; //reference to main gui
 
     //Host, cook, waiters and customers
     private MarcusHostRole host = new MarcusHostRole("Sarah");
@@ -37,15 +45,8 @@ public class RestaurantPanel extends JPanel {
     private JPanel group = new JPanel();
 
 
-    public RestaurantPanel(RestaurantGui gui) {
+    public MarcusRestaurantPanel(MarcusRestaurantGui gui) {
         this.gui = gui;
-        /*
-        for(int i = 0; i < 3; ++i) {
-        	MarcusMarketRole m = new MarcusMarketRole(i);
-            cook.addMarket(m);
-            m.setCashier(cashier);
-            m.startThread();
-        }*/
         cookGui = new CookGui(cook, gui);
         cook.setStand(stand);
 		gui.animationPanel.addGui(cookGui);
@@ -65,6 +66,8 @@ public class RestaurantPanel extends JPanel {
         initRestLabel();
         add(restLabel);
         add(group);
+        
+        addWaiter("CityTestWaiter"); // for testing
         
         //Thread to tell cook to check every so often
         Runnable standChecker = new Runnable() {
@@ -128,14 +131,15 @@ public class RestaurantPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
+    
     public void addPerson(String type, String name, boolean hungry) {
 
     	if (type.equals("Customers")) {
-    		MarcusCustomerRole c = new MarcusCustomerRole(name);
+    		MarcusCustomerRole c = new MarcusCustomerRole(null, name);//should be fixed soon
     		customers.add(c);
     		CustomerGui g = new CustomerGui(c, gui, customers.indexOf(c));
 
-    		gui.animationPanel.addGui(g);// dw
+    		gui.animationPanel.addGui(g);
     		//c.setWaiter(waiter1);
     		c.setHost(host);
     		c.setGui(g);
@@ -152,8 +156,8 @@ public class RestaurantPanel extends JPanel {
     public void addWaiter(String name) {
     		MarcusWaiterRole w;
     		if(name.contains("share")) {
-    			w = new MarcusSharedWaiterAgent(name);
-    			MarcusSharedWaiterAgent a = (MarcusSharedWaiterAgent) w;
+    			w = new MarcusSharedWaiterRole(name);
+    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) w;
     			a.setStand(stand);
     		}
     		else {
@@ -188,7 +192,6 @@ public class RestaurantPanel extends JPanel {
     
     public void callResume() {
     	host.restart();
-    	//waiter.restart();
     	cook.restart();
     	
     	for(int i = 0; i < waiters.size(); ++i) {
@@ -198,5 +201,29 @@ public class RestaurantPanel extends JPanel {
     	for(int i = 0; i < customers.size(); ++i) {
     		customers.get(i).restart();
     	}
+    }
+    
+    public MarcusHostRole getHost() {
+    	return host;
+    }
+    
+    public MarcusCashierRole getCashier() {
+    	return cashier;
+    }
+    
+    public void handleCustomer(MarcusCustomerRole c) {
+    	for(MarcusCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+    		if(cust == c) {
+    			return;
+    		}
+    	}
+    	
+		customers.add(c);
+		CustomerGui g = new CustomerGui(c, gui, customers.indexOf(c));
+
+		gui.animationPanel.addGui(g);
+		c.setHost(host);
+		c.setGui(g);
+		c.setCashier(cashier);
     }
 }

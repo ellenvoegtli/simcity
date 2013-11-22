@@ -11,54 +11,58 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
-public class EmployeeGui implements Gui {
-    private MarketEmployeeRole agent = null;
-    MarketGui gui;
-    private boolean isPresent;
+public class DeliveryManGui implements Gui {
 
     private final int WINDOWX = 550;
     private final int WINDOWY = 350;
-    static final int waiterWidth = 20;
-    static final int waiterHeight = 20;
+	
+
+    private MarketDeliveryManRole agent = null;
+    MarketGui gui;
+    private boolean isPresent;
 
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
+
+    static final int waiterWidth = 20;
+    static final int waiterHeight = 20;
+    
     private final int startX = -20;
     private final int startY = -20;
     private final int cookX = WINDOWX - 110;
     private final int cookY = WINDOWY/2;
-    public int homeX, homeY;
-    private int cashierX = 20, cashierY = 250;
-    private int waitingRoomX;
-    private int waitingRoomY;
-    private int stockRoomX = 300, stockRoomY = 450;
     
-	Map<Integer, Integer> stationX = new TreeMap<Integer, Integer>();
-	Map<Integer, Integer> stationY = new TreeMap<Integer, Integer>();
+    public int homeX = 530, homeY = 10;
+    public int exitMarketX = 530, exitMarketY = 350/2;
+    private int cashierX = 20, cashierY = 250;
+
+	Map<String, Integer> restaurantX = new TreeMap<String, Integer>();
+	Map<String, Integer> restaurantY = new TreeMap<String, Integer>();
 	
 	private boolean atDestination = true;
 	private boolean isDeliveringFood = false;
 	private String customerChoice;
 	
-	State s;
-	enum State {wantsBreak, onBreak, offBreak};
 
-    public EmployeeGui(MarketEmployeeRole agent, MarketGui gui) {
+    public DeliveryManGui(MarketDeliveryManRole agent, MarketGui gui) {
         this.agent = agent;
         this.gui = gui;
         
-        //initialize table locations map
-        stationX.put(1, 200);
-    	stationY.put(1, 100);
+        //initialize restaurant locations map -- NECESSARY? or will we have a "contact list" equivalent to get restaurant locations?
+        restaurantX.put("EllenRestaurant", 200);
+    	restaurantY.put("EllenRestaurant", 100);
          
-         stationX.put(2, 250);
-         stationY.put(2, 100);
+    	restaurantX.put("enaRestaurant", 250);
+    	restaurantY.put("enaRestaurant", 100);
          
-         stationX.put(3, 300);
-         stationY.put(3, 100);
+        restaurantX.put("marcusRestaurant", 300);
+        restaurantY.put("marcusRestaurant", 100);
          
-         stationX.put(4, 350);
-         stationY.put(4, 100);
+        restaurantX.put("davidRestaurant", 350);
+        restaurantY.put("davidRestaurant", 100);
+        
+        restaurantX.put("jeffersonRestaurant", 400);
+        restaurantY.put("jeffersonRestaurant", 100);
 
     }
     
@@ -78,47 +82,46 @@ public class EmployeeGui implements Gui {
         else if (yPos > yDestination)
             yPos--;
 
-        /*
         if (xPos == xDestination && yPos == yDestination
-        		&& (xDestination == tableX.get(1) + 20) 
-        		&& (yDestination == tableY.get(1) - 20) && !atDestination) {
-           agent.msgAtTable();
-           atDestination = true;
+        		&& (xDestination == restaurantX.get("EllenRestaurant")) 
+        		&& (yDestination == restaurantY.get("EllenRestaurant")) && !atDestination) {
+        	agent.msgAtDestination();
+        	atDestination = true;
         }
 
         else if (xPos == xDestination && yPos == yDestination
-        		&& (xDestination == tableX.get(2) + 20) 
-        		&& (yDestination == tableY.get(2) - 20) && !atDestination) {
-           agent.msgAtTable();
-           atDestination = true;
+        		&& (xDestination == restaurantX.get("enaRestaurant")) 
+        		&& (yDestination == restaurantY.get("enaRestaurant")) && !atDestination) {
+        	agent.msgAtDestination();
+        	atDestination = true;
         }
         else if (xPos == xDestination && yPos == yDestination
-        		&& (xDestination == tableX.get(3) + 20) 
-        		&& (yDestination == tableY.get(3) - 20) && !atDestination) {
-           agent.msgAtTable();
-           atDestination = true;
+        		&& (xDestination == restaurantX.get("marcusRestaurant")) 
+        		&& (yDestination == restaurantY.get("marcusRestaurant")) && !atDestination) {
+        	agent.msgAtDestination();
+        	atDestination = true;
         }
         else if (xPos == xDestination && yPos == yDestination
-        		&& (xDestination == tableX.get(4) + 20) 
-        		&& (yDestination == tableY.get(4) - 20) && !atDestination) {
-           agent.msgAtTable();
-           atDestination = true;
+        		&& (xDestination == restaurantX.get("davidRestaurant")) 
+        		&& (yDestination == restaurantY.get("davidRestaurant")) && !atDestination) {
+        	agent.msgAtDestination();
+        	atDestination = true;
         }
-        */
-        if ((xPos == xDestination && yPos == yDestination) && (xPos == cashierX && yPos == cashierY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
+        else if (xPos == xDestination && yPos == yDestination
+        		&& (xDestination == restaurantX.get("jeffersonRestaurant")) 
+        		&& (yDestination == restaurantY.get("jeffersonRestaurant")) && !atDestination) {
+        	agent.msgAtDestination();
+        	atDestination = true;
+        }
+
+        /*
+        else if ((xPos == xDestination && yPos == yDestination) && (xPos == cashierX && yPos == cashierY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
     		agent.msgAtCashier();
     		atDestination = true;
         }
-        else if ((xPos == xDestination && yPos == yDestination) && (xPos == stockRoomX && yPos == stockRoomY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
-    		//agent.msgAtStockRoom();
-    		atDestination = true;
-        }
-        else if ((xPos == xDestination && yPos == yDestination) && (xPos == waitingRoomX && yPos == waitingRoomY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
-    		agent.msgAtWaitingRoom();
-    		atDestination = true;
-        }
+        */
         else if ((xPos == xDestination && yPos == yDestination) && (xPos == homeX && yPos == homeY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
-    		agent.msgAtStation();
+    		agent.msgAtHome();
     		atDestination = true;
         }
     }
@@ -162,7 +165,7 @@ public class EmployeeGui implements Gui {
     	atDestination = false;
     }
     
-    public void DoGoToStation(){
+    public void DoGoToHomePosition(){
     	atDestination = false;
     	xDestination = homeX;
     	yDestination = homeY;
@@ -172,18 +175,16 @@ public class EmployeeGui implements Gui {
     	xDestination = cashierX;
     	yDestination = cashierY;
     }
-    public void DoFulfillOrder(){
+    public void DoDeliverOrder(String restaurantName){
+    	xDestination = restaurantX.get(restaurantName);
+    	yDestination = restaurantY.get(restaurantName);
     	atDestination = false;
-    	xDestination = stockRoomX;
-    	yDestination = stockRoomY;
-    	//...
-    }
-	
-    
-    public void DoGoToCook() {
-    	atDestination = false;
-    	xDestination = cookX;
-    	yDestination = cookY;
+
+    	/* but it's really supposed to be...:
+    	xDestination = exitMarketX;
+    	yDestination = exitMarketY;
+    	*/
+    	//then goes outside of market...?
     }
    
    
@@ -192,26 +193,11 @@ public class EmployeeGui implements Gui {
     }
 
     
-    public void DoWait() {
-    	//atDestination = false;
-    	xDestination = homeX;
-    	yDestination = homeY;
-    }
-    
     public void DoGoToStart(){
     	atDestination = false;
 
         xDestination = startX;
         yDestination = startY;
-    }
-    
-    public void DoPickUpWaitingCustomer(int x, int y){
-    	atDestination = false;
-    	waitingRoomX = x + 20;
-    	waitingRoomY = y + 20;
-    	
-    	xDestination = waitingRoomX;
-    	yDestination = waitingRoomY;
     }
 
     public int getXPos() {

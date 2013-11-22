@@ -1,9 +1,10 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
-import mainCity.restaurants.marcusRestaurant.MarcusCustomerRole;
-
 import java.awt.*;
+
 import javax.swing.JLabel;
+
+import role.marcusRestaurant.MarcusCustomerRole;
 
 public class CustomerGui implements Gui{
 
@@ -11,7 +12,7 @@ public class CustomerGui implements Gui{
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
-	RestaurantGui gui;
+	MarcusRestaurantGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination, waitX, waitY;
@@ -26,7 +27,7 @@ public class CustomerGui implements Gui{
 	private static final int w = 20;
 	private static final int h = 20;
 
-	public CustomerGui(MarcusCustomerRole c, RestaurantGui gui, int pos){ //HostAgent m) {
+	public CustomerGui(MarcusCustomerRole c, MarcusRestaurantGui gui, int pos){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;
@@ -95,6 +96,7 @@ public class CustomerGui implements Gui{
 		xDestination = waitX;
 		yDestination = waitY;
 	}
+	
 	public boolean isHungry() {
 		return isHungry;
 	}

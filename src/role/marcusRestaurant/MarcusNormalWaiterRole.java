@@ -1,4 +1,5 @@
-package mainCity.restaurants.marcusRestaurant;
+package role.marcusRestaurant;
+
 
 public class MarcusNormalWaiterRole extends MarcusWaiterRole {
 	public MarcusNormalWaiterRole(String name) {

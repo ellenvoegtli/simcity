@@ -1,13 +1,16 @@
 package housing;
 
 
+import housing.personHome.type;
 import housing.gui.OccupantGui;
+import agent.Agent;
 
 import java.util.ArrayList;
 import java.util.TimerTask;
 import java.util.List;
 
-public class OccupantRole
+
+public class OccupantRole extends Agent
 {
 	
 //DATA
@@ -21,17 +24,17 @@ public class OccupantRole
 	private String name;
 	private int rent;
 	enum occupantState {fixing, fixed, hungry, needMarket, shopping, reStocking, cooking, eating, nothing};
-	occupantState state = occupantState.nothing;
+	occupantState state = occupantState.hungry;
 	public List<String> needsWork = new ArrayList<String>();
 	public List<String> needFd = new ArrayList<String>();
 
 	
 	
-public OccupantRole(String person, personHome home, boolean rent, LandlordRole ownr)
+public OccupantRole(String person, personHome hm, boolean rent, LandlordRole ownr)
 {
 	super();
 	name = person;
-	//setHouse(home);
+	setHouse(hm);
 	renter = rent;
 	if(!renter)
 	{
@@ -48,7 +51,6 @@ public OccupantRole(String person, personHome home, boolean rent, LandlordRole o
 public OccupantRole(String string) {
 	super();
 	this.name = string;
-	// TODO Auto-generated constructor stub
 }
 
 
@@ -56,10 +58,7 @@ public String getName()
 {
 	return name;
 }
-public void stateChanged()
-{
-	//
-}
+
 	
 //MESSAGES
 	
@@ -238,20 +237,20 @@ public void setHouse(personHome house) {
 }
 
 
-public void setGui(OccupantGui occupantGui) {
-	// TODO Auto-generated method stub
-	
+public void setGui(OccupantGui occupantGui) 
+{
+	this.gui = occupantGui;	
 }
-
-
-public void startThread() {
-	// TODO Auto-generated method stub
-	
-}
-
 
 public OccupantGui getGui() {
 	return gui;
+}
+
+
+public void msgCookFood(String meal2) 
+{
+	gui.DoGoToStove();
+	
 }
 	
 }

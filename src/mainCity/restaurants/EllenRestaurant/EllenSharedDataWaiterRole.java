@@ -1,0 +1,44 @@
+package mainCity.restaurants.EllenRestaurant;
+import java.util.concurrent.Semaphore;
+
+import mainCity.restaurants.EllenRestaurant.sharedData.*;
+
+public class EllenSharedDataWaiterRole extends EllenWaiterRole {
+	private RevolvingStand stand;
+	
+	public EllenSharedDataWaiterRole(String name) {
+		super(name);
+		print("Created a shared data waiter");
+	}
+	
+	public void setStand(RevolvingStand s) {
+		this.stand = s;
+	}
+
+	protected void sendOrderToCook(MyCustomer mc) {
+		print("Writing down order onto order ticket..");
+		OrderTicket order = new OrderTicket(this, mc.choice, mc.table);
+		
+		waiterGui.DoGoToCook();
+		try {
+			atCook.acquire();
+			//atDestination.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		if(!stand.isFull()) {
+			print("Posting order to the board...");
+			stand.insert(order);
+		}
+		else {
+			//need to do something if stand is full
+		}
+		
+		mc.s = CustomerState.waitingForFood;
+		//waiterGui.DoGoHome();
+	}
+}
+

@@ -1,10 +1,10 @@
-package mainCity.restaurants.marcusRestaurant;
+package role.marcusRestaurant;
 import mainCity.restaurants.marcusRestaurant.sharedData.*;
 
-public class MarcusSharedWaiterAgent extends MarcusWaiterRole {
+public class MarcusSharedWaiterRole extends MarcusWaiterRole {
 	private RevolvingStand stand;
 	
-	public MarcusSharedWaiterAgent(String name) {
+	public MarcusSharedWaiterRole(String name) {
 		super(name);
 		print("Created a shared data waiter");
 	}

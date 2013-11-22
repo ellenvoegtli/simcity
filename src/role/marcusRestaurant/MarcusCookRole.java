@@ -1,8 +1,9 @@
-package mainCity.restaurants.marcusRestaurant;
+package role.marcusRestaurant;
 
 import agent.Agent;
 import mainCity.interfaces.MainCashier;
 import mainCity.market.MarketGreeterRole;
+import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.sharedData.*;
 import mainCity.restaurants.marcusRestaurant.gui.CookGui;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
@@ -39,10 +40,10 @@ public class MarcusCookRole extends Agent implements Cook {
 		foods = Collections.synchronizedMap(new HashMap<String, Food>());
 		
 		synchronized(foods) {
-			foods.put("Steak", new Food("Steak", 7500, 2, 4, 15));//Name, CookTime, Quantity, Threshold, Capacity
+			foods.put("Steak", new Food("Steak", 7500, 5, 4, 15));//Name, CookTime, Quantity, Threshold, Capacity
 			foods.put("Chicken", new Food("Chicken", 5500, 5, 2, 15));
-			foods.put("Salad", new Food("Salad", 3500, 0, 2, 15));
-			foods.put("Pizza", new Food("Pizza", 6000, 2, 2, 15));
+			foods.put("Salad", new Food("Salad", 3500, 5, 2, 15));
+			foods.put("Pizza", new Food("Pizza", 6000, 5, 2, 15));
 		}
 		
 		tracker = 0;
@@ -248,7 +249,7 @@ public class MarcusCookRole extends Agent implements Cook {
 
 		while(!stand.isEmpty()) {
 			OrderTicket temp = stand.remove();
-			orders.add(new Order(temp.getWaiter(), temp.getChoice(), temp.getTable().tableNumber));
+			orders.add(new Order(temp.getWaiter(), temp.getChoice(), temp.getTable().getTableNumber()));
 			stateChanged();
 		}
 	}

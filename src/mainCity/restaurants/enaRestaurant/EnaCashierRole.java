@@ -15,13 +15,12 @@ import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
 import mainCity.market.MarketDeliveryManRole;
 import agent.Agent;
 
-public class CashierRole extends Agent implements Cashier{
+public class EnaCashierRole extends Agent implements Cashier{
 
 		public List<Tab> Tabs= Collections.synchronizedList(new ArrayList<Tab>());
 		public List<MarketTab> marketChecks = Collections.synchronizedList(new ArrayList<MarketTab>());
 		public double restCash;
 		public double marketBill;
-		public MarketRole market;
 		public EventLog log = new EventLog();
 		private String name;
 		public enum payStatus 
@@ -33,7 +32,7 @@ public class CashierRole extends Agent implements Cashier{
 		
 				public HostGui hostGui;
 
-		public CashierRole(String name) 
+		public EnaCashierRole(String name) 
 		{
 			super();
 
@@ -75,11 +74,8 @@ public class CashierRole extends Agent implements Cashier{
 		
 		public void msgHereIsChange(double amount, MarketDeliveryManRole name)
 		{
-			
-			
 			setRestCash(getRestCash() + amount);
 			stateChanged();
-			
 		}
 		
 		private double getRestCash() 
@@ -297,15 +293,15 @@ public boolean pickAndExecuteAnAction()
 				{
 					cost = 15.99;
 				}
-				if (ch == "chicken")
+				if (ch == "porkchops")
 				{
 					cost = 10.99;
 				}
-				if(ch == "salad")
+				if(ch == "lamb")
 				{
 					cost= 5.99;
 				}
-				if(ch == "pizza")
+				if(ch == "lambchops")
 				{
 					cost= 8.99;
 				}

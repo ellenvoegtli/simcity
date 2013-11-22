@@ -72,6 +72,10 @@ public class PersonGui implements Gui{
 		System.out.println("Gui is told to go to " + destination);
 		
 		switch(destination) {
+			case restaurant_marcus:
+				xDestination = 500;
+				yDestination = 300;
+				break;
 			case market:
 				xDestination = 400;
 				yDestination = 400;

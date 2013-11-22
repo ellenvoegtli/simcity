@@ -6,7 +6,7 @@ public abstract class Role extends Agent {
 	PersonAgent person;
 	boolean isActive;
 
-	Role(PersonAgent p, boolean a) {
+	protected Role(PersonAgent p, boolean a) {
 		super();
 		
 		this.person = p;

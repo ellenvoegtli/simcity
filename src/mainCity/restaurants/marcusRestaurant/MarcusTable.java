@@ -14,7 +14,7 @@ public class MarcusTable {
 		occupiedBy = cust;
 	}
 
-	void setUnoccupied() {
+	public void setUnoccupied() {
 		occupiedBy = null;
 	}
 
@@ -22,11 +22,11 @@ public class MarcusTable {
 		return occupiedBy;
 	}
 
-	int getTableNumber() {
+	public int getTableNumber() {
 		return tableNumber;
 	}
 		
-	boolean isOccupied() {
+	public boolean isOccupied() {
 		return occupiedBy != null;
 	}
 

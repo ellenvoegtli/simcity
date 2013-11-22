@@ -1,18 +1,19 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
-import mainCity.restaurants.marcusRestaurant.MarcusCookRole;
 import java.awt.*;
+
+import role.marcusRestaurant.MarcusCookRole;
 
 public class CookGui implements Gui{
 	private MarcusCookRole agent = null;
 	private boolean isPresent = false;
-	RestaurantGui gui;
+	MarcusRestaurantGui gui;
 
 	private int xPos;
 	private int xDestination, yDestination;
 	private boolean cooking, grill1, grill2, grill3, grill4;
 
-	public CookGui(MarcusCookRole c, RestaurantGui gui){ //HostAgent m) {
+	public CookGui(MarcusCookRole c, MarcusRestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		this.gui = gui;
 		xPos = 235;

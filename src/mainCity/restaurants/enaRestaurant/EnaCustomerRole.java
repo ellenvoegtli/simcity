@@ -1,6 +1,6 @@
 package mainCity.restaurants.enaRestaurant;
 
-import mainCity.restaurants.enaRestaurant.WaiterRole.MyCustomers;
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
 import agent.Agent;
 
 import java.util.Random;
@@ -13,7 +13,7 @@ import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 /**
  * Restaurant customer agent.
  */
-public class CustomerRole extends Agent implements Customer{
+public class EnaCustomerRole extends Agent implements Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -24,9 +24,9 @@ public class CustomerRole extends Agent implements Customer{
 	public double debt;
 	private boolean returnCustomer = false;
 	// agent correspondents
-	private HostRole host;
-	private WaiterRole waiter;
-	private CashierRole cashier;
+	private EnaHostRole host;
+	private EnaWaiterRole waiter;
+	private EnaCashierRole cashier;
 
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
@@ -43,7 +43,7 @@ public class CustomerRole extends Agent implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerRole(String name)
+	public EnaCustomerRole(String name)
 	{
 		super();
 		this.name = name;
@@ -65,24 +65,24 @@ public class CustomerRole extends Agent implements Customer{
 						if (meal == 1)
 							this.choice = "steak";
 						 if(meal == 2)
-							this.choice = "chicken";
+							this.choice = "porkchops";
 						 if(meal == 3)
-							this.choice = "salad";
+							this.choice = "lamb";
 						 if (meal == 4)
-							this.choice = "pizza";
+							this.choice = "lambchops";
 					}
 					if(name.equals("cheapest"))
 					{
 						cash = 6.0;
 						print("customer has $ "  +cash);
-						this.choice = "salad";	
+						this.choice = "lamb";	
 					}
 					
 					if(name.equals("onlyChoice"))
 					{
 						cash = 6.0;
 						print("customer has $ "  +cash);
-						this.choice = "salad";
+						this.choice = "lamb";
 					}
 					else
 					{	//assigning a random amount of money to each customer. 
@@ -96,11 +96,11 @@ public class CustomerRole extends Agent implements Customer{
 						if (meal == 1)
 							this.choice = "steak";
 						 if(meal == 2)
-							this.choice = "chicken";
+							this.choice = "porkchops";
 						 if(meal == 3)
-							this.choice = "salad";
+							this.choice = "lamb";
 						 if (meal == 4)
-							this.choice = "pizza";
+							this.choice = "lambchops";
 					}
 		
 	}
@@ -117,19 +117,19 @@ public class CustomerRole extends Agent implements Customer{
 	{
 		choice = ch;
 	}
-	public void setWaiter(WaiterRole waiter) 
+	public void setWaiter(EnaWaiterRole waiter) 
 	{
 		this.waiter = waiter;
 	}
-	public WaiterRole getWaiter()
+	public EnaWaiterRole getWaiter()
 	{
 		return waiter;
 	}
-	public void setHost(HostRole host)
+	public void setHost(EnaHostRole host)
 	{
 		this.host = host;
 	}
-	public void setCashier(CashierRole cashier)
+	public void setCashier(EnaCashierRole cashier)
 	{
 		this.cashier = cashier;
 	}
@@ -272,7 +272,7 @@ public class CustomerRole extends Agent implements Customer{
 		
 		if (state == AgentState.Ordered && event == AgentEvent.ReAskedByWaiter)
 		{
-			System.out.println("custoemr picking new item from menu");
+			System.out.println("customer picking new item from menu");
 			state = AgentState.ReOrdered;
 			ReOrderFood();
 			return true;
