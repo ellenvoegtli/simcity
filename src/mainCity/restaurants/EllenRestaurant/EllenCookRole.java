@@ -270,11 +270,7 @@ public class EllenCookRole extends Agent implements Cook{
 	
 
 	// Actions
-	//public void OrderFromMarket(Map<String, Integer>inventory, int marketNum){
 	public void OrderFromMarket(Map<String, Integer>inventory){
-		//print("Ordering from: " + markets.get(marketNum).getName());
-		//markets.get(marketNum).msgINeedInventory(inventory);
-		//print("marketGreeter = " + contactList.getInstance().marketGreeter.getName());
 		contactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
 	}
 	
@@ -290,14 +286,11 @@ public class EllenCookRole extends Agent implements Cook{
 		Food f = inventory.get(o.choice);
 		print("Amount of " + f.type + " left = " + f.amount);
 		
-		//still some left, but hit the low point
 		if (f.amount <= f.low && f.s == FoodState.none){
 			inventoryNeeded.put(f.type, (f.capacity-f.amount));
-			//OrderFromMarket(f, (f.capacity - f.amount), f.nextMarket);
 			OrderFromMarket(inventoryNeeded);
 		}
 		if (f.amount == 0){
-			//do "OutOfFood" stuff
 			print("Out of " + f.type);
 			o.waiter.msgOutOfFood(o.choice, o.table);	//waiter doesn't come back on GUI to get this msg
 			orders.remove(o);
@@ -318,7 +311,6 @@ public class EllenCookRole extends Agent implements Cook{
 					i++;
 			}
 		}
-		
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
@@ -341,7 +333,6 @@ public class EllenCookRole extends Agent implements Cook{
 					i++;
 			}
 		}
-	
 		o.waiter.msgOrderDoneCooking(o.choice, o.table);
 		o.s = OrderState.finished;
 	}
@@ -354,7 +345,6 @@ public class EllenCookRole extends Agent implements Cook{
 				print("Adding " + inventory.get(c).type + " to market order");
 				inventory.get(c).amountToOrder = (inventory.get(c).capacity - inventory.get(c).amount);
 				lowInventory.put(c, inventory.get(c).amountToOrder);
-				//OrderFromMarket(inventory.get(c), inventory.get(c).amountToOrder, inventory.get(c).nextMarket);
 			}
 		}
 		if(!lowInventory.isEmpty()){
@@ -384,6 +374,8 @@ public class EllenCookRole extends Agent implements Cook{
 	}
 	
 
+	
+	//inner classes
 	private class Order {
 		Waiter waiter;
 		String choice;

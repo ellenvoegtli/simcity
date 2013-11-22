@@ -51,9 +51,9 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     JButton pizzaBtn = new JButton("Deplete pizza");
     //private HostGui hostGui = new HostGui(host);
 
-    private RestaurantGui gui; //reference to main gui
+    private EllenRestaurantGui gui; //reference to main gui
 
-    public RestaurantPanel(RestaurantGui gui) {
+    public RestaurantPanel(EllenRestaurantGui gui) {
     	
         this.gui = gui;
         //host.setGui(hostGui);
