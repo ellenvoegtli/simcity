@@ -47,7 +47,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     
     private JPanel group = new JPanel();
 
-    private RestaurantGui gui; //reference to main gui
+    private JeffersonRestaurantGui gui; //reference to main gui
     
     public void addWaiterToList(JeffersonWaiterRole w){
     	host.waiters.add(w);
@@ -57,13 +57,17 @@ public class JeffersonRestaurantPanel extends JPanel {
 
 
 
-    public JeffersonRestaurantPanel(RestaurantGui gui) {
+    public JeffersonRestaurantPanel(JeffersonRestaurantGui gui) {
         this.gui = gui;
        // waiter.setGui(waiterGui);
         //waiter.setCook(cook);
        // waiter.setHost(host);
         //gui.animationPanel.addGui(waiterGui);
        // waiter.startThread();
+        addPerson("waiter", "dave", false);
+        
+        
+        
         cook.startThread();
         m1.startThread();
         m2.startThread();
@@ -104,6 +108,11 @@ public class JeffersonRestaurantPanel extends JPanel {
         initRestLabel();
         add(restLabel);
         add(group);
+        
+    
+    
+        
+        
     }
 
     /**
@@ -181,7 +190,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     	
     	
     	if (type.equals("Customers")) {
-    		JeffersonCustomerRole c = new JeffersonCustomerRole(name,null );
+    		JeffersonCustomerRole c = new JeffersonCustomerRole(null,name );
     		c.setHost(host);
     		//host.waitingCustomers.add(c);
     		//for now only setting 1 waiter, not addlist

@@ -84,6 +84,10 @@ public class PersonGui implements Gui{
 				xDestination = 200;
 				yDestination = 200;
 				break;
+			case restaurant_jefferson:
+				xDestination =  720;
+				yDestination = 285;
+				
 			case market:
 				xDestination = 400;
 				yDestination = 400;

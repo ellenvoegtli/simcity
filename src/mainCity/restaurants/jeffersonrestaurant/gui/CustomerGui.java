@@ -13,7 +13,7 @@ public class CustomerGui implements Gui{
 	private boolean isHungry = false;
 
 	//private HostAgent host;
-	RestaurantGui gui;
+	JeffersonRestaurantGui gui;
 	Graphics2D g2;
 
 	private int xPos, yPos;
@@ -30,7 +30,7 @@ public class CustomerGui implements Gui{
 	int tablecount = 3;
 	int waitingloc;
 
-	public CustomerGui(JeffersonCustomerRole c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(JeffersonCustomerRole c, JeffersonRestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;

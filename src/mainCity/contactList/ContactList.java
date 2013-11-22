@@ -124,6 +124,13 @@ public class ContactList {
 	public void setJeffersonCashier(JeffersonCashierRole c){
 		jeffersonCashier = c;
 	}
+	public void setJeffersonRestaurant(JeffersonRestaurantPanel j){
+			jeffersonRestaurant = j;
+		}
+	public JeffersonRestaurantPanel getJeffersonRestaurant(){
+		return jeffersonRestaurant;
+		}
+	
 	
 	//David's Restaurant*****
 	public void setDavidHost(DavidHostRole h){
