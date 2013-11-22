@@ -12,7 +12,7 @@ public class CustomerGui implements Gui{
 	private boolean isHungry = false;
 
 	//private HostAgent host;
-	RestaurantGui gui;
+	DavidRestaurantGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -33,7 +33,7 @@ public class CustomerGui implements Gui{
 	private int width = 20;
 	private int height = 20;
 
-	public CustomerGui(DavidCustomerRole c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(DavidCustomerRole c, DavidRestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xPos = 40;
 		yPos = 40;
@@ -45,14 +45,14 @@ public class CustomerGui implements Gui{
 
 	public void updatePosition() {
 		if (xPos < xDestination)
-			xPos++;
+			xPos+=5;
 		else if (xPos > xDestination)
-			xPos--;
+			xPos-=5;
 
 		if (yPos < yDestination)
-			yPos++;
+			yPos+=5;
 		else if (yPos > yDestination)
-			yPos--;
+			yPos-=5;
 
 		if (xPos == xDestination && yPos == yDestination) {
 			if (command==Command.GoToSeat) {

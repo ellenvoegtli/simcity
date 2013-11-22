@@ -48,14 +48,14 @@ public class WaiterGui implements Gui {
 
     public void updatePosition() {
         if (xPos < xDestination)
-            xPos++;
+            xPos+=5;
         else if (xPos > xDestination)
-            xPos--;
+            xPos-=5;
 
         if (yPos < yDestination)
-            yPos++;
+            yPos+=5;
         else if (yPos > yDestination)
-            yPos--;
+            yPos-=5;
         
         //When the waiter reaches the table
         if (xPos == xDestination && yPos == yDestination
