@@ -215,7 +215,6 @@ public class PersonAgent extends Agent {
 				else {
 					handleRole(currentAction.type);
 					roles.get(currentAction.type).setActive();
-					//set appropriate role to active && set that roles initial state
 				}
 
 				if(currentAction != null && currentAction.type == ActionType.work) {
@@ -325,13 +324,6 @@ public class PersonAgent extends Agent {
 	public void stateChanged() {
 		super.stateChanged();
 	}
-	
-	
-	/*
-	public addRole(String occupation) {
-		roles.add(new Role(this, occupation, false)); //pointer to person, occupation, isActive?
-	}
-	*/
 
 	public double getCash() {
 		return cash;
@@ -349,12 +341,23 @@ public class PersonAgent extends Agent {
 		//this way works well except for the banking part
 		if(!roles.containsKey(action)) {
 			switch(action) {
+				case work:
+					switch(occupation) {
+						case "marcusWaiter":
+							MarcusNormalWaiterRole temp = new MarcusNormalWaiterRole(this, "TestWaiter");
+							ContactList.getInstance().getMarcusRestaurant().handleRole(temp);
+							roles.put(action, temp);
+							break;
+						default:
+							break;
+					}
+					break;
 				case hungry:
 				case restaurant: //need to figure out a better way
 					switch(destination) {
 						case restaurant_marcus:
 							MarcusCustomerRole temp = new MarcusCustomerRole(this, "TestCustomer");
-							ContactList.getInstance().getMarcusRestaurant().handleCustomer(temp);
+							ContactList.getInstance().getMarcusRestaurant().handleRole(temp);
 							roles.put(action, temp);
 							break;
 						default:

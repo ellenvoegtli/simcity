@@ -5,6 +5,7 @@ import mainCity.restaurants.marcusRestaurant.sharedData.RevolvingStand;
 
 import javax.swing.*;
 
+import role.Role;
 import role.marcusRestaurant.MarcusCashierRole;
 import role.marcusRestaurant.MarcusCookRole;
 import role.marcusRestaurant.MarcusCustomerRole;
@@ -67,7 +68,7 @@ public class MarcusRestaurantPanel extends JPanel {
         add(restLabel);
         add(group);
         
-        addWaiter("shareTestCityWaiter"); // for testing
+        //addWaiter("shareTestCityWaiter"); // for testing
         
         //Thread to tell cook to check every so often
         Runnable standChecker = new Runnable() {
@@ -156,12 +157,12 @@ public class MarcusRestaurantPanel extends JPanel {
     public void addWaiter(String name) {
     		MarcusWaiterRole w;
     		if(name.contains("share")) {
-    			w = new MarcusSharedWaiterRole(name);
+    			w = new MarcusSharedWaiterRole(null, name);
     			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) w;
     			a.setStand(stand);
     		}
     		else {
-    			w = new MarcusNormalWaiterRole(name);
+    			w = new MarcusNormalWaiterRole(null, name);
     		}
     		
     		WaiterGui g = new WaiterGui(w, waiters.size());
@@ -211,19 +212,42 @@ public class MarcusRestaurantPanel extends JPanel {
     	return cashier;
     }
     
-    public void handleCustomer(MarcusCustomerRole c) {
-    	for(MarcusCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
-    		if(cust == c) {
-    			return;
+    public void handleRole(Role r) {
+    	if(r instanceof MarcusWaiterRole) {
+        	MarcusNormalWaiterRole w = (MarcusNormalWaiterRole) r;
+
+    		if(r.getName().contains("share")) {
+    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
+    			a.setStand(stand);
     		}
+    		
+    		WaiterGui g = new WaiterGui(w, waiters.size());
+    		
+    		gui.animationPanel.addGui(g);
+    		w.setHost(host);
+    		w.setGui(g);
+            w.setCook(cook);
+            w.setCashier(cashier);
+            host.addWaiter(w);
+    		waiters.add(w);
     	}
     	
-		customers.add(c);
-		CustomerGui g = new CustomerGui(c, gui, customers.indexOf(c));
-
-		gui.animationPanel.addGui(g);
-		c.setHost(host);
-		c.setGui(g);
-		c.setCashier(cashier);
+    	if(r instanceof MarcusCustomerRole) {
+    		MarcusCustomerRole c = (MarcusCustomerRole) r;
+	    	
+    		for(MarcusCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+	    		if(cust == c) {
+	    			return;
+	    		}
+	    	}
+	    	
+			customers.add(c);
+			CustomerGui g = new CustomerGui(c, gui, customers.indexOf(c));
+	
+			gui.animationPanel.addGui(g);
+			c.setHost(host);
+			c.setGui(g);
+			c.setCashier(cashier);
+    	}
     }
 }

@@ -1,6 +1,7 @@
 package role.marcusRestaurant;
 
 import agent.Agent;
+import mainCity.PersonAgent;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import mainCity.restaurants.marcusRestaurant.gui.WaiterGui;
 import mainCity.restaurants.marcusRestaurant.MarcusMenu;
@@ -9,7 +10,9 @@ import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-public abstract class MarcusWaiterRole extends Agent implements Waiter {
+import role.Role;
+
+public abstract class MarcusWaiterRole extends Role implements Waiter {
 	public WaiterGui waiterGui = null;
 
 	static final int NTABLES = 3;//a global for the number of tables.
@@ -25,8 +28,8 @@ public abstract class MarcusWaiterRole extends Agent implements Waiter {
 	
 	Timer timer = new Timer();
 	
-	public MarcusWaiterRole(String name) {
-		super();
+	public MarcusWaiterRole(PersonAgent p, String name) {
+		super(p, false);
 
 		this.name = name;
 		onBreak = false;
@@ -187,7 +190,7 @@ public abstract class MarcusWaiterRole extends Agent implements Waiter {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		if(!requested && !onBreak && tired) {
 			this.requestBreak();
 			return true;
