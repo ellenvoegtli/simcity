@@ -50,7 +50,7 @@ public class DavidWaiterRole extends Agent implements Waiter {
 	
 	private DavidHostRole hAgent; 
 	private DavidCookRole cookAgent; 
-	private CashierAgent cashierAgent;
+	private DavidCashierRole cashierAgent;
 	
 	private String name;
 	
@@ -92,7 +92,7 @@ public class DavidWaiterRole extends Agent implements Waiter {
 		cookAgent = c; 
 	}
 	
-	public void setCashier(CashierAgent c){
+	public void setCashier(DavidCashierRole c){
 		cashierAgent = c;
 	}
 	

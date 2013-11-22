@@ -28,7 +28,7 @@ public class DavidCustomerRole extends Agent implements Customer {
 
 	// agent correspondents
 	private DavidWaiterRole cWaiter;
-	private CashierAgent cashier;
+	private DavidCashierRole cashier;
 	private DavidHostRole host; 
 	
 	private int tableNum = 0;
@@ -70,7 +70,7 @@ public class DavidCustomerRole extends Agent implements Customer {
 		this.cWaiter = w;
 	}
 	
-	public void setCashier(CashierAgent c) {
+	public void setCashier(DavidCashierRole c) {
 		this.cashier = c;
 	}
 

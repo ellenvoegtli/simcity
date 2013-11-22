@@ -5,7 +5,7 @@ import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidMarketRole;
-import mainCity.restaurants.restaurant_zhangdt.CashierAgent;
+import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
 
 import javax.swing.*;
 
@@ -22,7 +22,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     //Host, cook, waiters and customers
     private DavidHostRole host = new DavidHostRole("Sarah");
     private DavidCookRole cook = new DavidCookRole("Jim");
-    private CashierAgent cashier = new CashierAgent("Bob");
+    private DavidCashierRole cashier = new DavidCashierRole("Bob");
     
     private Vector<DavidMarketRole> markets = new Vector<DavidMarketRole>();
     private Vector<DavidCustomerRole> customers = new Vector<DavidCustomerRole>();
