@@ -1,5 +1,6 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
+import mainCity.contactList.ContactList;
 import mainCity.restaurants.enaRestaurant.EnaCashierRole;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaMarketRole;
@@ -22,6 +23,8 @@ public class RestaurantPanel extends JPanel {
     //Host, cook, waiters and customers
     //private WaiterRole waiter;
     //private WaiterGui waiterGui;
+	
+	private ContactList contactList;
     private EnaHostRole host;
     private HostGui hostGui = new HostGui(host);
     private EnaCookRole cook = new EnaCookRole("Bob");
@@ -40,9 +43,9 @@ public class RestaurantPanel extends JPanel {
     private JPanel group = new JPanel();
     private ListPanel waiterPanel = new ListPanel(this, "Waiters");
 
-    private RestaurantGui gui; //reference to main gui
+    private EnaRestaurantGui gui; //reference to main gui
 
-    public RestaurantPanel(RestaurantGui gui) {
+    public RestaurantPanel(EnaRestaurantGui gui) {
         this.gui = gui;
         host = new EnaHostRole("Mr. Jeeves");
         host.setGui(hostGui);
@@ -55,15 +58,22 @@ public class RestaurantPanel extends JPanel {
         host.startThread();
         cook.startThread();
         cashier.startThread();
-        market1.startThread();
-        market2.startThread();
-        market3.startThread();
-        cook.addMarkets(market1);
-        cook.addMarkets(market2);
-        cook.addMarkets(market3);
-        market1.setCashierRole(cashier);
-        market2.setCashierRole(cashier);
-        market3.setCashierRole(cashier);
+        	/*
+        	market1.startThread();
+        	market2.startThread();
+        	market3.startThread();
+        	cook.addMarkets(market1);
+        	cook.addMarkets(market2);
+        	cook.addMarkets(market3);
+        	market1.setCashierRole(cashier);
+        	market2.setCashierRole(cashier);
+        	market3.setCashierRole(cashier);*/
+        
+        contactList.getInstance().setEnaCook(cook);
+        contactList.getInstance().setEnaCashier(cashier);
+        contactList.getInstance().setEnaHost(host);
+
+        
 
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(2, 1, 10, 10));

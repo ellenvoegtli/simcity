@@ -12,7 +12,7 @@ public class CustomerGui implements Gui{
 	private boolean deciding = false;
 	private boolean fdChoice = false;
 	//private HostAgent host;
-	RestaurantGui gui;
+	EnaRestaurantGui gui;
 
 	public int xPos;
 	private int yPos;
@@ -30,7 +30,7 @@ public class CustomerGui implements Gui{
 
 	
 
-	public CustomerGui(EnaCustomerRole c, RestaurantGui gui)
+	public CustomerGui(EnaCustomerRole c, EnaRestaurantGui gui)
 	{
 		agent = c;
 		xPos = 50;
@@ -74,18 +74,18 @@ public class CustomerGui implements Gui{
         	{
         			g.drawString("ST", xPos, yPos);
         	}
-        	if(fd.equals("chicken"))
+        	if(fd.equals("porkchops"))
         	{
-        		g.drawString("CH", xPos, yPos);
+        		g.drawString("PC", xPos, yPos);
 
         	}
-        	if (fd.equals("salad"))
+        	if (fd.equals("lamb"))
         	{
-        		g.drawString("SAL", xPos, yPos);
+        		g.drawString("LA", xPos, yPos);
         	}
-        	if (fd.equals("pizza"))
+        	if (fd.equals("lambchops"))
         	{
-        		g.drawString("PZ", xPos, yPos);
+        		g.drawString("LC", xPos, yPos);
         	}
         }
 		if(deciding)

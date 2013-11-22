@@ -50,9 +50,9 @@ public class EnaWaiterRole extends Agent implements Waiter{
 		this.name = name;
 		
 		Menu.add("steak");
-		Menu.add("chicken");
-		Menu.add("salad");
-		Menu.add("pizza");
+		Menu.add("porkchops");
+		Menu.add("lamb");
+		Menu.add("lambchops");
 	}
 
 	public String getMaitreDName()

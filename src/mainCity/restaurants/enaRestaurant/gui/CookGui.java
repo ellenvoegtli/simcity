@@ -20,7 +20,7 @@ public class CookGui implements Gui
 
 
 	private EnaCookRole agent;
-	private RestaurantGui gui;
+	private EnaRestaurantGui gui;
 	private int grillPosX = 375;
 	private int platePosY = 500;
 
@@ -58,18 +58,18 @@ public class CookGui implements Gui
 	        	{
 	        			g.drawString("ST", grillPosX, 492);
 	        	}
-	        	if(gfd.equals("chicken"))
+	        	if(gfd.equals("porkchops"))
 	        	{
-	        		g.drawString("CH", grillPosX, 502);
+	        		g.drawString("PH", grillPosX, 502);
 
 	        	}
-	        	if (gfd.equals("salad"))
+	        	if (gfd.equals("lamb"))
 	        	{
-	        		g.drawString("SAL", grillPosX, 512);
+	        		g.drawString("LA", grillPosX, 512);
 	        	}
-	        	if (gfd.equals("pizza"))
+	        	if (gfd.equals("lambchops"))
 	        	{
-	        		g.drawString("PZ", grillPosX, 522);
+	        		g.drawString("LC", grillPosX, 522);
 	        	}
 	        
 	       }
@@ -86,18 +86,18 @@ public class CookGui implements Gui
 	        	{
 	        			g.drawString("ST", 280, platePosY);
 	        	}
-	        	if(pfd.equals("chicken"))
+	        	if(pfd.equals("porkchops"))
 	        	{
-	        		g.drawString("CH", 290, platePosY);
+	        		g.drawString("PH", 290, platePosY);
 
 	        	}
-	        	if (pfd.equals("salad"))
+	        	if (pfd.equals("lamb"))
 	        	{
-	        		g.drawString("SAL", 310, platePosY);
+	        		g.drawString("LA", 310, platePosY);
 	        	}
-	        	if (pfd.equals("pizza"))
+	        	if (pfd.equals("lambchops"))
 	        	{
-	        		g.drawString("PZ", 330, platePosY);
+	        		g.drawString("LC", 330, platePosY);
 	        	}
 	        
 	        }

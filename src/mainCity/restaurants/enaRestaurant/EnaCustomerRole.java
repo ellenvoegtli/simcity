@@ -65,24 +65,24 @@ public class EnaCustomerRole extends Agent implements Customer{
 						if (meal == 1)
 							this.choice = "steak";
 						 if(meal == 2)
-							this.choice = "chicken";
+							this.choice = "porkchops";
 						 if(meal == 3)
-							this.choice = "salad";
+							this.choice = "lamb";
 						 if (meal == 4)
-							this.choice = "pizza";
+							this.choice = "lambchops";
 					}
 					if(name.equals("cheapest"))
 					{
 						cash = 6.0;
 						print("customer has $ "  +cash);
-						this.choice = "salad";	
+						this.choice = "steak";	
 					}
 					
 					if(name.equals("onlyChoice"))
 					{
 						cash = 6.0;
 						print("customer has $ "  +cash);
-						this.choice = "salad";
+						this.choice = "steak";
 					}
 					else
 					{	//assigning a random amount of money to each customer. 
@@ -96,11 +96,11 @@ public class EnaCustomerRole extends Agent implements Customer{
 						if (meal == 1)
 							this.choice = "steak";
 						 if(meal == 2)
-							this.choice = "chicken";
+							this.choice = "porkchops";
 						 if(meal == 3)
-							this.choice = "salad";
+							this.choice = "lamb";
 						 if (meal == 4)
-							this.choice = "pizza";
+							this.choice = "lambchops";
 					}
 		
 	}

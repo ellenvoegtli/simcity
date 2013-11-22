@@ -2,10 +2,11 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
+import mainCity.contactList.ContactList;
+import mainCity.interfaces.MainCook;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
 import java.util.*;
-//import java.util.concurrent.Semaphore;
 
 import mainCity.restaurants.enaRestaurant.gui.CookGui;
 import mainCity.restaurants.enaRestaurant.gui.HostGui;
@@ -14,9 +15,9 @@ import mainCity.restaurants.enaRestaurant.gui.HostGui;
  * Restaurant Cook Agent
  */
 
-public class EnaCookRole extends Agent {
+public class EnaCookRole extends Agent implements MainCook {
 	Timer timer = new Timer();
-
+	private ContactList contactList;
 	public List<EnaMarketRole> Bazaar = Collections.synchronizedList(new ArrayList<EnaMarketRole>());
 	public List<Order> Orders= Collections.synchronizedList(new ArrayList<Order>());
 	public Map<String, Food> Foods = new HashMap<String, Food>();
@@ -39,9 +40,9 @@ public class EnaCookRole extends Agent {
 
 		this.name = name;
 		Foods.put( "steak", new Food("steak", 0));
-		Foods.put("chicken", new Food("chicken", 0));
-		Foods.put("salad" , new Food("salad", 0));
-		Foods.put("pizza", new Food("pizza", 0));
+		Foods.put("porkchops", new Food("porkchops", 0));
+		Foods.put("lamb" , new Food("lamb", 0));
+		Foods.put("lambchops", new Food("lambchops", 0));
 
 		
 	}
@@ -77,6 +78,26 @@ public class EnaCookRole extends Agent {
 				print("now has more" +f);
 			}
 		}
+		print("the cook has replenished its inventory");
+		stateChanged();
+	}
+	
+	public void msgHereIsYourOrder(Map<String, Integer> inventory)
+	{
+		inventoryChecked = true;
+		//fullOrder = fullInvoice;
+		for (String f : Foods.keySet())
+		{
+			Foods.get(f).setAmount(Foods.get(f).getAmount()+inventory.get(f));
+			print("now has more" +f);
+		}
+	
+			/*if(newInventory.get(f) != null)
+			{
+				Foods.get(f).setAmount(Foods.get(f).getAmount()+newInventory.get(f));
+				print("now has more" +f);
+			}
+		}*/
 		print("the cook has replenished its inventory");
 		stateChanged();
 	}
@@ -192,8 +213,11 @@ synchronized(Orders)
 		}
 		//Random rnd = new Random();
 		//int mk = rnd.nextInt(3)+1;
-		if(marketCount == 1)
-			Bazaar.get(0).msgOrderRestock("enaRestaurant", this, cashier,  Stock);
+		
+		contactList.getInstance().marketGreeter.msgINeedInventory("enaRestaurant", this, cashier, Stock);
+			
+		
+		/*Bazaar.get(0).msgOrderRestock("enaRestaurant", this, cashier,  Stock);
 		if(marketCount == 2)
 			Bazaar.get(1).msgOrderRestock("enaRestaurant" , this, cashier, Stock);
 		if(marketCount == 3)
@@ -208,7 +232,7 @@ synchronized(Orders)
 		for(int i=0; i<Bazaar.size(); i++)
 		{
 			
-		}
+		}*/
 		
 	}
 	//utilities
@@ -280,15 +304,15 @@ synchronized(Orders)
 			{
 				time = 10000;
 			}
-			if (ch == "chicken")
+			if (ch == "porkchops")
 			{
 				time = 8000;
 			}
-			if(ch == "salad")
+			if(ch == "lamb")
 			{
 				time= 5000;
 			}
-			if(ch == "pizza")
+			if(ch == "lambchops")
 			{
 				time= 9000;
 			}
@@ -311,5 +335,7 @@ synchronized(Orders)
 	{
 		cookGui.platingDone(fdPlate);
 	}
+
+	
 }
 

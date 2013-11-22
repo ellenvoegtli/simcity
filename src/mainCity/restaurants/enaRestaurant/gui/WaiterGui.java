@@ -14,7 +14,7 @@ public class WaiterGui implements Gui
 		
 	    private EnaWaiterRole agent = null;
 	    
-	   private RestaurantGui gui;
+	   private EnaRestaurantGui gui;
 
 	    private int xPos = 500, yPos = 100;//default waiter position
 	    private int xDestination = 500, yDestination = 100;//default start position
@@ -31,7 +31,7 @@ public class WaiterGui implements Gui
 	    boolean onBreak = false;
 	    public static final int yTable = 350;
 	    private boolean fdChoice = false;
-	    public WaiterGui(EnaWaiterRole w, RestaurantGui gui, int yP)
+	    public WaiterGui(EnaWaiterRole w, EnaRestaurantGui gui, int yP)
 		{ //HostAgent m) {
 			agent = w;
 			xPos =500;
@@ -146,18 +146,18 @@ public class WaiterGui implements Gui
 	        	{
 	        			g.drawString("ST", xPos, yPos);
 	        	}
-	        	if(fd.equals("chicken"))
+	        	if(fd.equals("porkchops"))
 	        	{
-	        		g.drawString("CH", xPos, yPos);
+	        		g.drawString("PC", xPos, yPos);
 
 	        	}
-	        	if (fd.equals("salad"))
+	        	if (fd.equals("lamb"))
 	        	{
-	        		g.drawString("SAL", xPos, yPos);
+	        		g.drawString("LA", xPos, yPos);
 	        	}
-	        	if (fd.equals("pizza"))
+	        	if (fd.equals("lambchops"))
 	        	{
-	        		g.drawString("PZ", xPos, yPos);
+	        		g.drawString("LC", xPos, yPos);
 	        	}
 	        }
 	}
