@@ -13,7 +13,7 @@ import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 /**
  * Restaurant customer agent.
  */
-public class CustomerRole extends Agent implements Customer{
+public class EnaCustomerRole extends Agent implements Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -43,7 +43,7 @@ public class CustomerRole extends Agent implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public CustomerRole(String name)
+	public EnaCustomerRole(String name)
 	{
 		super();
 		this.name = name;

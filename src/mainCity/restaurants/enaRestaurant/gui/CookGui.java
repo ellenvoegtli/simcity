@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import mainCity.restaurants.enaRestaurant.CookRole;
+import mainCity.restaurants.enaRestaurant.EnaCookRole;
 
 public class CookGui implements Gui 
 {
@@ -19,7 +19,7 @@ public class CookGui implements Gui
     public static String pfd; 
 
 
-	private CookRole agent;
+	private EnaCookRole agent;
 	private RestaurantGui gui;
 	private int grillPosX = 375;
 	private int platePosY = 500;
@@ -28,7 +28,7 @@ public class CookGui implements Gui
 	    //private int xDestination, yDestination;//default start position
   
 
-	public CookGui(CookRole c)
+	public CookGui(EnaCookRole c)
 	{
 		agent = c;
 		xPos = 280;

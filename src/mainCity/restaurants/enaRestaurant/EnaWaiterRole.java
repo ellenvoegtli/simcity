@@ -1,7 +1,7 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
-import mainCity.restaurants.enaRestaurant.CustomerRole.AgentEvent;
+import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
 import java.util.*;
@@ -41,7 +41,7 @@ public class EnaWaiterRole extends Agent implements Waiter{
 	public boolean breakTime = false;
 	public HostGui hostGui;
 	public EnaHostRole host;
-	public CookRole cook;
+	public EnaCookRole cook;
 	public EnaCashierRole cashier;
 
 	public EnaWaiterRole(String name)
@@ -111,13 +111,13 @@ public class EnaWaiterRole extends Agent implements Waiter{
 		
 	}
 	
-	public void msgSeatCustomer(CustomerRole c, Table t) 
+	public void msgSeatCustomer(EnaCustomerRole c, Table t) 
 	{
 		MyCust.add(new MyCustomers(c,t, custState.waiting, c.getChoice()));
 		stateChanged();
 	}
 	
-	public void msgReadyToOrder( CustomerRole c)
+	public void msgReadyToOrder( EnaCustomerRole c)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -129,7 +129,7 @@ public class EnaWaiterRole extends Agent implements Waiter{
 			}
 		}
 	}
-	public void msgHereIsMyChoice(String choice, CustomerRole c)
+	public void msgHereIsMyChoice(String choice, EnaCustomerRole c)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -166,7 +166,7 @@ public class EnaWaiterRole extends Agent implements Waiter{
 			}
 		}
 	}
-	public void msgDoneEating(CustomerRole c)
+	public void msgDoneEating(EnaCustomerRole c)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -179,7 +179,7 @@ public class EnaWaiterRole extends Agent implements Waiter{
 		}
 	}
 	
-	public void msgCheckPlease(CustomerRole c, String choice)
+	public void msgCheckPlease(EnaCustomerRole c, String choice)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -205,7 +205,7 @@ public class EnaWaiterRole extends Agent implements Waiter{
 		}
 	}
 	
-	public void msgDoneandPaying(CustomerRole c)
+	public void msgDoneandPaying(EnaCustomerRole c)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -604,7 +604,7 @@ catch(ConcurrentModificationException e){};
 		return waiterGui;
 	}
 	
-	public void setCook(CookRole cook)
+	public void setCook(EnaCookRole cook)
 	{
 		this.cook = cook;
 	}
@@ -633,12 +633,12 @@ catch(ConcurrentModificationException e){};
 	
 	public class MyCustomers 
 	{
-		CustomerRole cust;
+		EnaCustomerRole cust;
 		Table table;
 		String choice;
 		custState customerState;
 
-		MyCustomers(CustomerRole c, Table t, custState cSt, String fdc )
+		MyCustomers(EnaCustomerRole c, Table t, custState cSt, String fdc )
 		{
 			cust = c;
 			table = t;

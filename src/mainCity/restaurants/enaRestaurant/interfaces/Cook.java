@@ -4,8 +4,8 @@ import java.util.Map;
 
 import mainCity.interfaces.MainCook;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
-import mainCity.restaurants.enaRestaurant.CookRole.Order;
-import mainCity.restaurants.enaRestaurant.CookRole.OrderStatus;
+import mainCity.restaurants.enaRestaurant.EnaCookRole.Order;
+import mainCity.restaurants.enaRestaurant.EnaCookRole.OrderStatus;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
 public interface Cook extends MainCook 

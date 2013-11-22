@@ -1,7 +1,7 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
 
-import mainCity.restaurants.enaRestaurant.CustomerRole;
+import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
@@ -193,13 +193,13 @@ public class WaiterGui implements Gui
 		fd = ch;
 	}
 	
-	public void DoGetCustomer(CustomerRole customer)
+	public void DoGetCustomer(EnaCustomerRole customer)
 	{
 		xDestination = customer.getXPos();
 		yDestination = 10+20;
 	}
 	    
-	public void DoBringToTable(CustomerRole customer, int tableN) 
+	public void DoBringToTable(EnaCustomerRole customer, int tableN) 
 	{
 			//DoGetCustomer(customer);
 	    	xDestination = setPositionX(tableXX) + 20;
@@ -207,7 +207,7 @@ public class WaiterGui implements Gui
 	    
 	 }
 	    
-	    public void DoGoToTable(CustomerRole customer, Table t)
+	    public void DoGoToTable(EnaCustomerRole customer, Table t)
 		{
 	    	setXNum(t.getTableNumber());
 			xDestination = setPositionX(tableXX)+20;

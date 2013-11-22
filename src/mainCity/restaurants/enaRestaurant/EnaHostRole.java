@@ -2,7 +2,7 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
-import mainCity.restaurants.enaRestaurant.CustomerRole.AgentEvent;
+import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
 import java.util.*;
@@ -22,8 +22,8 @@ public class EnaHostRole extends Agent {
 	//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
-	public List<CustomerRole> waitingCustomers = Collections.synchronizedList(new ArrayList<CustomerRole>());
-	public List<CustomerRole> waitingLine = Collections.synchronizedList(new ArrayList<CustomerRole>());
+	public List<EnaCustomerRole> waitingCustomers = Collections.synchronizedList(new ArrayList<EnaCustomerRole>());
+	public List<EnaCustomerRole> waitingLine = Collections.synchronizedList(new ArrayList<EnaCustomerRole>());
 
 	public List<EnaWaiterRole> waiters = Collections.synchronizedList(new ArrayList<EnaWaiterRole>());
 	public boolean OnBreak = false;
@@ -54,7 +54,7 @@ public class EnaHostRole extends Agent {
 		return name;
 	}
 
-	public List<CustomerRole> getWaitingCustomers() 
+	public List<EnaCustomerRole> getWaitingCustomers() 
 	{
 		return waitingCustomers;
 	}
@@ -76,7 +76,7 @@ public class EnaHostRole extends Agent {
 	// Messages
 
 
-	public void msgIWantToEat(CustomerRole cust) 
+	public void msgIWantToEat(EnaCustomerRole cust) 
 	{
 		
 		waitingCustomers.add(cust);
@@ -85,7 +85,7 @@ public class EnaHostRole extends Agent {
 		stateChanged();
 	}
 	
-	public void msgWaiterArrived(CustomerRole cust)
+	public void msgWaiterArrived(EnaCustomerRole cust)
 	{
 		waitingLine.remove(cust);
 		stateChanged();
@@ -202,7 +202,7 @@ public class EnaHostRole extends Agent {
 
 	// Actions
 
-	private void AssignWaiter(CustomerRole c, Table t, EnaWaiterRole w)
+	private void AssignWaiter(EnaCustomerRole c, Table t, EnaWaiterRole w)
 	{
 		System.out.println("Assgning waiter to the customer");
 		c.setWaiter(w);
@@ -247,7 +247,7 @@ public void WaiterBreak(final EnaWaiterRole  waiter)
 
 	public class Table 
 	{
-		CustomerRole occupiedBy;
+		EnaCustomerRole occupiedBy;
 		int tableNumber;
 
 		Table(int tableNumber)
@@ -255,7 +255,7 @@ public void WaiterBreak(final EnaWaiterRole  waiter)
 			this.tableNumber = tableNumber;
 		}
 
-		void setOccupant(CustomerRole cust)
+		void setOccupant(EnaCustomerRole cust)
 		{
 			occupiedBy = cust;
 		}
@@ -265,7 +265,7 @@ public void WaiterBreak(final EnaWaiterRole  waiter)
 			occupiedBy = null;
 		}
 
-		CustomerRole getOccupant() 
+		EnaCustomerRole getOccupant() 
 		{
 			return occupiedBy;
 		}

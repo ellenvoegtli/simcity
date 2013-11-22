@@ -1,11 +1,11 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
 import mainCity.restaurants.enaRestaurant.EnaCashierRole;
-import mainCity.restaurants.enaRestaurant.CustomerRole;
+import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaMarketRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole;
-import mainCity.restaurants.enaRestaurant.CookRole;
+import mainCity.restaurants.enaRestaurant.EnaCookRole;
 
 import javax.swing.*;
 
@@ -24,7 +24,7 @@ public class RestaurantPanel extends JPanel {
     //private WaiterGui waiterGui;
     private EnaHostRole host;
     private HostGui hostGui = new HostGui(host);
-    private CookRole cook = new CookRole("Bob");
+    private EnaCookRole cook = new EnaCookRole("Bob");
     private CookGui cookGui = new CookGui(cook);
     private EnaCashierRole cashier = new EnaCashierRole("Tim");
     private EnaMarketRole market1 = new EnaMarketRole("market1");
@@ -32,7 +32,7 @@ public class RestaurantPanel extends JPanel {
     private EnaMarketRole market3 = new EnaMarketRole("market3");
 
 
-    private Vector<CustomerRole> customers = new Vector<CustomerRole>();
+    private Vector<EnaCustomerRole> customers = new Vector<EnaCustomerRole>();
     private Vector<EnaWaiterRole> waiters = new Vector<EnaWaiterRole>();
 
     private JPanel restLabel = new JPanel();
@@ -110,7 +110,7 @@ public class RestaurantPanel extends JPanel {
 
             for (int i = 0; i < customers.size(); i++) 
             {
-                CustomerRole temp = customers.get(i);
+                EnaCustomerRole temp = customers.get(i);
                 if (temp.getName() == name)
                     gui.updateInfoPanel(temp);
             }
@@ -164,7 +164,7 @@ public class RestaurantPanel extends JPanel {
 
     	if (type.equals("Customers")) 
     	{
-    		CustomerRole c = new CustomerRole(name);	
+    		EnaCustomerRole c = new EnaCustomerRole(name);	
     		customers.add(c);
     			//int posX = 22 * customers.size();
     		CustomerGui g = new CustomerGui(c, gui);
@@ -199,7 +199,7 @@ public class RestaurantPanel extends JPanel {
     		waiter.pause();
 
     	} 
-    	for(CustomerRole customer : customers)
+    	for(EnaCustomerRole customer : customers)
     	{
     		customer.pause();
     	}
@@ -223,7 +223,7 @@ public class RestaurantPanel extends JPanel {
     	{
     		 waiter.restart();
     	}
-    	for(CustomerRole customer: customers)
+    	for(EnaCustomerRole customer: customers)
     	{
     		customer.restart();
     	}

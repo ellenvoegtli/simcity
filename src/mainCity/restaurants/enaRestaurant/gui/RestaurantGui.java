@@ -1,6 +1,6 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
-import mainCity.restaurants.enaRestaurant.CustomerRole;
+import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import javax.swing.*;
 
@@ -131,8 +131,8 @@ public class RestaurantGui extends JFrame implements ActionListener {
         stateCB.setVisible(true);
         currentPerson = person;
 
-        if (person instanceof CustomerRole) {
-            CustomerRole customer = (CustomerRole) person;
+        if (person instanceof EnaCustomerRole) {
+            EnaCustomerRole customer = (EnaCustomerRole) person;
             stateCB.setText("Hungry?");
           //Should checkmark be there? 
             stateCB.setSelected(customer.getGui().isHungry());
@@ -164,9 +164,9 @@ public class RestaurantGui extends JFrame implements ActionListener {
     {
         if (e.getSource() == stateCB) 
         {
-            if (currentPerson instanceof CustomerRole) 
+            if (currentPerson instanceof EnaCustomerRole) 
             {
-                CustomerRole c = (CustomerRole) currentPerson;
+                EnaCustomerRole c = (EnaCustomerRole) currentPerson;
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
@@ -206,10 +206,10 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(CustomerRole c) 
+    public void setCustomerEnabled(EnaCustomerRole c) 
     {
-        if (currentPerson instanceof CustomerRole) {
-            CustomerRole cust = (CustomerRole) currentPerson;
+        if (currentPerson instanceof EnaCustomerRole) {
+            EnaCustomerRole cust = (EnaCustomerRole) currentPerson;
             if (c.equals(cust)) {
                 stateCB.setEnabled(true);
                 stateCB.setSelected(false);

@@ -14,7 +14,7 @@ import mainCity.restaurants.enaRestaurant.gui.HostGui;
  * Restaurant Cook Agent
  */
 
-public class CookRole extends Agent {
+public class EnaCookRole extends Agent {
 	Timer timer = new Timer();
 
 	public List<EnaMarketRole> Bazaar = Collections.synchronizedList(new ArrayList<EnaMarketRole>());
@@ -34,7 +34,7 @@ public class CookRole extends Agent {
 			public EnaMarketRole market;
 			public EnaCashierRole cashier;
 
-	public CookRole(String name) {
+	public EnaCookRole(String name) {
 		super();
 
 		this.name = name;

@@ -1,7 +1,7 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
 
-import mainCity.restaurants.enaRestaurant.CustomerRole;
+import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
@@ -91,7 +91,7 @@ public boolean atDestination(){
         return true;
     }
 
-    public void DoBringToTable(CustomerRole customer, int tableN) {
+    public void DoBringToTable(EnaCustomerRole customer, int tableN) {
     	xDestination = setPositionX(tableXX) + 20;
 		yDestination = yTable - 20;
     	
