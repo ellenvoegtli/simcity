@@ -1,5 +1,6 @@
 package mainCity.restaurants.restaurant_zhangdt.gui;
 
+import mainCity.contactList.ContactList;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
@@ -9,6 +10,8 @@ import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
 
 import javax.swing.*;
 
+import role.Role;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -17,7 +20,7 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel implements ActionListener{
+public class DavidRestaurantPanel extends JPanel implements ActionListener{
 
     //Host, cook, waiters and customers
     private DavidHostRole host = new DavidHostRole("Sarah");
@@ -27,6 +30,8 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     private Vector<DavidMarketRole> markets = new Vector<DavidMarketRole>();
     private Vector<DavidCustomerRole> customers = new Vector<DavidCustomerRole>();
     private Vector<DavidWaiterRole> waiters = new Vector<DavidWaiterRole>();
+    
+    private ContactList contactList;
 
     private JPanel restLabel = new JPanel();
     private JTabbedPane CWPane = new JTabbedPane();
@@ -39,9 +44,9 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     
     private JButton pauseButton = new JButton("Pause");
 
-    private RestaurantGui gui; //reference to main gui
+    private DavidRestaurantGui gui; //reference to main gui
 
-    public RestaurantPanel(RestaurantGui gui) {
+    public DavidRestaurantPanel(DavidRestaurantGui gui) {
         this.gui = gui;
         
         host.startThread(); 
@@ -63,6 +68,10 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         cook.startThread();
         cashier.startThread();
         cashier.setGui(gui);
+        
+        contactList.getInstance().setDavidCook(cook);
+        contactList.getInstance().setDavidCashier(cashier);
+        contactList.getInstance().setDavidHost(host);
 
         setLayout(new BorderLayout());
         CWPane.addTab("Customers",  customerPanel);
@@ -142,7 +151,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     public void addPerson(String type, String name, boolean hungry) {
 
     	if (type.equals("Customers")) {
-    		DavidCustomerRole c = new DavidCustomerRole(name);	
+    		DavidCustomerRole c = new DavidCustomerRole(name, null);	
     		CustomerGui g = new CustomerGui(c, gui);
 
     		gui.getAnimationPanel().addGui(g);// dw
@@ -180,6 +189,26 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     		w.startThread();
     		
     		host.addWaiter(w);
+    	}
+    }
+
+    public void handleRoleGui(Role r) { 
+    	if(r instanceof DavidCustomerRole) {
+    		DavidCustomerRole c = (DavidCustomerRole) r; 
+    		
+    		for(DavidCustomerRole cust : customers) { 
+    			if(cust == c) { 
+    				return; 
+    			}
+    		}
+    		
+    		customers.add(c); 
+    		CustomerGui g = new CustomerGui(c, gui); 
+    		
+    		gui.getAnimationPanel().addGui(g); 
+    		c.setHost(host); 
+    		c.setGui(g); 
+    		c.setCashier(cashier);
     	}
     }
     
