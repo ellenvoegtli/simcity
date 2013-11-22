@@ -51,11 +51,13 @@ public class MarketMenu {
 	}
 	
 	public int getStock(String choice){
-		return (stockAmounts.get(choice));
+		String temp = choice.toLowerCase();
+		return (stockAmounts.get(temp));
 	}
 	
 	public double getPrice(String choice){
-		return (prices.get(choice));
+		String temp = choice.toLowerCase();
+		return (prices.get(temp));
 	}
 	
 	
