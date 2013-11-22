@@ -2,6 +2,7 @@ package mainCity.contactList;
 
 import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
+import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.*;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
@@ -52,6 +53,7 @@ public class ContactList {
 	
 	//TESTING
 	MarcusRestaurantPanel marcusRestaurant;
+	EllenRestaurantPanel ellenRestaurant;
 	
 	//anything else? apartment landlords?
 	

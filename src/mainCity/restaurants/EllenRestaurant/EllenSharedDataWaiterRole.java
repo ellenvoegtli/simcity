@@ -1,13 +1,15 @@
 package mainCity.restaurants.EllenRestaurant;
 import java.util.concurrent.Semaphore;
+import mainCity.PersonAgent;
+
 
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
 
 public class EllenSharedDataWaiterRole extends EllenWaiterRole {
 	private RevolvingStand stand;
 	
-	public EllenSharedDataWaiterRole(String name) {
-		super(name);
+	public EllenSharedDataWaiterRole(PersonAgent p, String name) {
+		super(p, name);
 		print("Created a shared data waiter");
 	}
 	

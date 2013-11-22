@@ -1,8 +1,11 @@
 package mainCity.restaurants.EllenRestaurant.gui;
 
 import mainCity.restaurants.EllenRestaurant.*;
+import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
+import role.Role;
+
 
 import javax.swing.*;
 
@@ -18,7 +21,7 @@ import mainCity.contactList.*;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel implements ActionListener{
+public class EllenRestaurantPanel extends JPanel implements ActionListener{
     //Host and cook
     private EllenHostRole host = new EllenHostRole("EllenRestaurant Host");
     private EllenCashierRole cashier = new EllenCashierRole("EllenRestaurant Cashier");
@@ -52,7 +55,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
 
     private EllenRestaurantGui gui; //reference to main gui
 
-    public RestaurantPanel(EllenRestaurantGui gui) {
+    public EllenRestaurantPanel(EllenRestaurantGui gui) {
     	
         this.gui = gui;
         //host.setGui(hostGui);
@@ -101,13 +104,13 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         waiterPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         customerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         
-        group.add(waiterPanel);
-        group.add(customerPanel);
+        //group.add(waiterPanel);
+        //group.add(customerPanel);
         
 
         initRestLabel();
         add(restLabel);
-        add(group);
+        //add(group);
         
         
         pausePanel.setLayout(new GridLayout(2, 1, 5, 5));
@@ -228,6 +231,67 @@ public class RestaurantPanel extends JPanel implements ActionListener{
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
+    public void handleRoleGui(Role r){
+    	if(r instanceof EllenWaiterRole) {
+        	EllenNormalWaiterRole w = (EllenNormalWaiterRole) r;
+
+        	/*
+    		if(r.getName().contains("share")) {
+    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
+    			a.setStand(stand);
+    		}*/
+    		
+    		WaiterGui g = new WaiterGui(w, gui);
+    		
+    		//set the home positions based on position in waiter list
+    		int i = 0;
+    		for (EllenWaiterRole wait : waiters){
+    			if (wait.equals(w)){
+    				g.setHomePosition((WINDOWX + i*70)/3, 30);
+    			}
+    			else
+    				i++;
+    		}
+    		
+    		gui.animationPanel.addGui(g);
+    		w.setHost(host);
+    		w.setGui(g);
+            w.setCook(cook);
+            w.setCashier(cashier);
+            host.addWaiter(w);
+    		waiters.add(w);
+    	}
+    	
+    	if(r instanceof EllenCustomerRole) {
+    		EllenCustomerRole c = (EllenCustomerRole) r;
+	    	
+    		for(EllenCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+	    		if(cust == c) {
+	    			return;
+	    		}
+	    	}
+	    	
+			customers.add(c);
+			CustomerGui g = new CustomerGui(c, gui);
+			
+    		int i = 0;
+    		for (EllenCustomerRole cust : customers){
+    			if (cust.equals(c)){
+    				g.setWaitingAreaPosition(10 + (i%5)*25, (10 + ( (int)(Math.floor(i/5)) *25) ));
+    			}
+    			else
+    				i++;
+    		}
+	
+			gui.animationPanel.addGui(g);
+			c.setHost(host);
+			c.setGui(g);
+			c.setCashier(cashier);
+    	}
+    }
+    
+    
+    /*
     public void addPerson(String type, String name, boolean isChecked) {
 
     	if (type.equals("Customers")) {
@@ -292,6 +356,6 @@ public class RestaurantPanel extends JPanel implements ActionListener{
     			w.getGui().GoOffBreak();
     		}
     	}
-    }
+    }*/
 
 }

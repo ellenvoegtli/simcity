@@ -31,7 +31,7 @@ public class EllenRestaurantGui extends JFrame implements ActionListener {
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
 
-    private RestaurantPanel restPanel = new RestaurantPanel(this);
+    private EllenRestaurantPanel restPanel = new EllenRestaurantPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
     private JPanel infoPanel;
@@ -133,7 +133,7 @@ public class EllenRestaurantGui extends JFrame implements ActionListener {
         
     }
     
-    public RestaurantPanel getRestPanel(){
+    public EllenRestaurantPanel getRestPanel(){
     	return restPanel;
     }
     public void setContactList(ContactList c){

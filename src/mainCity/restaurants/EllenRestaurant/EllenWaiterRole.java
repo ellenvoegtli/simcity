@@ -1,9 +1,11 @@
 package mainCity.restaurants.EllenRestaurant;
 
+import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import agent.Agent;
+import role.Role;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -19,7 +21,7 @@ import javax.swing.JLabel;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public abstract class EllenWaiterRole extends Agent implements Waiter {
+public abstract class EllenWaiterRole extends Role implements Waiter {
 	protected String name;
 	
 	protected EllenHostRole host;
@@ -46,8 +48,8 @@ public abstract class EllenWaiterRole extends Agent implements Waiter {
 	protected boolean wantToGoOffBreak = false;
 	
 
-	public EllenWaiterRole(String name) {
-		super();
+	public EllenWaiterRole(PersonAgent p, String name) {
+		super(p, false);
 		this.name = name;
 		
 		myCustomers = new ArrayList<MyCustomer>();
@@ -256,7 +258,7 @@ public abstract class EllenWaiterRole extends Agent implements Waiter {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/*
 		Always check to see if the waiter is at the "checkpoint" position ("doingNothing")
 		before carrying out the next action.
