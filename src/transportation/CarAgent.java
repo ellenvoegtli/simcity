@@ -1,8 +1,9 @@
-package mainCity;
+package transportation;
 
 import java.util.*; 
 import java.util.concurrent.Semaphore;
 
+import mainCity.PersonAgent;
 import agent.Agent;
 
 public class CarAgent extends Agent { 

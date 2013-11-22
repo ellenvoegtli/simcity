@@ -1,8 +1,11 @@
-package mainCity;
+package transportation;
 
 import java.util.*;
+import java.util.concurrent.Semaphore;
 
-public class BusAgent {
+import mainCity.PersonAgent;
+
+public class BusAgent extends Agent{
 
 		/** Data **/
 			

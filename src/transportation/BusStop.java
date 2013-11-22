@@ -1,6 +1,8 @@
-package mainCity;
+package transportation;
 
 import java.util.*;
+
+import mainCity.PersonAgent;
 
 public class BusStop {
 	//List of people waiting at the bus stop
