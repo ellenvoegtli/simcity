@@ -86,7 +86,8 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         
         
         //*****
-        contactList.getInstance().addCook(cook);
+        contactList.getInstance().setEllenCook(cook);
+        contactList.getInstance().setEllenCashier(cashier);
         contactList.getInstance().setEllenHost(host);
         //*****
 

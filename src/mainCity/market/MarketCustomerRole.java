@@ -44,7 +44,7 @@ public class MarketCustomerRole extends Agent{
 
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
-	{DoingNothing, WaitingInMarket, WaitingForEmployee, GoingToStation, Ordering, OrderProcessing, WaitingForOrder, Paying,
+	{DoingNothing, WaitingInMarket, WaitingForEmployee, GoingToStation, Ordering, OrderProcessing, WaitingForOrder, GoingToCashier, Paying,
 		WaitingForChange, Leaving};
 	private AgentState state = AgentState.DoingNothing;//The start state
 	
@@ -134,7 +134,7 @@ public class MarketCustomerRole extends Agent{
 	}
 	
 	public void msgHereIsYourChange(double amountChange, double amountCharged){
-		print("Received msgHereIsYourChange: " + amountChange);
+		print("Received msgHereIsYourChange: $" + amountChange);
 		bill.changeReceived = amountChange;
 		
 		event = AgentEvent.gotChange;
@@ -161,7 +161,6 @@ public class MarketCustomerRole extends Agent{
 	}
 	*/
 	public void msgAnimationFinishedGoToCashier(){
-		//print("msg AnimationFinished GoToCashierAgent");
 		event = AgentEvent.atCashierAgent;
 		stateChanged();
 	}
@@ -193,6 +192,11 @@ public class MarketCustomerRole extends Agent{
 			return true;
 		}
 		if (state == AgentState.OrderProcessing && event == AgentEvent.gotOrderAndBill){
+			state = AgentState.GoingToCashier;
+			GoToCashier();		//verifies bill first
+			return true;
+		}
+		if (state == AgentState.GoingToCashier && event == AgentEvent.atCashierAgent){
 			state = AgentState.Paying;
 			PayBill();		//verifies bill first
 			return true;
@@ -228,7 +232,11 @@ public class MarketCustomerRole extends Agent{
 		employee.msgHereIsMyOrder(this, inventoryToOrder, deliveryMethod);
 	}
 	
-	private void PayBill(){
+	private void GoToCashier(){
+		customerGui.DoGoToCashier();
+	}
+	
+	private void PayBill(){		
 		double expected = 0;
 
 		for (Map.Entry<String, Integer> entry : bill.inventoryFulfilled.entrySet()){
@@ -248,7 +256,7 @@ public class MarketCustomerRole extends Agent{
 	
 	private void LeaveMarket(){
 		if (bill.changeReceived == (bill.amountPaid - bill.charge)){
-			print("Equal");
+			print("Equal. Change verified.");
 			employee.msgDoneAndLeaving(this);
 			customerGui.DoExitMarket();
 		}

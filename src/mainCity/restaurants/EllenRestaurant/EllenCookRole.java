@@ -141,7 +141,7 @@ public class EllenCookRole extends Agent implements Cook{
 	
 	//new market message
 	public void msgHereIsYourOrder(Map<String, Integer>inventoryFulfilled){
-		print("Received msgHereIsYourOrder");
+		print("Received msgHereIsYourOrder from market");
 		
 		for (Map.Entry<String, Integer> entry : inventoryFulfilled.entrySet()){
 			print("Had " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
@@ -176,7 +176,6 @@ public class EllenCookRole extends Agent implements Cook{
 				}
 			}
 		}
-
 		order.s = OrderState.pickedUp;
 		stateChanged();
 	}
