@@ -75,14 +75,14 @@ public class EnaCustomerRole extends Agent implements Customer{
 					{
 						cash = 6.0;
 						print("customer has $ "  +cash);
-						this.choice = "steak";	
+						this.choice = "lamb";	
 					}
 					
 					if(name.equals("onlyChoice"))
 					{
 						cash = 6.0;
 						print("customer has $ "  +cash);
-						this.choice = "steak";
+						this.choice = "lamb";
 					}
 					else
 					{	//assigning a random amount of money to each customer. 
@@ -272,7 +272,7 @@ public class EnaCustomerRole extends Agent implements Customer{
 		
 		if (state == AgentState.Ordered && event == AgentEvent.ReAskedByWaiter)
 		{
-			System.out.println("custoemr picking new item from menu");
+			System.out.println("customer picking new item from menu");
 			state = AgentState.ReOrdered;
 			ReOrderFood();
 			return true;

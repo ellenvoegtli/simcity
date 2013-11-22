@@ -39,10 +39,10 @@ public class EnaCookRole extends Agent implements MainCook {
 		super();
 
 		this.name = name;
-		Foods.put( "steak", new Food("steak", 0));
-		Foods.put("porkchops", new Food("porkchops", 0));
+		Foods.put( "steak", new Food("steak", 1));
+		Foods.put("porkchops", new Food("porkchops", 2));
 		Foods.put("lamb" , new Food("lamb", 0));
-		Foods.put("lambchops", new Food("lambchops", 0));
+		Foods.put("lambchops", new Food("lambchops", 1));
 
 		
 	}
