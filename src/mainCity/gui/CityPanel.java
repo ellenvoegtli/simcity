@@ -30,7 +30,7 @@ public class CityPanel extends JPanel{
 	    EllenRestaurantGui ellenRestGui = new EllenRestaurantGui();
         ellenRestGui.setVisible(true);
 		
-		EnaRestaurantGui enaRestGui = new EllenRestaurantGui();
+		EnaRestaurantGui enaRestGui = new EnaRestaurantGui();
 		enaRestGui.setVisible(true);
 		
 		
