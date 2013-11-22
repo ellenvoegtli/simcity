@@ -2,12 +2,14 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
+import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.interfaces.MainCook;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
 import java.util.*;
 
+import role.Role;
 import mainCity.restaurants.enaRestaurant.gui.CookGui;
 import mainCity.restaurants.enaRestaurant.gui.HostGui;
 
@@ -31,7 +33,7 @@ public class EnaCookRole extends Agent implements MainCook {
 			public CookGui cookGui;
 			public EnaCashierRole cashier;
 
-	public EnaCookRole(String name) {
+	public EnaCookRole( String name) {
 		super();
 
 		this.name = name;
@@ -97,7 +99,7 @@ public class EnaCookRole extends Agent implements MainCook {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{
 		/* Think of this next rule as:
             Does there exist a table and customer,

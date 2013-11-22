@@ -32,7 +32,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private JCheckBox desireBreak = new JCheckBox("Break?");
     private JButton addWaiterB = new JButton("Add");
     private JTextField waiterNames = new JTextField();
-    private RestaurantPanel restPanel;
+    private EnaRestaurantPanel restPanel;
     private String type;
     private JTextField personNames = new JTextField();
     /**
@@ -41,7 +41,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, String type) {
+    public ListPanel(EnaRestaurantPanel rp, String type) {
         restPanel = rp;
         this.type = type;
         
@@ -175,7 +175,7 @@ public class ListPanel extends JPanel implements ActionListener {
             view.add(button);
            
            
-            restPanel.addPerson(type, name);//puts customer on list
+            //restPanel.addPerson(type, name);//puts customer on list
             restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         }

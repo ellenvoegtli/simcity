@@ -1,16 +1,19 @@
 package mainCity.restaurants.restaurant_zhangdt;
 
+import mainCity.PersonAgent;
 import mainCity.restaurants.restaurant_zhangdt.gui.CustomerGui;
-import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
+import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
 import agent.Agent;
 
 import java.util.*;
 
+import role.Role;
+
 /**
  * Restaurant customer agent.
  */
-public class DavidCustomerRole extends Agent implements Customer {
+public class DavidCustomerRole extends Role implements Customer {
 	
 /*   Data   */ 
 	
@@ -51,8 +54,8 @@ public class DavidCustomerRole extends Agent implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public DavidCustomerRole(String name){
-		super();
+	public DavidCustomerRole(String name, PersonAgent p){
+		super(p, false);
 		this.name = name;
 		Random ChoiceGenerator = new Random(); 
 		Money = ChoiceGenerator.nextInt(100); 
@@ -156,7 +159,7 @@ public class DavidCustomerRole extends Agent implements Customer {
 
 /*   Scheduler   */
 	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 		try{
 			if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){

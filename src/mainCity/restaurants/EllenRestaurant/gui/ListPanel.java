@@ -32,7 +32,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
     private JButton addCustB = new JButton("Add");
     private JButton addWaiterB = new JButton("Add");
    
-    private RestaurantPanel restPanel;
+    private EllenRestaurantPanel restPanel;
 
     private String type;
     JTextField enterCustomerField;
@@ -48,7 +48,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, String type) {
+    public ListPanel(EllenRestaurantPanel rp, String type) {
 
         restPanel = rp;
         this.type = type;
@@ -211,7 +211,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
             customerView.add(button);
 
             
-            restPanel.addPerson(type, name, isChecked);//puts customer on list            
+            //restPanel.addPerson(type, name, isChecked);//puts customer on list            
             restPanel.showInfo(type, name);//puts hungry button on panel
             
             hungryB.setEnabled(false);
@@ -236,7 +236,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
             waiterView.add(button);
 
             
-            restPanel.addPerson(type, name, isChecked);//puts customer on list            
+            //restPanel.addPerson(type, name, isChecked);//puts customer on list            
             restPanel.showInfo(type, name);//puts hungry button on panel
             
             onBreakB.setEnabled(false);

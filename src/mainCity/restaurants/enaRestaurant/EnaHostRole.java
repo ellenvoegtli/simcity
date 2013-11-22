@@ -2,12 +2,13 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
+import mainCity.PersonAgent;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
 import java.util.*;
-//import java.util.concurrent.Semaphore;
 
+import role.Role;
 import mainCity.restaurants.enaRestaurant.gui.HostGui;
 
 /**
@@ -33,7 +34,7 @@ public class EnaHostRole extends Agent {
 	private String name;
 	public HostGui hostGui;
 	Timer timer = new Timer();
-	public EnaHostRole(String name) 
+	public EnaHostRole( String name) 
 	{
 		super();
 
@@ -121,7 +122,7 @@ public class EnaHostRole extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{
 		/* Think of this next rule as:
             Does there exist a table and customer,
@@ -285,5 +286,7 @@ public void WaiterBreak(final EnaWaiterRole  waiter)
 			return tableNumber;
 		}
 	}
+
+	
 }
 

@@ -8,7 +8,7 @@ import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole.myCustomer;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
-import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
+import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cook;
 
 import java.util.*;
@@ -51,7 +51,6 @@ public class DavidCookRole extends Agent implements Cook{
 	Map<String, Food> Inventory = new TreeMap<String, Food>(); 
 	Map<String, Integer> foodAvailableAtMarket = new TreeMap<String, Integer>(); 
 	
-	ContactList contactList;
 	List<DavidMarketRole> marketAgent = new ArrayList<DavidMarketRole>();
 	
 	List<String> menu = new ArrayList<String>();
@@ -88,22 +87,28 @@ public class DavidCookRole extends Agent implements Cook{
 	//Constructor
 	public DavidCookRole(String name) { 
 		super(); 
+		
 		this.name = name; 
 		
-		menu.add("steak");
-		menu.add("chicken");
-		menu.add("salad");
-		menu.add("pizza");
+		menu.add("Steak");
+		menu.add("Chicken");
+		menu.add("Salad");
+		menu.add("Pizza");
 		
-		Inventory.put("steak", new Food("steak", 5000, 5));	//type, cookingTime, amount
-        Inventory.put("pizza", new Food("pizza", 2500, 5));
-        Inventory.put("pasta", new Food("pasta", 1000, 5));
-        Inventory.put("soup", new Food("soup", 2000, 5));
+		Inventory.put("Steak", new Food("Steak", 3, 5000));	//type, cookingTime, amount
+        Inventory.put("Chicken", new Food("Chicken", 3, 2500));
+        Inventory.put("Salad", new Food("Salad", 3, 1500));
+        Inventory.put("Pizza", new Food("Pizza", 3, 2000));
         
-        foodAvailableAtMarket.put("steak", 0);
-        foodAvailableAtMarket.put("pizza", 0);
-        foodAvailableAtMarket.put("pasta", 0);
-        foodAvailableAtMarket.put("soup", 0);
+        print("Inventory Steak: " + Inventory.get("Steak").quantity);
+		print("Inventory Chicken: " + Inventory.get("Chicken").quantity);
+		print("Inventory Salad: " + Inventory.get("Salad").quantity);
+		print("Inventory Piza: " + Inventory.get("Pizza").quantity);
+        
+        foodAvailableAtMarket.put("Steak", 0);
+        foodAvailableAtMarket.put("Chicken", 0);
+        foodAvailableAtMarket.put("Salad", 0);
+        foodAvailableAtMarket.put("Pizza", 0);
 	}
 	
 /*   Messages   */ 
@@ -117,7 +122,7 @@ public class DavidCookRole extends Agent implements Cook{
 	}
 	
 	public void msgDoneCooking(Order o) {
-		print(o.Choice + "done cooking..."); 
+		print(o.Choice + " done cooking..."); 
 		o.os = OrderStatus.cooked; 
 		stateChanged();
 	}
@@ -179,18 +184,20 @@ public class DavidCookRole extends Agent implements Cook{
 				return true;
 			}
 			
-			for(Order currentOrder : pendingOrders) {
-				if(currentOrder.os == OrderStatus.pending && cooking == false){ 
-					cookOrder(currentOrder);
-					return true;
-				}
-				if(currentOrder.os == OrderStatus.cooked){ 
-					print("Order is ready");
-					OrderIsReady(currentOrder); 
-					return true;
+			if(pendingOrders.size() != 0){
+				for(Order currentOrder : pendingOrders) {
+					if(currentOrder.os == OrderStatus.pending && cooking == false){ 
+						cookOrder(currentOrder);
+						return true;
+					}
+					if(currentOrder.os == OrderStatus.cooked){ 
+						print("Order is ready");
+						OrderIsReady(currentOrder); 
+						return true;
+					}
 				}
 			}
-
+			
 			return false; 
 		}
 		catch(ConcurrentModificationException r){ 
@@ -201,7 +208,7 @@ public class DavidCookRole extends Agent implements Cook{
 /*   Actions   */
 	
 	public void CheckInventory(){
-Map<String, Integer>lowInventory = new TreeMap<String, Integer>();
+		Map<String, Integer>lowInventory = new TreeMap<String, Integer>();
 		
 		for (String c : menu){
 			if (Inventory.get(c).quantity <= Inventory.get(c).low){
@@ -214,6 +221,9 @@ Map<String, Integer>lowInventory = new TreeMap<String, Integer>();
 		if(!lowInventory.isEmpty()){
 			OrderFromMarket(lowInventory);
 		}
+		
+		cstate = CookStatus.Checked; 
+		stateChanged();
 	}
 	
 	public void cookOrder(final Order o) { 
@@ -224,6 +234,7 @@ Map<String, Integer>lowInventory = new TreeMap<String, Integer>();
 		
 		//quantity of food is low. Ordering 10 more
 		if(tempFood.quantity <= tempFood.low) {
+			print("checking food stats: " + tempFood.quantity + " " + tempFood.low);
 			inventoryNeeded.put(tempFood.Choice, 10); 
 			OrderFromMarket(inventoryNeeded);
 			
@@ -239,13 +250,7 @@ Map<String, Integer>lowInventory = new TreeMap<String, Integer>();
 		
 			o.os = OrderStatus.cooking; 
 			tempFood.quantity --;
-			
-			for(int i=0; i<Inventory.size(); i++) {
-				if(tempFood.Choice == Inventory.get(i).Choice){
-					Inventory.get(i).quantity = tempFood.quantity; 
-					print(Inventory.get(i).Choice + " quantity: " + Inventory.get(i).quantity);
-				}
-			}
+			Inventory.get(tempFood.Choice).quantity--; 
 			
 			cookTimer.schedule(new TimerTask() {
 				public void run() {
@@ -261,7 +266,7 @@ Map<String, Integer>lowInventory = new TreeMap<String, Integer>();
 	}
 	
 	public void OrderFromMarket(Map<String, Integer> inventory){ 
-		contactList.getInstance().marketGreeter.msgINeedInventory("DavidRestaurant", this, cashier, inventory); 
+		ContactList.getInstance().marketGreeter.msgINeedInventory("DavidRestaurant", this, cashier, inventory); 
 	}
 
 	

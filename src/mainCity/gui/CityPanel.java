@@ -19,8 +19,8 @@ public class CityPanel extends JPanel{
 	private CityGui gui; 
 	
 	//Hardcoding one person for now.
-	private PersonAgent person = new PersonAgent("MarcusCustomer");
-	private PersonAgent person2 = new PersonAgent("MarcusWaiter");
+	private PersonAgent person = new PersonAgent("Customer");
+	private PersonAgent person2 = new PersonAgent("Waiter");
 	
 	public CityPanel(CityGui gui) { 
 		this.gui = gui; 
@@ -28,18 +28,20 @@ public class CityPanel extends JPanel{
     	MarketGui marketGui = new MarketGui();
     	marketGui.setVisible(true);
 		
-	    EllenRestaurantGui ellenRestGui = new EllenRestaurantGui();
-        //ellenRestGui.setVisible(true);
+	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
+	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
+        //ellenRestaurant.setVisible(true);
 		
-		EnaRestaurantGui enaRestGui = new EnaRestaurantGui();
-		//enaRestGui.setVisible(true);
+		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
+	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
+	    enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 		
     	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
-    	marcusRestaurant.setVisible(true);
+    	//marcusRestaurant.setVisible(true);
 		
 		PersonGui pg1 = new PersonGui(person, gui); 
 		gui.getAnimationPanel().addPersonGui(pg1);
@@ -50,7 +52,7 @@ public class CityPanel extends JPanel{
 		//person.msgGoToWork();
 		
 		PersonGui pg2 = new PersonGui(person2, gui); 
-		person2.updateOccupation("marcusWaiter");
+		person2.updateOccupation("enaWaiter");
 		gui.getAnimationPanel().addPersonGui(pg2);
 		person2.setGui(pg2);
 		person2.msgGoToWork();
