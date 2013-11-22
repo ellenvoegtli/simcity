@@ -255,7 +255,6 @@ public class EllenCookRole extends Agent implements Cook{
 
 	// Actions
 	public void OrderFromMarket(Map<String, Integer>inventory){
-		print("market greeter = " + ContactList.getInstance().marketGreeter.getName());
 		ContactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
 	}
 	
