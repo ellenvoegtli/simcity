@@ -7,7 +7,10 @@ import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.EnaCookRole;
 
+
 import javax.swing.*;
+
+import role.Role;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -17,7 +20,7 @@ import java.util.Vector;
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
-public class RestaurantPanel extends JPanel 
+public class EnaRestaurantPanel extends JPanel 
 {
 
 	
@@ -39,7 +42,7 @@ public class RestaurantPanel extends JPanel
 
     private EnaRestaurantGui gui; //reference to main gui
 
-    public RestaurantPanel(EnaRestaurantGui gui) {
+    public EnaRestaurantPanel(EnaRestaurantGui gui) {
         this.gui = gui;
         host = new EnaHostRole("Mr. Jeeves");
         host.setGui(hostGui);
@@ -153,7 +156,7 @@ public class RestaurantPanel extends JPanel
     }
     
     
-    public void addPerson(String type, String name) 
+    /*public void addPerson(String type, String name) 
     {
 
     	if (type.equals("Customers")) 
@@ -183,7 +186,7 @@ public class RestaurantPanel extends JPanel
     		w.startThread();
     		System.out.println("Waiter has been added to the restaturant:  " + name);
     	}
-    }
+    }*/
    
     
     public void pauseAll()
@@ -216,6 +219,46 @@ public class RestaurantPanel extends JPanel
     	for(EnaCustomerRole customer: customers)
     	{
     		customer.restart();
+    	}
+    }
+    
+    public void handleRoleGui(Role r) {
+    	if(r instanceof EnaWaiterRole) {
+        	EnaWaiterRole w = (EnaWaiterRole) r;
+
+    		/*if(r.getName().contains("share")) {
+    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
+    			a.setStand(stand);
+    		}*/
+        	
+        	
+    		WaiterGui g = new WaiterGui(w, gui, 0);
+    		
+    		gui.animationPanel.addGui(g);
+    		w.setHost(host);
+    		w.setGui(g);
+            w.setCook(cook);
+            w.setCashier(cashier);
+            host.addWaiterRole(w);
+    		waiters.add(w);
+    	}
+    	
+    	if(r instanceof EnaCustomerRole) {
+    		EnaCustomerRole c = (EnaCustomerRole) r;
+	    	
+    		for(EnaCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+	    		if(cust == c) {
+	    			return;
+	    		}
+	    	}
+	    	
+			customers.add(c);
+			CustomerGui g = new CustomerGui(c, gui);
+	
+			gui.animationPanel.addGui(g);
+			c.setHost(host);
+			c.setGui(g);
+			c.setCashier(cashier);
     	}
     }
 

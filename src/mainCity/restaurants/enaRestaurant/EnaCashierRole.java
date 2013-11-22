@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import role.Role;
+import mainCity.PersonAgent;
 import mainCity.restaurants.enaRestaurant.gui.HostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
@@ -32,7 +34,7 @@ public class EnaCashierRole extends Agent implements Cashier{
 		
 				public HostGui hostGui;
 
-		public EnaCashierRole(String name) 
+		public EnaCashierRole( String name) 
 		{
 			super();
 

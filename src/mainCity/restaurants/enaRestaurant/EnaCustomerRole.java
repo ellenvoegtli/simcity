@@ -1,7 +1,8 @@
 package mainCity.restaurants.enaRestaurant;
 
+import mainCity.PersonAgent;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
-import agent.Agent;
+import role.Role;
 
 import java.util.Random;
 import java.util.Timer;
@@ -13,7 +14,7 @@ import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 /**
  * Restaurant customer agent.
  */
-public class EnaCustomerRole extends Agent implements Customer{
+public class EnaCustomerRole extends Role implements Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -43,9 +44,9 @@ public class EnaCustomerRole extends Agent implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public EnaCustomerRole(String name)
+	public EnaCustomerRole(PersonAgent p, String name)
 	{
-		super();
+		super(p, false);
 		this.name = name;
 		this.debt = 0;
 		
@@ -229,7 +230,7 @@ public class EnaCustomerRole extends Agent implements Customer{
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{
 		//	CustomerAgent is a finite state machine
 		

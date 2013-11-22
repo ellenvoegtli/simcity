@@ -1,8 +1,10 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
+import mainCity.PersonAgent;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
+import role.Role;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -19,7 +21,7 @@ import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class EnaWaiterRole extends Agent implements Waiter{
+public class EnaWaiterRole extends Role implements Waiter{
 	Timer timer = new Timer();
 	public List<MyCustomers> MyCust= new ArrayList<MyCustomers>();
 	public List<String> Menu = new ArrayList<String>();
@@ -44,9 +46,9 @@ public class EnaWaiterRole extends Agent implements Waiter{
 	public EnaCookRole cook;
 	public EnaCashierRole cashier;
 
-	public EnaWaiterRole(String name)
+	public EnaWaiterRole(PersonAgent p, String name)
 	{
-		super();
+		super( p, false);
 		this.name = name;
 		
 		Menu.add("steak");
@@ -242,7 +244,7 @@ public class EnaWaiterRole extends Agent implements Waiter{
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() 
+	public boolean pickAndExecuteAnAction() 
 	{
 	
 		if(state == waiterState.wantsBreak)
