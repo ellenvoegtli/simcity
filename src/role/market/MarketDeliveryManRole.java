@@ -1,9 +1,11 @@
 
-package mainCity.market;
+package role.market;
 
 import agent.Agent;
 import mainCity.contactList.ContactList;
+import mainCity.gui.DeliveryManGui;
 import mainCity.interfaces.*;
+import mainCity.market.MarketEmployeeRole;
 import mainCity.market.gui.*;
 import role.Role;
 

@@ -12,6 +12,8 @@ import java.util.concurrent.Semaphore;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import role.market.MarketDeliveryManRole;
+
 
 
 /**

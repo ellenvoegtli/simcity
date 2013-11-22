@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import role.Role;
+import role.market.MarketDeliveryManRole;
 import mainCity.PersonAgent;
 import mainCity.restaurants.enaRestaurant.gui.HostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
@@ -14,7 +15,6 @@ import mainCity.restaurants.enaRestaurant.interfaces.Market;
 import mainCity.restaurants.enaRestaurant.test.mock.EventLog;
 import mainCity.restaurants.enaRestaurant.test.mock.LoggedEvent;
 import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
-import mainCity.market.MarketDeliveryManRole;
 import agent.Agent;
 
 public class EnaCashierRole extends Agent implements Cashier{
