@@ -30,7 +30,7 @@ public class CityPanel extends JPanel{
 		
 	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
 	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
-        //ellenRestaurant.setVisible(true);
+        ellenRestaurant.setVisible(true);
 		
 		EnaRestaurantGui enaRestGui = new EnaRestaurantGui();
 		//enaRestGui.setVisible(true);
@@ -40,7 +40,7 @@ public class CityPanel extends JPanel{
 		
     	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
-    	marcusRestaurant.setVisible(true);
+    	//marcusRestaurant.setVisible(true);
 		
 		PersonGui pg1 = new PersonGui(person, gui); 
 		gui.getAnimationPanel().addPersonGui(pg1);

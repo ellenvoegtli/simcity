@@ -8,6 +8,7 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.contactList.ContactList;
 import mainCity.gui.PersonGui;
+import mainCity.restaurants.EllenRestaurant.EllenCustomerRole;
 
 /*
  * To Do for the personagent:
@@ -244,6 +245,9 @@ public class PersonAgent extends Agent {
 				if(customer instanceof MarcusCustomerRole) {
 					((MarcusCustomerRole) customer).getGui().setHungry();
 				}
+				if(customer instanceof EllenCustomerRole) {
+					((EllenCustomerRole) customer).gotHungry();
+				}
 				//
 				//other type of customer roles for each restaurant
 				//
@@ -358,10 +362,14 @@ public class PersonAgent extends Agent {
 				case restaurant: //need to figure out a better way
 					switch(destination) {
 						case restaurant_marcus:
-							MarcusCustomerRole temp = new MarcusCustomerRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(temp);
-							roles.put(action, temp);
+							MarcusCustomerRole m = new MarcusCustomerRole(this, name);
+							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(m);
+							roles.put(action, m);
 							break;
+						case restaurant_ellen:
+							EllenCustomerRole e = new EllenCustomerRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRoleGui(e);
+							roles.put(action, e);
 						default:
 							break;
 					}
@@ -464,7 +472,7 @@ public class PersonAgent extends Agent {
 
 	private void chooseRestaurant() {
 		//choose which restaurant here
-		destination = CityLocation.restaurant_marcus;
+		destination = CityLocation.restaurant_ellen;
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
