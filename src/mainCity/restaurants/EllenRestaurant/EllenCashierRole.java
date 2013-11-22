@@ -15,8 +15,8 @@ public class EllenCashierRole extends Agent implements Cashier{
 	static final int NTABLES = 3;//a global for the number of tables.
 
 	private String name;
-	private int availableMoney = 500;		//modify
-	private int amountToPayMarket = 0;
+	private double availableMoney = 500;		//modify
+	//private int amountToPayMarket = 0;
 	Timer timer = new Timer();
 	
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());	//from waiters
@@ -49,16 +49,9 @@ public class EllenCashierRole extends Agent implements Cashier{
 	public void addWaiter(Waiter w){	//hack
 		waiters.add(w);
 	}
-
 	public String getName() {
 		return name;
 	}
-	
-	public int getAmountToPayMarket(){
-		return amountToPayMarket;
-	}
-	
-
 	public List getChecks(){
 		return checks;
 	}
@@ -68,6 +61,7 @@ public class EllenCashierRole extends Agent implements Cashier{
 	
 	// Messages
 	
+	//restaurant waiter/customer messages
 	public void msgComputeBill(String choice, Customer cust, Waiter w){
 		Check c = new Check(choice, cust, w);
 		checks.add(c);
@@ -76,7 +70,6 @@ public class EllenCashierRole extends Agent implements Cashier{
 		print(w.getName() + ", received msgComputeBill for " + cust.getName() + ", order: " + choice);
 		stateChanged();
 	}
-	
 	public void msgHereIsPayment(int checkAmount, int cashAmount, Customer cust){
 		print("Received msgHereIsPayment: got $" + cashAmount + " for check: $" + checkAmount);
 		
@@ -94,23 +87,15 @@ public class EllenCashierRole extends Agent implements Cashier{
 		stateChanged();
 	}
 	
-
-	//not the correct message anymore; see MainCashier
-	public void msgHereIsMarketBill(int amount, Market market){		
-		print("Received msgHereIsMarketBill from " + market.getName() + " for $" + amount);
-		marketBills.add(new MarketBill(market, amount, MarketBillState.computing));
-		stateChanged();
-	}
-
-	//new message
+	
+	//market delivery man messages
 	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, MarketDeliveryManRole d){
 		print("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
 		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
 		stateChanged();
 	}
-	
 	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson){
-		print("Received msgHereIsChange");
+		print("Received msgHereIsChange: $" + amount);
 		MarketBill b = null;
 		synchronized(marketBills){
 			for (MarketBill thisMB : marketBills){
@@ -120,7 +105,6 @@ public class EllenCashierRole extends Agent implements Cashier{
 				}
 			}
 		}
-		
 		b.amountChange = amount;
 		b.s = MarketBillState.receivedChange;
 		stateChanged();
@@ -180,9 +164,7 @@ public class EllenCashierRole extends Agent implements Cashier{
 	public void ComputeBill(final Check c){
 		print("Computing bill");
 		c.w.msgHereIsCheck(prices.get(c.choice), c.cust);
-		
 		c.s = CheckState.waitingForPayment;
-
 	}
 	
 	public void CalculateChange(Check c){
@@ -202,20 +184,15 @@ public class EllenCashierRole extends Agent implements Cashier{
 	public void PayMarketBill(MarketBill b){
 		print("Paying market bill");
 		
-		
-		//old implementation
-		amountToPayMarket = b.checkAmount;	//for testing purposes
-		//b.m.msgHereIsPayment(amountToPayMarket);
-		
-		if(availableMoney >= b.checkAmount){
-			availableMoney -= b.checkAmount;
-			b.amountPaid = b.checkAmount;
+		if(availableMoney >= b.billAmount){
+			availableMoney -= b.billAmount;
+			b.amountPaid = b.billAmount;
 		}
 		//else
 			//non-norm??*****
 		
 		//new method call
-		b.deliveryMan.msgHereIsPayment(b.checkAmount);
+		b.deliveryMan.msgHereIsPayment(b.billAmount);
 		b.s = MarketBillState.waitingForChange;
 	}
 	
@@ -224,9 +201,12 @@ public class EllenCashierRole extends Agent implements Cashier{
 		
 		if (b.amountChange == (b.amountPaid - b.billAmount)){
 			//correct change
+			print("Equal. Change verified.");
+			b.deliveryMan.msgChangeVerified();
 			b.s = MarketBillState.done;		//unnecessary
 			marketBills.remove(b);
 		}
+		
 		//else?******
 	}
 	
@@ -263,40 +243,21 @@ public class EllenCashierRole extends Agent implements Cashier{
 		}
 	}
 	public class MarketBill {
-		Market m;
-		//String deliveryPerson;
 		MarketDeliveryManRole deliveryMan;
-		int checkAmount;	//irrelevant for new implementation; kept to keep tests compiling
 		double billAmount;
 		double amountPaid;
 		double amountChange;
 		MarketBillState s;
-		
 		Map<String, Integer> itemsBought; 
 		
-		//old constructor
-		MarketBill(Market market, int amount, MarketBillState st){
-			m = market;
-			checkAmount = amount;
-			s = st;
-		}
-
 		MarketBill(MarketDeliveryManRole d, double amount, Map<String, Integer> inventory, MarketBillState s){
 			deliveryMan = d;
 			billAmount = amount;
 			itemsBought = new TreeMap<String, Integer>(inventory);
 			this.s = s;
 		}
-		
-
-		public Market getMarket(){
-			return m;
-		}
 		public MarketBillState getState(){
 			return s;
-		}
-		public int getCheckAmount(){
-			return checkAmount;
 		}
 	}
 	

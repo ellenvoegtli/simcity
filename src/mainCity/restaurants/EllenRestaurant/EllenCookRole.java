@@ -10,7 +10,7 @@ import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
-import mainCity.restaurants.marcusRestaurant.MarcusCookRole.CookStatus;
+//import mainCity.role.marcusRestaurant.MarcusCookRole.CookStatus;
 import mainCity.interfaces.*;
 import mainCity.contactList.*;
 
@@ -29,7 +29,6 @@ public class EllenCookRole extends Agent implements Cook{
 	boolean notAdded = true;
 	boolean greeterNull = true;
 	Timer timer = new Timer();
-	ContactList contactList;
 	
 	private Collection<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
 	//private List<EllenMarketRole> markets = Collections.synchronizedList(new ArrayList<EllenMarketRole>());
@@ -256,7 +255,7 @@ public class EllenCookRole extends Agent implements Cook{
 
 	// Actions
 	public void OrderFromMarket(Map<String, Integer>inventory){
-		contactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
+		ContactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
 	}
 	
 	public void TryToCookIt(final Order o){

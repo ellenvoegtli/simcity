@@ -419,11 +419,8 @@ public class JeffersonCookRole extends Agent implements Cook{
 			}
 	}
 
-	@Override
-	public void setMarketGreeter(MarketGreeterRole g) {
-		// TODO Auto-generated method stub
-		
-	}
+
+
 
 
 	

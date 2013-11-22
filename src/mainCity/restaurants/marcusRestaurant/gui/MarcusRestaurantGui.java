@@ -1,9 +1,9 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
-import mainCity.restaurants.marcusRestaurant.MarcusCustomerRole;
-import mainCity.restaurants.marcusRestaurant.MarcusWaiterRole;
-
 import javax.swing.*;
+
+import role.marcusRestaurant.MarcusCustomerRole;
+import role.marcusRestaurant.MarcusWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -11,7 +11,7 @@ import java.awt.event.*;
  * Main GUI class.
  * Contains the main frame and subsequent panels
  */
-public class RestaurantGui extends JFrame implements ActionListener {
+public class MarcusRestaurantGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
@@ -23,7 +23,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private RestaurantPanel restPanel = new RestaurantPanel(this);
+    private MarcusRestaurantPanel restPanel = new MarcusRestaurantPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
     private JPanel infoPanel;
@@ -43,7 +43,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Constructor for RestaurantGui class.
      * Sets up all the gui components.
      */
-    public RestaurantGui() {
+    public MarcusRestaurantGui() {
         int WINDOWX = 1100;
         int WINDOWY = 600;
         paused = false;
@@ -146,6 +146,10 @@ public class RestaurantGui extends JFrame implements ActionListener {
     public AnimationPanel getAnimationPanel() {
     	return animationPanel;
     }
+    
+    public MarcusRestaurantPanel getMarcusRestaurantPanel() {
+    	return restPanel;
+    }
     /**
      * Action listener method that reacts to the checkbox being clicked;
      * If it's the customer's checkbox, it will make him hungry
@@ -198,7 +202,7 @@ public class RestaurantGui extends JFrame implements ActionListener {
      * Main routine to get gui started
      */
     public static void main(String[] args) {
-        RestaurantGui gui = new RestaurantGui();
+    	MarcusRestaurantGui gui = new MarcusRestaurantGui();
         gui.setTitle("csci201 Restaurant");
         gui.setVisible(true);
         gui.setResizable(false);

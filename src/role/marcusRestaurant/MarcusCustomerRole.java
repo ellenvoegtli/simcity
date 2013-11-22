@@ -1,22 +1,23 @@
-package mainCity.restaurants.marcusRestaurant;
+package role.marcusRestaurant;
 
+import mainCity.PersonAgent;
 import mainCity.restaurants.marcusRestaurant.gui.CustomerGui;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import mainCity.restaurants.marcusRestaurant.MarcusMenu;
-
 import agent.Agent;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
+import role.Role;
+
 /**
  * Restaurant customer agent.
  */
-public class MarcusCustomerRole extends Agent implements Customer {
+public class MarcusCustomerRole extends Role implements Customer {
 	private String name;
 	Timer timer = new Timer();
 
-	private int hungerLevel = 5;        // determines length of meal
 	private int tableNumber;
 	private double cash;
 	private int orderCount;
@@ -28,14 +29,14 @@ public class MarcusCustomerRole extends Agent implements Customer {
 	private Waiter waiter;
 	private Cashier cashier;
 
-	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
 	{DoingNothing, WaitingInRestaurant, BeingSeated, Seated, Eating, DoneEating, requestingCheck, receivedCheck, waitingForChange, Leaving};
-	private AgentState state = AgentState.DoingNothing;//The start state
+	private AgentState state = AgentState.DoingNothing;
 
 	public enum AgentEvent 
 	{none, gotHungry, restaurantFull, followWaiter, seated, choosing, readyToOrder, waiting, respond, ordered, hereIsFood, doneEating, payingCheck, doneLeaving};
 	AgentEvent event = AgentEvent.none;
+	private boolean forcedLeaving;
 
 	/**
 	 * Constructor for CustomerAgent class
@@ -43,25 +44,19 @@ public class MarcusCustomerRole extends Agent implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public MarcusCustomerRole(String name){
-		super();
+	public MarcusCustomerRole(PersonAgent p, String name){
+		super(p, false);
 		this.name = name;
 		orderCount = 0;
 		cash = (int) (Math.random() * 35);
+		forcedLeaving = false;
+		
 		if(name.equals("THIEF")) {
 			cash = 0;
 		}
 		if(name.equals("POOR")) {
-			cash = 7;
+			cash = 5;
 		}
-		print("I currently have $" + cash);
-	}
-
-	/**
-	 * hack to establish connection to Waiter agent.
-	 */
-	public void setWaiter(Waiter w) {
-		this.waiter = w;
 	}
 
 	public void setHost(MarcusHostRole h) {
@@ -135,8 +130,9 @@ public class MarcusCustomerRole extends Agent implements Customer {
 		print("Received my change, I now have $" + cash);
 		print("I can now leave");
 		
-		state = AgentState.DoingNothing;
+		state = AgentState.Leaving;
 		event = AgentEvent.doneLeaving;
+		stateChanged();
 	}
 
 	public void msgAnimationFinishedGoToSeat() {
@@ -147,14 +143,22 @@ public class MarcusCustomerRole extends Agent implements Customer {
 	
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
-		event = AgentEvent.payingCheck;
+		if(forcedLeaving) {
+			state = AgentState.Leaving;
+			//event = AgentEvent.doneLeaving;
+			forcedLeaving = false;
+		}
+		else {
+			event = AgentEvent.payingCheck;
+		}
+		
 		stateChanged();
 	}
 
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry ){
 			state = AgentState.WaitingInRestaurant;
@@ -209,7 +213,7 @@ public class MarcusCustomerRole extends Agent implements Customer {
 
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
-			//no action
+			super.setInactive();
 			return true;
 		}
 
@@ -275,9 +279,9 @@ public class MarcusCustomerRole extends Agent implements Customer {
 		++orderCount;
 		
 		//Chooses from menu based on how much money they have
-		for(int i = 0; i < menu.menu.size(); ++i) {
-			if(cash > menu.menu.get(i).price || name.equals("THIEF")) {
-				choice = menu.menu.get(i).food;
+		for(int i = 0; i < menu.getMenu().size(); ++i) {
+			if(cash > menu.getMenu().get(i).price || name.equals("THIEF")) {
+				choice = menu.getMenu().get(i).food;
 				break;
 			}
 		}
@@ -356,10 +360,11 @@ public class MarcusCustomerRole extends Agent implements Customer {
 	}
 	
 	private void hasToLeave() {
+		customerGui.DoClearLabel();
 		state = AgentState.DoingNothing;
 		event = AgentEvent.doneLeaving;
+		forcedLeaving = true;
 		orderCount = 0;
-		customerGui.DoClearLabel();
 
 		waiter.msgLeavingTable(this);
 		customerGui.DoExitRestaurant();
@@ -369,16 +374,6 @@ public class MarcusCustomerRole extends Agent implements Customer {
 
 	public String getName() {
 		return name;
-	}
-	
-	public int getHungerLevel() {
-		return hungerLevel;
-	}
-
-	public void setHungerLevel(int hungerLevel) {
-		this.hungerLevel = hungerLevel;
-		//could be a state change. Maybe you don't
-		//need to eat until hunger lever is > 5?
 	}
 
 	public String toString() {
@@ -401,4 +396,3 @@ public class MarcusCustomerRole extends Agent implements Customer {
 		return customerGui.getY();
 	}
 }
-

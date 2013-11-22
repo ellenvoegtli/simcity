@@ -1,9 +1,10 @@
-package mainCity.restaurants.marcusRestaurant;
+package role.marcusRestaurant;
 
 import agent.Agent;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import mainCity.restaurants.marcusRestaurant.gui.WaiterGui;
 import mainCity.restaurants.marcusRestaurant.MarcusMenu;
+import mainCity.restaurants.marcusRestaurant.MarcusTable;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;

@@ -1,7 +1,8 @@
-package mainCity.restaurants.marcusRestaurant;
+package role.marcusRestaurant;
 
 import agent.Agent;
 import mainCity.market.MarketDeliveryManRole;
+import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
 import java.util.*;
@@ -70,20 +71,23 @@ public class MarcusCashierRole extends Agent implements Cashier {
 			}
 		}
 	}
-
+/*
 	public void msgHereIsFoodBill(Market m, int amount) {
 		print("Received a food bill of $" + amount + " from market");
 		marketBills.add(new MarketBill(m, amount));
 		stateChanged();
 	}
-	
+	*/
 
 	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, MarketDeliveryManRole deliveryPerson) {
-		
+		print("Received a food bill of $" + billAmount + " from market");
+		marketBills.add(new MarketBill(inventory, billAmount, deliveryPerson));
+		stateChanged();
 	}
 	
 	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
-		
+		print("Received change of $" + amount);
+		cash += amount;
 	}
 
 	/**
@@ -122,15 +126,15 @@ public class MarcusCashierRole extends Agent implements Cashier {
 	private void payMarket(MarketBill b) {
 		print("Processing the food bill...");
 		print("We currently have $" + cash);
-		print(b.market + " has billed us $" + b.bill + "\nSending payment now...");
+		print(b.deliveryPerson + " has billed us $" + b.bill + "\nSending payment now...");
 		
 		if(b.bill > cash) {
-			print("Uh oh! We don't have enough money to pay the market. Sending what we have and an IOU");
-			b.market.msgHereIsPayment(this, cash);
+			print("Uh oh! We don't have enough money to pay the delivery person. Sending what we have and an IOU");
+			//b.market.msgHereIsPayment(this, cash);
 			cash = 0;
 		}
 		else {
-			b.market.msgHereIsPayment(this, b.bill);
+			b.deliveryPerson.msgHereIsPayment(b.bill);
 			cash -= b.bill;
 		}
 		
@@ -166,12 +170,14 @@ public class MarcusCashierRole extends Agent implements Cashier {
 	}
 	
 	public class MarketBill {
-		Market market;
-		int bill;
+		Map<String, Integer> inventory;
+		MarketDeliveryManRole deliveryPerson;
+		double bill;
 		
-		MarketBill(Market m, int amount) {
-			market = m;
+		MarketBill(Map<String, Integer> i, double amount, MarketDeliveryManRole p) {
+			inventory = i;
 			bill = amount;
+			deliveryPerson = p;
 		}
 	}
 	

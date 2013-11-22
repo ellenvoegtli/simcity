@@ -4,13 +4,13 @@ import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.*;
-import mainCity.restaurants.marcusRestaurant.*;
+import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
+import role.marcusRestaurant.*;
 import mainCity.restaurants.restaurant_zhangdt.*;
 import mainCity.bank.*;
 import mainCity.interfaces.*;
 
 import java.util.*;
-
 
 public class ContactList {
 	private static ContactList contactList = null;
@@ -50,6 +50,9 @@ public class ContactList {
 	public JeffersonHostRole jeffersonHost;
 	public DavidHostRole davidHost;
 	
+	//TESTING
+	MarcusRestaurantPanel marcusRestaurant;
+	
 	//anything else? apartment landlords?
 	
 	
@@ -70,28 +73,34 @@ public class ContactList {
 		marketCashier = c;
 	}
 	
-	//Ellen Restaurant******
+	//Ellen's Restaurant******
 	public void setEllenHost(EllenHostRole h){
 		ellenHost = h;
 	}
 	public void setEllenCook(EllenCookRole cook){
-		System.out.println("Adding restaurant cook");
 		ellenCook = cook;
 	}
 	public void setEllenCashier(EllenCashierRole cashier){
 		ellenCashier = cashier;
 	}
 	
-	//Marcus Restaurant******
+	//Marcus's Restaurant******
 	public void setMarcusHost(MarcusHostRole h){
 		marcusHost = h;
 	}
-	public void setMarcusCook(MarcusCookRole cook){
-		marcusCook = cook;
+	
+	public MarcusHostRole getMarcusHost() {
+		return marcusHost;
 	}
-	public void setMarcusCashier(MarcusCashierRole c){
-		marcusCashier = c;
+	
+	public void setMarcusRestaurant(MarcusRestaurantPanel m) {
+		this.marcusRestaurant = m;
 	}
+	
+	public MarcusRestaurantPanel getMarcusRestaurant() {
+		return marcusRestaurant;
+	}
+
 	
 	//Jefferson's Restaurant******
 	public void setJeffersonHost(JeffersonHostRole h){
@@ -120,7 +129,6 @@ public class ContactList {
 		enaHost = h;
 	}
 	public void setEnaCook(EnaCookRole cook){
-		System.out.println("Adding restaurant cook");
 		enaCook = cook;
 	}
 	public void setEnaCashier(EnaCashierRole c){
