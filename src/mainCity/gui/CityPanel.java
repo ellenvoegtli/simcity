@@ -47,7 +47,7 @@ public class CityPanel extends JPanel{
     	
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
-    	jeffersonRestaurant.setVisible(true);
+    	//jeffersonRestaurant.setVisible(true);
     	
 		
 		PersonGui pg1 = new PersonGui(person, gui); 
