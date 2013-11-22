@@ -4,6 +4,7 @@ import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.*;
+import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
 import role.marcusRestaurant.*;
 import mainCity.restaurants.restaurant_zhangdt.*;
@@ -51,6 +52,7 @@ public class ContactList {
 	public DavidHostRole davidHost;
 	
 	//TESTING
+	JeffersonRestaurantPanel jeffersonRestaurant;
 	MarcusRestaurantPanel marcusRestaurant;
 	
 	//anything else? apartment landlords?

@@ -285,6 +285,11 @@ public void msgLoanDenied(double loanamount){
 		this.bankbalance = bankbalance;
 	}
 
+	public void msgAtTeller() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 
