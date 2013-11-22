@@ -3,10 +3,15 @@ package mainCity.restaurants.restaurant_zhangdt;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeMap;
 
 import agent.Agent;
+import mainCity.market.MarketDeliveryManRole;
+import mainCity.restaurants.EllenRestaurant.EllenCashierRole.MarketBill;
+import mainCity.restaurants.EllenRestaurant.EllenCashierRole.MarketBillState;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Food;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.OrderStatus;
@@ -22,7 +27,7 @@ import mainCity.restaurants.restaurant_zhangdt.test.mock.LoggedEvent;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
 
-public class CashierAgent extends Agent implements Cashier {
+public class DavidCashierRole extends Agent implements Cashier {
 /*   Data   */ 
 	
 	String name;
@@ -39,7 +44,7 @@ public class CashierAgent extends Agent implements Cashier {
 	public EventLog log = new EventLog();
 	
 	//Constructor
-	public CashierAgent(String name) { 
+	public DavidCashierRole(String name) { 
 		super(); 
 		this.name = name; 
 	}
@@ -69,7 +74,9 @@ public class CashierAgent extends Agent implements Cashier {
 	
 	public List<Customer> customers = new ArrayList<Customer>();
 	public List<Check> checkList = Collections.synchronizedList(new ArrayList<Check>());
+	public List<MarketBill> marketBills = new ArrayList<MarketBill>(); 
 	public double Payment;
+	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, done};
 	
 	private RestaurantGui gui;
 	
@@ -103,22 +110,29 @@ public class CashierAgent extends Agent implements Cashier {
 		stateChanged();
 	}
 	
-	public void msgPayMarket(int marketNum, double MarketCost) { 
-		print("Bill from market " + marketNum + " recieved of $" + MarketCost); 
-		MarketNumber = marketNum; 
-		if(MarketCost > Money){ 
-			print("Adding to tab..."); 
-			MarketTab = MarketTab + MarketCost; 
-			PaidMarket = false;
-			cashierState = CashierState.recievedMarketBill;
-			stateChanged(); 
+	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, MarketDeliveryManRole d){
+		print("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
+		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
+		stateChanged();
+	}
+	
+	@Override
+	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
+		// TODO Auto-generated method stub
+		print("Received msgHereIsChange");
+		MarketBill b = null;
+		synchronized(marketBills){
+			for (MarketBill thisMB : marketBills){
+				if (thisMB.deliveryMan == deliveryPerson){
+					b = thisMB;
+					break;
+				}
+			}
 		}
-		else {
-			Money = Money - MarketCost;
-			PaidMarket = true;
-			cashierState = CashierState.recievedMarketBill; 
-			stateChanged();
-		}
+		
+		b.amountChange = amount;
+		b.s = MarketBillState.receivedChange;
+		stateChanged();
 	}
 	
 	
@@ -202,6 +216,44 @@ public class CashierAgent extends Agent implements Cashier {
 	
 	public void addCustomer(Customer c) {
 		customers.add(c);
+	}
+	
+	public class MarketBill {
+		Market m;
+		//String deliveryPerson;
+		MarketDeliveryManRole deliveryMan;
+		int checkAmount;	//irrelevant for new implementation; kept to keep tests compiling
+		double billAmount;
+		double amountPaid;
+		double amountChange;
+		MarketBillState s;
+		
+		Map<String, Integer> itemsBought; 
+		
+		//old constructor
+		MarketBill(Market market, int amount, MarketBillState st){
+			m = market;
+			checkAmount = amount;
+			s = st;
+		}
+
+		MarketBill(MarketDeliveryManRole d, double amount, Map<String, Integer> inventory, MarketBillState s){
+			deliveryMan = d;
+			billAmount = amount;
+			itemsBought = new TreeMap<String, Integer>(inventory);
+			this.s = s;
+		}
+		
+
+		public Market getMarket(){
+			return m;
+		}
+		public MarketBillState getState(){
+			return s;
+		}
+		public int getCheckAmount(){
+			return checkAmount;
+		}
 	}
 }
 
