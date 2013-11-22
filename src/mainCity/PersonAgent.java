@@ -251,7 +251,7 @@ public class PersonAgent extends Agent {
 					((EllenCustomerRole) customer).gotHungry();
 				}
 				if(customer instanceof EnaCustomerRole) {
-					((EnaCustomerRole) customer).gotHungry();
+					((EnaCustomerRole) customer).getGui().setHungry();
 				}
 				//
 				//other type of customer roles for each restaurant
