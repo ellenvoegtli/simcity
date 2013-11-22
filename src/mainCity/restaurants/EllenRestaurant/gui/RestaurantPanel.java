@@ -27,7 +27,6 @@ public class RestaurantPanel extends JPanel implements ActionListener{
      * Cook: 		8			8			8			8
      */
     private EllenCookRole cook = new EllenCookRole("EllenRestaurant Cook", 8, 8, 8, 0);
-    private ContactList contactList;
     private RevolvingStand revolvingStand = new RevolvingStand();
     
     private int NMARKETS = 3;
@@ -86,9 +85,9 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         
         
         //*****
-        contactList.getInstance().setEllenCook(cook);
-        contactList.getInstance().setEllenCashier(cashier);
-        contactList.getInstance().setEllenHost(host);
+        ContactList.getInstance().setEllenCook(cook);
+        ContactList.getInstance().setEllenCashier(cashier);
+        ContactList.getInstance().setEllenHost(host);
         //*****
 
         KitchenGui kitchenGui = new KitchenGui(gui);
@@ -151,10 +150,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         	}
         	for (EllenWaiterRole waiter : waiters){
         		waiter.pause();
-        	}/*
-        	for (EllenMarketRole m : markets){
-        		m.pause();
-        	}*/
+        	}
         }
         else if (e.getSource() == unpauseBtn){
         	System.out.println("RESTART BUTTON PRESSED.");
@@ -165,10 +161,7 @@ public class RestaurantPanel extends JPanel implements ActionListener{
         	}
         	for (EllenWaiterRole waiter : waiters){
         		waiter.restart();
-        	}/*
-        	for (EllenMarketRole m : markets){
-        		m.restart();
-        	}*/
+        	}
         }
         else if (e.getSource() == soupBtn){
         	System.out.println("DEPLETE SOUP BUTTON PRESSED.");

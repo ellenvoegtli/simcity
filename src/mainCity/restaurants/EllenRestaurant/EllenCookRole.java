@@ -29,7 +29,6 @@ public class EllenCookRole extends Agent implements Cook{
 	boolean notAdded = true;
 	boolean greeterNull = true;
 	Timer timer = new Timer();
-	ContactList contactList;
 	
 	private Collection<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
 	//private List<EllenMarketRole> markets = Collections.synchronizedList(new ArrayList<EllenMarketRole>());
@@ -256,7 +255,8 @@ public class EllenCookRole extends Agent implements Cook{
 
 	// Actions
 	public void OrderFromMarket(Map<String, Integer>inventory){
-		contactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
+		print("market greeter = " + ContactList.getInstance().marketGreeter.getName());
+		ContactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
 	}
 	
 	public void TryToCookIt(final Order o){
