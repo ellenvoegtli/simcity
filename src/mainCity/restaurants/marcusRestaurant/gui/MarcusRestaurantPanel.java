@@ -211,7 +211,13 @@ public class MarcusRestaurantPanel extends JPanel {
     	return cashier;
     }
     
-    public void handleNewCustomer(MarcusCustomerRole c) {
+    public void handleCustomer(MarcusCustomerRole c) {
+    	for(MarcusCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+    		if(cust == c) {
+    			return;
+    		}
+    	}
+    	
 		customers.add(c);
 		CustomerGui g = new CustomerGui(c, gui, customers.indexOf(c));
 

@@ -354,7 +354,7 @@ public class PersonAgent extends Agent {
 					switch(destination) {
 						case restaurant_marcus:
 							MarcusCustomerRole temp = new MarcusCustomerRole(this, "TestCustomer");
-							ContactList.getInstance().getMarcusRestaurant().handleNewCustomer(temp);
+							ContactList.getInstance().getMarcusRestaurant().handleCustomer(temp);
 							roles.put(action, temp);
 							break;
 						default:
@@ -421,6 +421,10 @@ public class PersonAgent extends Agent {
 	private void goToWork() {
 		//check occupation & set destination appropriately
 
+		if(occupation.contains("marcus")) {
+			destination = CityLocation.restaurant_marcus;
+		}
+		
 		travelToLocation(destination);
 		event = PersonEvent.arrivedAtWork;
 		stateChanged();
