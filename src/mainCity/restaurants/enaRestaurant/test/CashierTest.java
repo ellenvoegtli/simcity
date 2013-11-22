@@ -3,10 +3,10 @@ package mainCity.restaurants.enaRestaurant.test;
 import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
 import mainCity.restaurants.enaRestaurant.test.mock.MockMarket;
 import mainCity.restaurants.enaRestaurant.test.mock.MockWaiter;
-import mainCity.restaurants.enaRestaurant.CashierRole;
-import mainCity.restaurants.enaRestaurant.CashierRole.Tab;
-import mainCity.restaurants.enaRestaurant.CashierRole.marketPay;
-import mainCity.restaurants.enaRestaurant.CashierRole.payStatus;
+import mainCity.restaurants.enaRestaurant.EnaCashierRole;
+import mainCity.restaurants.enaRestaurant.EnaCashierRole.Tab;
+import mainCity.restaurants.enaRestaurant.EnaCashierRole.marketPay;
+import mainCity.restaurants.enaRestaurant.EnaCashierRole.payStatus;
 //import restaurant.CashierAgent.cashierBillState;
 //import restaurant.WaiterAgent.Bill;
 import junit.framework.*;
@@ -22,7 +22,7 @@ import junit.framework.*;
 public class CashierTest extends TestCase
 {
 	//these are instantiated for each test separately via the setUp() method.
-	CashierRole cashier;
+	EnaCashierRole cashier;
 	MockWaiter waiter;
 	MockCustomer customer;
 	MockCustomer customer2;
@@ -37,7 +37,7 @@ public class CashierTest extends TestCase
 	 */
 	public void setUp() throws Exception{
 		super.setUp();		
-		cashier = new CashierRole("cashier");		
+		cashier = new EnaCashierRole("cashier");		
 		customer = new MockCustomer("mockcustomer");	
 		customer2 = new MockCustomer("debt");
 		customer3 = new MockCustomer("poor");

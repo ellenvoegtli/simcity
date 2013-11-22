@@ -2,33 +2,33 @@ package mainCity.restaurants.enaRestaurant;
 
 
 import agent.Agent;
-import mainCity.restaurants.enaRestaurant.CookRole.Order;
-import mainCity.restaurants.enaRestaurant.CookRole.OrderStatus;
-import mainCity.restaurants.enaRestaurant.HostRole.Table;
+import mainCity.restaurants.enaRestaurant.EnaCookRole.Order;
+import mainCity.restaurants.enaRestaurant.EnaCookRole.OrderStatus;
+import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 import mainCity.restaurants.enaRestaurant.gui.HostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Market;
-import mainCity.restaurants.enaRestaurant.CookRole.Food;
-import mainCity.restaurants.enaRestaurant.CustomerRole.AgentEvent;
+import mainCity.restaurants.enaRestaurant.EnaCookRole.Food;
+import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
 import mainCity.market.*;
 import mainCity.market.MarketGreeterRole;
 
 import java.util.*;
 //import java.util.concurrent.Semaphore;
 
-public class MarketRole extends Agent implements Market {
+public class EnaMarketRole extends Agent implements Market {
 	Timer timer = new Timer();
 
 	public Map<String, Integer> Stock = new HashMap<String, Integer>();
 	public List<Request> ShoppingList = Collections.synchronizedList(new ArrayList<Request>());
 	
 	private String name;
-		public CookRole cook;
-		public CashierRole cashier;
+		public EnaCookRole cook;
+		public EnaCashierRole cashier;
 	public enum ReStockStatus 
 	{pending, recieving, reStocking, orderDone};
 	ReStockStatus status = ReStockStatus.pending;
 
-	public MarketRole(String name) {
+	public EnaMarketRole(String name) {
 		super();
 
 		this.name = name;
@@ -48,7 +48,7 @@ public class MarketRole extends Agent implements Market {
 
 	// Messages
 
-	public void msgOrderRestock(String restName, CookRole cook, CashierRole cashier, Map<String, Integer> stock)
+	public void msgOrderRestock(String restName, EnaCookRole cook, EnaCashierRole cashier, Map<String, Integer> stock)
 	{
 		//cook = ck;
 		print("messaging the market");
@@ -168,12 +168,12 @@ synchronized(ShoppingList)
 	}
 	
 
-	public void setCookMarket(CookRole cook)
+	public void setCookMarket(EnaCookRole cook)
 	{
 		this.cook = cook;
 	}
 	
-	public void setCashierRole(CashierRole cashier)
+	public void setCashierRole(EnaCashierRole cashier)
 	{
 		this.cashier = cashier;
 	}
@@ -187,7 +187,7 @@ synchronized(ShoppingList)
 	
 	public class Request
 	{
-		CookRole c;
+		EnaCookRole c;
 		Map<String, Integer> order;
 		
 		Request(Map<String, Integer> ord)

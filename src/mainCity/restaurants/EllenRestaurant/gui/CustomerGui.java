@@ -17,7 +17,7 @@ public class CustomerGui implements Gui{
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
-	RestaurantGui gui;
+	EllenRestaurantGui gui;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -46,7 +46,7 @@ public class CustomerGui implements Gui{
 	private boolean atDestination = false;
 	
 
-	public CustomerGui(EllenCustomerRole c, RestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(EllenCustomerRole c, EllenRestaurantGui gui){ //HostAgent m) {
 		
 		//initialize table locations map
         tableX.put(1, 200);

@@ -1,8 +1,8 @@
 package mainCity.restaurants.restaurant_zhangdt.test;
 
-import mainCity.restaurants.restaurant_zhangdt.CashierAgent;
-import mainCity.restaurants.restaurant_zhangdt.CashierAgent.CashierState;
-import mainCity.restaurants.restaurant_zhangdt.CashierAgent.CheckState;
+import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole.CashierState;
+import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole.CheckState;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockCashier;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockCustomer;
@@ -22,7 +22,7 @@ import junit.framework.*;
 public class CashierTest extends TestCase
 {
 	//these are instantiated for each test separately via the setUp() method.
-	CashierAgent cashier;
+	DavidCashierRole cashier;
 	MockWaiter waiter;
 	MockCustomer customer;
 	MockCustomer customer2;
@@ -37,7 +37,7 @@ public class CashierTest extends TestCase
 	 */
 	public void setUp() throws Exception{
 		super.setUp();		
-		cashier = new CashierAgent("cashier");		
+		cashier = new DavidCashierRole("cashier");		
 		customer = new MockCustomer("mockcustomer");
 		customer2 = new MockCustomer("mockcustomer2");	
 		waiter = new MockWaiter("mockwaiter");
@@ -197,7 +197,7 @@ public class CashierTest extends TestCase
 		assertEquals("CashierAgent should have an empty event log before the Cashier's HereIsBill is called. Instead, the Cashier's event log reads: "
 						+ cashier.log.toString(), 0, cashier.log.size());
 		
-		cashier.msgPayMarket(marketNum, MarketCost);
+		//cashier.msgPayMarket(marketNum, MarketCost);
 		
 		assertTrue ("Cashier state should be recievedMarketBill. It isn't.", cashier.cashierState == CashierState.recievedMarketBill);
 		
@@ -231,7 +231,7 @@ public class CashierTest extends TestCase
 		assertEquals("CashierAgent should have an empty event log before the Cashier's HereIsBill is called. Instead, the Cashier's event log reads: "
 						+ cashier.log.toString(), 0, cashier.log.size());
 		
-		cashier.msgPayMarket(marketNum, MarketCost1);
+		//cashier.msgPayMarket(marketNum, MarketCost1);
 		
 		assertTrue ("Cashier state should be recievedMarketBill. It isn't.", cashier.cashierState == CashierState.recievedMarketBill);
 		
@@ -244,7 +244,7 @@ public class CashierTest extends TestCase
 
 		assertTrue("MarketNumber should be 0. It isnt.", cashier.MarketNumber == 0); 
 		
-		cashier.msgPayMarket(marketNum, MarketCost2); 
+		//cashier.msgPayMarket(marketNum, MarketCost2); 
 		
 		assertEquals("Cashier should have $0, but instead has $" + cashier.Money, cashier.Money, 5.0);
 		
@@ -268,7 +268,7 @@ public class CashierTest extends TestCase
 		assertEquals("CashierAgent should have an empty event log before the Cashier's HereIsBill is called. Instead, the Cashier's event log reads: "
 						+ cashier.log.toString(), 0, cashier.log.size());
 		
-		cashier.msgPayMarket(marketNum, MarketCost);
+		//cashier.msgPayMarket(marketNum, MarketCost);
 		
 		assertTrue ("Cashier state should be recievedMarketBill. It isn't.", cashier.cashierState == CashierState.recievedMarketBill);
 		
@@ -339,7 +339,7 @@ public class CashierTest extends TestCase
 		
 		cashier.msgHeresMyPayment(customer, custPayment, tableNumber); 
 		
-		cashier.msgPayMarket(marketNum, MarketCost);
+		//cashier.msgPayMarket(marketNum, MarketCost);
 		
 		assertTrue("Cashier should have a check with the state == recievedPayment. It didn't", cashier.checkList.get(0).checkState == CheckState.recievedPayment); 
 		

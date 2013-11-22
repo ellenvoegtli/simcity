@@ -32,21 +32,21 @@ public class ContactList {
 	
 	//all of the restaurants' cooks
 	public EllenCookRole ellenCook;
-	//public EnaCookRole enaCook;
+	public EnaCookRole enaCook;
 	public JeffersonCookRole jeffersonCook;
 	public MarcusCookRole marcusCook;
 	public DavidCookRole davidCook;
 	
 	public EllenCashierRole ellenCashier;
-	//public EnaCashierRole enaCashier;
+	public EnaCashierRole enaCashier;
 	public JeffersonCashierRole jeffersonCashier;
 	public MarcusCashierRole marcusCashier;
-	//public DavidCashierRole davidCashier;
+	public DavidCashierRole davidCashier;
 	
 	//all of the restaurants' hosts
 	public EllenHostRole ellenHost;
 	public MarcusHostRole marcusHost;
-	//public EnaHostRole enaHost;
+	public EnaHostRole enaHost;
 	public JeffersonHostRole jeffersonHost;
 	public DavidHostRole davidHost;
 	
@@ -55,51 +55,36 @@ public class ContactList {
 	
 	//anything else? apartment landlords?
 	
-
 	
+	
+	//*****SETTERS********
+	
+	
+	//Bank*******
+	public void setBankManager(BankManager m){
+		bankManager = m;
+	}
+	
+	//Market********
+	public void setMarketGreeter(MarketGreeterRole g){
+		marketGreeter = g;
+	}
+	public void setMarketCashier(MarketCashierRole c){
+		marketCashier = c;
+	}
+	
+	//Ellen's Restaurant******
+	public void setEllenHost(EllenHostRole h){
+		ellenHost = h;
+	}
 	public void setEllenCook(EllenCookRole cook){
-		System.out.println("Adding restaurant cook");
 		ellenCook = cook;
 	}
 	public void setEllenCashier(EllenCashierRole cashier){
 		ellenCashier = cashier;
 	}
-	public void setMarcusCook(MarcusCookRole cook){
-		System.out.println("Adding restaurant cook");
-		marcusCook = cook;
-	}
-	public void setJeffersonCook(JeffersonCookRole cook){
-		System.out.println("Adding restaurant cook");
-		jeffersonCook = cook;
-	}
-	public void setDavidCook(DavidCookRole cook){
-		System.out.println("Adding restaurant cook");
-		davidCook = cook;
-	}
-	/*
-	public void setEnaCook(EnaCookRole cook){
-		System.out.println("Adding restaurant cook");
-		enaCook = cook;
-	}
-	*/
-	public void setBankManager(BankManager m){
-		bankManager = m;
-	}
 	
-	public void setMarketGreeter(MarketGreeterRole g){
-		System.out.println("Setting market host");
-		marketGreeter = g;
-	}
-	
-	public void setMarketCashier(MarketCashierRole c){
-		marketCashier = c;
-	}
-	
-	public void setEllenHost(EllenHostRole h){
-		System.out.println("Setting ellenRestaurant host");
-		ellenHost = h;
-	}
-	
+	//Marcus's Restaurant******
 	public void setMarcusHost(MarcusHostRole h){
 		marcusHost = h;
 	}
@@ -108,7 +93,6 @@ public class ContactList {
 		return marcusHost;
 	}
 	
-	//THIS IS TO TEST - MARCUS
 	public void setMarcusRestaurant(MarcusRestaurantPanel m) {
 		this.marcusRestaurant = m;
 	}
@@ -116,28 +100,39 @@ public class ContactList {
 	public MarcusRestaurantPanel getMarcusRestaurant() {
 		return marcusRestaurant;
 	}
-	//------
+
 	
-	/*
-	public void setEnaHost(EnaHostRole h){
-		enaHost = h;
-	}
-	*/
+	//Jefferson's Restaurant******
 	public void setJeffersonHost(JeffersonHostRole h){
 		jeffersonHost = h;
 	}
-
+	public void setJeffersonCook(JeffersonCookRole cook){
+		jeffersonCook = cook;
+	}
+	public void setJeffersonCashier(JeffersonCashierRole c){
+		jeffersonCashier = c;
+	}
+	
+	//David's Restaurant*****
 	public void setDavidHost(DavidHostRole h){
 		davidHost = h;
 	}
-	
-	
-	
-	//GETTERS
-	/*
-	public MainCook getCook(String restaurantName){
-		if (restaurantName.equalsIgnoreCase("ellenRestaurant"))
-			return ellenCook;
+	public void setDavidCook(DavidCookRole cook){
+		davidCook = cook;
 	}
-	*/
+	public void setDavidCashier(DavidCashierRole cashier){
+		davidCashier = cashier;
+	}
+	
+	//Ena's Restaurant
+	public void setEnaHost(EnaHostRole h){
+		enaHost = h;
+	}
+	public void setEnaCook(EnaCookRole cook){
+		enaCook = cook;
+	}
+	public void setEnaCashier(EnaCashierRole c){
+		enaCashier = c;
+	}
+	
 }

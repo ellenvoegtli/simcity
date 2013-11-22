@@ -325,12 +325,9 @@ public class MarketEmployeeRole extends Agent {
 			}
 		}
 		
-		SendBillToCashier(mc);
-		
 		mc.s = CustomerState.waitingForBill;
 		
-		//timer for retrieving items// make gui go get them all
-		
+		SendBillToCashier(mc);
 	}
 	
 	private void SendBillToCashier(MyCustomer mc){

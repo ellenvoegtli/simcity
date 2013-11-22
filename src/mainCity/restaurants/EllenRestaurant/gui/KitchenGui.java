@@ -13,7 +13,7 @@ public class KitchenGui implements Gui {
     private final int WINDOWX = 550;
     private final int WINDOWY = 350;
 	
-    RestaurantGui gui;
+    EllenRestaurantGui gui;
 	private boolean isPresent = false;
 	
 	/* for reference:
@@ -31,7 +31,7 @@ public class KitchenGui implements Gui {
 	enum OrderState {pending, cooking, finished};
 
 
-    public KitchenGui(RestaurantGui gui) {
+    public KitchenGui(EllenRestaurantGui gui) {
         //this.agent = agent;
         this.gui = gui;
 

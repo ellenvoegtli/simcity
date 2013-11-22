@@ -1,6 +1,7 @@
 package mainCity.restaurants.restaurant_zhangdt;
 
 import agent.Agent;
+import mainCity.contactList.ContactList;
 import mainCity.restaurants.restaurant_zhangdt.DavidMarketRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
@@ -8,20 +9,28 @@ import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole.myCustomer;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
+import mainCity.restaurants.restaurant_zhangdt.interfaces.Cook;
 
 import java.util.*;
+import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
-public class DavidCookRole extends Agent{
+public class DavidCookRole extends Agent implements Cook{
 	
 /*   Data   */ 
 	
 	private String name; 
 	Timer cookTimer = new Timer(); 
 	
+	enum CookStatus
+	{none, Opening, sendingOrder, Checked, massOrderReady, recievedOrder, NoFood, ordering} 
+	CookStatus cstate = CookStatus.Opening; 
+	
 	enum OrderStatus 
-	{none, Opening, pending, sendingOrder, ordering, recievedOrder, handledOrder, massOrderReady, cooking, cooked, done, NoFood }; 
-	OrderStatus oStat = OrderStatus.Opening; 
+	{none, Opening, pending, handledOrder, massOrderReady, cooking, cooked, done, NoFood }; 
+	
+	enum FoodStatus 
+	{none, empty, requested, delivered, marketEmpty} 
 	
 	class Food {
 		String Choice; 
@@ -29,6 +38,7 @@ public class DavidCookRole extends Agent{
 		int cookingTime; 
 		int amountToOrder; 
 		int low = 3; 
+		FoodStatus fstate = FoodStatus.none; 
 		
 		public Food(String c, int q, int ct){
 			Choice = c; 
@@ -41,10 +51,12 @@ public class DavidCookRole extends Agent{
 	Map<String, Food> Inventory = new TreeMap<String, Food>(); 
 	Map<String, Integer> foodAvailableAtMarket = new TreeMap<String, Integer>(); 
 	
+	ContactList contactList;
 	List<DavidMarketRole> marketAgent = new ArrayList<DavidMarketRole>();
 	
-	String MarketOrder;
+	List<String> menu = new ArrayList<String>();
 	
+	String MarketOrder;
 	int MarketChoice = 0;
 	
 	boolean cooking = false;
@@ -54,6 +66,7 @@ public class DavidCookRole extends Agent{
 		DavidWaiterRole Waiter; 
 		String Choice; 
 		int tableNum; 
+		OrderStatus os; 
 		
 		public Order(DavidWaiterRole w, String choice2, int table) {
 			Waiter = w; 
@@ -66,7 +79,7 @@ public class DavidCookRole extends Agent{
 	
 	List<Order> pendingOrders = new ArrayList<Order>(); 
 	
-	CashierAgent cashier; 
+	DavidCashierRole cashier; 
 	
 	private CookGui gui = null;
 	
@@ -77,25 +90,47 @@ public class DavidCookRole extends Agent{
 		super(); 
 		this.name = name; 
 		
-		Inventory.add(new Food("Steak", 5, 5000));
-		Inventory.add(new Food("Chicken", 5, 5000));
-		Inventory.add(new Food("Salad", 5, 5000));
-		Inventory.add(new Food("Pizza", 5, 5000));
+		menu.add("steak");
+		menu.add("chicken");
+		menu.add("salad");
+		menu.add("pizza");
+		
+		Inventory.put("steak", new Food("steak", 5000, 5));	//type, cookingTime, amount
+        Inventory.put("pizza", new Food("pizza", 2500, 5));
+        Inventory.put("pasta", new Food("pasta", 1000, 5));
+        Inventory.put("soup", new Food("soup", 2000, 5));
+        
+        foodAvailableAtMarket.put("steak", 0);
+        foodAvailableAtMarket.put("pizza", 0);
+        foodAvailableAtMarket.put("pasta", 0);
+        foodAvailableAtMarket.put("soup", 0);
 	}
 	
 /*   Messages   */ 
 	public void msgHereIsAnOrder (DavidWaiterRole w, String choice, int table) {
 		print("msgHereIsAnOrder Called");
-		gui.DoMoveToFridge();
+		//gui.DoMoveToFridge();
 		Order newOrder = new Order(w, choice, table);
-		oStat = OrderStatus.pending; 
+		newOrder.os = OrderStatus.pending; 
 		pendingOrders.add(newOrder);
 		stateChanged();
 	}
 	
-	public void msgOrderFromMarket () {
-		print("msgOrderFromMarket Called"); 
-		oStat = OrderStatus.recievedOrder; 
+	public void msgDoneCooking(Order o) {
+		print(o.Choice + "done cooking..."); 
+		o.os = OrderStatus.cooked; 
+		stateChanged();
+	}
+	
+	public void msgHereIsYourOrder (Map<String, Integer> inventoryFulfilled) {
+		print("msgHereIsYourOrder Called"); 
+		for (Map.Entry<String, Integer> entry : inventoryFulfilled.entrySet()){
+			print("Had " + Inventory.get(entry.getKey()).quantity + " " + Inventory.get(entry.getKey()).Choice + "(s).");
+			Inventory.get(entry.getKey()).quantity += entry.getValue();
+			print("Now have " + Inventory.get(entry.getKey()).quantity + " " + Inventory.get(entry.getKey()).Choice + "(s).");
+			Food f = Inventory.get(entry.getKey());
+			f.fstate = FoodStatus.delivered;
+		}
 		stateChanged(); 
 	}
 	
@@ -109,11 +144,11 @@ public class DavidCookRole extends Agent{
 		}
 		else if(MarketChoice == 2) {
 			print("Markets all unavailable"); 
-			oStat = OrderStatus.none;
+			cstate = CookStatus.none;
 			stateChanged();
 		}
 		else {
-			oStat = OrderStatus.sendingOrder;
+			cstate = CookStatus.sendingOrder;
 			stateChanged();
 		}
 		
@@ -121,7 +156,7 @@ public class DavidCookRole extends Agent{
 	
 	public void msgMassOrderReady() {
 		print ("msgMassOrderReady recieved"); 
-		oStat = OrderStatus.massOrderReady;
+		cstate = CookStatus.massOrderReady;
 		stateChanged();
 	}
 	
@@ -139,44 +174,23 @@ public class DavidCookRole extends Agent{
 	
 	protected boolean pickAndExecuteAnAction() { 
 		try{	
-			if(oStat == OrderStatus.Opening){
+			if(cstate == CookStatus.Opening){
 				CheckInventory();
-			}
-			
-			if(oStat == OrderStatus.sendingOrder){ 
-				orderFromMarket(MarketChoice); 
 				return true;
 			}
 			
-			if(oStat == OrderStatus.recievedOrder){ 
-				handleOrder(); 
-				return true;
-			}
-			
-			if(pendingOrders.size() != 0) {
-				if(oStat == OrderStatus.pending && cooking == false){ 
-					cookOrder(pendingOrders.get(0)); 
+			for(Order currentOrder : pendingOrders) {
+				if(currentOrder.os == OrderStatus.pending && cooking == false){ 
+					cookOrder(currentOrder);
 					return true;
 				}
-				
-				if(oStat == OrderStatus.cooked){
+				if(currentOrder.os == OrderStatus.cooked){ 
 					print("Order is ready");
-					OrderIsReady(pendingOrders.get(0)); 
+					OrderIsReady(currentOrder); 
 					return true;
 				}
-				
 			}
-			
-			if(oStat == OrderStatus.NoFood){ 
-				print("Refilling inventory");
-				RefillInventory(); 
-				return true;
-			}
-			
-			if(oStat == OrderStatus.massOrderReady){
-				print("MassOrderDelivered"); 
-				MassOrderDelivered();
-			}
+
 			return false; 
 		}
 		catch(ConcurrentModificationException r){ 
@@ -187,83 +201,69 @@ public class DavidCookRole extends Agent{
 /*   Actions   */
 	
 	public void CheckInventory(){
-		for(int i=0; i<Inventory.size(); i++) {
-			if(Inventory.get(i).quantity == 0){
-				ManualOrder();
+Map<String, Integer>lowInventory = new TreeMap<String, Integer>();
+		
+		for (String c : menu){
+			if (Inventory.get(c).quantity <= Inventory.get(c).low){
+				print("Adding " + Inventory.get(c).Choice + " to market order");
+				Inventory.get(c).amountToOrder = 10;
+				lowInventory.put(c, Inventory.get(c).amountToOrder);
+				//OrderFromMarket(inventory.get(c), inventory.get(c).amountToOrder, inventory.get(c).nextMarket);
 			}
 		}
-		oStat = OrderStatus.pending;
-		stateChanged();
+		if(!lowInventory.isEmpty()){
+			OrderFromMarket(lowInventory);
+		}
 	}
 	
-	public void cookOrder(Order o) { 
+	public void cookOrder(final Order o) { 
 		print("cookOrder called by " + o.Waiter.getName());
 		cooking = true;
-		Food tempFood = new Food("", 0, 0); 
-		for(int i=0; i<Inventory.size(); i++) {
-			if(o.Choice == Inventory.get(i).Choice){
-				tempFood = Inventory.get(i); 
-			}
+		Map<String, Integer> inventoryNeeded = new TreeMap<String, Integer>(); 
+		Food tempFood = Inventory.get(o.Choice);
+		
+		//quantity of food is low. Ordering 10 more
+		if(tempFood.quantity <= tempFood.low) {
+			inventoryNeeded.put(tempFood.Choice, 10); 
+			OrderFromMarket(inventoryNeeded);
+			
 		}
 		
 		if(tempFood.quantity == 0) {
 			print("Currently out of " + o.Choice);
 			o.Waiter.msgOutOfFood(o.Choice);
 			pendingOrders.remove(o);
-			MarketOrder = tempFood.Choice;
 			cooking = false;
-			oStat = OrderStatus.sendingOrder; 
 			stateChanged();
 		}
 		
-		else {
-			oStat = OrderStatus.cooking; 
+			o.os = OrderStatus.cooking; 
 			tempFood.quantity --;
+			
 			for(int i=0; i<Inventory.size(); i++) {
 				if(tempFood.Choice == Inventory.get(i).Choice){
 					Inventory.get(i).quantity = tempFood.quantity; 
 					print(Inventory.get(i).Choice + " quantity: " + Inventory.get(i).quantity);
 				}
 			}
+			
 			cookTimer.schedule(new TimerTask() {
 				public void run() {
 					print("Done Cooking");
-					oStat = OrderStatus.cooked;
-				    gui.DoMoveToPlating();
+					msgDoneCooking(o); 
+				    //gui.DoMoveToPlating();
 					cooking = false;
 					stateChanged();
 				}
 			},
 			tempFood.cookingTime);
 			
-		}
 	}
 	
-	public void orderFromMarket(int MarketChoice) { 
-		switch(MarketChoice){
-			case 0: marketAgent.get(0).msgOrderFromCook(MarketOrder); break;
-			case 1: marketAgent.get(1).msgOrderFromCook(MarketOrder); break;
-			case 2: marketAgent.get(2).msgOrderFromCook(MarketOrder); break;
-		}
-		oStat = OrderStatus.ordering;
-		stateChanged();
+	public void OrderFromMarket(Map<String, Integer> inventory){ 
+		contactList.getInstance().marketGreeter.msgINeedInventory("DavidRestaurant", this, cashier, inventory); 
 	}
-	
-	public void handleOrder() { 
-		oStat = OrderStatus.handledOrder; 
-		for(int i=0; i<Inventory.size(); i++) { 
-			if(Inventory.get(i).Choice == MarketOrder) {
-				Inventory.get(i).quantity += 5;  
-			}
-		}
-		
-		for(int i=0; i<Inventory.size(); i++) { 
-			print("Quantity of " + Inventory.get(i).Choice + " is " + Inventory.get(i).quantity);
-			
-		}
-		
-		stateChanged(); 
-	}
+
 	
 	public void OrderIsReady(Order o){ 
 		for(int i=0; i<o.Waiter.customerList.size(); i++) {
@@ -272,22 +272,7 @@ public class DavidCookRole extends Agent{
 			}
 		}
 		pendingOrders.remove(o);
-		oStat = OrderStatus.pending; 
-		stateChanged();
-	}
-	
-	public void RefillInventory() { 
-		marketAgent.get(MarketChoice).msgMassOrderRecieved();
-		oStat = OrderStatus.ordering;
-		stateChanged();
-	}
-	
-	public void MassOrderDelivered() {
-		oStat = OrderStatus.handledOrder; 
-		for(int i=0; i<Inventory.size(); i++) { 
-			Inventory.get(i).quantity += 5;  
-			print(Inventory.get(i).Choice + " quantity: " + Inventory.get(i).quantity);
-		}
+		o.os = OrderStatus.done; 
 		stateChanged();
 	}
 	
@@ -301,7 +286,7 @@ public class DavidCookRole extends Agent{
 		marketAgent.add(m);
 	}
 	
-	public void addCashier(CashierAgent c) {
+	public void addCashier(DavidCashierRole c) {
 		cashier = c;
 	}
 	
@@ -333,7 +318,8 @@ public class DavidCookRole extends Agent{
 	}
 	
 	public void ManualOrder() { 
-		oStat = OrderStatus.NoFood; 
+		cstate = CookStatus.NoFood; 
 		stateChanged();
 	}
+
 }

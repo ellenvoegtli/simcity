@@ -12,29 +12,23 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 public class EmployeeGui implements Gui {
-
-    private final int WINDOWX = 550;
-    private final int WINDOWY = 350;
-	
-
     private MarketEmployeeRole agent = null;
     MarketGui gui;
     private boolean isPresent;
 
-    private int xPos = -20, yPos = -20;//default waiter position
-    private int xDestination = -20, yDestination = -20;//default start position
-
+    private final int WINDOWX = 550;
+    private final int WINDOWY = 350;
     static final int waiterWidth = 20;
     static final int waiterHeight = 20;
-    
+
+    private int xPos = -20, yPos = -20;//default waiter position
+    private int xDestination = -20, yDestination = -20;//default start position
     private final int startX = -20;
     private final int startY = -20;
     private final int cookX = WINDOWX - 110;
     private final int cookY = WINDOWY/2;
-    
     public int homeX, homeY;
     private int cashierX = 20, cashierY = 250;
-    
     private int waitingRoomX;
     private int waitingRoomY;
     private int stockRoomX = 300, stockRoomY = 450;

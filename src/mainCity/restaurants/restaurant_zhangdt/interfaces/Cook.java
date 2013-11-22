@@ -7,8 +7,6 @@ public interface Cook extends MainCook{
 	
 	public abstract void msgHereIsAnOrder (DavidWaiterRole w, String choice, int table);
 	
-	public abstract void msgOrderFromMarket ();
-	
 	public abstract void msgMarketOutOfOrder();
 	
 	public abstract void msgMassOrderReady();
