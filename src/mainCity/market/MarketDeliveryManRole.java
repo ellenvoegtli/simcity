@@ -72,7 +72,7 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 	}
 	public void msgAtDestination(){
 		print("msgAtDestination called");
-		atDestination.release();
+		//atDestination.release();
 		event = DeliveryEvent.arrivedAtLocation;
 		stateChanged();
 	}
@@ -111,6 +111,14 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 	// Actions
 	public void TravelToLocation(){
 		print("Traveling to delivery location: " + b.restaurantName);
+		
+		timer.schedule(new TimerTask() {
+			public void run() {
+				msgAtDestination();
+			}
+		}, 5000);
+		
+		/*
 		//gui call for truck to travel to restaurant
 		deliveryGui.DoDeliverOrder(b.restaurantName);
 		try {
@@ -118,7 +126,7 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		//gui will message deliveryMan when it arrives
 	}
 	
@@ -129,13 +137,13 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 			b.cashier = contactList.getInstance().ellenCashier;
 			b.cook.msgHereIsYourOrder(b.itemsBought);
 			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}/*
+		}
 		else if (b.restaurantName.equalsIgnoreCase("enaRestaurant")){
 			b.cook = contactList.getInstance().enaCook;
 			b.cashier = contactList.getInstance().enaCashier;
 			b.cook.msgHereIsYourOrder(b.itemsBought);
 			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}*/
+		}
 		else if (b.restaurantName.equalsIgnoreCase("marcusRestaurant")){
 			b.cook = contactList.getInstance().marcusCook;
 			b.cashier = contactList.getInstance().marcusCashier;
@@ -147,13 +155,13 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 			b.cashier = contactList.getInstance().jeffersonCashier;
 			b.cook.msgHereIsYourOrder(b.itemsBought);
 			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}/*
+		}
 		else if (b.restaurantName.equalsIgnoreCase("davidRestaurant")){
 			b.cook = contactList.getInstance().davidCook;
 			b.cashier = contactList.getInstance().davidCashier;
 			b.cook.msgHereIsYourOrder(b.itemsBought);
 			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}*/
+		}
 	}
 	
 	public void CalculateChange(){
@@ -161,9 +169,9 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 		
 		//check to make sure payment is large enough
 		if (b.amountPaid >= b.amountCharged)
-			//b.r.getCook().msgHereIsYourChange(b.amountPaid - b.amountCharged);	//*****who do i message change to?? ***/
+			b.cashier.msgHereIsChange((b.amountPaid - b.amountCharged), this);
 		//else?
-			//you still owe ...
+			//you still owe ..
 
 		//delete bill?
 		b = null;
