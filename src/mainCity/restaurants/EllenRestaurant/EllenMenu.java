@@ -25,12 +25,12 @@ public class EllenMenu {
 		menuItems.add("steak");
 		menuItems.add("pasta");
 		menuItems.add("pizza");
-		menuItems.add("soup");
+		menuItems.add("Soup");
 		
 		prices.put("steak", 30);	//type, $$price
         prices.put("pizza", 10);
         prices.put("pasta", 20);
-        prices.put("soup", 5);
+        prices.put("Soup", 5);
 	}
 	
 	public int getPrice(String choice){

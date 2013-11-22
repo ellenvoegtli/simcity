@@ -187,9 +187,6 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 			b.cashier.msgHereIsChange((b.amountPaid - b.amountCharged), this);
 		//else?
 			//you still owe ..
-
-		//delete bill?
-		//b = null;
 	}
 	
 	public void ReturnToMarket(){

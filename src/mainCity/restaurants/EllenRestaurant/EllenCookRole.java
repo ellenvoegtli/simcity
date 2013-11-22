@@ -54,12 +54,12 @@ public class EllenCookRole extends Agent implements Cook{
         inventory.put("steak", new Food("steak", 5000, steakAmount));	//type, cookingTime, amount
         inventory.put("pizza", new Food("pizza", 2500, pizzaAmount));
         inventory.put("pasta", new Food("pasta", 1000, pastaAmount));
-        inventory.put("soup", new Food("soup", 2000, soupAmount));
+        inventory.put("Soup", new Food("Soup", 2000, soupAmount));
         
         foodAtAvailableMarket.put("steak", 0);
         foodAtAvailableMarket.put("pizza", 0);
         foodAtAvailableMarket.put("pasta", 0);
-        foodAtAvailableMarket.put("soup", 0);
+        foodAtAvailableMarket.put("Soup", 0);
 	}
 	/*
 	public void addMarket(EllenMarketRole m){	//hack
