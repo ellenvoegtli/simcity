@@ -249,7 +249,7 @@ public class PersonAgent extends Agent {
 				if(customer instanceof MarcusCustomerRole) {
 					if(!((MarcusCustomerRole) customer).getGui().goInside()) {
 						//If restaurant is closed go try another --should cycle a lot now since only 1 restaurant;
-						print("Restaurant closed...trying another");
+						//print("Restaurant closed...trying another");
 						chooseRestaurant();
 						return true;
 					}
