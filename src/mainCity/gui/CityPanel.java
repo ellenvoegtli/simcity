@@ -32,7 +32,7 @@ public class CityPanel extends JPanel{
 		this.gui = gui;
 		clock = 6;
 		
-    	//MarketGui marketGui = new MarketGui();
+    	MarketGui marketGui = new MarketGui();
     	//marketGui.setVisible(true);
 		
 	    //EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
@@ -81,18 +81,24 @@ public class CityPanel extends JPanel{
 		PersonGui pg4 = new PersonGui(person4, gui);
 		PersonGui pg5 = new PersonGui(person5, gui);
 
-		/*
-		person2.updateOccupation("enaWaiter", 8, 11);
-		person3.updateOccupation("enaCook", 8, 11);
-		person4.updateOccupation("enaCashier", 8, 11);
-		person5.updateOccupation("enaHost", 7, 10);
-		 */
-		
 		person.updateOccupation("rich", -1, -1);
 		person2.updateOccupation("marcusWaiter", 8, 22);
 		person3.updateOccupation("marcusCook", 8, 22);
 		person4.updateOccupation("marcusCashier", 8, 22);
 		person5.updateOccupation("marcusHost", 7, 22);
+
+		/*
+		person2.updateOccupation("enaHost", 8, 11);
+		person3.updateOccupation("enaCook", 8, 11);
+		person4.updateOccupation("enaCashier", 8, 11);
+		person5.updateOccupation("enaWaiter", 7, 10);
+		 */
+		
+		//person2.updateOccupation("ellenWaiter", 8, 11);
+		//person3.updateOccupation("ellenCook", 8, 11);
+		//person4.updateOccupation("ellenCashier", 8, 11);
+		//person5.updateOccupation("ellenHost", 7, 10);
+
 
 		gui.getAnimationPanel().addPersonGui(pg1);
 		gui.getAnimationPanel().addPersonGui(pg2);

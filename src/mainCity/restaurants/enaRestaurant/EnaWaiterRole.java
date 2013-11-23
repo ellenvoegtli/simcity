@@ -624,7 +624,9 @@ catch(ConcurrentModificationException e){};
 		}
 		else if (!name.equals("noCash"))
 		{
-			cashier.msgRestMoney();
+			try{
+				cashier.msgRestMoney();
+			}catch(NullPointerException e){};
 		}
 		
 		

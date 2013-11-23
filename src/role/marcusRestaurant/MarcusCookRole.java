@@ -248,16 +248,14 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	}
 	
 	private void checkStand() {
-		status = CookStatus.normal;
-		
-		print("Checking the stand for orders");
+		status = CookStatus.normal;		
 		cookGui.DoGoToCounter();
 		
 		if(stand.isEmpty()) {
-			print("No orders here...");
 			return;
 		}
-
+		
+		print("There's orders on the stand. Processing...");
 		while(!stand.isEmpty()) {
 			OrderTicket temp = stand.remove();
 			orders.add(new Order(temp.getWaiter(), temp.getChoice(), temp.getTable().getTableNumber()));

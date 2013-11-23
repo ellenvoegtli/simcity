@@ -193,6 +193,7 @@ public class EllenRestaurantGui extends JFrame implements ActionListener {
      * For v3, it will propose a break for the waiter.
      */
     public void actionPerformed(ActionEvent e) {
+    	/*
         if (e.getSource() == stateCB) {
             if (currentPerson instanceof EllenCustomerRole) {
                 EllenCustomerRole c = (EllenCustomerRole) currentPerson;
@@ -214,7 +215,7 @@ public class EllenRestaurantGui extends JFrame implements ActionListener {
                 }
                 updateInfoPanel(currentPerson);
             }
-        }
+        }*/
     }
     /**
      * Message sent from a customer gui to enable that customer's

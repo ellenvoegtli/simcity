@@ -81,7 +81,7 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
         //group.add(customerPanel);
         
 
-        initRestLabel();
+        //initRestLabel();
         add(restLabel);
         //add(group);
 
@@ -140,7 +140,7 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     /**
      * Sets up the restaurant label that includes the menu,
      * and host and cook information
-     */
+     *//*
     private void initRestLabel() {
         JLabel label = new JLabel();
         //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
@@ -157,7 +157,7 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
         //restLabel.add(new JLabel("               "), BorderLayout.WEST);
         restLabel.add(new JLabel("            "), BorderLayout.WEST);
     }
-
+*/
     /**
      * When a customer or waiter is clicked, this function calls
      * updatedInfoPanel() from the main gui so that person's information
@@ -211,10 +211,10 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     			c.setCashier(cashier);
     		}
             
-    		/*if(host != null) {
+    		if(host != null) {
     			host.setCashier(cashier);
     			cashier.setHost(host);
-    		}*/
+    		}
     		
     		ContactList.getInstance().setEllenCashier(cashier);
     	}
@@ -226,12 +226,13 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     		//gui.animationPanel.addGui(cookGui);
             //cook.setGui(cookGui);
             cook.setCashier(cashier);
+            cook.setMenu(new EllenMenu());
             
             KitchenGui kitchenGui = new KitchenGui(gui);
             cook.setKitchenGui(kitchenGui);
             gui.animationPanel.addGui(kitchenGui);
             
-            //if(host != null) host.setCook(cook);
+            if(host != null) host.setCook(cook);
             for(EllenWaiterRole w : waiters) {
     			w.setCook(cook);
     		}
@@ -249,10 +250,10 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     			c.setHost(host);
     		}
     		
-    		//host.setCook(cook);
-    		//host.setCashier(cashier);
+    		host.setCook(cook);
+    		host.setCashier(cashier);
     		
-    		//if(cashier != null) cashier.setHost(host);
+    		if(cashier != null) cashier.setHost(host);
     		ContactList.getInstance().setEllenHost(host);
     	}
     	
@@ -271,11 +272,12 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     			else i++;
     		}
     		gui.animationPanel.addGui(g);
+            if(host != null) host.addWaiter(w);
     		w.setHost(host);
     		w.setGui(g);
             w.setCook(cook);
             w.setCashier(cashier);
-            host.addWaiter(w);
+            //host.addWaiter(w);
     		waiters.add(w);
     	}
     	
