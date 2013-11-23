@@ -416,19 +416,19 @@ public class PersonAgent extends Agent {
 							roles.put(action, el);
 							break;
 						case "ellenCook":
-							EllenCookRole eco = new EllenCookRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(eco);
-							roles.put(action, eco);
+							EllenCookRole elco = new EllenCookRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(elco);
+							roles.put(action, elco);
 							break;
 						case "ellenCashier":
-							EllenCashierRole eca = new EllenCashierRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(eca);
-							roles.put(action, eca);
+							EllenCashierRole elca = new EllenCashierRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(elca);
+							roles.put(action, elca);
 							break;
 						case "ellenHost":
-							EllenHostRole eh = new EllenHostRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(eh);
-							roles.put(action, eh);
+							EllenHostRole elh = new EllenHostRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(elh);
+							roles.put(action, elh);
 							break;
 						default:
 							break;
@@ -443,7 +443,7 @@ public class PersonAgent extends Agent {
 							break;
 						case restaurant_ellen:
 							EllenCustomerRole e = new EllenCustomerRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRoleGui(e);
+							ContactList.getInstance().getEllenRestaurant().handleRole(e);
 							roles.put(action, e);
 							break;
 						case restaurant_ena:
