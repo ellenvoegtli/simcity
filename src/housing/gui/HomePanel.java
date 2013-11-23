@@ -28,7 +28,7 @@ public class HomePanel extends JPanel
 
     private JPanel homeLabel = new JPanel();
     private JPanel group = new JPanel();
-
+    private personHome house;
     private HomeGui gui; //reference to main gui
     private OccupantRole occupant;
     private OccupantGui occupantGui; //= new OccupantGui(occupant, gui);
@@ -36,6 +36,9 @@ public class HomePanel extends JPanel
     public HomePanel(HomeGui gui) {
         this.gui = gui;
         occupant = new OccupantRole("mark");
+        occupant.setHouse(house);
+        house = new personHome(occupant);
+        house.setOccupant(occupant);
         occupantGui = new OccupantGui(occupant, gui);
         occupant.setGui(occupantGui);
               
@@ -118,6 +121,8 @@ public class HomePanel extends JPanel
     	if (type.equals("Occupant")) 
     	{
     		OccupantRole c = new OccupantRole(name);	
+    		
+			c.setHouse(house);
     		//customers.add(c);
     			//int posX = 22 * customers.size();
     		OccupantGui g = new OccupantGui(c, gui);
@@ -126,6 +131,8 @@ public class HomePanel extends JPanel
     		//c.setCashier(cashier);
     		c.setGui(g);
     		c.startThread();
+			  occupant.getGui().setHungry();
+
     	}
     	
     }

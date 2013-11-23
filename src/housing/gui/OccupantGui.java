@@ -22,7 +22,8 @@ public class OccupantGui implements Gui
 	private int yPos;
 	public int xDestination;
 	private int yDestination;
-	private enum Command {noCommand, GoRest, Fix, GoCook};
+	boolean atDestination = false;
+	private enum Command {noCommand, GoRest, GoCook, doneInKitchen};
 	private Command command=Command.noCommand;
 	
 	
@@ -49,16 +50,27 @@ public class OccupantGui implements Gui
 			yPos++;
 		else if (yPos > yDestination)
 			yPos--;
+		
+		if ((xDestination != 200 && yDestination != 35) || (xDestination != 250 && yDestination != 35) || (xDestination != 300 && yDestination != 35) || ( xDestination != 200 && yDestination != 150) || (xDestination != 50 && yDestination !=150) )
+			{
+					atDestination = true;
+			}
 
-		if (xPos == xDestination && yPos == yDestination) 
+		if (this.atEndPoint()) 
 		{
-			//if (command==Command.GoRest) person.msgAnimationFinishedGoToRest();
-			//else if (command==Command.GoCook) {
-				//person.msgAnimationFinishedGoCook();
+			if (command==Command.doneInKitchen)
+			{
 				isHungry = false;
 				gui.setCustomerEnabled(person);
-			//}
+			}
 			command=Command.noCommand;
+			if (((xDestination == 200 && yDestination == 35) || (xDestination == 250 && yDestination == 35) || (xDestination == 300 && yDestination == 35) || ( xDestination == 200 && yDestination == 150) || (xDestination == 50 && yDestination ==150) ) && atDestination == true)
+			{
+				atDestination = false;				
+				person.msgAtDestination();
+
+				
+			}
 		}
 	}
 
@@ -100,17 +112,45 @@ public class OccupantGui implements Gui
 	        return yPos;
 	    
 	    }
+	    
+	    public boolean atEndPoint()
+	    {
+	    	return xPos == xDestination && yPos == yDestination;
+	    }
 
 
-		public void DoGoToStove() 
+	
+		
+		public void DoGoToAppliance(int x, int y)
+		{
+			xDestination = x;
+			yDestination = y+10;
+		}
+		
+		public void DoGoToFridge()
+		{
+			System.out.println("going to fridge");
+			xDestination = 300;
+			yDestination = 35;
+			//command = Command.GoCook;
+		}
+		
+		public void DoGoToStove()
 		{
 			System.out.println("cooking at stove");
 			xDestination = 200;
 			yDestination = 35;
-			command = Command.GoCook;
+			//command = Command.GoCook;
 		}
-
-
+		
+		public void DoGoToSink()
+		{
+			System.out.println("doing dishes");
+			xDestination = 250;
+			yDestination = 35;
+			command = Command.doneInKitchen;
+		}
+		
 		public void DoGoToKitchenTable() 
 		{
 			System.out.println("going to table to eat");
@@ -124,10 +164,6 @@ public class OccupantGui implements Gui
 			yDestination = 150;
 		}
 		
-		public void DoGoToAppliance(int x, int y)
-		{
-			xDestination = x;
-			yDestination = y;
-		}
+		
 
 }

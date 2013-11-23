@@ -13,13 +13,57 @@ package mainCity.gui.trace;
  *
  */
 public enum AlertTag {
+    	GENERAL_CITY,
+	
         PERSON,
+        
+        BUS_STOP,
+        
         BANK_TELLER,
         BANK_CUSTOMER,
-        BUS_STOP,
-        RESTAURANT,                //For the demo code where you make a new restaurant
-        BANK,                        //For the demo code where you make a new bank
-        GENERAL_CITY,
+        BANK,
+                
         MARKET_CUSTOMER,
-        MARKET_EMPLOYEE
+        MARKET_EMPLOYEE,
+        MARKET_CASHIER,
+        MARKET_GREETER,
+        MARKET_DELIVERYMAN,
+        MARKET,
+        
+        RESTAURANT,
+        
+        ELLEN_RESTAURANT,
+        ELLEN_HOST,
+        ELLEN_WAITER,
+        ELLEN_CUSTOMER,
+        ELLEN_CASHIER,
+        ELLEN_COOK,
+        
+        MARCUS_RESTAURANT,
+        MARCUS_HOST,
+        MARCUS_WAITER,
+        MARCUS_CUSTOMER,
+        MARCUS_CASHIER,
+        MARCUS_COOK,
+        
+        DAVID_RESTAURANT,
+        DAVID_HOST,
+        DAVID_WAITER,
+        DAVID_CUSTOMER,
+        DAVID_CASHIER,
+        DAVID_COOK,
+        
+        ENA_RESTAURANT,
+        ENA_HOST,
+        ENA_WAITER,
+        ENA_CUSTOMER,
+        ENA_CASHIER,
+        ENA_COOK,
+        
+        JEFFERSON_RESTAURANT,
+        JEFFERSON_HOST,
+        JEFFERSON_WAITER,
+        JEFFERSON_CUSTOMER,
+        JEFFERSON_CASHIER,
+        JEFFERSON_COOK
 }

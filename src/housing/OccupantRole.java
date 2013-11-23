@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 
 
@@ -23,9 +24,10 @@ public class OccupantRole extends Agent
 	private personHome home;
 	public OccupantGui gui;
 	private boolean renter;
-	private String meal;
+	private String meal = "pasta";
 	private String name;
 	private int rent;
+	private Semaphore destination = new Semaphore(0,true);
 	enum occupantState {fixing, fixed, hungry, needMarket, shopping, reStocking, cooking, eating, nothing};
 	occupantState state = occupantState.hungry;
 	public List<String> needsWork = new ArrayList<String>();
@@ -39,6 +41,7 @@ public OccupantRole(String person, personHome hm, boolean rent, LandlordRole own
 	name = person;
 	setHouse(hm);
 	renter = rent;
+	meal = "pasta";
 	if(!renter)
 	{
 			owner = ownr;
@@ -48,6 +51,13 @@ public OccupantRole(String person, personHome hm, boolean rent, LandlordRole own
 	{
 		//this = ownr;
 	}
+}
+
+public void msgAtDestination()
+{
+	destination.release();
+	stateChanged();
+	
 }
 	
 	
@@ -95,14 +105,11 @@ public void msgNeedFood(List<String> buyFood)
 	stateChanged();
 }
 
-public void msgFoodAvailable(String foodCh)
+
+public void msgCookFood(String foodCh)
 {
 	state = occupantState.cooking;
 	stateChanged();
-}
-public void msgCookFood(String foodCh)
-{
-	
 }
 public void msgCooked(String meal)
 {
@@ -204,13 +211,19 @@ public void fixAppliance(String app)
 			yPos = appl.getYPos();
 		}
 	}
-	gui.DoGoToAppliance(xPos, yPos);
+	gui.DoGoToAppliance(xPos, yPos+10);
+	try {
+		destination.acquire();
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+	
 	timer.schedule(new TimerTask() {
 		Object cookie = 1;
 		public void run() {
 			print("fixed appliance=" + cookie);
-			EatFood();
-			//event = AgentEvent.Done;
+			//EatFood();
+			state = occupantState.nothing;
 			stateChanged();
 		}
 	},
@@ -222,10 +235,15 @@ public void fixAppliance(String app)
 
 public void wantsToEat(String mealChoice)
 {
-	home.checkSupplies(mealChoice);
+	gui.DoGoToFridge();
+	try {
+		destination.acquire();
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
 	
-	//getHouse().msgCheckForFood(mealChoice);
-	
+	home.checkSupplies("pasta");
+		
 }
 
 public void goToStore()
@@ -244,6 +262,12 @@ public void restockKitchen()
 public void cookAMeal()
 {
 	gui.DoGoToStove();
+	
+	try{
+	destination.acquire();
+	} catch (InterruptedException e) {
+	e.printStackTrace();
+}
 	timer.schedule(new TimerTask() {
 		Object cookie = 1;
 		public void run() {
@@ -254,25 +278,34 @@ public void cookAMeal()
 		}
 	},
 	3000);
-	//home.cookFood(meal);
-	//getHouse().msgCookMeal(meal);
+	
 	
 }
 
 public void EatFood()
 {
 	gui.DoGoToKitchenTable();
+	try{
+	destination.acquire();
+} catch (InterruptedException e) {
+	e.printStackTrace();
+}
 	timer.schedule(new TimerTask() {
 		Object cookie = 1;
 		public void run() {
 			print("Done eating, cookie=" + cookie);
+			gui.DoGoToSink();
+			try{
+				destination.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			state = occupantState.nothing;
 			stateChanged();
 		}
 	},
 	2000);
 	//timer to eat food
-	state = occupantState.nothing;
 }
 
 
