@@ -86,6 +86,7 @@ public class BankTeller extends Agent {
 					b.balance+=mc.amount;
 					mc.bc.msgRequestComplete(mc.amount*-1, b.balance);
 					mc=null;
+					return;
 				}
 			}
 			
@@ -102,6 +103,7 @@ public class BankTeller extends Agent {
 					b.balance-=mc.amount;
 					mc.bc.msgRequestComplete(mc.amount, b.balance);
 					mc=null;
+					return;
 				}
 			}
 			

@@ -7,22 +7,31 @@ import mainCity.bank.BankCustomer;
 import mainCity.gui.Gui;
 
 
+
 public class BankCustomerGui implements Gui {
 
     private BankCustomer bankcustomer = null;
+    BankGui gui;
+	Graphics2D g2;
+	
+	
+   
     
-    private int xHome, yHome;
+    private int xPos = -20, yPos = 520;//default  position
+    private int xDestination = -20, yDestination = 520;//default start position
     
-    private int xPos = -20, yPos = -20;//default waiter position
-    private int xDestination = -20, yDestination = -20;//default start position
     
-    public static final int xTeller1 = 150;
+    public static final int xHome = -20;
+    public static final int yHome = 520;
+    public static final int xTeller0 = 150;
+    public static final int yTeller0 = 120;
+    public static final int xBanker=390;
+    public static final int yBanker=320;
+    public static final int xWaiting=50;
+    public static final int yWaiting=400;
+    
+    public static final int xTeller1 = 300;
     public static final int yTeller1 = 120;
-    public static final int xBanker;
-    public static final int yBanker;
-    
-    public static final int xTeller2 = 150;
-    public static final int yTeller2 = 120;
     
     
     public static final int width = 20;
@@ -30,8 +39,9 @@ public class BankCustomerGui implements Gui {
     int t;
     public boolean atOrigin= true;
    
-    public BankCustomerGui(BankCustomer bankcustomer) {
+    public BankCustomerGui(BankCustomer bankcustomer, BankGui gui) {
         this.bankcustomer = bankcustomer;
+        this.gui=gui;
     }
 
     public void setOrigin( int x, int y){
@@ -39,45 +49,48 @@ public class BankCustomerGui implements Gui {
     	yPos=y;
     	xDestination = x;
     	yDestination =y;
-    	xHome=x;
-    	yHome=y;
+    	
     	
     }
     
     public void updatePosition() {
         if (xPos < xDestination)
             //xPos++;
-        	xPos=xPos+5;
+        	xPos=xPos+2;
         else if (xPos > xDestination)
             //xPos--;
-        	xPos=xPos-5;
+        	xPos=xPos-2;
 
         if (yPos < yDestination)
             //yPos++;
-        	yPos=yPos+5;
+        	yPos=yPos+2;
         else if (yPos > yDestination)
             //yPos--;
-        	yPos=yPos-5;
+        	yPos=yPos-2;
+        if (xPos == xDestination && yPos == yDestination
+        		& (xDestination == xTeller0) & (yDestination == yTeller0)) {
+    		bankcustomer.msgAtTeller();
+    	 
+        }
         if (xPos == xDestination && yPos == yDestination
         		& (xDestination == xTeller1) & (yDestination == yTeller1)) {
     		bankcustomer.msgAtTeller();
     	   
-          // System.out.println("agent is at table");
         }
-        if(xPos== 400 && yPos == 200){
-        	
-        	//agent.msgAtCook();
+        if (xPos == xDestination && yPos == yDestination
+        		& (xDestination == xBanker) & (yDestination == yBanker)) {
+    		//System.out.println("reached banker");
+        	bankcustomer.msgAtBanker();
+    	   
         }
-        if(xPos== 240 && yPos == 200){
-        	
-        	//agent.msgAtPlating();
-        	
+        
+        if (xPos == xDestination && yPos == yDestination
+        		& (xDestination == xWaiting) & (yDestination == yWaiting)) {
+    		bankcustomer.msgAtWaiting();    	 
         }
         
         if(xPos == xHome && yPos == yHome){
-        	atOrigin=true;
-        	//agent.msgAtHome();
-        	//System.out.println("reached home");
+        	bankcustomer.msgLeftBank();
         }
         
       
@@ -98,34 +111,34 @@ public class BankCustomerGui implements Gui {
         return true;
     }
 
-    public void doGoToWaitingArea(int x, int y) {
-        
-        
-        	xDestination = xTeller + 20+ 100*t -100;
-        	yDestination = yTeller - 20;
+    public void doGoToWaitingArea() {
+        	System.out.println("going to waiting");
+        	xDestination = xWaiting;
+        	yDestination = yWaiting;
         
        }
     
-    public void doGoToTeller1(int x, int y){
+    public void doGoToTeller1(){
+    	
+    	xDestination = xTeller0;
+    	yDestination = yTeller0;
+    }
+    	
+public void doGoToTeller2(){
     	
     	xDestination = xTeller1;
     	yDestination = yTeller1;
-    	
-public void doGoToTeller2(int x, int y){
-    	
-    	xDestination = xTeller2;
-    	yDestination = yTeller2;
     }
- public void doGoToBanker(int x, int y){
+ public void doGoToBanker(){
     	
-    	xDestination = xTeller + 20+ 100*t -100;
-    	yDestination = yTeller - 20;
+    	xDestination = xBanker;
+    	yDestination = yBanker;
     }
  
-    public void DoDeliverOrder(int table){
-    	t=table;
-    	xDestination = xTeller + 20+ 100*t -100;
-    	yDestination = yTeller - 20;
+    public void DoLeaveBank(){
+    	
+    	xDestination = -20;
+    	yDestination = 520;
     	
     }
     public boolean atStart()
@@ -133,10 +146,6 @@ public void doGoToTeller2(int x, int y){
     	return atOrigin;
     }
 
-    public void DoLeaveCustomer() {
-        xDestination = xHome;
-        yDestination = yHome;
-    }
 
     public int getXPos() {
         return xPos;
