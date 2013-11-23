@@ -1,5 +1,6 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
+import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.enaRestaurant.EnaCashierRole;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
@@ -11,6 +12,7 @@ import mainCity.restaurants.marcusRestaurant.gui.CookGui;
 import javax.swing.*;
 
 import role.Role;
+import role.marcusRestaurant.MarcusCashierRole;
 import role.marcusRestaurant.MarcusCookRole;
 import role.marcusRestaurant.MarcusCustomerRole;
 import role.marcusRestaurant.MarcusWaiterRole;
@@ -26,6 +28,7 @@ import java.util.Vector;
 public class EnaRestaurantPanel extends JPanel 
 {
 
+	
 	
     private EnaHostRole host;
     private EnaHostGui hostGui;
@@ -190,7 +193,7 @@ public class EnaRestaurantPanel extends JPanel
     		System.out.println("Waiter has been added to the restaturant:  " + name);
     	}
     }*/
-    public void handleRoleGui(Role r) {
+    public void handleRole(Role r) {
     	if(r instanceof EnaWaiterRole) {
         	EnaWaiterRole w = (EnaWaiterRole) r;
 
@@ -218,11 +221,11 @@ public class EnaRestaurantPanel extends JPanel
     	{
     		EnaCustomerRole c = (EnaCustomerRole) r;
 	    	
-    		for(EnaCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+    		/*for(EnaCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
 	    		if(cust == c) {
 	    			return;
 	    		}
-	    	}
+	    	}*/
 	    	
 			customers.add(c);
 			EnaCustomerGui g = new EnaCustomerGui(c, gui);
@@ -239,7 +242,6 @@ public class EnaRestaurantPanel extends JPanel
     	{
     		host = (EnaHostRole) r;
 	    	
-			EnaHostGui g = new EnaHostGui(host);
 			for(EnaWaiterRole w : waiters) 
 			{
     			w.setHost(host);
@@ -249,6 +251,8 @@ public class EnaRestaurantPanel extends JPanel
     		{
     			c.setHost(host);
     		}
+    		
+    		EnaHostGui g = new EnaHostGui(host);
 			gui.animationPanel.addGui(g);
 			host.setGui(g);
     	}

@@ -32,78 +32,80 @@ public class CityPanel extends JPanel{
 		this.gui = gui;
 		clock = 6;
 		
-    	MarketGui marketGui = new MarketGui();
+    	//MarketGui marketGui = new MarketGui();
     	//marketGui.setVisible(true);
 		
 	   // EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
 	   // ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
         //ellenRestaurant.setVisible(true);
 		
-		//EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
-	    //ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
-	    //enaRestaurant.setVisible(true);
+		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
+	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
+	    enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 		
-    	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
-    	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
+    	//MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
+    	//ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
     	//marcusRestaurant.setVisible(true);
     	
     	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
     	//jeffersonRestaurant.setVisible(true);
     	
-    	HomeGui home= new HomeGui();
-    	ContactList.getInstance().setHome(home.getHomePanel());
-    	home.setVisible(true);
+    	//HomeGui home= new HomeGui();
+    	//ContactList.getInstance().setHome(home.getHomePanel());
+    	//home.setVisible(true);
     	
     	//Hardcoding one person for now.
-    	//PersonAgent person = new PersonAgent("Customer");
-    	//PersonAgent person2 = new PersonAgent("Waiter");
-    	//PersonAgent person3 = new PersonAgent("Cook");
-    	//PersonAgent person4 = new PersonAgent("Cashier");
+    	PersonAgent person = new PersonAgent("Customer");
+    	PersonAgent person2 = new PersonAgent("Waiter");
+    	PersonAgent person3 = new PersonAgent("Cook");
+    	PersonAgent person4 = new PersonAgent("Cashier");
     	PersonAgent person5 = new PersonAgent("Host");
     	
     	occupants.add(person5);
 
-    	//person.msgGotHungry();
+    	person.msgGotHungry();
     	//person.msgGoToMarket();
     	//person.msgGoToWork();
     	
-		//PersonGui pg1 = new PersonGui(person, gui);
-		//PersonGui pg2 = new PersonGui(person2, gui); 
-		//PersonGui pg3 = new PersonGui(person3, gui);
-		//PersonGui pg4 = new PersonGui(person4, gui);
+		PersonGui pg1 = new PersonGui(person, gui);
+		PersonGui pg2 = new PersonGui(person2, gui); 
+		PersonGui pg3 = new PersonGui(person3, gui);
+		PersonGui pg4 = new PersonGui(person4, gui);
 		PersonGui pg5 = new PersonGui(person5, gui);
 
-		//person2.updateOccupation("marcusWaiter", 8, 11);
-		//person3.updateOccupation("marcusCook", 8, 11);
-		//person4.updateOccupation("marcusCashier", 8, 11);
-		//person5.updateOccupation("marcusHost", 7, 10);
+		person2.updateOccupation("enaWaiter", 8, 11);
+		person3.updateOccupation("enaCook", 8, 11);
+		person4.updateOccupation("enaCashier", 8, 11);
+		person5.updateOccupation("enaHost", 7, 10);
 
-		//gui.getAnimationPanel().addPersonGui(pg1);
-		//gui.getAnimationPanel().addPersonGui(pg2);
-		//gui.getAnimationPanel().addPersonGui(pg3);
-		//gui.getAnimationPanel().addPersonGui(pg4);
+		gui.getAnimationPanel().addPersonGui(pg1);
+		gui.getAnimationPanel().addPersonGui(pg2);
+		gui.getAnimationPanel().addPersonGui(pg3);
+		gui.getAnimationPanel().addPersonGui(pg4);
 		gui.getAnimationPanel().addPersonGui(pg5);
 
-		//person.setGui(pg1);
-		//person2.setGui(pg2);
-		//person3.setGui(pg3);
-		//person4.setGui(pg4);
+		person.setGui(pg1);
+		person2.setGui(pg2);
+		person3.setGui(pg3);
+		person4.setGui(pg4);
 		person5.setGui(pg5);
 		
-		//person.msgGoToRestaurant();
-		//person2.msgGoToWork();
-		//person3.msgGoToWork();
-		//person4.msgGoToWork();
-		//person5.msgGoToWork();
 		
-		//person.startThread(); 
-		//person2.startThread(); 
-		//person3.startThread();
-		//person4.startThread();
+		person.msgGoToRestaurant();
+		person2.msgGoToWork();
+		person3.msgGoToWork();
+		person4.msgGoToWork();
+		person5.msgGoToWork();		
+
+		
+		person.startThread(); 
+		person2.startThread(); 
+		person3.startThread();
+		person4.startThread();
 		person5.startThread();
 		
 		//Instantiation of the Global City Clock
@@ -116,6 +118,10 @@ public class CityPanel extends JPanel{
 		 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 		 executor.scheduleAtFixedRate(standChecker, 0, 5, TimeUnit.SECONDS); //Timer goes off every 10 seconds
+			person.msgGoToRestaurant();
+			person.startThread(); 
+
+		 
 	}
 	
 	private void updateCity() {
