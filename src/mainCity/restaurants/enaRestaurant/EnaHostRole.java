@@ -9,7 +9,7 @@ import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import java.util.*;
 
 import role.Role;
-import mainCity.restaurants.enaRestaurant.gui.HostGui;
+import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 
 /**
  * Restaurant Host Agent
@@ -18,7 +18,7 @@ import mainCity.restaurants.enaRestaurant.gui.HostGui;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class EnaHostRole extends Agent {
+public class EnaHostRole extends Role {
 	static final int NTABLES = 3;
 	//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
@@ -32,11 +32,11 @@ public class EnaHostRole extends Agent {
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 	private String name;
-	public HostGui hostGui;
+	public EnaHostGui hostGui;
 	Timer timer = new Timer();
-	public EnaHostRole( String name) 
+	public EnaHostRole( PersonAgent p, String name) 
 	{
-		super();
+		super(p);
 
 		this.name = name;
 		// make some tables
@@ -239,11 +239,11 @@ public void WaiterBreak(final EnaWaiterRole  waiter)
 
 	//utilities
 
-	public void setGui(HostGui gui) {
+	public void setGui(EnaHostGui gui) {
 		hostGui = gui;
 	}
 
-	public HostGui getGui() {
+	public EnaHostGui getGui() {
 		return hostGui;
 	}
 

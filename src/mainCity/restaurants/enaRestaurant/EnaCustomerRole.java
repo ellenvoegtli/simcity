@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import mainCity.restaurants.enaRestaurant.gui.CustomerGui;
+import mainCity.restaurants.enaRestaurant.gui.EnaCustomerGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 
 /**
@@ -18,7 +18,7 @@ public class EnaCustomerRole extends Role implements Customer{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
-	private CustomerGui customerGui;
+	private EnaCustomerGui customerGui;
 	public int tableNum;
 	private String choice; 
 	public double cash;
@@ -430,19 +430,19 @@ public class EnaCustomerRole extends Role implements Customer{
 		return "customer " + getName();
 	}
 
-	public void setGui(CustomerGui g) {
+	public void setGui(EnaCustomerGui g) {
 		setCustomerGui(g);
 	}
 
-	public CustomerGui getGui() {
+	public EnaCustomerGui getGui() {
 		return getCustomerGui();
 	}
 
-	public CustomerGui getCustomerGui() {
+	public EnaCustomerGui getCustomerGui() {
 		return customerGui;
 	}
 
-	public void setCustomerGui(CustomerGui customerGui) {
+	public void setCustomerGui(EnaCustomerGui customerGui) {
 		this.customerGui = customerGui;
 	}
 

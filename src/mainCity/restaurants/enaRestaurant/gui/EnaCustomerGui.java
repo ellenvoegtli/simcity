@@ -4,7 +4,7 @@ import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 
 import java.awt.*;
 
-public class CustomerGui implements Gui{
+public class EnaCustomerGui implements Gui{
 
 	private EnaCustomerRole agent = null;
 	private boolean isPresent = false;
@@ -30,7 +30,7 @@ public class CustomerGui implements Gui{
 
 	
 
-	public CustomerGui(EnaCustomerRole c, EnaRestaurantGui gui)
+	public EnaCustomerGui(EnaCustomerRole c, EnaRestaurantGui gui)
 	{
 		agent = c;
 		xPos = 50;

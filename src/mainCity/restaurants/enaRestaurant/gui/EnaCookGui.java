@@ -8,7 +8,7 @@ import java.util.Collections;
 
 import mainCity.restaurants.enaRestaurant.EnaCookRole;
 
-public class CookGui implements Gui 
+public class EnaCookGui implements Gui 
 {
 	private boolean isPresent = true;
     private boolean fdCooking = false;
@@ -28,7 +28,7 @@ public class CookGui implements Gui
 	    //private int xDestination, yDestination;//default start position
   
 
-	public CookGui(EnaCookRole c)
+	public EnaCookGui(EnaCookRole c)
 	{
 		agent = c;
 		xPos = 280;

@@ -8,7 +8,7 @@ import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import java.awt.*;
 
 
-public class WaiterGui implements Gui
+public class EnaWaiterGui implements Gui
 {
 	
 		
@@ -31,7 +31,7 @@ public class WaiterGui implements Gui
 	    boolean onBreak = false;
 	    public static final int yTable = 350;
 	    private boolean fdChoice = false;
-	    public WaiterGui(EnaWaiterRole w, EnaRestaurantGui gui, int yP)
+	    public EnaWaiterGui(EnaWaiterRole w, EnaRestaurantGui gui, int yP)
 		{ //HostAgent m) {
 			agent = w;
 			xPos =500;
@@ -68,7 +68,7 @@ public class WaiterGui implements Gui
 		tableXX = tablePlace;
 	}
 	    
-	public  WaiterGui(EnaWaiterRole agent) 
+	public  EnaWaiterGui(EnaWaiterRole agent) 
 	{
 	        this.agent = agent;
 	}
