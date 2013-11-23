@@ -29,7 +29,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter {
 	Timer timer = new Timer();
 	
 	public MarcusWaiterRole(PersonAgent p, String name) {
-		super(p, false);
+		super(p);
 
 		this.name = name;
 		onBreak = false;

@@ -17,7 +17,7 @@ public class MarcusCashierRole extends Role implements Cashier {
 	private double cash;
 
 	public MarcusCashierRole(PersonAgent p, String n) {
-		super(p, false);
+		super(p);
 		this.name = n;
 		bills =  Collections.synchronizedList(new ArrayList<Bill>());
 		marketBills =  Collections.synchronizedList(new ArrayList<MarketBill>());

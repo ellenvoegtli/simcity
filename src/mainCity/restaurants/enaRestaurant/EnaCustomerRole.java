@@ -46,7 +46,7 @@ public class EnaCustomerRole extends Role implements Customer{
 	 */
 	public EnaCustomerRole(PersonAgent p, String name)
 	{
-		super(p, false);
+		super(p);
 		this.name = name;
 		this.debt = 0;
 		

@@ -36,7 +36,7 @@ public class MarcusCookRole extends Role implements Cook {
 	private int grill;
 
 	public MarcusCookRole(PersonAgent p, String n) {
-		super(p, false);
+		super(p);
 		this.name = n;
 		orders = Collections.synchronizedList(new ArrayList<Order>());
 		//markets = Collections.synchronizedList(new ArrayList<Market>());

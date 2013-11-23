@@ -64,7 +64,7 @@ public class JeffersonCustomerRole extends Role implements Customer {
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
 	public JeffersonCustomerRole(PersonAgent p, String name){
-		super(p, false);
+		super(p);
 		this.name = name;
 		//this.money= 100;
 		orderedOnce=false;
