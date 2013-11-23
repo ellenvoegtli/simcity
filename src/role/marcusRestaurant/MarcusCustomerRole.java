@@ -48,7 +48,7 @@ public class MarcusCustomerRole extends Role implements Customer {
 		super(p, false);
 		this.name = name;
 		orderCount = 0;
-		cash = (int) (Math.random() * 35);
+		cash = super.getCash();
 		forcedLeaving = false;
 		
 		if(name.equals("THIEF")) {

@@ -47,6 +47,7 @@ public class PersonAgent extends Agent {
 		traveling = false;
 		onBreak = false;
 		occupation = "";
+		cash = 100.0;
 		state = PersonState.normal;//maybe 'inBuilding' if we start everyone in home
 		event = PersonEvent.none;
 		destination = CityLocation.home;
@@ -357,16 +358,30 @@ public class PersonAgent extends Agent {
 			switch(action) {
 				case work:
 					switch(occupation) {
+						//-----Marcus Restaurant Roles---//
 						case "marcusWaiter":
-							MarcusNormalWaiterRole m = new MarcusNormalWaiterRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(m);
-							roles.put(action, m);
+							MarcusNormalWaiterRole mw = new MarcusNormalWaiterRole(this, name);
+							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(mw);
+							roles.put(action, mw);
 							break;
+						case "marcusShareWaiter":
+							MarcusSharedWaiterRole ms = new MarcusSharedWaiterRole(this, name);
+							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(ms);
+							roles.put(action, ms);
+							break;
+						case "marcusCook":
+							MarcusCookRole mco = new MarcusCookRole(this, name);
+							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(mco);
+							roles.put(action, mco);
+							break;
+						//-----Ena Restaurant Roles---//
 						case "enaWaiter":
 							EnaWaiterRole en = new EnaWaiterRole(this, name);
 							ContactList.getInstance().getEnaRestaurant().handleRoleGui(en);
 							roles.put(action, en);
 							break;
+							
+						//-----Ellen Restaurant Roles---//
 						case "ellenWaiter":
 							EllenNormalWaiterRole el = new EllenNormalWaiterRole(this, name);
 							ContactList.getInstance().getEllenRestaurant().handleRoleGui(el);
@@ -501,7 +516,7 @@ public class PersonAgent extends Agent {
 
 	private void chooseRestaurant() {
 		//choose which restaurant here
-		destination = CityLocation.restaurant_ena;
+		destination = CityLocation.restaurant_marcus;
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}

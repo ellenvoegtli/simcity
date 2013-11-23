@@ -39,4 +39,8 @@ public abstract class Role extends Agent {
 	}
 
 	public abstract boolean pickAndExecuteAnAction();
+	
+	protected double getCash() {
+		return person.getCash();
+	}
 }

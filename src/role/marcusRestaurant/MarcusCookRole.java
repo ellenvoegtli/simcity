@@ -1,6 +1,7 @@
 package role.marcusRestaurant;
 
 import agent.Agent;
+import mainCity.PersonAgent;
 import mainCity.interfaces.MainCashier;
 import mainCity.market.MarketGreeterRole;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
@@ -10,12 +11,15 @@ import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
 import java.util.*;
 
+import role.Role;
+
 /**
  * Restaurant Cook Agent
  */
 
-public class MarcusCookRole extends Agent implements Cook {
+public class MarcusCookRole extends Role implements Cook {
 	private CookGui cookGui;
+	private String name;
 	//private List<Market> markets;
 	private MarcusCashierRole cashier;
 	private MarketGreeterRole market;
@@ -31,8 +35,9 @@ public class MarcusCookRole extends Agent implements Cook {
 	private String order;
 	private int grill;
 
-	public MarcusCookRole() {
-		super();
+	public MarcusCookRole(PersonAgent p, String n) {
+		super(p, false);
+		this.name = n;
 		orders = Collections.synchronizedList(new ArrayList<Order>());
 		//markets = Collections.synchronizedList(new ArrayList<Market>());
 		status = CookStatus.normal;
@@ -116,7 +121,7 @@ public class MarcusCookRole extends Agent implements Cook {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {		
+	public boolean pickAndExecuteAnAction() {		
 		//synchronized(markets) {
 			if(status == CookStatus.lowFood) {
 				//if(tracker < markets.size()) {
@@ -254,7 +259,7 @@ public class MarcusCookRole extends Agent implements Cook {
 	}
 	
 	public String toString() {
-		return "Cook";
+		return "Cook " + name;
 	}
 	
 	public enum OrderStatus {pending, cooking, cooked};
