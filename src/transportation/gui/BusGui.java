@@ -15,7 +15,7 @@ public class BusGui extends Vehicle {
 	private int height; 
 	private int xDestination, yDestination;
 	
-	BusGui(int x, int y, int w, int h){ 
+	public BusGui(int x, int y, int w, int h){ 
 		super(x, y, w, h);
 		xLocation = x; 
 		yLocation = y; 

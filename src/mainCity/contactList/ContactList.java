@@ -148,6 +148,20 @@ public class ContactList {
 		return marcusHost;
 	}
 	
+	public void setMarcusCook(MarcusCookRole cook){
+		marcusCook = cook;
+	}
+	public MarcusCookRole getMarcusCook() {
+		return marcusCook;
+	}
+	
+	public void setMarcusCashier(MarcusCashierRole cashier){
+		marcusCashier = cashier;
+	}
+	public MarcusCashierRole getMarcusCashier() {
+		return marcusCashier;
+	}
+	
 	public void setMarcusRestaurant(MarcusRestaurantPanel m) {
 		this.marcusRestaurant = m;
 	}
