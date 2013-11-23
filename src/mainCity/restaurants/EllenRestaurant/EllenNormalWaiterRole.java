@@ -1,8 +1,12 @@
 package mainCity.restaurants.EllenRestaurant;
 
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
+
 import java.util.concurrent.*;
+
 import mainCity.PersonAgent;
 
 
@@ -12,8 +16,9 @@ public class EllenNormalWaiterRole extends EllenWaiterRole {
 	}
 	
 	protected void sendOrderToCook(MyCustomer mc){
-		print("Going to send order to cook");
-		
+		//print("Going to send order to cook");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Going to send order to cook");
+
 		waiterGui.DoGoToCook();
 		try {
 			atCook.acquire();
