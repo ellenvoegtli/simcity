@@ -51,7 +51,7 @@ public class OccupantGui implements Gui
 		else if (yPos > yDestination)
 			yPos--;
 		
-		if ((xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) )
+		if ((xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) || (xDestination == 70 && yDestination == 100) )
 			{
 					atDestination = true;
 			}
@@ -123,8 +123,8 @@ public class OccupantGui implements Gui
 		
 		public void DoGoToAppliance(int x, int y)
 		{
-			xDestination = x;
-			yDestination = y+20;
+			xDestination = 70;
+			yDestination = 100;
 		}
 		
 		public void DoGoToFridge()
@@ -161,7 +161,13 @@ public class OccupantGui implements Gui
 		public void DoGoRest()
 		{
 			xDestination = 50;
-			yDestination = 150;
+			yDestination = 200;
+		}
+		
+		public void DoLeave()
+		{
+			xDestination = -10;
+			yDestination = 180;
 		}
 		
 		

@@ -1,5 +1,7 @@
 package mainCity.gui;
 
+import housing.gui.HomeGui;
+
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -33,8 +35,8 @@ public class CityPanel extends JPanel{
     	MarketGui marketGui = new MarketGui();
     	//marketGui.setVisible(true);
 		
-	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
-	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
+	   // EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
+	   // ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
         //ellenRestaurant.setVisible(true);
 		
 		//EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
@@ -48,10 +50,13 @@ public class CityPanel extends JPanel{
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
     	//marcusRestaurant.setVisible(true);
     	
-    	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
-    	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
+    	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
+    	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
     	//jeffersonRestaurant.setVisible(true);
     	
+    	HomeGui home= new HomeGui();
+    	ContactList.getInstance().setHome(home.getHomePanel());
+    	home.setVisible(true);
     	
     	//Hardcoding one person for now.
     	//PersonAgent person = new PersonAgent("Customer");
@@ -75,7 +80,7 @@ public class CityPanel extends JPanel{
 		//person2.updateOccupation("marcusWaiter", 8, 11);
 		//person3.updateOccupation("marcusCook", 8, 11);
 		//person4.updateOccupation("marcusCashier", 8, 11);
-		person5.updateOccupation("marcusHost", 7, 10);
+		//person5.updateOccupation("marcusHost", 7, 10);
 
 		//gui.getAnimationPanel().addPersonGui(pg1);
 		//gui.getAnimationPanel().addPersonGui(pg2);
