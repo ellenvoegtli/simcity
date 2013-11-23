@@ -20,6 +20,7 @@ public class PersonGui implements Gui{
 	private static final int w = 20;
 	private static final int h = 20;
 	private boolean isPresent = false;
+	private boolean isVisible = true;
 	private boolean traveling;
 	private BufferedImage personImg = null;
 
@@ -52,14 +53,16 @@ public class PersonGui implements Gui{
 		if ((xPos == xDestination) && (yPos == yDestination) && traveling) {
 			traveling = false;
 			agent.msgAtDestination();
-			//hide self from GUI
+			isVisible = false;
 		}
 	}
 	
 	public void draw(Graphics2D g) {
-		g.setColor(Color.ORANGE);
-		g.drawImage(personImg, xPos,yPos,null);
-		//g.fillRect(xPos, yPos, w, h);
+		if(isVisible) {
+			g.setColor(Color.ORANGE);
+			g.drawImage(personImg, xPos,yPos, null);
+			//g.fillRect(xPos, yPos, w, h);
+		}
 	}
 
 	public boolean isPresent() {
@@ -164,6 +167,14 @@ public class PersonGui implements Gui{
 	}
 
 		traveling = true;
+	}
+	
+	public void DoGoInside() {
+		isVisible = false;
+	}
+	
+	public void DoGoOutside() {
+		isVisible = true;
 	}
 	
 	public int getX() {

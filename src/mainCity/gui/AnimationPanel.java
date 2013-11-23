@@ -45,7 +45,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
-        
         StringBuilder path = new StringBuilder("imgs/");
         
         //Bus Stop 
@@ -209,6 +208,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
+                gui.updatePosition();
+                gui.updatePosition();
                 gui.updatePosition();
             }
         }

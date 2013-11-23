@@ -218,6 +218,7 @@ public class PersonAgent extends Agent {
 				}
 				
 				state = PersonState.inBuilding;
+				gui.DoGoInside();
 				return true;
 			}
 
@@ -237,6 +238,7 @@ public class PersonAgent extends Agent {
 				}
 				
 				state = PersonState.working;
+				gui.DoGoInside();
 				return true;
 			}
 
@@ -246,6 +248,7 @@ public class PersonAgent extends Agent {
 				roles.get(currentAction.type).setActive();
 	
 				state = PersonState.inBuilding;
+				gui.DoGoInside();
 				return true;
 			}
 
@@ -281,6 +284,7 @@ public class PersonAgent extends Agent {
 				}
 				
 				state = PersonState.inBuilding;
+				gui.DoGoInside();
 				return true;
 			}
 
@@ -541,6 +545,8 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
+		destination = CityLocation.restaurant_marcus;
+		/*
 		switch((int) (Math.random() * 3)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -554,7 +560,7 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
-		
+		*/
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
@@ -645,8 +651,8 @@ public class PersonAgent extends Agent {
 	}
 	
 	public void roleInactive() {
-		print(this + " was set inactive");
 		state = PersonState.normal;
+		gui.DoGoOutside();
 		stateChanged();
 		//possibly have the msgFinished...messages in here instead
 	}
@@ -671,7 +677,7 @@ public class PersonAgent extends Agent {
 	public void setCash(double d) {
 		this.cash = d;
 	}
-	
+
 	private void waitForGui() {
 		try {
 			isMoving.acquire();
