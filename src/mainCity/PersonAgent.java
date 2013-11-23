@@ -546,14 +546,8 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-<<<<<<< HEAD
 		/*switch((int) (Math.random() * 3)) {
 			case 0:*/
-=======
-
-		switch((int) (Math.random() * 3)) {
-			case 0:
->>>>>>> fa7844859d36b6435a8744fc1e19e4a1ba49d626
 				destination = CityLocation.restaurant_ena;
 				/*break;
 			case 1:
