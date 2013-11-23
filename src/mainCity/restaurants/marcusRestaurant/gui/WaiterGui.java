@@ -119,6 +119,12 @@ public class WaiterGui implements Gui {
         yDestination = homeY;
     }
     
+    public void DoLeaveRestaunt() {
+    	xDestination = 460;
+    	yDestination = -20;
+    	gettingCustomer = true; //recycling old code
+    }
+    
     public void DoPickUpCustomer(int x, int y) {
     	xDestination = x;
     	yDestination = y;
