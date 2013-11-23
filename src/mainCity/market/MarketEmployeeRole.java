@@ -280,9 +280,7 @@ public class MarketEmployeeRole extends Agent {
 			
 			
 			//else, if none of these loops or statements were entered, go to home position
-			//employeeGui.DoWait();
 			wState = WaiterState.doingNothing;
-			//employeeGui.DoGoToStation();
 			
 		}catch(ConcurrentModificationException e){
 			return false;
@@ -306,8 +304,7 @@ public class MarketEmployeeRole extends Agent {
 			e.printStackTrace();
 		}
 		
-		mc.c.msgFollowMe(this, this.getGui().homeX, this.getGui().homeY);	//****don't access these directly
-		
+		mc.c.msgFollowMe(this, this.getGui().homeX, this.getGui().homeY - 17);	//****don't access these directly
 		employeeGui.DoGoToStation();		//sometimes doesn't go all the way to the station before going to the cashier...
 		try {
 			atStation.acquire();

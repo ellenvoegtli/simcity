@@ -83,9 +83,9 @@ public class MarketGui extends JFrame implements ActionListener {
         int WINDOWY = 350;
         
         setBounds(50, 50, WINDOWX*2, (int) (WINDOWY*2));
-        //setLayout(new BoxLayout((Container) getContentPane(), 
-        	//	BoxLayout.X_AXIS));
-        setLayout(new GridLayout(2, 1, 0, 0));
+        setLayout(new BoxLayout((Container) getContentPane(), 
+        		BoxLayout.X_AXIS));
+        //setLayout(new GridLayout(2, 1, 0, 0));
 
     	JPanel nonAnimPanel = new JPanel();
     	nonAnimPanel.setLayout(new GridLayout(3, 2, 0, 0));
@@ -123,7 +123,7 @@ public class MarketGui extends JFrame implements ActionListener {
         infoPanel.add(stateCB);
         
         nonAnimPanel.add(infoPanel);
-        nonAnimPanel.add(tracePanel);
+        //nonAnimPanel.add(tracePanel);
         add(nonAnimPanel);
        
         //ANIMATION PANEL
@@ -133,7 +133,8 @@ public class MarketGui extends JFrame implements ActionListener {
         animationPanel.setMinimumSize(animDim);
         animationPanel.setMaximumSize(animDim);
         animationPanel.setVisible(true);
-        animationPanel.setBorder(BorderFactory.createTitledBorder("Restaurant Animation"));
+        //animationPanel.setBorder(BorderFactory.createTitledBorder("Restaurant Animation"));
+        animationPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
         
         add(animationPanel);
