@@ -23,7 +23,7 @@ import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
  */
 
 public class PersonAgent extends Agent {
-	private enum PersonState {normal, working, inBuilding}
+	private enum PersonState {normal, working, inBuilding, waiting, boardingBus}
 	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
 	
@@ -84,6 +84,12 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		traveling = false;
+		state = PersonState.normal;
+		stateChanged();
+	}
+	
+	public void msgBusHasArrived() {
+		state = PersonState.boardingBus;
 		stateChanged();
 	}
 
@@ -322,6 +328,10 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 		}
+		
+		if(state == PersonState.boardingBus) {
+			boardBus();
+		}
 // UNCOMMENT??
 		/*
 		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
@@ -479,11 +489,13 @@ public class PersonAgent extends Agent {
 		else if(temp) { //chose bus
 			gui.DoGoToStop(); // walk to the closest bus stop or subway station?
 			waitForGui();
-			
+
 			//add self to waiting list of BusStop once arrived
 			for(int i=0; i<ContactList.stops.size(); i++){ 
 				if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
 					ContactList.stops.get(i).ArrivedAtBusStop(this);
+					state = PersonState.waiting;
+					return;
 				}
 			}
 			//bus.myDestination(d); //send message to transportation object of where they want to go
@@ -497,9 +509,20 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		//choose which restaurant here
-
-		destination = CityLocation.restaurant_marcus;
+		switch((int) (Math.random() * 3)) {
+			case 0:
+				destination = CityLocation.restaurant_ena;
+				break;
+			case 1:
+				destination = CityLocation.restaurant_ellen;
+				break;
+			case 2:
+				destination = CityLocation.restaurant_marcus;
+				break;
+			default:
+				break;
+		}
+		
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
@@ -507,7 +530,7 @@ public class PersonAgent extends Agent {
 	private void decideWhereToEat() {
 		print("Deciding where to eat..");
 		//Decide between restaurant or home
-
+		
 		boolean temp = true;
 		
 		if(temp) { //chose restaurant
@@ -532,10 +555,20 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToWork() {
-		//check occupation & set destination appropriately
-
-		if(job.occupation.contains("marcus")) {
+		if(job.occupation.contains("market")) {
+			destination = CityLocation.market;
+		}
+		else if(job.occupation.contains("bank")) {
+			destination = CityLocation.bank;
+		}
+		else if(job.occupation.contains("marcus")) {
 			destination = CityLocation.restaurant_marcus;
+		}
+		else if(job.occupation.contains("ena")) {
+			destination = CityLocation.restaurant_ena;
+		}
+		else if(job.occupation.contains("ellen")) {
+			destination = CityLocation.restaurant_ellen;
 		}
 		
 		travelToLocation(destination);
@@ -568,6 +601,10 @@ public class PersonAgent extends Agent {
 		travelToLocation(CityLocation.bank);
 		event = PersonEvent.arrivedAtBank;
 		stateChanged();
+	}
+	
+	private void boardBus() {
+		///message the bus
 	}
 
 	//---Other Actions functions---//
