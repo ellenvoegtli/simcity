@@ -132,7 +132,7 @@ public class MarketEmployeeRole extends Agent {
 			}
 		}
 		//print("Received msgHereIsBill");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsBill for " + c.getName());
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsBill for " + c.getName() + ": $" + amount);
 		mc.billAmount = amount;
 		mc.s = CustomerState.gotCheckFromCashier;
 		stateChanged();
@@ -148,7 +148,7 @@ public class MarketEmployeeRole extends Agent {
 			}
 		}
 		//print("Received msgHereIsBill");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsBill from " + name);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsBill for " + name + ": $" + amount);
 		mb.billAmount = amount;
 		mb.s = BusinessState.gotCheckFromCashier;
 		stateChanged();
