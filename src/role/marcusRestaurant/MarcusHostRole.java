@@ -85,6 +85,16 @@ public class MarcusHostRole extends Role {
 		customerCount--;
 		stateChanged();
 	}
+	
+	public void msgFinishingShift(Waiter w) {
+		for(MyWaiter waiter : waitersList) {
+			if(waiter.waiter == w) {
+				waiter.state = WaiterState.onBreak;
+				stateChanged();
+				return;
+			}
+		}
+	}
 
 	public void msgWantToGoOnBreak(Waiter w) {
 		print(w + " just requested to go on break");
