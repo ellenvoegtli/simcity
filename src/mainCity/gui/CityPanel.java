@@ -46,15 +46,10 @@ public class CityPanel extends JPanel{
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 		
-<<<<<<< HEAD
     	//MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	//ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
     	//marcusRestaurant.setVisible(true);
-=======
-    	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
-    	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
-    	marcusRestaurant.setVisible(true);
->>>>>>> 5e62963d33065e61c103c5546a6dda77131229d0
+
     	
     	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
@@ -111,7 +106,6 @@ public class CityPanel extends JPanel{
 		person4.setGui(pg4);
 		person5.setGui(pg5);
 		
-<<<<<<< HEAD
 		
 		person.msgGoToRestaurant();
 		person2.msgGoToWork();
@@ -120,14 +114,7 @@ public class CityPanel extends JPanel{
 		person5.msgGoToWork();		
 
 		
-=======
-		person.msgGoToRestaurant();
-		person2.msgGoToWork();
-		person3.msgGoToWork();
-		person4.msgGoToWork();
-		person5.msgGoToWork();
-		
->>>>>>> 5e62963d33065e61c103c5546a6dda77131229d0
+
 		person.startThread(); 
 		person2.startThread(); 
 		person3.startThread();
