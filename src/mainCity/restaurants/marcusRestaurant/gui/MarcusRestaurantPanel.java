@@ -33,11 +33,10 @@ public class MarcusRestaurantPanel extends JPanel {
     private Vector<MarcusWaiterRole> waiters = new Vector<MarcusWaiterRole>();
     private RevolvingStand stand = new RevolvingStand();
     
+    private MarcusCashierRole cashier;// = new MarcusCashierRole();
     private MarcusCookRole cook; //= new MarcusCookRole();
     private CookGui cookGui;
 
-    private MarcusCashierRole cashier = new MarcusCashierRole();
-    
     private JPanel restLabel = new JPanel();
     //private ListPanel customerPanel = new ListPanel(this, "Customers");
     //private ListPanel waiterPanel = new ListPanel(this, "Waiters");
@@ -53,7 +52,7 @@ public class MarcusRestaurantPanel extends JPanel {
         //cook.setCashier(cashier);
         
         host.startThread();
-        cashier.startThread();
+        //cashier.startThread();
         
         setLayout(new GridLayout(1, 2, 20, 20));
         //group.setLayout(new GridLayout(1, 2, 10, 10));
@@ -61,8 +60,8 @@ public class MarcusRestaurantPanel extends JPanel {
         //group.add(customerPanel);
         //group.add(waiterPanel);
 
-        initRestLabel();
-        add(restLabel);
+        //initRestLabel();
+        //add(restLabel);
         //add(group);
                 
         //Thread to tell cook to check every so often
@@ -135,7 +134,6 @@ public class MarcusRestaurantPanel extends JPanel {
      */
     
     public void addPerson(String type, String name, boolean hungry) {
-
     	if (type.equals("Customers")) {
     		MarcusCustomerRole c = new MarcusCustomerRole(null, name);//should be fixed soon
     		customers.add(c);
@@ -213,7 +211,42 @@ public class MarcusRestaurantPanel extends JPanel {
     	return cashier;
     }
     
-    public void handleRoleGui(Role r) {
+    public void handleRole(Role r) {
+    	if(r instanceof MarcusCashierRole) {
+    		cashier = (MarcusCashierRole) r;
+    		
+    		for(MarcusWaiterRole w : waiters) {
+    			w.setCashier(cashier);
+    		}
+    		for(MarcusCustomerRole c : customers) {
+    			c.setCashier(cashier);
+    		}
+    	}
+    	
+    	if(r instanceof MarcusCookRole) {
+    		cook = (MarcusCookRole) r;
+    		cookGui = new CookGui(cook, gui);
+            cook.setStand(stand);
+    		gui.animationPanel.addGui(cookGui);
+            cook.setGui(cookGui);
+            cook.setCashier(cashier);
+            
+            for(MarcusWaiterRole w : waiters) {
+    			w.setCook(cook);
+    		}
+    	}
+    	
+    	if(r instanceof MarcusCustomerRole) {
+    		MarcusCustomerRole c = (MarcusCustomerRole) r;
+			customers.add(c);
+			CustomerGui g = new CustomerGui(c, gui, customers.indexOf(c));
+	
+			gui.animationPanel.addGui(g);
+			c.setHost(host);
+			c.setGui(g);
+			c.setCashier(cashier);
+    	}
+    	
     	if(r instanceof MarcusWaiterRole) {
     		if(r instanceof MarcusSharedWaiterRole) {
     			((MarcusSharedWaiterRole) r).setStand(stand);
@@ -228,33 +261,6 @@ public class MarcusRestaurantPanel extends JPanel {
             w.setCashier(cashier);
             host.addWaiter(w);
     		waiters.add(w);
-    	}
-    	
-    	if(r instanceof MarcusCookRole) {
-    		cook = (MarcusCookRole) r;
-    		cookGui = new CookGui(cook, gui);
-            cook.setStand(stand);
-    		gui.animationPanel.addGui(cookGui);
-            cook.setGui(cookGui);
-            cook.setCashier(cashier);
-    	}
-    	
-    	if(r instanceof MarcusCustomerRole) {
-    		MarcusCustomerRole c = (MarcusCustomerRole) r;
-	    	
-    		for(MarcusCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
-	    		if(cust == c) {
-	    			return;
-	    		}
-	    	}
-	    	
-			customers.add(c);
-			CustomerGui g = new CustomerGui(c, gui, customers.indexOf(c));
-	
-			gui.animationPanel.addGui(g);
-			c.setHost(host);
-			c.setGui(g);
-			c.setCashier(cashier);
     	}
     }
 }

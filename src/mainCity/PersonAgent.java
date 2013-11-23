@@ -361,18 +361,23 @@ public class PersonAgent extends Agent {
 						//-----Marcus Restaurant Roles---//
 						case "marcusWaiter":
 							MarcusNormalWaiterRole mw = new MarcusNormalWaiterRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(mw);
+							ContactList.getInstance().getMarcusRestaurant().handleRole(mw);
 							roles.put(action, mw);
 							break;
 						case "marcusShareWaiter":
 							MarcusSharedWaiterRole ms = new MarcusSharedWaiterRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(ms);
+							ContactList.getInstance().getMarcusRestaurant().handleRole(ms);
 							roles.put(action, ms);
 							break;
 						case "marcusCook":
 							MarcusCookRole mco = new MarcusCookRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(mco);
+							ContactList.getInstance().getMarcusRestaurant().handleRole(mco);
 							roles.put(action, mco);
+							break;
+						case "marcusCashier":
+							MarcusCashierRole mca = new MarcusCashierRole(this, name);
+							ContactList.getInstance().getMarcusRestaurant().handleRole(mca);
+							roles.put(action, mca);
 							break;
 						//-----Ena Restaurant Roles---//
 						case "enaWaiter":
@@ -396,7 +401,7 @@ public class PersonAgent extends Agent {
 					switch(destination) {
 						case restaurant_marcus:
 							MarcusCustomerRole m = new MarcusCustomerRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRoleGui(m);
+							ContactList.getInstance().getMarcusRestaurant().handleRole(m);
 							roles.put(action, m);
 							break;
 						case restaurant_ellen:
