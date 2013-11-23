@@ -264,7 +264,11 @@ public class PersonAgent extends Agent {
 					}
 				}
 				else if(customer instanceof EllenCustomerRole) {
-					((EllenCustomerRole) customer).gotHungry();
+					if (!((EllenCustomerRole) customer).getGui().goInside()){
+						chooseRestaurant();
+						return true;
+					}
+					//((EllenCustomerRole) customer).gotHungry();
 				}
 				else if(customer instanceof EnaCustomerRole) {
 					((EnaCustomerRole) customer).getGui().setHungry();
@@ -517,6 +521,7 @@ public class PersonAgent extends Agent {
 		if(temp) { //chose to walk
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
+			return;
 		}
 		else if(temp) { //chose bus
 			gui.DoGoToStop(); // walk to the closest bus stop or subway station?
@@ -541,6 +546,7 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
+
 		switch((int) (Math.random() * 3)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;

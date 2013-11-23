@@ -47,7 +47,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         setVisible(true);
         
         StringBuilder path = new StringBuilder("imgs/");
-        
+        /*
         //Bus Stop 
         try {
 			stopSign = ImageIO.read(new File(path.toString() + "stopsign.gif"));
@@ -55,7 +55,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
+        */
         //Instantiating roads
         lanes = new ArrayList<Lane>();
         

@@ -32,6 +32,7 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	
 	boolean opened = true;
+	EllenHostRole host;
 
 	
 	public EllenCashierRole(PersonAgent p, String name) {
@@ -59,6 +60,9 @@ public class EllenCashierRole extends Role implements Cashier {
 	}
 	public List getMarketBills(){
 		return marketBills;
+	}
+	public void setHost(EllenHostRole h){
+		host = h;
 	}
 	
 	// Messages

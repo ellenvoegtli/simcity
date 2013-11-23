@@ -32,16 +32,16 @@ public class CityPanel extends JPanel{
 		this.gui = gui;
 		clock = 6;
 		
-    	//MarketGui marketGui = new MarketGui();
+    	MarketGui marketGui = new MarketGui();
     	//marketGui.setVisible(true);
 		
-	   // EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
-	   // ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
+	    //EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
+	    //ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
         //ellenRestaurant.setVisible(true);
 		
-		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
-	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
-	    enaRestaurant.setVisible(true);
+		//EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
+	    //ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
+	    //enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
@@ -72,7 +72,7 @@ public class CityPanel extends JPanel{
     	//occupants.add(person4);
     	//occupants.add(person5);
 
-    	person.msgGotHungry();
+    	//person.msgGotHungry();
     	//person.msgGoToMarket();
     	//person.msgGoToWork();
     	
@@ -83,10 +83,10 @@ public class CityPanel extends JPanel{
 		PersonGui pg5 = new PersonGui(person5, gui);
 
 
-		person2.updateOccupation("enaWaiter", 8, 11);
-		person3.updateOccupation("enaCook", 8, 11);
-		person4.updateOccupation("enaCashier", 8, 11);
-		person5.updateOccupation("enaHost", 7, 10);
+		//person2.updateOccupation("ellenWaiter", 8, 11);
+		//person3.updateOccupation("ellenCook", 8, 11);
+		//person4.updateOccupation("ellenCashier", 8, 11);
+		//person5.updateOccupation("ellenHost", 7, 10);
 
 		//person2.updateOccupation("marcusWaiter", 8, 22);
 		//person3.updateOccupation("marcusCook", 8, 22);
@@ -131,8 +131,6 @@ public class CityPanel extends JPanel{
 		 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 		 executor.scheduleAtFixedRate(standChecker, 0, 5, TimeUnit.SECONDS); //Timer goes off every 10 seconds
-			person.msgGoToRestaurant();
-			person.startThread(); 
 
 		 
 	}
