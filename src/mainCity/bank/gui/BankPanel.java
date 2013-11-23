@@ -96,8 +96,8 @@ public class BankPanel extends JPanel {
         bankteller1.setBankAccounts(mainaccounts);
         
         bankmanager.bankers.add(new myBanker(banker));
-        bankmanager.msgTellerAdded(bankteller);
-        bankmanager.msgTellerAdded(bankteller1);
+        //bankmanager.msgTellerAdded(bankteller);
+        //bankmanager.msgTellerAdded(bankteller1);
         
         
         

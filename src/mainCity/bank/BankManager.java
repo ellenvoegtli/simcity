@@ -1,6 +1,7 @@
 package mainCity.bank;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import agent.Agent;
@@ -10,8 +11,8 @@ public class BankManager extends Agent {
 	String name;
 	public List <myTeller> tellers= new ArrayList<myTeller>();
 	public List <myBanker> bankers = new ArrayList<myBanker>();
-	public List <myBankCustomer>  teller_bankCustomers = new ArrayList<myBankCustomer>();
-	public List <myBankCustomer>  banker_bankCustomers = new ArrayList<myBankCustomer>();
+	public List <myBankCustomer>  teller_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
+	public List <myBankCustomer>  banker_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
 
 	public static class myTeller{
 	    BankTeller t;
@@ -142,6 +143,11 @@ public class BankManager extends Agent {
 //TODO handle scenarios where not enough employees	
 	
 	protected boolean pickAndExecuteAnAction() {
+		if(tellers.isEmpty() || bankers.isEmpty()){
+			sayClosed();
+			return false;
+		}
+		
 		for(myTeller mt:tellers){
 			if(!mt.Occupied && !teller_bankCustomers.isEmpty()){
 				
@@ -166,6 +172,22 @@ public class BankManager extends Agent {
 
 	
 //Actions
+	
+	private void sayClosed(){
+		synchronized(banker_bankCustomers){
+			for(myBankCustomer mb : banker_bankCustomers){
+				mb.bc.msgBankClosed();
+				//banker_bankCustomers.remove(mb);
+				
+			}
+		}	
+		synchronized(teller_bankCustomers){
+			for (myBankCustomer mb: teller_bankCustomers){
+				mb.bc.msgBankClosed();
+				//teller_bankCustomers.remove(mb);
+			}
+		}
+	}
 	
 	private void assignTeller(myTeller mt){
 	Do("assigning teller");
