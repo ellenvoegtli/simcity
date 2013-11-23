@@ -88,6 +88,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		onDuty = false;
 		stateChanged();
 	}
+	
 /*
 	public void msgHereIsFoodBill(Market m, int amount) {
 		print("Received a food bill of $" + amount + " from market");
