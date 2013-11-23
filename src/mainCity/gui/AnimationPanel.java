@@ -80,21 +80,21 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		
 		if ( count % 40 == 0 ) {
 			Lane l = lanes.get(0);
-			l.addVehicle( new Vehicle( 15, 15, 16, 16) );
+			//l.addVehicle( new Vehicle( 15, 15, 16, 16) );
 		}
 		
 		if ( count % 60 == 0 ) {
 			Lane l = lanes.get(1);
-			l.addVehicle( new Vehicle( 15, 15, 16, 16) );
+			//l.addVehicle( new Vehicle( 15, 15, 16, 16) );
 		}
 		
 		if ( count % 80 == 0 ) {
 			Lane l = lanes.get(2);
-			l.addVehicle( new Vehicle( 15, 15, 16, 16) );
+			//l.addVehicle( new Vehicle( 15, 15, 16, 16) );
 		}
 		if ( count % 100 == 0 ) {
 			Lane l = lanes.get(3);
-			l.addVehicle( new Vehicle( 15, 15, 16, 16) );
+			//l.addVehicle( new Vehicle( 15, 15, 16, 16) );
 		}
 		
 		//Make them all lanes stop

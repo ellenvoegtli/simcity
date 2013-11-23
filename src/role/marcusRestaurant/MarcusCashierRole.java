@@ -94,7 +94,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		marketBills.add(new MarketBill(m, amount));
 		stateChanged();
 	}
-	*/
+*/
 
 	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, MarketDeliveryManRole deliveryPerson) {
 		print("Received a food bill of $" + billAmount + " from market");

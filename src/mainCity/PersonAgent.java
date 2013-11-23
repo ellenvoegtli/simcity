@@ -323,13 +323,13 @@ public class PersonAgent extends Agent {
 			}
 		}
 // UNCOMMENT??
-		
+		/*
 		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
 			print("My action list is empty. Going home");
 			actions.add(new Action(ActionType.home, 10));
 			return true;
-	}
-		
+		}
+		*/
 		return false;
 	}
 
