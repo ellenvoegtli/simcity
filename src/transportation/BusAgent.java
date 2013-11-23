@@ -54,7 +54,12 @@ public class BusAgent extends Agent{
 				
 				for(int i=0; i<ContactList.stops.size(); i++){ 
 					if(ContactList.stops.get(i).stopLocation == currentLocation) { 
-						ContactList.stops.get(i).BusHasArrived(capacity);
+						if(ContactList.stops.get(i).waitingPeople.size() != 0) {
+							ContactList.stops.get(i).BusHasArrived(capacity);
+						}
+						else { 
+							System.out.println("No waiting people at this stop. Moving on!"); 
+						}
 					}
 				}
 				
@@ -68,8 +73,8 @@ public class BusAgent extends Agent{
 				gui.atBusStop = false;
 				
 				for(int i=0; i<ContactList.stops.size(); i++){
-					if( (gui.getXLoc() == ContactList.stops.get(i).xLocation) 
-							&& (gui.getYLoc() == ContactList.stops.get(i).yLocation) ) {
+					if( (gui.getX() == ContactList.stops.get(i).xLocation) 
+							&& (gui.getY() == ContactList.stops.get(i).yLocation) ) {
 						
 						gui.atBusStop = true;
 						
