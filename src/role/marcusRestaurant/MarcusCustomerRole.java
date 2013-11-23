@@ -395,4 +395,12 @@ public class MarcusCustomerRole extends Role implements Customer {
 	public int getYPos() {
 		return customerGui.getY();
 	}
+
+	public boolean hostOnDuty() {
+		if(host == null) {
+			return false;
+		}
+		
+		return true;
+	}
 }

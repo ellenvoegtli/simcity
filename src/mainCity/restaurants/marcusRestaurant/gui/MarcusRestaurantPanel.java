@@ -27,7 +27,7 @@ public class MarcusRestaurantPanel extends JPanel {
     private MarcusRestaurantGui gui; //reference to main gui
 
     //Host, cook, waiters and customers
-    private MarcusHostRole host = new MarcusHostRole("Sarah");
+    private MarcusHostRole host;// = new MarcusHostRole("Sarah");
    
     private Vector<MarcusCustomerRole> customers = new Vector<MarcusCustomerRole>();
     private Vector<MarcusWaiterRole> waiters = new Vector<MarcusWaiterRole>();
@@ -37,7 +37,7 @@ public class MarcusRestaurantPanel extends JPanel {
     private MarcusCookRole cook; //= new MarcusCookRole();
     private CookGui cookGui;
 
-    private JPanel restLabel = new JPanel();
+    //private JPanel restLabel = new JPanel();
     //private ListPanel customerPanel = new ListPanel(this, "Customers");
     //private ListPanel waiterPanel = new ListPanel(this, "Waiters");
     //private JPanel group = new JPanel();
@@ -51,7 +51,7 @@ public class MarcusRestaurantPanel extends JPanel {
         //cook.setGui(cookGui);
         //cook.setCashier(cashier);
         
-        host.startThread();
+        //host.startThread();
         //cashier.startThread();
         
         setLayout(new GridLayout(1, 2, 20, 20));
@@ -81,10 +81,7 @@ public class MarcusRestaurantPanel extends JPanel {
 		 executor.scheduleAtFixedRate(standChecker, 0, 15, TimeUnit.SECONDS);
         }
 
-    /**
-     * Sets up the restaurant label that includes the menu,
-     * and host and cook information
-     */
+/*
     private void initRestLabel() {
         JLabel label = new JLabel();
         //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
@@ -97,7 +94,7 @@ public class MarcusRestaurantPanel extends JPanel {
         restLabel.add(new JLabel("               "), BorderLayout.EAST);
         restLabel.add(new JLabel("               "), BorderLayout.WEST);
     }
-
+*/
     /**
      * When a customer or waiter is clicked, this function calls
      * updatedInfoPanel() from the main gui so that person's information
@@ -146,7 +143,7 @@ public class MarcusRestaurantPanel extends JPanel {
     		c.setCashier(cashier);
     		
     		if(hungry) {
-    			c.getGui().setHungry();
+    			c.getGui().goInside();
     		}
     		
     		c.startThread();
@@ -245,6 +242,17 @@ public class MarcusRestaurantPanel extends JPanel {
 			c.setHost(host);
 			c.setGui(g);
 			c.setCashier(cashier);
+    	}
+    	
+    	if(r instanceof MarcusHostRole) {
+    		host = (MarcusHostRole) r;
+    		
+    		for(MarcusWaiterRole w : waiters) {
+    			w.setHost(host);
+    		}
+    		for(MarcusCustomerRole c : customers) {
+    			c.setHost(host);
+    		}
     	}
     	
     	if(r instanceof MarcusWaiterRole) {
