@@ -33,7 +33,7 @@ public class CityPanel extends JPanel{
 		clock = 6;
 		
     	MarketGui marketGui = new MarketGui();
-    	marketGui.setVisible(true);
+    	//marketGui.setVisible(true);
 		
 	   // EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
 	   // ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
