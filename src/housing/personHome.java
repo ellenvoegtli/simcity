@@ -24,10 +24,10 @@ public class personHome
 	kitchenState kState = kitchenState.pending;
 	enum type {apartment, house};
 	type homeType;
-	List <Appliance> kitchen = new ArrayList<Appliance>();
+	List <Appliance> Appliances = new ArrayList<Appliance>();
 	List<String> needFood = new ArrayList<String>();
 	
-	public personHome(OccupantRole occ /* ,LandlordRole lndlrd, type home*/)
+	public personHome(OccupantRole occ)
 	{
 		super();
 		//homeType = home;
@@ -37,15 +37,15 @@ public class personHome
 			owner = lndlrd;
 
 		}*/
-		FoodSupply.put("pasta" , 2);
+		FoodSupply.put("pasta" , 0);
 		FoodSupply.put("fish", 1);
 		FoodSupply.put("chickenSoup", 0);
 		
-		boolean working = true;
 		
-	kitchen.add(new Appliance("stove" , working));
-	kitchen.add(new Appliance("fridge" , working));
-	kitchen.add(new Appliance("sink" , working));
+	Appliances.add(new Appliance("stove" , true));
+	Appliances.add(new Appliance("fridge" , true));
+	Appliances.add(new Appliance("sink" , true));
+	Appliances.add(new Appliance("TV", false));
 
 		
 	}
@@ -56,17 +56,12 @@ public class personHome
 	
 //ACTIONS
 	
-	public void fixAppliance(String appName)
-	{
-		occupant.msgNeedsMaintenance(appName);
-		
-	}
 	
 	
 	
 	public void checkSupplies(String meal)
 	{
-		if(FoodSupply.get(meal) == null)
+		if(FoodSupply.get(meal) == 0)
 		{
 			needFood.add(meal);
 			occupant.msgNeedFood(needFood);
@@ -75,6 +70,20 @@ public class personHome
 		else
 		{
 			occupant.msgCookFood(meal);
+		}
+		
+	}
+	
+	public void CheckAppliances()
+	{
+		
+		for (Appliance appl : Appliances)
+		{
+			if(appl.working == false)
+			{
+				synchronized(occupant.needsWork)
+				{occupant.needsWork.add(appl.appliance);}
+			}
 		}
 		
 	}
@@ -134,7 +143,7 @@ public class personHome
 				}
 				if(nm.equals("TV"))
 				{
-					xPos = 50;
+					xPos = 70;
 					yPos = 80;
 				}
 				

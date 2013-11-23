@@ -50,7 +50,7 @@ AnimationPanel animationPanel = new AnimationPanel();
      * Sets up all the gui components.
      */
     public HomeGui() {
-        int WINDOWX = 550;
+        int WINDOWX = 750;
         int WINDOWY = 350;
 
        // animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,7 +181,9 @@ AnimationPanel animationPanel = new AnimationPanel();
         }	
     }
     
-   
+   public HomePanel getHomePanel() {
+		return homePanel;
+	}
     /**
      * Main routine to get gui started
      */
@@ -193,6 +195,7 @@ AnimationPanel animationPanel = new AnimationPanel();
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+	
 	
 
 }

@@ -29,28 +29,28 @@ public class CityGui extends JFrame{
 	public CityGui() { 
 		
 		int WINDOWX = 1300; 
-		int WINDOWY = 700;
+		int WINDOWY = 600;
 		
 		setBounds(50, 50, WINDOWX, WINDOWY+150);
 		setLayout(new BorderLayout());
 		
 		//---MAIN PANEL BEGIN---//
         
-        Dimension mainDim = new Dimension((int) (WINDOWX * .7), WINDOWY);
+        Dimension mainDim = new Dimension((int) (WINDOWX * .6), WINDOWY);
         mainPanel.setPreferredSize(mainDim);
         mainPanel.setMinimumSize(mainDim);
         mainPanel.setMaximumSize(mainDim);
         mainPanel.setBorder(BorderFactory.createEtchedBorder());
         add(mainPanel, BorderLayout.CENTER);
         
-        Dimension animationDim = new Dimension((int) (WINDOWX * .7), (int) (WINDOWY * .6));
+        Dimension animationDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .8));
         getAnimationPanel().setPreferredSize(animationDim);
         getAnimationPanel().setMinimumSize(animationDim);
         getAnimationPanel().setMaximumSize(animationDim);
         getAnimationPanel().setBorder(BorderFactory.createEtchedBorder());
         mainPanel.add(getAnimationPanel(), BorderLayout.CENTER);
         
-        Dimension detailedDim = new Dimension((int) (WINDOWX * .7), (int) (WINDOWY * .4));
+        Dimension detailedDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .2));
         detailedPanel.setPreferredSize(detailedDim);
         detailedPanel.setMinimumSize(detailedDim);
         detailedPanel.setMaximumSize(detailedDim);
@@ -59,7 +59,7 @@ public class CityGui extends JFrame{
 		
 		//---LEFT PANEL BEGIN---//
 		//Entire Left Panel Sizing
-		Dimension leftDim = new Dimension((int) (WINDOWX * .3), (int) (WINDOWY * .5));
+		Dimension leftDim = new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .5));
 		leftPanel.setPreferredSize(leftDim);
 		leftPanel.setMinimumSize(leftDim);
 		leftPanel.setMaximumSize(leftDim);
@@ -67,7 +67,7 @@ public class CityGui extends JFrame{
         add(leftPanel, BorderLayout.WEST);
 		
         //Control Panel Sizing
-        Dimension restDim = new Dimension((int) (WINDOWX * .3), (int) (WINDOWY * .6));
+        Dimension restDim = new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .6));
         cityPanel.setPreferredSize(restDim);
         cityPanel.setMinimumSize(restDim);
         cityPanel.setMaximumSize(restDim);
@@ -76,7 +76,7 @@ public class CityGui extends JFrame{
         //=============== TRACE PANEL ====================//
         JTabbedPane tabbedPane = new JTabbedPane();
         tracePanel1 = new TracePanel();
-        tracePanel1.setPreferredSize(new Dimension((int) (WINDOWX * .3), (int) (WINDOWY * .4)));
+        tracePanel1.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
         tracePanel1.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel1.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel1.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -87,10 +87,10 @@ public class CityGui extends JFrame{
         tracePanel1.hideAlertsWithTag(AlertTag.RESTAURANT);
         
         AlertLog.getInstance().addAlertListener(tracePanel1);
-        tabbedPane.addTab("PERSON tag", tracePanel1);
+        tabbedPane.addTab("PERSON", tracePanel1);
         
         tracePanel2 = new TracePanel();
-        tracePanel2.setPreferredSize(new Dimension((int) (WINDOWY * .3), (int) (WINDOWY * .4)));
+        tracePanel2.setPreferredSize(new Dimension((int) (WINDOWY * .4), (int) (WINDOWY * .4)));
         tracePanel2.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel2.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel2.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -102,10 +102,10 @@ public class CityGui extends JFrame{
         
         
         AlertLog.getInstance().addAlertListener(tracePanel2);
-        tabbedPane.addTab("MARKET tag", tracePanel2);
+        tabbedPane.addTab("MARKET", tracePanel2);
         
         tracePanel3 = new TracePanel();
-        tracePanel3.setPreferredSize(new Dimension((int) (WINDOWX * .3), (int) (WINDOWY * .4)));
+        tracePanel3.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
         tracePanel3.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel3.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel3.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -116,11 +116,11 @@ public class CityGui extends JFrame{
         tracePanel3.hideAlertsWithTag(AlertTag.RESTAURANT);
         
         AlertLog.getInstance().addAlertListener(tracePanel3);
-        tabbedPane.addTab("BANK tag", tracePanel3);
+        tabbedPane.addTab("BANK", tracePanel3);
         
         
         tracePanel4 = new TracePanel();
-        tracePanel4.setPreferredSize(new Dimension((int) (WINDOWX * .3), (int) (WINDOWY * .4)));
+        tracePanel4.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
         tracePanel4.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel4.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel4.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -131,14 +131,14 @@ public class CityGui extends JFrame{
         tracePanel4.showAlertsWithTag(AlertTag.RESTAURANT);
         
         AlertLog.getInstance().addAlertListener(tracePanel4);
-        tabbedPane.addTab("RESTAURANT tag", tracePanel4);
+        tabbedPane.addTab("RESTAURANT", tracePanel4);
         
         leftPanel.add(tabbedPane, BorderLayout.SOUTH);       
 	}
 	
 	public static void main(String[] args) {
         CityGui gui = new CityGui();
-        gui.setTitle("csci201 Restaurant");
+        gui.setTitle("SimCity201");
         gui.setVisible(true);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

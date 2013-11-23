@@ -51,7 +51,7 @@ public class OccupantGui implements Gui
 		else if (yPos > yDestination)
 			yPos--;
 		
-		if ((xDestination != 200 && yDestination != 35) || (xDestination != 250 && yDestination != 35) || (xDestination != 300 && yDestination != 35) || ( xDestination != 200 && yDestination != 150) || (xDestination != 50 && yDestination !=150) )
+		if ((xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) || (xDestination == 70 && yDestination == 100) )
 			{
 					atDestination = true;
 			}
@@ -64,7 +64,7 @@ public class OccupantGui implements Gui
 				gui.setCustomerEnabled(person);
 			}
 			command=Command.noCommand;
-			if (((xDestination == 200 && yDestination == 35) || (xDestination == 250 && yDestination == 35) || (xDestination == 300 && yDestination == 35) || ( xDestination == 200 && yDestination == 150) || (xDestination == 50 && yDestination ==150) ) && atDestination == true)
+			if (((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 50 && yDestination ==150) || (xDestination == 70 && yDestination == 100) ) && atDestination == true)
 			{
 				atDestination = false;				
 				person.msgAtDestination();
@@ -123,45 +123,51 @@ public class OccupantGui implements Gui
 		
 		public void DoGoToAppliance(int x, int y)
 		{
-			xDestination = x;
-			yDestination = y+10;
+			xDestination = 70;
+			yDestination = 100;
 		}
 		
 		public void DoGoToFridge()
 		{
 			System.out.println("going to fridge");
 			xDestination = 300;
-			yDestination = 35;
+			yDestination = 40;
 			//command = Command.GoCook;
 		}
 		
 		public void DoGoToStove()
 		{
-			System.out.println("cooking at stove");
+			//System.out.println("cooking at stove");
 			xDestination = 200;
-			yDestination = 35;
+			yDestination = 40;
 			//command = Command.GoCook;
 		}
 		
 		public void DoGoToSink()
 		{
-			System.out.println("doing dishes");
+			//System.out.println("doing dishes");
 			xDestination = 250;
-			yDestination = 35;
+			yDestination = 40;
 			command = Command.doneInKitchen;
 		}
 		
 		public void DoGoToKitchenTable() 
 		{
-			System.out.println("going to table to eat");
-			xDestination = 200;
+			//System.out.println("going to table to eat");
+			xDestination = 250;
 			yDestination = 150;
 		}
 		
 		public void DoGoRest()
 		{
 			xDestination = 50;
-			yDestination = 150;
+			yDestination = 200;
+		}
+		
+		public void DoLeave()
+		{
+			xDestination = -10;
+			yDestination = 180;
 		}
 		
 		

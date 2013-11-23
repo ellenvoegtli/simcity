@@ -2,14 +2,20 @@ package mainCity.bank;
 import java.util.List;
 
 import mainCity.bank.BankAccounts.BankAccount;
+import mainCity.bank.gui.BankTellerGui;
 import agent.Agent;
 
 
 public class BankTeller extends Agent {
-
+	
+	public enum TellerState{none, atWork, offWork }
+	
+	TellerState tstate =TellerState.none;
 	BankAccounts ba;
 	String name;
 	myClient mc;
+	private int tellernumber;
+	BankTellerGui btGui;
 	public enum ClientState{withdrawing, depositing, talking}
 	
 	public class myClient{
@@ -29,7 +35,22 @@ public class BankTeller extends Agent {
 		this.ba=ba;
 	}
 	
+	public void setTellerNumber(int tn){
+		this.tellernumber=tn;
+	}
+	
 	//Messages
+	public void msgGoToWork(){
+		Do("tellernumber is" + tellernumber);
+		System.out.println("Teller at station");
+		tstate=TellerState.atWork;
+		stateChanged();
+	}
+	
+	public void msgLeaveWork(){
+		tstate=TellerState.offWork;
+		stateChanged();
+	}
 	
 	public void msgIWantToDeposit(BankCustomer b, double accnum, int amount){
 		Do("recieved msgIWantToDeposit from a customer");
@@ -56,6 +77,17 @@ public class BankTeller extends Agent {
 	
 	
 	protected boolean pickAndExecuteAnAction() {
+		if(tstate==TellerState.atWork){
+			tstate=TellerState.none;
+			doGoToWork();
+			return true;
+		}
+		if(tstate==TellerState.offWork){
+			tstate=TellerState.none;
+			doLeaveWork();
+			return true;
+		}
+		
 		
 		if(mc!=null){
 			if(mc.cs==ClientState.depositing){
@@ -77,6 +109,18 @@ public class BankTeller extends Agent {
 	}
 	
 //Actions
+	private void doGoToWork(){
+	btGui.doGoToWork(tellernumber);
+		
+		
+	}
+	
+	private void doLeaveWork(){
+		btGui.doLeaveWork();
+	}
+	
+	
+	
 	private void doDeposit(myClient mc){
 		Do("doing deposit");
 		synchronized (ba.accounts) {
@@ -86,6 +130,7 @@ public class BankTeller extends Agent {
 					b.balance+=mc.amount;
 					mc.bc.msgRequestComplete(mc.amount*-1, b.balance);
 					mc=null;
+					return;
 				}
 			}
 			
@@ -102,6 +147,7 @@ public class BankTeller extends Agent {
 					b.balance-=mc.amount;
 					mc.bc.msgRequestComplete(mc.amount, b.balance);
 					mc=null;
+					return;
 				}
 			}
 			
@@ -109,7 +155,9 @@ public class BankTeller extends Agent {
 		
 	}
 	
-	
+	public void setGui(BankTellerGui gui){
+		this.btGui=gui;
+	}
 	
 	
 	

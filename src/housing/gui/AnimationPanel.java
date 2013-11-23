@@ -11,12 +11,13 @@ public class AnimationPanel extends JPanel implements ActionListener
 {
 	
 
-	    private final int WINDOWX = 750;
+	    private final int WINDOWX = 950;
 	    private final int WINDOWY = 350;
-	    private int tableX = 200;
-	    private int tableY = 350;
-	    private int applianceWidth = 25;
-	    private int applianceHeight = 25;
+	    
+	    private int applianceWidth = 20;
+	    private int applianceHeight = 15;
+	    private int tableWidth = 30;
+	    private int tableHeight = 20;
 	    private Image bufferImage;
 	    private Dimension bufferSize;
 
@@ -38,6 +39,7 @@ public class AnimationPanel extends JPanel implements ActionListener
 
 	    public void paintComponent(Graphics g) {
 	        Graphics2D g2 = (Graphics2D)g;
+	        JLabel label;
 
 	        //Clear the screen by painting a rectangle the size of the frame
 	        g2.setColor(getBackground());
@@ -46,13 +48,26 @@ public class AnimationPanel extends JPanel implements ActionListener
 	        //Here is the table
 	        g2.setColor(Color.BLACK);       
 	        g2.fillRect(200 ,25, applianceWidth, applianceHeight);
-
+	        
+	        g2.drawString("stove", 200, 20);
 	        g2.fillRect(250, 25, applianceWidth, applianceHeight);//200 and 250 need to be table params
+	        g2.drawString("sink", 250, 20);
 
 	        
 	        g2.fillRect(300,  25,  applianceWidth,  applianceHeight);
 
+	        g2.drawString("fridge", 300, 20);
 	        
+	        g2.setColor(Color.ORANGE);       
+
+	        g2.fillRect(250, 150, tableWidth, tableHeight);//200 and 250 need to be table params
+	        
+	        g2.setColor(Color.lightGray);       
+	        g2.fillRect(50 ,200, 50, 20);
+	        
+	        g2.setColor(Color.darkGray);       
+	        g2.fillRect(70 ,80, 25, 15);
+
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {
 	                gui.updatePosition();

@@ -7,22 +7,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class House implements Gui{
+public class Building implements Gui{
 	
 	int xLocation, yLocation; 
 	int width, height; 
-	String Direction;
 	
-	private BufferedImage houseImg1 = null;
-	private BufferedImage houseImg2 = null; 
+    private BufferedImage buildingImg = null;
 	
-	House(int xLoc, int yLoc, String d) { 
+	Building(int xLoc, int yLoc, String p) { 
 		
 		StringBuilder path = new StringBuilder("imgs/");
 		
 		try {
-			houseImg1 = ImageIO.read(new File(path.toString() + "house1.png"));
-			houseImg2 = ImageIO.read(new File(path.toString() + "house2.png"));
+        	buildingImg = ImageIO.read(new File(path.toString() + p));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -30,7 +27,6 @@ public class House implements Gui{
 		
 		xLocation = xLoc; 
 		yLocation = yLoc; 
-		Direction = d;
 	}
 	
 	public void updatePosition() {
@@ -38,12 +34,9 @@ public class House implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
-		if(Direction == "down"){
-			g.drawImage(houseImg1, xLocation, yLocation, null);
-		} 
-		else{ 
-			g.drawImage(houseImg2, xLocation, yLocation, null);
-		}
+		
+		g.drawImage(buildingImg, xLocation, yLocation, null);
+		
 	}
 
 	public boolean isPresent() {

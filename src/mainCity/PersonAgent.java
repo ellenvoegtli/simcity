@@ -2,6 +2,7 @@ package mainCity;
 import agent.Agent;
 import role.*;
 import role.marcusRestaurant.*;
+import housing.OccupantRole;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -111,6 +112,7 @@ public class PersonAgent extends Agent {
 
 	//A message received from the HomeAgent or GUI (possibly?) to go to the market
 	public void msgGoToMarket() {
+		print ("going to the market''''''''''''''");
 		actions.add(new Action(ActionType.market, 3));
 		stateChanged();
 	}
@@ -320,13 +322,13 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 		}
-
-		//UNCOMMENT LATER
-//		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
-//			print("My action list is empty. Going home");
-//			actions.add(new Action(ActionType.home, 10));
-//			return true;
-//		}
+// UNCOMMENT??
+		
+		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
+			print("My action list is empty. Going home");
+			actions.add(new Action(ActionType.home, 10));
+			return true;
+	}
 		
 		return false;
 	}
@@ -426,6 +428,10 @@ public class PersonAgent extends Agent {
 							break;
 					}
 					break;
+				case home :
+					OccupantRole or = new OccupantRole(this, name);
+					ContactList.getInstance().getHome().handleRoleGui(or);
+					roles.put(action, or);
 				default:
 					break;
 			}
