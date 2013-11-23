@@ -26,13 +26,13 @@ public class CashierTest extends TestCase
         MockMarket market1;
         MockMarket market2;
         MockCustomer flake;
-        
+       
         
         /**
          * This method is run before each test. You can use it to instantiate the class variables
          * for your agent and mocks, etc.
          */
-        public void setUp() throws Exception{
+ /*       public void setUp() throws Exception{
                 super.setUp();                
                 cashier = new EllenCashierRole("cashier");                
                 customer = new MockCustomer("mockcustomer"); 
@@ -45,7 +45,7 @@ public class CashierTest extends TestCase
                 market1 = new MockMarket("market1");
                 market2 = new MockMarket("market2");
                 
-        }        
+        }     */   
         /**
          * This tests the cashier under very simple terms: one customer is ready to pay the exact bill.
          */

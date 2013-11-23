@@ -2,20 +2,18 @@ package mainCity.restaurants.EllenRestaurant;
 
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
-import mainCity.restaurants.EllenRestaurant.*;
-import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import agent.Agent;
+import role.Role;
+import mainCity.PersonAgent;
 
 import java.util.*;
-import java.util.concurrent.Semaphore;
 
 /**
  * Restaurant Host Agent
  */
 
-public class EllenHostRole extends Agent {
-	static final int NTABLES = 4;//a global for the number of tables.
+public class EllenHostRole extends Role {
 	private String name;
 	
 	public Collection<MyWaitingCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<MyWaitingCustomer>());
@@ -23,16 +21,10 @@ public class EllenHostRole extends Agent {
 	private Collection<MyWaiter> myWaiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 
 	
-	public EllenHostRole(String name) {
-		super();
+	public EllenHostRole(PersonAgent p, String name) {
+		super(p);
 
-		this.name = name;
-		// make some tables
-		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
-		for (int ix = 1; ix <= NTABLES; ix++) {
-			tables.add(new Table(ix));//how you add to a collections
-		}
-		
+		this.name = name;		
 	}
 
 	public String getMaitreDName() {
@@ -152,7 +144,7 @@ public class EllenHostRole extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		synchronized(myWaiters){
 			for (MyWaiter mw: myWaiters){		//lowest priority
@@ -191,26 +183,7 @@ public class EllenHostRole extends Agent {
 		/*
 		 * For notifying a waiting customer that the restaurant is full
 		 */
-		int n = 0;
-		synchronized(tables){
-			for (Table table : tables){
-				if (table.isOccupied)
-					n++;
-				else
-					break;
-				
-				if (n == NTABLES){	//all tables are occupied
-					if (!waitingCustomers.isEmpty()){
-						for (MyWaitingCustomer wc : waitingCustomers){
-							if (!wc.confirmedToWait){
-								notifyCustomerRestFull(wc.c);
-								return false;
-							}
-						}
-					}
-				}//end of if
-			} //end of for loop
-		}//end of synchronized
+
 		
 
 		/* Think of this rule as:
