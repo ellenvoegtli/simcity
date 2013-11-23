@@ -51,6 +51,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
         
         g2.fillRect(350,  tableY,  tableWidth,  tableHeight);
 
+        g.setColor(Color.RED);
+        g.fillRect(275, 490, 90, 25);
+        g.setColor(Color.LIGHT_GRAY);
+        g.fillRect(375, 490, 35, 105);
         
         for(Gui gui : guis) {
             if (gui.isPresent()) {
