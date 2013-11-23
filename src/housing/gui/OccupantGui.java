@@ -104,9 +104,30 @@ public class OccupantGui implements Gui
 
 		public void DoGoToStove() 
 		{
+			System.out.println("cooking at stove");
 			xDestination = 200;
 			yDestination = 35;
 			command = Command.GoCook;
+		}
+
+
+		public void DoGoToKitchenTable() 
+		{
+			System.out.println("going to table to eat");
+			xDestination = 200;
+			yDestination = 150;
+		}
+		
+		public void DoGoRest()
+		{
+			xDestination = 50;
+			yDestination = 150;
+		}
+		
+		public void DoGoToAppliance(int x, int y)
+		{
+			xDestination = x;
+			yDestination = y;
 		}
 
 }

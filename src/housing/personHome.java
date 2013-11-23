@@ -85,22 +85,17 @@ public abstract class personHome
 		{
 			for(String f : needFood)
 			{
+				FoodSupply.put(f, 1);
+				System.out.println("replenish food supply in kitchen");
 				needFood.remove(f);
-			}
+			}				
+			System.out.println("no other food needed");
+
 		}
 	}
 	
-	public void cookFood(String meal)
-	{
-		//timer for food to cook
-		kState = kitchenState.done;
-		occupant.msgCooked(meal);
-	}
 	
-	
-	
-	
-	
+
 //Inner class for the different appliances in the kitchen
 	
 	
@@ -117,6 +112,38 @@ public abstract class personHome
 			{
 				appliance = nm; 
 				working = wrk;
+				
+				if(nm.equals("stove"))
+				{
+					xPos = 200;
+					yPos = 25;
+					
+				}
+				if(nm.equals("fridge"))
+				{
+					xPos = 300;
+					yPos = 25;
+				}
+				if(nm.equals("sink"))
+				{
+					xPos = 250;
+					yPos = 25;
+				}
+				if(nm.equals("TV"))
+				{
+					xPos = 50;
+					yPos = 80;
+				}
+				
+			}
+			
+			public int getXPos()
+			{
+				return xPos;
+			}
+			public int getYPos()
+			{
+				return yPos;
 			}
 			
 			

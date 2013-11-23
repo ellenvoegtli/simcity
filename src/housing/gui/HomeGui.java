@@ -78,17 +78,17 @@ AnimationPanel animationPanel = new AnimationPanel();
         infoPanel.setBorder(BorderFactory.createTitledBorder("Information"));
 
         stateCB = new JCheckBox();
-        stateCB.setVisible(false);
+        stateCB.setVisible(true);
         stateCB.addActionListener(this);
         
  
 
         infoPanel.setLayout(new GridLayout());
         
-       // infoLabel = new JLabel(); 
-        //infoLabel.setText("<html><pre><i>Click to cook</i></pre></html>");
-        //infoPanel.add(infoLabel);
-        infoPanel.add(stateCB);
+       infoLabel = new JLabel(); 
+       infoLabel.setText("<html><pre><i>Click to cook</i></pre></html>");
+       infoPanel.add(infoLabel);
+       infoPanel.add(stateCB);
         add(infoPanel);
         
                
