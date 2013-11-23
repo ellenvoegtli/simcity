@@ -6,18 +6,18 @@ import java.util.List;
 import java.util.Map;
 
 import role.Role;
+import role.market.MarketDeliveryManRole;
 import mainCity.PersonAgent;
-import mainCity.restaurants.enaRestaurant.gui.HostGui;
+import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 import mainCity.restaurants.enaRestaurant.interfaces.Market;
 import mainCity.restaurants.enaRestaurant.test.mock.EventLog;
 import mainCity.restaurants.enaRestaurant.test.mock.LoggedEvent;
 import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
-import mainCity.market.MarketDeliveryManRole;
 import agent.Agent;
 
-public class EnaCashierRole extends Agent implements Cashier{
+public class EnaCashierRole extends Role implements Cashier{
 
 		public List<Tab> Tabs= Collections.synchronizedList(new ArrayList<Tab>());
 		public List<MarketTab> marketChecks = Collections.synchronizedList(new ArrayList<MarketTab>());
@@ -32,11 +32,11 @@ public class EnaCashierRole extends Agent implements Cashier{
 		{ pending, paying, paid};
 		marketPay state = marketPay.pending;
 		
-				public HostGui hostGui;
+				public EnaHostGui hostGui;
 
-		public EnaCashierRole( String name) 
+		public EnaCashierRole( PersonAgent p, String name) 
 		{
-			super();
+			super(p);
 
 			this.name = name;
 		}
@@ -235,12 +235,12 @@ public boolean pickAndExecuteAnAction()
 			restCash = r;
 			
 		}
-		public void setGui(HostGui gui) 
+		public void setGui(EnaHostGui gui) 
 		{
 			hostGui = gui;
 		}
 
-		public HostGui getGui() 
+		public EnaHostGui getGui() 
 		{
 			return hostGui;
 		}

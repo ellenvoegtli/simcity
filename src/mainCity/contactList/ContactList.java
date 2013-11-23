@@ -7,6 +7,7 @@ import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.enaRestaurant.gui.EnaRestaurantPanel;
 import mainCity.restaurants.jeffersonrestaurant.*;
+import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
 import role.marcusRestaurant.*;
 import mainCity.restaurants.restaurant_zhangdt.*;
@@ -81,6 +82,7 @@ public class ContactList {
 
 	
 	//TESTING
+	JeffersonRestaurantPanel jeffersonRestaurant;
 	MarcusRestaurantPanel marcusRestaurant;
 	EllenRestaurantPanel ellenRestaurant;
 	EnaRestaurantPanel enaRestaurant;
@@ -151,6 +153,13 @@ public class ContactList {
 	public void setJeffersonCashier(JeffersonCashierRole c){
 		jeffersonCashier = c;
 	}
+	public void setJeffersonRestaurant(JeffersonRestaurantPanel j){
+			jeffersonRestaurant = j;
+		}
+	public JeffersonRestaurantPanel getJeffersonRestaurant(){
+		return jeffersonRestaurant;
+		}
+	
 	
 	//David's Restaurant*****
 	public void setDavidHost(DavidHostRole h){

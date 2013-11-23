@@ -30,7 +30,7 @@ public class ListPanel extends JPanel implements ActionListener {
     //JTextField waiterEntry = new JTextField(25);
     JCheckBox initial = new JCheckBox("Hungry?");
 
-    private RestaurantPanel restPanel;
+    private JeffersonRestaurantPanel restPanel;
     private String type;
 
     
@@ -40,7 +40,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param rp   reference to the restaurant panel
      * @param type indicates if this is for customers or waiters
      */
-    public ListPanel(RestaurantPanel rp, String type) {
+    public ListPanel(JeffersonRestaurantPanel rp, String type) {
         restPanel = rp;
         this.type = type;
         

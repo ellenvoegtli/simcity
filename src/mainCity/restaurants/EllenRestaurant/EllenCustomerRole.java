@@ -54,7 +54,7 @@ public class EllenCustomerRole extends Role implements Customer{
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
 	public EllenCustomerRole(PersonAgent p, String name){
-		super(p, false);
+		super(p);
 		this.name = name;
 		
 		if (name.equalsIgnoreCase("flake"))		//he orders steak

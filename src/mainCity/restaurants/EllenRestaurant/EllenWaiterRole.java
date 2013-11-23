@@ -49,7 +49,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	
 
 	public EllenWaiterRole(PersonAgent p, String name) {
-		super(p, false);
+		super(p);
 		this.name = name;
 		
 		myCustomers = new ArrayList<MyCustomer>();

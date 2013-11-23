@@ -6,11 +6,11 @@ public abstract class Role extends Agent {
 	PersonAgent person;
 	boolean isActive;
 
-	protected Role(PersonAgent p, boolean a) {
+	protected Role(PersonAgent p) {
 		super();
 		
 		this.person = p;
-		this.isActive = a;
+		this.isActive = false;
 	}
 	
 	public PersonAgent getPerson() {
@@ -39,4 +39,8 @@ public abstract class Role extends Agent {
 	}
 
 	public abstract boolean pickAndExecuteAnAction();
+	
+	protected double getCash() {
+		return person.getCash();
+	}
 }

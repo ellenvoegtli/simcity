@@ -9,7 +9,7 @@ import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
 public class CookGui implements Gui {
 	private int xHome=370;
 	private int yHome = 200;
-	RestaurantGui gui;
+	JeffersonRestaurantGui gui;
 	Graphics2D g2;
 	private JeffersonCookRole agent = null;
 	
@@ -19,7 +19,7 @@ public class CookGui implements Gui {
 	
 	int table;
 	
-	public CookGui(JeffersonCookRole c, RestaurantGui gui){ //HostAgent m) {
+	public CookGui(JeffersonCookRole c, JeffersonRestaurantGui gui){ //HostAgent m) {
 		agent = c;
 		xHome=370;
 		yHome = 200;

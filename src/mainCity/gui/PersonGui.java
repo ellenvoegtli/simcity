@@ -26,8 +26,8 @@ public class PersonGui implements Gui{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
-		xDestination = xPos = 100;
-		yDestination = yPos = 100;
+		xDestination = xPos = (int)(Math.random() * 700);
+		yDestination = yPos = (int)(Math.random() * 400);
 		traveling = false;
 		StringBuilder path = new StringBuilder("imgs/");
 		try {
@@ -82,6 +82,14 @@ public class PersonGui implements Gui{
 				xDestination = 300;
 				yDestination = 400;
 				break;
+			case restaurant_ena:
+				xDestination = 200;
+				yDestination = 200;
+				break;
+			case restaurant_jefferson:
+				xDestination =  720;
+				yDestination = 285;
+				
 			case market:
 				xDestination = 400;
 				yDestination = 400;

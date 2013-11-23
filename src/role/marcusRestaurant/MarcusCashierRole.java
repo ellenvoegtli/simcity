@@ -1,20 +1,24 @@
 package role.marcusRestaurant;
 
-import agent.Agent;
-import mainCity.market.MarketDeliveryManRole;
+import mainCity.PersonAgent;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
 import java.util.*;
 
-public class MarcusCashierRole extends Agent implements Cashier {
+import role.Role;
+import role.market.MarketDeliveryManRole;
+
+public class MarcusCashierRole extends Role implements Cashier {
+	private String name;
 	public List<Bill> bills;
 	public List<MarketBill> marketBills;
 	private Map<String, Integer> prices;
 	private double cash;
 
-	public MarcusCashierRole() {
-		super();
+	public MarcusCashierRole(PersonAgent p, String n) {
+		super(p);
+		this.name = n;
 		bills =  Collections.synchronizedList(new ArrayList<Bill>());
 		marketBills =  Collections.synchronizedList(new ArrayList<MarketBill>());
 		prices = Collections.synchronizedMap(new HashMap<String, Integer>());
@@ -166,7 +170,7 @@ public class MarcusCashierRole extends Agent implements Cashier {
 	}
 	
 	public String toString() {
-		return "Cashier";
+		return "Cashier " + name;
 	}
 	
 	public class MarketBill {

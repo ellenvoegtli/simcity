@@ -1,20 +1,23 @@
 package housing;
 
 
+import housing.personHome.Appliance;
 import housing.personHome.type;
 import housing.gui.OccupantGui;
 import agent.Agent;
 
 import java.util.ArrayList;
+import java.util.Timer;
 import java.util.TimerTask;
 import java.util.List;
+
 
 
 public class OccupantRole extends Agent
 {
 	
 //DATA
-	
+	Timer timer = new Timer();
 	private LandlordRole owner;
 	//private houseAgent house;
 	private personHome home;
@@ -64,6 +67,7 @@ public String getName()
 	
 public void gotHungry()
 {
+	System.out.println("person is hungry, will cook himself a meal");
 	state = occupantState.hungry;
 	stateChanged();
 }
@@ -95,6 +99,10 @@ public void msgFoodAvailable(String foodCh)
 {
 	state = occupantState.cooking;
 	stateChanged();
+}
+public void msgCookFood(String foodCh)
+{
+	
 }
 public void msgCooked(String meal)
 {
@@ -163,7 +171,7 @@ protected boolean pickAndExecuteAnAction()
 	
 public void PayRent()
 {
-	//timer to run for a reasonable amoutn of time to make rent due, a "week?"
+	//timer to run for a reasonable amount of time to make rent due, a "week?"
 	//bank.DirectDeposit(owner.id, rent);
 }
 public void serviceAppliance()
@@ -186,6 +194,27 @@ public void serviceAppliance()
 
 public void fixAppliance(String app)
 {
+	int xPos = 0;
+	int yPos = 0;
+	for (Appliance appl : home.kitchen)
+	{
+		if(appl.appliance.equals(app))
+		{
+			xPos = appl.getXPos();
+			yPos = appl.getYPos();
+		}
+	}
+	gui.DoGoToAppliance(xPos, yPos);
+	timer.schedule(new TimerTask() {
+		Object cookie = 1;
+		public void run() {
+			print("fixed appliance=" + cookie);
+			EatFood();
+			//event = AgentEvent.Done;
+			stateChanged();
+		}
+	},
+	4000);
 	//timer runs for period of time to allow for appliance to be "fixed"
 	state = occupantState.fixed;
 	
@@ -201,7 +230,7 @@ public void wantsToEat(String mealChoice)
 
 public void goToStore()
 {
-	//person.msgGoToMarket();
+	//person.msgGoToMarket(needFd);???
 	state = occupantState.shopping;
 }
 
@@ -214,16 +243,42 @@ public void restockKitchen()
 }
 public void cookAMeal()
 {
-	home.cookFood(meal);
+	gui.DoGoToStove();
+	timer.schedule(new TimerTask() {
+		Object cookie = 1;
+		public void run() {
+			print("Done cooking=" + cookie);
+			EatFood();
+			//event = AgentEvent.Done;
+			stateChanged();
+		}
+	},
+	3000);
+	//home.cookFood(meal);
 	//getHouse().msgCookMeal(meal);
 	
 }
 
 public void EatFood()
 {
-	//DoGoToKitchenTable();
+	gui.DoGoToKitchenTable();
+	timer.schedule(new TimerTask() {
+		Object cookie = 1;
+		public void run() {
+			print("Done eating, cookie=" + cookie);
+			state = occupantState.nothing;
+			stateChanged();
+		}
+	},
+	2000);
 	//timer to eat food
 	state = occupantState.nothing;
+}
+
+
+public void GoRest()
+{
+	gui.DoGoRest();
 }
 
 
@@ -247,10 +302,6 @@ public OccupantGui getGui() {
 }
 
 
-public void msgCookFood(String meal2) 
-{
-	gui.DoGoToStove();
-	
-}
+
 	
 }

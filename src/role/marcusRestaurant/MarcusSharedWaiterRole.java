@@ -7,7 +7,6 @@ public class MarcusSharedWaiterRole extends MarcusWaiterRole {
 	
 	public MarcusSharedWaiterRole(PersonAgent p, String name) {
 		super(p, name);
-		print("Created a shared data waiter");
 	}
 	
 	public void setStand(RevolvingStand s) {

@@ -2,9 +2,14 @@ package mainCity.market.gui;
 
 import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
+import mainCity.gui.DeliveryManGui;
 import mainCity.interfaces.*;
 import mainCity.contactList.*;
+import mainCity.gui.trace.*;
+
 import javax.swing.*;
+
+import role.market.MarketDeliveryManRole;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -15,7 +20,6 @@ import java.util.Vector;
  * including host, cook, waiters, and customers.
  */
 public class MarketPanel extends JPanel implements ActionListener{
-
     //Host and cook
     private MarketGreeterRole host = new MarketGreeterRole("Market Greeter");
     private MarketCashierRole cashier = new MarketCashierRole("Market Cashier");
@@ -40,7 +44,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     private JPanel cookInventoryPanel = new JPanel();
     JButton soupBtn = new JButton("Deplete soup");
     JButton pizzaBtn = new JButton("Deplete pizza");
-
+    
     private MarketGui gui; //reference to main gui
 
     //public MarketPanel(MarketGui gui) {
@@ -59,7 +63,7 @@ public class MarketPanel extends JPanel implements ActionListener{
         ContactList.getInstance().setMarketGreeter(host);
         ContactList.getInstance().setMarketCashier(cashier);
         
-        
+
         setLayout(new GridLayout(1, 2, 0, 0));
         group.setLayout(new GridLayout(1, 3, 0, 0));
         
@@ -69,12 +73,15 @@ public class MarketPanel extends JPanel implements ActionListener{
         group.add(employeePanel);
         group.add(customerPanel);
         
-
         initRestLabel();
         add(restLabel);
         add(group);
         
         
+        
+        
+        
+        /*
         pausePanel.setLayout(new GridLayout(2, 1, 5, 5));
         //group together in a bigger panel
         pauseBtn.addActionListener(this);
@@ -92,10 +99,7 @@ public class MarketPanel extends JPanel implements ActionListener{
         pausePanel.add(cookInventoryPanel);
         
         add(pausePanel);
-    }
-    
-    public MarketGreeterRole getGreeter(){
-    	return host;
+        */
     }
     
     public void actionPerformed(ActionEvent e) {

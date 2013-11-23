@@ -9,8 +9,8 @@ import role.Role;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import mainCity.restaurants.enaRestaurant.gui.HostGui;
-import mainCity.restaurants.enaRestaurant.gui.WaiterGui;
+import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
+import mainCity.restaurants.enaRestaurant.gui.EnaWaiterGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
 
@@ -39,16 +39,16 @@ public class EnaWaiterRole extends Role implements Waiter{
 	private Semaphore atLobby = new Semaphore(0, true);
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore atEntrance = new Semaphore(0,true);
-	public WaiterGui waiterGui;
+	public EnaWaiterGui waiterGui;
 	public boolean breakTime = false;
-	public HostGui hostGui;
+	public EnaHostGui hostGui;
 	public EnaHostRole host;
 	public EnaCookRole cook;
 	public EnaCashierRole cashier;
 
 	public EnaWaiterRole(PersonAgent p, String name)
 	{
-		super( p, false);
+		super( p);
 		this.name = name;
 		
 		Menu.add("steak");
@@ -246,6 +246,7 @@ public class EnaWaiterRole extends Role implements Waiter{
 	 */
 	public boolean pickAndExecuteAnAction() 
 	{
+		print("waiter scheduler");
 	
 		if(state == waiterState.wantsBreak)
 		{
@@ -597,11 +598,11 @@ catch(ConcurrentModificationException e){};
 	}
 
 	//utilities
-	public void setGui(WaiterGui gui) {
+	public void setGui(EnaWaiterGui gui) {
 		waiterGui = gui;
 	}
 
-	public WaiterGui getGui() 
+	public EnaWaiterGui getGui() 
 	{
 		return waiterGui;
 	}
