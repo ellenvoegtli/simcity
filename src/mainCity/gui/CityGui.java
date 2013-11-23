@@ -21,34 +21,62 @@ public class CityGui extends JFrame{
 	private TracePanel tracePanel4;
 	private TracePanel tracePanel5;
 	private CityPanel cityPanel = new CityPanel(this); 
+	private JPanel mainPanel = new JPanel();
+	private JPanel leftPanel = new JPanel();
+	private JPanel detailedPanel = new JPanel();
 	//private MarketGui marketGui = new MarketGui();
 	
 	public CityGui() { 
 		
-		int WINDOWX = 1500; 
-		int WINDOWY = 525;
+		int WINDOWX = 1300; 
+		int WINDOWY = 700;
 		
 		setBounds(50, 50, WINDOWX, WINDOWY+150);
 		setLayout(new BorderLayout());
 		
-		Dimension animationDim = new Dimension((int) (WINDOWX * .7), (int) (WINDOWY * .70));
+		//---MAIN PANEL BEGIN---//
+        
+        Dimension mainDim = new Dimension((int) (WINDOWX * .7), WINDOWY);
+        mainPanel.setPreferredSize(mainDim);
+        mainPanel.setMinimumSize(mainDim);
+        mainPanel.setMaximumSize(mainDim);
+        mainPanel.setBorder(BorderFactory.createEtchedBorder());
+        add(mainPanel, BorderLayout.CENTER);
+        
+        Dimension animationDim = new Dimension((int) (WINDOWX * .7), (int) (WINDOWY * .6));
         getAnimationPanel().setPreferredSize(animationDim);
         getAnimationPanel().setMinimumSize(animationDim);
         getAnimationPanel().setMaximumSize(animationDim);
         getAnimationPanel().setBorder(BorderFactory.createEtchedBorder());
-        add(getAnimationPanel(), BorderLayout.CENTER);
-
-        Dimension restDim = new Dimension((int) (WINDOWX* .3), (int) (WINDOWY * .70));
+        mainPanel.add(getAnimationPanel(), BorderLayout.CENTER);
+        
+        Dimension detailedDim = new Dimension((int) (WINDOWX * .7), (int) (WINDOWY * .4));
+        detailedPanel.setPreferredSize(detailedDim);
+        detailedPanel.setMinimumSize(detailedDim);
+        detailedPanel.setMaximumSize(detailedDim);
+        //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
+        mainPanel.add(detailedPanel, BorderLayout.SOUTH);
+		
+		//---LEFT PANEL BEGIN---//
+		//Entire Left Panel Sizing
+		Dimension leftDim = new Dimension((int) (WINDOWX * .3), (int) (WINDOWY * .5));
+		leftPanel.setPreferredSize(leftDim);
+		leftPanel.setMinimumSize(leftDim);
+		leftPanel.setMaximumSize(leftDim);
+		leftPanel.setBorder(BorderFactory.createEtchedBorder());
+        add(leftPanel, BorderLayout.WEST);
+		
+        //Control Panel Sizing
+        Dimension restDim = new Dimension((int) (WINDOWX * .3), (int) (WINDOWY * .6));
         cityPanel.setPreferredSize(restDim);
         cityPanel.setMinimumSize(restDim);
         cityPanel.setMaximumSize(restDim);
-        add(cityPanel, BorderLayout.WEST);
-        
+        leftPanel.add(cityPanel, BorderLayout.CENTER);
         
         //=============== TRACE PANEL ====================//
         JTabbedPane tabbedPane = new JTabbedPane();
         tracePanel1 = new TracePanel();
-        tracePanel1.setPreferredSize(new Dimension(400, 200));
+        tracePanel1.setPreferredSize(new Dimension((int) (WINDOWX * .3), (int) (WINDOWY * .4)));
         tracePanel1.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel1.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel1.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -62,7 +90,7 @@ public class CityGui extends JFrame{
         tabbedPane.addTab("PERSON tag", tracePanel1);
         
         tracePanel2 = new TracePanel();
-        tracePanel2.setPreferredSize(new Dimension(400, 200));
+        tracePanel2.setPreferredSize(new Dimension((int) (WINDOWY * .3), (int) (WINDOWY * .4)));
         tracePanel2.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel2.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel2.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -77,7 +105,7 @@ public class CityGui extends JFrame{
         tabbedPane.addTab("MARKET tag", tracePanel2);
         
         tracePanel3 = new TracePanel();
-        tracePanel3.setPreferredSize(new Dimension(400, 200));
+        tracePanel3.setPreferredSize(new Dimension((int) (WINDOWX * .3), (int) (WINDOWY * .4)));
         tracePanel3.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel3.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel3.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -92,7 +120,7 @@ public class CityGui extends JFrame{
         
         
         tracePanel4 = new TracePanel();
-        tracePanel4.setPreferredSize(new Dimension(400, 200));
+        tracePanel4.setPreferredSize(new Dimension((int) (WINDOWX * .3), (int) (WINDOWY * .4)));
         tracePanel4.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel4.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel4.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -105,10 +133,7 @@ public class CityGui extends JFrame{
         AlertLog.getInstance().addAlertListener(tracePanel4);
         tabbedPane.addTab("RESTAURANT tag", tracePanel4);
         
-        
-        add(tabbedPane, BorderLayout.SOUTH);
-
-        
+        leftPanel.add(tabbedPane, BorderLayout.SOUTH);       
 	}
 	
 	public static void main(String[] args) {

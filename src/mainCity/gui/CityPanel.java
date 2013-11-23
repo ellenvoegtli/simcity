@@ -37,8 +37,8 @@ public class CityPanel extends JPanel{
 	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
         //ellenRestaurant.setVisible(true);
 		
-		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
-	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
+		//EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
+	    //ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
 	    //enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
@@ -46,7 +46,7 @@ public class CityPanel extends JPanel{
 		
     	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
-    	marcusRestaurant.setVisible(true);
+    	//marcusRestaurant.setVisible(true);
     	
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
@@ -104,7 +104,7 @@ public class CityPanel extends JPanel{
 		//Instantiation of the Global City Clock
 		Runnable standChecker = new Runnable() {
 			 public void run() {
-				 clock = (clock+1) % 24;
+				 clock = (clock+1) % 23;
 				 updateCity();
 			 }
 		 };
