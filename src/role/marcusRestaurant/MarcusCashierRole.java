@@ -12,6 +12,7 @@ import role.market.MarketDeliveryManRole;
 
 public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	private String name;
+	private MarcusHostRole host;
 	public List<Bill> bills;
 	public List<MarketBill> marketBills;
 	private Map<String, Integer> prices;
@@ -45,6 +46,10 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	
 	public void setCash(int c) {
 		cash = c;
+	}
+	
+	public void setHost(MarcusHostRole h) {
+		host = h;
 	}
 	
 	public double getCash() {
@@ -100,6 +105,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
 		print("Received change of $" + amount);
 		cash += amount;
+		stateChanged();
 	}
 
 	/**
@@ -132,6 +138,10 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		}
 
 		if(!onDuty) {
+			print("hereeeeee");//broken heerreee
+			if(host.lastCustomer()) return false;
+			print("afffteerrrr");
+
 			super.setInactive();
 			onDuty = true;
 		}

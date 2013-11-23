@@ -218,6 +218,11 @@ public class MarcusRestaurantPanel extends JPanel {
     		for(MarcusCustomerRole c : customers) {
     			c.setCashier(cashier);
     		}
+            
+    		if(host != null) {
+    			host.setCashier(cashier);
+    			cashier.setHost(host);
+    		}
     	}
     	
     	if(r instanceof MarcusCookRole) {
@@ -228,6 +233,7 @@ public class MarcusRestaurantPanel extends JPanel {
             cook.setGui(cookGui);
             cook.setCashier(cashier);
             
+            if(host != null) host.setCook(cook);
             for(MarcusWaiterRole w : waiters) {
     			w.setCook(cook);
     		}
@@ -254,6 +260,11 @@ public class MarcusRestaurantPanel extends JPanel {
     		for(MarcusCustomerRole c : customers) {
     			c.setHost(host);
     		}
+    		
+    		host.setCook(cook);
+    		host.setCashier(cashier);
+    		
+    		if(cashier != null) cashier.setHost(host);
     	}
     	
     	if(r instanceof MarcusWaiterRole) {
