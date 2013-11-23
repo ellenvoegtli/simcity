@@ -396,11 +396,9 @@ public class MarcusCustomerRole extends Role implements Customer {
 		return customerGui.getY();
 	}
 
-	public boolean hostOnDuty() {
-		if(host == null) {
-			return false;
-		}
-		
-		return true;
+	public boolean restaurantOpen() {
+		if(host != null && host.isActive() && host.isOpen())
+			return true;
+		return false;
 	}
 }

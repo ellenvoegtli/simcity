@@ -90,7 +90,7 @@ public class CustomerGui implements Gui{
 	}
 	
 	public boolean goInside() {
-		if(agent.hostOnDuty()) {
+		if(agent.restaurantOpen()) {
 			isHungry = true;
 			agent.gotHungry();
 			setPresent(true);

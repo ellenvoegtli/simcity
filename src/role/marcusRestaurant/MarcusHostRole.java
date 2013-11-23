@@ -273,6 +273,10 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		return onDuty;
 	}
 	
+	public boolean isOpen() {
+		return (cook != null && cook.isActive()) && (cashier != null && cashier.isActive());
+	}
+	
 	public enum WaiterState {onDuty, requested, onBreak};
 	
 	class MyWaiter {
