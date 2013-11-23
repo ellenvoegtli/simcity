@@ -63,6 +63,7 @@ public class personHome
 	{
 		if(FoodSupply.get(meal) == 0)
 		{
+			
 			needFood.add(meal);
 			occupant.msgNeedFood(needFood);
 			
