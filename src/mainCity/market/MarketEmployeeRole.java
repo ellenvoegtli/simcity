@@ -4,6 +4,8 @@ import agent.Agent;
 //import restaurant.gui.CustomerGui;
 import mainCity.market.gui.*;
 import mainCity.market.*;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
 
 import java.util.*;
@@ -89,14 +91,16 @@ public class MarketEmployeeRole extends Agent {
     
 	// Messages
     public void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory){
-    	print("Received msgAssignedToBusiness");
-    	
+    	//print("Received msgAssignedToBusiness");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgAssignedToBusiness");
+
     	myBusinesses.add(new MyBusiness(restaurantName, cook, cashier, inventory, BusinessState.ordered));
     	stateChanged();
     }
    
 	public void msgAssignedToCustomer(MarketCustomerRole c, int waitPosX, int waitPosY){
-		print("Received msgAssignedToCustomer");
+		//print("Received msgAssignedToCustomer");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Recevied msgAssignedToCustomer");
 		
 		myCustomers.add(new MyCustomer(c, waitPosX, waitPosY, CustomerState.newCustomer));
 		stateChanged();
@@ -110,8 +114,9 @@ public class MarketEmployeeRole extends Agent {
 				break;
 			}
 		}
-		print("Received msgHereIsMyOrder");
-		
+		//print("Received msgHereIsMyOrder");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsMyOrder");
+
 		//copy over list
 		mc.inventoryOrdered = new TreeMap<String, Integer>(inventory);
 		mc.s = CustomerState.ordered;
@@ -126,7 +131,8 @@ public class MarketEmployeeRole extends Agent {
 				break;
 			}
 		}
-		print("Received msgHereIsBill");
+		//print("Received msgHereIsBill");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsBill for " + c.getName());
 		mc.billAmount = amount;
 		mc.s = CustomerState.gotCheckFromCashier;
 		stateChanged();
@@ -141,7 +147,8 @@ public class MarketEmployeeRole extends Agent {
 				break;
 			}
 		}
-		print("Received msgHereIsBill");
+		//print("Received msgHereIsBill");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsBill from " + name);
 		mb.billAmount = amount;
 		mb.s = BusinessState.gotCheckFromCashier;
 		stateChanged();
@@ -165,7 +172,8 @@ public class MarketEmployeeRole extends Agent {
 				break;
 			}
 		}
-		print("Received msgDoneAndLeaving from: " + mc.c.getName());
+		//print("Received msgDoneAndLeaving from: " + mc.c.getName());
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgDoneAndLeaving from: " + mc.c.getName());
 		mc.s = CustomerState.leaving;
 		stateChanged();
 	}
@@ -173,22 +181,26 @@ public class MarketEmployeeRole extends Agent {
 
 
 	public void msgAtStation() {
-		print("msgAtStation called");
+		//print("msgAtStation called");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "msgAtStation called");
 		atStation.release();// = true;
 		stateChanged();
 	}
 	public void msgAtCashier(){
-		print("msgAtCashier called");
+		//print("msgAtCashier called");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "msgAtCashier called");
 		atCashier.release();
 		stateChanged();
 	}
 	public void msgAtWaitingRoom(){
-		print("msgAtWaitingRoom called");
+		//print("msgAtWaitingRoom called");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "msgAtWaitingRoom called");
 		atWaitingRoom.release();
 		stateChanged();
 	}
 	public void msgAtDeliveryMan(){
-		print("msgAtDeliveryMan called");
+		//print("msgAtDeliveryMan called");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "msgAtDeliveryMan called");
 		atDeliveryMan.release();
 		stateChanged();
 	}
@@ -280,9 +292,7 @@ public class MarketEmployeeRole extends Agent {
 			
 			
 			//else, if none of these loops or statements were entered, go to home position
-			//employeeGui.DoWait();
 			wState = WaiterState.doingNothing;
-			//employeeGui.DoGoToStation();
 			
 		}catch(ConcurrentModificationException e){
 			return false;
@@ -306,8 +316,7 @@ public class MarketEmployeeRole extends Agent {
 			e.printStackTrace();
 		}
 		
-		mc.c.msgFollowMe(this, this.getGui().homeX, this.getGui().homeY);	//****don't access these directly
-		
+		mc.c.msgFollowMe(this, this.getGui().homeX, this.getGui().homeY - 17);	//****don't access these directly
 		employeeGui.DoGoToStation();		//sometimes doesn't go all the way to the station before going to the cashier...
 		try {
 			atStation.acquire();
@@ -355,9 +364,7 @@ public class MarketEmployeeRole extends Agent {
 		//gui semaphore (timer for now) to gather items from stock room
 		
 		timer.schedule(new TimerTask() {
-			Object cookie = 1;
 			public void run() {
-				print("Done fulfilling order, cookie=" + cookie);
 				msgOrderFulfilled(mc);
 			}
 		}, 5000);
@@ -382,7 +389,8 @@ public class MarketEmployeeRole extends Agent {
 	
 	//businesses
 	private void ProcessOrder(MyBusiness mb){
-		print("Processing order for " + mb.restaurantName);
+		//print("Processing order for " + mb.restaurantName);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Processing order for " + mb.restaurantName);
 		for (Map.Entry<String, Integer> entry : mb.inventoryOrdered.entrySet()){
 			if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
 				mb.inventoryFulfilled.put(entry.getKey(), entry.getValue());
@@ -410,20 +418,20 @@ public class MarketEmployeeRole extends Agent {
 	
 	private void FulfillOrder(final MyBusiness mb){
 		employeeGui.DoFulfillOrder();
-		print("Fulfilling order for " + mb.restaurantName);
+		//print("Fulfilling order for " + mb.restaurantName);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Fulfilling order for " + mb.restaurantName);
 		//gui semaphore (timer for now) to gather items from stock room
 		
 		timer.schedule(new TimerTask() {
-			Object cookie = 1;
 			public void run() {
-				print("Done fulfilling order, cookie=" + cookie);
 				msgOrderFulfilled(mb);
 			}
 		}, 5000);
 	}
 	
 	private void DeliverOrder(MyBusiness mb){
-		print("Delivering order to delivery man");
+		//print("Delivering order to delivery man");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Delivering order to delivery man");
 		employeeGui.DoGoToDeliveryMan();
 		try {
 			atDeliveryMan.acquire();
@@ -440,7 +448,8 @@ public class MarketEmployeeRole extends Agent {
 	
 	
 	private void RemoveCustomer(MyCustomer mc){
-		print("Removing: " + mc.c.getName());
+		//print("Removing: " + mc.c.getName());
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Removing: " + mc.c.getName());
 		myCustomers.remove(mc);
 	}
 	
@@ -460,14 +469,12 @@ public class MarketEmployeeRole extends Agent {
 	
 	private class MyCustomer {
 		MarketCustomerRole c;
-		//String deliveryMethod;
 		double billAmount;
 		CustomerState s;
 		
 		int waitingAreaX;
 		int waitingAreaY;
 		
-		//List<OrderItem> inventoryOrdered = new ArrayList<OrderItem>();
 		Map<String, Integer> inventoryOrdered;
 		Map<String, Integer> inventoryFulfilled = new TreeMap<String, Integer>();
 		
@@ -481,7 +488,6 @@ public class MarketEmployeeRole extends Agent {
 	
 	private class MyBusiness{
 		String restaurantName;
-		//String deliveryMethod;
 		double billAmount;
 		BusinessState s;
 		MainCook cook;

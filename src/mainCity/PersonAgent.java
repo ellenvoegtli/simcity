@@ -31,7 +31,8 @@ public class PersonAgent extends Agent {
 	private double cash;
 	private boolean traveling;
 	private boolean onBreak;
-	private String occupation;
+	private int time;
+	private Job job;
 	private PersonState state;
 	private PersonEvent event;
 	private CityLocation destination;
@@ -46,7 +47,7 @@ public class PersonAgent extends Agent {
 		name = n;
 		traveling = false;
 		onBreak = false;
-		occupation = "";
+		job = new Job();
 		cash = 100.0;
 		state = PersonState.normal;//maybe 'inBuilding' if we start everyone in home
 		event = PersonEvent.none;
@@ -60,17 +61,19 @@ public class PersonAgent extends Agent {
 		this.gui = g;
 	}
 	
-	public void updateOccupation(String o) {
-		this.occupation = o;
+	public CityLocation getDestination() { 
+		return destination;
 	}
 	
 	//----------Messages----------//
 	//From a timer to tell the person to do a checkup
-	public void msgPerformCheck() {
-		actions.add(new Action(ActionType.performCheck, 1));
-		stateChanged();
+	public void updateOccupation(String o, int b, int e) {
+		job.occupation = o;
+		job.shiftBegin = b;
+		job.shiftEnd = e;
 	}
 	
+	//----------Messages----------//	
 	//A message received from the GUI
 	public void msgAtDestination() {
 		traveling = false;
@@ -192,16 +195,11 @@ public class PersonAgent extends Agent {
 			handleAction(currentAction.type);
 			return true;
 		}
-
-		if(currentAction != null && currentAction.type == ActionType.performCheck) {
-			checkSelf();
-			return true;
-		}
 		
 		if(currentAction != null && state == PersonState.normal && !traveling) {
 			if(event == PersonEvent.arrivedAtHome) {
 				print("Arrived at home!");
-
+				
 				handleRole(currentAction.type);
 				roles.get(currentAction.type).setActive();
 
@@ -323,11 +321,12 @@ public class PersonAgent extends Agent {
 			}
 		}
 
-		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
-			print("My action list is empty. Going home");
-			actions.add(new Action(ActionType.home, 10));
-			return true;
-		}
+		//UNCOMMENT LATER
+//		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
+//			print("My action list is empty. Going home");
+//			actions.add(new Action(ActionType.home, 10));
+//			return true;
+//		}
 		
 		return false;
 	}
@@ -335,7 +334,19 @@ public class PersonAgent extends Agent {
 	
 	//----------Actions----------//
 	private void checkSelf() {
-		//FOR AI - need to check self to do things? bank, eat, etc.
+		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
+
+		if(time == job.shiftBegin && state != PersonState.working) {
+			actions.add(new Action(ActionType.work, 1));
+			stateChanged();
+		}
+		if(time == job.shiftEnd && state == PersonState.working) {
+			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
+				if(r.getValue() instanceof WorkerRole && r.getValue().isActive()) {
+					((WorkerRole) r.getValue()).msgGoOffDuty();
+				}
+			}
+		}
 	}
 	
 	private void handleRole(ActionType action) {
@@ -343,7 +354,7 @@ public class PersonAgent extends Agent {
 		if(!roles.containsKey(action)) {
 			switch(action) {
 				case work:
-					switch(occupation) {
+					switch(job.occupation) {
 						//-----Marcus Restaurant Roles---//
 						case "marcusCook":
 							MarcusCookRole mco = new MarcusCookRole(this, name);
@@ -459,8 +470,15 @@ public class PersonAgent extends Agent {
 			waitForGui();
 		}
 		else if(temp) { //chose bus
-			//DoGoToStop(); // walk to the closest bus stop or subway station?
+			gui.DoGoToStop(); // walk to the closest bus stop or subway station?
 			waitForGui();
+			
+			//add self to waiting list of BusStop once arrived
+			for(int i=0; i<ContactList.stops.size(); i++){ 
+				if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+					ContactList.stops.get(i).ArrivedAtBusStop(this);
+				}
+			}
 			//bus.myDestination(d); //send message to transportation object of where they want to go
 			//will receive an arrived at destination message when done
 		}
@@ -474,7 +492,7 @@ public class PersonAgent extends Agent {
 	private void chooseRestaurant() {
 		//choose which restaurant here
 
-		destination = CityLocation.restaurant_marcus;
+		destination = CityLocation.restaurant_ena;
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
@@ -509,7 +527,7 @@ public class PersonAgent extends Agent {
 	private void goToWork() {
 		//check occupation & set destination appropriately
 
-		if(occupation.contains("marcus")) {
+		if(job.occupation.contains("marcus")) {
 			destination = CityLocation.restaurant_marcus;
 		}
 		
@@ -560,6 +578,17 @@ public class PersonAgent extends Agent {
 		super.stateChanged();
 	}
 
+	public void updateClock(int newTime) {
+		this.time = newTime;
+		print("The time is now " + time);
+		
+		checkSelf();
+	}
+	
+	public int getTime() {
+		return time;
+	}
+	
 	public double getCash() {
 		return cash;
 	}
@@ -582,7 +611,7 @@ public class PersonAgent extends Agent {
 	
 	//Lower the priority level, the more "important" it is (it'll get done faster)
 	private enum ActionState {created, inProgress, done}
-	public enum ActionType {work, performCheck, hungry, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
+	public enum ActionType {work, hungry, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
 	class Action implements Comparable<Object> {
 		ActionState state;
 		ActionType type;
@@ -608,5 +637,11 @@ public class PersonAgent extends Agent {
 			
 			return 0;
 		}
+	}
+	
+	class Job {
+		String occupation;
+		int shiftBegin = -1;
+		int shiftEnd = -1;
 	}
 }

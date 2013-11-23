@@ -1,5 +1,7 @@
 package mainCity.market;
 
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.market.MarketEmployeeRole;
 
 //import market.interfaces.*;
@@ -7,9 +9,6 @@ import mainCity.market.MarketEmployeeRole;
 import agent.Agent;
 import mainCity.market.gui.*;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.Random;
 import java.util.*;
 import java.util.List;
 import java.awt.*;
@@ -99,10 +98,13 @@ public class MarketCustomerRole extends Agent{
 
 	
 	public void goGetInventory(Map<String, Integer> inventoryNeeded){
-		print("Told to go to market to order inventory");
+		//print("Told to go to market to order inventory");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Told to go to market to order inventory");
 		this.inventoryToOrder = inventoryNeeded;	//does this work?
+		
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Items to order:");
 		for (Map.Entry<String, Integer> entry : inventoryToOrder.entrySet()){
-			System.out.println("Entry: " + entry.getKey() + "; Value: " + entry.getValue());
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Item: " + entry.getKey() + "; #: " + entry.getValue());
 		}
 		
 		event = AgentEvent.toldToGetInventory;
@@ -110,7 +112,8 @@ public class MarketCustomerRole extends Agent{
 	}
 
 	public void msgFollowMe(MarketEmployeeRole e, int x, int y){
-		print("Received msgFollowMe");
+		//print("Received msgFollowMe");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgFollowMe");
 		stationX = x;
 		stationY = y - 20;
 		employee = e;
@@ -120,21 +123,25 @@ public class MarketCustomerRole extends Agent{
 	}
 
 	public void msgMayITakeYourOrder(MarketEmployeeRole e){
-		print("Received msgMayITakeYourOrder from: " + e.getName());
-		//employee = e;
+		//print("Received msgMayITakeYourOrder from: " + e.getName());
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgMayITakeYourOrder from: " + e.getName());
 		event = AgentEvent.askedForOrder;
 		stateChanged();
 	}
 	
 	public void msgHereIsYourOrder(Map<String, Integer> inventoryFulfilled, double amount){
-		print("Received msgHereIsYourOrder");
+		//print("Received msgHereIsYourOrder");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsYourOrder");
+
 		bill = new Bill(inventoryFulfilled, amount);
 		event = AgentEvent.gotOrderAndBill;
 		stateChanged();
 	}
 	
 	public void msgHereIsYourChange(double amountChange, double amountCharged){
-		print("Received msgHereIsYourChange: $" + amountChange);
+		//print("Received msgHereIsYourChange: $" + amountChange);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsYourChange: $" + amountChange);
+
 		bill.changeReceived = amountChange;
 		
 		event = AgentEvent.gotChange;
@@ -142,8 +149,10 @@ public class MarketCustomerRole extends Agent{
 	}
 	
 	//need to modify********
-	public void msgNotEnoughCash(int cashOwed){
-		print("Received msg NotEnoughCash: I owe $" + cashOwed);
+	public void msgNotEnoughCash(double cashOwed){
+		//print("Received msg NotEnoughCash: I owe $" + cashOwed);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msg NotEnoughCash: I owe $" + cashOwed);
+
 		this.cashOwed += cashOwed;
 		//event = AgentEvent.assignedPunishment;
 		stateChanged();
@@ -216,23 +225,30 @@ public class MarketCustomerRole extends Agent{
 
 	// Actions
 	private void GoToMarket(){
-		Do("Going to market");
+		//Do("Going to market");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Going to market");
+
 		customerGui.DoGoToWaitingArea();
 		host.msgINeedInventory(this, this.getGui().getWaitingPosX(), this.getGui().getWaitingPosY());
 	}
 	
 	private void GoToEmployeeStation(){
-		Do("Going to station");
+		//Do("Going to station");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Going to station");
+
 		customerGui.DoGoToEmployeeStation(stationX, stationY);
 		
 	}
 	
 	private void PlaceOrder(){
 		//no gui to do here
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Placing order");
 		employee.msgHereIsMyOrder(this, inventoryToOrder, deliveryMethod);
 	}
 	
 	private void GoToCashier(){
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Going to cashier");
+
 		customerGui.DoGoToCashier();
 	}
 	
@@ -244,6 +260,7 @@ public class MarketCustomerRole extends Agent{
 		}
 		if (expected == bill.charge){
 			if (myCash >= bill.charge){
+		        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Paying: $" + bill.charge);
 				cashier.msgHereIsPayment(bill.charge, this);
 				myCash -= bill.charge;
 				bill.amountPaid = bill.charge;
@@ -256,9 +273,13 @@ public class MarketCustomerRole extends Agent{
 	
 	private void LeaveMarket(){
 		if (bill.changeReceived == (bill.amountPaid - bill.charge)){
-			print("Equal. Change verified.");
+			//print("Equal. Change verified.");
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Equal. Change verified.");
+
 			employee.msgDoneAndLeaving(this);
 			customerGui.DoExitMarket();
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Leaving market.");
+
 		}
 		//else?
 	}
@@ -294,18 +315,6 @@ public class MarketCustomerRole extends Agent{
 		return customerGui;
 	}
 	
-	/*
-	private class OrderItem {
-		int numDesired;
-		int numFulfilled;
-		String itemType;
-		OrderItemState s;
-		
-		OrderItem(){
-			
-		}
-	}
-	*/
 	
 	private class Bill {
 		Map<String, Integer> inventoryFulfilled = new TreeMap<String, Integer>();

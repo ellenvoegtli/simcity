@@ -6,11 +6,14 @@ import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.EnaCookRole;
-
+import mainCity.restaurants.marcusRestaurant.gui.CookGui;
 
 import javax.swing.*;
 
 import role.Role;
+import role.marcusRestaurant.MarcusCookRole;
+import role.marcusRestaurant.MarcusCustomerRole;
+import role.marcusRestaurant.MarcusWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -25,10 +28,10 @@ public class EnaRestaurantPanel extends JPanel
 
 	
     private EnaHostRole host;
-    private HostGui hostGui = new HostGui(host);
-    private EnaCookRole cook = new EnaCookRole("Bob");
-    private CookGui cookGui = new CookGui(cook);
-    private EnaCashierRole cashier = new EnaCashierRole("Tim");
+    private EnaHostGui hostGui;
+    private EnaCookRole cook;
+    private EnaCookGui cookGui;
+    private EnaCashierRole cashier;
 
 
 
@@ -44,17 +47,17 @@ public class EnaRestaurantPanel extends JPanel
 
     public EnaRestaurantPanel(EnaRestaurantGui gui) {
         this.gui = gui;
-        host = new EnaHostRole("Mr. Jeeves");
-        host.setGui(hostGui);
+        //host = new EnaHostRole("Mr. Jeeves");
+       // host.setGui(hostGui);
        // cookGui = new CookGui(cook, gui);
-        cook.setGui(cookGui);
-        cook.setCashier(cashier);
-        gui.animationPanel.addGui(hostGui);
-		gui.animationPanel.addGui(cookGui);
+        //cook.setGui(cookGui);
+        //cook.setCashier(cashier);
+       // gui.animationPanel.addGui(hostGui);
+		//gui.animationPanel.addGui(cookGui);
 
-        host.startThread();
-        cook.startThread();
-        cashier.startThread();
+       // host.startThread();
+       // cook.startThread();
+        //cashier.startThread();
         	
         ContactList.getInstance().setEnaCook(cook);
         ContactList.getInstance().setEnaCashier(cashier);
@@ -83,8 +86,8 @@ public class EnaRestaurantPanel extends JPanel
         JLabel label = new JLabel();
         //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
         restLabel.setLayout(new FlowLayout());
-        label.setText(
-                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
+       label.setText(
+               "<html></td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Porkchops</td><td>$10.99</td></tr><tr><td>Lamb</td><td>$5.99</td></tr><tr><td>Lambchops</td><td>$8.99</td></tr></table><br></html>");
 
         restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
         restLabel.add(label, BorderLayout.CENTER);
@@ -197,7 +200,7 @@ public class EnaRestaurantPanel extends JPanel
     		}*/
             host.addWaiterRole(w);
             int pos = 22* host.waiters.size();
-    		WaiterGui g = new WaiterGui(w, gui, pos);
+    		EnaWaiterGui g = new EnaWaiterGui(w, gui, pos);
         	
     		
     		w.setHost(host);
@@ -211,7 +214,8 @@ public class EnaRestaurantPanel extends JPanel
     		
     	}
     	
-    	if(r instanceof EnaCustomerRole) {
+    	if(r instanceof EnaCustomerRole) 
+    	{
     		EnaCustomerRole c = (EnaCustomerRole) r;
 	    	
     		for(EnaCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
@@ -221,7 +225,7 @@ public class EnaRestaurantPanel extends JPanel
 	    	}
 	    	
 			customers.add(c);
-			CustomerGui g = new CustomerGui(c, gui);
+			EnaCustomerGui g = new EnaCustomerGui(c, gui);
 	
 			gui.animationPanel.addGui(g);
 			c.setHost(host);
@@ -229,6 +233,52 @@ public class EnaRestaurantPanel extends JPanel
 			c.setGui(g);
 			
 	
+    	}
+    	
+    	if(r instanceof EnaHostRole) 
+    	{
+    		host = (EnaHostRole) r;
+	    	
+			EnaHostGui g = new EnaHostGui(host);
+			for(EnaWaiterRole w : waiters) 
+			{
+    			w.setHost(host);
+    			host.addWaiterRole(w);
+    		}
+    		for(EnaCustomerRole c : customers) 
+    		{
+    			c.setHost(host);
+    		}
+			gui.animationPanel.addGui(g);
+			host.setGui(g);
+    	}
+    	
+    	
+    	if(r instanceof EnaCashierRole) 
+    	{
+    		cashier = (EnaCashierRole) r;
+    		for(EnaWaiterRole w : waiters) {
+    			w.setCashier(cashier);
+    		}
+    		for(EnaCustomerRole c : customers) {
+    			c.setCashier(cashier);
+    		}
+			
+    	}
+    	
+    	if(r instanceof EnaCookRole) {
+    		cook = (EnaCookRole) r;
+	    	
+			cookGui = new EnaCookGui(cook);
+            //cook.setStand(stand);
+    		gui.animationPanel.addGui(cookGui);
+            cook.setGui(cookGui);
+            cook.setCashier(cashier);
+            
+            for(EnaWaiterRole w : waiters) 
+            {
+    			w.setCook(cook);
+    		}
     	}
     }
     

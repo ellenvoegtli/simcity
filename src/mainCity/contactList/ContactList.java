@@ -1,5 +1,6 @@
 package mainCity.contactList;
 
+import mainCity.PersonAgent;
 import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
@@ -10,16 +11,41 @@ import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
 import role.marcusRestaurant.*;
 import mainCity.restaurants.restaurant_zhangdt.*;
+import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
 import mainCity.bank.*;
 import mainCity.interfaces.*;
+import transportation.BusStop;
 
 import java.util.*;
 
 public class ContactList {
+	
+	
+	//Bus Stops
+	public static ArrayList<BusStop> stops;
+	public BusStop homeStop; 
+	public BusStop davidRestStop; 
+	public BusStop marcusRestStop; 
+	public BusStop jeffersonRestStop; 
+	public BusStop ellenRestStop; 
+	public BusStop enaRestStop; 
+	public BusStop bankStop; 
+	public BusStop marketStop;
+	
 	private static ContactList contactList = null;
-	protected ContactList(){
-		//nothing here
+	
+	public ContactList(){
+		stops = new ArrayList<BusStop>();
+		stops.add(homeStop);
+		stops.add(davidRestStop);
+		stops.add(marcusRestStop);
+		stops.add(jeffersonRestStop);
+		stops.add(ellenRestStop);
+		stops.add(enaRestStop);
+		stops.add(bankStop); 
+		stops.add(marketStop);
 	}
+	
 	public static ContactList getInstance(){
 		if (contactList == null)
 			contactList = new ContactList();
@@ -52,12 +78,15 @@ public class ContactList {
 	public EnaHostRole enaHost;
 	public JeffersonHostRole jeffersonHost;
 	public DavidHostRole davidHost;
+
+
 	
 	//TESTING
 	JeffersonRestaurantPanel jeffersonRestaurant;
 	MarcusRestaurantPanel marcusRestaurant;
 	EllenRestaurantPanel ellenRestaurant;
 	EnaRestaurantPanel enaRestaurant;
+	DavidRestaurantPanel davidRestaurant; 
 	
 	//anything else? apartment landlords?
 	

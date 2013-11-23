@@ -3,8 +3,8 @@ import mainCity.PersonAgent;
 import agent.Agent;
 
 public abstract class Role extends Agent {
-	PersonAgent person;
-	boolean isActive;
+	protected PersonAgent person;
+	protected boolean isActive;
 
 	protected Role(PersonAgent p) {
 		super();
@@ -43,4 +43,8 @@ public abstract class Role extends Agent {
 	protected double getCash() {
 		return person.getCash();
 	}
+	
+	protected int getTime() {
+		return person.getTime();
+	}	
 }

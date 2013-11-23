@@ -7,6 +7,7 @@ import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import java.util.*;
 
 import role.Role;
+import role.WorkerRole;
 
 /**
  * Restaurant Host Agent
@@ -15,7 +16,7 @@ import role.Role;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class MarcusHostRole extends Role {
+public class MarcusHostRole extends Role implements WorkerRole {
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -23,6 +24,7 @@ public class MarcusHostRole extends Role {
 	private List<MyWaiter> waitersList = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	public Collection<MarcusTable> tables;
 	boolean newCustomer;
+	private boolean onDuty;
 
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
@@ -39,6 +41,7 @@ public class MarcusHostRole extends Role {
 		this.name = name;
 		customerCount = 0;
 		newCustomer = false;
+		onDuty = true;
 		// make some tables
 		tables = Collections.synchronizedList(new ArrayList<MarcusTable>(NTABLES));
 		
@@ -85,6 +88,16 @@ public class MarcusHostRole extends Role {
 		customerCount--;
 		stateChanged();
 	}
+	
+	public void msgFinishingShift(Waiter w) {
+		for(MyWaiter waiter : waitersList) {
+			if(waiter.waiter == w) {
+				waiter.state = WaiterState.onBreak;
+				stateChanged();
+				return;
+			}
+		}
+	}
 
 	public void msgWantToGoOnBreak(Waiter w) {
 		print(w + " just requested to go on break");
@@ -112,15 +125,15 @@ public class MarcusHostRole extends Role {
 		}
 	}
 	
+	public void msgGoOffDuty() {
+		onDuty = false;
+		stateChanged();
+	}
+	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		/* Think of this next rule as:
-            Does there exist a table and customer,
-            so that table is unoccupied and customer is waiting.
-            If so seat him at the table.
-		 */
 		if(restaurantFull() && newCustomer && !waitingCustomers.isEmpty()) {//If the restaurant is full, we get the customer in the back of the queue 
 			waitingCustomers.get(0).msgWantToWait();
 			waitingCustomers.remove(waitingCustomers.get(0));
@@ -148,6 +161,10 @@ public class MarcusHostRole extends Role {
 			}
 		}
 
+		if(!onDuty) {
+			closeRestaurant();
+		}
+		
 		return false;
 	}
 
@@ -220,6 +237,12 @@ public class MarcusHostRole extends Role {
 		}
 	
 		return true;
+	}
+	
+	private void closeRestaurant() {
+		//check customers in restaurant. message other workers to go off duty?
+		super.setInactive();
+		onDuty = true;
 	}
 	
 	public enum WaiterState {onDuty, requested, onBreak};

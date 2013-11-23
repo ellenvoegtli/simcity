@@ -3,6 +3,10 @@ package mainCity.market.gui;
 import mainCity.market.MarketCustomerRole;
 import mainCity.market.MarketEmployeeRole;
 import mainCity.contactList.*;
+import mainCity.gui.trace.AlertLevel;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
+import mainCity.gui.trace.TracePanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,7 +21,6 @@ import java.io.File;
  * Contains the main frame and subsequent panels
  */
 public class MarketGui extends JFrame implements ActionListener {
-	//public ContactList contactList;
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
@@ -44,6 +47,7 @@ public class MarketGui extends JFrame implements ActionListener {
     JButton newAddButton = new JButton("Add");
 
 
+
     private Object currentPerson;/* Holds the agent that the info is about.
     								Seems like a hack */
 
@@ -52,25 +56,13 @@ public class MarketGui extends JFrame implements ActionListener {
      * Sets up all the gui components.
      */
     public MarketGui() {
-    	//contactList = c;
-    	
         int WINDOWX = 550;
         int WINDOWY = 350;
-
-        
-        /*
-        animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        animationFrame.setBounds(100+WINDOWX, 50 , WINDOWX, WINDOWY+100);
-        animationFrame.setVisible(true);
-    	animationFrame.add(animationPanel); 
-    	*/
         
         setBounds(50, 50, WINDOWX*2, (int) (WINDOWY*2));
-
         setLayout(new BoxLayout((Container) getContentPane(), 
         		BoxLayout.X_AXIS));
-        
-        
+        //setLayout(new GridLayout(2, 1, 0, 0));
 
     	JPanel nonAnimPanel = new JPanel();
     	nonAnimPanel.setLayout(new GridLayout(3, 2, 0, 0));
@@ -99,55 +91,34 @@ public class MarketGui extends JFrame implements ActionListener {
         stateCB = new JCheckBox();
         stateCB.setVisible(false);
         stateCB.addActionListener(this);
-        
-        //waiter
-        /*
-        breakB = new JButton();
-        breakB.setText("Want break?");
-        breakB.setVisible(false);
-        breakB.addActionListener(this);
-        */
+       
 
-        infoPanel.setLayout(new GridLayout(1, 2, 30, 0));
-        
+        infoPanel.setLayout(new GridLayout(2, 1, 30, 0));
         infoLabel = new JLabel(); 
         infoLabel.setText("<html><i>Click Add to make customers or waiters</i></html>");
         infoPanel.add(infoLabel);
         infoPanel.add(stateCB);
-        //infoPanel.add(breakB);
+        
         nonAnimPanel.add(infoPanel);
-        
-        //from marketPanel (better formatting)
-        nonAnimPanel.add(marketPanel.pausePanel);
-        
-        
+        //nonAnimPanel.add(tracePanel);
         add(nonAnimPanel);
-        
+       
         //ANIMATION PANEL
-        //animationPanel.setBounds(0, WINDOWY + 50 , WINDOWX, WINDOWY);
+        animationPanel.setBounds(0, 0, WINDOWX, WINDOWY);
         Dimension animDim = new Dimension(WINDOWX, WINDOWY);
         animationPanel.setPreferredSize(animDim);
         animationPanel.setMinimumSize(animDim);
         animationPanel.setMaximumSize(animDim);
         animationPanel.setVisible(true);
-        animationPanel.setBorder(BorderFactory.createTitledBorder("Restaurant Animation"));
+        //animationPanel.setBorder(BorderFactory.createTitledBorder("Restaurant Animation"));
+        animationPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
         
         add(animationPanel);
         
     }
-    
-    public MarketPanel getMarketPanel(){
-    	return marketPanel;
-    }
-    /*
-    public void setContactList(ContactList c){
-    	contactList = c;
-    }
-    public ContactList getContactList(){
-    	return contactList;
-    }
-    */
+
+
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.

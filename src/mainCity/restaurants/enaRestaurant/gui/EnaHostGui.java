@@ -9,7 +9,7 @@ import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
 import java.awt.*;
 
-public class HostGui implements Gui {
+public class EnaHostGui implements Gui {
 
    // private WaiterAgent agent = null;
     private EnaHostRole agent = null;
@@ -47,7 +47,7 @@ public void setXNum(int tablePlace)
 	tableXX = tablePlace;
 }
     
-public HostGui(EnaHostRole agent) 
+public EnaHostGui(EnaHostRole agent) 
     {
         this.agent = agent;
     }

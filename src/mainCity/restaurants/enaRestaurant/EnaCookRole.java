@@ -10,14 +10,14 @@ import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 import java.util.*;
 
 import role.Role;
-import mainCity.restaurants.enaRestaurant.gui.CookGui;
-import mainCity.restaurants.enaRestaurant.gui.HostGui;
+import mainCity.restaurants.enaRestaurant.gui.EnaCookGui;
+import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 
 /**
  * Restaurant Cook Agent
  */
 
-public class EnaCookRole extends Agent implements MainCook {
+public class EnaCookRole extends Role implements MainCook {
 	Timer timer = new Timer();
 	public List<Order> Orders= Collections.synchronizedList(new ArrayList<Order>());
 	public Map<String, Food> Foods = new HashMap<String, Food>();
@@ -29,12 +29,12 @@ public class EnaCookRole extends Agent implements MainCook {
 	{pending, cooking, waiting, cooked, restocking, orderDone};
 	//OrderStatus status = OrderStatus.pending;
 	
-			public HostGui hostGui;
-			public CookGui cookGui;
+			public EnaHostGui hostGui;
+			public EnaCookGui cookGui;
 			public EnaCashierRole cashier;
 
-	public EnaCookRole( String name) {
-		super();
+	public EnaCookRole( PersonAgent p, String name) {
+		super(p);
 
 		this.name = name;
 		Foods.put( "steak", new Food("steak", 1));
@@ -231,12 +231,12 @@ synchronized(Orders)
 	}
 	//utilities
 
-	public void setGui(CookGui gui) 
+	public void setGui(EnaCookGui gui) 
 	{
 		cookGui = gui;
 	}
 
-	public HostGui getGui() {
+	public EnaHostGui getGui() {
 		return hostGui;
 	}
 	

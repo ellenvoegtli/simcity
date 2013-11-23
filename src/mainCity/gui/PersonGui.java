@@ -2,11 +2,13 @@ package mainCity.gui;
 
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.CityLocation;
+import mainCity.contactList.ContactList;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -109,11 +111,82 @@ public class PersonGui implements Gui{
 		traveling = true;
 	}
 	
+	public void DoGoToStop() {
+		System.out.println("Gui is told to go to nearest bus stop");
+
+		//Looking for stop that is the minimum distance.
+		PersonAgent.CityLocation destination = findNearestStop();
+		
+		System.out.println("Walking toward " + destination);
+		
+		switch(destination) {
+		case restaurant_marcus:
+			xDestination = 500;
+			yDestination = 300;
+			
+			break;
+		case restaurant_ellen:
+			xDestination = 300;
+			yDestination = 400;
+			break;
+		case restaurant_david:
+			xDestination = 300;
+			yDestination = 400;
+			break;
+		case restaurant_ena:
+			xDestination = 300;
+			yDestination = 400;
+			break;
+		case restaurant_jefferson:
+			xDestination = 300;
+			yDestination = 400;
+			break;
+		case market:
+			xDestination = 400;
+			yDestination = 400;
+			break;
+		case bank:
+			xDestination = 200;
+			yDestination = 100;
+			break;
+		case home:
+			xDestination = 100;
+			yDestination = 500;
+			break;
+		default:
+			xDestination = 0;
+			yDestination = 0;
+			break;
+	}
+
+		traveling = true;
+	}
+	
 	public int getX() {
 		return xDestination;
 	}
 	
 	public int getY() {
 		return yDestination;
+	}
+	
+	public CityLocation findNearestStop(){ 
+		
+		//starts off with first bus stop
+		//measures absolute value of difference in x and y between person's current location and bus stop's location
+		//sets destination to the stop
+		int distance = Math.abs(xPos - ContactList.stops.get(0).xLocation) + (Math.abs(yPos - ContactList.stops.get(0).yLocation));
+		PersonAgent.CityLocation destination = ContactList.stops.get(0).stopLocation;
+		
+		//goes through list of bus stops to find nearest stop
+		for(int i=1; i<ContactList.stops.size(); i++) { 
+			int tempdistance = Math.abs(xPos - ContactList.stops.get(i).xLocation) 
+								+ (Math.abs(yPos - ContactList.stops.get(i).yLocation)); 
+			if(tempdistance < distance){ 
+				destination = ContactList.stops.get(i).stopLocation;
+			}
+		}
+		
+		return destination;
 	}
 }

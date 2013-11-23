@@ -1,6 +1,5 @@
 package role.marcusRestaurant;
 
-import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import mainCity.restaurants.marcusRestaurant.gui.WaiterGui;
@@ -11,15 +10,16 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
+import role.WorkerRole;
 
-public abstract class MarcusWaiterRole extends Role implements Waiter {
+public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRole {
 	public WaiterGui waiterGui = null;
 
 	static final int NTABLES = 3;//a global for the number of tables.
 
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	protected Semaphore isMovingSem = new Semaphore(0, true);
-	protected boolean onBreak, requested, tired;
+	protected boolean onBreak, onDuty, requested, tired;
 	protected String name;
 	protected MarcusHostRole host;
 	protected MarcusCookRole cook;
@@ -32,9 +32,8 @@ public abstract class MarcusWaiterRole extends Role implements Waiter {
 		super(p);
 
 		this.name = name;
-		onBreak = false;
-		tired = false;
-		requested = false;//temporary
+		onBreak = tired = requested = false;
+		onDuty = true;
 		waiterMenu = new MarcusMenu();
 	}
 
@@ -73,6 +72,11 @@ public abstract class MarcusWaiterRole extends Role implements Waiter {
 	// Messages
 	public void msgRequestBreak() {
 		tired = true;
+		stateChanged();
+	}
+	
+	public void msgGoOffDuty() {
+		onDuty = true;
 		stateChanged();
 	}
 	
@@ -267,12 +271,14 @@ public abstract class MarcusWaiterRole extends Role implements Waiter {
 				goOnBreak();
 				requested = false;
 			}
+			
+			if(onDuty) {
+				onDuty = false;
+				leaveRestaurant();
+			}
 		}
 		
 		return false;
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
 	}
 
 	// Actions
@@ -375,6 +381,20 @@ public abstract class MarcusWaiterRole extends Role implements Waiter {
 	private void finishBreak() {
 		onBreak = tired = false;
 		host.msgBackOnDuty(this);
+	}
+	
+	private void leaveRestaurant() {
+		try {
+			host.msgFinishingShift(this);
+		}
+		catch(NullPointerException e) {
+			
+		}
+		
+		waiterGui.DoLeaveRestaunt();
+		waitForGui();
+		super.setInactive();
+		onDuty = true;
 	}
 	
 	//utilities
