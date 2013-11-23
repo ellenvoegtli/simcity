@@ -3,13 +3,14 @@ package mainCity.bank.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-
-
+import mainCity.bank.BankCustomer;
 import mainCity.bank.BankTeller;
+import mainCity.bank.Banker;
 import mainCity.gui.Gui;
 
-public class BankTellerGui implements Gui {
-	private BankTeller bankteller = null;
+public class BankerGui implements Gui {
+
+	private Banker banker = null;
     BankGui gui;
 	Graphics2D g2;
 	
@@ -22,11 +23,11 @@ public class BankTellerGui implements Gui {
     
     public static final int xHome = -20;
     public static final int yHome = 520;
-    public static final int xTeller0 = 145;
-    public static final int yTeller0 = 80;
+    public static final int xTeller0 = 150;
+    public static final int yTeller0 = 100;
     
-    public static final int xTeller1 = 320;
-    public static final int yTeller1 = 80;
+    public static final int xBanker=410;
+    public static final int yBanker=320;
     
     
     public static final int width = 20;
@@ -34,8 +35,8 @@ public class BankTellerGui implements Gui {
     int t;
     public boolean atOrigin= true;
    
-    public BankTellerGui(BankTeller bankteller, BankGui gui) {
-        this.bankteller = bankteller;
+    public BankerGui(Banker banker, BankGui gui) {
+        this.banker = banker;
         this.gui=gui;
     }
 
@@ -70,20 +71,13 @@ public class BankTellerGui implements Gui {
         
     }
     
-    public void doGoToWork(int tellernumber){
+    public void doGoToWork(){
     	//System.out.println("teller number is" + tellernumber);
-    	if(tellernumber==0){
-    		xPos=xTeller0;
-    		yPos=yTeller0;
-    		xDestination =xTeller0;
-    		yDestination = yTeller0;
-    	}
-    	if(tellernumber==1){
-    		xPos=xTeller1;
-    		yPos=yTeller1;
-    		xDestination =xTeller1;
-    		yDestination = yTeller1;
-    	}
+    	
+    		xPos=xBanker;
+    		yPos=yBanker;
+    		xDestination =xBanker;
+    		yDestination =yBanker;
     	
     }
     
@@ -127,5 +121,6 @@ public class BankTellerGui implements Gui {
     public int getYPos() {
         return yPos;
     }
+
 
 }

@@ -3,6 +3,7 @@ package mainCity.gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import transportation.gui.BusGui;
 import transportation.gui.Lane;
 import transportation.gui.Vehicle;
 
@@ -29,6 +30,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     ArrayList<Lane> lanes;
     private final int RoadWidth = 50; 
     
+    //Setting up data for stop sign image
+    private BufferedImage stopSign = null;
+    
+    boolean onlyOnce = true;
     int count; 
     private Image bufferImage;
     private Dimension bufferSize;
@@ -40,6 +45,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
+        
+        StringBuilder path = new StringBuilder("imgs/");
+        
+        //Bus Stop 
+        try {
+			stopSign = ImageIO.read(new File(path.toString() + "stopsign.gif"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         //Instantiating roads
         lanes = new ArrayList<Lane>();
@@ -76,25 +91,10 @@ public class AnimationPanel extends JPanel implements ActionListener {
     }
 
 	public void actionPerformed(ActionEvent e) {
-		count++;
 		
-		if ( count % 40 == 0 ) {
-			Lane l = lanes.get(0);
-			//l.addVehicle( new Vehicle( 15, 15, 16, 16) );
-		}
-		
-		if ( count % 60 == 0 ) {
-			Lane l = lanes.get(1);
-			//l.addVehicle( new Vehicle( 15, 15, 16, 16) );
-		}
-		
-		if ( count % 80 == 0 ) {
-			Lane l = lanes.get(2);
-			//l.addVehicle( new Vehicle( 15, 15, 16, 16) );
-		}
-		if ( count % 100 == 0 ) {
-			Lane l = lanes.get(3);
-			//l.addVehicle( new Vehicle( 15, 15, 16, 16) );
+		if(onlyOnce == true){
+			onlyOnce = false;
+			lanes.get(1).addVehicle(new BusGui( 15, 15, 16, 16));
 		}
 		
 		//Make them all lanes stop
@@ -126,6 +126,16 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			Lane l = lanes.get(i);
 			l.draw( g2 );
 		}
+        
+        //drawing bus stops 
+        g2.drawImage(stopSign, 100, 55, null);
+        g2.drawImage(stopSign, 105, 151, null);
+        g2.drawImage(stopSign, 105, 250, null);
+        g2.drawImage(stopSign, 175, 200, null);
+        g2.drawImage(stopSign, 347, 150, null);
+        g2.drawImage(stopSign, 347, 250, null);
+        g2.drawImage(stopSign, 415, 185, null);
+        g2.drawImage(stopSign, 585, 200, null);
         
         //drawing top houses
         for(int i=0; i<7; i++){
@@ -189,12 +199,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
         building = new Building ( 425, 200, "market.png");
         addBuildingGui(building);
         
-        g2.fillRect(415, 215, 20, 20);
+        g2.fillRect(415, 215, 20, 20); //doorway
         
         building = new Building ( 520, 200, "restaurant_right.png");
         addBuildingGui(building);
         
-        g2.fillRect(585, 230, 20, 20);
+        g2.fillRect(585, 230, 20, 20); //doorway
         
 
         for(Gui gui : guis) {
