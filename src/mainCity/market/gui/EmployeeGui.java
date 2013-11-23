@@ -12,26 +12,27 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 public class EmployeeGui implements Gui {
+    private static final int WINDOWX = 550, WINDOWY = 350;
+
     private MarketEmployeeRole agent = null;
     MarketGui gui;
     private boolean isPresent;
 
-    private final int WINDOWX = 550;
-    private final int WINDOWY = 350;
     static final int waiterWidth = 20;
     static final int waiterHeight = 20;
+    static final int stockRoomWidth = 25, stockRoomHeight = 50;
 
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
     private final int startX = -20;
     private final int startY = -20;
-    private final int deliveryX = WINDOWX - 20;
-    private final int deliveryY = WINDOWY/2;
+    static final int deliveryWidth = 25, deliveryHeight = 50;
+    private static final int deliveryX = WINDOWX - deliveryWidth, deliveryY = WINDOWY/2 + 2*deliveryHeight;
     public int homeX, homeY;
     private int cashierX = 20, cashierY = 250;
     private int waitingRoomX;
     private int waitingRoomY;
-    private int stockRoomX = 300, stockRoomY = 450;
+    static final int stockRoomX = stockRoomWidth*2, stockRoomY = WINDOWY +50;
     
 	Map<Integer, Integer> stationX = new TreeMap<Integer, Integer>();
 	Map<Integer, Integer> stationY = new TreeMap<Integer, Integer>();
@@ -48,17 +49,22 @@ public class EmployeeGui implements Gui {
         this.gui = gui;
         
         //initialize table locations map
-        stationX.put(1, 200);
-    	stationY.put(1, 100);
-         
-         stationX.put(2, 250);
-         stationY.put(2, 100);
-         
-         stationX.put(3, 300);
-         stationY.put(3, 100);
-         
-         stationX.put(4, 350);
-         stationY.put(4, 100);
+        stationX.put(1, 150);	//station 1
+    	stationY.put(1, 50);
+        stationX.put(2, 250);	//station 2
+        stationY.put(2, 50);
+        stationX.put(3, 350);	//station 3
+        stationY.put(3, 50);
+        stationX.put(4, 450);	//station 4
+        stationY.put(4, 50);
+        stationX.put(5, 150);	//station 5
+        stationY.put(5, 150);
+    	stationX.put(6, 250);	//station 6
+    	stationY.put(6, 150);
+    	stationX.put(7, 350);	//station 7
+    	stationY.put(7, 150);
+    	stationX.put(8, 450);	//station 8
+    	stationY.put(8, 150);
 
     }
     

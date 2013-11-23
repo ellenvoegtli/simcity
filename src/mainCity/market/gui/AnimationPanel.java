@@ -12,24 +12,23 @@ import java.util.TreeMap;
 
 public class AnimationPanel extends JPanel implements ActionListener {
 
-    private static final int WINDOWX = 550;
-    private static final int WINDOWY = 350;
+    private static final int WINDOWX = 550, WINDOWY = 350;
     private Image bufferImage;
     private Dimension bufferSize;
     static final int timerStart = 10;
-
-    static final int tableWidth = 50;
-    static final int tableHeight = 50;
-    static final int originX = 0;
-    static final int originY = 0;
     
-    //kitchen/cook location variables
-    static final int kitchenHeight = 140;
-    static final int kitchenWidth = 35;
-    static final int grillX = WINDOWX - 30;
-    static final int grillY = WINDOWY/2 - 60;
-    static final int platingX = WINDOWX - 90;
-    static final int platingY = WINDOWY/2 - 60;
+    static final int agentWidth = 20, agentHeight = 20;
+    static final int stationWidth = 50, stationHeight = 17;
+    static final int cashierWidth = 20, cashierHeight = 50;
+    static final int deliveryWidth = 20, deliveryHeight = 50;
+    static final int stockRoomWidth = 25, stockRoomHeight = 50;
+    
+    static final int originX = 0, originY = 0;
+    static final int deliveryX = WINDOWX - deliveryWidth, deliveryY = WINDOWY/2 + 2*deliveryHeight;
+    static final int cashierX = 0, cashierY = 250;
+    static final int stockRoomX = stockRoomWidth*2, stockRoomY = WINDOWY - stockRoomWidth;
+    
+    
     
 	Map<Integer, Integer> stationX = new TreeMap<Integer, Integer>();
 	Map<Integer, Integer> stationY = new TreeMap<Integer, Integer>();
@@ -37,17 +36,22 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private List<Gui> guis = new ArrayList<Gui>();
 
     public AnimationPanel() {
-    	stationX.put(1, 200);
-    	stationY.put(1, 100);
-         
-         stationX.put(2, 250);
-         stationY.put(2, 100);
-         
-         stationX.put(3, 300);
-         stationY.put(3, 100);
-         
-         stationX.put(4, 350);
-         stationY.put(4, 100);
+    	stationX.put(1, 150);	//station 1
+    	stationY.put(1, 50);
+        stationX.put(2, 250);	//station 2
+        stationY.put(2, 50);
+        stationX.put(3, 350);	//station 3
+        stationY.put(3, 50);
+        stationX.put(4, 450);	//station 4
+        stationY.put(4, 50);
+        stationX.put(5, 150);	//station 5
+        stationY.put(5, 150);
+    	stationX.put(6, 250);	//station 6
+    	stationY.put(6, 150);
+    	stationX.put(7, 350);	//station 7
+    	stationY.put(7, 150);
+    	stationX.put(8, 450);	//station 8
+    	stationY.put(8, 150);
     	
     	
     	setSize(WINDOWX, WINDOWY);
@@ -55,7 +59,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
         
         bufferSize = this.getSize();
  
-    	Timer timer = new Timer(timerStart, this );
+    	Timer timer = new Timer(timerStart, this);
     	timer.start();
     }
 
@@ -71,25 +75,32 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(originX, originY, WINDOWX, WINDOWY);
 
         Color purple = new Color(147, 112, 219);
-        //Here is the table
+        //Here are the stations
         g2.setColor(purple);
-        g2.fillRect(stationX.get(1), stationY.get(1), tableWidth, tableHeight);
-
+        g2.fillRect(stationX.get(1), stationY.get(1), stationWidth, stationHeight);
+        g2.fillRect(stationX.get(2), stationY.get(2), stationWidth, stationHeight);
+        g2.fillRect(stationX.get(3), stationY.get(3), stationWidth, stationHeight);
+        g2.fillRect(stationX.get(4), stationY.get(4), stationWidth, stationHeight);
+        g2.fillRect(stationX.get(5), stationY.get(5), stationWidth, stationHeight);
+        g2.fillRect(stationX.get(6), stationY.get(6), stationWidth, stationHeight);
+        g2.fillRect(stationX.get(7), stationY.get(7), stationWidth, stationHeight);
+        g2.fillRect(stationX.get(8), stationY.get(8), stationWidth, stationHeight);
         
-        g2.setColor(purple);
-        g2.fillRect(stationX.get(2), stationY.get(2), tableWidth, tableHeight);
-        
-        g2.setColor(purple);
-        g2.fillRect(stationX.get(3), stationY.get(3), tableWidth, tableHeight);
-        
-        
-        g2.setColor(purple);
-        g2.fillRect(stationX.get(4), stationY.get(4), tableWidth, tableHeight);
         
         //cashier
-        Color grun = new Color(46, 139, 87);
-        g2.setColor(grun);
-        g2.fillRect(20, 250, 25, 50);
+        Color green = new Color(46, 139, 87);
+        g2.setColor(green);
+        g2.fillRect(cashierX, cashierY, cashierWidth, cashierHeight);
+        
+        
+        //delivery man's station
+        Color pink = new Color(247, 26, 152);
+        g2.setColor(pink);
+        g2.fillRect(deliveryX, deliveryY, deliveryWidth, deliveryHeight);
+        
+        Color yellow = new Color(240, 246, 78);
+        g2.setColor(yellow);
+        g2.fillRect(stockRoomX, stockRoomY, stockRoomWidth, stockRoomHeight);
         
         
 

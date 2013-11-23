@@ -3,19 +3,23 @@ package transportation;
 import java.util.*;
 
 import mainCity.PersonAgent;
+import mainCity.PersonAgent.CityLocation;
 
 public class BusStop {
 	//List of people waiting at the bus stop
 	List<PersonAgent> waitingPeople = new ArrayList<PersonAgent>(); 
+	public CityLocation stopLocation; 
 	
-	int xLocation, yLocation; 
+	public int xLocation, yLocation; 
 	
-	BusStop(int xLoc, int yLoc){ 
+	public BusStop(int xLoc, int yLoc, CityLocation cl){ 
 		xLocation = xLoc; 
 		yLocation = yLoc; 
+		stopLocation = cl;
 	}
 	
 	public void ArrivedAtBusStop(PersonAgent p) { 
+		System.out.println(p.getName() + "has arrived at bus stop near" + stopLocation);
 		waitingPeople.add(p);
 	}
 	
@@ -33,7 +37,7 @@ public class BusStop {
 		else { 
 			for(int i=0; i<capacity; i++) { 
 				tempList.add(waitingPeople.get(i)); 
-				waitingPeople.get(i).msgBusHasArrived();
+				waitingPeople.get(i).msgBusHasArrived(); 
 			}
 			waitingPeople.remove(tempList); 
 		}

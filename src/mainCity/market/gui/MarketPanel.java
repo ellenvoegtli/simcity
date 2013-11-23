@@ -213,7 +213,6 @@ public class MarketPanel extends JPanel implements ActionListener{
     	else if (type.equals("Employees")){
     		MarketEmployeeRole e = new MarketEmployeeRole(name);
     		EmployeeGui g = new EmployeeGui(e, gui);
-    		System.out.println("Creating new employee");
     		
     		gui.animationPanel.addGui(g);
     		e.setHost(host);
@@ -226,9 +225,15 @@ public class MarketPanel extends JPanel implements ActionListener{
     		int x = 0, y = 0;
     		for (MarketEmployeeRole em : employees){
     			if (em.equals(e)){
-    				g.setHomePosition(200, 100);
-    				x = 200;
-    				y = 100;
+    				if (i < 4){
+    					x = 150 + 100*i + 15;	//add 15 to go to center of station
+    					y = 50 + 17; 	//station height is 17
+    				}
+    				else {
+    					x = 150 + 100*(i-4) + 15;	//add 15 to go to center of station
+    					y = 150 + 17;	//station height is 17
+    				}
+    				g.setHomePosition(x, y);
     			}
     			else
     				i++;
