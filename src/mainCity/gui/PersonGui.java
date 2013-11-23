@@ -123,6 +123,7 @@ public class PersonGui implements Gui{
 		case restaurant_marcus:
 			xDestination = 500;
 			yDestination = 300;
+			
 			break;
 		case restaurant_ellen:
 			xDestination = 300;
@@ -169,7 +170,7 @@ public class PersonGui implements Gui{
 		return yDestination;
 	}
 	
-	private CityLocation findNearestStop(){ 
+	public CityLocation findNearestStop(){ 
 		
 		//starts off with first bus stop
 		//measures absolute value of difference in x and y between person's current location and bus stop's location

@@ -465,6 +465,13 @@ public class PersonAgent extends Agent {
 		else if(temp) { //chose bus
 			gui.DoGoToStop(); // walk to the closest bus stop or subway station?
 			waitForGui();
+			
+			//add self to waiting list of BusStop once arrived
+			for(int i=0; i<ContactList.stops.size(); i++){ 
+				if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+					ContactList.stops.get(i).ArrivedAtBusStop(this);
+				}
+			}
 			//bus.myDestination(d); //send message to transportation object of where they want to go
 			//will receive an arrived at destination message when done
 		}
