@@ -187,7 +187,50 @@ public class EnaRestaurantPanel extends JPanel
     		System.out.println("Waiter has been added to the restaturant:  " + name);
     	}
     }*/
-   
+    public void handleRoleGui(Role r) {
+    	if(r instanceof EnaWaiterRole) {
+        	EnaWaiterRole w = (EnaWaiterRole) r;
+
+    		/*if(r.getName().contains("share")) {
+    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
+    			a.setStand(stand);
+    		}*/
+            host.addWaiterRole(w);
+            int pos = 22* host.waiters.size();
+    		WaiterGui g = new WaiterGui(w, gui, pos);
+        	
+    		
+    		w.setHost(host);
+    		w.setGui(g);
+            w.setCook(cook);
+            w.setCashier(cashier);
+            waiters.add(w);
+    		gui.animationPanel.addGui(g);
+    		System.out.println("Waiter has been added to the restaturant");
+
+    		
+    	}
+    	
+    	if(r instanceof EnaCustomerRole) {
+    		EnaCustomerRole c = (EnaCustomerRole) r;
+	    	
+    		for(EnaCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+	    		if(cust == c) {
+	    			return;
+	    		}
+	    	}
+	    	
+			customers.add(c);
+			CustomerGui g = new CustomerGui(c, gui);
+	
+			gui.animationPanel.addGui(g);
+			c.setHost(host);
+			c.setCashier(cashier);
+			c.setGui(g);
+			
+	
+    	}
+    }
     
     public void pauseAll()
     {
@@ -222,44 +265,6 @@ public class EnaRestaurantPanel extends JPanel
     	}
     }
     
-    public void handleRoleGui(Role r) {
-    	if(r instanceof EnaWaiterRole) {
-        	EnaWaiterRole w = (EnaWaiterRole) r;
 
-    		/*if(r.getName().contains("share")) {
-    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
-    			a.setStand(stand);
-    		}*/
-        	
-        	
-    		WaiterGui g = new WaiterGui(w, gui, 0);
-    		
-    		gui.animationPanel.addGui(g);
-    		w.setHost(host);
-    		w.setGui(g);
-            w.setCook(cook);
-            w.setCashier(cashier);
-            host.addWaiterRole(w);
-    		waiters.add(w);
-    	}
-    	
-    	if(r instanceof EnaCustomerRole) {
-    		EnaCustomerRole c = (EnaCustomerRole) r;
-	    	
-    		for(EnaCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
-	    		if(cust == c) {
-	    			return;
-	    		}
-	    	}
-	    	
-			customers.add(c);
-			CustomerGui g = new CustomerGui(c, gui);
-	
-			gui.animationPanel.addGui(g);
-			c.setHost(host);
-			c.setGui(g);
-			c.setCashier(cashier);
-    	}
-    }
 
 }
