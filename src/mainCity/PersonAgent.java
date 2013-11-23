@@ -258,9 +258,7 @@ public class PersonAgent extends Agent {
 					((JeffersonCustomerRole) customer).gotHungry();
 					((JeffersonCustomerRole) customer).getGui().setHungry();
 				}
-				//
-				//other type of customer roles for each restaurant
-				//
+				
 				customer.setActive();
 
 				if(currentAction != null && currentAction.type == ActionType.restaurant) {
@@ -390,15 +388,17 @@ public class PersonAgent extends Agent {
 							EllenCustomerRole e = new EllenCustomerRole(this, name);
 							ContactList.getInstance().getEllenRestaurant().handleRoleGui(e);
 							roles.put(action, e);
+							break;
 						case restaurant_ena:
 							EnaCustomerRole en = new EnaCustomerRole(this, name);
 							ContactList.getInstance().getEnaRestaurant().handleRoleGui(en);
 							roles.put(action, en);
+							break;
 						case restaurant_jefferson:
 							JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
 							ContactList.getInstance().getJeffersonRestaurant().handleRoleGui(jc);
 							roles.put(action,jc);
-							
+							break;
 						default:
 							break;
 					}
@@ -501,7 +501,7 @@ public class PersonAgent extends Agent {
 
 	private void chooseRestaurant() {
 		//choose which restaurant here
-		destination = CityLocation.restaurant_jefferson;
+		destination = CityLocation.restaurant_ena;
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
