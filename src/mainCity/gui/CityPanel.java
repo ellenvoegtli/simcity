@@ -54,42 +54,40 @@ public class CityPanel extends JPanel{
     	
     	
     	//Hardcoding one person for now.
-    	PersonAgent person = new PersonAgent("Customer");
-    	PersonAgent person2 = new PersonAgent("Waiter");
+    	//PersonAgent person = new PersonAgent("Customer");
+    	//PersonAgent person2 = new PersonAgent("Waiter");
+    	//PersonAgent person3 = new PersonAgent("Cook");
+    	//PersonAgent person4 = new PersonAgent("Cashier");
+    	PersonAgent person5 = new PersonAgent("Host");
     	
-    	occupants.add(person2);
-    	/*
-    	private PersonAgent person3 = new PersonAgent("Cook");
-    	private PersonAgent person4 = new PersonAgent("Cashier");
-    	private PersonAgent person5 = new PersonAgent("Host");
-    	*/
-    	
+    	occupants.add(person5);
+
     	//person.msgGotHungry();
     	//person.msgGoToMarket();
     	//person.msgGoToWork();
     	
-		PersonGui pg1 = new PersonGui(person, gui);
-		PersonGui pg2 = new PersonGui(person2, gui); 
+		//PersonGui pg1 = new PersonGui(person, gui);
+		//PersonGui pg2 = new PersonGui(person2, gui); 
 		//PersonGui pg3 = new PersonGui(person3, gui);
 		//PersonGui pg4 = new PersonGui(person4, gui);
-		//PersonGui pg5 = new PersonGui(person5, gui);
+		PersonGui pg5 = new PersonGui(person5, gui);
 
-		person2.updateOccupation("marcusWaiter", 8, 11);
-		//person3.updateOccupation("marcusCook");
-		//person4.updateOccupation("marcusCashier");
-		//person5.updateOccupation("marcusHost");
+		//person2.updateOccupation("marcusWaiter", 8, 11);
+		//person3.updateOccupation("marcusCook", 8, 11);
+		//person4.updateOccupation("marcusCashier", 8, 11);
+		person5.updateOccupation("marcusHost", 7, 10);
 
-		gui.getAnimationPanel().addPersonGui(pg1);
-		gui.getAnimationPanel().addPersonGui(pg2);
+		//gui.getAnimationPanel().addPersonGui(pg1);
+		//gui.getAnimationPanel().addPersonGui(pg2);
 		//gui.getAnimationPanel().addPersonGui(pg3);
 		//gui.getAnimationPanel().addPersonGui(pg4);
-		//gui.getAnimationPanel().addPersonGui(pg5);
+		gui.getAnimationPanel().addPersonGui(pg5);
 
-		person.setGui(pg1);
-		person2.setGui(pg2);
+		//person.setGui(pg1);
+		//person2.setGui(pg2);
 		//person3.setGui(pg3);
 		//person4.setGui(pg4);
-		//person5.setGui(pg5);
+		person5.setGui(pg5);
 		
 		//person.msgGoToRestaurant();
 		//person2.msgGoToWork();
@@ -98,10 +96,10 @@ public class CityPanel extends JPanel{
 		//person5.msgGoToWork();
 		
 		//person.startThread(); 
-		person2.startThread(); 
+		//person2.startThread(); 
 		//person3.startThread();
 		//person4.startThread();
-		//person5.startThread();
+		person5.startThread();
 		
 		//Instantiation of the Global City Clock
 		Runnable standChecker = new Runnable() {

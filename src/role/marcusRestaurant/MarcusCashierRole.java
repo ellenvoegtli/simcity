@@ -7,14 +7,16 @@ import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import java.util.*;
 
 import role.Role;
+import role.WorkerRole;
 import role.market.MarketDeliveryManRole;
 
-public class MarcusCashierRole extends Role implements Cashier {
+public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	private String name;
 	public List<Bill> bills;
 	public List<MarketBill> marketBills;
 	private Map<String, Integer> prices;
 	private double cash;
+	private boolean onDuty;
 
 	public MarcusCashierRole(PersonAgent p, String n) {
 		super(p);
@@ -22,6 +24,7 @@ public class MarcusCashierRole extends Role implements Cashier {
 		bills =  Collections.synchronizedList(new ArrayList<Bill>());
 		marketBills =  Collections.synchronizedList(new ArrayList<MarketBill>());
 		prices = Collections.synchronizedMap(new HashMap<String, Integer>());
+		onDuty = true;
 		
 		synchronized(prices) {
 			prices.put("Steak", 16);
@@ -75,6 +78,11 @@ public class MarcusCashierRole extends Role implements Cashier {
 			}
 		}
 	}
+	
+	public void msgGoOffDuty() {
+		onDuty = false;
+		stateChanged();
+	}
 /*
 	public void msgHereIsFoodBill(Market m, int amount) {
 		print("Received a food bill of $" + amount + " from market");
@@ -123,6 +131,11 @@ public class MarcusCashierRole extends Role implements Cashier {
 			}
 		}
 
+		if(!onDuty) {
+			super.setInactive();
+			onDuty = true;
+		}
+		
 		return false;
 	}
 

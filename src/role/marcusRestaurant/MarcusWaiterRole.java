@@ -19,7 +19,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 
 	public List<MyCustomer> customers = Collections.synchronizedList(new ArrayList<MyCustomer>());
 	protected Semaphore isMovingSem = new Semaphore(0, true);
-	protected boolean onBreak, goingOffDuty, requested, tired;
+	protected boolean onBreak, onDuty, requested, tired;
 	protected String name;
 	protected MarcusHostRole host;
 	protected MarcusCookRole cook;
@@ -32,7 +32,8 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		super(p);
 
 		this.name = name;
-		onBreak = goingOffDuty = tired = requested = false;
+		onBreak = tired = requested = false;
+		onDuty = true;
 		waiterMenu = new MarcusMenu();
 	}
 
@@ -75,7 +76,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	}
 	
 	public void msgGoOffDuty() {
-		goingOffDuty = true;
+		onDuty = true;
 		stateChanged();
 	}
 	
@@ -271,9 +272,9 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 				requested = false;
 			}
 			
-			if(goingOffDuty) {
-				goingOffDuty = false;
-				leaveBuilding();
+			if(onDuty) {
+				onDuty = false;
+				leaveRestaurant();
 			}
 		}
 		
@@ -382,7 +383,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		host.msgBackOnDuty(this);
 	}
 	
-	private void leaveBuilding() {
+	private void leaveRestaurant() {
 		try {
 			host.msgFinishingShift(this);
 		}
@@ -393,6 +394,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		waiterGui.DoLeaveRestaunt();
 		waitForGui();
 		super.setInactive();
+		onDuty = true;
 	}
 	
 	//utilities

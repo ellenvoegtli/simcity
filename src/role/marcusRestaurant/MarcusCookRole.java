@@ -1,6 +1,5 @@
 package role.marcusRestaurant;
 
-import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.interfaces.MainCashier;
 import mainCity.market.MarketGreeterRole;
@@ -12,12 +11,13 @@ import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import java.util.*;
 
 import role.Role;
+import role.WorkerRole;
 
 /**
  * Restaurant Cook Agent
  */
 
-public class MarcusCookRole extends Role implements Cook {
+public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	private CookGui cookGui;
 	private String name;
 	//private List<Market> markets;
@@ -28,6 +28,7 @@ public class MarcusCookRole extends Role implements Cook {
 	private List<Order> orders;
 	private Map<String, Food> foods;
 	private RevolvingStand stand;
+	private boolean onDuty;
 
 	Timer timer = new Timer();
 	public enum CookStatus {normal, checkingStand, lowFood, checkingFulfillment};
@@ -41,6 +42,7 @@ public class MarcusCookRole extends Role implements Cook {
 		orders = Collections.synchronizedList(new ArrayList<Order>());
 		//markets = Collections.synchronizedList(new ArrayList<Market>());
 		status = CookStatus.normal;
+		onDuty = true;
 		
 		foods = Collections.synchronizedMap(new HashMap<String, Food>());
 		
@@ -97,6 +99,11 @@ public class MarcusCookRole extends Role implements Cook {
 		}
 		
 		status = CookStatus.checkingFulfillment;
+		stateChanged();
+	}
+	
+	public void msgGoOffDuty() {
+		onDuty = false;
 		stateChanged();
 	}
 /*
@@ -159,6 +166,12 @@ public class MarcusCookRole extends Role implements Cook {
 		if(status == CookStatus.checkingStand) {
 			checkStand();
 			return true;
+		}
+		
+		if(!onDuty) {
+			cookGui.DoLeaveRestaurant();
+			super.setInactive();
+			onDuty = true;
 		}
 
 		return false;

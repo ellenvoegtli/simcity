@@ -11,6 +11,7 @@ public class CookGui implements Gui{
 
 	private int xPos;
 	private int xDestination, yDestination;
+	private boolean onDuty;
 	private boolean cooking, grill1, grill2, grill3, grill4;
 
 	public CookGui(MarcusCookRole c, MarcusRestaurantGui gui){ //HostAgent m) {
@@ -19,6 +20,7 @@ public class CookGui implements Gui{
 		xPos = 235;
 		xDestination = 235;
 		cooking = grill1 = grill2 = grill3 = grill4 = false;
+		onDuty = true;
 	}
 	
 	public void updatePosition() {
@@ -74,26 +76,32 @@ public class CookGui implements Gui{
 		cooking = (grill1 || grill2 || grill3 || grill4);
 	}
 	
+	public void DoLeaveRestaurant() {
+		onDuty = false;
+	}
+	
 	public void draw(Graphics2D g) {
-		g.setColor(Color.RED);
-		g.fillRect(xPos, 20, 20, 20);
-		
-		if(cooking) {
-			if(grill1) {
-				g.setColor(Color.ORANGE);
-				g.fillRect(174, 4, 8, 8);
-			}
-			if(grill2) {
-				g.setColor(Color.ORANGE);
-				g.fillRect(194, 4, 8, 8);
-			}
-			if(grill3) {
-				g.setColor(Color.ORANGE);
-				g.fillRect(214, 4, 8, 8);
-			}
-			if(grill4) {
-				g.setColor(Color.ORANGE);
-				g.fillRect(234, 4, 8, 8);
+		if(onDuty) {
+			g.setColor(Color.RED);
+			g.fillRect(xPos, 20, 20, 20);
+			
+			if(cooking) {
+				if(grill1) {
+					g.setColor(Color.ORANGE);
+					g.fillRect(174, 4, 8, 8);
+				}
+				if(grill2) {
+					g.setColor(Color.ORANGE);
+					g.fillRect(194, 4, 8, 8);
+				}
+				if(grill3) {
+					g.setColor(Color.ORANGE);
+					g.fillRect(214, 4, 8, 8);
+				}
+				if(grill4) {
+					g.setColor(Color.ORANGE);
+					g.fillRect(234, 4, 8, 8);
+				}
 			}
 		}
 	}
