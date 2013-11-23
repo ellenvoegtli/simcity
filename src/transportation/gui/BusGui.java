@@ -9,6 +9,8 @@ public class BusGui extends Vehicle {
 	
 	CityGui gui; 
 	
+	public int x; 
+	public int y;
 	private int xLocation;
 	private int yLocation; 
 	private int width;

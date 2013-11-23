@@ -4,8 +4,9 @@ import java.awt.geom.*;
 
 
 public class Vehicle extends Rectangle2D.Double {
-	Color vehicleColor;
+	Color vehicleColor = Color.yellow;
 	public boolean atBusStop;
+	public int counter;
 	
 	public Vehicle( int x, int y, int width, int height ) {
 		super( x, y, width, height );

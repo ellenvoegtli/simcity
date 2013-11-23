@@ -30,6 +30,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
     ArrayList<Lane> lanes;
     private final int RoadWidth = 50; 
     
+    //Hardcoded bus
+    BusGui bus;
+    
     //Setting up data for stop sign image
     private BufferedImage stopSign = null;
     
@@ -47,7 +50,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
         setVisible(true);
         
         StringBuilder path = new StringBuilder("imgs/");
-        /*
+
+        bus = new BusGui( 15, 15, 16, 16);
+        
         //Bus Stop 
         try {
 			stopSign = ImageIO.read(new File(path.toString() + "stopsign.gif"));
@@ -55,30 +60,33 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        */
         //Instantiating roads
         lanes = new ArrayList<Lane>();
         
         //Creating Lanes (int xo, int yo, int w, int h, int xv, int yv, boolean ish, Color lc, Color sc)
-        Lane l = new Lane( 0, 75, 780, (RoadWidth/2), 1, 0, true, Color.gray, Color.white );
+        Lane l = new Lane( 0, 75, 640, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 0, 100, 780, (RoadWidth/2), -1, 0, true, Color.gray, Color.white );
+        l = new Lane( 0, 100, 780, (RoadWidth/2), 5, 0, true, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 0, 350, 780, (RoadWidth/2), 1, 0, true, Color.gray, Color.white );
+        l = new Lane( 0, 350, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 0, 375, 780, (RoadWidth/2), -1, 0, true, Color.gray, Color.white );
+        l = new Lane( 0, 375, 125, (RoadWidth/2), 5, 0, true, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 125, 125, (RoadWidth/2), 226, 0, -1, false, Color.gray, Color.white );
+        l = new Lane( 125, 375, 780, (RoadWidth/2), 5, 0, true, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 150, 125, (RoadWidth/2), 226, 0, 1, false, Color.gray, Color.white );
+        l = new Lane( 125, 125, (RoadWidth/2), 226, 0, 5, false, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 365, 125, (RoadWidth/2), 226, 0, -1, false, Color.gray, Color.white );
+        l = new Lane( 150, 125, (RoadWidth/2), 226, 0, -5, false, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 390, 125, (RoadWidth/2), 226, 0, 1, false, Color.gray, Color.white );
+        l = new Lane( 365, 125, (RoadWidth/2), 226, 0, 5, false, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 605, 125, (RoadWidth/2), 226, 0, -1, false, Color.gray, Color.white );
+        l = new Lane( 390, 125, (RoadWidth/2), 226, 0, -5, false, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 630, 125, (RoadWidth/2), 226, 0, 1, false, Color.gray, Color.white );
+        l = new Lane( 605, 125, (RoadWidth/2), 226, 0, 5, false, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 630, 125, (RoadWidth/2), 226, 0, -5, false, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 640, 75, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
         
         javax.swing.Timer t = new javax.swing.Timer( 25, this );
@@ -94,8 +102,31 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		
 		if(onlyOnce == true){
 			onlyOnce = false;
-			lanes.get(1).addVehicle(new BusGui( 15, 15, 16, 16));
+			lanes.get(1).addVehicle(bus);
 		}
+		
+		System.out.println(bus.getX() + ", " + bus.getY());
+		
+		if(bus.getX() == 130 && bus.getY() == 105){ 
+			lanes.get(1).vehicles.remove(bus); 
+			lanes.get(5).addVehicle(bus);
+		}
+		
+		if(bus.getX() == 130 && bus.getY() == 335){ 
+			lanes.get(5).vehicles.remove(bus);
+			lanes.get(4).addVehicle(bus);
+		}
+		
+		if(bus.getX() == 635 && bus.getY() == 380){ 
+			lanes.get(4).vehicles.remove(bus); 
+			lanes.get(10).addVehicle(bus);
+		}
+		
+		if(bus.getX() == 635 && bus.getY() == 130){ 
+			lanes.get(10).vehicles.remove(bus);
+			lanes.get(0).addVehicle(bus);
+		}
+		
 		
 		//Make them all lanes stop
 		if ( count % 500 == 0 ) {

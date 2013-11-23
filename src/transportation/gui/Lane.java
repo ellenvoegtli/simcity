@@ -18,7 +18,7 @@ public class Lane {
 	boolean startAtOrigin;
 	Color laneColor;
 	Color sideColor;
-	ArrayList<Vehicle> vehicles;
+	public ArrayList<Vehicle> vehicles;
 	
 	public Lane(int xo, int yo, int w, int h, int xv, int yv, boolean ish, Color lc, Color sc ) {
 		redLight = false;
@@ -52,14 +52,14 @@ public class Lane {
 		//We need to set the proper origin for this new vehicle, given the lane starting geometry constraints
 		//The +2 is due to my lanes being 20 pixels "wide" and vehicles being 16 pixels "wide". 
 		if ( xVelocity > 0 ) {
-			v.setRect( xOrigin, yOrigin+2, v.getWidth(), v.getHeight() ); 
+			v.setRect( xOrigin+5, yOrigin+5, v.getWidth(), v.getHeight() ); 
 		} else if ( yVelocity > 0 ) {
-			v.setRect( xOrigin+2, yOrigin, v.getWidth(), v.getHeight() ); 
+			v.setRect( xOrigin+5, yOrigin+5, v.getWidth(), v.getHeight() ); 
 		} else {
 			if ( isHorizontal ) {
-				v.setRect( xOrigin + width - v.getWidth(), yOrigin + 2, v.getWidth(), v.getHeight() );
+				v.setRect( xOrigin + width - v.getWidth(), yOrigin+5 , v.getWidth(), v.getHeight() );
 			} else {
-				v.setRect( xOrigin + 2, yOrigin + height - v.getHeight(), v.getWidth(), v.getHeight() ) ;
+				v.setRect( xOrigin+5 , yOrigin + height - v.getHeight(), v.getWidth(), v.getHeight() ) ;
 			}
 		}
 		
