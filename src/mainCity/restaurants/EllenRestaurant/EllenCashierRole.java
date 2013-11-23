@@ -10,11 +10,13 @@ import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.market.*;
+import role.Role;
+import mainCity.PersonAgent;
 
 
  // Restaurant Cook Agent
 
-public class EllenCashierRole extends Agent implements Cashier {	
+public class EllenCashierRole extends Role implements Cashier {	
 	private String name;
 	private double availableMoney = 500;		//modify
 	Timer timer = new Timer();
@@ -32,8 +34,8 @@ public class EllenCashierRole extends Agent implements Cashier {
 	boolean opened = true;
 
 	
-	public EllenCashierRole(String name) {
-		super();
+	public EllenCashierRole(PersonAgent p, String name) {
+		super(p);
 
 		this.name = name;
 		

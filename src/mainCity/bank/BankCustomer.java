@@ -58,6 +58,11 @@ public class BankCustomer extends Agent {
 	}
 
 //Messages
+	public void msgBankClosed() {
+		Do("Bank closed");
+		bcstate=BankCustomerState.done;
+		stateChanged();
+	}
 	
 	public void msgAtTeller() {
 		atTeller.release();
@@ -387,6 +392,8 @@ public void msgLoanDenied(double loanamount){
 		custGui=bcGui;
 		
 	}
+
+	
 
 
 

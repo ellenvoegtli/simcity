@@ -10,7 +10,10 @@ import java.util.concurrent.Semaphore;
 import mainCity.contactList.ContactList;
 import mainCity.gui.PersonGui;
 import mainCity.restaurants.EllenRestaurant.*;
+import mainCity.restaurants.enaRestaurant.EnaCashierRole;
+import mainCity.restaurants.enaRestaurant.EnaCookRole;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
+import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
 
@@ -118,7 +121,6 @@ public class PersonAgent extends Agent {
 
 	//A message received from the HomeAgent or GUI (possibly?) to go to the market
 	public void msgGoToMarket() {
-		print ("going to the market''''''''''''''");
 		actions.add(new Action(ActionType.market, 3));
 		stateChanged();
 	}
@@ -398,15 +400,45 @@ public class PersonAgent extends Agent {
 						//-----Ena Restaurant Roles---//
 						case "enaWaiter":
 							EnaWaiterRole en = new EnaWaiterRole(this, name);
-							ContactList.getInstance().getEnaRestaurant().handleRoleGui(en);
+							ContactList.getInstance().getEnaRestaurant().handleRole(en);
 							roles.put(action, en);
+							break;
+						case "enaCook":
+							EnaCookRole eco = new EnaCookRole(this, name);
+							ContactList.getInstance().getEnaRestaurant().handleRole(eco);
+							roles.put(action, eco);
+							break;
+						case "enaCashier":
+							EnaCashierRole eca = new EnaCashierRole(this, name);
+							ContactList.getInstance().getEnaRestaurant().handleRole(eca);
+							roles.put(action, eca);
+							break;
+						case "enaHost":
+							EnaHostRole eh = new EnaHostRole(this, name);
+							ContactList.getInstance().getEnaRestaurant().handleRole(eh);
+							roles.put(action, eh);
 							break;
 							
 						//-----Ellen Restaurant Roles---//
 						case "ellenWaiter":
 							EllenNormalWaiterRole el = new EllenNormalWaiterRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRoleGui(el);
+							ContactList.getInstance().getEllenRestaurant().handleRole(el);
 							roles.put(action, el);
+							break;
+						case "ellenCook":
+							EllenCookRole elco = new EllenCookRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(elco);
+							roles.put(action, elco);
+							break;
+						case "ellenCashier":
+							EllenCashierRole elca = new EllenCashierRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(elca);
+							roles.put(action, elca);
+							break;
+						case "ellenHost":
+							EllenHostRole elh = new EllenHostRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(elh);
+							roles.put(action, elh);
 							break;
 						default:
 							break;
@@ -421,12 +453,12 @@ public class PersonAgent extends Agent {
 							break;
 						case restaurant_ellen:
 							EllenCustomerRole e = new EllenCustomerRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRoleGui(e);
+							ContactList.getInstance().getEllenRestaurant().handleRole(e);
 							roles.put(action, e);
 							break;
 						case restaurant_ena:
 							EnaCustomerRole en = new EnaCustomerRole(this, name);
-							ContactList.getInstance().getEnaRestaurant().handleRoleGui(en);
+							ContactList.getInstance().getEnaRestaurant().handleRole(en);
 							roles.put(action, en);
 							break;
 						case restaurant_jefferson:

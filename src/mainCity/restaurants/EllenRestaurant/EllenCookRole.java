@@ -15,10 +15,12 @@ import mainCity.gui.trace.AlertTag;
 //import mainCity.role.marcusRestaurant.MarcusCookRole.CookStatus;
 import mainCity.interfaces.*;
 import mainCity.contactList.*;
+import mainCity.PersonAgent;
+import role.Role;
 
  // Restaurant Cook Agent
 
-public class EllenCookRole extends Agent implements Cook{
+public class EllenCookRole extends Role implements Cook{
 	static final int NTABLES = 3;//a global for the number of tables.
 
 	private String name;
@@ -43,18 +45,18 @@ public class EllenCookRole extends Agent implements Cook{
 	boolean opened = true;
 	
 
-	public EllenCookRole(String name, int steakAmount, int pizzaAmount, int pastaAmount, int soupAmount) {
-		super();
+	public EllenCookRole(PersonAgent p, String name/*, int steakAmount, int pizzaAmount, int pastaAmount, int soupAmount*/) {
+		super(p);
 
 		this.name = name;
 		opened = true;
 		isCheckingStand = false;
 		
 		//initialize inventory map
-        inventory.put("steak", new Food("steak", 5000, steakAmount));	//type, cookingTime, amount
-        inventory.put("pizza", new Food("pizza", 2500, pizzaAmount));
-        inventory.put("pasta", new Food("pasta", 1000, pastaAmount));
-        inventory.put("Soup", new Food("Soup", 2000, soupAmount));
+        inventory.put("steak", new Food("steak", 5000, 8));	//type, cookingTime, amount
+        inventory.put("pizza", new Food("pizza", 2500, 8));
+        inventory.put("pasta", new Food("pasta", 1000, 8));
+        inventory.put("Soup", new Food("Soup", 2000, 0));
         
         foodAtAvailableMarket.put("steak", 0);
         foodAtAvailableMarket.put("pizza", 0);
@@ -183,7 +185,7 @@ public class EllenCookRole extends Agent implements Cook{
 
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//print("In cook scheduler");
 		
 		if (opened){
