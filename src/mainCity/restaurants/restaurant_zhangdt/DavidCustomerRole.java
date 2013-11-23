@@ -55,7 +55,7 @@ public class DavidCustomerRole extends Role implements Customer {
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
 	public DavidCustomerRole(String name, PersonAgent p){
-		super(p, false);
+		super(p);
 		this.name = name;
 		Random ChoiceGenerator = new Random(); 
 		Money = ChoiceGenerator.nextInt(100); 

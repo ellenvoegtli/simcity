@@ -45,10 +45,10 @@ public class MarcusCustomerRole extends Role implements Customer {
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
 	public MarcusCustomerRole(PersonAgent p, String name){
-		super(p, false);
+		super(p);
 		this.name = name;
 		orderCount = 0;
-		cash = (int) (Math.random() * 35);
+		cash = super.getCash();
 		forcedLeaving = false;
 		
 		if(name.equals("THIEF")) {
@@ -394,5 +394,13 @@ public class MarcusCustomerRole extends Role implements Customer {
 	
 	public int getYPos() {
 		return customerGui.getY();
+	}
+
+	public boolean hostOnDuty() {
+		if(host == null) {
+			return false;
+		}
+		
+		return true;
 	}
 }

@@ -1,11 +1,12 @@
 package role.marcusRestaurant;
 
-import agent.Agent;
+import mainCity.PersonAgent;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
 import java.util.*;
-import java.util.concurrent.Semaphore;
+
+import role.Role;
 
 /**
  * Restaurant Host Agent
@@ -14,7 +15,7 @@ import java.util.concurrent.Semaphore;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class MarcusHostRole extends Agent {
+public class MarcusHostRole extends Role {
 	static final int NTABLES = 4;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -32,8 +33,8 @@ public class MarcusHostRole extends Agent {
 
 	//public WaiterGui waiterGui = null;
 
-	public MarcusHostRole(String name) {
-		super();
+	public MarcusHostRole(PersonAgent p, String name) {
+		super(p);
 
 		this.name = name;
 		customerCount = 0;
@@ -114,7 +115,7 @@ public class MarcusHostRole extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.

@@ -48,7 +48,7 @@ public class EnaWaiterRole extends Role implements Waiter{
 
 	public EnaWaiterRole(PersonAgent p, String name)
 	{
-		super( p, false);
+		super( p);
 		this.name = name;
 		
 		Menu.add("steak");

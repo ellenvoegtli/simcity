@@ -159,7 +159,7 @@ public class MarcusRestaurantGui extends JFrame implements ActionListener {
         if (e.getSource() == stateCB) {
             if (currentPerson instanceof MarcusCustomerRole) {
                 MarcusCustomerRole c = (MarcusCustomerRole) currentPerson;
-                c.getGui().setHungry();
+                c.getGui().goInside();
                 stateCB.setEnabled(false);
             }
             
