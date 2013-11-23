@@ -10,8 +10,8 @@ public class BankManager extends Agent {
 	String name;
 	public List <myTeller> tellers= new ArrayList<myTeller>();
 	public List <myBanker> bankers = new ArrayList<myBanker>();
-	public List <BankCustomer>  teller_bankCustomers = new ArrayList<BankCustomer>();
-	public List <BankCustomer>  banker_bankCustomers = new ArrayList<BankCustomer>();
+	public List <myBankCustomer>  teller_bankCustomers = new ArrayList<myBankCustomer>();
+	public List <myBankCustomer>  banker_bankCustomers = new ArrayList<myBankCustomer>();
 
 	public static class myTeller{
 	    BankTeller t;
@@ -19,15 +19,22 @@ public class BankManager extends Agent {
 	    BankCustomer bc;
 	    boolean Occupied;
 	    
-	    public myTeller(BankTeller bt){
+	    public int gettellernumber(){
+	    	return tellernumber;
+	    }
+	    
+	    public void settellernumber(int tn){
+	    	tellernumber=tn;
+	    }
+	    
+	    public myTeller(BankTeller bt, int tn){
 	    	t=bt;
 	    	Occupied=false;
-	    	
+	    	tellernumber=tn;
 	    }
 	}
 
 	public static class myBanker{
-		
 	    Banker b;
 	    int bankernumber;
 	    BankCustomer bc;
@@ -38,6 +45,13 @@ public class BankManager extends Agent {
 	    }
 	}
 	
+	public static class myBankCustomer{
+		BankCustomer bc;
+		public myBankCustomer(BankCustomer bc){
+			this.bc=bc;
+		}
+	}
+	
 	public BankManager(String name){
 		super();
 		this.name=name;
@@ -46,6 +60,10 @@ public class BankManager extends Agent {
 	}
 	
 	//Messages
+	public void msgTellerAdded(BankTeller bt){
+		tellers.add(new myTeller(bt,tellers.size()));
+	}
+	
 	public void msgDirectDeposit(double accountNumber, int amount){
 		//TODO what parameter should be used to identify a person? is accountNumber too private?
 		
@@ -53,19 +71,19 @@ public class BankManager extends Agent {
 	
 	public void msgIWantToDeposit( BankCustomer bc){
 		Do("recieved message IWantToDeposit");
-	    teller_bankCustomers.add(bc);
+	    teller_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 
 	public void msgIWantToWithdraw( BankCustomer bc){
 		Do("recieved message IWantToWithdraw");
-	    teller_bankCustomers.add(bc);
+		teller_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 	
 	public void msgIWantNewAccount(BankCustomer bc) {
 		Do("recieved message want new account");
-		banker_bankCustomers.add(bc);
+		banker_bankCustomers.add(new myBankCustomer(bc));
 		stateChanged();
 		
 	}
@@ -74,16 +92,17 @@ public class BankManager extends Agent {
 
 	public void msgIWantALoan(BankCustomer bc){
 		Do("recieved message IWantALoan");
-	    banker_bankCustomers.add(bc);
+		banker_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
-
+//TODO fix this
 	public void msgImLeaving(BankCustomer bc){
-		Do("recieved message ImLeavingt");
+		Do("recieved message ImLeaving");
 	    for (myTeller mt: tellers){
 	        if( mt.bc==bc){                                                  
 	            mt.bc=null;
 	            mt.Occupied=false;
+	            stateChanged();
 	        }   
 	    }   
 
@@ -93,9 +112,10 @@ public class BankManager extends Agent {
 	        if( mb.bc==bc){
 	            mb.bc=null;
 	            mb.Occupied=false;
+	            stateChanged();
 	        }   
 	    }
-	    stateChanged();
+	    
 	}
 	
 	
@@ -107,8 +127,11 @@ public class BankManager extends Agent {
 	protected boolean pickAndExecuteAnAction() {
 		for(myTeller mt:tellers){
 			if(!mt.Occupied && !teller_bankCustomers.isEmpty()){
-				assignTeller(mt);
-				return true;
+				
+					assignTeller(mt);
+					return true;	
+				
+				
 			}
 		}
 		
@@ -129,13 +152,17 @@ public class BankManager extends Agent {
 	
 	private void assignTeller(myTeller mt){
 	Do("assigning teller");
-	    teller_bankCustomers.get(0).msgGoToTeller(mt.t, mt.tellernumber);
+	    teller_bankCustomers.get(0).bc.msgGoToTeller(mt.t, mt.tellernumber);
+	    mt.bc=teller_bankCustomers.get(0).bc;
 	    mt.Occupied=true;
+	    teller_bankCustomers.remove(0);
 	}
 	private void assignBanker(myBanker mb){
 		Do("Assigning banker");
-	    banker_bankCustomers.get(0).msgGoToBanker(mb.b, mb.bankernumber);
+	    banker_bankCustomers.get(0).bc.msgGoToBanker(mb.b, mb.bankernumber);
+	    mb.bc=banker_bankCustomers.get(0).bc;
 	    mb.Occupied=true;
+	    banker_bankCustomers.remove(0);
 	}
 
 

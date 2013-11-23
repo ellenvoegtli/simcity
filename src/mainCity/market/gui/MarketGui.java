@@ -23,10 +23,7 @@ import java.io.File;
 public class MarketGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
-     */
-	
-	//JFrame animationFrame = new JFrame("Restaurant Animation");
-	
+     */	
 	AnimationPanel animationPanel = new AnimationPanel();
 	
     /* marketPanel holds 2 panels

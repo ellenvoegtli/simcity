@@ -1,6 +1,9 @@
 package mainCity.bank;
 
+import java.util.concurrent.Semaphore;
+
 import mainCity.PersonAgent;
+import mainCity.bank.gui.BankCustomerGui;
 import agent.Agent;
 
 public class BankCustomer extends Agent {
@@ -14,7 +17,14 @@ public class BankCustomer extends Agent {
 	//customer should know how much money he has beforehand
 	private double myaccountnumber;
 	private double bankbalance;
-	//double mymoney;
+	private BankCustomerGui custGui;
+	
+	private Semaphore atHome = new Semaphore(0,false);
+	private Semaphore atWaiting = new Semaphore(0,false);
+	private Semaphore atTeller = new Semaphore(0, false);
+	private Semaphore atBanker = new Semaphore(0,false);
+	
+	
 	//will be used for all transactions, loan requests, etc
 	private int amount;
 	
@@ -22,7 +32,7 @@ public class BankCustomer extends Agent {
 
 	BankCustomerTransactionState tstate=BankCustomerTransactionState.none;
 	
-	public enum BankCustomerState{ none,waitingInBank, atTeller, atBanker, assignedTeller, assignedBanker, goingToTeller, goingToBanker, talking, leaving, done
+	public enum BankCustomerState{ none,waitingInBank, atTeller, atBanker, assignedTeller, assignedBanker, goingToTeller, goingToBanker, talking, done, leaving,left
 	}
 	
 	BankCustomerState bcstate=BankCustomerState.none;
@@ -48,6 +58,32 @@ public class BankCustomer extends Agent {
 	}
 
 //Messages
+	
+	public void msgAtTeller() {
+		atTeller.release();
+		bcstate=BankCustomerState.atTeller;
+		stateChanged();
+		
+	}
+	
+	public void msgAtBanker(){
+		Do("arrived at banker");
+		atBanker.release();
+		bcstate=BankCustomerState.atBanker;
+		stateChanged();
+	}
+	public void msgAtWaiting(){
+		//Do("arrived at waiting");
+		atWaiting.release();
+		stateChanged();
+	}
+	public void msgLeftBank(){
+		//Do("finished leaving bank");
+		atHome.release();
+		bcstate=BankCustomerState.left;
+		stateChanged();
+		
+	}
 	
 	public void msgNeedLoan(){
 		Do("Recieved message need loan");
@@ -127,12 +163,14 @@ public void msgLoanDenied(double loanamount){
 	protected boolean pickAndExecuteAnAction() {
 		if(bcstate==BankCustomerState.none && tstate==BankCustomerTransactionState.wantToDeposit){
 			bcstate=BankCustomerState.waitingInBank;
+			
 			tellBankManagerDeposit();	
 			return true;
 		}
 		
 		if(bcstate==BankCustomerState.none && tstate==BankCustomerTransactionState.wantToWithdraw){
 			bcstate=BankCustomerState.waitingInBank;
+			
 			tellBankManagerWithdraw();	
 			return true;
 		}
@@ -151,14 +189,14 @@ public void msgLoanDenied(double loanamount){
 		
 		if(bcstate==BankCustomerState.assignedTeller){
 			//TODO Gui setup, temporarily bypassing
-			bcstate=BankCustomerState.atTeller;
-			//doGoToTeller();	
+			bcstate=BankCustomerState.goingToTeller;
+			doGoToTeller();	
 			return true;
 		}
 		if(bcstate==BankCustomerState.assignedBanker){
 			//TODO Gui setup, temporarily bypassing
-			bcstate=BankCustomerState.atBanker;
-			//doGoToBanker();	
+			bcstate=BankCustomerState.goingToBanker;
+			doGoToBanker();	
 			return true;
 		}
 		
@@ -199,8 +237,8 @@ public void msgLoanDenied(double loanamount){
 			Do("leaving");
 			Do("New account balance is " + bankbalance);
 			Do("current cash balance is " + p.getCash());
-			//TODO leaving gui
-			//doLeaveBank();
+			
+			doLeaveBank();
 		}
 			
 			
@@ -214,7 +252,64 @@ public void msgLoanDenied(double loanamount){
 	
 //Actions
 	
+	private void doLeaveBank() {
+		custGui.DoLeaveBank();
+		bm.msgImLeaving(this);
+		try {
+			atHome.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	/*////////////////////////GUI ACTIONS  //////////////////////////////////////*/
+	private void doGoToWaiting(){
+		custGui.doGoToWaitingArea();
+		try {
+			atWaiting.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private void doGoToTeller(){
+		if (tellernumber==0){
+			custGui.doGoToTeller1();
+			try {
+				atTeller.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if(tellernumber==1){
+			custGui.doGoToTeller2();
+			try {
+				atTeller.acquire();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private void doGoToBanker(){
+		custGui.doGoToBanker();
+		try {
+			atBanker.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+/*////////////////////NON GUI ACTIONS////////////////////////////////////////*/	
 	private void tellBankManagerDeposit(){
+		doGoToWaiting();
 		Do("Telling Bank manager i want to deposit");
 	    bm.msgIWantToDeposit(this);
 
@@ -222,18 +317,21 @@ public void msgLoanDenied(double loanamount){
 	}
 
 	private void tellBankManagerWithdraw(){
+		doGoToWaiting();
 		Do("Telling Bank manager i want to withdraw");
 	    bm.msgIWantToWithdraw(this);
 
 	}
 	
 	private void tellBankManagerNewAccount(){
+		doGoToWaiting();
 		Do("Telling Bank Manager i want new account");
 		bm.msgIWantNewAccount(this);
 		
 	}
-
+	
 	private void tellBankManagerLoan(){
+		doGoToWaiting();
 		Do("Telling bank manager want loan");
 		bm.msgIWantALoan(this);
 	}
@@ -285,10 +383,12 @@ public void msgLoanDenied(double loanamount){
 		this.bankbalance = bankbalance;
 	}
 
-	public void msgAtTeller() {
-		// TODO Auto-generated method stub
+	public void setGui(BankCustomerGui bcGui) {
+		custGui=bcGui;
 		
 	}
+
+
 
 	
 
