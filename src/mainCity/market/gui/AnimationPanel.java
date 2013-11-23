@@ -19,14 +19,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
     
     static final int agentWidth = 20, agentHeight = 20;
     static final int stationWidth = 50, stationHeight = 17;
-    static final int cashierWidth = 25, cashierHeight = 50;
-    static final int deliveryWidth = 25, deliveryHeight = 50;
+    static final int cashierWidth = 20, cashierHeight = 50;
+    static final int deliveryWidth = 20, deliveryHeight = 50;
     static final int stockRoomWidth = 25, stockRoomHeight = 50;
     
     static final int originX = 0, originY = 0;
     static final int deliveryX = WINDOWX - deliveryWidth, deliveryY = WINDOWY/2 + 2*deliveryHeight;
     static final int cashierX = 0, cashierY = 250;
-    static final int stockRoomX = WINDOWX/2, stockRoomY = WINDOWY - stockRoomWidth;
+    static final int stockRoomX = stockRoomWidth*2, stockRoomY = WINDOWY - stockRoomWidth;
     
     
     

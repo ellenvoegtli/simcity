@@ -5,6 +5,9 @@ import agent.Agent;
 
 import java.util.*;
 
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
+
 
  // Restaurant Cook Agent
 
@@ -47,21 +50,24 @@ public class MarketCashierRole extends Agent{
 	public void msgComputeBill(Map<String, Integer> inventory, MarketCustomerRole c, MarketEmployeeRole e){
 		bills.add(new Bill(inventory, c, BillState.computing, e));
 		
-		print(e.getName() + ", received msgComputeBill for " + c.getName());
+		//print(e.getName() + ", received msgComputeBill for " + c.getName());
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), e.getName() + ", received msgComputeBill for " + c.getName());
 		stateChanged();
 	}
 	
 	//business
 	public void msgComputeBill(Map<String, Integer> inventory, String name, MarketEmployeeRole e){
-		print("Received msgComputeBill for " + name);
+		//print("Received msgComputeBill for " + name);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgComputeBill for " + name);
 		
 		bills.add(new Bill(inventory, name, BillState.computing, e));
 		stateChanged();
 	}
 	
 	public void msgHereIsPayment(double amount, MarketCustomerRole cust){
-		print("Received msgHereIsPayment: got $" + amount);
-		
+		//print("Received msgHereIsPayment: got $" + amount);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsPayment: got $" + amount);
+
 		Bill b = null;
 		synchronized(bills){
 			for (Bill thisB : bills){	
@@ -111,8 +117,9 @@ public class MarketCashierRole extends Agent{
 	// Actions
 	
 	public void ComputeBill(final Bill b){
-		print("Computing bill");
-		
+		//print("Computing bill");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Computing bill");
+
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
 			b.amountCharged += marketMenu.getPrice(entry.getKey()) * entry.getValue();
 		}
@@ -125,8 +132,9 @@ public class MarketCashierRole extends Agent{
 	}
 	
 	public void CalculateChange(Bill b){
-		print("Calculating change");
-		
+		//print("Calculating change");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Calculating change");
+
 		//check to make sure payment is large enough
 		if (b.amountPaid >= b.amountCharged){
 			b.c.msgHereIsYourChange((b.amountPaid - b.amountCharged), b.amountCharged);
@@ -142,7 +150,6 @@ public class MarketCashierRole extends Agent{
 	
 
 	private class Bill {
-		//List<OrderItem> itemsBought;
 		Map<String, Integer> itemsBought = new TreeMap<String, Integer>();
 		double amountCharged;
 		double amountPaid;

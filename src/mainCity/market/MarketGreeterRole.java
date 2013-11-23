@@ -2,14 +2,14 @@ package mainCity.market;
 
 import agent.Agent;
 import mainCity.market.*;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 //import restaurant.gui.HostGui;
 import mainCity.interfaces.*;
 
-//import restaurant.interfaces.*;
-
-
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
 import role.Role;
 
 /**
@@ -60,14 +60,16 @@ public class MarketGreeterRole extends Agent {
 	
 	//from customers
 	public void msgINeedInventory(MarketCustomerRole c, int x, int y){
-		print("Received msgINeedInventory");
-		waitingCustomers.add(new MyWaitingCustomer(c, x, y));
+		//print("Received msgINeedInventory");
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgINeedInventory from " + c.getName());
+        waitingCustomers.add(new MyWaitingCustomer(c, x, y));
 		stateChanged();
 	}
 	
 	//from businesses
 	public void msgINeedInventory(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer> inventoryNeeded){
-		print("Received msgINeedInventory from " + restaurantName);
+		//print("Received msgINeedInventory from " + restaurantName);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgINeedInventory from " + restaurantName);
 		waitingBusinesses.add(new MyWaitingBusiness(restaurantName, cook, cashier, inventoryNeeded));
 		stateChanged();
 	}
@@ -124,14 +126,14 @@ public class MarketGreeterRole extends Agent {
 	// Actions
 
 	private void assignCustomerToEmployee(MyWaitingCustomer cust, MyEmployee me) {
-		print("Assigning " + cust.c.getName() + " to " + me.e.getName());
-		
+		//print("Assigning " + cust.c.getName() + " to " + me.e.getName());
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Assigning " + cust.c.getName() + " to " + me.e.getName());
+
 		me.e.msgAssignedToCustomer(cust.c, cust.waitingPosX, cust.waitingPosY);
-		//cust.c.msgAssignedToEmployee(me.e, me.homeX, me.homeY);
 		waitingCustomers.remove(cust);
 	}
 	private void assignBusinessToEmployee(MyWaitingBusiness business, MyEmployee e){
-		/*print("Assigning " + business.r.getName() + " to " + e.getName());*/
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Assigning " + business.restaurantName + " to " + e.e.getName());
 		
 		e.e.msgAssignedToBusiness(business.restaurantName, business.cook, business.cashier, business.inventory);
 		waitingBusinesses.remove(business);

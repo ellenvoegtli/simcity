@@ -32,7 +32,7 @@ public class EmployeeGui implements Gui {
     private int cashierX = 20, cashierY = 250;
     private int waitingRoomX;
     private int waitingRoomY;
-    static final int stockRoomX = WINDOWX/2, stockRoomY = WINDOWY - stockRoomWidth;
+    static final int stockRoomX = stockRoomWidth*2, stockRoomY = WINDOWY +50;
     
 	Map<Integer, Integer> stationX = new TreeMap<Integer, Integer>();
 	Map<Integer, Integer> stationY = new TreeMap<Integer, Integer>();

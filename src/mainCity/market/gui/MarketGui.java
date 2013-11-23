@@ -21,7 +21,6 @@ import java.io.File;
  * Contains the main frame and subsequent panels
  */
 public class MarketGui extends JFrame implements ActionListener {
-	TracePanel tracePanel;
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
@@ -46,15 +45,6 @@ public class MarketGui extends JFrame implements ActionListener {
 
     JTextField enterCustomerField;
     JButton newAddButton = new JButton("Add");
-    
-    private JPanel controlPanel = new JPanel();
-    private JButton marketCustTagButton;
-    private JButton marketEmpTagButton;
-    private JButton messagesButton;
-    
-    private boolean showCustTags = true;
-    private boolean showEmpTags = true;
-    private boolean showMessages = true;
 
 
 
@@ -66,19 +56,6 @@ public class MarketGui extends JFrame implements ActionListener {
      * Sets up all the gui components.
      */
     public MarketGui() {
-        this.tracePanel = new TracePanel();
-        tracePanel.setPreferredSize(new Dimension(800, 300));
-        tracePanel.showAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel.showAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
-        tracePanel.hideAlertsWithLevel(AlertLevel.DEBUG);
-        //tracePanel.showAlertsWithTag(AlertTag.PERSON);
-        tracePanel.showAlertsWithTag(AlertTag.MARKET_CUSTOMER);   	//as default, hide everything     
-        tracePanel.showAlertsWithTag(AlertTag.MARKET_EMPLOYEE);        
-
-        AlertLog.getInstance().addAlertListener(tracePanel);
-    	
-
         int WINDOWX = 550;
         int WINDOWY = 350;
         
@@ -138,76 +115,6 @@ public class MarketGui extends JFrame implements ActionListener {
 
         
         add(animationPanel);
-        
-        
-     
-        marketCustTagButton = new JButton("Hide tag: MARKET_CUSTOMER");
-        marketEmpTagButton = new JButton("Hide tag: MARKET_EMPLOYEE");
-        messagesButton = new JButton("Hide level: MESSAGE");
-        
-        marketCustTagButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	if (!showCustTags){
-                    //============================ TUTORIAL ==========================================
-                    //This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
-                    tracePanel.showAlertsWithTag(AlertTag.MARKET_CUSTOMER);
-                    //================================================================================
-                    marketCustTagButton.setText("Hide tag: MARKET_CUSTOMER");
-                    showCustTags = true;
-            	}
-            	else{
-            		tracePanel.hideAlertsWithTag(AlertTag.MARKET_CUSTOMER);
-            		marketCustTagButton.setText("Show tag: MARKET_CUSTOMER");
-            		showCustTags = false;
-            	}
-            }
-	    });
-        marketEmpTagButton.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	if (!showEmpTags){
-	                    //============================ TUTORIAL ==========================================
-	                    //This is how you make messages with a certain Level not show up in the trace panel.
-	                    tracePanel.showAlertsWithTag(AlertTag.MARKET_EMPLOYEE);
-	                    //================================================================================
-	                    marketEmpTagButton.setText("Hide tag: MARKET_EMPLOYEE");
-	                    showEmpTags = true;
-	            	}
-	            	else{
-	            		tracePanel.hideAlertsWithTag(AlertTag.MARKET_EMPLOYEE);
-	            		marketEmpTagButton.setText("Show tag: MARKET_EMPLOYEE");
-	            		showEmpTags = false;
-	            	}
-	            }
-	    });
-        messagesButton.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	            	if (!showMessages){
-	                    //============================ TUTORIAL ==========================================
-	                    //This is how you make messages with a level of ERROR show up in the trace panel.
-	                    tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
-	                    messagesButton.setText("Hide level: MESSAGES");
-	                    showMessages = true;
-	                    //================================================================================
-	            	}
-	            	else{
-	            		tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
-	            		messagesButton.setText("Show level: MESSAGES");
-	            		showMessages = false;
-	            	}
-	            }
-	    });
-	   
-        
-	    controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
-	    controlPanel.add(marketCustTagButton);
-	    controlPanel.add(marketEmpTagButton);
-	    controlPanel.add(messagesButton);
-	    controlPanel.setMinimumSize(new Dimension(50, 600));
-        
-        this.add(controlPanel);
         
     }
 

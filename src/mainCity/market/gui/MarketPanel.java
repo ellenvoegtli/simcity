@@ -213,7 +213,6 @@ public class MarketPanel extends JPanel implements ActionListener{
     	else if (type.equals("Employees")){
     		MarketEmployeeRole e = new MarketEmployeeRole(name);
     		EmployeeGui g = new EmployeeGui(e, gui);
-    		System.out.println("Creating new employee");
     		
     		gui.animationPanel.addGui(g);
     		e.setHost(host);
