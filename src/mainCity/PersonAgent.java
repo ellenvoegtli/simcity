@@ -10,7 +10,10 @@ import java.util.concurrent.Semaphore;
 import mainCity.contactList.ContactList;
 import mainCity.gui.PersonGui;
 import mainCity.restaurants.EllenRestaurant.*;
+import mainCity.restaurants.enaRestaurant.EnaCashierRole;
+import mainCity.restaurants.enaRestaurant.EnaCookRole;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
+import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
 
@@ -112,7 +115,6 @@ public class PersonAgent extends Agent {
 
 	//A message received from the HomeAgent or GUI (possibly?) to go to the market
 	public void msgGoToMarket() {
-		print ("going to the market''''''''''''''");
 		actions.add(new Action(ActionType.market, 3));
 		stateChanged();
 	}
@@ -388,8 +390,23 @@ public class PersonAgent extends Agent {
 						//-----Ena Restaurant Roles---//
 						case "enaWaiter":
 							EnaWaiterRole en = new EnaWaiterRole(this, name);
-							ContactList.getInstance().getEnaRestaurant().handleRoleGui(en);
+							ContactList.getInstance().getEnaRestaurant().handleRole(en);
 							roles.put(action, en);
+							break;
+						case "enaCook":
+							EnaCookRole eco = new EnaCookRole(this, name);
+							ContactList.getInstance().getEnaRestaurant().handleRole(eco);
+							roles.put(action, eco);
+							break;
+						case "enaCashier":
+							EnaCashierRole eca = new EnaCashierRole(this, name);
+							ContactList.getInstance().getEnaRestaurant().handleRole(eca);
+							roles.put(action, eca);
+							break;
+						case "enaHost":
+							EnaHostRole eh = new EnaHostRole(this, name);
+							ContactList.getInstance().getEnaRestaurant().handleRole(eh);
+							roles.put(action, eh);
 							break;
 							
 						//-----Ellen Restaurant Roles---//
@@ -431,7 +448,7 @@ public class PersonAgent extends Agent {
 							break;
 						case restaurant_ena:
 							EnaCustomerRole en = new EnaCustomerRole(this, name);
-							ContactList.getInstance().getEnaRestaurant().handleRoleGui(en);
+							ContactList.getInstance().getEnaRestaurant().handleRole(en);
 							roles.put(action, en);
 							break;
 						case restaurant_jefferson:

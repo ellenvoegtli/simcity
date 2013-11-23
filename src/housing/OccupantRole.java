@@ -300,9 +300,7 @@ public void goToStore()
 	print("Going To the store to buy groceries");
 	gui.DoLeave();
 	super.setInactive();
-	print("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
 	person.msgGoToMarket();
-	print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 	
 	sState = shoppingState.shopping;
 }
