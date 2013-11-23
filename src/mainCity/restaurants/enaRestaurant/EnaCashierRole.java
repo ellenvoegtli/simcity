@@ -23,6 +23,7 @@ public class EnaCashierRole extends Role implements Cashier{
 		public List<MarketTab> marketChecks = Collections.synchronizedList(new ArrayList<MarketTab>());
 		public double restCash;
 		public double marketBill;
+		private EnaHostRole host;
 		public EventLog log = new EventLog();
 		private String name;
 		public enum payStatus 
@@ -321,6 +322,12 @@ public boolean pickAndExecuteAnAction()
 			}
 			
 			
+	}
+
+
+	public void setHost(EnaHostRole host) 
+	{
+		this.host = host;		
 	}
 
 

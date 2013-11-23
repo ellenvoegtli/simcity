@@ -25,7 +25,8 @@ public class EnaHostRole extends Role {
 	//with List semantics.
 	public List<EnaCustomerRole> waitingCustomers = Collections.synchronizedList(new ArrayList<EnaCustomerRole>());
 	public List<EnaCustomerRole> waitingLine = Collections.synchronizedList(new ArrayList<EnaCustomerRole>());
-
+	private EnaCookRole cook;
+	private EnaCashierRole cashier;
 	public List<EnaWaiterRole> waiters = Collections.synchronizedList(new ArrayList<EnaWaiterRole>());
 	public boolean OnBreak = false;
 	public static Collection<Table> tables;
@@ -286,6 +287,16 @@ public void WaiterBreak(final EnaWaiterRole  waiter)
 		{
 			return tableNumber;
 		}
+	}
+
+	public void setCook(EnaCookRole cook) 
+	{
+		this.cook = cook;
+	}
+
+	public void setCashier(EnaCashierRole cashier) 
+	{
+		this.cashier = cashier;		
 	}
 
 	

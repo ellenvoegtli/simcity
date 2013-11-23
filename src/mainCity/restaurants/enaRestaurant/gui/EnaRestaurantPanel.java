@@ -201,17 +201,28 @@ public class EnaRestaurantPanel extends JPanel
     			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
     			a.setStand(stand);
     		}*/
-            host.addWaiterRole(w);
-            int pos = 22* host.waiters.size();
-    		EnaWaiterGui g = new EnaWaiterGui(w, gui, pos);
+           // host.addWaiterRole(w);
+           // int pos = 22* host.waiters.size();
+    		//EnaWaiterGui g = new EnaWaiterGui(w, gui, pos);
         	
     		
     		w.setHost(host);
-    		w.setGui(g);
+    		//w.setGui(g);
             w.setCook(cook);
             w.setCashier(cashier);
+            
+            if(host != null)
+            {
+            	host.addWaiterRole(w);
+                int pos = 22* host.waiters.size();
+        		EnaWaiterGui g = new EnaWaiterGui(w, gui, pos);
+        		w.setGui(g);
+        		gui.animationPanel.addGui(g);
+
+
+            }
             waiters.add(w);
-    		gui.animationPanel.addGui(g);
+    		//gui.animationPanel.addGui(g);
     		System.out.println("Waiter has been added to the restaturant");
 
     		
@@ -232,6 +243,7 @@ public class EnaRestaurantPanel extends JPanel
 	
 			gui.animationPanel.addGui(g);
 			c.setHost(host);
+			c.getGui().setHungry();
 			c.setCashier(cashier);
 			c.setGui(g);
 			
@@ -251,7 +263,13 @@ public class EnaRestaurantPanel extends JPanel
     		{
     			c.setHost(host);
     		}
+    		host.setCook(cook);
+    		host.setCashier(cashier);
     		
+    		if(cashier != null)
+    		{
+    			cashier.setHost(host);
+    		}
     		EnaHostGui g = new EnaHostGui(host);
 			gui.animationPanel.addGui(g);
 			host.setGui(g);
@@ -267,6 +285,11 @@ public class EnaRestaurantPanel extends JPanel
     		for(EnaCustomerRole c : customers) {
     			c.setCashier(cashier);
     		}
+    		if(host != null)
+    		{
+    			host.setCashier(cashier);
+    			cashier.setHost(host);
+    		}
 			
     	}
     	
@@ -278,11 +301,15 @@ public class EnaRestaurantPanel extends JPanel
     		gui.animationPanel.addGui(cookGui);
             cook.setGui(cookGui);
             cook.setCashier(cashier);
-            
-            for(EnaWaiterRole w : waiters) 
+            if(host != null)
             {
-    			w.setCook(cook);
-    		}
+            	host.setCook(cook);
+            }
+            	for(EnaWaiterRole w : waiters) 
+            	{
+            		w.setCook(cook);
+            	}
+            
     	}
     }
     
