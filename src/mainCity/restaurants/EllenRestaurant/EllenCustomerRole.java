@@ -1,6 +1,8 @@
 package mainCity.restaurants.EllenRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
@@ -90,13 +92,15 @@ public class EllenCustomerRole extends Role implements Customer{
 	// Messages
 
 	public void gotHungry() {//from animation
-		print("I'm hungry");
+		//print("I'm hungry");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "I'm hungry");
 		event = AgentEvent.gotHungry;
 		stateChanged();
 	}
 	
 	public void msgRestaurantFull(){
-		print("Received msg RestaurantFull");
+		//print("Received msg RestaurantFull");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg RestaurantFull");
 		event = AgentEvent.toldTablesAreFull;
 		stateChanged();
 	}
@@ -106,7 +110,8 @@ public class EllenCustomerRole extends Role implements Customer{
 		this.menu = menu;
 		this.tableNum = tablenum;
 		
-		print("Received msgFollowMe");
+		//print("Received msgFollowMe");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgFollowMe");
 		event = AgentEvent.followWaiter;
 		stateChanged();
 	}
@@ -122,7 +127,8 @@ public class EllenCustomerRole extends Role implements Customer{
 	}
 	
 	public void msgOutOfFoodPleaseReorder(EllenMenu menu){
-		print("Received msg OutOfFood, getting new menu");
+		//print("Received msg OutOfFood, getting new menu");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg OutOfFood, getting new menu");
 		event = AgentEvent.seated;
 		this.NFOODITEMS = menu.menuItems.size();
 		this.menu = menu;
@@ -131,21 +137,24 @@ public class EllenCustomerRole extends Role implements Customer{
 
 	
 	public void msgHereIsCheck(int amount){		//from waiter
-		print("Received msg HereIsCheck: $" + amount);
+		//print("Received msg HereIsCheck: $" + amount);
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg HereIsCheck: $" + amount);
 		checkAmount = amount;
 		event = AgentEvent.gotCheck;
 		stateChanged();
 	}
 	
 	public void msgHereIsChange(int cashChange){		//from CashierAgent
-		print("Received msg HereIsChange: $" + cashChange);
+		//print("Received msg HereIsChange: $" + cashChange);
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg HereIsChange: $" + cashChange);
 		myCash = cashChange;
 		event = AgentEvent.gotChange;
 		stateChanged();
 	}
 	
 	public void msgNotEnoughCash(int cashOwed){
-		print("Received msg NotEnoughCash: I owe $" + cashOwed);
+		//print("Received msg NotEnoughCash: I owe $" + cashOwed);
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg NotEnoughCash: I owe $" + cashOwed);
 		this.cashOwed += cashOwed;
 		event = AgentEvent.assignedPunishment;
 		stateChanged();
@@ -213,6 +222,7 @@ public class EllenCustomerRole extends Role implements Customer{
 			return true;
 		}
 		if (state == AgentState.Eating && event == AgentEvent.doneEating){
+			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Done eating");
 			state = AgentState.WaitingForCheck;
 			requestCheck();
 			return true;
@@ -252,14 +262,15 @@ public class EllenCustomerRole extends Role implements Customer{
 	// Actions
 
 	private void goToRestaurant() {
-		Do("Going to restaurant");
+		//Do("Going to restaurant");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Going to restaurant");
 		customerGui.DoGoToWaitingArea();
-		//host.msgIWantFood(this);	//send our instance, so he can respond to us
 		host.msgIWantFood(this, this.getGui().getWaitingPosX(), this.getGui().getWaitingPosY());
 	}
 	
 	private void DecideStayOrLeave(){
-		Do("Deciding whether to stay or leave.");
+		//Do("Deciding whether to stay or leave.");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Deciding whether to stay or leave.");
 		if (name.equalsIgnoreCase("stay")){
 			host.msgIWillStay(this);
 			state = AgentState.WaitingInRestaurant;
@@ -291,7 +302,8 @@ public class EllenCustomerRole extends Role implements Customer{
 	}
 
 	private void SitDown(int tableNum) {
-		Do("Being seated. Going to table");
+		//Do("Being seated. Going to table");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Being seated. Going to table");
 		customerGui.DoGoToSeat(tableNum);		//animation call
 	}
 	
@@ -303,7 +315,8 @@ public class EllenCustomerRole extends Role implements Customer{
 						z++;
 					}
 					if (z == menu.menuItems.size()){
-						print("All food is too expensive.");
+						//print("All food is too expensive.");
+						AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "All food is too expensive.");
 						leaveTable();
 						return;
 					}
@@ -314,27 +327,25 @@ public class EllenCustomerRole extends Role implements Customer{
 		if (this.getName().equalsIgnoreCase("flake")){
 			choice = "steak";
 		}
-		
 		//HACKS for testing inventory of each food on menu
 		else if (this.getName().equalsIgnoreCase("steak")){
 			choice = menu.menuItems.get(0);
-			print("I am choosing " + choice);
 		}
 		else if (this.getName().equalsIgnoreCase("pasta")){
 			this.choice = menu.menuItems.get(1);
-			print("I am choosing " + this.choice);
 		}
 		else if (this.getName().equalsIgnoreCase("pizza")){
 			this.choice = menu.menuItems.get(2);
-			print("I am choosing " + this.choice);
 		}
+
 		else if (this.getName().equalsIgnoreCase("soup")){
 			try {
 				this.choice = menu.menuItems.get(3);
 			}
 			catch (Exception e){
 				if (menu.getPrice("soup") > myCash){
-					print("All food is too expensive.");
+					//print("All food is too expensive.");
+					AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "All food is too expensive.");
 					leaveTable();
 					return;
 				}
@@ -344,31 +355,9 @@ public class EllenCustomerRole extends Role implements Customer{
 					do {		
 						n = rand.nextInt(NFOODITEMS);
 						choice = menu.menuItems.get(n);
-						//print("Choosing " + menu.menuItems.get(n));
 					} while (myCash < menu.getPrice(menu.menuItems.get(n)));
 				}
 			}
-				/*
-			if (menu.menuItems.get(3) == null){
-				if (menu.getPrice("soup") > myCash){
-					print("All food is too expensive.");
-					leaveTable();
-					return;
-				}
-				else {
-					Random rand = new Random();
-					int n = rand.nextInt(NFOODITEMS);
-					do {		
-						n = rand.nextInt(NFOODITEMS);
-						choice = menu.menuItems.get(n);
-						//print("Choosing " + menu.menuItems.get(n));
-					} while (myCash < menu.getPrice(menu.menuItems.get(n)));
-				}
-			}
-			else
-				this.choice = menu.menuItems.get(3);
-			*/
-			print("I am choosing " + this.choice);
 		}
 		//NORM scenario: randomly picks choice
 		else {
@@ -377,16 +366,13 @@ public class EllenCustomerRole extends Role implements Customer{
 			do {		
 				n = rand.nextInt(NFOODITEMS);
 				choice = menu.menuItems.get(n);
-				//print("Choosing " + menu.menuItems.get(n));
 			} while (myCash < menu.getPrice(menu.menuItems.get(n)));
-			
-			print("I am choosing " + menu.menuItems.get(n));
 		}
 
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "I am choosing " + choice);
+
 		timer.schedule(new TimerTask() {
-			Object cookie = 1;
 			public void run() {
-				print("Done deciding, cookie=" + cookie);
 				event = AgentEvent.doneDeciding;
 				stateChanged();
 			}
@@ -399,7 +385,8 @@ public class EllenCustomerRole extends Role implements Customer{
 	}
 	
 	private void sendChoice(String choice, Waiter waiter){
-		print(waiter.getName() + ", here is my choice: " + choice);
+		//print(waiter.getName() + ", here is my choice: " + choice);
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), waiter.getName() + ", here is my choice: " + choice);
 		customerGui.DoDrawFood(choice, tableNum);		//sends GUI the choice String and where to draw it
 		customerGui.setOrderedFood(true);				//lets GUI draw choice + "?" text label
 		waiter.msgHereIsChoice(this, choice);
@@ -410,7 +397,8 @@ public class EllenCustomerRole extends Role implements Customer{
 		customerGui.setOrderedFood(false);
 		customerGui.setGotFood(true);			//lets GUI remove "?" on food text label
 
-		Do("Eating Food");
+		//Do("Eating Food");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Eating Food");
 		//This next complicated line creates and starts a timer thread.
 		//We schedule a deadline of getHungerLevel()*1000 milliseconds.
 		//When that time elapses, it will call back to the run routine
@@ -420,9 +408,7 @@ public class EllenCustomerRole extends Role implements Customer{
 		//So, we use Java syntactic mechanism to create an
 		//anonymous inner class that has the public method run() in it.
 		timer.schedule(new TimerTask() {
-			Object cookie = 1;
 			public void run() {
-				print("Done eating, cookie=" + cookie);
 				event = AgentEvent.doneEating;
 				stateChanged();
 			}
@@ -441,18 +427,21 @@ public class EllenCustomerRole extends Role implements Customer{
 	}
 	
 	private void payCashier(){
-		print("Paying CashierAgent");
+		//print("Paying cashier");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Paying cashier");
 		cashier.msgHereIsPayment(checkAmount, myCash, this);
 	}
 	
 	private void goDoPunishment(){
 		waiter.msgDoneAndLeaving(this); 	//this will delete the customer from that waiter's myCustomer list
 		customerGui.DoGoToCook();
-		print("Going to do dishes for the rest of eternity.");
+		//print("Going to do dishes for the rest of eternity.");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Going to do dishes for the rest of eternity.");
 	}
 
 	private void leaveTable() {
-		Do("Leaving.");
+		//Do("Leaving.");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Leaving.");
 		waiter.msgDoneAndLeaving(this);
 		customerGui.DoExitRestaurant();
 	}

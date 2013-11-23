@@ -7,14 +7,18 @@ import housing.gui.OccupantGui;
 import agent.Agent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+import mainCity.PersonAgent;
+import role.Role;
 
 
-public class OccupantRole extends Agent
+
+public class OccupantRole extends Role
 {
 	
 //DATA
@@ -39,14 +43,14 @@ public class OccupantRole extends Agent
 	shoppingState sState = shoppingState.nothing;
 	
 	
-	public List<String> needsWork = new ArrayList<String>();
+	public List<String> needsWork = Collections.synchronizedList(new ArrayList<String>());
 	public List<String> needFd = new ArrayList<String>();
 
 	
 	
-public OccupantRole(String person, personHome hm, boolean rent, LandlordRole ownr)
+public OccupantRole(PersonAgent p, String person, personHome hm, boolean rent, LandlordRole ownr)
 {
-	super();
+	super(p);
 	name = person;
 	setHouse(hm);
 	renter = rent;
@@ -70,8 +74,9 @@ public void msgAtDestination()
 }
 	
 	
-public OccupantRole(String string) {
-	super();
+public OccupantRole(PersonAgent p, String string) 
+{
+	super(p);
 	this.name = string;
 }
 
@@ -124,10 +129,10 @@ public void msgCookFood(String foodCh)
 
 	
 //SCHEDULER
-protected boolean pickAndExecuteAnAction()
+public boolean pickAndExecuteAnAction()
 {
 	
-	if(needsWork.size() == 0)
+	/*if(needsWork.size() == 0)
 	{
 		for (Appliance app : home.Appliances)
 		{
@@ -139,31 +144,37 @@ protected boolean pickAndExecuteAnAction()
 		}
 		}
 		return true;
-	}
+	}*/
 
 	if(renter == true)
 	{
 		PayRent();
 		return true;
 	}
-	if(!needsWork.isEmpty())
+	if(needsWork.isEmpty() && fState == fixState.nothing )
+	{
+		checkMaintenance();
+		return true;
+	}
+	if (eState == eatingState.hungry && sState == shoppingState.nothing) 
+	{
+		wantsToEat(meal);
+		return true;
+	}
+	if (sState == shoppingState.needMarket)
+	{
+		print("needs to go to the market");
+		goToStore();
+		return true;
+	}
+	if(!needsWork.isEmpty() && eState == eatingState.cooking)
 	{
 		print("needs to fix appliance");
 		serviceAppliance();	
 		return true;
 	}
 
-	if (eState == eatingState.hungry)
-	{
-		wantsToEat(meal);
-		return true;
-	}
-
-	if (sState == shoppingState.needMarket)
-	{
-		goToStore();
-		return true;
-	}
+	
 	if (sState == shoppingState.shopping)
 	{
 		//do nothing, things put on hold since person has left the house
@@ -193,7 +204,7 @@ protected boolean pickAndExecuteAnAction()
 		return true;
 	}
 
-	if (eState == eatingState.nothing && sState == shoppingState.nothing && fState == fixState.nothing )
+	if (eState == eatingState.nothing && sState == shoppingState.nothing && (fState == fixState.nothing || fState == fixState.fixed) )
 	{
 		GoRest();
 		return true;
@@ -204,6 +215,11 @@ protected boolean pickAndExecuteAnAction()
 	
 //ACTIONS
 	
+private void checkMaintenance() 
+{
+		home.CheckAppliances();
+}
+
 public void PayRent()
 {
 	//timer to run for a reasonable amount of time to make rent due, a "week?"
@@ -211,6 +227,8 @@ public void PayRent()
 }
 public void serviceAppliance()
 {
+	synchronized(needsWork)
+	{
 	for(String app : needsWork)
 	{
 		if(renter == true)
@@ -223,6 +241,7 @@ public void serviceAppliance()
 		}
 		
 		needsWork.remove(app);
+	}
 	}
 	fState = fixState.fixed;
 }
@@ -278,7 +297,13 @@ public void wantsToEat(String mealChoice)
 
 public void goToStore()
 {
-	//person.msgGoToMarket(needFd);???
+	print("Going To the store to buy groceries");
+	gui.DoLeave();
+	super.setInactive();
+	print("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV");
+	person.msgGoToMarket();
+	print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+	
 	sState = shoppingState.shopping;
 }
 

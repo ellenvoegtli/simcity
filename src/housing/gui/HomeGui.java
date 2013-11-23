@@ -181,7 +181,9 @@ AnimationPanel animationPanel = new AnimationPanel();
         }	
     }
     
-   
+   public HomePanel getHomePanel() {
+		return homePanel;
+	}
     /**
      * Main routine to get gui started
      */
@@ -193,6 +195,7 @@ AnimationPanel animationPanel = new AnimationPanel();
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+	
 	
 
 }

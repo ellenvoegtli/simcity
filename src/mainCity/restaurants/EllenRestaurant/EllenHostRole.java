@@ -1,10 +1,11 @@
 package mainCity.restaurants.EllenRestaurant;
 
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import agent.Agent;
-
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -55,7 +56,8 @@ public class EllenHostRole extends Agent {
 	// Messages
 
 	public void msgIWantFood(EllenCustomerRole cust, int waitingX, int waitingY) {	//from customer
-		print("Received msg IWantFood");
+		//print("Received msg IWantFood");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg IWantFood");
 		waitingCustomers.add(new MyWaitingCustomer(cust, waitingX, waitingY));
 		stateChanged();
 	}
@@ -72,7 +74,8 @@ public class EllenHostRole extends Agent {
 		}
 
 		mwc.confirmedToWait = true;
-		print("Received msg IWillStay from " + cust.getName());
+		//print("Received msg IWillStay from " + cust.getName());
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg IWillStay from " + cust.getName());
 		stateChanged();
 	}
 	
@@ -88,7 +91,8 @@ public class EllenHostRole extends Agent {
 		}
 
 		mwc.confirmedToWait = true;
-		print("Received msg IAmLeaving from " + cust.getName());
+		//print("Received msg IAmLeaving from " + cust.getName());
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg IAmLeaving from " + cust.getName());
 		waitingCustomers.remove(mwc);
 	}
 	
@@ -105,7 +109,8 @@ public class EllenHostRole extends Agent {
 		
 		mw.wantsBreak = true;
 		
-		print("Received msg IWantToGoOnBreak");
+		//print("Received msg IWantToGoOnBreak");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg IWantToGoOnBreak");
 		stateChanged();
 	}
 	
@@ -122,12 +127,14 @@ public class EllenHostRole extends Agent {
 		
 		mw.onBreak = false;
 		
-		print("Received msgIWantToComeBack");
+		//print("Received msgIWantToComeBack");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgIWantToComeBack");
 		stateChanged();
 	}
 	
 	public void msgTableFree(int tablenum){		//from waiter
-		print("Received msgTableFree");
+		//print("Received msgTableFree");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgTableFree");
 		synchronized(tables){
 			for (Table table: tables){
 				if (table.tableNumber == tablenum){
@@ -235,7 +242,8 @@ public class EllenHostRole extends Agent {
 	// Actions
 
 	private void assignCustomerToWaiter(MyWaitingCustomer cust, Table table, Waiter w) {
-		print("Assigning " + cust.c.getName() + " to " + w.getName() + " at table " + table.tableNumber);
+		//print("Assigning " + cust.c.getName() + " to " + w.getName() + " at table " + table.tableNumber);
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Assigning " + cust.c.getName() + " to " + w.getName() + " at table " + table.tableNumber);
 		
 		w.msgPleaseSeatCustomer(cust.c, cust.waitingPosX, cust.waitingPosY, table.tableNumber);
 		waitingCustomers.remove(cust);

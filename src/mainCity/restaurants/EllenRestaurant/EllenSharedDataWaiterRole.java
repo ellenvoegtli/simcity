@@ -1,8 +1,9 @@
 package mainCity.restaurants.EllenRestaurant;
 import java.util.concurrent.Semaphore;
+
 import mainCity.PersonAgent;
-
-
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
 
 public class EllenSharedDataWaiterRole extends EllenWaiterRole {
@@ -10,7 +11,8 @@ public class EllenSharedDataWaiterRole extends EllenWaiterRole {
 	
 	public EllenSharedDataWaiterRole(PersonAgent p, String name) {
 		super(p, name);
-		print("Created a shared data waiter");
+		//print("Created a shared data waiter");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Created a shared data waiter");
 	}
 	
 	public void setStand(RevolvingStand s) {
@@ -18,7 +20,8 @@ public class EllenSharedDataWaiterRole extends EllenWaiterRole {
 	}
 
 	protected void sendOrderToCook(MyCustomer mc) {
-		print("Writing down order onto order ticket..");
+		//print("Writing down order onto order ticket..");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Writing down order onto order ticket..");
 		OrderTicket order = new OrderTicket(this, mc.choice, mc.table);
 		
 		waiterGui.DoGoToCook();
@@ -32,7 +35,8 @@ public class EllenSharedDataWaiterRole extends EllenWaiterRole {
 
 		
 		if(!stand.isFull()) {
-			print("Posting order to the board...");
+			//print("Posting order to the board...");
+			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Posting order to the board..");
 			stand.insert(order);
 		}
 		else {

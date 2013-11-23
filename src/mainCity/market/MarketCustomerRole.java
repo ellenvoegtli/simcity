@@ -32,8 +32,8 @@ public class MarketCustomerRole extends Agent{
 	private int stationY;
 	
 	//private int checkAmount;
-	private int myCash;
-	private int cashOwed = 0;
+	private double myCash;
+	private double cashOwed = 0;
 	String deliveryMethod;
 	//List<OrderItem> inventoryToOrder;
 	Map<String, Integer> inventoryToOrder;
@@ -50,8 +50,10 @@ public class MarketCustomerRole extends Agent{
 	
 	public enum AgentEvent 
 	{none, toldToGetInventory, toldToWaitForEmployee, followEmployee, atStation, askedForOrder, gotOrderAndBill, 
-		atCashierAgent, gotChange, doneLeaving};
+		atCashierAgent, gotNewBill, gotChange, doneLeaving};
 	AgentEvent event = AgentEvent.none;
+	
+	private boolean IOweMarket = false;
 
 	
 	/**
@@ -91,7 +93,7 @@ public class MarketCustomerRole extends Agent{
 		return name;
 	}
 	
-	public int getMyCash(){
+	public double getMyCash(){
 		return myCash;
 	}
 	// Messages
@@ -143,19 +145,38 @@ public class MarketCustomerRole extends Agent{
         AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsYourChange: $" + amountChange);
 
 		bill.changeReceived = amountChange;
-		
 		event = AgentEvent.gotChange;
 		stateChanged();
 	}
 	
-	//need to modify********
+
 	public void msgNotEnoughCash(double cashOwed){
 		//print("Received msg NotEnoughCash: I owe $" + cashOwed);
         AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msg NotEnoughCash: I owe $" + cashOwed);
 
-		this.cashOwed += cashOwed;
-		//event = AgentEvent.assignedPunishment;
+		this.cashOwed = cashOwed;
+		myCash += 100;
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Now have in cash: $" + myCash);
+		IOweMarket = true;
+		event = AgentEvent.gotChange;		//essentially
 		stateChanged();
+	}
+	
+	public void msgHereIsBill(double amount){		//from cashier, who recalculated bill and now sends a lower one
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsBill");
+        
+        bill.charge = amount;
+        event = AgentEvent.gotNewBill;
+        stateChanged();
+	}
+	
+	public void msgHereIsFinalBill(double amount){
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsBill");
+
+        bill.charge = amount;
+        bill.nonNegotiable = true;
+        event = AgentEvent.gotNewBill;
+        stateChanged();
 	}
 	
 	//Messages from animation
@@ -210,8 +231,13 @@ public class MarketCustomerRole extends Agent{
 			PayBill();		//verifies bill first
 			return true;
 		}
+		if (state == AgentState.Paying && event == AgentEvent.gotNewBill){		//new, cheaper, recalculated bill OR non-negotiable bill
+			state = AgentState.Paying;
+			PayBill();	//verifies bill again
+			return true;
+		}
 		if (state == AgentState.Paying && event == AgentEvent.gotChange){
-			state = AgentState.Leaving;
+			//state = AgentState.Leaving;		//not necessarily
 			LeaveMarket();	//verifies change first
 			return true;
 		}
@@ -252,36 +278,104 @@ public class MarketCustomerRole extends Agent{
 		customerGui.DoGoToCashier();
 	}
 	
-	private void PayBill(){		
-		double expected = 0;
-
-		for (Map.Entry<String, Integer> entry : bill.inventoryFulfilled.entrySet()){
-			expected += marketMenu.getPrice(entry.getKey())*entry.getValue();	//price of each item * # that was fulfilled
+	private void PayBill(){	
+		if (IOweMarket){
+			if (myCash >= cashOwed){
+				cashier.msgHereIsMoneyIOwe(this, cashOwed);
+				myCash -= cashOwed;
+				cashOwed = 0;
+				IOweMarket = false;
+			} else {
+				AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Still can't pay everything I owe.");
+				//...
+			}
 		}
-		if (expected == bill.charge){
+		
+		
+		if (bill.nonNegotiable){		//don't verify again. Non-norm: sue restaurant later?
 			if (myCash >= bill.charge){
-		        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Paying: $" + bill.charge);
+				AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Paying: $" + bill.charge);
 				cashier.msgHereIsPayment(bill.charge, this);
 				myCash -= bill.charge;
 				bill.amountPaid = bill.charge;
 				return;
 			}
-			//else?
+			else {
+				AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "I don't have enough money to pay full bill.");
+				cashier.msgHereIsPayment(myCash, this);
+				//cashOwed = bill.charge - myCash;		//cashier will tell us this himself
+				myCash = 0;
+				return;
+			}
 		}
-		//else?
+		else {
+			double expected = 0;
+
+			for (Map.Entry<String, Integer> entry : bill.inventoryFulfilled.entrySet()){
+				expected += marketMenu.getPrice(entry.getKey())*entry.getValue();	//price of each item * # that was fulfilled
+			}
+			if (expected == bill.charge){		//if the verfication of bill charge succeeds
+				if (myCash >= bill.charge){
+			        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Paying: $" + bill.charge);
+					cashier.msgHereIsPayment(bill.charge, this);
+					myCash -= bill.charge;
+					bill.amountPaid = bill.charge;
+					return;
+				}
+				else {
+					AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "I don't have enough money to pay full bill.");
+					cashier.msgHereIsPayment(myCash, this);
+					cashOwed = bill.charge - myCash;
+					myCash = 0;
+					return;
+				}
+			}
+			else if (expected < bill.charge){		//if the verification fails (charged more than they should have been)
+				cashier.msgPleaseRecalculateBill(this);
+				return;
+			}
+			//we don't care if they don't charge us enough. take it and run!
+		}
 	}
 	
 	private void LeaveMarket(){
-		if (bill.changeReceived == (bill.amountPaid - bill.charge)){
-			//print("Equal. Change verified.");
-	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Equal. Change verified.");
+		if (IOweMarket) {
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "No change.");
+	        cashier.msgChangeVerified(this);		//essentially
 
 			employee.msgDoneAndLeaving(this);
 			customerGui.DoExitMarket();
 	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Leaving market.");
-
+	        state = AgentState.Leaving;
+	        return;
 		}
-		//else?
+			
+		
+		if (bill.changeReceived == (bill.amountPaid - bill.charge)){
+			//print("Equal. Change verified.");
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Equal. Change verified.");
+	        cashier.msgChangeVerified(this);
+
+			employee.msgDoneAndLeaving(this);
+			customerGui.DoExitMarket();
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Leaving market.");
+	        state = AgentState.Leaving;
+		}
+		else if (bill.changeReceived > (bill.amountPaid - bill.charge)){
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "More change than necessary. Take it and run.");
+	        cashier.msgChangeVerified(this);
+
+			employee.msgDoneAndLeaving(this);
+			customerGui.DoExitMarket();
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Leaving market.");
+	        state = AgentState.Leaving;
+		}
+		else if (bill.changeReceived < (bill.amountPaid - bill.charge)){
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Not enough change. Recalculate change.");
+	        
+	        //TELL CASHIER TO RECALCULATE CHANGE (just have cashier give him the amount of change he wants)
+	        state = AgentState.WaitingForChange;
+		}
 	}
 	
 	
@@ -317,6 +411,7 @@ public class MarketCustomerRole extends Agent{
 	
 	
 	private class Bill {
+		boolean nonNegotiable = false;
 		Map<String, Integer> inventoryFulfilled = new TreeMap<String, Integer>();
 		double charge;
 		double amountPaid;

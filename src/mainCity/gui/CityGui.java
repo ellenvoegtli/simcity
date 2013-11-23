@@ -87,7 +87,7 @@ public class CityGui extends JFrame{
         tracePanel1.hideAlertsWithTag(AlertTag.RESTAURANT);
         
         AlertLog.getInstance().addAlertListener(tracePanel1);
-        tabbedPane.addTab("PERSON tag", tracePanel1);
+        tabbedPane.addTab("PERSON", tracePanel1);
         
         tracePanel2 = new TracePanel();
         tracePanel2.setPreferredSize(new Dimension((int) (WINDOWY * .4), (int) (WINDOWY * .4)));
@@ -102,7 +102,7 @@ public class CityGui extends JFrame{
         
         
         AlertLog.getInstance().addAlertListener(tracePanel2);
-        tabbedPane.addTab("MARKET tag", tracePanel2);
+        tabbedPane.addTab("MARKET", tracePanel2);
         
         tracePanel3 = new TracePanel();
         tracePanel3.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
@@ -116,7 +116,7 @@ public class CityGui extends JFrame{
         tracePanel3.hideAlertsWithTag(AlertTag.RESTAURANT);
         
         AlertLog.getInstance().addAlertListener(tracePanel3);
-        tabbedPane.addTab("BANK tag", tracePanel3);
+        tabbedPane.addTab("BANK", tracePanel3);
         
         
         tracePanel4 = new TracePanel();
@@ -131,14 +131,14 @@ public class CityGui extends JFrame{
         tracePanel4.showAlertsWithTag(AlertTag.RESTAURANT);
         
         AlertLog.getInstance().addAlertListener(tracePanel4);
-        tabbedPane.addTab("RESTAURANT tag", tracePanel4);
+        tabbedPane.addTab("RESTAURANT", tracePanel4);
         
         leftPanel.add(tabbedPane, BorderLayout.SOUTH);       
 	}
 	
 	public static void main(String[] args) {
         CityGui gui = new CityGui();
-        gui.setTitle("csci201 Restaurant");
+        gui.setTitle("SimCity201");
         gui.setVisible(true);
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -10,6 +10,8 @@ import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 //import mainCity.role.marcusRestaurant.MarcusCookRole.CookStatus;
 import mainCity.interfaces.*;
 import mainCity.contactList.*;
@@ -24,8 +26,6 @@ public class EllenCookRole extends Agent implements Cook{
 	private EllenMenu menu;
 	private EllenCashierRole cashier;
 	private KitchenGui kitchenGui = null;
-	private MarketGreeterRole marketGreeter;
-	private MainCook cook;
 	boolean notAdded = true;
 	boolean greeterNull = true;
 	Timer timer = new Timer();
@@ -98,7 +98,9 @@ public class EllenCookRole extends Agent implements Cook{
 	// Messages
 	
 	public void depleteInventory(String choice){		//from restaurantPanel
-		print("Deplete inventory message received");
+		//print("Deplete inventory message received");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Deplete inventory message received");
+
 		Food f = inventory.get(choice);
 		f.amount = 0;
 		f.s = FoodState.depleted;
@@ -112,25 +114,29 @@ public class EllenCookRole extends Agent implements Cook{
 		orders.add(o);
 		o.s = OrderState.pending;
 		
-		print(w.getName() + ", received msgHereIsOrder: " + choice);
+		//print(w.getName() + ", received msgHereIsOrder: " + choice);
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), w.getName() + ", received msgHereIsOrder: " + choice);
 		stateChanged();
 	}
 
 	
 	public void msgFoodDone(Order o){	//from timer
 		o.s = OrderState.plated;
-		print(o.choice + " done cooking!");
+		//print(o.choice + " done cooking!");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), o.choice + " done cooking!");
 		stateChanged();
 	}
 	
 	//new market message
 	public void msgHereIsYourOrder(Map<String, Integer>inventoryFulfilled){
-		print("Received msgHereIsYourOrder from market");
-		
+		//print("Received msgHereIsYourOrder from market");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgHereIsYourOrder from market");
 		for (Map.Entry<String, Integer> entry : inventoryFulfilled.entrySet()){
-			print("Had " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
+			//print("Had " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
+			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Had " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
 			inventory.get(entry.getKey()).amount += entry.getValue();
-			print("Now have " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
+			//print("Now have " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
+			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Now have " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
 			Food f = inventory.get(entry.getKey());
 			f.s = FoodState.delivered;
 		}
@@ -139,8 +145,9 @@ public class EllenCookRole extends Agent implements Cook{
 	}
 	
 	public void msgCantFulfill(String choice, int amountStillNeeded){
-		print("Received msgCantFulfill: still need " + amountStillNeeded + " " + choice + "(s)");
-		
+		//print("Received msgCantFulfill: still need " + amountStillNeeded + " " + choice + "(s)");
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgCantFulfill: still need " + amountStillNeeded + " " + choice + "(s)");
+
 		Food f = inventory.get(choice);
 		f.s = FoodState.tryAgain;
 		f.amountToOrder = amountStillNeeded;
@@ -149,8 +156,9 @@ public class EllenCookRole extends Agent implements Cook{
 	}
 	
 	public void pickingUpFood(int table){
-		print("Received pickingUpFood for table " + table);
-		
+		//print("Received pickingUpFood for table " + table);
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received pickingUpFood for table " + table);
+
 		Order order = null;
 		synchronized(orders){
 			for (Order o: orders){
@@ -218,7 +226,6 @@ public class EllenCookRole extends Agent implements Cook{
 				if (inventory.get(i).s == FoodState.depleted){
 					inventoryNeeded.put(i, inventory.get(i).amountToOrder);
 					//OrderFromMarket(inventory.get(i), inventory.get(i).amountToOrder, inventory.get(i).nextMarket);
-					//return true;
 				}
 			}
 			if(!inventoryNeeded.isEmpty()){
@@ -261,14 +268,16 @@ public class EllenCookRole extends Agent implements Cook{
 	public void TryToCookIt(final Order o){
 		Map<String, Integer>inventoryNeeded = new TreeMap<String, Integer>();
 		Food f = inventory.get(o.choice);
-		print("Amount of " + f.type + " left = " + f.amount);
-		
+		//print("Amount of " + f.type + " left = " + f.amount);
+		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Amount of " + f.type + " left = " + f.amount);
+
 		if (f.amount <= f.low && f.s == FoodState.none){
 			inventoryNeeded.put(f.type, (f.capacity-f.amount));
 			OrderFromMarket(inventoryNeeded);
 		}
 		if (f.amount == 0){
-			print("Out of " + f.type);
+			//print("Out of " + f.type);
+			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Out of " + f.type);
 			o.waiter.msgOutOfFood(o.choice, o.table);	//waiter doesn't come back on GUI to get this msg
 			orders.remove(o);
 			return;
@@ -289,9 +298,7 @@ public class EllenCookRole extends Agent implements Cook{
 			}
 		}
 		timer.schedule(new TimerTask() {
-			Object cookie = 1;
 			public void run() {
-				print("Done cooking, cookie=" + cookie);
 				msgFoodDone(o);
 			}
 		}, inventory.get(o.choice).cookingTime);
@@ -319,7 +326,8 @@ public class EllenCookRole extends Agent implements Cook{
 		
 		for (String c : menu.menuItems){
 			if (inventory.get(c).amount <= inventory.get(c).low){
-				print("Adding " + inventory.get(c).type + " to market order");
+				//print("Adding " + inventory.get(c).type + " to market order");
+				AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Adding " + inventory.get(c).type + " to market order");
 				inventory.get(c).amountToOrder = (inventory.get(c).capacity - inventory.get(c).amount);
 				lowInventory.put(c, inventory.get(c).amountToOrder);
 			}
