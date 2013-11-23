@@ -3,6 +3,10 @@ package mainCity.market.gui;
 import mainCity.market.MarketCustomerRole;
 import mainCity.market.MarketEmployeeRole;
 import mainCity.contactList.*;
+import mainCity.gui.trace.AlertLevel;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
+import mainCity.gui.trace.TracePanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,7 +21,7 @@ import java.io.File;
  * Contains the main frame and subsequent panels
  */
 public class MarketGui extends JFrame implements ActionListener {
-	//public ContactList contactList;
+	TracePanel tracePanel;
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */
@@ -42,6 +46,16 @@ public class MarketGui extends JFrame implements ActionListener {
 
     JTextField enterCustomerField;
     JButton newAddButton = new JButton("Add");
+    
+    private JPanel controlPanel = new JPanel();
+    private JButton marketCustTagButton;
+    private JButton marketEmpTagButton;
+    private JButton messagesButton;
+    
+    private boolean showCustTags = true;
+    private boolean showEmpTags = true;
+    private boolean showMessages = true;
+
 
 
     private Object currentPerson;/* Holds the agent that the info is about.
@@ -52,25 +66,26 @@ public class MarketGui extends JFrame implements ActionListener {
      * Sets up all the gui components.
      */
     public MarketGui() {
-    	//contactList = c;
+        this.tracePanel = new TracePanel();
+        tracePanel.setPreferredSize(new Dimension(800, 300));
+        tracePanel.showAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
+        tracePanel.showAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
+        tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel.hideAlertsWithLevel(AlertLevel.DEBUG);
+        //tracePanel.showAlertsWithTag(AlertTag.PERSON);
+        tracePanel.showAlertsWithTag(AlertTag.MARKET_CUSTOMER);   	//as default, hide everything     
+        tracePanel.showAlertsWithTag(AlertTag.MARKET_EMPLOYEE);        
+
+        AlertLog.getInstance().addAlertListener(tracePanel);
     	
+
         int WINDOWX = 550;
         int WINDOWY = 350;
-
-        
-        /*
-        animationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        animationFrame.setBounds(100+WINDOWX, 50 , WINDOWX, WINDOWY+100);
-        animationFrame.setVisible(true);
-    	animationFrame.add(animationPanel); 
-    	*/
         
         setBounds(50, 50, WINDOWX*2, (int) (WINDOWY*2));
-
-        setLayout(new BoxLayout((Container) getContentPane(), 
-        		BoxLayout.X_AXIS));
-        
-        
+        //setLayout(new BoxLayout((Container) getContentPane(), 
+        	//	BoxLayout.X_AXIS));
+        setLayout(new GridLayout(2, 1, 0, 0));
 
     	JPanel nonAnimPanel = new JPanel();
     	nonAnimPanel.setLayout(new GridLayout(3, 2, 0, 0));
@@ -99,32 +114,20 @@ public class MarketGui extends JFrame implements ActionListener {
         stateCB = new JCheckBox();
         stateCB.setVisible(false);
         stateCB.addActionListener(this);
-        
-        //waiter
-        /*
-        breakB = new JButton();
-        breakB.setText("Want break?");
-        breakB.setVisible(false);
-        breakB.addActionListener(this);
-        */
+       
 
-        infoPanel.setLayout(new GridLayout(1, 2, 30, 0));
-        
+        infoPanel.setLayout(new GridLayout(2, 1, 30, 0));
         infoLabel = new JLabel(); 
         infoLabel.setText("<html><i>Click Add to make customers or waiters</i></html>");
         infoPanel.add(infoLabel);
         infoPanel.add(stateCB);
-        //infoPanel.add(breakB);
+        
         nonAnimPanel.add(infoPanel);
-        
-        //from marketPanel (better formatting)
-        nonAnimPanel.add(marketPanel.pausePanel);
-        
-        
+        nonAnimPanel.add(tracePanel);
         add(nonAnimPanel);
-        
+       
         //ANIMATION PANEL
-        //animationPanel.setBounds(0, WINDOWY + 50 , WINDOWX, WINDOWY);
+        animationPanel.setBounds(0, 0, WINDOWX, WINDOWY);
         Dimension animDim = new Dimension(WINDOWX, WINDOWY);
         animationPanel.setPreferredSize(animDim);
         animationPanel.setMinimumSize(animDim);
@@ -135,19 +138,79 @@ public class MarketGui extends JFrame implements ActionListener {
         
         add(animationPanel);
         
+        
+     
+        marketCustTagButton = new JButton("Hide tag: MARKET_CUSTOMER");
+        marketEmpTagButton = new JButton("Hide tag: MARKET_EMPLOYEE");
+        messagesButton = new JButton("Hide level: MESSAGE");
+        
+        marketCustTagButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	if (!showCustTags){
+                    //============================ TUTORIAL ==========================================
+                    //This is how you make messages with a certain Level (normal MESSAGE here) show up in the trace panel.
+                    tracePanel.showAlertsWithTag(AlertTag.MARKET_CUSTOMER);
+                    //================================================================================
+                    marketCustTagButton.setText("Hide tag: MARKET_CUSTOMER");
+                    showCustTags = true;
+            	}
+            	else{
+            		tracePanel.hideAlertsWithTag(AlertTag.MARKET_CUSTOMER);
+            		marketCustTagButton.setText("Show tag: MARKET_CUSTOMER");
+            		showCustTags = false;
+            	}
+            }
+	    });
+        marketEmpTagButton.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	            	if (!showEmpTags){
+	                    //============================ TUTORIAL ==========================================
+	                    //This is how you make messages with a certain Level not show up in the trace panel.
+	                    tracePanel.showAlertsWithTag(AlertTag.MARKET_EMPLOYEE);
+	                    //================================================================================
+	                    marketEmpTagButton.setText("Hide tag: MARKET_EMPLOYEE");
+	                    showEmpTags = true;
+	            	}
+	            	else{
+	            		tracePanel.hideAlertsWithTag(AlertTag.MARKET_EMPLOYEE);
+	            		marketEmpTagButton.setText("Show tag: MARKET_EMPLOYEE");
+	            		showEmpTags = false;
+	            	}
+	            }
+	    });
+        messagesButton.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	            	if (!showMessages){
+	                    //============================ TUTORIAL ==========================================
+	                    //This is how you make messages with a level of ERROR show up in the trace panel.
+	                    tracePanel.showAlertsWithLevel(AlertLevel.MESSAGE);
+	                    messagesButton.setText("Hide level: MESSAGES");
+	                    showMessages = true;
+	                    //================================================================================
+	            	}
+	            	else{
+	            		tracePanel.hideAlertsWithLevel(AlertLevel.MESSAGE);
+	            		messagesButton.setText("Show level: MESSAGES");
+	            		showMessages = false;
+	            	}
+	            }
+	    });
+	   
+        
+	    controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
+	    controlPanel.add(marketCustTagButton);
+	    controlPanel.add(marketEmpTagButton);
+	    controlPanel.add(messagesButton);
+	    controlPanel.setMinimumSize(new Dimension(50, 600));
+        
+        this.add(controlPanel);
+        
     }
-    
-    public MarketPanel getMarketPanel(){
-    	return marketPanel;
-    }
-    /*
-    public void setContactList(ContactList c){
-    	contactList = c;
-    }
-    public ContactList getContactList(){
-    	return contactList;
-    }
-    */
+
+
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
