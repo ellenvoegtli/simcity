@@ -1,5 +1,6 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
+import mainCity.contactList.ContactList;
 import mainCity.restaurants.marcusRestaurant.sharedData.RevolvingStand;
 
 import javax.swing.*;
@@ -218,6 +219,13 @@ public class MarcusRestaurantPanel extends JPanel {
     		for(MarcusCustomerRole c : customers) {
     			c.setCashier(cashier);
     		}
+            
+    		if(host != null) {
+    			host.setCashier(cashier);
+    			cashier.setHost(host);
+    		}
+    		
+    		ContactList.getInstance().setMarcusCashier(cashier);
     	}
     	
     	if(r instanceof MarcusCookRole) {
@@ -228,9 +236,11 @@ public class MarcusRestaurantPanel extends JPanel {
             cook.setGui(cookGui);
             cook.setCashier(cashier);
             
+            if(host != null) host.setCook(cook);
             for(MarcusWaiterRole w : waiters) {
     			w.setCook(cook);
     		}
+    		ContactList.getInstance().setMarcusCook(cook);
     	}
     	
     	if(r instanceof MarcusCustomerRole) {
@@ -254,6 +264,12 @@ public class MarcusRestaurantPanel extends JPanel {
     		for(MarcusCustomerRole c : customers) {
     			c.setHost(host);
     		}
+    		
+    		host.setCook(cook);
+    		host.setCashier(cashier);
+    		
+    		if(cashier != null) cashier.setHost(host);
+    		ContactList.getInstance().setMarcusHost(host);
     	}
     	
     	if(r instanceof MarcusWaiterRole) {

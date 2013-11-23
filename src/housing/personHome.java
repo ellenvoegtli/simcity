@@ -37,7 +37,7 @@ public class personHome
 			owner = lndlrd;
 
 		}*/
-		FoodSupply.put("pasta" , 2);
+		FoodSupply.put("pasta" , 0);
 		FoodSupply.put("fish", 1);
 		FoodSupply.put("chickenSoup", 0);
 		
@@ -61,7 +61,7 @@ public class personHome
 	
 	public void checkSupplies(String meal)
 	{
-		if(FoodSupply.get(meal) == null)
+		if(FoodSupply.get(meal) == 0)
 		{
 			needFood.add(meal);
 			occupant.msgNeedFood(needFood);
@@ -70,6 +70,20 @@ public class personHome
 		else
 		{
 			occupant.msgCookFood(meal);
+		}
+		
+	}
+	
+	public void CheckAppliances()
+	{
+		
+		for (Appliance appl : Appliances)
+		{
+			if(appl.working == false)
+			{
+				synchronized(occupant.needsWork)
+				{occupant.needsWork.add(appl.appliance);}
+			}
 		}
 		
 	}

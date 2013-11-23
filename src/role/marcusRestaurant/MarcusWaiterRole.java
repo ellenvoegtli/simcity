@@ -76,7 +76,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	}
 	
 	public void msgGoOffDuty() {
-		onDuty = true;
+		onDuty = false;
 		stateChanged();
 	}
 	
@@ -272,9 +272,9 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 				requested = false;
 			}
 			
-			if(onDuty) {
-				onDuty = false;
+			if(!onDuty) {
 				leaveRestaurant();
+				onDuty = false;
 			}
 		}
 		

@@ -6,6 +6,7 @@ import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
 import java.util.*;
 
+import role.ManagerRole;
 import role.Role;
 import role.WorkerRole;
 
@@ -16,10 +17,10 @@ import role.WorkerRole;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class MarcusHostRole extends Role implements WorkerRole {
+public class MarcusHostRole extends Role implements ManagerRole {
 	static final int NTABLES = 4;//a global for the number of tables.
-	//Notice that we implement waitingCustomers using ArrayList, but type it
-	//with List semantics.
+	private MarcusCookRole cook;
+	private MarcusCashierRole cashier;
 	private List<Customer> waitingCustomers = Collections.synchronizedList(new ArrayList<Customer>());
 	private List<MyWaiter> waitersList = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	public Collection<MarcusTable> tables;
@@ -64,10 +65,18 @@ public class MarcusHostRole extends Role implements WorkerRole {
 		return tables;
 	}
 	
+	public void setCashier(MarcusCashierRole c) {
+		cashier = c;
+	}
+	public void setCook(MarcusCookRole c) {
+		cook = c;
+	}
+	
 	public void addWaiter(Waiter w) {
 		waitersList.add(new MyWaiter(w));
 		stateChanged();
 	}
+	
 	// Messages	
 	public void msgIWantToEat(Customer cust) {
 		print(cust + " wants to eat");
@@ -162,7 +171,7 @@ public class MarcusHostRole extends Role implements WorkerRole {
 		}
 
 		if(!onDuty) {
-			closeRestaurant();
+			closeBuilding();
 		}
 		
 		return false;
@@ -239,10 +248,29 @@ public class MarcusHostRole extends Role implements WorkerRole {
 		return true;
 	}
 	
-	private void closeRestaurant() {
-		//check customers in restaurant. message other workers to go off duty?
+	public boolean closeBuilding() {
+		if(!waitingCustomers.isEmpty()) return false;
+		
+		for(MarcusTable t : tables) {
+			if(t.isOccupied()) {
+				return false;
+			}
+		}
+		
+		for(MyWaiter w : waitersList) {
+			((MarcusWaiterRole) w.waiter).msgGoOffDuty();
+		}
+		
+		cashier.msgGoOffDuty();
+		cook.msgGoOffDuty();
+		
 		super.setInactive();
 		onDuty = true;
+		return true;
+	}
+
+	public boolean lastCustomer() {
+		return onDuty;
 	}
 	
 	public enum WaiterState {onDuty, requested, onBreak};

@@ -11,6 +11,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
+import mainCity.restaurants.enaRestaurant.gui.EnaWaiterGui;
+import role.Role;
 import housing.LandlordRole;
 import housing.OccupantRole;
 import housing.personHome;
@@ -31,24 +34,24 @@ public class HomePanel extends JPanel
     private personHome house;
     private HomeGui gui; //reference to main gui
     private OccupantRole occupant;
-    private OccupantGui occupantGui; //= new OccupantGui(occupant, gui);
+   private OccupantGui occupantGui; 
 
     public HomePanel(HomeGui gui) {
         this.gui = gui;
-        occupant = new OccupantRole("mark");
-        occupant.setHouse(house);
-        house = new personHome(occupant);
-        house.setOccupant(occupant);
-        occupantGui = new OccupantGui(occupant, gui);
-        occupant.setGui(occupantGui);
+       // occupant = new OccupantRole("mark");
+      //  occupant.setHouse(house);
+        //house = new personHome(occupant);
+        //house.setOccupant(occupant);
+        //occupantGui = new OccupantGui(occupant, gui);
+       // occupant.setGui(occupantGui);
               
-        gui.animationPanel.addGui(occupantGui);
+        //gui.animationPanel.addGui(occupantGui);
 
-        occupant.startThread();
+        //occupant.startThread();
         
-        occupant.setHouse(house);
+       // occupant.setHouse(house);
 
-        occupantGui.setHungry();
+        //occupantGui.setHungry();
 
 
         setLayout(new GridLayout(1, 2, 20, 20));
@@ -66,8 +69,8 @@ public class HomePanel extends JPanel
         JLabel label = new JLabel();
         homeLabel.setLayout(new BoxLayout((Container)homeLabel, BoxLayout.Y_AXIS));
         //homeLabel.setLayout(new FlowLayout());
-        label.setText(
-                "<html><h3><u>House's Belongs To: </u></h3><table><tr><td>occupant:</td><td>" + occupant.getName());
+        /*label.setText(
+                "<html><h3><u>House's Belongs To: </u></h3><table><tr><td>occupant:</td><td>" + occupant.getName());*/
 
         homeLabel.setBorder(BorderFactory.createRaisedBevelBorder());
         homeLabel.add(label, BorderLayout.CENTER);
@@ -118,7 +121,7 @@ public class HomePanel extends JPanel
     
     
     
-    public void addPerson(String type, String name) 
+   /* public void addPerson(String type, String name) 
     {
 
     	if (type.equals("Occupant")) 
@@ -137,8 +140,32 @@ public class HomePanel extends JPanel
 
     	}
     	
-    }
+    }*/
    
+    public void handleRoleGui(Role r) 
+    {
+    	if(r instanceof OccupantRole) 
+    	{
+        	occupant = (OccupantRole) r;
+        	        	 house = new personHome(occupant);
+
+        	 occupant.setHouse(house);
+             house.setOccupant(occupant);
+        	
+
+    		occupantGui = new OccupantGui(occupant, gui);
+        	
+    	
+    		occupant.setGui(occupantGui);
+    		occupantGui.setHungry();
+           
+    		gui.animationPanel.addGui(occupantGui);
+    		System.out.println("Occupant has been returned home");
+
+    		
+    	}
     
    
     }
+    
+}

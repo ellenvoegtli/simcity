@@ -1,8 +1,7 @@
 package role.marcusRestaurant;
 
 import mainCity.PersonAgent;
-import mainCity.interfaces.MainCashier;
-import mainCity.market.MarketGreeterRole;
+import mainCity.contactList.ContactList;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.sharedData.*;
 import mainCity.restaurants.marcusRestaurant.gui.CookGui;
@@ -22,9 +21,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	private String name;
 	//private List<Market> markets;
 	private MarcusCashierRole cashier;
-	private MarketGreeterRole market;
 	private int tracker, selector;
-	private MarketGreeterRole marketGreeter;
 	private List<Order> orders;
 	private Map<String, Food> foods;
 	private RevolvingStand stand;
@@ -47,10 +44,10 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 		foods = Collections.synchronizedMap(new HashMap<String, Food>());
 		
 		synchronized(foods) {
-			foods.put("Steak", new Food("Steak", 7500, 5, 4, 15));//Name, CookTime, Quantity, Threshold, Capacity
-			foods.put("Chicken", new Food("Chicken", 5500, 5, 2, 15));
-			foods.put("Salad", new Food("Salad", 3500, 5, 2, 15));
-			foods.put("Pizza", new Food("Pizza", 6000, 5, 2, 15));
+			foods.put("Steak", new Food("Steak", 7500, 5, 7, 20));//Name, CookTime, Quantity, Threshold, Capacity
+			foods.put("Chicken", new Food("Chicken", 5500, 5, 4, 20));
+			foods.put("Salad", new Food("Salad", 3500, 3, 5, 20));
+			foods.put("Pizza", new Food("Pizza", 6000, 1, 5, 20));
 		}
 		
 		tracker = 0;
@@ -74,10 +71,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	public void setCashier(MarcusCashierRole c) {
 		cashier = c;
 	}
-	
-	public void setMarketGreeter(MarketGreeterRole g) {
-		this.marketGreeter = g;
-	}
+
 /*
 	public void addMarket(Market m) {
 		markets.add(m);
@@ -248,7 +242,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 				}
 			}
 
-			market.msgINeedInventory("marcusRestaurant", this, cashier, inventoryOrder);
+			ContactList.getInstance().marketGreeter.msgINeedInventory("marcusRestaurant", this, cashier, inventoryOrder);
 			status = CookStatus.normal;
 		}
 	}

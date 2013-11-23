@@ -15,6 +15,7 @@ import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
 import mainCity.bank.*;
 import mainCity.interfaces.*;
 import transportation.BusStop;
+import housing.gui.HomePanel;
 
 import java.util.*;
 
@@ -51,6 +52,8 @@ public class ContactList {
 			contactList = new ContactList();
 		return contactList;
 	}
+	
+	HomePanel home;
 	
 	BankManager bankManager;
 	
@@ -94,6 +97,17 @@ public class ContactList {
 	
 	//*****SETTERS********
 	
+	// Home *****
+	
+	public void setHome(HomePanel hp)
+	{
+		home = hp;
+	}
+	
+	public HomePanel getHome()
+	{
+		return home;
+	}
 	
 	//Bank*******
 	public void setBankManager(BankManager m){
@@ -132,6 +146,20 @@ public class ContactList {
 	
 	public MarcusHostRole getMarcusHost() {
 		return marcusHost;
+	}
+	
+	public void setMarcusCook(MarcusCookRole cook){
+		marcusCook = cook;
+	}
+	public MarcusCookRole getMarcusCook() {
+		return marcusCook;
+	}
+	
+	public void setMarcusCashier(MarcusCashierRole cashier){
+		marcusCashier = cashier;
+	}
+	public MarcusCashierRole getMarcusCashier() {
+		return marcusCashier;
 	}
 	
 	public void setMarcusRestaurant(MarcusRestaurantPanel m) {
