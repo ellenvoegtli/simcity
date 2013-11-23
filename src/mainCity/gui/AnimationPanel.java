@@ -3,6 +3,9 @@ package mainCity.gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import transportation.gui.Lane;
+import transportation.gui.Vehicle;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,27 +18,18 @@ import java.util.ArrayList;
 public class AnimationPanel extends JPanel implements ActionListener {
 
 	//Dimensions for the window that will have the City in it
-    private final int WINDOWX = 1050;
-    private final int WINDOWY = 700;
+    private final int WINDOWX = 780;
+    private final int WINDOWY = 480;
     
-    //Size of House
-    private BufferedImage houseImg1 = null;
-    private BufferedImage houseImg2 = null;
-    private BufferedImage restaurantLeft=null;
-    private BufferedImage restaurantRight=null;
-    private BufferedImage topGrassImg = null;
-    private BufferedImage bankImg = null;
-    private BufferedImage marketImg = null;
+    //House data (house sprites are 80x64)
+    private final int TopHouseLocY = -4;
+    private final int BotHouseLocY = 416;
     
-    private final int HouseWidth = 80; 
-    private final int HouseLength = 80;
-    private final int topHouseY = -4;
-    private final int bottomHouseY = 585;
+    //Road Data
+    ArrayList<Lane> lanes;
+    private final int RoadWidth = 50; 
     
-    //Size of Road
-    private final int RoadWidth = 70; 
-    
-    
+    int count; 
     private Image bufferImage;
     private Dimension bufferSize;
 
@@ -47,31 +41,74 @@ public class AnimationPanel extends JPanel implements ActionListener {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         
-        StringBuilder path = new StringBuilder("imgs/");
+        //Instantiating roads
+        lanes = new ArrayList<Lane>();
         
-        try {
-			//Size is 80 x 64
-        	houseImg1 = ImageIO.read(new File(path.toString() + "house1.png"));
-        	houseImg2 = ImageIO.read(new File(path.toString() + "house2.png"));
-        	restaurantLeft = ImageIO.read(new File(path.toString() + "restaurant_left.png"));
-        	restaurantRight = ImageIO.read(new File(path.toString() + "restaurant_right.png"));
-        	topGrassImg = ImageIO.read(new File(path.toString() + "grass.png"));
-        	bankImg = ImageIO.read(new File(path.toString() + "bank.png"));
-        	marketImg = ImageIO.read(new File(path.toString() + "market.png"));
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
+        //Creating Lanes (int xo, int yo, int w, int h, int xv, int yv, boolean ish, Color lc, Color sc)
+        Lane l = new Lane( 0, 75, 780, (RoadWidth/2), 1, 0, true, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 0, 100, 780, (RoadWidth/2), -1, 0, true, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 0, 350, 780, (RoadWidth/2), 1, 0, true, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 0, 375, 780, (RoadWidth/2), -1, 0, true, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 125, 125, (RoadWidth/2), 226, 0, -1, false, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 150, 125, (RoadWidth/2), 226, 0, 1, false, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 365, 125, (RoadWidth/2), 226, 0, -1, false, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 390, 125, (RoadWidth/2), 226, 0, 1, false, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 605, 125, (RoadWidth/2), 226, 0, -1, false, Color.gray, Color.white );
+        lanes.add(l);
+        l = new Lane( 630, 125, (RoadWidth/2), 226, 0, 1, false, Color.gray, Color.white );
+        lanes.add(l);
         
-        
+        javax.swing.Timer t = new javax.swing.Timer( 25, this );
+		t.start();
+      
         bufferSize = this.getSize();
-        
  
     	Timer timer = new Timer(20, this );
     	timer.start();
     }
 
 	public void actionPerformed(ActionEvent e) {
+		count++;
+		
+		if ( count % 40 == 0 ) {
+			Lane l = lanes.get(0);
+			l.addVehicle( new Vehicle( 15, 15, 16, 16) );
+		}
+		
+		if ( count % 60 == 0 ) {
+			Lane l = lanes.get(1);
+			l.addVehicle( new Vehicle( 15, 15, 16, 16) );
+		}
+		
+		if ( count % 80 == 0 ) {
+			Lane l = lanes.get(2);
+			l.addVehicle( new Vehicle( 15, 15, 16, 16) );
+		}
+		if ( count % 100 == 0 ) {
+			Lane l = lanes.get(3);
+			l.addVehicle( new Vehicle( 15, 15, 16, 16) );
+		}
+		
+		//Make them all lanes stop
+		if ( count % 500 == 0 ) {
+			for ( int i=0; i<lanes.size(); i++ ) {
+				lanes.get(i).redLight();
+			}
+		}
+		
+		if ( count % 1000 == 0 ) {
+			for ( int i=0; i<lanes.size(); i++ ) {
+				lanes.get(i).greenLight();
+			}
+		}
 		repaint();  //Will have paintComponent called
 	}
 
@@ -82,133 +119,51 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
 
-    //Draw city objects here (where we drew tables before)
+   //Draw city objects here (where we drew tables before)
         
-        //Roads 
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.fillRect(0, 80, 1050, RoadWidth);
-        g2.fillRect(0, 495, 1050, RoadWidth);
-        g2.fillRect(185, 150, RoadWidth, 415);
-        g2.fillRect(485, 150, RoadWidth, 415);
-        g2.fillRect(785, 150, RoadWidth, 415);
+        //drawing lanes
+        for ( int i=0; i<lanes.size(); i++ ) {
+			Lane l = lanes.get(i);
+			l.draw( g2 );
+		}
         
-        //RoadLines 
-        g2.setColor(Color.WHITE); 
-        g2.fillRect(0, 110, 1050, 5);
-        g2.fillRect(0, 525, 1050, 5);
-        g2.fillRect(217, 150, 5, 345);
-        g2.fillRect(517, 150, 5, 345);
-        g2.fillRect(817, 150, 5, 345);
+        //drawing top houses
+        for(int i=0; i<7; i++){
+	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png");
+	        addBuildingGui(house);
+        }
         
-        //Northern Houses
-        g.drawImage(topGrassImg, 0,0,null);
+        //drawing bottom houses 
+        for(int i=0; i<7; i++){
+	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png");
+	        addBuildingGui(house);
+        }
         
-        g2.setColor(Color.red);
-        g.drawImage(houseImg1, 20, topHouseY, null);
-        //g2.fillRect(20, 0, HouseWidth, HouseLength);
+        //drawing restaurants 
+        Building building = new Building ( 35, 150, "restaurant_right.png");
+        addBuildingGui(building);
         
-        g2.setColor(Color.red);
-        g.drawImage(houseImg1, 120, topHouseY, null);
-        //g2.fillRect(120, 0, HouseWidth, HouseLength);
+        building = new Building ( 35, 250, "restaurant_right.png");
+        addBuildingGui(building);
         
-        g2.setColor(Color.red);
-        g.drawImage(houseImg1, 220, topHouseY, null);
-        //g2.fillRect(220, 0, HouseWidth, HouseLength);
+        building = new Building ( 190, 200, "bank.png");
+        addBuildingGui(building);
         
-        g2.setColor(Color.red);
-        g.drawImage(houseImg1, 320, topHouseY, null);
-        //g2.fillRect(320, 0, HouseWidth, HouseLength);
+        building = new Building ( 275, 150, "restaurant_right.png");
+        addBuildingGui(building);
         
-        g2.setColor(Color.red);
-        g.drawImage(houseImg1, 420, topHouseY, null);
-        //g2.fillRect(420, 0, HouseWidth, HouseLength);
+        building = new Building ( 275, 250, "restaurant_right.png");
+        addBuildingGui(building);
         
-        g2.setColor(Color.red);
-        g.drawImage(houseImg1, 520, topHouseY, null);
-        //g2.fillRect(520, 0, HouseWidth, HouseLength);
+        building = new Building ( 425, 200, "market.png");
+        addBuildingGui(building);
         
-        g2.setColor(Color.red);
-        g.drawImage(houseImg1, 620, topHouseY, null);
-        //g2.fillRect(620, 0, HouseWidth, HouseLength);
+        building = new Building ( 520, 200, "restaurant_right.png");
+        addBuildingGui(building);
         
-        g2.setColor(Color.red);
-        g.drawImage(houseImg1, 720, topHouseY, null);
-        //g2.fillRect(720, 0, HouseWidth, HouseLength);
+        building = new Building ( 520, 200, "restaurant_right.png");
+        addBuildingGui(building);
         
-        g2.setColor(Color.red);
-        g.drawImage(houseImg1, 820, topHouseY, null);
-        //g2.fillRect(820, 0, HouseWidth, HouseLength);
-        
-        g2.setColor(Color.red);
-        g.drawImage(houseImg1, 920, topHouseY, null);
-        //g2.fillRect(920, 0, HouseWidth, HouseLength);
-        
-        //Southern Houses
-        g2.setColor(Color.red);
-        g.drawImage(topGrassImg,0,bottomHouseY,null);
-        g.drawImage(houseImg2, 20, bottomHouseY, null);
-        //g2.fillRect(20, 565, HouseWidth, HouseLength);
-        
-        g2.setColor(Color.red);
-        g.drawImage(houseImg2, 120, bottomHouseY, null);
-        //g2.fillRect(120, 565, HouseWidth, HouseLength);
-        
-        g2.setColor(Color.red);
-        g.drawImage(houseImg2, 220, bottomHouseY, null);
-        //g2.fillRect(220, 565, HouseWidth, HouseLength);
-        
-        g2.setColor(Color.red);
-        g.drawImage(houseImg2, 320, bottomHouseY, null);
-        //g2.fillRect(320, 565, HouseWidth, HouseLength);
-        
-        g2.setColor(Color.red);
-        g.drawImage(houseImg2, 420, bottomHouseY, null);
-        //g2.fillRect(420, 565, HouseWidth, HouseLength);
-        
-        g2.setColor(Color.red);
-        g.drawImage(houseImg2, 520, bottomHouseY, null);
-        //g2.fillRect(520, 565, HouseWidth, HouseLength);
-        
-        g2.setColor(Color.red);
-        g.drawImage(houseImg2, 620, bottomHouseY, null);
-        //g2.fillRect(620, 565, HouseWidth, HouseLength);
-        
-        g2.setColor(Color.red);
-        g.drawImage(houseImg2, 720, bottomHouseY, null);
-        //g2.fillRect(720, 565, HouseWidth, HouseLength);
-        
-        g2.setColor(Color.red);
-        g.drawImage(houseImg2, 820, bottomHouseY, null);
-        //g2.fillRect(820, 565, HouseWidth, HouseLength);
-        
-        g2.setColor(Color.red);
-        g.drawImage(houseImg2, 920, bottomHouseY, null);
-        //g2.fillRect(920, 565, HouseWidth, HouseLength);
-        
-        //Restaurants 
-        g2.setColor(Color.BLACK);
-        
-        g.drawImage(restaurantLeft,105,200,null);
-        //g2.fillRect(105, 200, HouseWidth, HouseLength);
-        g.drawImage(restaurantLeft,105,350,null);
-        //g2.fillRect(105, 350, HouseWidth, HouseLength);
-        
-        g.drawImage(restaurantRight,405,375,null);
-        //g2.fillRect(405, 350, HouseWidth, HouseLength);
-        g.drawImage(restaurantRight,405,150,null);
-        //g2.fillRect(405, 200, HouseWidth, HouseLength);
-        g.drawImage(restaurantLeft,705,275,null);
-        //g2.fillRect(705, 275, HouseWidth, HouseLength);
-        
-        //Bank
-        g2.setColor(Color.GREEN);
-        g.drawImage(bankImg,255,275,null);
-        //g2.fillRect(255, 275, HouseWidth, HouseLength);
-        
-        //Market 
-        g2.setColor(Color.ORANGE);
-        g.drawImage(marketImg,555,275,null);
-        //g2.fillRect(555, 275, HouseWidth, HouseLength);
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -226,14 +181,11 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public void addPersonGui(PersonGui gui) {
         guis.add(gui);
     }
-
-    public void addHouseGui(CityRestaurant gui) {
-        guis.add(gui);
-    }
     
-    public void addRestGui(CityRestaurant gui) { 
+    public void addBuildingGui(Building gui) { 
     	guis.add(gui);
     }
+
  
  
 }
