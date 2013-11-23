@@ -24,10 +24,10 @@ public class personHome
 	kitchenState kState = kitchenState.pending;
 	enum type {apartment, house};
 	type homeType;
-	List <Appliance> kitchen = new ArrayList<Appliance>();
+	List <Appliance> Appliances = new ArrayList<Appliance>();
 	List<String> needFood = new ArrayList<String>();
 	
-	public personHome(OccupantRole occ /* ,LandlordRole lndlrd, type home*/)
+	public personHome(OccupantRole occ)
 	{
 		super();
 		//homeType = home;
@@ -41,11 +41,11 @@ public class personHome
 		FoodSupply.put("fish", 1);
 		FoodSupply.put("chickenSoup", 0);
 		
-		boolean working = true;
 		
-	kitchen.add(new Appliance("stove" , working));
-	kitchen.add(new Appliance("fridge" , working));
-	kitchen.add(new Appliance("sink" , working));
+	Appliances.add(new Appliance("stove" , true));
+	Appliances.add(new Appliance("fridge" , true));
+	Appliances.add(new Appliance("sink" , true));
+	Appliances.add(new Appliance("TV", false));
 
 		
 	}
@@ -56,11 +56,6 @@ public class personHome
 	
 //ACTIONS
 	
-	public void fixAppliance(String appName)
-	{
-		occupant.msgNeedsMaintenance(appName);
-		
-	}
 	
 	
 	
@@ -134,7 +129,7 @@ public class personHome
 				}
 				if(nm.equals("TV"))
 				{
-					xPos = 50;
+					xPos = 70;
 					yPos = 80;
 				}
 				

@@ -45,6 +45,9 @@ public class HomePanel extends JPanel
         gui.animationPanel.addGui(occupantGui);
 
         occupant.startThread();
+        
+        occupant.setHouse(house);
+
         occupantGui.setHungry();
 
 
@@ -131,7 +134,6 @@ public class HomePanel extends JPanel
     		//c.setCashier(cashier);
     		c.setGui(g);
     		c.startThread();
-			  occupant.getGui().setHungry();
 
     	}
     	

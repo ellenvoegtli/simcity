@@ -11,7 +11,7 @@ public class apartmentAgent extends personHome{
 	
 	apartmentAgent(OccupantRole occ, LandlordRole lndlrd, type home) 
 	{
-		super(occ, lndlrd, home);
+		super(occ);
 		// TODO Auto-generated constructor stub
 	}
 
