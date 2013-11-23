@@ -25,6 +25,7 @@ import java.util.Vector;
 public class BankPanel extends JPanel {
 	
 	private Vector <BankCustomer> bankcustomers = new Vector <BankCustomer>();
+	private Vector <BankTeller> banktellers = new Vector <BankTeller>();
 	
 	
 	public PersonAgent p = new PersonAgent("bob");
@@ -35,6 +36,8 @@ public class BankPanel extends JPanel {
 	private Banker banker = new Banker("Dave");
 	private BankTeller bankteller = new BankTeller("kim");
 	private BankTeller bankteller1 = new BankTeller("sam");
+	
+	
 	
 	BankCustomer bankcust = new BankCustomer(p, "bob");
 	BankCustomer bankcust1 = new BankCustomer(p1,"bob1");
@@ -61,19 +64,39 @@ public class BankPanel extends JPanel {
         
         p.setCash(400);
         p1.setCash(500);
+      //TODO should check the list size then add set the tellernumber then add self to list
+        bankteller.setTellerNumber(banktellers.size());
+        banktellers.add(bankteller);
+        
+        bankteller1.setTellerNumber(banktellers.size());
+        banktellers.add(bankteller1);
+        
+        BankTellerGui btGui = new BankTellerGui(bankteller, gui);
+        BankTellerGui btGui1 = new BankTellerGui(bankteller1, gui);
+        bankteller.setGui(btGui);
+        bankteller1.setGui(btGui1);
+        gui.bankAnimationPanel.addGui(btGui);
+        gui.bankAnimationPanel.addGui(btGui1);
+        
+        
         
         
         banker.startThread();
         banker.setBankAccounts(mainaccounts);
+        
         bankteller.startThread();
+        bankteller.msgGoToWork();
         bankteller.setBankAccounts(mainaccounts);
         
         bankteller1.startThread();
+        bankteller1.msgGoToWork();
         bankteller1.setBankAccounts(mainaccounts);
         
         bankmanager.bankers.add(new myBanker(banker));
         bankmanager.msgTellerAdded(bankteller);
         bankmanager.msgTellerAdded(bankteller1);
+        
+        
         
         BankCustomerGui bcGui = new BankCustomerGui(bankcust, gui);
         BankCustomerGui bcGui1 = new BankCustomerGui(bankcust1, gui);
@@ -111,7 +134,7 @@ public class BankPanel extends JPanel {
         //System.out.println(bankmanager.tellers.size());
 
         bankcust.msgWantToDeposit();
-        bankcust1.msgNeedLoan();
+        bankcust1.msgWantToWithdraw();
         
         add(group);
     }
