@@ -208,17 +208,22 @@ public class PersonAgent extends Agent {
 		
 		if(currentAction != null && state == PersonState.normal && !traveling) {
 			if(event == PersonEvent.arrivedAtHome) {
+				if(!actions.isEmpty()) { //If there's other stuff to do, don't go inside yet
+					currentAction.state = ActionState.done;
+					return true;
+				}
+				
 				print("Arrived at home!");
 				
 				handleRole(currentAction.type);
 				roles.get(currentAction.type).setActive();
-
+				
 				if(currentAction != null && (currentAction.type == ActionType.market || currentAction.type == ActionType.home)) {
 					currentAction.state = ActionState.done;
 				}
 				
-				state = PersonState.inBuilding;
 				gui.DoGoInside();
+				state = PersonState.inBuilding;
 				return true;
 			}
 
@@ -237,8 +242,8 @@ public class PersonAgent extends Agent {
 					currentAction.state = ActionState.done;
 				}
 				
-				state = PersonState.working;
 				gui.DoGoInside();
+				state = PersonState.working;
 				return true;
 			}
 
@@ -247,8 +252,8 @@ public class PersonAgent extends Agent {
 				handleRole(currentAction.type);
 				roles.get(currentAction.type).setActive();
 	
-				state = PersonState.inBuilding;
 				gui.DoGoInside();
+				state = PersonState.inBuilding;
 				return true;
 			}
 
@@ -283,8 +288,8 @@ public class PersonAgent extends Agent {
 					currentAction.state = ActionState.done;
 				}
 				
-				state = PersonState.inBuilding;
 				gui.DoGoInside();
+				state = PersonState.inBuilding;
 				return true;
 			}
 
@@ -338,14 +343,13 @@ public class PersonAgent extends Agent {
 		if(state == PersonState.boardingBus) {
 			boardBus();
 		}
-// UNCOMMENT??
-		/*
+
 		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
 			print("My action list is empty. Going home");
 			actions.add(new Action(ActionType.home, 10));
 			return true;
 		}
-		*/
+		
 		return false;
 	}
 

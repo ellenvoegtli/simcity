@@ -54,8 +54,8 @@ public class CityPanel extends JPanel{
     	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
     	//jeffersonRestaurant.setVisible(true);
     	
-    	//HomeGui home= new HomeGui();
-    	//ContactList.getInstance().setHome(home.getHomePanel());
+    	HomeGui home= new HomeGui();
+    	ContactList.getInstance().setHome(home.getHomePanel());
     	//home.setVisible(true);
     	
     	//Hardcoding one person for now.
@@ -65,13 +65,13 @@ public class CityPanel extends JPanel{
     	PersonAgent person4 = new PersonAgent("Cashier");
     	PersonAgent person5 = new PersonAgent("Host");
     	
-    	//occupants.add(person);
-    	//occupants.add(person2);
-    	//occupants.add(person3);
-    	//occupants.add(person4);
-    	//occupants.add(person5);
+    	occupants.add(person);
+    	occupants.add(person2);
+    	occupants.add(person3);
+    	occupants.add(person4);
+    	occupants.add(person5);
 
-    	person.msgGotHungry();
+    	//person.msgGotHungry();
     	//person.msgGoToMarket();
     	//person.msgGoToWork();
     	
@@ -88,6 +88,7 @@ public class CityPanel extends JPanel{
 		person5.updateOccupation("enaHost", 7, 10);
 		 */
 		
+		person.updateOccupation("rich", -1, -1);
 		person2.updateOccupation("marcusWaiter", 8, 22);
 		person3.updateOccupation("marcusCook", 8, 22);
 		person4.updateOccupation("marcusCashier", 8, 22);
@@ -105,12 +106,11 @@ public class CityPanel extends JPanel{
 		person4.setGui(pg4);
 		person5.setGui(pg5);
 		
-		
 		person.msgGoToRestaurant();
-		person2.msgGoToWork();
-		person3.msgGoToWork();
-		person4.msgGoToWork();
-		person5.msgGoToWork();		
+//		person2.msgGoToWork();
+//		person3.msgGoToWork();
+//		person4.msgGoToWork();
+//		person5.msgGoToWork();		
 
 		person.startThread(); 
 		person2.startThread(); 

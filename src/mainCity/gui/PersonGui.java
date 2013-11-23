@@ -53,7 +53,7 @@ public class PersonGui implements Gui{
 		if ((xPos == xDestination) && (yPos == yDestination) && traveling) {
 			traveling = false;
 			agent.msgAtDestination();
-			isVisible = false;
+			//isVisible = false;
 		}
 	}
 	
