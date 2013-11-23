@@ -133,36 +133,68 @@ public class AnimationPanel extends JPanel implements ActionListener {
 	        addBuildingGui(house);
         }
         
+        g2.setColor(Color.yellow);
+        //Location of doorways 
+        g2.fillRect(36, 55, 20, 20);  //house1
+        g2.fillRect(146, 55, 20, 20);
+        g2.fillRect(256, 55, 20, 20);
+        g2.fillRect(366, 55, 20, 20);
+        g2.fillRect(476, 55, 20, 20);
+        g2.fillRect(586, 55, 20, 20);
+        g2.fillRect(696, 55, 20, 20); //house7
+        
+        
         //drawing bottom houses 
         for(int i=0; i<7; i++){
 	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png");
 	        addBuildingGui(house);
         }
         
+        //Location of doorways
+        g2.fillRect(49, 400, 20, 20);  //house1
+        g2.fillRect(159, 400, 20, 20);
+        g2.fillRect(269, 400, 20, 20);
+        g2.fillRect(379, 400, 20, 20);
+        g2.fillRect(489, 400, 20, 20);
+        g2.fillRect(599, 400, 20, 20);
+        g2.fillRect(709, 400, 20, 20); //house7
+        
+        
         //drawing restaurants 
         Building building = new Building ( 35, 150, "restaurant_right.png");
         addBuildingGui(building);
         
+        g2.fillRect(105, 180, 20, 20); //doorway
+        
         building = new Building ( 35, 250, "restaurant_right.png");
         addBuildingGui(building);
+        
+        g2.fillRect(105, 280, 20, 20); //doorway
         
         building = new Building ( 190, 200, "bank.png");
         addBuildingGui(building);
         
+        g2.fillRect(175, 230, 20, 20); //doorway
+        
         building = new Building ( 275, 150, "restaurant_right.png");
         addBuildingGui(building);
+        
+        g2.fillRect(347, 180, 20, 20); //doorway
         
         building = new Building ( 275, 250, "restaurant_right.png");
         addBuildingGui(building);
         
+        g2.fillRect(347, 280, 20, 20); //doorway
+        
         building = new Building ( 425, 200, "market.png");
         addBuildingGui(building);
         
-        building = new Building ( 520, 200, "restaurant_right.png");
-        addBuildingGui(building);
+        g2.fillRect(415, 215, 20, 20);
         
         building = new Building ( 520, 200, "restaurant_right.png");
         addBuildingGui(building);
+        
+        g2.fillRect(585, 230, 20, 20);
         
 
         for(Gui gui : guis) {
