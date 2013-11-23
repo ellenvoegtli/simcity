@@ -325,13 +325,13 @@ public class PersonAgent extends Agent {
 			}
 		}
 // UNCOMMENT??
-		
+		/*
 		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
 			print("My action list is empty. Going home");
 			actions.add(new Action(ActionType.home, 10));
 			return true;
-	}
-		
+		}
+		*/
 		return false;
 	}
 
@@ -346,8 +346,9 @@ public class PersonAgent extends Agent {
 		}
 		if(time == job.shiftEnd && state == PersonState.working) {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
-				if(r.getValue() instanceof WorkerRole && r.getValue().isActive()) {
-					((WorkerRole) r.getValue()).msgGoOffDuty();
+				if(r.getValue() instanceof ManagerRole && r.getValue().isActive()) {
+					print("Closing up shop");
+					((ManagerRole) r.getValue()).msgGoOffDuty();
 				}
 			}
 		}
@@ -413,6 +414,21 @@ public class PersonAgent extends Agent {
 							EllenNormalWaiterRole el = new EllenNormalWaiterRole(this, name);
 							ContactList.getInstance().getEllenRestaurant().handleRoleGui(el);
 							roles.put(action, el);
+							break;
+						case "ellenCook":
+							MarcusCookRole eco = new MarcusCookRole(this, name);
+							ContactList.getInstance().getMarcusRestaurant().handleRole(eco);
+							roles.put(action, eco);
+							break;
+						case "ellenCashier":
+							MarcusCashierRole eca = new MarcusCashierRole(this, name);
+							ContactList.getInstance().getMarcusRestaurant().handleRole(eca);
+							roles.put(action, eca);
+							break;
+						case "ellenHost":
+							MarcusHostRole eh = new MarcusHostRole(this, name);
+							ContactList.getInstance().getMarcusRestaurant().handleRole(eh);
+							roles.put(action, eh);
 							break;
 						default:
 							break;
@@ -515,7 +531,7 @@ public class PersonAgent extends Agent {
 	private void chooseRestaurant() {
 		//choose which restaurant here
 
-		destination = CityLocation.restaurant_ena;
+		destination = CityLocation.restaurant_marcus;
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
@@ -592,6 +608,7 @@ public class PersonAgent extends Agent {
 	}
 	
 	public void roleInactive() {
+		print(this + " was set inactive");
 		state = PersonState.normal;
 		stateChanged();
 		//possibly have the msgFinished...messages in here instead
@@ -602,9 +619,7 @@ public class PersonAgent extends Agent {
 	}
 
 	public void updateClock(int newTime) {
-		this.time = newTime;
-		print("The time is now " + time);
-		
+		this.time = newTime;		
 		checkSelf();
 	}
 	

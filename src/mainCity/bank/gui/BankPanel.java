@@ -80,6 +80,9 @@ public class BankPanel extends JPanel {
         
         
         
+        BankerGui bGui = new BankerGui(banker,gui);
+        banker.setGui(bGui);
+        gui.bankAnimationPanel.addGui(bGui);
         
         banker.startThread();
         banker.setBankAccounts(mainaccounts);
@@ -116,6 +119,8 @@ public class BankPanel extends JPanel {
 
 
         bankmanager.startThread();
+        
+        banker.msgGoToWork();
         banker.startThread();
         
         
@@ -134,7 +139,7 @@ public class BankPanel extends JPanel {
         //System.out.println(bankmanager.tellers.size());
 
         bankcust.msgWantToDeposit();
-        bankcust1.msgWantToWithdraw();
+        bankcust1.msgNeedLoan();
         
         add(group);
     }

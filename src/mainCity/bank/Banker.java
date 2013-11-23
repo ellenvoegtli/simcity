@@ -3,14 +3,20 @@ package mainCity.bank;
 import mainCity.PersonAgent;
 import mainCity.bank.BankAccounts.BankAccount;
 import mainCity.bank.BankTeller.ClientState;
+import mainCity.bank.BankTeller.TellerState;
 import mainCity.bank.BankTeller.myClient;
+import mainCity.bank.gui.BankTellerGui;
+import mainCity.bank.gui.BankerGui;
 import agent.Agent;
 
 
 public class Banker extends Agent {
+	public enum BankerState{none, atWork, offWork }
+	BankerState bstate =BankerState.none;
 	BankAccounts ba;
 	String name;
 	myClient mc;
+	BankerGui bGui;
 	public enum ClientState{none,wantsLoan, wantsAccount,done}
 	
 	public class myClient{
@@ -34,6 +40,17 @@ public class Banker extends Agent {
 	
 	
 //Messages
+	public void msgGoToWork(){
+		
+		System.out.println("Banker at station");
+		bstate=BankerState.atWork;
+		stateChanged();
+	}
+	
+	public void msgLeaveWork(){
+		bstate=BankerState.offWork;
+		stateChanged();
+	}
 	
 	public void msgIWantALoan(BankCustomer b, double accnum, double amnt){
 		Do("Recieved msgIWantALoan from customer");
@@ -58,6 +75,17 @@ public class Banker extends Agent {
 	
 	
 	protected boolean pickAndExecuteAnAction() {
+		
+		if(bstate==BankerState.atWork){
+			bstate=BankerState.none;
+			doGoToWork();
+			return true;
+		}
+		if(bstate==BankerState.offWork){
+			bstate=BankerState.none;
+			doLeaveWork();
+			return true;
+		}
 		
 		if(mc!=null){
 			
@@ -84,6 +112,17 @@ public class Banker extends Agent {
 	}
 	
 //Actions
+	private void doGoToWork(){
+		bGui.doGoToWork();
+			
+			
+		}
+		
+	private void doLeaveWork(){
+			bGui.doLeaveWork();
+		}
+		
+		
 	
 	private void createAccount(myClient mc){
 		Do("Creating new account");
@@ -120,6 +159,10 @@ public class Banker extends Agent {
 			return;
 		
 	}
+	public void setGui(BankerGui gui){
+		this.bGui=gui;
+	}
+	
 	
 	
 }

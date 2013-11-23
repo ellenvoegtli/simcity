@@ -91,6 +91,7 @@ public class BusAgent extends Agent{
 						stateChanged();
 					}
 				}
+			
 			}
 
 							

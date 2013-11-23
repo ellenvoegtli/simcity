@@ -46,9 +46,15 @@ public class CityPanel extends JPanel{
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 		
+<<<<<<< HEAD
     	//MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	//ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
     	//marcusRestaurant.setVisible(true);
+=======
+    	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
+    	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
+    	marcusRestaurant.setVisible(true);
+>>>>>>> 5e62963d33065e61c103c5546a6dda77131229d0
     	
     	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
@@ -65,7 +71,11 @@ public class CityPanel extends JPanel{
     	PersonAgent person4 = new PersonAgent("Cashier");
     	PersonAgent person5 = new PersonAgent("Host");
     	
-    	occupants.add(person5);
+    	//occupants.add(person);
+    	//occupants.add(person2);
+    	//occupants.add(person3);
+    	//occupants.add(person4);
+    	//occupants.add(person5);
 
     	person.msgGotHungry();
     	//person.msgGoToMarket();
@@ -77,10 +87,17 @@ public class CityPanel extends JPanel{
 		PersonGui pg4 = new PersonGui(person4, gui);
 		PersonGui pg5 = new PersonGui(person5, gui);
 
+
 		person2.updateOccupation("enaWaiter", 8, 11);
 		person3.updateOccupation("enaCook", 8, 11);
 		person4.updateOccupation("enaCashier", 8, 11);
 		person5.updateOccupation("enaHost", 7, 10);
+
+		//person2.updateOccupation("marcusWaiter", 8, 22);
+		//person3.updateOccupation("marcusCook", 8, 22);
+		//person4.updateOccupation("marcusCashier", 8, 22);
+		//person5.updateOccupation("marcusHost", 7, 22);
+
 
 		gui.getAnimationPanel().addPersonGui(pg1);
 		gui.getAnimationPanel().addPersonGui(pg2);
@@ -94,6 +111,7 @@ public class CityPanel extends JPanel{
 		person4.setGui(pg4);
 		person5.setGui(pg5);
 		
+<<<<<<< HEAD
 		
 		person.msgGoToRestaurant();
 		person2.msgGoToWork();
@@ -102,6 +120,14 @@ public class CityPanel extends JPanel{
 		person5.msgGoToWork();		
 
 		
+=======
+		person.msgGoToRestaurant();
+		person2.msgGoToWork();
+		person3.msgGoToWork();
+		person4.msgGoToWork();
+		person5.msgGoToWork();
+		
+>>>>>>> 5e62963d33065e61c103c5546a6dda77131229d0
 		person.startThread(); 
 		person2.startThread(); 
 		person3.startThread();
@@ -111,7 +137,7 @@ public class CityPanel extends JPanel{
 		//Instantiation of the Global City Clock
 		Runnable standChecker = new Runnable() {
 			 public void run() {
-				 clock = (clock+1) % 23;
+				 clock = (clock+1) % 24;
 				 updateCity();
 			 }
 		 };
