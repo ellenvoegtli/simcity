@@ -95,7 +95,24 @@ public class BankManager extends Agent {
 		banker_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
-//TODO fix this
+
+	public void msgImLeaving(BankTeller bt){
+		for (myTeller mt: tellers){
+			if(mt.t==bt){
+				tellers.remove(mt);
+			}
+		}
+		
+	}
+	
+	public void msgImLeaving(Banker b){
+		for (myBanker mb: bankers){
+			if(mb.b==b){
+				bankers.remove(b);
+			}
+		}
+	}
+	
 	public void msgImLeaving(BankCustomer bc){
 		Do("recieved message ImLeaving");
 	    for (myTeller mt: tellers){
@@ -122,7 +139,7 @@ public class BankManager extends Agent {
 	
 	
 	
-	
+//TODO handle scenarios where not enough employees	
 	
 	protected boolean pickAndExecuteAnAction() {
 		for(myTeller mt:tellers){
