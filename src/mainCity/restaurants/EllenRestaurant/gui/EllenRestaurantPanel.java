@@ -200,7 +200,7 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
-    public void handleRoleGui(Role r){
+    public void handleRole(Role r){
     	if(r instanceof EllenCashierRole) {
     		cashier = (EllenCashierRole) r;
     		

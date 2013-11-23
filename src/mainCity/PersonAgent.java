@@ -395,22 +395,22 @@ public class PersonAgent extends Agent {
 						//-----Ellen Restaurant Roles---//
 						case "ellenWaiter":
 							EllenNormalWaiterRole el = new EllenNormalWaiterRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRoleGui(el);
+							ContactList.getInstance().getEllenRestaurant().handleRole(el);
 							roles.put(action, el);
 							break;
 						case "ellenCook":
-							MarcusCookRole eco = new MarcusCookRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRole(eco);
+							EllenCookRole eco = new EllenCookRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(eco);
 							roles.put(action, eco);
 							break;
 						case "ellenCashier":
-							MarcusCashierRole eca = new MarcusCashierRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRole(eca);
+							EllenCashierRole eca = new EllenCashierRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(eca);
 							roles.put(action, eca);
 							break;
 						case "ellenHost":
-							MarcusHostRole eh = new MarcusHostRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRole(eh);
+							EllenHostRole eh = new EllenHostRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(eh);
 							roles.put(action, eh);
 							break;
 						default:

@@ -20,9 +20,10 @@ public class CityGui extends JFrame{
 	private TracePanel tracePanel3;
 	private TracePanel tracePanel4;
 	private TracePanel tracePanel5;
-	private CityPanel cityPanel = new CityPanel(this); 
+	private CityPanel cityPanel = new CityPanel(this);
 	private JPanel mainPanel = new JPanel();
 	private JPanel leftPanel = new JPanel();
+	private JPanel controlPanel = new JPanel();
 	private JPanel detailedPanel = new JPanel();
 	//private MarketGui marketGui = new MarketGui();
 	
@@ -68,10 +69,10 @@ public class CityGui extends JFrame{
 		
         //Control Panel Sizing
         Dimension restDim = new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .6));
-        cityPanel.setPreferredSize(restDim);
-        cityPanel.setMinimumSize(restDim);
-        cityPanel.setMaximumSize(restDim);
-        leftPanel.add(cityPanel, BorderLayout.CENTER);
+        controlPanel.setPreferredSize(restDim);
+        controlPanel.setMinimumSize(restDim);
+        controlPanel.setMaximumSize(restDim);
+        leftPanel.add(controlPanel, BorderLayout.CENTER);
         
         //=============== TRACE PANEL ====================//
         JTabbedPane tabbedPane = new JTabbedPane();

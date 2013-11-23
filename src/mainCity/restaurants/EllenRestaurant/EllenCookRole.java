@@ -45,7 +45,7 @@ public class EllenCookRole extends Role implements Cook{
 	boolean opened = true;
 	
 
-	public EllenCookRole(PersonAgent p, String name, int steakAmount, int pizzaAmount, int pastaAmount, int soupAmount) {
+	public EllenCookRole(PersonAgent p, String name/*, int steakAmount, int pizzaAmount, int pastaAmount, int soupAmount*/) {
 		super(p);
 
 		this.name = name;
@@ -53,10 +53,10 @@ public class EllenCookRole extends Role implements Cook{
 		isCheckingStand = false;
 		
 		//initialize inventory map
-        inventory.put("steak", new Food("steak", 5000, steakAmount));	//type, cookingTime, amount
-        inventory.put("pizza", new Food("pizza", 2500, pizzaAmount));
-        inventory.put("pasta", new Food("pasta", 1000, pastaAmount));
-        inventory.put("Soup", new Food("Soup", 2000, soupAmount));
+        inventory.put("steak", new Food("steak", 5000, 8));	//type, cookingTime, amount
+        inventory.put("pizza", new Food("pizza", 2500, 8));
+        inventory.put("pasta", new Food("pasta", 1000, 8));
+        inventory.put("Soup", new Food("Soup", 2000, 0));
         
         foodAtAvailableMarket.put("steak", 0);
         foodAtAvailableMarket.put("pizza", 0);
