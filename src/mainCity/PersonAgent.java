@@ -60,6 +60,10 @@ public class PersonAgent extends Agent {
 		this.occupation = o;
 	}
 	
+	public CityLocation getDestination() { 
+		return destination;
+	}
+	
 	//----------Messages----------//
 	//From a timer to tell the person to do a checkup
 	public void msgPerformCheck() {
@@ -419,7 +423,7 @@ public class PersonAgent extends Agent {
 			waitForGui();
 		}
 		else if(temp) { //chose bus
-			//DoGoToStop(); // walk to the closest bus stop or subway station?
+			gui.DoGoToStop(); // walk to the closest bus stop or subway station?
 			waitForGui();
 			//bus.myDestination(d); //send message to transportation object of where they want to go
 			//will receive an arrived at destination message when done
