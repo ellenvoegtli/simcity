@@ -243,7 +243,7 @@ public class EnaRestaurantPanel extends JPanel
 	
 			gui.animationPanel.addGui(g);
 			c.setHost(host);
-			c.getGui().setHungry();
+			//c.getGui().setHungry();
 			c.setCashier(cashier);
 			c.setGui(g);
 			

@@ -541,10 +541,10 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		switch((int) (Math.random() * 3)) {
-			case 0:
+		/*switch((int) (Math.random() * 3)) {
+			case 0:*/
 				destination = CityLocation.restaurant_ena;
-				break;
+				/*break;
 			case 1:
 				destination = CityLocation.restaurant_ellen;
 				break;
@@ -552,8 +552,8 @@ public class PersonAgent extends Agent {
 				destination = CityLocation.restaurant_marcus;
 				break;
 			default:
-				break;
-		}
+				break;*/
+		//}
 		
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);

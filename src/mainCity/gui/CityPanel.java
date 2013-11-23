@@ -46,8 +46,8 @@ public class CityPanel extends JPanel{
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 		
-    	//MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
-    	//ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
+    	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
+    	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
     	//marcusRestaurant.setVisible(true);
 
     	
@@ -83,10 +83,10 @@ public class CityPanel extends JPanel{
 		PersonGui pg5 = new PersonGui(person5, gui);
 
 
-		person2.updateOccupation("enaWaiter", 8, 11);
+		person2.updateOccupation("enaHost", 8, 11);
 		person3.updateOccupation("enaCook", 8, 11);
 		person4.updateOccupation("enaCashier", 8, 11);
-		person5.updateOccupation("enaHost", 7, 10);
+		person5.updateOccupation("enaWaiter", 7, 10);
 
 		//person2.updateOccupation("marcusWaiter", 8, 22);
 		//person3.updateOccupation("marcusCook", 8, 22);
