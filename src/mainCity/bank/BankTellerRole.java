@@ -144,6 +144,13 @@ public class BankTellerRole extends Agent {
 			
 			for(BankAccount b: ba.accounts){
 				if(mc.accountnumber==b.accountNumber){
+					if(b.balance < mc.amount){
+						mc.bc.msgRequestComplete(b.balance, 0);
+						b.balance=0;
+						b.creditScore-=10;
+						mc=null;
+						return;	
+					}
 					b.balance-=mc.amount;
 					mc.bc.msgRequestComplete(mc.amount, b.balance);
 					mc=null;

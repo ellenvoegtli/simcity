@@ -56,16 +56,22 @@ public class BankPanel extends JPanel {
 
     public BankPanel(BankGui gui) {
         this.gui = gui;
-        //hack creating a new account with 0 monies
+        
+        //hack creating a new account with 100 monies
+        
+        
         //TODO use this info for handlerole()
+        
         PersonAgent p = new PersonAgent("bob");
         bankcust = new BankCustomerRole(p, p.getName());
+        mainaccounts.addAccount(p.getName(), 100, p, 0);
         BankCustomerGui bcGui = new BankCustomerGui(bankcust, gui);
         
         bankcust.setGui(bcGui);
 		bankcust.setBankManager(bankmanager);
 		bankcust.setAmount(400);
-        //bankcust.setMyaccountnumber(0);
+		bankcust.setBankbalance(100);
+        bankcust.setMyaccountnumber(0);
         //bankcust.setBankbalance(0);
 
         p.setCash(400);
@@ -73,7 +79,6 @@ public class BankPanel extends JPanel {
         bankcust.setActive();
         
         //mainaccounts.addAccount("bob1", 1000, p1, 1);
-        mainaccounts.addAccount(p.getName(), 1000, p, 0);
         
         //p1.setCash(500);
       
