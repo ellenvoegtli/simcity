@@ -289,7 +289,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         CityGui gui = new CityGui();
         gui.setTitle("SimCity201");
         gui.setVisible(true);
-        gui.setResizable(false);
+        gui.setResizable(true);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
     }

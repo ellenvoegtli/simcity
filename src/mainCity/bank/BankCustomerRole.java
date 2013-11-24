@@ -30,8 +30,12 @@ public class BankCustomerRole extends Role {
 	private int amount;
 	
 	public enum BankCustomerTransactionState{ none,wantToDeposit, wantToWithdraw, wantNewAccount, wantLoan}
+	
+	public enum DeferredTransaction{none,deposit,withdraw,loan}
 
 	BankCustomerTransactionState tstate=BankCustomerTransactionState.none;
+	
+	DeferredTransaction dtrans =DeferredTransaction.none;
 	
 	public enum BankCustomerState{ none,waitingInBank, atTeller, atBanker, assignedTeller, assignedBanker, goingToTeller, goingToBanker, talking, done, leaving,left
 	}
@@ -97,6 +101,7 @@ public class BankCustomerRole extends Role {
 	    tstate=BankCustomerTransactionState.wantLoan;
 	    if(myaccountnumber== -1){
 			tstate=BankCustomerTransactionState.wantNewAccount;
+			dtrans=DeferredTransaction.loan;
 			Do("no account exists, making account");
 		}
 	    stateChanged();
@@ -113,6 +118,7 @@ public class BankCustomerRole extends Role {
 		tstate=BankCustomerTransactionState.wantToDeposit;
 		if(myaccountnumber== -1){
 			tstate=BankCustomerTransactionState.wantNewAccount;
+			dtrans=DeferredTransaction.deposit;
 			Do("no account exists, making account");
 		}
 		stateChanged();
@@ -123,7 +129,18 @@ public class BankCustomerRole extends Role {
 		tstate=BankCustomerTransactionState.wantToWithdraw;
 		if(myaccountnumber== -1){
 			tstate=BankCustomerTransactionState.wantNewAccount;
+			dtrans=DeferredTransaction.withdraw;
 			Do("no account exists, making account");
+			stateChanged();
+			return;
+			
+		}
+		if(bankbalance < amount){
+			tstate=BankCustomerTransactionState.wantLoan;
+			Do("Not enough money in bank. requesting loan");
+			stateChanged();
+			return;
+			
 		}
 		stateChanged();
 		
@@ -209,13 +226,13 @@ public void msgLoanDenied(double loanamount){
 		}
 		
 		if(bcstate==BankCustomerState.assignedTeller){
-			//TODO Gui setup, temporarily bypassing
+			
 			bcstate=BankCustomerState.goingToTeller;
 			doGoToTeller();	
 			return true;
 		}
 		if(bcstate==BankCustomerState.assignedBanker){
-			//TODO Gui setup, temporarily bypassing
+			
 			bcstate=BankCustomerState.goingToBanker;
 			doGoToBanker();	
 			return true;
@@ -252,8 +269,35 @@ public void msgLoanDenied(double loanamount){
 			
 			
 		}	
+		
+		if(bcstate==BankCustomerState.done && dtrans!=DeferredTransaction.none){
+			switch (dtrans){
+			
+			case deposit:
+				dtrans=DeferredTransaction.none;
+				bcstate=BankCustomerState.none;
+				tstate=BankCustomerTransactionState.wantToDeposit;
+				break;
+			case withdraw:
+				dtrans=DeferredTransaction.none;
+				bcstate=BankCustomerState.none;
+				tstate=BankCustomerTransactionState.wantToWithdraw;
+				break;
+
+			case loan:
+				dtrans=DeferredTransaction.none;
+				bcstate=BankCustomerState.none;
+				tstate=BankCustomerTransactionState.wantLoan;
+				break;
+			}
+			
+			return true;
+			
+			
+		}
 			
 		if(bcstate==BankCustomerState.done){
+			
 			bcstate=BankCustomerState.leaving;
 			Do("leaving");
 			Do("New account balance is " + bankbalance);
@@ -268,25 +312,26 @@ public void msgLoanDenied(double loanamount){
 	
 		
 		
-		Do("running scheduler");
+		
 		return false;
 	}
 	
 //Actions
 	
+
+
+	/*////////////////////////GUI ACTIONS  //////////////////////////////////////*/
 	private void doLeaveBank() {
 		custGui.DoLeaveBank();
 		bm.msgImLeaving(this);
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
 	}
-
-	/*////////////////////////GUI ACTIONS  //////////////////////////////////////*/
 	private void doGoToWaiting(){
 		custGui.doGoToWaitingArea();
 		try {
