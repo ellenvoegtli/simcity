@@ -157,7 +157,7 @@ public class CityPanel extends JPanel{
 		    DataInputStream in = new DataInputStream(fstream);
 		    BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		    String strLine;
-		    
+	
 		    while ((strLine = br.readLine()) != null)   {
 		    	if(!strLine.startsWith("-")) {
 				   	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
