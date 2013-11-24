@@ -129,6 +129,10 @@ public class BankerRole extends Agent {
 		double temp =ba.getNumberOfAccounts();
 		ba.addAccount(mc.mcname, mc.amount, mc.p, temp);
 		mc.bc.msgAccountCreated(temp);
+		if(mc.bc.getBankbalance()< 50){
+			processLoan(mc);
+			return;
+		}
 		mc.bc.msgRequestComplete(mc.amount*-1, mc.amount);
 		mc=null;
 	}
@@ -139,6 +143,7 @@ public class BankerRole extends Agent {
 		if(mc.accountnumber==-1){
 			mc.bc.msgLoanDenied(mc.amount);
 			Do("Loan denied, no account exists");
+			mc=null;
 			return;
 		}
 		for(BankAccount b: ba.accounts){
@@ -153,6 +158,7 @@ public class BankerRole extends Agent {
 					b.debt+=mc.amount;
 					mc.bc.msgLoanApproved(mc.amount);
 					Do("Loan approved");
+					mc=null;
 					return;
 				}
 		

@@ -38,6 +38,7 @@ public class BankCustomerGui implements Gui {
     public static final int height = 20;
     int t;
     public boolean atOrigin= true;
+    public boolean traveling = true;
    
     public BankCustomerGui(BankCustomerRole bankcustomer, BankGui gui) {
         this.bankcustomer = bankcustomer;
@@ -89,8 +90,10 @@ public class BankCustomerGui implements Gui {
     		bankcustomer.msgAtWaiting();    	 
         }
         
-        if(xPos == xHome && yPos == yHome){
+        if(xPos == xHome && yPos == yHome && traveling==true ){
+        	traveling=false;
         	bankcustomer.msgLeftBank();
+        	
         }
         
       
@@ -115,6 +118,7 @@ public class BankCustomerGui implements Gui {
         	System.out.println("going to waiting");
         	xDestination = xWaiting;
         	yDestination = yWaiting;
+        	traveling=true;
         
        }
     
@@ -122,23 +126,27 @@ public class BankCustomerGui implements Gui {
     	
     	xDestination = xTeller0;
     	yDestination = yTeller0;
+    	traveling=true;
     }
     	
 public void doGoToTeller2(){
     	
     	xDestination = xTeller1;
     	yDestination = yTeller1;
+    	traveling=true;
     }
  public void doGoToBanker(){
     	
     	xDestination = xBanker;
     	yDestination = yBanker;
+    	traveling=true;
     }
  
     public void DoLeaveBank(){
     	
     	xDestination = -20;
     	yDestination = 520;
+    	traveling=true;
     	
     }
     public boolean atStart()

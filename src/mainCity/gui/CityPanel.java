@@ -84,6 +84,7 @@ public class CityPanel extends JPanel{
     	
     	
     	
+    	
     	occupants.add(person);
     	occupants.add(person2);
     	occupants.add(person3);
@@ -100,6 +101,7 @@ public class CityPanel extends JPanel{
 		PersonGui pg3 = new PersonGui(person3, gui);
 		PersonGui pg4 = new PersonGui(person4, gui);
 		PersonGui pg5 = new PersonGui(person5, gui);
+		
 
 		//person.updateOccupation("rich", -1, -1);
 		//person2.updateOccupation("marcusWaiter", 8, 22);
@@ -125,25 +127,40 @@ public class CityPanel extends JPanel{
 		gui.getAnimationPanel().addPersonGui(pg3);
 		gui.getAnimationPanel().addPersonGui(pg4);
 		gui.getAnimationPanel().addPersonGui(pg5);
+		
 
 		person.setGui(pg1);
 		person2.setGui(pg2);
 		person3.setGui(pg3);
 		person4.setGui(pg4);
 		person5.setGui(pg5);
+<<<<<<< HEAD
+		
+		
+=======
+>>>>>>> 7a89824c6db9ff4371d017a2f6bb85e639d33251
 
 		person.msgGoToRestaurant();
 		person2.msgGoToWork();
 		person3.msgGoToWork();
 		person4.msgGoToWork();
-		person5.msgGoToWork();		
+		person5.msgGoToWork();	
+		
+		
 
 		person.startThread(); 
 		person2.startThread(); 
 		person3.startThread();
 		person4.startThread();
 		person5.startThread();
+<<<<<<< HEAD
+	
+		
+		
+		
+=======
 */
+
 		//Instantiation of the Global City Clock
 		Runnable standChecker = new Runnable() {
 			 public void run() {

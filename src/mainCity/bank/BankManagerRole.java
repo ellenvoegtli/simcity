@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import mainCity.bank.BankAccounts.BankAccount;
 import agent.Agent;
 
 public class BankManagerRole extends Agent {
 
 	String name;
+	private BankAccounts ba;
 	public List <myTeller> tellers= new ArrayList<myTeller>();
 	public List <myBanker> bankers = new ArrayList<myBanker>();
 	public List <myBankCustomer>  teller_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
@@ -60,14 +62,25 @@ public class BankManagerRole extends Agent {
 		
 	}
 	
+	
+	
 	//Messages
+	
+	//TODO msg for banker added
+	
 	public void msgTellerAdded(BankTellerRole bt){
 		tellers.add(new myTeller(bt,tellers.size()));
 	}
 	
 	public void msgDirectDeposit(double accountNumber, int amount){
-		//TODO what parameter should be used to identify a person? is accountNumber too private?
-		
+		synchronized (ba.accounts) {
+			for(BankAccount account:ba.accounts){
+				if(account.accountNumber == accountNumber){
+					account.balance+=amount;
+					Do("Direct deposit performed. $" + amount + " was deposited for " + account.name +" with new balance of $" + account.balance);
+				}
+			}
+		}
 	}
 	
 	public void msgIWantToDeposit( BankCustomerRole bc){
@@ -204,6 +217,9 @@ public class BankManagerRole extends Agent {
 	    banker_bankCustomers.remove(0);
 	}
 
+	public void setBankAccounts(BankAccounts accounts){
+		ba= accounts;
+	}
 
 	
 	
