@@ -25,15 +25,24 @@ public class JeffersonCashierRole extends Agent implements Cashier{
 	
 	
 	
+	
+	
 	public class Bill{
-		Market m;
+		
 		public boolean paid;
 		public double amount;
+		public boolean needverify;
+		Map<String, Integer> inventory;
+		MarketDeliveryManRole deliveryPerson;
 		
-		public Bill(double a, Market Ma){
+		
+		public Bill(double a,  Map<String,Integer> inven,MarketDeliveryManRole dp ){
 			paid=false;
+			needverify=false;
 			amount=a;
-			m=Ma;
+			
+			inventory=inven;
+			deliveryPerson=dp;
 			
 		}
 		
@@ -66,11 +75,31 @@ public class JeffersonCashierRole extends Agent implements Cashier{
 	
 	// Messages
 	
+
+
 	public void msgHereIsMarketBill(Map<String, Integer> inventory,
-			double billAmount, String deliveryPerson) {
-		// TODO generate a bill with proper data 
+			double billAmount, MarketDeliveryManRole deliveryPerson) {
+			bills.add(new Bill(billAmount, inventory, deliveryPerson));
+			stateChanged();
 		
 	}
+
+
+
+	public void msgHereIsChange(double amount,
+			MarketDeliveryManRole deliveryPerson) {
+			profits +=amount;
+			for(Bill b:bills){
+				if(b.amount==amount){
+					b.needverify=true;
+				}
+			}
+			
+			stateChanged();
+		
+	}
+
+
 	
 	public void msgCustWantsCheck (int table, String Choice, Waiter w){
 	
@@ -93,13 +122,13 @@ public class JeffersonCashierRole extends Agent implements Cashier{
 			}
 		}	
 	}
-	
+	/*
 	public void msgHereIsMarketBill(int amount, Market m){
 		Do("Cashier recieved bill from market");
 		bills.add(new Bill(amount, m));
 		stateChanged();
 	}
-
+	*/
 	/* Scheduler */
 	public boolean pickAndExecuteAnAction() {
 		
@@ -107,10 +136,15 @@ public class JeffersonCashierRole extends Agent implements Cashier{
 			for(Bill b:bills){
 				if(!b.paid){
 					b.paid=true;
+					verify(b);
 					payMarket(b);
 					return true;
-					
-				}	
+				}
+				if(b.needverify){
+					b.needverify=false;
+					tellDeliveryManVerified(b);
+				}
+				
 			}
 		}
 		
@@ -139,8 +173,15 @@ public class JeffersonCashierRole extends Agent implements Cashier{
 
 	
 
+
+
 	//Actions
 
+	private void tellDeliveryManVerified(Bill b) {
+		b.deliveryPerson.msgChangeVerified();
+		
+	}
+	
 	private void completePayment(Check c) {
 		Do("Payment process cleared");
 		c.w.msgPaymentComplete(c.tableNumber);
@@ -167,11 +208,16 @@ public class JeffersonCashierRole extends Agent implements Cashier{
 			Do("Profits are in the negative");
 		}
 		
-		b.m.msgHereIsMonies(b.amount);
-		// TODO c
+		//b.m.msgHereIsMonies(b.amount);
+		// TODO deliveryperson.msgHereIsPayment(double)
+		b.deliveryPerson.msgHereIsPayment(b.amount);
 		
 	}
 
+	private void verify(Bill b){
+		//TODO complete this once we established global prices from Ellen
+		
+	}
 
 	@Override
 	public void ReadyToPay(Customer c) {
@@ -186,21 +232,6 @@ public class JeffersonCashierRole extends Agent implements Cashier{
 		
 	}
 
-
-	@Override
-	public void msgHereIsMarketBill(Map<String, Integer> inventory,
-			double billAmount, MarketDeliveryManRole deliveryPerson) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void msgHereIsChange(double amount,
-			MarketDeliveryManRole deliveryPerson) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	

@@ -4,18 +4,16 @@ import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.enaRestaurant.EnaCashierRole;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
+import mainCity.restaurants.enaRestaurant.EnaSharedWaiterRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.EnaCookRole;
-import mainCity.restaurants.marcusRestaurant.gui.CookGui;
+import mainCity.restaurants.enaRestaurant.gui.EnaCookGui;
+import mainCity.restaurants.enaRestaurant.sharedData.RevolvingStand;
 
 import javax.swing.*;
 
 import role.Role;
-import role.marcusRestaurant.MarcusCashierRole;
-import role.marcusRestaurant.MarcusCookRole;
-import role.marcusRestaurant.MarcusCustomerRole;
-import role.marcusRestaurant.MarcusWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -35,6 +33,9 @@ public class EnaRestaurantPanel extends JPanel
     private EnaCookRole cook;
     private EnaCookGui cookGui;
     private EnaCashierRole cashier;
+    private EnaWaiterRole waiter;
+    private EnaCustomerRole customer;
+    private RevolvingStand stand = new RevolvingStand();
 
 
 
@@ -50,17 +51,69 @@ public class EnaRestaurantPanel extends JPanel
 
     public EnaRestaurantPanel(EnaRestaurantGui gui) {
         this.gui = gui;
-        //host = new EnaHostRole("Mr. Jeeves");
-       // host.setGui(hostGui);
-       // cookGui = new CookGui(cook, gui);
+        
+        PersonAgent base = new PersonAgent("Host");
+		host = new EnaHostRole(base, base.getName());
+		//base.addRole(PersonAgent.ActionType.work, host);
+		host.setActive();
+		
+		PersonAgent base2 = new PersonAgent("Cashier");
+		cashier = new EnaCashierRole(base2, base2.getName());
+		//base.addRole(PersonAgent.ActionType.work, cashier);
+		cashier.setActive();
+		
+		PersonAgent base3 = new PersonAgent("Cook");
+		cook = new EnaCookRole(base3, base3.getName());
+		//base.addRole(PersonAgent.ActionType.work, cook);
+		cook.setActive();
+		
+		PersonAgent base4 = new PersonAgent("Waiter");
+		waiter = new EnaSharedWaiterRole(base4, base4.getName());
+		//base.addRole(PersonAgent.ActionType.work, waiter);
+		waiter.setActive();
+		
+		PersonAgent base5 = new PersonAgent("Customer");
+		customer = new EnaCustomerRole(base5, base5.getName());
+		//base.addRole(PersonAgent.ActionType.hungry, customer);
+		customer.setActive();
+		
+		//cook.setGui(cookGui);
+		//gui.animationPanel.addGui(cookGui);
+		
+
+		customers.add(customer);
+		//int posX = 22 * customers.size();
+	EnaCustomerGui g = new EnaCustomerGui(customer, gui);
+	gui.animationPanel.addGui(g);// dw
+	customer.setHost(host);
+	customer.setCashier(cashier);
+	customer.setGui(g);
+	customer.startThread();
+		host.addWaiterRole(waiter);
+		int pos = 22* host.waiters.size();
+		EnaWaiterGui wg = new EnaWaiterGui(waiter, gui, pos);  
+		waiter.setGui(wg);
+		waiter.setHost(host);
+		waiter.setCook(cook);
+		waiter.setCashier(cashier);
+		waiters.add(waiter);
+		gui.animationPanel.addGui(wg);
+		  
+		//host.setGui(hostGui);
         //cook.setGui(cookGui);
         //cook.setCashier(cashier);
-       // gui.animationPanel.addGui(hostGui);
-		//gui.animationPanel.addGui(cookGui);
+        //gui.animationPanel.addGui(hostGui);
+		
+		//gui.animationPanel.addGui(gui);
+		
+		base.startThread();
+		base2.startThread();
+		base3.startThread();
+		base4.startThread();
+		base5.startThread();
+     
 
-       // host.startThread();
-       // cook.startThread();
-        //cashier.startThread();
+    
         	
         ContactList.getInstance().setEnaCook(cook);
         ContactList.getInstance().setEnaCashier(cashier);
@@ -193,17 +246,19 @@ public class EnaRestaurantPanel extends JPanel
     		System.out.println("Waiter has been added to the restaturant:  " + name);
     	}
     }*/
-    public void handleRole(Role r) {
-    	if(r instanceof EnaWaiterRole) {
-        	EnaWaiterRole w = (EnaWaiterRole) r;
+    public void handleRole(Role r) 
+    {
+    	if(r instanceof EnaWaiterRole) 
+    	{
+    		if(r instanceof EnaSharedWaiterRole) 
+    		{
+    			((EnaSharedWaiterRole) r).setStand(stand);
+    		}
+    		EnaWaiterRole w = (EnaWaiterRole) r;
 
-    		/*if(r.getName().contains("share")) {
-    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
-    			a.setStand(stand);
-    		}*/
-           // host.addWaiterRole(w);
-          // int pos = 22* host.waiters.size();
-           EnaWaiterGui g = new EnaWaiterGui(w, gui, 22);
+          int pos = 22;
+          if(host != null)  pos = 22* host.waiters.size();
+           EnaWaiterGui g = new EnaWaiterGui(w, gui,pos);
    		   gui.animationPanel.addGui(g);
 
     		if(host != null) host.addWaiterRole(w);
@@ -212,17 +267,7 @@ public class EnaRestaurantPanel extends JPanel
             w.setCook(cook);
             w.setCashier(cashier);
             waiters.add(w);
-            /*if(host != null)
-            {
-            	host.addWaiterRole(w);
-                int pos = 22* host.waiters.size();
-        		EnaWaiterGui g = new EnaWaiterGui(w, gui, pos);
-        		w.setGui(g);
-        		gui.animationPanel.addGui(g);
-
-
-            }
-            waiters.add(w);*/
+          
     		System.out.println("Waiter has been added to the restaturant");
 
     		

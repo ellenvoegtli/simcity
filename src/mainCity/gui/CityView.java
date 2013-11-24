@@ -11,6 +11,8 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 
+import mainCity.restaurants.marcusRestaurant.gui.MarcusAnimationPanel;
+
 public class CityView extends JPanel implements MouseListener, ActionListener {
 
 	HashMap<String, CityCard> cards;
@@ -37,13 +39,13 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		}
 		cards.put("bank", new CityCard(city, Color.green));
 		cards.put("market", new CityCard(city, Color.orange));
-
+		cards.put("marcusRestaurant", new MarcusAnimationPanel(city));
+		
 		layout = new CardLayout();
 		this.setLayout(layout);
 		for (String key:cards.keySet()) {
 			this.add(cards.get(key), key);
 		}
-		
 
 		layout.show(this, "null");
 	}

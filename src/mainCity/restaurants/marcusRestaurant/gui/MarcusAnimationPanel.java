@@ -2,14 +2,18 @@ package mainCity.restaurants.marcusRestaurant.gui;
 
 import javax.swing.*;
 
+import mainCity.contactList.ContactList;
+import mainCity.gui.CityCard;
+import mainCity.gui.CityGui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
-
+public class MarcusAnimationPanel extends CityCard implements ActionListener {
+	private MarcusRestaurantPanel restaurant = new MarcusRestaurantPanel(this);
     private final int WINDOWX = 500;
     private final int WINDOWY = 410;
     private static final int x = 100;
@@ -17,13 +21,15 @@ public class AnimationPanel extends JPanel implements ActionListener {
     private static final int w = 50;
     private static final int h = 50;
     private static final int tableCount = 4;
-    
+   
     private Image bufferImage;
     private Dimension bufferSize;
 
     private List<Gui> guis = new ArrayList<Gui>();
 
-    public AnimationPanel() {
+    public MarcusAnimationPanel(CityGui gui) {
+    	super(gui);
+    	ContactList.getInstance().setMarcusRestaurant(restaurant);
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         

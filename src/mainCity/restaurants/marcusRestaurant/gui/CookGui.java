@@ -7,16 +7,14 @@ import role.marcusRestaurant.MarcusCookRole;
 public class CookGui implements Gui{
 	private MarcusCookRole agent = null;
 	private boolean isPresent = false;
-	MarcusRestaurantGui gui;
 
 	private int xPos;
 	private int xDestination, yDestination;
 	private boolean onDuty;
 	private boolean cooking, grill1, grill2, grill3, grill4;
 
-	public CookGui(MarcusCookRole c, MarcusRestaurantGui gui){ //HostAgent m) {
+	public CookGui(MarcusCookRole c) {
 		agent = c;
-		this.gui = gui;
 		xPos = 235;
 		xDestination = 235;
 		cooking = grill1 = grill2 = grill3 = grill4 = false;

@@ -27,12 +27,12 @@ public class JeffersonRestaurantPanel extends JPanel {
   // private WaiterGui waiterGui = new WaiterGui(waiter);
     private JeffersonCookRole cook = new JeffersonCookRole("Jim");
     private JeffersonCashierRole cashier = new JeffersonCashierRole("Dave");
-    
+    /* 
     private JeffersonMarketRole m1 = new JeffersonMarketRole();
     private JeffersonMarketRole m2 = new JeffersonMarketRole();
     private JeffersonMarketRole m3 = new JeffersonMarketRole();
     private JeffersonMarketRole m4 = new JeffersonMarketRole();
-    
+    */
     
     
     
@@ -69,6 +69,8 @@ public class JeffersonRestaurantPanel extends JPanel {
         
         
         cook.startThread();
+        cook.setCashier(cashier);
+       /*
         m1.startThread();
         m2.startThread();
         m3.startThread();
@@ -89,7 +91,7 @@ public class JeffersonRestaurantPanel extends JPanel {
         cook.addMarket(m2);
         cook.addMarket(m3);
         cook.addMarket(m4);
-        
+        */
         CookGui cg = new CookGui(cook,gui);
         cook.setGui(cg);
         gui.animationPanel.addGui(cg);
@@ -108,7 +110,20 @@ public class JeffersonRestaurantPanel extends JPanel {
         initRestLabel();
         add(restLabel);
         add(group);
-        
+//TODO remove hardcoding after test
+        JeffersonWaiterRole w =  new JeffersonWaiterRole("testwaiter");
+    	WaiterGui waiterGui = new WaiterGui(w);
+    	w.setCook(cook);
+        w.setHost(host);
+        w.setCashier(cashier);
+        gui.animationPanel.addGui(waiterGui);
+		w.setGui(waiterGui);
+		waiters.add(w);
+		waiterGui.setOrigin(waiters.size()*25 + 50, 170);
+		host.waiters.add(w);
+		
+		System.out.println("waiter added");
+        w.startThread();
     
     
         

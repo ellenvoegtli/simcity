@@ -98,6 +98,49 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         l = new Lane( 650, 75, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
         
+        //drawing top houses
+        for(int i=0; i<7; i++){
+	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "tophouse" + i);
+	        buildings.add(house);
+	        addBuildingGui(house);
+        }
+        
+        //drawing bottom houses 
+        for(int i=0; i<7; i++){
+	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "bothouse" + i);
+	        buildings.add(house);
+	        addBuildingGui(house);
+        }
+        
+        //drawing restaurants 
+        Building building = new Building ( 35, 150, "restaurant_right.png", "marcusRestaurant");
+        buildings.add(building); 
+        addBuildingGui(building);
+        
+        building = new Building ( 35, 250, "restaurant_right.png", "rest2");
+        buildings.add(building); 
+        addBuildingGui(building);
+       
+        building = new Building ( 190, 200, "bank.png", "bank");
+        buildings.add(building); 
+        addBuildingGui(building);
+        
+        building = new Building ( 275, 150, "restaurant_right.png", "rest3");
+        buildings.add(building); 
+        addBuildingGui(building);
+        
+        building = new Building ( 275, 250, "restaurant_right.png", "rest4");
+        buildings.add(building); 
+        addBuildingGui(building);
+        
+        building = new Building ( 425, 200, "market.png", "market");
+        buildings.add(building); 
+        addBuildingGui(building);
+        
+        building = new Building ( 520, 200, "restaurant_right.png", "rest5");
+        buildings.add(building); 
+        addBuildingGui(building);
+        
         javax.swing.Timer t = new javax.swing.Timer( 25, this );
 		t.start();
       
@@ -108,7 +151,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     }
 
 	public void actionPerformed(ActionEvent e) {
-
+		
 		if(bus != null){
 			if(onlyOnce == true){
 				onlyOnce = false;
@@ -129,7 +172,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				lanes.get(5).addVehicle(bus);
 			}
 			
-			//Bus Stop at 105,105
 			
 			if(bus.getX() == 130 && bus.getY() == 335){ 
 				lanes.get(5).vehicles.remove(bus);
@@ -151,9 +193,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 			}
 			
 		}	
-		//Bus stop at 210, 130
 		
-		
+		/*
 		//Make them all lanes stop
 		if ( count % 500 == 0 ) {
 			for ( int i=0; i<lanes.size(); i++ ) {
@@ -166,6 +207,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				lanes.get(i).greenLight();
 			}
 		}
+		*/
 		repaint();  //Will have paintComponent called
 	}
 
@@ -194,12 +236,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.drawImage(stopSign, 130, 230, null);
         g2.drawImage(stopSign, 455, 80, null);
         
-        //drawing top houses
-        for(int i=0; i<7; i++){
-	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "tophouse" + i);
-	        buildings.add(house);
-	        addBuildingGui(house);
-        }
+      
         
         g2.setColor(Color.yellow);
         //Location of doorways 
@@ -212,12 +249,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(696, 55, 20, 20); //house7
         
         
-        //drawing bottom houses 
-        for(int i=0; i<7; i++){
-	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "bothouse" + i);
-	        buildings.add(house);
-	        addBuildingGui(house);
-        }
+       
         
         //Location of doorways
         g2.fillRect(49, 400, 20, 20);  //house1
@@ -229,54 +261,20 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(709, 400, 20, 20); //house7
         
         
-        //drawing restaurants 
-        Building building = new Building ( 35, 150, "restaurant_right.png", "rest1");
-        buildings.add(building); 
-        addBuildingGui(building);
+       
         
         g2.fillRect(105, 180, 20, 20); //doorway
-        
-        building = new Building ( 35, 250, "restaurant_right.png", "rest2");
-        buildings.add(building); 
-        addBuildingGui(building);
-        
         g2.fillRect(105, 280, 20, 20); //doorway
-        
-        building = new Building ( 190, 200, "bank.png", "bank");
-        buildings.add(building); 
-        addBuildingGui(building);
-        
         g2.fillRect(175, 230, 20, 20); //doorway
-        
-        building = new Building ( 275, 150, "restaurant_right.png", "rest3");
-        buildings.add(building); 
-        addBuildingGui(building);
-        
         g2.fillRect(347, 180, 20, 20); //doorway
-        
-        building = new Building ( 275, 250, "restaurant_right.png", "rest4");
-        buildings.add(building); 
-        addBuildingGui(building);
-        
         g2.fillRect(347, 280, 20, 20); //doorway
-        
-        building = new Building ( 425, 200, "market.png", "market");
-        buildings.add(building); 
-        addBuildingGui(building);
-        
         g2.fillRect(415, 215, 20, 20); //doorway
-        
-        building = new Building ( 520, 200, "restaurant_right.png", "rest5");
-        buildings.add(building); 
-        addBuildingGui(building);
-        
         g2.fillRect(585, 230, 20, 20); //doorway
+        
         
 
         for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-                gui.updatePosition();
+            if (gui.isPresent() ) {
                 gui.updatePosition();
             }
         }

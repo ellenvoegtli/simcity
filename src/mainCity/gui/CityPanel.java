@@ -21,8 +21,6 @@ import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantGui;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
-import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantGui;
-import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.enaRestaurant.gui.*;
 
@@ -49,14 +47,10 @@ public class CityPanel extends JPanel{
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
-		
-    	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
-    	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
-    	//marcusRestaurant.setVisible(true);
 
-    	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
-    	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
-    	//jeffersonRestaurant.setVisible(true);
+    	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
+    	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
+    	jeffersonRestaurant.setVisible(true);
     	
 
     	BankGui bank = new BankGui();
@@ -75,26 +69,10 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
     	
-    	
-    	PersonAgent person = new PersonAgent("Greeter");
-    	person.msgGoToWork();
-    	PersonGui pg1 = new PersonGui(person, gui);
-    	person.updateOccupation("marketGreeter", 8, 11);
-    	gui.getAnimationPanel().addPersonGui(pg1);
-    	person.setGui(pg1);
-    	person.startThread(); 
-    	
-    	/*
-    	PersonAgent person2 = new PersonAgent("Cook");
-    	person2.msgGoToWork();
-    	PersonGui pg2 = new PersonGui(person2, gui);
-    	person2.updateOccupation("ellenCook", 8, 11);
-    	gui.getAnimationPanel().addPersonGui(pg2);
-    	person2.setGui(pg2);
-    	person2.startThread();
-    	*/
-    	
-		//parseConfig();
+
+    	String[] actions = {"work"}; 
+    	//addPerson("David", 500, "marcusWaiter", 7, 19, actions); 
+		parseConfig();
    
 /*
     	PersonAgent person = new PersonAgent("joeMoe");

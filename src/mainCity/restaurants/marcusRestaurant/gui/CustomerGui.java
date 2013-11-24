@@ -12,7 +12,7 @@ public class CustomerGui implements Gui{
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
-	MarcusRestaurantGui gui;
+	MarcusAnimationPanel animation;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination, waitX, waitY;
@@ -27,15 +27,14 @@ public class CustomerGui implements Gui{
 	private static final int w = 20;
 	private static final int h = 20;
 
-	public CustomerGui(MarcusCustomerRole c, MarcusRestaurantGui gui, int pos){ //HostAgent m) {
+	public CustomerGui(MarcusCustomerRole c, MarcusAnimationPanel a, int pos){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;
 		waitX = xDestination = 0;
 		waitY = yDestination = 40 + 40*pos-15*pos;
 		order = new JLabel();
-		//maitreD = m;
-		this.gui = gui;
+		this.animation = a;
 	}
 
 	public void updatePosition() {
@@ -53,9 +52,7 @@ public class CustomerGui implements Gui{
 			if (command==Command.GoToSeat) agent.msgAnimationFinishedGoToSeat();
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
-				//System.out.println("about to call gui.setCustomerEnabled(agent);");
 				isHungry = false;
-				gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}
@@ -67,7 +64,7 @@ public class CustomerGui implements Gui{
         order.setSize(order.getPreferredSize());		
 		order.setVisible(true);
 
-		gui.getAnimationPanel().add(order);
+		animation.add(order);
 	}
 	
 	public void DoUpdateLabel() {
