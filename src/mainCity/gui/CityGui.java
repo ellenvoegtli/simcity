@@ -13,7 +13,6 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class CityGui extends JFrame{
-	
 	private AnimationPanel animationPanel = new AnimationPanel(); 
 	private CityView view = new CityView(this);
 	private TracePanel tracePanel1;
@@ -34,7 +33,7 @@ public class CityGui extends JFrame{
 		int WINDOWY = 600;
 		
 		setBounds(50, 50, WINDOWX, WINDOWY+150);
-		setLayout(new BorderLayout());
+		setLayout(new BorderLayout());		
 		
 		//---MAIN PANEL BEGIN---//
         
