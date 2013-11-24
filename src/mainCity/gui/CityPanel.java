@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 
 import mainCity.PersonAgent;
+import mainCity.bank.gui.BankGui;
+import mainCity.bank.gui.BankPanel;
 import mainCity.contactList.ContactList;
 import mainCity.market.*;
 import mainCity.market.gui.*;
@@ -53,6 +55,10 @@ public class CityPanel extends JPanel{
     	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
     	//jeffersonRestaurant.setVisible(true);
+    	
+    	BankGui bank = new BankGui();
+    	ContactList.getInstance().setBank(bank.getBankPanel());
+    	bank.setVisible(true);
     	
     	HomeGui home= new HomeGui();
     	ContactList.getInstance().setHome(home.getHomePanel());

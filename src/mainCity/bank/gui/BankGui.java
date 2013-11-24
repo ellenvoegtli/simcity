@@ -65,6 +65,10 @@ public class BankGui extends JFrame implements ActionListener {
     
         add(bankAnimationPanel,BorderLayout.CENTER);
     }
+    
+    public BankPanel getBankPanel(){
+    	return bankPanel;
+    }
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.
@@ -76,9 +80,9 @@ public class BankGui extends JFrame implements ActionListener {
     public static void main(String[] args) {
         BankGui gui = new BankGui();
         gui.setTitle("theBank");
-        gui.setVisible(true);
-        gui.setResizable(false);
-        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //gui.setVisible(true);
+        gui.setResizable(true);
+        //gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
