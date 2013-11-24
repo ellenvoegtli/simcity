@@ -202,16 +202,17 @@ public class EnaRestaurantPanel extends JPanel
     			a.setStand(stand);
     		}*/
            // host.addWaiterRole(w);
-           // int pos = 22* host.waiters.size();
-    		//EnaWaiterGui g = new EnaWaiterGui(w, gui, pos);
-        	
-    		
+          // int pos = 22* host.waiters.size();
+           EnaWaiterGui g = new EnaWaiterGui(w, gui, 22);
+   		   gui.animationPanel.addGui(g);
+
+    		if(host != null) host.addWaiterRole(w);
     		w.setHost(host);
-    		//w.setGui(g);
+    		w.setGui(g);
             w.setCook(cook);
             w.setCashier(cashier);
-            
-            if(host != null)
+            waiters.add(w);
+            /*if(host != null)
             {
             	host.addWaiterRole(w);
                 int pos = 22* host.waiters.size();
@@ -221,8 +222,7 @@ public class EnaRestaurantPanel extends JPanel
 
 
             }
-            waiters.add(w);
-    		//gui.animationPanel.addGui(g);
+            waiters.add(w);*/
     		System.out.println("Waiter has been added to the restaturant");
 
     		
@@ -232,11 +232,11 @@ public class EnaRestaurantPanel extends JPanel
     	{
     		EnaCustomerRole c = (EnaCustomerRole) r;
 	    	
-    		/*for(EnaCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+    		for(EnaCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
 	    		if(cust == c) {
 	    			return;
 	    		}
-	    	}*/
+	    	}
 	    	
 			customers.add(c);
 			EnaCustomerGui g = new EnaCustomerGui(c, gui);
@@ -270,9 +270,11 @@ public class EnaRestaurantPanel extends JPanel
     		{
     			cashier.setHost(host);
     		}
-    		EnaHostGui g = new EnaHostGui(host);
-			gui.animationPanel.addGui(g);
-			host.setGui(g);
+    		ContactList.getInstance().setEnaHost(host);
+
+    		//EnaHostGui g = new EnaHostGui(host);
+			//gui.animationPanel.addGui(g);
+			//host.setGui(g);
     	}
     	
     	
@@ -292,6 +294,8 @@ public class EnaRestaurantPanel extends JPanel
     		}
 			
     	}
+		ContactList.getInstance().setEnaCashier(cashier);
+
     	
     	if(r instanceof EnaCookRole) {
     		cook = (EnaCookRole) r;
@@ -309,7 +313,8 @@ public class EnaRestaurantPanel extends JPanel
             	{
             		w.setCook(cook);
             	}
-            
+        		ContactList.getInstance().setEnaCook(cook);
+
     	}
     }
     

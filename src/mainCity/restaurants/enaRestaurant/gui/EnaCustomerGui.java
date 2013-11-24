@@ -117,12 +117,16 @@ public class EnaCustomerGui implements Gui{
 	public boolean isPresent() {
 		return isPresent;
 	}
-	public void setHungry() {
+	public void setHungry()
+	{
+		if(agent.restaurantOpen())
+		{
 		isHungry = true;
 		agent.gotHungry();
 		setPresent(true);
 		xDestination = xPos;
 		yDestination = yPos;
+		}
 	}
 	public boolean isHungry() {
 		return isHungry;
