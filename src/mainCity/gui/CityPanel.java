@@ -188,7 +188,8 @@ public class CityPanel extends JPanel{
 		    while ((strLine = br.readLine()) != null)   {
 		    	if(!strLine.startsWith("-")) {
 				   	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
-				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Occupation")-1);
+				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
+				   	String renter = strLine.substring(strLine.indexOf("Renter")+7, strLine.indexOf("Occupation")-1);
 				   	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
 				   	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
 				   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
@@ -199,7 +200,7 @@ public class CityPanel extends JPanel{
 				   		System.out.println(actionList[i]);
 				   	}
 				    	
-				    addPerson(name, Integer.parseInt(cash), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
+				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    	}
 		    }
 
@@ -210,10 +211,11 @@ public class CityPanel extends JPanel{
 		}
 	}
 	
-	public void addPerson(String name, double c, String occupation, int sb, int se, String[] actions) {
+	public void addPerson(String name, double c, boolean renter, String occupation, int sb, int se, String[] actions) {
     	PersonAgent person = new PersonAgent(name);
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);
+		person.setHomePlace(renter);
 
 		PersonGui pg = new PersonGui(person, gui);
 		gui.getAnimationPanel().addPersonGui(pg);
