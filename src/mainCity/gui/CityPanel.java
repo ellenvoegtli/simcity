@@ -51,7 +51,6 @@ public class CityPanel extends JPanel{
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
     	//jeffersonRestaurant.setVisible(true);
-    	
 
     	BankGui bank = new BankGui();
     	ContactList.getInstance().setBank(bank.getBankPanel());
