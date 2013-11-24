@@ -12,6 +12,9 @@ import java.util.*;
 import role.Role;
 import mainCity.restaurants.enaRestaurant.gui.EnaCookGui;
 import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
+import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
+import mainCity.restaurants.enaRestaurant.sharedData.OrderTicket;
+import mainCity.restaurants.enaRestaurant.sharedData.RevolvingStand;
 
 /**
  * Restaurant Cook Agent
@@ -24,9 +27,14 @@ public class EnaCookRole extends Role implements MainCook {
 	//public List<Food> Foods = new ArrayList<Food>();
 	private String name;
 	private boolean fullOrder;
+	private RevolvingStand stand;
+
 	private boolean inventoryChecked = false;
 	public enum OrderStatus 
 	{pending, cooking, waiting, cooked, restocking, orderDone};
+	
+	public enum CookStatus {none,checkingStand};
+	private CookStatus status;
 	//OrderStatus status = OrderStatus.pending;
 	
 			public EnaHostGui hostGui;
@@ -51,6 +59,9 @@ public class EnaCookRole extends Role implements MainCook {
 	public String getName()
 	{
 		return name;
+	}
+	public void setStand(RevolvingStand s) {
+		this.stand = s;
 	}
 
 	// Messages
@@ -97,6 +108,13 @@ public class EnaCookRole extends Role implements MainCook {
 		print("the cook has replenished its inventory");
 		stateChanged();
 	}
+	
+	public void msgCheckStand() {
+		if(status == CookStatus.none) {
+			status = CookStatus.checkingStand;
+			stateChanged();
+		}
+	}
 
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
@@ -136,6 +154,11 @@ synchronized(Orders)
 				return true;
 			}
 		}
+}
+if(status == CookStatus.checkingStand) 
+{
+	checkStand();
+	return true;
 }
 		return false;
 		//we have tried all our rules and found
@@ -207,29 +230,28 @@ synchronized(Orders)
 				}
 			}
 		}
-		//Random rnd = new Random();
-		//int mk = rnd.nextInt(3)+1;
+		
 		
 		ContactList.getInstance().marketGreeter.msgINeedInventory("enaRestaurant", this, cashier, Stock);
 			
-		
-		/*Bazaar.get(0).msgOrderRestock("enaRestaurant", this, cashier,  Stock);
-		if(marketCount == 2)
-			Bazaar.get(1).msgOrderRestock("enaRestaurant" , this, cashier, Stock);
-		if(marketCount == 3)
-			Bazaar.get(2).msgOrderRestock("enaRestaurant" , this, cashier,  Stock);
 
-		print("Going to market" + marketCount);
 		
-		marketCount++;
+	}
+	
+	private void checkStand() {
+		status = CookStatus.none;		
+		//cookGui.DoGoTo();
 		
-		if(marketCount == 3)
-			marketCount = 1;
-		for(int i=0; i<Bazaar.size(); i++)
-		{
-			
-		}*/
+		if(stand.isEmpty()) {
+			return;
+		}
 		
+		print("There's orders on the stand. Processing...");
+		while(!stand.isEmpty()) {
+			OrderTicket temp = stand.remove();
+			Orders.add(new Order(temp.getWaiter(), temp.getChoice(), temp.getTable(), OrderStatus.pending));
+			stateChanged();
+		}
 	}
 	//utilities
 
@@ -277,12 +299,12 @@ synchronized(Orders)
 
 	public class Order 
 	{
-		EnaWaiterRole w;
+		Waiter w;
 		String choice;
 		Table table;
 		OrderStatus oStat;
 		
-		Order(EnaWaiterRole wtr, String ch, Table t, OrderStatus ost)
+		Order(Waiter wtr, String ch, Table t, OrderStatus ost)
 		{
 			this.choice = ch;
 			this.table = t;
