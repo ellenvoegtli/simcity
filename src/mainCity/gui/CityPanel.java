@@ -70,8 +70,8 @@ public class CityPanel extends JPanel{
     	bus.startThread();
     	
     	String[] actions = {"work"}; 
-    	addPerson("David", 500, "marcusWaiter", 7, 19, actions); 
-		//parseConfig();
+    	//addPerson("David", 500, "marcusWaiter", 7, 19, actions); 
+		parseConfig();
    
 /*
     	PersonAgent person = new PersonAgent("joeMoe");

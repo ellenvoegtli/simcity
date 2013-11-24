@@ -664,7 +664,7 @@ public class PersonAgent extends Agent {
 		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = true;
 		
-		if(false) { //chose to walk
+		if(temp) { //chose to walk
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -804,6 +804,7 @@ public class PersonAgent extends Agent {
 		print("Getting on Bus");
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
+				print(i + ", " + j);
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
 					//gui.DoGoInside();

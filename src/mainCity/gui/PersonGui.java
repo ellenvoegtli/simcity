@@ -120,8 +120,7 @@ public class PersonGui implements Gui{
 		System.out.println("Gui is told to go to nearest bus stop");
 		
 		//Looking for stop that is the minimum distance.
-		//PersonAgent.CityLocation destination = findNearestStop();
-		PersonAgent.CityLocation destination = PersonAgent.CityLocation.restaurant_ellen; 
+		PersonAgent.CityLocation destination = findNearestStop();
 		
 		System.out.println("Walking toward " + destination);
 		
@@ -243,7 +242,7 @@ public class PersonGui implements Gui{
 				destination = ContactList.stops.get(i).stopLocation;
 			}
 		}
-		
+		System.out.println("Nearest stop found: " + destination);
 		return destination;
 	}
 }
