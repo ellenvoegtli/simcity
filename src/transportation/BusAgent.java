@@ -55,7 +55,7 @@ public class BusAgent extends Agent{
 				for(int i=0; i<ContactList.stops.size(); i++){ 
 					if(ContactList.stops.get(i).stopLocation == currentLocation) { 
 						if(ContactList.stops.get(i).waitingPeople.size() != 0) {
-							ContactList.stops.get(i).BusHasArrived(capacity);
+							ContactList.stops.get(i).BusHasArrived(this, capacity);
 						}
 						else { 
 							System.out.println("No waiting people at this stop. Moving on!"); 
