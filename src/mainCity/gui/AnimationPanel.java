@@ -74,7 +74,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         lanes = new ArrayList<Lane>();
         
         //Creating Lanes (int xo, int yo, int w, int h, int xv, int yv, boolean ish, Color lc, Color sc)
-        Lane l = new Lane( 0, 75, 640, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
+        Lane l = new Lane( 0, 75, 650, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
         l = new Lane( 0, 100, 780, (RoadWidth/2), 5, 0, true, Color.gray, Color.white );
         lanes.add(l);
@@ -96,7 +96,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         lanes.add(l);
         l = new Lane( 630, 125, (RoadWidth/2), 226, 0, -5, false, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 640, 75, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
+        l = new Lane( 650, 75, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
         
         javax.swing.Timer t = new javax.swing.Timer( 25, this );
@@ -115,12 +115,14 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 			lanes.get(1).addVehicle(bus);
 		}
 		
-		//System.out.println(bus.getX() + ", " + bus.getY());
+		System.out.println(bus.getX() + ", " + bus.getY());
 		
 		if(bus.getX() == 130 && bus.getY() == 105){ 
 			lanes.get(1).vehicles.remove(bus); 
 			lanes.get(5).addVehicle(bus);
 		}
+		
+		//Bus Stop at 105,105
 		
 		if(bus.getX() == 130 && bus.getY() == 335){ 
 			lanes.get(5).vehicles.remove(bus);
@@ -136,6 +138,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 			lanes.get(10).vehicles.remove(bus);
 			lanes.get(0).addVehicle(bus);
 		}
+		
+		//Bus stop at 210, 130
 		
 		
 		//Make them all lanes stop
@@ -169,8 +173,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 		}
         
         //drawing bus stops 
-        g2.drawImage(stopSign, 210, 55, null); //topHomeStop
-        g2.drawImage(stopSign, 105, 126, null); //stop for rest 1 and 2f
+        g2.drawImage(stopSign, 320, 55, null); //topHomeStop
+        g2.drawImage(stopSign, 105, 126, null); //stop for rest 1 and 2
         g2.drawImage(stopSign, 175, 200, null); //bank_stop
         g2.drawImage(stopSign, 347, 126, null);
         g2.drawImage(stopSign, 500, 126, null); //market and rest5 stop
@@ -275,7 +279,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     }
     
     public void mousePressed(MouseEvent arg0) {
-    	System.out.println("Mouse press recognized");
     	for (Building b: buildings) { 
     		if (b.contains(arg0.getX(), arg0.getY())){ 
     			gui.getView().setView(b.ID);
