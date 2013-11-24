@@ -13,6 +13,7 @@ import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.TreeMap;
 
+import mainCity.contactList.ContactList;
 import mainCity.market.MarketGreeterRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
@@ -32,6 +33,7 @@ public class JeffersonCookRole extends Agent implements Cook{
 	private OrderState state=OrderState.pending;
 	private String name;
 	public CookGui cookGui = null;
+	private JeffersonCashierRole cashier;
 	private RevolvingStand revolvingstand;
 	Map<String, Integer> cookingTimes = new HashMap<String, Integer>();
 	Map<String, Integer> inventory =  new HashMap<String,Integer>();
@@ -76,6 +78,9 @@ public class JeffersonCookRole extends Agent implements Cook{
 		cookGui = gui;
 	}
 
+	public void setCashier(JeffersonCashierRole cashier){
+		this.cashier=cashier;
+	}
 	
 	public class Order{
 		
@@ -123,7 +128,7 @@ public class JeffersonCookRole extends Agent implements Cook{
 		stateChanged();
 		
 	}
-	
+	/*
 	public void msgCannotFulfill(String i, Integer q){
 		Do("Restock of " + i + " not fulfilled");
 		//move on to next market somehow
@@ -210,6 +215,27 @@ public class JeffersonCookRole extends Agent implements Cook{
 		
 		
 	}
+	*/
+	public void msgHereIsYourOrder(Map<String, Integer> restock) {
+		for(Map.Entry<String,Integer> entry : restock.entrySet()) {
+			  String key = entry.getKey();
+			  Integer value = entry.getValue();
+			  
+			  inventory.put(key, inventory.get(key)+value);
+			  
+			  System.out.println(key + " => " + value + "added to cook inventory");
+			}
+		synchronized(orders){
+			for(Order o:orders){
+				if(o.s==OrderState.marketOrdering){
+					o.s=OrderState.pending;
+					stateChanged();
+				}
+			}
+			
+		}
+	}
+
 	
 	// Scheduler
 	
@@ -339,7 +365,8 @@ public class JeffersonCookRole extends Agent implements Cook{
 		if(inventory.get("salad")<2){
 			marketOrder.put("salad", 5);
 		}
-			
+		
+		ContactList.getInstance().marketGreeter.msgINeedInventory("jeffersonrestaurant", this, cashier, marketOrder);
 		// TODO Insert messaging to Ellen's Market Here
 	
 		
@@ -348,7 +375,7 @@ public class JeffersonCookRole extends Agent implements Cook{
 	/*
 	 * To TAs and Graders. I sincerely apologize for using this switch-case and recognize that there is a better way to do this
 	 * 	
-	 */
+	 
 		
 		switch (o.Choice) {
 		case "steak":
@@ -392,7 +419,7 @@ public class JeffersonCookRole extends Agent implements Cook{
 			break;
 		}
 		
-		
+	*/	
 	}
 
 
@@ -407,18 +434,7 @@ public class JeffersonCookRole extends Agent implements Cook{
 		
 	}
 
-	@Override
-	public void msgHereIsYourOrder(Map<String, Integer> restock) {
-		for(Map.Entry<String,Integer> entry : restock.entrySet()) {
-			  String key = entry.getKey();
-			  Integer value = entry.getValue();
-			  
-			  inventory.put(key, inventory.get(key)+value);
-			  
-			  System.out.println(key + " => " + value + "added to cook inventory");
-			}
-	}
-
+	
 
 
 
