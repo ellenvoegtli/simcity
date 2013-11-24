@@ -35,8 +35,8 @@ public class CityPanel extends JPanel{
     	MarketGui marketGui = new MarketGui();
     	//marketGui.setVisible(true);
 		
-	    //EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
-	    //ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
+	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
+	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
         //ellenRestaurant.setVisible(true);
 		
 		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
@@ -48,7 +48,7 @@ public class CityPanel extends JPanel{
 		
     	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
-    	marcusRestaurant.setVisible(true);
+    	//marcusRestaurant.setVisible(true);
 
     	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
@@ -82,10 +82,10 @@ public class CityPanel extends JPanel{
 		PersonGui pg5 = new PersonGui(person5, gui);
 
 		person.updateOccupation("rich", -1, -1);
-		person2.updateOccupation("marcusWaiter", 8, 16);
-		person3.updateOccupation("marcusCook", 8, 16);
-		person4.updateOccupation("marcusCashier", 8, 16);
-		person5.updateOccupation("marcusHost", 7, 16);
+		person2.updateOccupation("marcusWaiter", 8, 22);
+		person3.updateOccupation("marcusCook", 8, 22);
+		person4.updateOccupation("marcusCashier", 8, 22);
+		person5.updateOccupation("marcusHost", 7, 22);
 
 		/*
 		person2.updateOccupation("enaHost", 8, 11);
@@ -118,10 +118,10 @@ public class CityPanel extends JPanel{
 		person4.msgGoToWork();
 		person5.msgGoToWork();		
 
-		//person.startThread(); 
-		//person2.startThread(); 
-		//person3.startThread();
-		//person4.startThread();
+		person.startThread(); 
+		person2.startThread(); 
+		person3.startThread();
+		person4.startThread();
 		person5.startThread();
 		
 		//Instantiation of the Global City Clock

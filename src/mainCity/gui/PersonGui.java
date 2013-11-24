@@ -73,9 +73,7 @@ public class PersonGui implements Gui{
 		isPresent = p;
 	}
 
-	public void DoGoToLocation(PersonAgent.CityLocation destination) {
-		System.out.println("Gui is told to go to " + destination);
-		
+	public void DoGoToLocation(PersonAgent.CityLocation destination) {		
 		switch(destination) {
 			case restaurant_marcus:
 				xDestination = 105;
