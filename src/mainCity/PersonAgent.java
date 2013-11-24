@@ -505,7 +505,7 @@ public class PersonAgent extends Agent {
 					}
 					break;
 				case home :
-					OccupantRole or = new OccupantRole(this, name, true);
+					OccupantRole or = new OccupantRole(this, name, false);
 					ContactList.getInstance().getHome().handleRoleGui(or);
 					roles.put(action, or);
 					break;
@@ -672,8 +672,13 @@ public class PersonAgent extends Agent {
 	
 	private void goToRenters()
 	{
+		output("Going to a renters home");
+		travelToLocation(CityLocation.home);
 		
+		stateChanged();
 	}
+	
+	
 	private void goToMarket() {
 		output("Going to the market");
 		travelToLocation(CityLocation.market);
