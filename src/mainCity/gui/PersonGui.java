@@ -34,8 +34,8 @@ public class PersonGui implements Gui{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
-		xDestination = xPos = 600;
-		yDestination = yPos = 0;
+		xDestination = xPos = 400;
+		yDestination = yPos = 400;
 		traveling  = false;
 		StringBuilder path = new StringBuilder("imgs/");
 		try {
@@ -70,13 +70,14 @@ public class PersonGui implements Gui{
 			yPos--;
 		
 		if(xPos == xDestination && yPos == yDestination && traveling) {
+			if(path.isEmpty()) {
+				traveling = false;
+				agent.msgAtDestination();
+				return;
+			}
+			
 			xDestination = path.peek().x;
 			yDestination = path.poll().y;
-		}
-		
-		if (path.isEmpty() && traveling) {
-			traveling = false;
-			agent.msgAtDestination();
 		}
 	}
 	
