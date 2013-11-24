@@ -420,7 +420,7 @@ public class PersonAgent extends Agent {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
 
 		if(time == job.shiftBegin && state != PersonState.working && !actions.contains(ActionType.work)) {
-			actions.add(new Action(ActionType.work, 1));
+			//actions.add(new Action(ActionType.work, 1));
 			stateChanged();
 		}
 		if(time == job.shiftEnd && state == PersonState.working) {
@@ -667,6 +667,7 @@ public class PersonAgent extends Agent {
 		boolean temp = true;
 		
 		if(temp) { //chose to walk
+			System.out.println(d);
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
