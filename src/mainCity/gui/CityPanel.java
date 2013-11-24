@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
 
+import transportation.BusAgent;
+import transportation.gui.BusGui;
 import mainCity.PersonAgent;
 import mainCity.bank.gui.BankGui;
 import mainCity.bank.gui.BankPanel;
@@ -63,6 +65,7 @@ public class CityPanel extends JPanel{
     	HomeGui home= new HomeGui();
     	ContactList.getInstance().setHome(home.getHomePanel());
     	home.setVisible(true);
+
     	
     	//Hardcoding one person for now.
     	PersonAgent person = new PersonAgent("joeMoe");
@@ -70,6 +73,13 @@ public class CityPanel extends JPanel{
     	PersonAgent person3 = new PersonAgent("Cook");
     	PersonAgent person4 = new PersonAgent("Cashier");
     	PersonAgent person5 = new PersonAgent("Host");
+    	
+    	//Hardcoding a bus
+    	BusAgent bus = new BusAgent();
+    	BusGui bg = new BusGui(15,15,16,16,bus);
+    	bus.setGui(bg);
+    	gui.getAnimationPanel().addBusGui(bg);
+    	bus.startThread();
     	
     	
     	occupants.add(person);

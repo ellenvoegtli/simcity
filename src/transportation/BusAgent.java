@@ -2,6 +2,7 @@ package transportation;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
+
 import transportation.gui.BusGui;
 import agent.Agent;
 import mainCity.PersonAgent;
@@ -13,92 +14,89 @@ public class BusAgent extends Agent{
 		/** Data **/
 			
 			BusGui gui; 
+			Timer stopTimer = new Timer(); 
 		
 			List<PersonAgent> Passengers = new ArrayList<PersonAgent>(); 
 			int capacity = 50; 
 			CityLocation currentLocation; 
-			CityLocation destination;
+			CityLocation destination = CityLocation.restaurant_marcus;
 			
 			public enum BusState
-			{none, ArrivedAtBusStop, ReadyToGo, Driving, Arrived}; 	
-			BusState currentState; 
+			{none, ArrivedAtBusStop, ReadyToGo}; 	
+			BusState currentState = BusState.ReadyToGo; 
 			
 			int DestinationX, DestinationY; 
 			private Semaphore atDestination = new Semaphore(0, true); 
+			
+			public BusAgent() { 
+			}
 			
 		/** Messages  **/ 
 			public void msgIWantToGetOnBus(PersonAgent p){ 
 				System.out.println(p.getName() + "getting on bus.");
 				Passengers.add(p);
 			}
+			
+			public void msgAtBusStop(CityLocation cl){
+				currentLocation = cl;
+				currentState = BusState.ArrivedAtBusStop; 
+				stateChanged();
+			}
 
 		/** Scheduler **/ 
 			
-			protected boolean pickAndExecuteAnAction() { 
+			protected boolean pickAndExecuteAnAction() {
 				if(currentState == BusState.ArrivedAtBusStop){ 
-					LoadPassengers(); 
+					DropOffAndLoadPassengers(); 
 					return true;
 				}
 				
-				if(currentState == BusState.ReadyToGo){ 
-					Travel(); 
-					return true;
-				}
 				
 				return false;
 			}
 			
 		/** Actions **/  
-			public void LoadPassengers() { 
+			public void DropOffAndLoadPassengers() { 
 				//People who want to get on the bus are already added to the list, so mostly just gui stuff, timer for persons to have time to get on bus, etc.
+				gui.atBusStop = true;
+				currentState = BusState.ReadyToGo;
+				
+				List<PersonAgent> LeavingPassengers = new ArrayList<PersonAgent>(); 
+				
+				//Tell passengers that destination has been reached. 
+				if(Passengers.size() != 0){
+					for(int j=0; j<Passengers.size(); j++){ 
+						if(Passengers.get(j).getDestination() == currentLocation) 
+							Passengers.get(j).msgArrivedAtDestination(); 
+							LeavingPassengers.add(Passengers.get(j));
+					}
+					//remove passengers who left the bus from the passenger list. 
+					for(int k=0; k<LeavingPassengers.size(); k++){
+						Passengers.remove(LeavingPassengers.get(k));
+					}
+				}
 				
 				for(int i=0; i<ContactList.stops.size(); i++){ 
 					if(ContactList.stops.get(i).stopLocation == currentLocation) { 
 						if(ContactList.stops.get(i).waitingPeople.size() != 0) {
 							ContactList.stops.get(i).BusHasArrived(this, capacity);
 						}
-						else { 
-							System.out.println("No waiting people at this stop. Moving on!"); 
-						}
 					}
 				}
 				
-				currentState = BusState.ReadyToGo;
-				stateChanged();
-			}
-			
-			public void Travel() { 
-				System.out.println("Travelling to " + destination);
-				
-				gui.atBusStop = false;
-				
-				for(int i=0; i<ContactList.stops.size(); i++){
-					if( (gui.getX() == ContactList.stops.get(i).xLocation) 
-							&& (gui.getY() == ContactList.stops.get(i).yLocation) ) {
-						
-						gui.atBusStop = true;
-						
-						List<PersonAgent> LeavingPassengers = new ArrayList<PersonAgent>(); 
-						
-						//Tell passengers that destination has been reached. 
-						for(int j=0; j<Passengers.size(); j++){ 
-							if(Passengers.get(j).getDestination() == currentLocation) 
-								Passengers.get(j).msgArrivedAtDestination(); 
-								LeavingPassengers.add(Passengers.get(j));
-						}
-						
-						//remove passengers who left the bus from the passenger list. 
-						for(int k=0; k<LeavingPassengers.size(); k++){
-							Passengers.remove(LeavingPassengers.get(k));
-						}
-						
-						currentState = BusState.ArrivedAtBusStop; 
+				stopTimer.schedule(new TimerTask() {
+					public void run() {
+						gui.atBusStop = false;
 						stateChanged();
 					}
-				}
-			
+				},
+				1000);
+				
 			}
-
+			
+		public void setGui(BusGui bg){ 
+			gui = bg;
+		}
 							
 }
 
