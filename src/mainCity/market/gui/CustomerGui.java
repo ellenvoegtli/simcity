@@ -152,11 +152,15 @@ public class CustomerGui implements Gui{
 		return isPresent;
 	}
 
-	public void setNeedsInventory(){
-		needsInventory = true;
-		//agent.goGetInventory(agent.personAgent.inventoryNeeded);
-		agent.goGetInventory(inventoryNeeded);
-		setPresent(true);
+	//public void setNeedsInventory(){
+	public boolean goInside(){
+		if (agent.restaurantOpen()){
+			needsInventory = true;
+			agent.goGetInventory(inventoryNeeded);
+			setPresent(true);
+			return true;
+		}
+		return false;
 	}
 	public boolean needsInventory() {
 		return needsInventory;

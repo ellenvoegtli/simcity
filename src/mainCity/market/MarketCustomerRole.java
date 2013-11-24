@@ -411,6 +411,12 @@ public class MarketCustomerRole extends Role{
 		return customerGui;
 	}
 	
+	public boolean restaurantOpen() {
+		if(host != null && host.isActive() && host.isOpen())
+			return true;
+		return false;
+	}
+	
 	
 	private class Bill {
 		boolean nonNegotiable = false;

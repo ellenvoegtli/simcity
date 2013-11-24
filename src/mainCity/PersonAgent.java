@@ -267,8 +267,17 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtMarket) {
 				output("Arrived at market!");
 				handleRole(currentAction.type);
-				roles.get(currentAction.type).setActive();
-	
+				Role customer = roles.get(currentAction.type);
+				if (!((MarketCustomerRole) customer).getGui().goInside()){
+					//System.out.println("Waiting for restaurant to open");
+					return true;
+				}
+				
+				customer.setActive();
+				
+				if(currentAction != null && currentAction.type == ActionType.restaurant) {
+					currentAction.state = ActionState.done;
+				}
 				gui.DoGoInside();
 				state = PersonState.inBuilding;
 				return true;
@@ -479,22 +488,22 @@ public class PersonAgent extends Agent {
 						//-----Market Roles---//
 						case "marketEmployee":
 							MarketEmployeeRole mem = new MarketEmployeeRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(mem);
+							ContactList.getInstance().getMarket().handleRole(mem);
 							roles.put(action, mem);
 							break;
 						case "marketGreeter":
 							MarketGreeterRole mgr = new MarketGreeterRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(mgr);
+							ContactList.getInstance().getMarket().handleRole(mgr);
 							roles.put(action, mgr);
 							break;
 						case "marketCashier":
 							MarketCashierRole mcsh = new MarketCashierRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(mcsh);
+							ContactList.getInstance().getMarket().handleRole(mcsh);
 							roles.put(action, mcsh);
 							break;
 						case "marketDeliveryMan":
 							MarketDeliveryManRole mdm = new MarketDeliveryManRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(mdm);
+							ContactList.getInstance().getMarket().handleRole(mdm);
 							roles.put(action, mdm);
 							break;
 						default:
@@ -504,7 +513,7 @@ public class PersonAgent extends Agent {
 				
 				case restaurant:
 					switch(destination) {
-						/*case restaurant_marcus:
+						case restaurant_marcus:
 							MarcusCustomerRole m = new MarcusCustomerRole(this, name);
 							ContactList.getInstance().getMarcusRestaurant().handleRole(m);
 							roles.put(action, m);
@@ -513,20 +522,25 @@ public class PersonAgent extends Agent {
 							EllenCustomerRole e = new EllenCustomerRole(this, name);
 							ContactList.getInstance().getEllenRestaurant().handleRole(e);
 							roles.put(action, e);
-							break;*/
+							break;
 						case restaurant_ena:
 							EnaCustomerRole en = new EnaCustomerRole(this, name);
 							ContactList.getInstance().getEnaRestaurant().handleRole(en);
 							roles.put(action, en);
 							break;
-						/*case restaurant_jefferson:
+						case restaurant_jefferson:
 							JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
 							ContactList.getInstance().getJeffersonRestaurant().handleRoleGui(jc);
 							roles.put(action,jc);
-							break;*/
+							break;
 						default:
 							break;
 					}
+					break;
+				case market :
+					MarketCustomerRole mcr = new MarketCustomerRole(this, name);
+					ContactList.getInstance().getMarket().handleRole(mcr);
+					roles.put(action, mcr);
 					break;
 				case home :
 					OccupantRole or = new OccupantRole(this, name, true);

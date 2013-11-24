@@ -115,6 +115,9 @@ public class MarketGui extends JFrame implements ActionListener {
         
     }
 
+    public MarketPanel getMarketPanel(){
+    	return marketPanel;
+    }
 
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
@@ -158,14 +161,14 @@ public class MarketGui extends JFrame implements ActionListener {
      * For v3, it will propose a break for the waiter.
      */
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == stateCB) {
+       /* if (e.getSource() == stateCB) {
             if (currentPerson instanceof MarketCustomerRole) {
                 MarketCustomerRole c = (MarketCustomerRole) currentPerson;
                 //c.getGui().setHungry();
                 c.getGui().setNeedsInventory();
                 stateCB.setEnabled(false);
             }
-        }
+        }*/
     }
     /**
      * Message sent from a customer gui to enable that customer's
