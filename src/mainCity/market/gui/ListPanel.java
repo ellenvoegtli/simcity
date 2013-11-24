@@ -215,7 +215,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
             customerView.add(button);
 
             //System.out.println("ListPanel: addperson customer");
-            restPanel.addPerson(type, name, isChecked);//puts customer on list            
+            //restPanel.addPerson(type, name, isChecked);//puts customer on list            
             restPanel.showInfo(type, name);//puts hungry button on panel
             
             hungryB.setEnabled(false);
@@ -240,7 +240,7 @@ public class ListPanel extends JPanel implements ActionListener, KeyListener {
             waiterView.add(button);
 
             //System.out.println("ListPanel: addperson employee");
-            restPanel.addPerson(type, name, false);//puts customer on list            
+            //restPanel.addPerson(type, name, false);//puts customer on list            
             restPanel.showInfo(type, name);//puts hungry button on panel
             
             //onBreakB.setEnabled(false);

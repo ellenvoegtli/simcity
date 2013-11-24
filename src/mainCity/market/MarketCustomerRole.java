@@ -3,6 +3,8 @@ package mainCity.market;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.market.MarketEmployeeRole;
+import role.Role;
+import mainCity.PersonAgent;
 
 //import market.interfaces.*;
 
@@ -16,7 +18,7 @@ import java.awt.*;
 /**
  * Restaurant customer agent.
  */
-public class MarketCustomerRole extends Agent{
+public class MarketCustomerRole extends Role{
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -62,8 +64,8 @@ public class MarketCustomerRole extends Agent{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public MarketCustomerRole(String name){
-		super();
+	public MarketCustomerRole(PersonAgent p, String name){
+		super(p);
 		this.name = name;
 		
 		if (name.equalsIgnoreCase("flake"))		//he orders steak
@@ -203,7 +205,7 @@ public class MarketCustomerRole extends Agent{
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		//	CustomerAgent is a finite state machine
 
 		if (state == AgentState.DoingNothing && event == AgentEvent.toldToGetInventory ){
@@ -407,6 +409,12 @@ public class MarketCustomerRole extends Agent{
 
 	public CustomerGui getGui() {
 		return customerGui;
+	}
+	
+	public boolean restaurantOpen() {
+		if(host != null && host.isActive() && host.isOpen())
+			return true;
+		return false;
 	}
 	
 	

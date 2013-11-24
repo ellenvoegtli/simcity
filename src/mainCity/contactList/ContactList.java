@@ -17,6 +17,8 @@ import mainCity.bank.gui.BankPanel;
 import mainCity.interfaces.*;
 import transportation.BusStop;
 import housing.gui.HomePanel;
+import role.market.*;
+import mainCity.market.gui.*;
 
 import java.util.*;
 
@@ -25,14 +27,14 @@ public class ContactList {
 	
 	//Bus Stops
 	public static ArrayList<BusStop> stops;
-	public BusStop homeStop; 
-	public BusStop davidRestStop; 
-	public BusStop marcusRestStop; 
-	public BusStop jeffersonRestStop; 
-	public BusStop ellenRestStop; 
-	public BusStop enaRestStop; 
-	public BusStop bankStop; 
-	public BusStop marketStop;
+	public BusStop homeStop = new BusStop(320, 80, PersonAgent.CityLocation.home); 
+	public BusStop davidRestStop = new BusStop(635, 230, PersonAgent.CityLocation.restaurant_david);
+	public BusStop marcusRestStop = new BusStop(130, 180, PersonAgent.CityLocation.restaurant_marcus); 
+	public BusStop jeffersonRestStop = new BusStop( 220 , 380, PersonAgent.CityLocation.restaurant_jefferson); 
+	public BusStop ellenRestStop = new BusStop(130, 280, PersonAgent.CityLocation.restaurant_ellen); 
+	public BusStop enaRestStop = new BusStop( 260 , 80, PersonAgent.CityLocation.restaurant_ena); 
+	public BusStop bankStop = new BusStop(130, 230, PersonAgent.CityLocation.bank); 
+	public BusStop marketStop = new BusStop( 455, 80 , PersonAgent.CityLocation.market);
 	
 	private static ContactList contactList = null;
 	
@@ -60,6 +62,7 @@ public class ContactList {
 	
 	public MarketGreeterRole marketGreeter;
 	public MarketCashierRole marketCashier;
+	public MarketDeliveryManRole marketDeliveryMan;
 	
 	//List<MainCook> cooks = new ArrayList<MainCook>();		//will this work with different subclasses?
 	
@@ -95,6 +98,7 @@ public class ContactList {
 	EnaRestaurantPanel enaRestaurant;
 	DavidRestaurantPanel davidRestaurant; 
 	BankPanel bank;
+	MarketPanel market;
 	
 	//anything else? apartment landlords?
 	
@@ -135,6 +139,15 @@ public class ContactList {
 	}
 	public void setMarketCashier(MarketCashierRole c){
 		marketCashier = c;
+	}
+	public void setMarketDeliveryMan(MarketDeliveryManRole d){
+		marketDeliveryMan = d;
+	}
+	public void setMarket(MarketPanel m){
+		market = m;
+	}
+	public MarketPanel getMarket(){
+		return market;
 	}
 	
 	//Ellen's Restaurant******

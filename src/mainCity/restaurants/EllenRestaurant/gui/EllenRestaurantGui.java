@@ -136,9 +136,6 @@ public class EllenRestaurantGui extends JFrame implements ActionListener {
     public EllenRestaurantPanel getEllenRestaurantPanel(){
     	return restPanel;
     }
-    public void setContactList(ContactList c){
-    	contactList = c;
-    }
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
      * changes the information panel to hold that person's info.

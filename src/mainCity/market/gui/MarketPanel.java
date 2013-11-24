@@ -1,7 +1,6 @@
 package mainCity.market.gui;
 
 import mainCity.market.*;
-import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.gui.DeliveryManGui;
 import mainCity.interfaces.*;
 import mainCity.contactList.*;
@@ -9,6 +8,7 @@ import mainCity.gui.trace.*;
 
 import javax.swing.*;
 
+import role.Role;
 import role.market.MarketDeliveryManRole;
 
 import java.awt.*;
@@ -21,10 +21,14 @@ import java.util.Vector;
  */
 public class MarketPanel extends JPanel implements ActionListener{
     //Host and cook
-    private MarketGreeterRole host = new MarketGreeterRole("Market Greeter");
-    private MarketCashierRole cashier = new MarketCashierRole("Market Cashier");
-    private MarketDeliveryManRole deliveryMan = new MarketDeliveryManRole("Market DeliveryMan");
+    //private MarketGreeterRole host = new MarketGreeterRole("Market Greeter");
+    //private MarketCashierRole cashier = new MarketCashierRole("Market Cashier");
+    //private MarketDeliveryManRole deliveryMan = new MarketDeliveryManRole("Market DeliveryMan");
     //private MarketMenu marketMenu = new MarketMenu();
+	private MarketGreeterRole host;
+	private MarketCashierRole cashier;
+	private MarketDeliveryManRole deliveryMan;
+	private MarketMenu marketMenu = new MarketMenu();
     
     private int NMARKETS = 3;
     
@@ -53,6 +57,7 @@ public class MarketPanel extends JPanel implements ActionListener{
         this.gui = gui;
         //host.setGui(hostGui);
         
+        /*
         DeliveryManGui deliveryGui = new DeliveryManGui(deliveryMan, gui);
         deliveryMan.setGui(deliveryGui);
 
@@ -62,8 +67,9 @@ public class MarketPanel extends JPanel implements ActionListener{
         
         ContactList.getInstance().setMarketGreeter(host);
         ContactList.getInstance().setMarketCashier(cashier);
-        
+        */
 
+        /*
         setLayout(new GridLayout(1, 2, 0, 0));
         group.setLayout(new GridLayout(1, 3, 0, 0));
         
@@ -73,10 +79,10 @@ public class MarketPanel extends JPanel implements ActionListener{
         group.add(employeePanel);
         group.add(customerPanel);
         
-        initRestLabel();
+        //initRestLabel();
         add(restLabel);
         add(group);
-        
+        */
         
         
         
@@ -103,7 +109,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     }
     
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == pauseBtn){
+        /*if (e.getSource() == pauseBtn){
         	System.out.println("PAUSE BUTTON PRESSED.");
         	host.pause();
         	for (MarketCustomerRole cust : customers){
@@ -122,13 +128,14 @@ public class MarketPanel extends JPanel implements ActionListener{
         	for (MarketEmployeeRole employee : employees){
         		employee.pause();
         	}
-        }
+        }*/
     }
 
     /**
      * Sets up the restaurant label that includes the menu,
      * and host and cook information
      */
+    /*
     private void initRestLabel() {
         JLabel label = new JLabel();
         //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
@@ -143,7 +150,7 @@ public class MarketPanel extends JPanel implements ActionListener{
         //restLabel.add(new JLabel("               "), BorderLayout.EAST);
         //restLabel.add(new JLabel("               "), BorderLayout.WEST);
         restLabel.add(new JLabel("            "), BorderLayout.WEST);
-    }
+    }*/
 
     /**
      * When a customer or waiter is clicked, this function calls
@@ -179,6 +186,112 @@ public class MarketPanel extends JPanel implements ActionListener{
      * @param type indicates whether the person is a customer or waiter (later)
      * @param name name of person
      */
+    public void handleRole(Role r){
+    	if(r instanceof MarketCashierRole) {
+    		cashier = (MarketCashierRole) r;
+    		
+    		for(MarketEmployeeRole e : employees) {
+    			e.setCashier(cashier);
+    		}
+    		for(MarketCustomerRole c : customers) {
+    			c.setCashier(cashier);
+    		}
+            
+    		if(host != null) {
+    			host.setCashier(cashier);
+    			cashier.setGreeter(host);
+    		}
+    		
+    		ContactList.getInstance().setMarketCashier(cashier);
+    	}
+    	
+    	if(r instanceof MarketDeliveryManRole) {
+    		deliveryMan = (MarketDeliveryManRole) r;
+    		//DeliveryManGui deliveryGui = new DeliveryManGui(deliveryMan, gui);
+    		//gui.animationPanel.addGui(cookGui);
+            deliveryMan.setCashier(cashier);
+            
+            
+            if(host != null) host.setDeliveryMan(deliveryMan);
+            for(MarketEmployeeRole e : employees) {
+    			e.setDeliveryMan(deliveryMan);
+    		}
+    		ContactList.getInstance().setMarketDeliveryMan(deliveryMan);
+    	}
+    	
+    	if(r instanceof MarketGreeterRole) {
+    		host = (MarketGreeterRole) r;
+    		
+    		for(MarketEmployeeRole e : employees) {
+    			e.setHost(host);
+    			//host.addEmployee(w);
+    		}
+    		for(MarketCustomerRole c : customers) {
+    			c.setHost(host);
+    		}
+    		
+    		host.setDeliveryMan(deliveryMan);
+    		host.setCashier(cashier);
+    		
+    		if(cashier != null) cashier.setGreeter(host);
+    		ContactList.getInstance().setMarketGreeter(host);
+    	}
+    	
+    	if(r instanceof MarketEmployeeRole) {
+    		MarketEmployeeRole e = (MarketEmployeeRole) r;
+    		EmployeeGui g = new EmployeeGui(e, gui);
+    		
+    		gui.animationPanel.addGui(g);
+    		e.setHost(host);
+    		e.setCashier(cashier);
+    		e.setDeliveryMan(deliveryMan);
+    		e.setGui(g);
+    		employees.add(e);
+    		
+    		int i = 0;
+    		int x = 0, y = 0;
+    		for (MarketEmployeeRole em : employees){
+    			if (em.equals(e)){
+    				if (i < 4){
+    					x = 150 + 100*i + 15;	//add 15 to go to center of station
+    					y = 50 + 17; 	//station height is 17
+    				}
+    				else {
+    					x = 150 + 100*(i-4) + 15;	//add 15 to go to center of station
+    					y = 150 + 17;	//station height is 17
+    				}
+    				g.setHomePosition(x, y);
+    			}
+    			else
+    				i++;
+    		}
+    		
+    		host.addEmployee(e, x, y);
+    	}
+    	
+    	if(r instanceof MarketCustomerRole) {
+    		MarketCustomerRole c = (MarketCustomerRole) r;
+	    	
+    		for(MarketCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+	    		if (cust == c) return;
+	    	}
+			customers.add(c);
+			CustomerGui g = new CustomerGui(c, gui);
+    		int i = 0;
+    		for (MarketCustomerRole cust : customers){
+    			if (cust.equals(c)) g.setWaitingAreaPosition(10 + (i%5)*25, (10 + ( (int)(Math.floor(i/5)) *25) ));
+    			else i++;
+    		}
+			gui.animationPanel.addGui(g);
+			c.setHost(host);
+			c.setGui(g);
+			c.setCashier(cashier);
+    		
+    		
+    	}
+    }
+    
+    /*
     public void addPerson(String type, String name, boolean isChecked) {
 
     	if (type.equals("Customers")) {
@@ -252,8 +365,8 @@ public class MarketPanel extends JPanel implements ActionListener{
     				i++;
     		}
     		*/
-    		e.startThread();
-    		e.getGui().setReadyToWork();
+    		//e.startThread();
+    		//e.getGui().setReadyToWork();
     		
     		
     		/*
@@ -264,7 +377,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     			w.getGui().GoOffBreak();
     		}
     		*/
-    	}
-    }
+		//}
+   // }
 
 }
