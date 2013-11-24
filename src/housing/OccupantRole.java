@@ -23,12 +23,12 @@ public class OccupantRole extends Role
 	
 //DATA
 	Timer timer = new Timer();
-	private LandlordRole owner;
+	private LandlordRole landLord;
 	//private houseAgent house;
 	private personHome home;
 	public OccupantGui gui;
-	private boolean renter = false;
-	private boolean checking = true;
+	private boolean owner;
+	//private boolean checking = true;
 	private String meal = "pasta";
 	private String name;
 	private int rent;
@@ -48,23 +48,23 @@ public class OccupantRole extends Role
 
 	
 	
-public OccupantRole(PersonAgent p, String person, personHome hm, boolean rent, LandlordRole ownr)
+/*public OccupantRole(PersonAgent p, String person, personHome hm, boolean owner, LandlordRole ownr)
 {
 	super(p);
 	name = person;
-	setHouse(hm);
-	renter = rent;
+	//setHouse(hm);
+	//renter = rent;
 	meal = "pasta";
-	if(!renter)
+	if(!owner)
 	{
-			owner = ownr;
+		//// what happens if he is renting?;
 
 	}
-	if(renter)
+	if(owner)
 	{
 		//this = ownr;
 	}
-}
+}*/
 
 public void msgAtDestination()
 {
@@ -74,10 +74,22 @@ public void msgAtDestination()
 }
 	
 	
-public OccupantRole(PersonAgent p, String string) 
+public OccupantRole(PersonAgent p, String personNm, boolean owner) 
 {
 	super(p);
-	this.name = string;
+	this.name = personNm;
+	this.owner = owner;
+	
+	if(owner == false)
+	{
+		rent = 850;
+		//what else needs to happen if he rents the house
+	}
+	if(owner == true)
+	{
+		//what happens if he owns the house
+	}
+	
 }
 
 
@@ -146,7 +158,7 @@ public boolean pickAndExecuteAnAction()
 		return true;
 	}*/
 
-	if(renter == true)
+	if(owner == false)
 	{
 		PayRent();
 		return true;
@@ -231,11 +243,11 @@ public void serviceAppliance()
 	{
 	for(String app : needsWork)
 	{
-		if(renter == true)
+		if(owner == false)
 		{
-			owner.msgPleaseFix(this, app);
+			landLord.msgPleaseFix(this, app);
 		}
-		if(renter == false)
+		if(owner == true)
 		{
 			fixAppliance(app);
 		}
