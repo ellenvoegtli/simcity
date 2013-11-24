@@ -128,7 +128,7 @@ public class JeffersonCookRole extends Agent implements Cook{
 		stateChanged();
 		
 	}
-	/*
+	
 	public void msgCannotFulfill(String i, Integer q){
 		Do("Restock of " + i + " not fulfilled");
 		//move on to next market somehow
@@ -215,7 +215,7 @@ public class JeffersonCookRole extends Agent implements Cook{
 		
 		
 	}
-	*/
+	
 	public void msgHereIsYourOrder(Map<String, Integer> restock) {
 		for(Map.Entry<String,Integer> entry : restock.entrySet()) {
 			  String key = entry.getKey();
