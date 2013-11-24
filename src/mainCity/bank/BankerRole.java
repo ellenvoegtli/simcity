@@ -2,15 +2,15 @@ package mainCity.bank;
 
 import mainCity.PersonAgent;
 import mainCity.bank.BankAccounts.BankAccount;
-import mainCity.bank.BankTeller.ClientState;
-import mainCity.bank.BankTeller.TellerState;
-import mainCity.bank.BankTeller.myClient;
+import mainCity.bank.BankTellerRole.ClientState;
+import mainCity.bank.BankTellerRole.TellerState;
+import mainCity.bank.BankTellerRole.myClient;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.gui.BankerGui;
 import agent.Agent;
 
 
-public class Banker extends Agent {
+public class BankerRole extends Agent {
 	public enum BankerState{none, atWork, offWork }
 	BankerState bstate =BankerState.none;
 	BankAccounts ba;
@@ -21,7 +21,7 @@ public class Banker extends Agent {
 	
 	public class myClient{
 		PersonAgent p;
-	    BankCustomer bc;
+	    BankCustomerRole bc;
 	    String mcname;
 	    double accountnumber;
 	    double amount;
@@ -29,7 +29,7 @@ public class Banker extends Agent {
 	}
 	
 	
-	public Banker(String name){
+	public BankerRole(String name){
 		super();
 		this.name=name;
 		Do("Bank Teller initiated");
@@ -52,7 +52,7 @@ public class Banker extends Agent {
 		stateChanged();
 	}
 	
-	public void msgIWantALoan(BankCustomer b, double accnum, double amnt){
+	public void msgIWantALoan(BankCustomerRole b, double accnum, double amnt){
 		Do("Recieved msgIWantALoan from customer");
 		mc=new myClient();
 		mc.bc=b;
@@ -62,7 +62,7 @@ public class Banker extends Agent {
 		stateChanged();
 	}
 	
-	public void msgIWantNewAccount(PersonAgent p, BankCustomer b, String name, double amnt){
+	public void msgIWantNewAccount(PersonAgent p, BankCustomerRole b, String name, double amnt){
 		Do("Recieved msgIWantNewAccount from customer");
 		mc=new myClient();
 		mc.p=p;
