@@ -80,7 +80,7 @@ public class BusAgent extends Agent{
 					if(ContactList.stops.get(i).stopLocation == currentLocation) { 
 						if(ContactList.stops.get(i).waitingPeople.size() != 0) {
 							ContactList.stops.get(i).BusHasArrived(this, capacity);
-						}
+						} 
 					}
 				}
 				
