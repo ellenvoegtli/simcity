@@ -72,6 +72,7 @@ public class CityPanel extends JPanel{
     	PersonAgent person5 = new PersonAgent("Host");
     	
     	
+    	
     	occupants.add(person);
     	occupants.add(person2);
     	occupants.add(person3);
@@ -88,6 +89,7 @@ public class CityPanel extends JPanel{
 		PersonGui pg3 = new PersonGui(person3, gui);
 		PersonGui pg4 = new PersonGui(person4, gui);
 		PersonGui pg5 = new PersonGui(person5, gui);
+		
 
 		//person.updateOccupation("rich", -1, -1);
 		//person2.updateOccupation("marcusWaiter", 8, 22);
@@ -113,6 +115,7 @@ public class CityPanel extends JPanel{
 		gui.getAnimationPanel().addPersonGui(pg3);
 		gui.getAnimationPanel().addPersonGui(pg4);
 		gui.getAnimationPanel().addPersonGui(pg5);
+		
 
 		person.setGui(pg1);
 		person2.setGui(pg2);
@@ -120,18 +123,24 @@ public class CityPanel extends JPanel{
 		person4.setGui(pg4);
 		person5.setGui(pg5);
 		
+		
 
 		person.msgGoToRestaurant();
 		person2.msgGoToWork();
 		person3.msgGoToWork();
 		person4.msgGoToWork();
-		person5.msgGoToWork();		
+		person5.msgGoToWork();	
+		
+		
 
 		person.startThread(); 
 		person2.startThread(); 
 		person3.startThread();
 		person4.startThread();
 		person5.startThread();
+	
+		
+		
 		
 		//Instantiation of the Global City Clock
 		Runnable standChecker = new Runnable() {
