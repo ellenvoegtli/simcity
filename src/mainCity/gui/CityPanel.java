@@ -69,6 +69,7 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
     	
+
     	String[] actions = {"work"}; 
     	//addPerson("David", 500, "marcusWaiter", 7, 19, actions); 
 		parseConfig();
@@ -155,7 +156,9 @@ public class CityPanel extends JPanel{
 		person4.startThread();
 		person5.startThread();
 		*/
-
+    	
+    	//add(personPanel);
+    	
 		//Instantiation of the Global City Clock
 		Runnable standChecker = new Runnable() {
 			 public void run() {
@@ -173,6 +176,7 @@ public class CityPanel extends JPanel{
 			p.updateClock(clock);
 		}
 	}
+	
 	
 	private void parseConfig() {
 		try {
@@ -206,7 +210,7 @@ public class CityPanel extends JPanel{
 		}
 	}
 	
-	private void addPerson(String name, double c, String occupation, int sb, int se, String[] actions) {
+	public void addPerson(String name, double c, String occupation, int sb, int se, String[] actions) {
     	PersonAgent person = new PersonAgent(name);
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);

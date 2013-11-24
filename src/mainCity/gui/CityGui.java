@@ -3,6 +3,7 @@ package mainCity.gui;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 
+import mainCity.PersonAgent;
 import mainCity.gui.AnimationPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
 import mainCity.market.gui.*;
@@ -13,6 +14,7 @@ import mainCity.gui.trace.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
+import java.util.Vector;
 import java.math.*;
 
 
@@ -24,6 +26,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private TracePanel tracePanel3;
 	private TracePanel tracePanel4;
 	private TracePanel tracePanel5;
+	private TracePanel tracePanel6;
+	private TracePanel tracePanel7;
+	private TracePanel tracePanel8;
 	private CityPanel cityPanel = new CityPanel(this);
 	private JPanel mainPanel = new JPanel();
 	private JPanel leftPanel = new JPanel();
@@ -31,13 +36,13 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 
 	//====Control panel components====
 	private JPanel controlPanel = new JPanel();
-	private GroupLayout layout = new GroupLayout(controlPanel);
+	
+	private JPanel subControlPanel1 = new JPanel();
+	private GroupLayout layout = new GroupLayout(subControlPanel1);
 	private JLabel nameFieldLabel = new JLabel("Enter name: ");
 	private JTextField nameField = new JTextField(100);
 	private JLabel moneyFieldLabel = new JLabel("Enter starting $: ");
-	//private JTextField moneyField = new JTextField(100);
-	private JTextField moneyField;
-	private NumberFormat moneyFormat;
+	private JTextField moneyField = new JTextField(100);
 	
 	private JLabel occupationMenuLabel = new JLabel("Choose occupation: ");
 	private JComboBox occupationMenu;
@@ -48,9 +53,36 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel carMenuLabel = new JLabel("Car or no car? : ");
 	private JComboBox carMenu;
 	
+	
+	private JPanel subControlPanel2 = new JPanel();
+	
+	
+	private JLabel infoLabel;
+	private JPanel infoPanel = new JPanel();
+	private GroupLayout layout2 = new GroupLayout(infoPanel);
+	private JLabel hungryLabel = new JLabel("Hungry?");
+	private JButton restaurantButton = new JButton("Eat at restaurant");
+	private JButton homeButton = new JButton("Eat at home");
+	
+	private JLabel workLabel = new JLabel("Go to work?");
+	private JCheckBox workCB = new JCheckBox();
+	
+	private JButton depositButton = new JButton("Deposit");
+	private JButton loanButton = new JButton("Request a loan");
+	private JButton withdrawButton = new JButton("Withdraw");
+	private JTextField depositField = new JTextField(100);
+	private JTextField withrawField = new JTextField(100);
+	private JTextField loanField = new JTextField(100);
+	
 	private JLabel blankLabel = new JLabel(" ");
 	private JButton addPersonButton = new JButton("Create person");
 	
+	private Object currentPerson;
+	//private JPanel infoPanel;		//add to subControlPanel2
+	
+	private ListPanel personPanel = new ListPanel(this);
+    private Vector<PersonAgent> people = new Vector<PersonAgent>();
+
 	
 	public CityGui() { 
 		int WINDOWX = 1300; 
@@ -69,11 +101,6 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		nameField.setMaximumSize(nameDim);
 		
 		moneyFieldLabel.setVisible(true);
-		moneyFormat = NumberFormat.getCurrencyInstance();
-		//moneyField = new JFormattedTextField(moneyFormat);
-		moneyField = new JTextField();
-		moneyField.setEnabled(true);
-		moneyField.setEditable(true);
 		Dimension moneyDim = new Dimension(150, 30);
 		moneyField.setPreferredSize(moneyDim);
 		moneyField.setMinimumSize(moneyDim);
@@ -81,9 +108,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		//moneyField.addKeyListener(this);
 		
 		
-		String[] occupationStrings = {"Random", "Rich (no occupation)", "Bank manager", "Bank teller", "Banker", 
-				"Restaurant host", "Restaurant waiter", "Restaurant cook", "Restaurant cashier", 
-				"Market greeter", "Market employee", "Market cashier", "Market delivery man"
+		String[] occupationStrings = {"Random", "Rich", "bankManager", "bankTeller", "banker", 
+				"restaurantHost", "restaurantWaiter", "ellenCook", "restaurantCashier", 
+				"marketGreeter", "marketEmployee", "marketCashier", "marketDeliveryMan"
 		};
 		occupationMenu = new JComboBox(occupationStrings);
 		Dimension occupationDim = new Dimension(150, 30);
@@ -119,10 +146,25 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		carMenu.setMaximumSize(carDim);
 		carMenu.setSelectedIndex(0);
 		carMenu.addActionListener(this);
-
 		
-		//===GROUP LAYOUT FOR CONTROL PANEL====
-		controlPanel.setLayout(layout);
+		Dimension depositDim = new Dimension(150, 30);
+		depositField.setPreferredSize(depositDim);
+		depositField.setMinimumSize(depositDim);
+		depositField.setMaximumSize(depositDim);
+		
+		Dimension withdrawDim = new Dimension(150, 30);
+		withrawField.setPreferredSize(withdrawDim);
+		withrawField.setMinimumSize(withdrawDim);
+		withrawField.setMaximumSize(withdrawDim);
+		
+		Dimension loanDim = new Dimension(150, 30);
+		loanField.setPreferredSize(loanDim);
+		loanField.setMinimumSize(loanDim);
+		loanField.setMaximumSize(loanDim);
+		
+		
+		//===GROUP LAYOUT 1 FOR CONTROL PANEL====
+		subControlPanel1.setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		
@@ -155,7 +197,55 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
 				addComponent(addPersonButton).addComponent(blankLabel));
 		layout.setVerticalGroup(vGroup);
-	   //====END GROUP LAYOUT=====
+		//====END GROUP LAYOUT 1=====
+		JTabbedPane tabbedPane2 = new JTabbedPane();
+		tabbedPane2.addTab("Create", subControlPanel1);
+		
+		//===GROUP LAYOUT 2 FOR CONTROL PANEL====
+		infoPanel.setLayout(layout2);
+		layout2.setAutoCreateGaps(true);
+		layout2.setAutoCreateContainerGaps(true);
+		
+		GroupLayout.SequentialGroup hGroup2 = layout2.createSequentialGroup();
+		hGroup2.addGroup(layout2.createParallelGroup().
+	            addComponent(hungryLabel).addComponent(blankLabel).addComponent(workLabel).
+	            addComponent(depositField).addComponent(withrawField).addComponent(loanField)
+	            );
+		hGroup2.addGroup(layout2.createParallelGroup().
+	            addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB).
+	            addComponent(depositButton).addComponent(withdrawButton).addComponent(loanButton)
+	            );
+		layout2.setHorizontalGroup(hGroup2);
+		
+		GroupLayout.SequentialGroup vGroup2 = layout2.createSequentialGroup();
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(hungryLabel).addComponent(restaurantButton));
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(blankLabel).addComponent(homeButton));
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(workLabel).addComponent(workCB));
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(depositField).addComponent(depositButton));
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(withrawField).addComponent(withdrawButton));
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(loanField).addComponent(loanButton));
+		layout2.setVerticalGroup(vGroup2);
+	   //====END GROUP LAYOUT 2=====
+		
+		subControlPanel2.setLayout(new GridBagLayout());
+		Dimension listDim = new Dimension((int) (WINDOWX * .15), (int) (WINDOWY * .2));
+        personPanel.setPreferredSize(listDim);
+        personPanel.setMinimumSize(listDim);
+        personPanel.setMaximumSize(listDim);
+		subControlPanel2.add(personPanel);
+		subControlPanel2.add(infoPanel);
+		tabbedPane2.addTab("Controls", subControlPanel2);
+		
+		
+		controlPanel.add(tabbedPane2);
+		//controlPanel.add(subControlPanel2);
+		
 		occupationMenu.addActionListener(this);
 		shiftMenu.addActionListener(this);
 		housingMenu.addActionListener(this);
@@ -177,31 +267,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         getAnimationPanel().setMaximumSize(animationDim);
         getAnimationPanel().setBorder(BorderFactory.createEtchedBorder());
         mainPanel.add(getAnimationPanel(), BorderLayout.CENTER);
-        	//Control Panel
-        Dimension controlDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .4));
-        controlPanel.setPreferredSize(controlDim);
-        controlPanel.setMinimumSize(controlDim);
-        controlPanel.setMaximumSize(controlDim);
-        //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
-        mainPanel.add(controlPanel, BorderLayout.SOUTH);
-		
-		//---LEFT PANEL BEGIN---//
-		//Entire Left Panel Sizing
-		Dimension leftDim = new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .5));
-		leftPanel.setPreferredSize(leftDim);
-		leftPanel.setMinimumSize(leftDim);
-		leftPanel.setMaximumSize(leftDim);
-		leftPanel.setBorder(BorderFactory.createEtchedBorder());
-        add(leftPanel, BorderLayout.WEST);
-		
-        //Detailed Panel Sizing
-        Dimension detailDim = new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .6));
-        detailedPanel.setPreferredSize(detailDim);
-        detailedPanel.setMinimumSize(detailDim);
-        detailedPanel.setMaximumSize(detailDim);
-        detailedPanel.add(getView());
-        leftPanel.add(detailedPanel, BorderLayout.CENTER);
         
+       
         //=============== TRACE PANEL ====================//
         JTabbedPane tabbedPane = new JTabbedPane();
         tracePanel1 = new TracePanel();
@@ -213,7 +280,6 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         tracePanel1.showAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags  
         tracePanel1.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel1.hideAlertsWithTag(AlertTag.BANK);
-        tracePanel1.hideAlertsWithTag(AlertTag.RESTAURANT);
         
         AlertLog.getInstance().addAlertListener(tracePanel1);
         tabbedPane.addTab("PERSON", tracePanel1);
@@ -226,9 +292,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         tracePanel2.hideAlertsWithLevel(AlertLevel.DEBUG);
         tracePanel2.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
         tracePanel2.showAlertsWithTag(AlertTag.MARKET);
-        tracePanel2.hideAlertsWithTag(AlertTag.BANK);
-        tracePanel2.hideAlertsWithTag(AlertTag.RESTAURANT);
-        
+        tracePanel2.hideAlertsWithTag(AlertTag.BANK);        
         
         AlertLog.getInstance().addAlertListener(tracePanel2);
         tabbedPane.addTab("MARKET", tracePanel2);
@@ -242,7 +306,6 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         tracePanel3.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
         tracePanel3.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel3.showAlertsWithTag(AlertTag.BANK);
-        tracePanel3.hideAlertsWithTag(AlertTag.RESTAURANT);
         
         AlertLog.getInstance().addAlertListener(tracePanel3);
         tabbedPane.addTab("BANK", tracePanel3);
@@ -257,29 +320,164 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         tracePanel4.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
         tracePanel4.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel4.hideAlertsWithTag(AlertTag.BANK);
-        tracePanel4.showAlertsWithTag(AlertTag.RESTAURANT);
+        tracePanel4.showAlertsWithTag(AlertTag.ELLEN_RESTAURANT);
         
         AlertLog.getInstance().addAlertListener(tracePanel4);
-        tabbedPane.addTab("RESTAURANT", tracePanel4);
+        tabbedPane.addTab("ELLEN RESTAURANT", tracePanel4);
         
-        leftPanel.add(tabbedPane, BorderLayout.SOUTH);       
+        
+        
+        tracePanel5 = new TracePanel();
+        tracePanel5.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel5.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
+        tracePanel5.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
+        tracePanel5.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel5.hideAlertsWithLevel(AlertLevel.DEBUG);
+        tracePanel5.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel5.hideAlertsWithTag(AlertTag.MARKET);
+        tracePanel5.hideAlertsWithTag(AlertTag.BANK);
+        tracePanel5.showAlertsWithTag(AlertTag.MARCUS_RESTAURANT);
+        
+        AlertLog.getInstance().addAlertListener(tracePanel5);
+        tabbedPane.addTab("MARCUS RESTAURANT", tracePanel5);
+        
+        
+        tracePanel6 = new TracePanel();
+        tracePanel6.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel6.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
+        tracePanel6.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
+        tracePanel6.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel6.hideAlertsWithLevel(AlertLevel.DEBUG);
+        tracePanel6.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel6.hideAlertsWithTag(AlertTag.MARKET);
+        tracePanel6.hideAlertsWithTag(AlertTag.BANK);
+        tracePanel6.showAlertsWithTag(AlertTag.ENA_RESTAURANT);
+        
+        AlertLog.getInstance().addAlertListener(tracePanel6);
+        tabbedPane.addTab("ENA RESTAURANT", tracePanel6);
+        
+        
+        tracePanel7 = new TracePanel();
+        tracePanel7.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel7.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
+        tracePanel7.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
+        tracePanel7.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel7.hideAlertsWithLevel(AlertLevel.DEBUG);
+        tracePanel7.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel7.hideAlertsWithTag(AlertTag.MARKET);
+        tracePanel7.hideAlertsWithTag(AlertTag.BANK);
+        tracePanel7.showAlertsWithTag(AlertTag.DAVID_RESTAURANT);
+        
+        AlertLog.getInstance().addAlertListener(tracePanel7);
+        tabbedPane.addTab("DAVID RESTAURANT", tracePanel7);
+        
+        
+        tracePanel8 = new TracePanel();
+        tracePanel8.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel8.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
+        tracePanel8.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
+        tracePanel8.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel8.hideAlertsWithLevel(AlertLevel.DEBUG);
+        tracePanel8.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel8.hideAlertsWithTag(AlertTag.MARKET);
+        tracePanel8.hideAlertsWithTag(AlertTag.BANK);
+        tracePanel8.showAlertsWithTag(AlertTag.DAVID_RESTAURANT);
+        
+        AlertLog.getInstance().addAlertListener(tracePanel8);
+        tabbedPane.addTab("JEFFERSON RESTAURANT", tracePanel8);
+
+        mainPanel.add(tabbedPane, BorderLayout.SOUTH); 
+        
+        
+        
+        
+        //---LEFT PANEL BEGIN---//
+  		//Entire Left Panel Sizing
+  		Dimension leftDim = new Dimension((int) (WINDOWX * .4), (int) (WINDOWY));
+  		leftPanel.setPreferredSize(leftDim);
+  		leftPanel.setMinimumSize(leftDim);
+  		leftPanel.setMaximumSize(leftDim);
+  		leftPanel.setBorder(BorderFactory.createEtchedBorder());
+  		add(leftPanel, BorderLayout.WEST);
+  		
+  		//Detailed Panel Sizing
+        Dimension detailDim = new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .6));
+        detailedPanel.setPreferredSize(detailDim);
+        detailedPanel.setMinimumSize(detailDim);
+        detailedPanel.setMaximumSize(detailDim);
+        detailedPanel.add(getView());
+        leftPanel.add(detailedPanel, BorderLayout.CENTER);
+  		
+  		//Control Panel
+        Dimension controlDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .6));
+        controlPanel.setPreferredSize(controlDim);
+        controlPanel.setMinimumSize(controlDim);
+        controlPanel.setMaximumSize(controlDim);
+        //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
+        leftPanel.add(controlPanel, BorderLayout.SOUTH);
+        
+        /*
+        Dimension listDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .2));
+        cityPanel.setPreferredSize(listDim);
+        cityPanel.setMinimumSize(listDim);
+        cityPanel.setMaximumSize(listDim);
+        subControlPanel2.add(cityPanel);*/
+        //Dimension listDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .2));
+        //personPanel.setPreferredSize(listDim);
+        //personPanel.setMinimumSize(listDim);
+        //personPanel.setMaximumSize(listDim);
+        
+        //controlPanel.add(subControlPanel2);        
 	}
+	
+	public void showInfo(String name) {
+		for (int i = 0; i < people.size(); i++) {
+                PersonAgent temp = people.get(i);
+                if (temp.getName() == name) {
+                    updateInfoPanel(temp);
+                }
+            }
+        }
+	
+	public void updateInfoPanel(Object person) {
+        currentPerson = person;
+
+        PersonAgent p = (PersonAgent) person;
+        infoLabel.setText(
+               "<html><pre>     Name: " + p.getName() + " </pre></html>");
+
+        //set buttons enabled/disabled...
+        infoPanel.validate();
+    }
 	
 	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == addPersonButton){
 			System.out.println("name = " + nameField.getText());
 			String name = nameField.getText();
-				//do something with the name
 			double money = Double.parseDouble(moneyField.getText());
-				//do something with the money (&& round to nearest hundredth...?***)
 			String occupation = (String) occupationMenu.getSelectedItem();
-				//do something with the string
 			String shift = (String) shiftMenu.getSelectedItem();
-				//do something with the string
 			String housing = (String) housingMenu.getSelectedItem();
-				//do something with the string
 			String car = (String) carMenu.getSelectedItem();
-				//do something with the string
+
+			int sb = 0, se = 0;
+			if (shift.equalsIgnoreCase("AM")){
+				sb = 7;
+				se = 9;
+			}
+			String [] actions ={"work"};
+			cityPanel.addPerson(name, money, occupation, sb, se, actions);
+		}
+		else if (e.getSource() == restaurantButton){
+			restaurantButton.setEnabled(false);
+			//...
+		}
+		else if (e.getSource() == homeButton){
+			homeButton.setEnabled(false);
+		}
+		else if (e.getSource() == workCB){
+			workCB.setEnabled(false);
+			
 		}
 			
 	}

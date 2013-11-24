@@ -30,7 +30,7 @@ public enum AlertTag {
         MARKET_DELIVERYMAN,
         MARKET,
         
-        RESTAURANT,
+        //RESTAURANT,
         
         ELLEN_RESTAURANT,
         ELLEN_HOST,
