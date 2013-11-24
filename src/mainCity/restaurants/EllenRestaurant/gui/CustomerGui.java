@@ -146,10 +146,15 @@ public class CustomerGui implements Gui{
 	public boolean isPresent() {
 		return isPresent;
 	}
-	public void setHungry() {
-		isHungry = true;
-		agent.gotHungry();
-		setPresent(true);
+	//public void setHungry() {
+	public boolean goInside(){
+		if (agent.restaurantOpen()){
+			isHungry = true;
+			agent.gotHungry();
+			setPresent(true);
+			return true;
+		}
+		return false;
 	}
 	public boolean isHungry() {
 		return isHungry;

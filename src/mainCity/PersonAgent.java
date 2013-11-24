@@ -208,15 +208,21 @@ public class PersonAgent extends Agent {
 		
 		if(currentAction != null && state == PersonState.normal && !traveling) {
 			if(event == PersonEvent.arrivedAtHome) {
+				if(!actions.isEmpty()) { //If there's other stuff to do, don't go inside yet
+					currentAction.state = ActionState.done;
+					return true;
+				}
+				
 				print("Arrived at home!");
 				
 				handleRole(currentAction.type);
 				roles.get(currentAction.type).setActive();
-
+				
 				if(currentAction != null && (currentAction.type == ActionType.market || currentAction.type == ActionType.home)) {
 					currentAction.state = ActionState.done;
 				}
 				
+				gui.DoGoInside();
 				state = PersonState.inBuilding;
 				return true;
 			}
@@ -236,6 +242,7 @@ public class PersonAgent extends Agent {
 					currentAction.state = ActionState.done;
 				}
 				
+				gui.DoGoInside();
 				state = PersonState.working;
 				return true;
 			}
@@ -245,6 +252,7 @@ public class PersonAgent extends Agent {
 				handleRole(currentAction.type);
 				roles.get(currentAction.type).setActive();
 	
+				gui.DoGoInside();
 				state = PersonState.inBuilding;
 				return true;
 			}
@@ -264,7 +272,11 @@ public class PersonAgent extends Agent {
 					}
 				}
 				else if(customer instanceof EllenCustomerRole) {
-					((EllenCustomerRole) customer).gotHungry();
+					if (!((EllenCustomerRole) customer).getGui().goInside()){
+						chooseRestaurant();
+						return true;
+					}
+					//((EllenCustomerRole) customer).gotHungry();
 				}
 				else if(customer instanceof EnaCustomerRole) {
 					((EnaCustomerRole) customer).getGui().setHungry();
@@ -280,6 +292,7 @@ public class PersonAgent extends Agent {
 					currentAction.state = ActionState.done;
 				}
 				
+				gui.DoGoInside();
 				state = PersonState.inBuilding;
 				return true;
 			}
@@ -334,14 +347,13 @@ public class PersonAgent extends Agent {
 		if(state == PersonState.boardingBus) {
 			boardBus();
 		}
-// UNCOMMENT??
-		/*
+
 		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
 			print("My action list is empty. Going home");
 			actions.add(new Action(ActionType.home, 10));
 			return true;
 		}
-		*/
+		
 		return false;
 	}
 
@@ -517,6 +529,7 @@ public class PersonAgent extends Agent {
 		if(temp) { //chose to walk
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
+			return;
 		}
 		else if(temp) { //chose bus
 			gui.DoGoToStop(); // walk to the closest bus stop or subway station?
@@ -541,6 +554,8 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
+		destination = CityLocation.restaurant_marcus;
+		/*
 		switch((int) (Math.random() * 3)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -554,7 +569,8 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
-		
+		*/
+
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
@@ -652,8 +668,8 @@ public class PersonAgent extends Agent {
 	}
 	
 	public void roleInactive() {
-		print(this + " was set inactive");
 		state = PersonState.normal;
+		gui.DoGoOutside();
 		stateChanged();
 		//possibly have the msgFinished...messages in here instead
 	}
@@ -678,7 +694,7 @@ public class PersonAgent extends Agent {
 	public void setCash(double d) {
 		this.cash = d;
 	}
-	
+
 	private void waitForGui() {
 		try {
 			isMoving.acquire();

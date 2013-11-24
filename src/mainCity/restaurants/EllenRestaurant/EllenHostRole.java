@@ -15,6 +15,9 @@ import java.util.*;
 
 public class EllenHostRole extends Role {
 	private String name;
+	static final int NTABLES = 4;//a global for the number of tables.
+	EllenCookRole cook;
+	EllenCashierRole cashier;
 	
 	public Collection<MyWaitingCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<MyWaitingCustomer>());
 	public Collection<Table> tables;	
@@ -24,7 +27,11 @@ public class EllenHostRole extends Role {
 	public EllenHostRole(PersonAgent p, String name) {
 		super(p);
 
-		this.name = name;		
+		this.name = name;	
+		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
+		for (int ix = 1; ix <= NTABLES; ix++) {
+			tables.add(new Table(ix));//how you add to a collections
+		}
 	}
 
 	public String getMaitreDName() {
@@ -33,6 +40,13 @@ public class EllenHostRole extends Role {
 
 	public String getName() {
 		return name;
+	}
+	
+	public void setCashier(EllenCashierRole c){
+		cashier = c;
+	}
+	public void setCook(EllenCookRole c){
+		cook = c;
 	}
 
 
@@ -258,6 +272,9 @@ public class EllenHostRole extends Role {
 		return hostGui;
 	}
 */
+	public boolean isOpen() {
+		return (cook != null && cook.isActive()) && (cashier != null && cashier.isActive());
+	}
 	
 	public void addWaiter(Waiter w){
 		myWaiters.add(new MyWaiter(w));

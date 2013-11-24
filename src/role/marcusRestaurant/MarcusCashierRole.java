@@ -139,7 +139,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		}
 
 		if(!onDuty) {
-			print("hereeeeee");//broken heerreee
+			print("hereeeeee");
 			if(host.lastCustomer()) return false;
 			print("afffteerrrr");
 

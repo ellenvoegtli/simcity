@@ -48,8 +48,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
-        
         StringBuilder path = new StringBuilder("imgs/");
+
         bus = new BusGui( 15, 15, 16, 16);
         
         //Bus Stop 
@@ -59,7 +59,6 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
         //Instantiating roads
         lanes = new ArrayList<Lane>();
         
@@ -238,6 +237,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
+                gui.updatePosition();
+                gui.updatePosition();
                 gui.updatePosition();
             }
         }

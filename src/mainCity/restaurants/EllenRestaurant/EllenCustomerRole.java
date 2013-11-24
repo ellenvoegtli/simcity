@@ -473,5 +473,11 @@ public class EllenCustomerRole extends Role implements Customer{
 	public CustomerGui getGui() {
 		return customerGui;
 	}
+	
+	public boolean restaurantOpen() {
+		if(host != null && host.isActive() && host.isOpen())
+			return true;
+		return false;
+	}
 }
 
