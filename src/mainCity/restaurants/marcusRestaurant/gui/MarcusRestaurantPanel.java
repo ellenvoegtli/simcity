@@ -6,13 +6,7 @@ import mainCity.restaurants.marcusRestaurant.sharedData.RevolvingStand;
 import javax.swing.*;
 
 import role.Role;
-import role.marcusRestaurant.MarcusCashierRole;
-import role.marcusRestaurant.MarcusCookRole;
-import role.marcusRestaurant.MarcusCustomerRole;
-import role.marcusRestaurant.MarcusHostRole;
-import role.marcusRestaurant.MarcusNormalWaiterRole;
-import role.marcusRestaurant.MarcusSharedWaiterRole;
-import role.marcusRestaurant.MarcusWaiterRole;
+import role.marcusRestaurant.*;
 
 import java.awt.*;
 import java.util.Vector;

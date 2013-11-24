@@ -16,7 +16,7 @@ public class MarcusRestaurantGui extends JFrame implements ActionListener {
      * and the animation frame, (in variable animationFrame within gui)
      */
 	JFrame animationFrame = new JFrame("Restaurant Animation");
-	AnimationPanel animationPanel = new AnimationPanel();
+	MarcusAnimationPanel animationPanel = new MarcusAnimationPanel();
 	
     /* restPanel holds 2 panels
      * 1) the staff listing, menu, and lists of current customers all constructed
@@ -143,7 +143,7 @@ public class MarcusRestaurantGui extends JFrame implements ActionListener {
         infoPanel.validate();
     }
     
-    public AnimationPanel getAnimationPanel() {
+    public MarcusAnimationPanel getAnimationPanel() {
     	return animationPanel;
     }
     
