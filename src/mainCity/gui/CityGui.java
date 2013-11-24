@@ -34,18 +34,23 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JTextField nameField = new JTextField(100);
 	private JLabel moneyFieldLabel = new JLabel("Enter starting $: ");
 	private JTextField moneyField = new JTextField(100);
+	
 	private JLabel occupationMenuLabel = new JLabel("Choose occupation: ");
 	private JComboBox occupationMenu;
-	private JLabel AMshiftLabel = new JLabel("Choose shift: ");
-	private JLabel PMshiftLabel = new JLabel(" ");
-	private JRadioButton AMshiftButton = new JRadioButton("AM shift");
-	private JRadioButton PMshiftButton = new JRadioButton("PM shift");
-	private ButtonGroup shiftGroup = new ButtonGroup();
-	private JButton addPersonButton = new JButton("Add new person");
+	private JLabel shiftMenuLabel = new JLabel("Choose shift: ");
+	private JComboBox shiftMenu;
+	private JLabel housingMenuLabel = new JLabel("Choose housing: ");
+	private JComboBox housingMenu;
+	private JLabel carMenuLabel = new JLabel("Car or no car? : ");
+	private JComboBox carMenu;
+	
 	
 	public CityGui() { 
 		int WINDOWX = 1300; 
 		int WINDOWY = 600;
+
+		animationPanel.setGui(this);
+
 		setBounds(50, 50, WINDOWX, WINDOWY+150);
 		setLayout(new BorderLayout());
 		
@@ -73,14 +78,34 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		occupationMenu.setMaximumSize(occupationDim);
 		occupationMenu.setSelectedIndex(0);
 		occupationMenu.addActionListener(this);
-        occupationMenu.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+		String[] shiftStrings = {"Random", "AM/Morning", "PM/Afternoon"};
+		shiftMenu = new JComboBox(shiftStrings);
+		Dimension shiftDim = new Dimension(150, 30);
+		shiftMenu.setPreferredSize(shiftDim);
+		shiftMenu.setMinimumSize(shiftDim);
+		shiftMenu.setMaximumSize(shiftDim);
+		shiftMenu.setSelectedIndex(0);
+		shiftMenu.addActionListener(this);
 
-        //AM/PM shift
-        AMshiftLabel.setVisible(true);
-        AMshiftButton.setSelected(false);
-        PMshiftButton.setSelected(false);
-        shiftGroup.add(AMshiftButton);
-        shiftGroup.add(PMshiftButton);
+		String[] housingStrings = {"Random", "House (Buy)", "Apartment (Rent)"};
+		housingMenu = new JComboBox(housingStrings);
+		Dimension housingDim = new Dimension(150, 30);
+		housingMenu.setPreferredSize(housingDim);
+		housingMenu.setMinimumSize(housingDim);
+		housingMenu.setMaximumSize(housingDim);
+		housingMenu.setSelectedIndex(0);
+		housingMenu.addActionListener(this);
+		
+		String[] carStrings = {"Random", "Car", "No car"};
+		carMenu = new JComboBox(carStrings);
+		Dimension carDim = new Dimension(150, 30);
+		carMenu.setPreferredSize(carDim);
+		carMenu.setMinimumSize(carDim);
+		carMenu.setMaximumSize(carDim);
+		carMenu.setSelectedIndex(0);
+		carMenu.addActionListener(this);
+
 		
 		//===GROUP LAYOUT FOR CONTROL PANEL====
 		controlPanel.setLayout(layout);
@@ -90,10 +115,12 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 		hGroup.addGroup(layout.createParallelGroup().
 	            addComponent(nameFieldLabel).addComponent(moneyFieldLabel).addComponent(occupationMenuLabel).
-	            addComponent(AMshiftLabel).addComponent(PMshiftLabel));
+	            addComponent(shiftMenuLabel).addComponent(housingMenuLabel).addComponent(carMenuLabel)
+	            );
 		hGroup.addGroup(layout.createParallelGroup().
-	            addComponent(nameField).addComponent(moneyField).addComponent(occupationMenu).addComponent(AMshiftButton).
-	            addComponent(PMshiftButton));
+	            addComponent(nameField).addComponent(moneyField).addComponent(occupationMenu).
+	            addComponent(shiftMenu).addComponent(housingMenu).addComponent(carMenu)
+	            );
 		layout.setHorizontalGroup(hGroup);
 		
 		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
@@ -104,12 +131,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
 	            addComponent(occupationMenuLabel).addComponent(occupationMenu));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-	            addComponent(AMshiftLabel).addComponent(AMshiftButton));
+	            addComponent(shiftMenuLabel).addComponent(shiftMenu));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-	            addComponent(PMshiftLabel).addComponent(PMshiftButton));
+	            addComponent(housingMenuLabel).addComponent(housingMenu));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+	            addComponent(carMenuLabel).addComponent(carMenu));
 		layout.setVerticalGroup(vGroup);
 	   //====END GROUP LAYOUT=====
 		
+
 		//---MAIN PANEL BEGIN---//
         Dimension mainDim = new Dimension((int) (WINDOWX * .6), WINDOWY);
         mainPanel.setPreferredSize(mainDim);
@@ -146,7 +176,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         detailedPanel.setPreferredSize(detailDim);
         detailedPanel.setMinimumSize(detailDim);
         detailedPanel.setMaximumSize(detailDim);
-        detailedPanel.add(view);
+        detailedPanel.add(getView());
         leftPanel.add(detailedPanel, BorderLayout.CENTER);
         
         //=============== TRACE PANEL ====================//
@@ -230,6 +260,14 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	
 	public AnimationPanel getAnimationPanel() {
 		return animationPanel;
+	}
+
+	public CityView getView() {
+		return view;
+	}
+
+	public void setView(CityView view) {
+		this.view = view;
 	}
 	
 	

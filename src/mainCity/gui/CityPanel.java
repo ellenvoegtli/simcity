@@ -120,6 +120,7 @@ public class CityPanel extends JPanel{
 		person4.setGui(pg4);
 		person5.setGui(pg5);
 		
+
 		person.msgGoToRestaurant();
 		person2.msgGoToWork();
 		person3.msgGoToWork();
