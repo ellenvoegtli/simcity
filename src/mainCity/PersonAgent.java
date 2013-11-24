@@ -2,6 +2,7 @@ package mainCity;
 import agent.Agent;
 import role.*;
 import role.marcusRestaurant.*;
+import housing.LandlordRole;
 import housing.OccupantRole;
 
 import java.util.*;
@@ -19,6 +20,8 @@ import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
+import mainCity.market.*;
+import role.market.*;
 
 /*
  * To Do for the personagent:
@@ -30,7 +33,7 @@ import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
 
 public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding, waiting, boardingBus}
-	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, goHome}
+	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
 	
 	private PersonGui gui;
@@ -91,6 +94,13 @@ public class PersonAgent extends Agent {
 	public void msgArrivedAtDestination() {
 		traveling = false;
 		state = PersonState.normal;
+		stateChanged();
+	}
+	//A message for the landlord
+	
+	public void msgNeedToFix()
+	{
+		actions.add(new Action(ActionType.maintenance, 1));
 		stateChanged();
 	}
 	
@@ -334,6 +344,12 @@ public class PersonAgent extends Agent {
 				decideWhereToEat();
 				return true;
 			}
+			
+			if(event == PersonEvent.maintainWork)
+			{
+				goToRenters();
+				return true;
+			}
 
 			if(event == PersonEvent.chooseRestaurant) {
 				chooseRestaurant();
@@ -459,10 +475,33 @@ public class PersonAgent extends Agent {
 							ContactList.getInstance().getEllenRestaurant().handleRole(elh);
 							roles.put(action, elh);
 							break;
+						
+						//-----Market Roles---//
+						case "marketEmployee":
+							MarketEmployeeRole mem = new MarketEmployeeRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(mem);
+							roles.put(action, mem);
+							break;
+						case "marketGreeter":
+							MarketGreeterRole mgr = new MarketGreeterRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(mgr);
+							roles.put(action, mgr);
+							break;
+						case "marketCashier":
+							MarketCashierRole mcsh = new MarketCashierRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(mcsh);
+							roles.put(action, mcsh);
+							break;
+						case "marketDeliveryMan":
+							MarketDeliveryManRole mdm = new MarketDeliveryManRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(mdm);
+							roles.put(action, mdm);
+							break;
 						default:
 							break;
 					}
 					break;
+				
 				case restaurant:
 					switch(destination) {
 						/*case restaurant_marcus:
@@ -495,6 +534,12 @@ public class PersonAgent extends Agent {
 					roles.put(action, or);
 					break;
 					
+				case maintenance:
+					LandlordRole lr = new LandlordRole(this);
+					ContactList.getInstance().getHome().handleRoleGui(lr);
+					roles.put(action, lr);
+					break;
+					
 				case bankWithdraw:
 					BankCustomerRole bc = new BankCustomerRole(this, name);
 					ContactList.getInstance().getBank().handleRoleGui(bc);
@@ -514,6 +559,9 @@ public class PersonAgent extends Agent {
 		switch(action) {
 			case work:
 				event = PersonEvent.timeToWork;
+				break;
+			case maintenance:
+				event = PersonEvent.maintainWork;
 				break;
 			case hungry:
 				event = PersonEvent.gotHungry;
@@ -645,6 +693,11 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
+	
+	private void goToRenters()
+	{
+		
+	}
 	private void goToMarket() {
 		output("Going to the market");
 		travelToLocation(CityLocation.market);
@@ -734,7 +787,7 @@ public class PersonAgent extends Agent {
 	
 	//Lower the priority level, the more "important" it is (it'll get done faster)
 	private enum ActionState {created, inProgress, done}
-	public enum ActionType {work, hungry, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
+	public enum ActionType {work, maintenance, hungry, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
 	class Action implements Comparable<Object> {
 		ActionState state;
 		ActionType type;

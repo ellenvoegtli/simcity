@@ -12,6 +12,8 @@ import mainCity.gui.trace.*;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.text.NumberFormat;
+import java.math.*;
 
 
 public class CityGui extends JFrame implements ActionListener, KeyListener{	
@@ -33,7 +35,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel nameFieldLabel = new JLabel("Enter name: ");
 	private JTextField nameField = new JTextField(100);
 	private JLabel moneyFieldLabel = new JLabel("Enter starting $: ");
-	private JTextField moneyField = new JTextField(100);
+	//private JTextField moneyField = new JTextField(100);
+	private JTextField moneyField;
+	private NumberFormat moneyFormat;
 	
 	private JLabel occupationMenuLabel = new JLabel("Choose occupation: ");
 	private JComboBox occupationMenu;
@@ -43,6 +47,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JComboBox housingMenu;
 	private JLabel carMenuLabel = new JLabel("Car or no car? : ");
 	private JComboBox carMenu;
+	
+	private JLabel blankLabel = new JLabel(" ");
+	private JButton addPersonButton = new JButton("Create person");
 	
 	
 	public CityGui() { 
@@ -62,10 +69,17 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		nameField.setMaximumSize(nameDim);
 		
 		moneyFieldLabel.setVisible(true);
+		moneyFormat = NumberFormat.getCurrencyInstance();
+		//moneyField = new JFormattedTextField(moneyFormat);
+		moneyField = new JTextField();
+		moneyField.setEnabled(true);
+		moneyField.setEditable(true);
 		Dimension moneyDim = new Dimension(150, 30);
 		moneyField.setPreferredSize(moneyDim);
 		moneyField.setMinimumSize(moneyDim);
 		moneyField.setMaximumSize(moneyDim);
+		//moneyField.addKeyListener(this);
+		
 		
 		String[] occupationStrings = {"Random", "Rich (no occupation)", "Bank manager", "Bank teller", "Banker", 
 				"Restaurant host", "Restaurant waiter", "Restaurant cook", "Restaurant cashier", 
@@ -79,7 +93,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		occupationMenu.setSelectedIndex(0);
 		occupationMenu.addActionListener(this);
 		
-		String[] shiftStrings = {"Random", "AM/Morning", "PM/Afternoon"};
+		String[] shiftStrings = {"Random", "AM", "PM"};
 		shiftMenu = new JComboBox(shiftStrings);
 		Dimension shiftDim = new Dimension(150, 30);
 		shiftMenu.setPreferredSize(shiftDim);
@@ -88,7 +102,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		shiftMenu.setSelectedIndex(0);
 		shiftMenu.addActionListener(this);
 
-		String[] housingStrings = {"Random", "House (Buy)", "Apartment (Rent)"};
+		String[] housingStrings = {"Random", "House", "Apartment"};
 		housingMenu = new JComboBox(housingStrings);
 		Dimension housingDim = new Dimension(150, 30);
 		housingMenu.setPreferredSize(housingDim);
@@ -115,11 +129,13 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 		hGroup.addGroup(layout.createParallelGroup().
 	            addComponent(nameFieldLabel).addComponent(moneyFieldLabel).addComponent(occupationMenuLabel).
-	            addComponent(shiftMenuLabel).addComponent(housingMenuLabel).addComponent(carMenuLabel)
+	            addComponent(shiftMenuLabel).addComponent(housingMenuLabel).addComponent(carMenuLabel).
+	            addComponent(addPersonButton)
 	            );
 		hGroup.addGroup(layout.createParallelGroup().
 	            addComponent(nameField).addComponent(moneyField).addComponent(occupationMenu).
-	            addComponent(shiftMenu).addComponent(housingMenu).addComponent(carMenu)
+	            addComponent(shiftMenu).addComponent(housingMenu).addComponent(carMenu).
+	            addComponent(blankLabel)
 	            );
 		layout.setHorizontalGroup(hGroup);
 		
@@ -136,8 +152,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	            addComponent(housingMenuLabel).addComponent(housingMenu));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
 	            addComponent(carMenuLabel).addComponent(carMenu));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+				addComponent(addPersonButton).addComponent(blankLabel));
 		layout.setVerticalGroup(vGroup);
 	   //====END GROUP LAYOUT=====
+		occupationMenu.addActionListener(this);
+		shiftMenu.addActionListener(this);
+		housingMenu.addActionListener(this);
+		carMenu.addActionListener(this);
+		addPersonButton.addActionListener(this);
 		
 
 		//---MAIN PANEL BEGIN---//
@@ -243,9 +266,22 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	}
 	
 	public void actionPerformed(ActionEvent e){
-		JComboBox cb = (JComboBox)e.getSource();
-        String petName = (String)cb.getSelectedItem();
-        //updateLabel(petName);
+		if (e.getSource() == addPersonButton){
+			System.out.println("name = " + nameField.getText());
+			String name = nameField.getText();
+				//do something with the name
+			double money = Double.parseDouble(moneyField.getText());
+				//do something with the money (&& round to nearest hundredth...?***)
+			String occupation = (String) occupationMenu.getSelectedItem();
+				//do something with the string
+			String shift = (String) shiftMenu.getSelectedItem();
+				//do something with the string
+			String housing = (String) housingMenu.getSelectedItem();
+				//do something with the string
+			String car = (String) carMenu.getSelectedItem();
+				//do something with the string
+		}
+			
 	}
 	
 	

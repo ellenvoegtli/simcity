@@ -5,9 +5,10 @@ import agent.Agent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.DeliveryManGui;
 import mainCity.interfaces.*;
-import mainCity.market.MarketEmployeeRole;
+import mainCity.market.*;
 import mainCity.market.gui.*;
 import role.Role;
+import mainCity.PersonAgent;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -15,9 +16,10 @@ import java.util.concurrent.*;
 
  // Restaurant Cook Agent
 
-public class MarketDeliveryManRole extends Agent{			//only handles one restaurant at a time right now
+public class MarketDeliveryManRole extends Role{			//only handles one restaurant at a time right now
 	private String name;
 	public DeliveryManGui deliveryGui;
+	MarketCashierRole cashier;
 	
 	//private int availableMoney = 500;
 	Timer timer = new Timer();
@@ -33,9 +35,12 @@ public class MarketDeliveryManRole extends Agent{			//only handles one restauran
 	
 	
 	//constructor
-	public MarketDeliveryManRole(String name) {
-		super();
+	public MarketDeliveryManRole(PersonAgent p, String name) {
+		super(p);
 		this.name = name;
+	}
+	public void setCashier(MarketCashierRole c){
+		cashier = c;
 	}
 
 	public String getName() {

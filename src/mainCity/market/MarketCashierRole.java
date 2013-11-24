@@ -4,15 +4,17 @@ package mainCity.market;
 import agent.Agent;
 
 import java.util.*;
-
+import role.Role;
+import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 
 
  // Restaurant Cook Agent
 
-public class MarketCashierRole extends Agent{	
+public class MarketCashierRole extends Role{	
 	private String name;
+	MarketGreeterRole greeter;
 	private double availableMoney = 0;		//we don't actually need to start with any money (don't need to buy anything)
 	Timer timer = new Timer();
 	private MarketMenu marketMenu = new MarketMenu();
@@ -23,13 +25,16 @@ public class MarketCashierRole extends Agent{
 	public enum BillState {computing, waitingForPayment, recomputingBill, calculatingChange, oweMoney, paid};
 	
 	//constructor
-	public MarketCashierRole(String name) {
-		super();
+	public MarketCashierRole(PersonAgent p, String name) {
+		super(p);
 		this.name = name;
 
 	}
 	public void addWaiter(MarketEmployeeRole w){	//hack
 		employees.add(w);
+	}
+	public void setGreeter(MarketGreeterRole g){
+		greeter = g;
 	}
 	public String getName() {
 		return name;
