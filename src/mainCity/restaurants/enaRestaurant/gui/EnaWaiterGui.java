@@ -96,7 +96,7 @@ public class EnaWaiterGui implements Gui
        				lobby = true;
     	   			//agent.msgAtHome();
        		}
-	        if(xDestination != 50 || yDestination != 10+20)
+	        if(xDestination != 50 || yDestination != 30)
        		{
        				entrance = true;
     	   			//agent.msgAtHome();
@@ -116,7 +116,7 @@ public class EnaWaiterGui implements Gui
 	        		{
 	        			agent.msgAtCashier();
 	        		}
-	        		else if(xDestination == 50 && yDestination == 10+20 && entrance == true)
+	        		else if(xDestination == 50 && yDestination == 30 && entrance == true)
 	           		{
 	           				entrance = false;
 	        	   			agent.msgAtEntrance();
@@ -130,7 +130,6 @@ public class EnaWaiterGui implements Gui
 	    }
 	public boolean atDestination()
 	{
-		
 		return xPos == xDestination && yPos == yDestination;
 	}
 	public void draw(Graphics2D g) 
@@ -196,7 +195,10 @@ public class EnaWaiterGui implements Gui
 	public void DoGetCustomer(EnaCustomerRole customer)
 	{
 		xDestination = customer.getXPos();
+		System.out.println(xDestination);
 		yDestination = 10+20;
+		System.out.println(yDestination);
+
 	}
 	    
 	public void DoBringToTable(EnaCustomerRole customer, int tableN) 
