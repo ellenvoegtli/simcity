@@ -94,6 +94,7 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		traveling = false;
+		print("msgArrivedAtDestination called");
 		gui.DoGoOutside();
 		state = PersonState.normal;
 		stateChanged();
@@ -314,6 +315,7 @@ public class PersonAgent extends Agent {
 					((EnaCustomerRole) customer).getGui().setHungry();
 				}
 				else if(customer instanceof JeffersonCustomerRole){
+					
 					((JeffersonCustomerRole) customer).gotHungry();
 					((JeffersonCustomerRole) customer).getGui().setHungry();
 				}
@@ -665,7 +667,7 @@ public class PersonAgent extends Agent {
 		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = true;
 		
-		if(temp) { //chose to walk
+		if(false) { //chose to walk
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -805,13 +807,14 @@ public class PersonAgent extends Agent {
 	
 	private void boardBus() {
 		///message the bus
-		print("Getting on Bus");
+		print("Boarding Bus");
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
-				print(i + ", " + j);
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
-					//gui.DoGoInside();
+					ContactList.stops.get(i).waitingPeople.remove(this);
+					gui.DoGoInside();
+					state = PersonState.waiting;
 					//gui.DoGoToLocationOnBus(destination);
 				}
 			}

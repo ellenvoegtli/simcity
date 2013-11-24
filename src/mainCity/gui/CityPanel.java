@@ -68,6 +68,7 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
 
+
     	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
 
     	//String[] actions = {"work"}; 

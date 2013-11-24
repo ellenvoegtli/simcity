@@ -10,6 +10,7 @@ import mainCity.market.gui.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.contactList.*;
 import mainCity.gui.trace.*;
+import mainCity.gui.ListPanel;
 
 import java.awt.*;
 import java.awt.event.*;

@@ -272,7 +272,6 @@ public class PersonGui implements Gui{
 				destination = ContactList.stops.get(i).stopLocation;
 			}
 		}
-		System.out.println("Nearest stop found: " + destination);
 		return destination;
 	}
 	
