@@ -11,6 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener, MouseMotionListener {
+public class AnimationPanel extends JPanel implements ActionListener, MouseListener {
 
 	//Dimensions for the window that will have the City in it
     private final int WINDOWX = 780;
@@ -45,6 +46,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseMotio
     int count; 
     private Image bufferImage;
     private Dimension bufferSize;
+    
+    CityGui gui;
 
     //List of all guis that we need to animate in the city (Busses, Cars, People...etc) 
     //Will be Added in CityPanel analogous to RestaurantPanel
@@ -53,6 +56,9 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseMotio
     public AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
+        
+		addMouseListener(this);
+		
         StringBuilder path = new StringBuilder("imgs/");
 
         bus = new BusGui( 15, 15, 16, 16);
@@ -264,11 +270,15 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseMotio
         }
     }
     
+    public void setGui(CityGui g){ 
+    	gui = g;
+    }
+    
     public void mousePressed(MouseEvent arg0) {
     	System.out.println("Mouse press recognized");
     	for (Building b: buildings) { 
     		if (b.contains(arg0.getX(), arg0.getY())){ 
-    			//setView to building.
+    			gui.getView().setView(b.ID);
     		}
     	}
     }
@@ -280,15 +290,28 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseMotio
     public void addBuildingGui(Building gui) { 
     	guis.add(gui);
     }
-
+    
+//Unused.
 	@Override
-	public void mouseDragged(MouseEvent arg0) {
+	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent arg0) {
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}

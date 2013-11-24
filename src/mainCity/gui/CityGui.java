@@ -33,6 +33,8 @@ public class CityGui extends JFrame{
 		int WINDOWX = 1300; 
 		int WINDOWY = 600;
 		
+		animationPanel.setGui(this);
+		
 		setBounds(50, 50, WINDOWX, WINDOWY+150);
 		setLayout(new BorderLayout());
 		
@@ -73,7 +75,7 @@ public class CityGui extends JFrame{
         detailedPanel.setPreferredSize(detailDim);
         detailedPanel.setMinimumSize(detailDim);
         detailedPanel.setMaximumSize(detailDim);
-        detailedPanel.add(view);
+        detailedPanel.add(getView());
         leftPanel.add(detailedPanel, BorderLayout.CENTER);
         
         //=============== TRACE PANEL ====================//
@@ -150,5 +152,13 @@ public class CityGui extends JFrame{
 	
 	public AnimationPanel getAnimationPanel() {
 		return animationPanel;
+	}
+
+	public CityView getView() {
+		return view;
+	}
+
+	public void setView(CityView view) {
+		this.view = view;
 	}
 }
