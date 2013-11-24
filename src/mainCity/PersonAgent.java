@@ -105,6 +105,7 @@ public class PersonAgent extends Agent {
 	}
 	
 	public void msgBusHasArrived() {
+		print("msgBusHasArrived received");
 		state = PersonState.boardingBus;
 		stateChanged();
 	}
@@ -593,7 +594,7 @@ public class PersonAgent extends Agent {
 		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = true;
 		
-		if(temp) { //chose to walk
+		if(false) { //chose to walk
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;

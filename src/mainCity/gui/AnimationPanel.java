@@ -144,6 +144,11 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				lanes.get(10).vehicles.remove(bus);
 				lanes.get(0).addVehicle(bus);
 			}
+			
+			if(bus.getX() == 0 && bus.getY() == 80){
+				lanes.get(1).addVehicle(bus);
+			}
+			
 		}	
 		//Bus stop at 210, 130
 		

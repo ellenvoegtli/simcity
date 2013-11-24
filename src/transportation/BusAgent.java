@@ -90,7 +90,7 @@ public class BusAgent extends Agent{
 						stateChanged();
 					}
 				},
-				1000);
+				500);
 				
 			}
 			
