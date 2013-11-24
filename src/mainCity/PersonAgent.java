@@ -10,6 +10,8 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
 import mainCity.contactList.ContactList;
+import mainCity.gui.AnimationPanel;
+import mainCity.gui.Building;
 import mainCity.gui.PersonGui;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
@@ -42,6 +44,7 @@ public class PersonAgent extends Agent {
 	private double accountnumber;
 	private boolean traveling;
 	private boolean onBreak;
+	private Building homePlace;
 	private int time;
 	private Job job;
 	private PersonState state;
@@ -872,6 +875,34 @@ public class PersonAgent extends Agent {
 
 	public void setAccountnumber(double accountnumber) {
 		this.accountnumber = accountnumber;
+	}
+	
+	
+	public void setHomePlace(boolean renter)
+	{
+		if(renter)
+		{
+			for(Building apartment : AnimationPanel.getApartments().key())
+			{
+				if(AnimationPanel.getApartments().get(apartment) == false)
+				{
+					this.home = apartment;
+					break;
+				}
+			}
+		}
+		
+		if(!renter)
+		{
+			for(Building house : AnimationPanel.getHouses().key())
+			{
+				if(AnimationPanel.getHouses().get(house) == false)
+				{
+					this.home = house;
+					break;
+				}
+			}
+		}
 	}
 
 	//Lower the priority level, the more "important" it is (it'll get done faster)
