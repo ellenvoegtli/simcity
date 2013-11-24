@@ -10,18 +10,21 @@ public class LandlordGui implements Gui {
 	
 	
 	
-	public LandlordGui(LandlordRole landLord) {
+	public LandlordGui(LandlordRole landLord) 
+	{
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void updatePosition() {
+	public void updatePosition() 
+	{
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
+	public void draw(Graphics2D g) 
+	{
 		// TODO Auto-generated method stub
 		
 	}
