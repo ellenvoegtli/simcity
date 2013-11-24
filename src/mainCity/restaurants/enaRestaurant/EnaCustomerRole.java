@@ -459,6 +459,11 @@ public class EnaCustomerRole extends Role implements Customer{
 		customerGui.xDestination = xd;
 
 	}
+	public boolean restaurantOpen() {
+		if(host != null && host.isActive() && host.isItOpen())
+			return true;
+		return false;
+	}
 
 	
 }

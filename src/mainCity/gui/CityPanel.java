@@ -39,9 +39,9 @@ public class CityPanel extends JPanel{
 	    //ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
         //ellenRestaurant.setVisible(true);
 		
-		//EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
-	    //ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
-	    //enaRestaurant.setVisible(true);
+		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
+	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
+	    enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);

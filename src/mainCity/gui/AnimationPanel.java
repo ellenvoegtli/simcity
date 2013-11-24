@@ -158,14 +158,12 @@ public class AnimationPanel extends JPanel implements ActionListener {
 		}
         
         //drawing bus stops 
-        g2.drawImage(stopSign, 100, 55, null);
-        g2.drawImage(stopSign, 105, 151, null);
-        g2.drawImage(stopSign, 105, 250, null);
-        g2.drawImage(stopSign, 175, 200, null);
-        g2.drawImage(stopSign, 347, 150, null);
-        g2.drawImage(stopSign, 347, 250, null);
-        g2.drawImage(stopSign, 415, 185, null);
-        g2.drawImage(stopSign, 585, 200, null);
+        g2.drawImage(stopSign, 210, 55, null); //topHomeStop
+        g2.drawImage(stopSign, 105, 126, null); //stop for rest 1 and 2f
+        g2.drawImage(stopSign, 175, 200, null); //bank_stop
+        g2.drawImage(stopSign, 347, 126, null);
+        g2.drawImage(stopSign, 500, 126, null); //market and rest5 stop
+        g2.drawImage(stopSign, 324, 400, null); //botHomeStop
         
         //drawing top houses
         for(int i=0; i<7; i++){

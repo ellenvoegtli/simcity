@@ -33,7 +33,7 @@ public class EnaHostRole extends Role {
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 	private String name;
-	public EnaHostGui hostGui;
+	//public EnaHostGui hostGui;
 	Timer timer = new Timer();
 	public EnaHostRole( PersonAgent p, String name) 
 	{
@@ -237,16 +237,20 @@ public void WaiterBreak(final EnaWaiterRole  waiter)
 	waiter.msgBreakApproved();	
 
 }
+public boolean isItOpen() 
+{
+	return (cook != null && cook.isActive()) && (cashier != null && cashier.isActive());
+}
 
 	//utilities
 
-	public void setGui(EnaHostGui gui) {
+	/*public void setGui(EnaHostGui gui) {
 		hostGui = gui;
 	}
 
 	public EnaHostGui getGui() {
 		return hostGui;
-	}
+	}*/
 
 	public class Table 
 	{
@@ -297,6 +301,10 @@ public void WaiterBreak(final EnaWaiterRole  waiter)
 	public void setCashier(EnaCashierRole cashier) 
 	{
 		this.cashier = cashier;		
+	}
+
+	public boolean isOpen() {
+		return false;
 	}
 
 	
