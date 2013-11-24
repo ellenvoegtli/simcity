@@ -35,7 +35,7 @@ public class CityPanel extends JPanel{
 		
     	MarketGui marketGui = new MarketGui();
     	ContactList.getInstance().setMarket(marketGui.getMarketPanel());
-    	marketGui.setVisible(true);
+    	//marketGui.setVisible(true);
 		
 	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
 	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
@@ -69,18 +69,14 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
 
-		parseConfig();
-   
+		//parseConfig();
+    	addPerson("Test", 100, "marcusWaiter", -1, -1, null);
 /*
     	PersonAgent person = new PersonAgent("joeMoe");
     	PersonAgent person2 = new PersonAgent("Waiter");
     	PersonAgent person3 = new PersonAgent("Cook");
     	PersonAgent person4 = new PersonAgent("Cashier");
-    	PersonAgent person5 = new PersonAgent("Host");
-    	
-    	
-    	
-    	
+    	PersonAgent person5 = new PersonAgent("Host");    	
     	
     	occupants.add(person);
     	occupants.add(person2);
@@ -213,20 +209,22 @@ public class CityPanel extends JPanel{
 		gui.getAnimationPanel().addPersonGui(pg);
 		person.setGui(pg);
 		
-		for(int i = 0; i < actions.length; ++i) {
-			switch(actions[i]) {
-				case "work":
-					if(!occupation.equals("rich")) person.msgGoToWork();
-					break;
-				case "hungry":
-					person.msgGotHungry();
-					break;
-				case "market":
-					person.msgGoToMarket();
-					break;
-				case "restaurant":
-					person.msgGoToRestaurant();
-					break;
+		if(actions != null) {
+			for(int i = 0; i < actions.length; ++i) {
+				switch(actions[i]) {
+					case "work":
+						if(!occupation.equals("rich")) person.msgGoToWork();
+						break;
+					case "hungry":
+						person.msgGotHungry();
+						break;
+					case "market":
+						person.msgGoToMarket();
+						break;
+					case "restaurant":
+						person.msgGoToRestaurant();
+						break;
+				}
 			}
 		}
 		

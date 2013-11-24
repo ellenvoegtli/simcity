@@ -103,7 +103,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
       
         bufferSize = this.getSize();
  
-    	Timer timer = new Timer(20, this );
+    	Timer timer = new Timer(100, this );
     	timer.start();
     }
 
@@ -176,7 +176,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
 
-   //Draw city objects here (where we drew tables before)
+   //Draw city objects here (where we drew tables before)    
         
         //drawing lanes
         for ( int i=0; i<lanes.size(); i++ ) {
@@ -271,6 +271,28 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         addBuildingGui(building);
         
         g2.fillRect(585, 230, 20, 20); //doorway
+        
+        /*
+        //CORNER LOCATION
+    	g2.setColor(Color.CYAN);
+        g2.fillRect(105, 125, 20, 20);
+        g2.fillRect(105, 330, 20, 20);
+
+        g2.fillRect(175, 125, 20, 20);
+        g2.fillRect(175, 330, 20, 20);
+        
+        g2.fillRect(345, 125, 20, 20);
+        g2.fillRect(345, 330, 20, 20);
+    	
+        g2.fillRect(415, 125, 20, 20);
+        g2.fillRect(415, 330, 20, 20);
+        
+        g2.fillRect(585, 125, 20, 20);
+        g2.fillRect(585, 330, 20, 20);
+        
+        g2.fillRect(655, 125, 20, 20);
+        g2.fillRect(655, 330, 20, 20);
+        */
         
 
         for(Gui gui : guis) {
