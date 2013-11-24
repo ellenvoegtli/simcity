@@ -21,7 +21,7 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
     private static final int w = 50;
     private static final int h = 50;
     private static final int tableCount = 4;
-    
+   
     private Image bufferImage;
     private Dimension bufferSize;
 
