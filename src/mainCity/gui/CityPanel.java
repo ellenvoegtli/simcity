@@ -21,8 +21,6 @@ import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantGui;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
-import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantGui;
-import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.enaRestaurant.gui.*;
 
@@ -49,10 +47,6 @@ public class CityPanel extends JPanel{
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
-		
-    	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
-    	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
-    	//marcusRestaurant.setVisible(true);
 
     	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
@@ -74,8 +68,10 @@ public class CityPanel extends JPanel{
     	bus.setGui(bg);
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
-
-		parseConfig();
+    	
+    	String[] actions = {"work"}; 
+    	addPerson("David", 500, "marcusWaiter", 7, 19, actions); 
+		//parseConfig();
    
 /*
     	PersonAgent person = new PersonAgent("joeMoe");
