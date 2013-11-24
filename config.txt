@@ -1,0 +1,13 @@
+Name:PersonA;Cash:10;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:PersonB;Cash:50;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:PersonC;Cash:82;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
+Name:PersonD;Cash:50;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
+Name:PersonE;Cash:15;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,market
+Name:PersonF;Cash:52;Occupation:sdf;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant
+Name:PersonG;Cash:50;Occupation:sdf;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant
+Name:PersonH;Cash:537;Occupation:sdf;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant
+Name:PersonI;Cash:12;Occupation:sdf;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant
+Name:PersonJ;Cash:10;Occupation:lk;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant
+Name:PersonK;Cash:480;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:PersonA;Cash:10;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:PersonK;Cash:480;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work

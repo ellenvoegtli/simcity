@@ -2,10 +2,9 @@ package mainCity.gui;
 
 import housing.gui.HomeGui;
 
+import java.io.*;
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import javax.swing.JPanel;
 
@@ -33,6 +32,8 @@ public class CityPanel extends JPanel{
 	public CityPanel(CityGui gui) {
 		this.gui = gui;
 		clock = 6;
+		
+		parseConfig();
 		
     	MarketGui marketGui = new MarketGui();
     	//marketGui.setVisible(true);
@@ -63,8 +64,8 @@ public class CityPanel extends JPanel{
     	HomeGui home= new HomeGui();
     	ContactList.getInstance().setHome(home.getHomePanel());
     	home.setVisible(true);
-    	
-    	//Hardcoding one person for now.
+   
+/*
     	PersonAgent person = new PersonAgent("joeMoe");
     	PersonAgent person2 = new PersonAgent("Waiter");
     	PersonAgent person3 = new PersonAgent("Cook");
@@ -119,7 +120,6 @@ public class CityPanel extends JPanel{
 		person3.setGui(pg3);
 		person4.setGui(pg4);
 		person5.setGui(pg5);
-		
 
 		person.msgGoToRestaurant();
 		person2.msgGoToWork();
@@ -132,7 +132,7 @@ public class CityPanel extends JPanel{
 		person3.startThread();
 		person4.startThread();
 		person5.startThread();
-		
+*/
 		//Instantiation of the Global City Clock
 		Runnable standChecker = new Runnable() {
 			 public void run() {
@@ -149,5 +149,67 @@ public class CityPanel extends JPanel{
 		for(PersonAgent p : occupants) {
 			p.updateClock(clock);
 		}
+	}
+	
+	private void parseConfig() {
+		try {
+		    FileInputStream fstream = new FileInputStream("config.txt");
+		    DataInputStream in = new DataInputStream(fstream);
+		    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+		    String strLine;
+		    
+		    while ((strLine = br.readLine()) != null)   {
+		    	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
+		    	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Occupation")-1);
+		    	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
+		    	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
+		    	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
+		    	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
+		    	
+		    	String[] actionList = actions.split(",");
+		    	
+		    	for(int i = 0; i < actionList.length; ++i) {
+		    		System.out.println(actionList[i]);
+		    	}
+		    	
+		    	addPerson(name, Integer.parseInt(cash), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
+		    }
+
+		    in.close();
+		}
+		catch(Exception e) {
+			//System.err.println("Error: " + e.getMessage());
+		}
+	}
+	
+	private void addPerson(String name, double c, String occupation, int sb, int se, String[] actions) {
+		System.out.println("Generating person " + name);
+    	PersonAgent person = new PersonAgent(name);
+		person.updateOccupation(occupation, sb, se);
+		person.setCash(c);
+
+		PersonGui pg = new PersonGui(person, gui);
+		gui.getAnimationPanel().addPersonGui(pg);
+		person.setGui(pg);
+		
+		for(int i = 0; i < actions.length; ++i) {
+			switch(actions[i]) {
+				case "work":
+					if(!occupation.equals("rich")) person.msgGoToWork();
+					break;
+				case "hungry":
+					person.msgGotHungry();
+					break;
+				case "market":
+					person.msgGoToMarket();
+					break;
+				case "restaurant":
+					person.msgGoToRestaurant();;
+					break;
+			}
+		}
+		
+    	occupants.add(person);
+    	person.startThread();
 	}
 }
