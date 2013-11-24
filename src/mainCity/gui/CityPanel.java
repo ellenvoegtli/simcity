@@ -64,6 +64,13 @@ public class CityPanel extends JPanel{
     	HomeGui home= new HomeGui();
     	ContactList.getInstance().setHome(home.getHomePanel());
     	//home.setVisible(true);
+    	
+    	//Hardcoding a bus
+    	BusAgent bus = new BusAgent();
+    	BusGui bg = new BusGui(15,15,16,16,bus);
+    	bus.setGui(bg);
+    	gui.getAnimationPanel().addBusGui(bg);
+    	bus.startThread();
 
 		parseConfig();
    
@@ -74,12 +81,7 @@ public class CityPanel extends JPanel{
     	PersonAgent person4 = new PersonAgent("Cashier");
     	PersonAgent person5 = new PersonAgent("Host");
     	
-    	//Hardcoding a bus
-    	BusAgent bus = new BusAgent();
-    	BusGui bg = new BusGui(15,15,16,16,bus);
-    	bus.setGui(bg);
-    	gui.getAnimationPanel().addBusGui(bg);
-    	bus.startThread();
+    	
     	
     	
     	occupants.add(person);
@@ -213,7 +215,7 @@ public class CityPanel extends JPanel{
 					person.msgGoToMarket();
 					break;
 				case "restaurant":
-					person.msgGoToRestaurant();;
+					person.msgGoToRestaurant();
 					break;
 			}
 		}
