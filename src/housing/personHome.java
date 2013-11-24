@@ -37,9 +37,9 @@ public class personHome
 			owner = lndlrd;
 
 		}*/
-		FoodSupply.put("pasta" , 0);
+		FoodSupply.put("pasta" , 5);
 		FoodSupply.put("fish", 1);
-		FoodSupply.put("chickenSoup", 0);
+		FoodSupply.put("chickenSoup", 5);
 		
 		
 	Appliances.add(new Appliance("stove" , true));
@@ -71,6 +71,11 @@ public class personHome
 		else
 		{
 			occupant.msgCookFood(meal);
+			if(FoodSupply.containsKey(meal))
+			{
+				int amt = FoodSupply.get(meal);
+				FoodSupply.put(meal, amt-1);
+			}
 		}
 		
 	}

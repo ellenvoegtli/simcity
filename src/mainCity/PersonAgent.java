@@ -577,7 +577,7 @@ public class PersonAgent extends Agent {
 					roles.put(action, mcr);
 					break;
 				case home :
-					OccupantRole or = new OccupantRole(this, name, true);
+					OccupantRole or = new OccupantRole(this, name, false);
 					ContactList.getInstance().getHome().handleRoleGui(or);
 					roles.put(action, or);
 					break;
@@ -664,7 +664,7 @@ public class PersonAgent extends Agent {
 		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = true;
 		
-		if(false) { //chose to walk
+		if(temp) { //chose to walk
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -692,10 +692,8 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		destination = CityLocation.restaurant_ena;
-
+		//destination = CityLocation.restaurant_ena;
 		//destination = CityLocation.restaurant_marcus;
-		
 
 		switch((int) (Math.random() * 3)) {
 			case 0:
@@ -767,8 +765,13 @@ public class PersonAgent extends Agent {
 	
 	private void goToRenters()
 	{
+		output("Going to a renters home");
+		travelToLocation(CityLocation.home);
 		
+		stateChanged();
 	}
+	
+	
 	private void goToMarket() {
 		output("Going to the market");
 		travelToLocation(CityLocation.market);

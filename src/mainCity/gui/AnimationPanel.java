@@ -230,7 +230,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         
         
         //drawing restaurants 
-        Building building = new Building ( 35, 150, "restaurant_right.png", "rest1");
+        Building building = new Building ( 35, 150, "restaurant_right.png", "marcusRestaurant");
         buildings.add(building); 
         addBuildingGui(building);
         
