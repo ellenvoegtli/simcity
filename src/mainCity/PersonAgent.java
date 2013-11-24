@@ -269,7 +269,8 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				output("Arrived at market!");
+				//TODO Unsquelch message later
+				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((MarketCustomerRole) customer).getGui().goInside()){
