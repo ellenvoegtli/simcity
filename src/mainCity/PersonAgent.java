@@ -314,6 +314,7 @@ public class PersonAgent extends Agent {
 					((EnaCustomerRole) customer).getGui().setHungry();
 				}
 				else if(customer instanceof JeffersonCustomerRole){
+					
 					((JeffersonCustomerRole) customer).gotHungry();
 					((JeffersonCustomerRole) customer).getGui().setHungry();
 				}
