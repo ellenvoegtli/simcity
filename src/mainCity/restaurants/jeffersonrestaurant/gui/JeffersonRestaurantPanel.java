@@ -69,6 +69,7 @@ public class JeffersonRestaurantPanel extends JPanel {
         
         
         cook.startThread();
+        cook.setCashier(cashier);
         m1.startThread();
         m2.startThread();
         m3.startThread();
