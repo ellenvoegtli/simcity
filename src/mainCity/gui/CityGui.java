@@ -43,20 +43,20 @@ public class CityGui extends JFrame{
         mainPanel.setMaximumSize(mainDim);
         mainPanel.setBorder(BorderFactory.createEtchedBorder());
         add(mainPanel, BorderLayout.CENTER);
-        
+        	//Main City View
         Dimension animationDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .8));
         getAnimationPanel().setPreferredSize(animationDim);
         getAnimationPanel().setMinimumSize(animationDim);
         getAnimationPanel().setMaximumSize(animationDim);
         getAnimationPanel().setBorder(BorderFactory.createEtchedBorder());
         mainPanel.add(getAnimationPanel(), BorderLayout.CENTER);
-        
-        Dimension detailedDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .2));
-        detailedPanel.setPreferredSize(detailedDim);
-        detailedPanel.setMinimumSize(detailedDim);
-        detailedPanel.setMaximumSize(detailedDim);
+        	//Control Panel
+        Dimension controlDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .2));
+        controlPanel.setPreferredSize(controlDim);
+        controlPanel.setMinimumSize(controlDim);
+        controlPanel.setMaximumSize(controlDim);
         //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
-        mainPanel.add(detailedPanel, BorderLayout.SOUTH);
+        mainPanel.add(controlPanel, BorderLayout.SOUTH);
 		
 		//---LEFT PANEL BEGIN---//
 		//Entire Left Panel Sizing
@@ -67,12 +67,12 @@ public class CityGui extends JFrame{
 		leftPanel.setBorder(BorderFactory.createEtchedBorder());
         add(leftPanel, BorderLayout.WEST);
 		
-        //Control Panel Sizing
-        Dimension restDim = new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .6));
-        controlPanel.setPreferredSize(restDim);
-        controlPanel.setMinimumSize(restDim);
-        controlPanel.setMaximumSize(restDim);
-        leftPanel.add(controlPanel, BorderLayout.CENTER);
+        //Detailed Panel Sizing
+        Dimension detailDim = new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .6));
+        detailedPanel.setPreferredSize(detailDim);
+        detailedPanel.setMinimumSize(detailDim);
+        detailedPanel.setMaximumSize(detailDim);
+        leftPanel.add(detailedPanel, BorderLayout.CENTER);
         
         //=============== TRACE PANEL ====================//
         JTabbedPane tabbedPane = new JTabbedPane();
