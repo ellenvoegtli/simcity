@@ -6,7 +6,7 @@ import java.util.List;
 
 import agent.Agent;
 
-public class BankManager extends Agent {
+public class BankManagerRole extends Agent {
 
 	String name;
 	public List <myTeller> tellers= new ArrayList<myTeller>();
@@ -15,9 +15,9 @@ public class BankManager extends Agent {
 	public List <myBankCustomer>  banker_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
 
 	public static class myTeller{
-	    BankTeller t;
+	    BankTellerRole t;
 	    int tellernumber;
-	    BankCustomer bc;
+	    BankCustomerRole bc;
 	    boolean Occupied;
 	    
 	    public int gettellernumber(){
@@ -28,7 +28,7 @@ public class BankManager extends Agent {
 	    	tellernumber=tn;
 	    }
 	    
-	    public myTeller(BankTeller bt, int tn){
+	    public myTeller(BankTellerRole bt, int tn){
 	    	t=bt;
 	    	Occupied=false;
 	    	tellernumber=tn;
@@ -36,24 +36,24 @@ public class BankManager extends Agent {
 	}
 
 	public static class myBanker{
-	    Banker b;
+	    BankerRole b;
 	    int bankernumber;
-	    BankCustomer bc;
+	    BankCustomerRole bc;
 	    boolean Occupied;
-	    public myBanker(Banker ba){
+	    public myBanker(BankerRole ba){
 	    	b=ba;
 	    	Occupied=false;
 	    }
 	}
 	
 	public static class myBankCustomer{
-		BankCustomer bc;
-		public myBankCustomer(BankCustomer bc){
+		BankCustomerRole bc;
+		public myBankCustomer(BankCustomerRole bc){
 			this.bc=bc;
 		}
 	}
 	
-	public BankManager(String name){
+	public BankManagerRole(String name){
 		super();
 		this.name=name;
 		Do("Bank Manager instantiated");
@@ -61,7 +61,7 @@ public class BankManager extends Agent {
 	}
 	
 	//Messages
-	public void msgTellerAdded(BankTeller bt){
+	public void msgTellerAdded(BankTellerRole bt){
 		tellers.add(new myTeller(bt,tellers.size()));
 	}
 	
@@ -70,19 +70,19 @@ public class BankManager extends Agent {
 		
 	}
 	
-	public void msgIWantToDeposit( BankCustomer bc){
+	public void msgIWantToDeposit( BankCustomerRole bc){
 		Do("recieved message IWantToDeposit");
 	    teller_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 
-	public void msgIWantToWithdraw( BankCustomer bc){
+	public void msgIWantToWithdraw( BankCustomerRole bc){
 		Do("recieved message IWantToWithdraw");
 		teller_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 	
-	public void msgIWantNewAccount(BankCustomer bc) {
+	public void msgIWantNewAccount(BankCustomerRole bc) {
 		Do("recieved message want new account");
 		banker_bankCustomers.add(new myBankCustomer(bc));
 		stateChanged();
@@ -91,13 +91,13 @@ public class BankManager extends Agent {
 	
 	
 
-	public void msgIWantALoan(BankCustomer bc){
+	public void msgIWantALoan(BankCustomerRole bc){
 		Do("recieved message IWantALoan");
 		banker_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 
-	public void msgImLeaving(BankTeller bt){
+	public void msgImLeaving(BankTellerRole bt){
 		for (myTeller mt: tellers){
 			if(mt.t==bt){
 				tellers.remove(mt);
@@ -106,7 +106,7 @@ public class BankManager extends Agent {
 		
 	}
 	
-	public void msgImLeaving(Banker b){
+	public void msgImLeaving(BankerRole b){
 		for (myBanker mb: bankers){
 			if(mb.b==b){
 				bankers.remove(b);
@@ -114,7 +114,7 @@ public class BankManager extends Agent {
 		}
 	}
 	
-	public void msgImLeaving(BankCustomer bc){
+	public void msgImLeaving(BankCustomerRole bc){
 		Do("recieved message ImLeaving");
 	    for (myTeller mt: tellers){
 	        if( mt.bc==bc){                                                  
