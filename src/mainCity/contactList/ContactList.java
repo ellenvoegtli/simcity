@@ -55,7 +55,7 @@ public class ContactList {
 	
 	HomePanel home;
 	
-	BankManager bankManager;
+	BankManagerRole bankManager;
 	
 	public MarketGreeterRole marketGreeter;
 	public MarketCashierRole marketCashier;
@@ -110,7 +110,7 @@ public class ContactList {
 	}
 	
 	//Bank*******
-	public void setBankManager(BankManager m){
+	public void setBankManager(BankManagerRole m){
 		bankManager = m;
 	}
 	

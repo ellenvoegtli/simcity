@@ -16,6 +16,7 @@ import java.awt.event.*;
 public class CityGui extends JFrame implements ActionListener, KeyListener{
 	
 	private AnimationPanel animationPanel = new AnimationPanel(); 
+	private CityView view = new CityView(this);
 	private TracePanel tracePanel1;
 	private TracePanel tracePanel2;
 	private TracePanel tracePanel3;
@@ -151,6 +152,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         detailedPanel.setPreferredSize(detailDim);
         detailedPanel.setMinimumSize(detailDim);
         detailedPanel.setMaximumSize(detailDim);
+        detailedPanel.add(view);
         leftPanel.add(detailedPanel, BorderLayout.CENTER);
         
         //=============== TRACE PANEL ====================//

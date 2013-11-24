@@ -3,14 +3,14 @@ package mainCity.bank.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import mainCity.bank.BankCustomer;
-import mainCity.bank.BankTeller;
-import mainCity.bank.Banker;
+import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankTellerRole;
+import mainCity.bank.BankerRole;
 import mainCity.gui.Gui;
 
 public class BankerGui implements Gui {
 
-	private Banker banker = null;
+	private BankerRole banker = null;
     BankGui gui;
 	Graphics2D g2;
 	
@@ -26,8 +26,8 @@ public class BankerGui implements Gui {
     public static final int xTeller0 = 150;
     public static final int yTeller0 = 100;
     
-    public static final int xBanker=410;
-    public static final int yBanker=320;
+    public static final int xBanker=440;
+    public static final int yBanker=330;
     
     
     public static final int width = 20;
@@ -35,7 +35,7 @@ public class BankerGui implements Gui {
     int t;
     public boolean atOrigin= true;
    
-    public BankerGui(Banker banker, BankGui gui) {
+    public BankerGui(BankerRole banker, BankGui gui) {
         this.banker = banker;
         this.gui=gui;
     }

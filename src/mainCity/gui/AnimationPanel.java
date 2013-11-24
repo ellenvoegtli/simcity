@@ -10,13 +10,15 @@ import transportation.gui.Vehicle;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class AnimationPanel extends JPanel implements ActionListener, MouseMotionListener {
 
 	//Dimensions for the window that will have the City in it
     private final int WINDOWX = 780;
@@ -25,6 +27,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
     //House data (house sprites are 80x64)
     private final int TopHouseLocY = -4;
     private final int BotHouseLocY = 416;
+    
+    //List of buildings in the city 
+    List<Building> buildings = new ArrayList<Building>(); 
     
     //Road Data
     ArrayList<Lane> lanes;
@@ -104,7 +109,7 @@ public class AnimationPanel extends JPanel implements ActionListener {
 			lanes.get(1).addVehicle(bus);
 		}
 		
-		System.out.println(bus.getX() + ", " + bus.getY());
+		//System.out.println(bus.getX() + ", " + bus.getY());
 		
 		if(bus.getX() == 130 && bus.getY() == 105){ 
 			lanes.get(1).vehicles.remove(bus); 
@@ -167,7 +172,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         
         //drawing top houses
         for(int i=0; i<7; i++){
-	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png");
+	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "tophouse" + i);
+	        buildings.add(house);
 	        addBuildingGui(house);
         }
         
@@ -184,7 +190,8 @@ public class AnimationPanel extends JPanel implements ActionListener {
         
         //drawing bottom houses 
         for(int i=0; i<7; i++){
-	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png");
+	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "bothouse" + i);
+	        buildings.add(house);
 	        addBuildingGui(house);
         }
         
@@ -199,37 +206,44 @@ public class AnimationPanel extends JPanel implements ActionListener {
         
         
         //drawing restaurants 
-        Building building = new Building ( 35, 150, "restaurant_right.png");
+        Building building = new Building ( 35, 150, "restaurant_right.png", "rest1");
+        buildings.add(building); 
         addBuildingGui(building);
         
         g2.fillRect(105, 180, 20, 20); //doorway
         
-        building = new Building ( 35, 250, "restaurant_right.png");
+        building = new Building ( 35, 250, "restaurant_right.png", "rest2");
+        buildings.add(building); 
         addBuildingGui(building);
         
         g2.fillRect(105, 280, 20, 20); //doorway
         
-        building = new Building ( 190, 200, "bank.png");
+        building = new Building ( 190, 200, "bank.png", "bank");
+        buildings.add(building); 
         addBuildingGui(building);
         
         g2.fillRect(175, 230, 20, 20); //doorway
         
-        building = new Building ( 275, 150, "restaurant_right.png");
+        building = new Building ( 275, 150, "restaurant_right.png", "rest3");
+        buildings.add(building); 
         addBuildingGui(building);
         
         g2.fillRect(347, 180, 20, 20); //doorway
         
-        building = new Building ( 275, 250, "restaurant_right.png");
+        building = new Building ( 275, 250, "restaurant_right.png", "rest4");
+        buildings.add(building); 
         addBuildingGui(building);
         
         g2.fillRect(347, 280, 20, 20); //doorway
         
-        building = new Building ( 425, 200, "market.png");
+        building = new Building ( 425, 200, "market.png", "market");
+        buildings.add(building); 
         addBuildingGui(building);
         
         g2.fillRect(415, 215, 20, 20); //doorway
         
-        building = new Building ( 520, 200, "restaurant_right.png");
+        building = new Building ( 520, 200, "restaurant_right.png", "rest5");
+        buildings.add(building); 
         addBuildingGui(building);
         
         g2.fillRect(585, 230, 20, 20); //doorway
@@ -249,6 +263,15 @@ public class AnimationPanel extends JPanel implements ActionListener {
             }
         }
     }
+    
+    public void mousePressed(MouseEvent arg0) {
+    	System.out.println("Mouse press recognized");
+    	for (Building b: buildings) { 
+    		if (b.contains(arg0.getX(), arg0.getY())){ 
+    			//setView to building.
+    		}
+    	}
+    }
 
     public void addPersonGui(PersonGui gui) {
         guis.add(gui);
@@ -257,6 +280,18 @@ public class AnimationPanel extends JPanel implements ActionListener {
     public void addBuildingGui(Building gui) { 
     	guis.add(gui);
     }
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
  
  

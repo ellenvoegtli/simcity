@@ -8,6 +8,7 @@ import java.util.*;
 
 import role.Role;
 import role.WorkerRole;
+import role.marcusRestaurant.MarcusCustomerRole.AgentEvent;
 import role.market.MarketDeliveryManRole;
 
 public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
@@ -139,12 +140,14 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		}
 
 		if(!onDuty) {
-			print("hereeeeee");
-			if(host.lastCustomer()) return false;
-			print("afffteerrrr");
-
-			super.setInactive();
-			onDuty = true;
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+				public void run() {
+					setInactive();
+					onDuty = true;
+				}
+			},
+			10000);
 		}
 		
 		return false;

@@ -4,14 +4,15 @@ package mainCity.bank.gui;
 
 import javax.swing.*;
 
+import role.Role;
 import mainCity.PersonAgent;
 import mainCity.bank.BankAccounts;
-import mainCity.bank.BankCustomer;
-import mainCity.bank.BankManager;
-import mainCity.bank.BankManager.myBanker;
-import mainCity.bank.BankManager.myTeller;
-import mainCity.bank.BankTeller;
-import mainCity.bank.Banker;
+import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankManagerRole;
+import mainCity.bank.BankManagerRole.myBanker;
+import mainCity.bank.BankManagerRole.myTeller;
+import mainCity.bank.BankTellerRole;
+import mainCity.bank.BankerRole;
 import mainCity.bank.gui.BankGui;
 
 import java.awt.*;
@@ -24,23 +25,21 @@ import java.util.Vector;
  */
 public class BankPanel extends JPanel {
 	
-	private Vector <BankCustomer> bankcustomers = new Vector <BankCustomer>();
-	private Vector <BankTeller> banktellers = new Vector <BankTeller>();
-	
-	
-	public PersonAgent p = new PersonAgent("bob");
-	public PersonAgent p1 = new PersonAgent("bob1");
-	
-	public BankManager bankmanager = new BankManager("Saul");
-	
-	private Banker banker = new Banker("Dave");
-	private BankTeller bankteller = new BankTeller("kim");
-	private BankTeller bankteller1 = new BankTeller("sam");
+	private Vector <BankCustomerRole> bankcustomers = new Vector <BankCustomerRole>();
+	private Vector <BankTellerRole> banktellers = new Vector <BankTellerRole>();
 	
 	
 	
-	BankCustomer bankcust = new BankCustomer(p, "bob");
-	BankCustomer bankcust1 = new BankCustomer(p1,"bob1");
+	//public PersonAgent p1 = new PersonAgent("bob1");
+	
+	public BankManagerRole bankmanager = new BankManagerRole("Saul");
+	
+	private BankerRole banker = new BankerRole("Dave");
+	private BankTellerRole bankteller = new BankTellerRole("kim");
+	private BankTellerRole bankteller1 = new BankTellerRole("sam");
+	
+	BankCustomerRole bankcust;
+	//BankCustomerRole bankcust1 = new BankCustomerRole(p1,"bob1");
 	
 	
 
@@ -58,16 +57,29 @@ public class BankPanel extends JPanel {
     public BankPanel(BankGui gui) {
         this.gui = gui;
         //hack creating a new account with 0 monies
+        PersonAgent p = new PersonAgent("bob");
+        bankcust = new BankCustomerRole(p, p.getName());
+        BankCustomerGui bcGui = new BankCustomerGui(bankcust, gui);
         
-        mainaccounts.addAccount("bob", 1000, p, 0);
-        mainaccounts.addAccount("bob1", 1000, p1, 1);
-        
+        bankcust.setGui(bcGui);
+		bankcust.setBankManager(bankmanager);
+		bankcust.setAmount(400);
+        bankcust.setMyaccountnumber(0);
+        bankcust.setBankbalance(0);
+
         p.setCash(400);
-        p1.setCash(500);
-      //TODO should check the list size then add set the tellernumber then add self to list
+        p.addRole(PersonAgent.ActionType.bankWithdraw, bankcust);
+        bankcust.setActive();
+        
+        //mainaccounts.addAccount("bob1", 1000, p1, 1);
+        mainaccounts.addAccount(p.getName(), 1000, p, 0);
+        
+        //p1.setCash(500);
+      
+        
+        
         bankteller.setTellerNumber(banktellers.size());
         banktellers.add(bankteller);
-        
         bankteller1.setTellerNumber(banktellers.size());
         banktellers.add(bankteller1);
         
@@ -77,7 +89,7 @@ public class BankPanel extends JPanel {
         bankteller1.setGui(btGui1);
         gui.bankAnimationPanel.addGui(btGui);
         gui.bankAnimationPanel.addGui(btGui1);
-        
+        gui.bankAnimationPanel.addGui(bcGui);
         
         
         BankerGui bGui = new BankerGui(banker,gui);
@@ -96,20 +108,26 @@ public class BankPanel extends JPanel {
         bankteller1.setBankAccounts(mainaccounts);
         
         bankmanager.bankers.add(new myBanker(banker));
-        //bankmanager.msgTellerAdded(bankteller);
+        bankmanager.msgTellerAdded(bankteller);
         //bankmanager.msgTellerAdded(bankteller1);
         
         
         
-        BankCustomerGui bcGui = new BankCustomerGui(bankcust, gui);
-        BankCustomerGui bcGui1 = new BankCustomerGui(bankcust1, gui);
-        gui.bankAnimationPanel.addGui(bcGui);
-        gui.bankAnimationPanel.addGui(bcGui1);
-        bankcust.setGui(bcGui);
-        bankcust.setBankManager(bankmanager);
+        //BankCustomerGui bcGui = new BankCustomerGui(bankcust, gui);
+        //BankCustomerGui bcGui1 = new BankCustomerGui(bankcust1, gui);
+        //gui.bankAnimationPanel.addGui(bcGui);
+        //gui.bankAnimationPanel.addGui(bcGui1);
+        //bankcust.setGui(bcGui);
+        //bankcust.setBankManager(bankmanager);
+        /*
         bankcust1.setGui(bcGui1);
-        bankcust1.setBankManager(bankmanager);
-        
+        if(bankmanager!=null){
+        	bankcust1.setBankManager(bankmanager);	
+        }
+        else{
+        	bankcust1.msgBankClosed();
+        }
+        */
 
 
         setLayout(new FlowLayout());
@@ -124,27 +142,53 @@ public class BankPanel extends JPanel {
         banker.startThread();
         
         
-        bankcustomers.add(bankcust);
-        bankcust.startThread();
-        bankcust.setAmount(400);
-        bankcust.setMyaccountnumber(0);
-        bankcust.setBankbalance(0);
+        //bankcustomers.add(bankcust);
+        //bankcust.startThread();
+        //bankcust.setAmount(400);
+        //bankcust.setMyaccountnumber(0);
+        //bankcust.setBankbalance(0);
         
-        bankcustomers.add(bankcust1);
-        bankcust1.startThread();
-        bankcust1.setAmount(400);
-        bankcust1.setMyaccountnumber(1);
-        bankcust1.setBankbalance(0);
+        //bankcustomers.add(bankcust1);
+        
+        //changed startthread to that of person
+        //p1.startThread();
+        //bankcust1.startThread();
+        //bankcust1.setAmount(400);
+        //bankcust1.setMyaccountnumber(1);
+        //bankcust1.setBankbalance(0);
         //System.out.println(bankmanager.bankers.size());
         //System.out.println(bankmanager.tellers.size());
 
-        bankcust.msgWantToDeposit();
-        bankcust1.msgNeedLoan();
+        bankcust.msgWantToWithdraw();
+        p.startThread();
+        //bankcust1.msgWantToDeposit();
         
         add(group);
     }
 
-
+    public void handleRoleGui(Role r){
+    	if(r instanceof BankCustomerRole){
+    		BankCustomerRole b = (BankCustomerRole) r;
+    		
+    		for (BankCustomerRole bc: bankcustomers){
+    			if( bc==b){
+    				return;
+    			}
+    		}
+    		
+    		bankcustomers.add(b);
+    		BankCustomerGui bcGui = new BankCustomerGui(b, gui);
+    		b.setGui(bcGui);
+    		b.setBankManager(bankmanager);
+    		b.setAmount(((BankCustomerRole) r).getAmount());
+            b.setMyaccountnumber(((BankCustomerRole) r).getMyaccountnumber());
+            b.setBankbalance(((BankCustomerRole) r).getBankbalance());
+    		
+    	}
+    	
+    }
+    
+    
  
 
 }
