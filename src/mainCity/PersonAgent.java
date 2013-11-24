@@ -94,6 +94,7 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		traveling = false;
+		gui.DoGoOutside();
 		state = PersonState.normal;
 		stateChanged();
 	}
@@ -801,6 +802,8 @@ public class PersonAgent extends Agent {
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+					gui.DoGoInside();
+					gui.DoGoToLocationOnBus(destination);
 				}
 			}
 		}
