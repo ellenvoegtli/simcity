@@ -3,11 +3,10 @@ package housing.gui;
 import housing.LandlordRole;
 import housing.OccupantRole;
 import housing.personHome;
-import housing.gui.OccupantGui.Command;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.List;
+import java.util.List;
 
 public class LandlordGui implements Gui {
 
@@ -72,8 +71,8 @@ public class LandlordGui implements Gui {
 	
 	public void draw(Graphics2D g) 
 	{
-		g.setColor(Color.GREEN);
-		g.fillRect(xPos, yPos, 10, 10);
+		g.setColor(Color.CYAN);
+		g.fillRect(xPos, yPos, 20, 15);
 		g.setColor(Color.BLACK);
 		
 	}
@@ -87,17 +86,6 @@ public class LandlordGui implements Gui {
 		isPresent = p;
 	}
 
-	public void setHungry() {
-		isHungry = true;
-		person.gotHungry();
-		setPresent(true);
-		xDestination = xPos;
-		yDestination = yPos;
-	}
-	public boolean isHungry() 
-	{
-		return isHungry;
-	}
 	
 	  public int getXPos() {
 	        return xPos;
@@ -128,12 +116,12 @@ public class LandlordGui implements Gui {
 
 		public void DoGoBackHome() 
 		{
-			// TODO Auto-generated method stub
-			
+			xDestination = 400;
+			yDestination = 300;
 		}
 
-		public void DoGoToRenterHome(personHome home) {
-			// TODO Auto-generated method stub
+		public void DoGoToRenterHome(personHome home) 
+		{
 			
 		}
 

@@ -19,7 +19,7 @@ import role.Role;
 
 
 
-public class LandlordRole extends Agent
+public class LandlordRole extends Role
 {
 
 	
@@ -37,7 +37,7 @@ public class LandlordRole extends Agent
 	
 	public LandlordRole(PersonAgent p)
 	{
-		super();
+		super(p);
 		
 	}
 	
