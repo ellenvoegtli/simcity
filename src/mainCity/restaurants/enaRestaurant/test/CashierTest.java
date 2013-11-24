@@ -37,7 +37,7 @@ public class CashierTest extends TestCase
 	 */
 	public void setUp() throws Exception{
 		super.setUp();		
-		cashier = new EnaCashierRole("cashier");		
+		//cashier = new EnaCashierRole("cashier");		
 		customer = new MockCustomer("mockcustomer");	
 		customer2 = new MockCustomer("debt");
 		customer3 = new MockCustomer("poor");
