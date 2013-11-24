@@ -35,12 +35,14 @@ public class EnaCookRole extends Role implements MainCook {
 
 	public EnaCookRole( PersonAgent p, String name) {
 		super(p);
-
+		
 		this.name = name;
 		Foods.put( "steak", new Food("steak", 1));
 		Foods.put("porkchops", new Food("porkchops", 2));
 		Foods.put("lamb" , new Food("lamb", 0));
 		Foods.put("lambchops", new Food("lambchops", 1));
+		
+		//super().msgGoToWork();
 
 		
 	}
