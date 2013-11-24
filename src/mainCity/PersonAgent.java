@@ -362,13 +362,13 @@ public class PersonAgent extends Agent {
 	private void checkSelf() {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
 
-		if(time == job.shiftBegin && state != PersonState.working) {
+		if(time == job.shiftBegin && state != PersonState.working && !actions.contains(ActionType.work)) {
 			actions.add(new Action(ActionType.work, 1));
 			stateChanged();
 		}
 		if(time == job.shiftEnd && state == PersonState.working) {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
-				if(r.getValue() instanceof ManagerRole && r.getValue().isActive()) {
+				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
 					print("Closing up shop");
 					((ManagerRole) r.getValue()).msgGoOffDuty();
 				}

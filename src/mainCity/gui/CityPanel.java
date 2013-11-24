@@ -41,7 +41,7 @@ public class CityPanel extends JPanel{
 		
 		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
 	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
-	    enaRestaurant.setVisible(true);
+	    //enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
@@ -82,10 +82,10 @@ public class CityPanel extends JPanel{
 		PersonGui pg5 = new PersonGui(person5, gui);
 
 		person.updateOccupation("rich", -1, -1);
-		person2.updateOccupation("marcusWaiter", 8, 22);
-		person3.updateOccupation("marcusCook", 8, 22);
-		person4.updateOccupation("marcusCashier", 8, 22);
-		person5.updateOccupation("marcusHost", 7, 22);
+		person2.updateOccupation("marcusWaiter", 8, 16);
+		person3.updateOccupation("marcusCook", 8, 16);
+		person4.updateOccupation("marcusCashier", 8, 16);
+		person5.updateOccupation("marcusHost", 7, 16);
 
 		/*
 		person2.updateOccupation("enaHost", 8, 11);
@@ -113,15 +113,15 @@ public class CityPanel extends JPanel{
 		person5.setGui(pg5);
 		
 		person.msgGoToRestaurant();
-//		person2.msgGoToWork();
-//		person3.msgGoToWork();
-//		person4.msgGoToWork();
-//		person5.msgGoToWork();		
+		person2.msgGoToWork();
+		person3.msgGoToWork();
+		person4.msgGoToWork();
+		person5.msgGoToWork();		
 
-		person.startThread(); 
-		person2.startThread(); 
-		person3.startThread();
-		person4.startThread();
+		//person.startThread(); 
+		//person2.startThread(); 
+		//person3.startThread();
+		//person4.startThread();
 		person5.startThread();
 		
 		//Instantiation of the Global City Clock

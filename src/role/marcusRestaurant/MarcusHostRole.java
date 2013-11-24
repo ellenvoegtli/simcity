@@ -261,10 +261,10 @@ public class MarcusHostRole extends Role implements ManagerRole {
 			((MarcusWaiterRole) w.waiter).msgGoOffDuty();
 		}
 		
-		cashier.msgGoOffDuty();
-		cook.msgGoOffDuty();
+		if(cashier != null) cashier.msgGoOffDuty();
+		if(cook != null) cook.msgGoOffDuty();
 		
-		super.setInactive();
+		setInactive();
 		onDuty = true;
 		return true;
 	}
