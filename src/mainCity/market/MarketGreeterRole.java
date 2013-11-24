@@ -42,25 +42,23 @@ public class MarketGreeterRole extends Role {
 
 		this.name = name;
 	}
-	
 	public void setCashier(MarketCashierRole c){
 		cashier = c;
 	}
 	public void setDeliveryMan(MarketDeliveryManRole d){
 		deliveryMan = d;
 	}
-
 	public String getMaitreDName() {
 		return name;
 	}
-
 	public String getName() {
 		return name;
 	}
-
-
 	public List getWaitingCustomers(){
 		return waitingCustomers;
+	}
+	public boolean isOpen() {
+		return (/*deliveryMan != null && deliveryMan.isActive()) &&*/ (cashier != null && cashier.isActive()));
 	}
 
 	

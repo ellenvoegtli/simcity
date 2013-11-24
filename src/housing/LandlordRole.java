@@ -32,6 +32,8 @@ public class LandlordRole extends Role
 	LandlordGui gui;
 	private Semaphore atDest = new Semaphore(0,true);
 
+	private OccupantRole occupant;
+
 	
 	//MESSAGES
 	
@@ -72,7 +74,9 @@ public class LandlordRole extends Role
 	{
 		for(OccupantRole occ : ToDo.keySet())
 		{
-			gui.DoGoToRenterHome(occ.getHome());
+			print("the landlord is going to renters home");
+			person.msgNeedToFix();
+			//gui.DoGoToRenterHome(occ.getHome());
 			int xPos = 0;
 			int yPos = 0;
 			for (Appliance appl : occ.getHome().Appliances)
@@ -132,5 +136,16 @@ public class LandlordRole extends Role
 	public void msgAtDestination() {
 		atDest.release();
 		stateChanged();		
+	}
+
+	public void setGui(LandlordGui landLordGui) 
+	{
+			this.gui = landLordGui;		
+	}
+
+	public void setRenter(OccupantRole occupant) 
+	{
+		//this.occupant = occupant;
+		//renters.add(occupant);
 	}
 }

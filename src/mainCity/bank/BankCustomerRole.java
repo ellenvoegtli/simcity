@@ -49,6 +49,7 @@ public class BankCustomerRole extends Role {
 		this.name=name;
 		this.myaccountnumber= -1;
 		this.bankbalance= -1;
+		this.amount=50;
 	}
 	
 	public void setBankManager(BankManagerRole bm){
@@ -89,7 +90,7 @@ public class BankCustomerRole extends Role {
 		stateChanged();
 	}
 	public void msgLeftBank(){
-		//Do("finished leaving bank");
+		Do("finished leaving bank");
 		atHome.release();
 		bcstate=BankCustomerState.left;
 		stateChanged();
@@ -168,6 +169,7 @@ public class BankCustomerRole extends Role {
 	public void msgAccountCreated(double temp) {
 		Do("Recieved message account created");
 		setMyaccountnumber(temp);
+		p.setAccountnumber(temp);
 		
 	}
 	

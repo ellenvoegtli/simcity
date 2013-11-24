@@ -108,6 +108,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     }
 
 	public void actionPerformed(ActionEvent e) {
+
 		if(bus != null){
 			if(onlyOnce == true){
 				onlyOnce = false;

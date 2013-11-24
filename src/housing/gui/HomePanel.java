@@ -26,7 +26,7 @@ public class HomePanel extends JPanel
 	   
 
     private LandlordRole landLord;
-    private LandlordGui landLordGui = new LandlordGui(landLord);
+    private LandlordGui landLordGui;
 
 
     private JPanel homeLabel = new JPanel();
@@ -129,6 +129,7 @@ public class HomePanel extends JPanel
         	        	 house = new personHome(occupant);
 
         	occupant.setHouse(house);
+        	//occupant.setLandLord(landLord);
             house.setOccupant(occupant);
     		occupantGui = new OccupantGui(occupant, gui); 	
     		occupant.setGui(occupantGui);
@@ -137,6 +138,16 @@ public class HomePanel extends JPanel
     		System.out.println("Occupant has been returned home");
 
     		
+    	}
+    	if( r instanceof LandlordRole)
+    	{
+    		landLord = (LandlordRole) r;
+    		landLord.setRenter(occupant);
+        	occupant.setLandLord(landLord);
+
+    		landLordGui = new LandlordGui(landLord);
+    		landLord.setGui(landLordGui);
+    		gui.animationPanel.addGui(landLordGui);
     	}
     
    

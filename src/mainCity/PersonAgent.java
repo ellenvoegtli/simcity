@@ -39,6 +39,7 @@ public class PersonAgent extends Agent {
 	private PersonGui gui;
 	private String name;
 	private double cash;
+	private double accountnumber;
 	private boolean traveling;
 	private boolean onBreak;
 	private int time;
@@ -269,13 +270,23 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtMarket) {
 				output("Arrived at market!");
 				handleRole(currentAction.type);
-				roles.get(currentAction.type).setActive();
-	
+				Role customer = roles.get(currentAction.type);
+				if (!((MarketCustomerRole) customer).getGui().goInside()){
+					//System.out.println("Waiting for restaurant to open");
+					return true;
+				}
+				
+				customer.setActive();
+				
+				if(currentAction != null && currentAction.type == ActionType.restaurant) {
+					currentAction.state = ActionState.done;
+				}
 				gui.DoGoInside();
 				state = PersonState.inBuilding;
 				return true;
 			}
 
+			
 			if(event == PersonEvent.arrivedAtRestaurant) {
 				output("Arrived at " + destination);	
 				handleRole(currentAction.type);
@@ -318,11 +329,29 @@ public class PersonAgent extends Agent {
 
 			if(event == PersonEvent.arrivedAtBank) {
 				//set appropriate role and initial state for different actions
-
+				handleRole(currentAction.type);
+				if(roles.containsKey(ActionType.bankWithdraw)){
+					roles.get(ActionType.bankWithdraw).setActive();
+					Role bankCustomer = roles.get(ActionType.bankWithdraw);
+					((BankCustomerRole) bankCustomer).msgWantToWithdraw();
+				}
+				else if(roles.containsKey(ActionType.bankDeposit)){
+					roles.get(ActionType.bankDeposit).setActive();
+					Role bankCustomer = roles.get(ActionType.bankDeposit);
+					((BankCustomerRole) bankCustomer).msgWantToDeposit();
+				}
+				else if(roles.containsKey(ActionType.bankLoan)){
+					roles.get(ActionType.bankLoan).setActive();
+					Role bankCustomer = roles.get(ActionType.bankLoan);
+					((BankCustomerRole) bankCustomer).msgNeedLoan();
+				}
+				
+				
+				
 				if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
 					currentAction.state = ActionState.done;
 				}
-				
+				gui.DoGoInside();
 				state = PersonState.inBuilding;
 				return true;
 			}
@@ -399,6 +428,17 @@ public class PersonAgent extends Agent {
 				}
 			}
 		}
+		
+		
+		if(cash<50 && !actions.contains(ActionType.bankWithdraw)){
+			actions.add(new Action(ActionType.bankWithdraw,3));
+			stateChanged();
+		}
+		if(cash>200 && !actions.contains(ActionType.bankDeposit)){
+			actions.add(new Action(ActionType.bankDeposit,3));
+			stateChanged();
+		}
+		
 	}
 	
 	private void handleRole(ActionType action) {
@@ -481,22 +521,22 @@ public class PersonAgent extends Agent {
 						//-----Market Roles---//
 						case "marketEmployee":
 							MarketEmployeeRole mem = new MarketEmployeeRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(mem);
+							ContactList.getInstance().getMarket().handleRole(mem);
 							roles.put(action, mem);
 							break;
 						case "marketGreeter":
 							MarketGreeterRole mgr = new MarketGreeterRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(mgr);
+							ContactList.getInstance().getMarket().handleRole(mgr);
 							roles.put(action, mgr);
 							break;
 						case "marketCashier":
 							MarketCashierRole mcsh = new MarketCashierRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(mcsh);
+							ContactList.getInstance().getMarket().handleRole(mcsh);
 							roles.put(action, mcsh);
 							break;
 						case "marketDeliveryMan":
 							MarketDeliveryManRole mdm = new MarketDeliveryManRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(mdm);
+							ContactList.getInstance().getMarket().handleRole(mdm);
 							roles.put(action, mdm);
 							break;
 						default:
@@ -530,8 +570,13 @@ public class PersonAgent extends Agent {
 							break;
 					}
 					break;
+				case market :
+					MarketCustomerRole mcr = new MarketCustomerRole(this, name);
+					ContactList.getInstance().getMarket().handleRole(mcr);
+					roles.put(action, mcr);
+					break;
 				case home :
-					OccupantRole or = new OccupantRole(this, name, true);
+					OccupantRole or = new OccupantRole(this, name, false);
 					ContactList.getInstance().getHome().handleRoleGui(or);
 					roles.put(action, or);
 					break;
@@ -543,13 +588,32 @@ public class PersonAgent extends Agent {
 					break;
 					
 				case bankWithdraw:
+					if(roles.containsKey("bankDeposit")||roles.containsKey("bankLoan")){
+						break;
+					}
 					BankCustomerRole bc = new BankCustomerRole(this, name);
 					ContactList.getInstance().getBank().handleRoleGui(bc);
 					roles.put(action, bc);
+					break;
 				
 				case bankDeposit:
+					if(roles.containsKey("bankWithdraw")||roles.containsKey("bankLoan")){
+						break;
+					}
+					BankCustomerRole bc1 = new BankCustomerRole(this, name);
+					ContactList.getInstance().getBank().handleRoleGui(bc1);
+					roles.put(action, bc1);
+					break;
 				
 				case bankLoan:
+					if(roles.containsKey("bankWithdraw")||roles.containsKey("bankDeposit")){
+						break;
+					}
+					BankCustomerRole bc2 = new BankCustomerRole(this, name);
+					ContactList.getInstance().getBank().handleRoleGui(bc2);
+					roles.put(action, bc2);
+					break;
+					
 					
 				default:
 					break;
@@ -575,7 +639,11 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
+				event = PersonEvent.needToBank;
+				break;
 			case bankDeposit:
+				event = PersonEvent.needToBank;
+				break;
 			case bankLoan: 
 				event = PersonEvent.needToBank;
 				break;
@@ -696,8 +764,13 @@ public class PersonAgent extends Agent {
 	
 	private void goToRenters()
 	{
+		output("Going to a renters home");
+		travelToLocation(CityLocation.home);
 		
+		stateChanged();
 	}
+	
+	
 	private void goToMarket() {
 		output("Going to the market");
 		travelToLocation(CityLocation.market);
@@ -785,6 +858,14 @@ public class PersonAgent extends Agent {
 		AlertLog.getInstance().logMessage(AlertTag.PERSON, this.getName(), input);
 	}
 	
+	public double getAccountnumber() {
+		return accountnumber;
+	}
+
+	public void setAccountnumber(double accountnumber) {
+		this.accountnumber = accountnumber;
+	}
+
 	//Lower the priority level, the more "important" it is (it'll get done faster)
 	private enum ActionState {created, inProgress, done}
 	public enum ActionType {work, maintenance, hungry, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}

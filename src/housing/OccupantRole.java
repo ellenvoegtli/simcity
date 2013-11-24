@@ -158,11 +158,7 @@ public boolean pickAndExecuteAnAction()
 		return true;
 	}*/
 
-	if(owner == false)
-	{
-		PayRent();
-		return true;
-	}
+	
 	if(needsWork.isEmpty() && fState == fixState.nothing )
 	{
 		checkMaintenance();
@@ -221,6 +217,11 @@ public boolean pickAndExecuteAnAction()
 		GoRest();
 		return true;
 	}
+	if(owner == false)
+	{
+		PayRent();
+		return true;
+	}
 	
 	return false;
 }
@@ -245,6 +246,7 @@ public void serviceAppliance()
 	{
 		if(owner == false)
 		{
+			print("calling landlord for maintenance");
 			landLord.msgPleaseFix(this, app);
 		}
 		if(owner == true)
@@ -400,6 +402,10 @@ public void setHouse(personHome house) {
 	this.home = house;
 }
 
+public void setLandLord(LandlordRole land)
+{
+	this.landLord = land;
+}
 
 public void setGui(OccupantGui occupantGui) 
 {

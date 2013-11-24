@@ -230,7 +230,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     			c.setHost(host);
     		}
     		
-    		//host.setCook(cook);
+    		host.setDeliveryMan(deliveryMan);
     		host.setCashier(cashier);
     		
     		if(cashier != null) cashier.setGreeter(host);

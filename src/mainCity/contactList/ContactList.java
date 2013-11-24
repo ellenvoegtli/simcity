@@ -18,6 +18,7 @@ import mainCity.interfaces.*;
 import transportation.BusStop;
 import housing.gui.HomePanel;
 import role.market.*;
+import mainCity.market.gui.*;
 
 import java.util.*;
 
@@ -97,6 +98,7 @@ public class ContactList {
 	EnaRestaurantPanel enaRestaurant;
 	DavidRestaurantPanel davidRestaurant; 
 	BankPanel bank;
+	MarketPanel market;
 	
 	//anything else? apartment landlords?
 	
@@ -140,6 +142,12 @@ public class ContactList {
 	}
 	public void setMarketDeliveryMan(MarketDeliveryManRole d){
 		marketDeliveryMan = d;
+	}
+	public void setMarket(MarketPanel m){
+		market = m;
+	}
+	public MarketPanel getMarket(){
+		return market;
 	}
 	
 	//Ellen's Restaurant******

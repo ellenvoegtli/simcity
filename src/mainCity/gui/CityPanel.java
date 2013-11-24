@@ -34,7 +34,8 @@ public class CityPanel extends JPanel{
 		clock = 6;
 		
     	MarketGui marketGui = new MarketGui();
-    	//marketGui.setVisible(true);
+    	ContactList.getInstance().setMarket(marketGui.getMarketPanel());
+    	marketGui.setVisible(true);
 		
 	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
 	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
@@ -51,6 +52,7 @@ public class CityPanel extends JPanel{
     	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
     	//jeffersonRestaurant.setVisible(true);
     	
+
     	BankGui bank = new BankGui();
     	ContactList.getInstance().setBank(bank.getBankPanel());
     	//bank.setVisible(true);
@@ -58,6 +60,14 @@ public class CityPanel extends JPanel{
     	HomeGui home= new HomeGui();
     	ContactList.getInstance().setHome(home.getHomePanel());
     	//home.setVisible(true);
+    	
+
+    	//Hardcoding a bus
+    	BusAgent bus = new BusAgent();
+    	BusGui bg = new BusGui(15,15,16,16,bus);
+    	bus.setGui(bg);
+    	gui.getAnimationPanel().addBusGui(bg);
+    	bus.startThread();
 
 		parseConfig();
    
@@ -68,30 +78,27 @@ public class CityPanel extends JPanel{
     	PersonAgent person4 = new PersonAgent("Cashier");
     	PersonAgent person5 = new PersonAgent("Host");
     	
-    	//Hardcoding a bus
-    	BusAgent bus = new BusAgent();
-    	BusGui bg = new BusGui(15,15,16,16,bus);
-    	bus.setGui(bg);
-    	gui.getAnimationPanel().addBusGui(bg);
-    	bus.startThread();
+    	
+    	
     	
     	
     	occupants.add(person);
     	occupants.add(person2);
     	occupants.add(person3);
     	occupants.add(person4);
-    	occupants.add(person5);
+    	occupants.add(person5);*/
 
-    	person.msgGoHome();
+    	//person.msgGoHome();
     	//person.msgGotHungry();
     	//person.msgGoToMarket();
     	//person.msgGoToWork();
-    	
+    	/*
 		PersonGui pg1 = new PersonGui(person, gui);
 		PersonGui pg2 = new PersonGui(person2, gui); 
 		PersonGui pg3 = new PersonGui(person3, gui);
 		PersonGui pg4 = new PersonGui(person4, gui);
 		PersonGui pg5 = new PersonGui(person5, gui);
+		
 
 		//person.updateOccupation("rich", -1, -1);
 		//person2.updateOccupation("marcusWaiter", 8, 22);
@@ -100,16 +107,21 @@ public class CityPanel extends JPanel{
 		//person5.updateOccupation("marcusHost", 7, 22);
 
 		
-		person2.updateOccupation("enaHost", 8, 11);
-		person3.updateOccupation("enaCook", 8, 11);
-		person4.updateOccupation("enaCashier", 8, 11);
-		person5.updateOccupation("enaWaiter", 7, 10);
+		//person2.updateOccupation("enaHost", 8, 11);
+		//person3.updateOccupation("enaCook", 8, 11);
+		//person4.updateOccupation("enaCashier", 8, 11);
+		//person5.updateOccupation("enaWaiter", 7, 10);
 		 
 		
 		//person2.updateOccupation("ellenWaiter", 8, 11);
 		//person3.updateOccupation("ellenCook", 8, 11);
 		//person4.updateOccupation("ellenCashier", 8, 11);
 		//person5.updateOccupation("ellenHost", 7, 10);
+		
+		person2.updateOccupation("marketGreeter", 7, 11);
+		person3.updateOccupation("marketCashier", 7, 11);
+		person4.updateOccupation("marketDeliveryMan", 7, 11);
+		//person5.updateOccupation("enaWaiter", 7, 10);
 
 
 		gui.getAnimationPanel().addPersonGui(pg1);
@@ -117,6 +129,7 @@ public class CityPanel extends JPanel{
 		gui.getAnimationPanel().addPersonGui(pg3);
 		gui.getAnimationPanel().addPersonGui(pg4);
 		gui.getAnimationPanel().addPersonGui(pg5);
+		
 
 		person.setGui(pg1);
 		person2.setGui(pg2);
@@ -124,18 +137,23 @@ public class CityPanel extends JPanel{
 		person4.setGui(pg4);
 		person5.setGui(pg5);
 
-		person.msgGoToRestaurant();
+
+		//person.msgGoToRestaurant();
 		person2.msgGoToWork();
 		person3.msgGoToWork();
 		person4.msgGoToWork();
-		person5.msgGoToWork();		
 
-		person.startThread(); 
+		person5.msgGoToWork();	
+		
+		
+
+		//person.startThread(); 
 		person2.startThread(); 
 		person3.startThread();
 		person4.startThread();
 		person5.startThread();
-*/
+		*/
+
 		//Instantiation of the Global City Clock
 		Runnable standChecker = new Runnable() {
 			 public void run() {
@@ -207,7 +225,7 @@ public class CityPanel extends JPanel{
 					person.msgGoToMarket();
 					break;
 				case "restaurant":
-					person.msgGoToRestaurant();;
+					person.msgGoToRestaurant();
 					break;
 			}
 		}
