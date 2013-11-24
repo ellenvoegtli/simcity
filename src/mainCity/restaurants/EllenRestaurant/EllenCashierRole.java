@@ -79,12 +79,10 @@ public class EllenCashierRole extends Role implements Cashier {
 		c.s = CheckState.computing;
 		
 		log(", received msgComputeBill for " + cust.getName() + ", order: " + choice);
-        //AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), w.getName() + ", received msgComputeBill for " + cust.getName() + ", order: " + choice);
 		stateChanged();
 	}
 	public void msgHereIsPayment(int checkAmount, int cashAmount, Customer cust){
 		log("Received msgHereIsPayment: got $" + cashAmount + " for check: $" + checkAmount);
-		//AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgHereIsPayment: got $" + cashAmount + " for check: $" + checkAmount);
 				
 		Check c = null;
 		synchronized(checks){
@@ -104,14 +102,11 @@ public class EllenCashierRole extends Role implements Cashier {
 	//market delivery man messages
 	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, MarketDeliveryManRole d){
 		log("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
-		//AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
 		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
 		stateChanged();
 	}
 	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson){
 		log("Received msgHereIsChange: $" + amount);
-		//AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgHereIsChange: $" + amount);
-
 		MarketBill b = null;
 		synchronized(marketBills){
 			for (MarketBill thisMB : marketBills){
@@ -179,15 +174,12 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	public void ComputeBill(final Check c){
 		log("Computing bill");
-		//AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Computing bill");
 		c.w.msgHereIsCheck(prices.get(c.choice), c.cust);
 		c.s = CheckState.waitingForPayment;
 	}
 	
 	public void CalculateChange(Check c){
 		log("Calculating change");
-		//AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Calculating change");
-
 		//check to make sure payment is large enough
 		if (c.cashAmount >= prices.get(c.choice)){
 			c.cust.msgHereIsChange((c.cashAmount - prices.get(c.choice)));
@@ -201,7 +193,6 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	public void PayMarketBill(MarketBill b){
 		log("Paying market bill");
-		//AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Paying market bill");
 
 		if(availableMoney >= b.billAmount){
 			availableMoney -= b.billAmount;
@@ -217,12 +208,11 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	public void VerifyChange(MarketBill b){
 		log("Verifying market bill change from deliveryMan");
-		//AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Verifying market bill change from deliveryMan");
 
 		if (b.amountChange == (b.amountPaid - b.billAmount)){
 			//correct change
 			log("Equal. Change verified.");
-			//AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Equal. Change verified.");
+			availableMoney += b.amountChange;
 			b.deliveryMan.msgChangeVerified();
 			b.s = MarketBillState.done;		//unnecessary
 			marketBills.remove(b);
