@@ -6,7 +6,7 @@ import mainCity.bank.gui.BankTellerGui;
 import agent.Agent;
 
 
-public class BankTeller extends Agent {
+public class BankTellerRole extends Agent {
 	
 	public enum TellerState{none, atWork, offWork }
 	
@@ -19,13 +19,13 @@ public class BankTeller extends Agent {
 	public enum ClientState{withdrawing, depositing, talking}
 	
 	public class myClient{
-	    BankCustomer bc;
+	    BankCustomerRole bc;
 	    double accountnumber;
 	    double amount;
 	    ClientState cs;
 	}
 
-	public BankTeller(String name){
+	public BankTellerRole(String name){
 		super();
 		this.name=name;
 		Do("Bank Teller initiated");
@@ -52,7 +52,7 @@ public class BankTeller extends Agent {
 		stateChanged();
 	}
 	
-	public void msgIWantToDeposit(BankCustomer b, double accnum, int amount){
+	public void msgIWantToDeposit(BankCustomerRole b, double accnum, int amount){
 		Do("recieved msgIWantToDeposit from a customer");
 		mc=new myClient();
 		mc.bc=b;
@@ -62,7 +62,7 @@ public class BankTeller extends Agent {
 		stateChanged();
 	}
 	
-	public void msgIWantToWithdraw(BankCustomer b, double accnum, int amount){
+	public void msgIWantToWithdraw(BankCustomerRole b, double accnum, int amount){
 		Do("recieved msgIWantToWithdraw from a customer");
 		mc=new myClient();
 		mc.bc=b;

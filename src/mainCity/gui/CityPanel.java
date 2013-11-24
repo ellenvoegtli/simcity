@@ -35,20 +35,20 @@ public class CityPanel extends JPanel{
     	MarketGui marketGui = new MarketGui();
     	//marketGui.setVisible(true);
 		
-	    //EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
-	    //ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
+	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
+	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
         //ellenRestaurant.setVisible(true);
 		
 		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
 	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
-	    enaRestaurant.setVisible(true);
+	    //enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 		
     	MarcusRestaurantGui marcusRestaurant = new MarcusRestaurantGui();
     	ContactList.getInstance().setMarcusRestaurant(marcusRestaurant.getMarcusRestaurantPanel());
-    	marcusRestaurant.setVisible(true);
+    	//marcusRestaurant.setVisible(true);
 
     	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
@@ -113,10 +113,10 @@ public class CityPanel extends JPanel{
 		person5.setGui(pg5);
 		
 		person.msgGoToRestaurant();
-//		person2.msgGoToWork();
-//		person3.msgGoToWork();
-//		person4.msgGoToWork();
-//		person5.msgGoToWork();		
+		person2.msgGoToWork();
+		person3.msgGoToWork();
+		person4.msgGoToWork();
+		person5.msgGoToWork();		
 
 		person.startThread(); 
 		person2.startThread(); 

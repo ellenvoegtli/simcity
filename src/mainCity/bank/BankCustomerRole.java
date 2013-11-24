@@ -2,17 +2,18 @@ package mainCity.bank;
 
 import java.util.concurrent.Semaphore;
 
+import role.Role;
 import mainCity.PersonAgent;
 import mainCity.bank.gui.BankCustomerGui;
-import agent.Agent;
 
-public class BankCustomer extends Agent {
+
+public class BankCustomerRole extends Role {
 	PersonAgent p;
 	String name;
-	BankManager bm;
-	Banker b;
+	BankManagerRole bm;
+	BankerRole b;
 	int bankernumber;
-	BankTeller t;
+	BankTellerRole t;
 	int tellernumber;
 	//customer should know how much money he has beforehand
 	private double myaccountnumber;
@@ -37,7 +38,8 @@ public class BankCustomer extends Agent {
 	
 	BankCustomerState bcstate=BankCustomerState.none;
 	
-	public BankCustomer(PersonAgent p,String name){
+	public BankCustomerRole(PersonAgent p,String name){
+		super(p);
 		Do("bank customer initiated");
 		this.p=p;
 		this.name=name;
@@ -45,15 +47,15 @@ public class BankCustomer extends Agent {
 		this.bankbalance= -1;
 	}
 	
-	public void setBankManager(BankManager bm){
+	public void setBankManager(BankManagerRole bm){
 		this.bm=bm;
 	}
 	
-	public void setBanker(Banker b){
+	public void setBanker(BankerRole b){
 		this.b=b;
 	}
 	
-	public void setBankTeller(BankTeller t){
+	public void setBankTeller(BankTellerRole t){
 		this.t=t;
 	}
 
@@ -112,10 +114,11 @@ public class BankCustomer extends Agent {
 		Do("Recieved message want to withdraw");
 		tstate=BankCustomerTransactionState.wantToWithdraw;
 		stateChanged();
+		System.out.println("statechanged");
 	}
 	
 	
-	public void msgGoToTeller(BankTeller te, int tn) {
+	public void msgGoToTeller(BankTellerRole te, int tn) {
 		Do("Recieved message go to teller");
 		t=te;
 	    tellernumber=tn;
@@ -124,7 +127,7 @@ public class BankCustomer extends Agent {
 		
 	}
 
-	public void msgGoToBanker(Banker bk, int bn) {
+	public void msgGoToBanker(BankerRole bk, int bn) {
 		Do("Recieved message go to banker");
 		b=bk;
 		bankernumber=bn;
@@ -165,7 +168,8 @@ public void msgLoanDenied(double loanamount){
 	
 	
 //Scheduler	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
+		
 		if(bcstate==BankCustomerState.none && tstate==BankCustomerTransactionState.wantToDeposit){
 			bcstate=BankCustomerState.waitingInBank;
 			
@@ -244,6 +248,7 @@ public void msgLoanDenied(double loanamount){
 			Do("current cash balance is " + p.getCash());
 			
 			doLeaveBank();
+			setInactive();
 		}
 			
 			
@@ -251,7 +256,7 @@ public void msgLoanDenied(double loanamount){
 	
 		
 		
-		
+		Do("running scheduler");
 		return false;
 	}
 	
