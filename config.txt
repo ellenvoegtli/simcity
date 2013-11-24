@@ -21,3 +21,4 @@ Name:PersonK;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Acti
 Name:Personl;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
 Name:Personm;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
 Name:Personn;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
+

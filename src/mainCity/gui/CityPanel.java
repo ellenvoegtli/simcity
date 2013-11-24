@@ -35,7 +35,7 @@ public class CityPanel extends JPanel{
 		
     	MarketGui marketGui = new MarketGui();
     	ContactList.getInstance().setMarket(marketGui.getMarketPanel());
-    	marketGui.setVisible(true);
+    	//marketGui.setVisible(true);
 		
 	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
 	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
@@ -43,15 +43,19 @@ public class CityPanel extends JPanel{
 		
 		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
 	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
-	    //enaRestaurant.setVisible(true);
+	    enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
+<<<<<<< HEAD
     	jeffersonRestaurant.setVisible(true);
     	
+=======
+    	//jeffersonRestaurant.setVisible(true);
+>>>>>>> ca53a70ce4e8b1a1a2b3050f2b57d90683e67095
 
     	BankGui bank = new BankGui();
     	ContactList.getInstance().setBank(bank.getBankPanel());
@@ -68,9 +72,11 @@ public class CityPanel extends JPanel{
     	bus.setGui(bg);
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
-    	
 
-    	String[] actions = {"work"}; 
+
+    	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
+
+    	//String[] actions = {"work"}; 
     	//addPerson("David", 500, "marcusWaiter", 7, 19, actions); 
 		parseConfig();
    
@@ -79,11 +85,7 @@ public class CityPanel extends JPanel{
     	PersonAgent person2 = new PersonAgent("Waiter");
     	PersonAgent person3 = new PersonAgent("Cook");
     	PersonAgent person4 = new PersonAgent("Cashier");
-    	PersonAgent person5 = new PersonAgent("Host");
-    	
-    	
-    	
-    	
+    	PersonAgent person5 = new PersonAgent("Host");    	
     	
     	occupants.add(person);
     	occupants.add(person2);
@@ -221,20 +223,22 @@ public class CityPanel extends JPanel{
 		gui.getAnimationPanel().addPersonGui(pg);
 		person.setGui(pg);
 		
-		for(int i = 0; i < actions.length; ++i) {
-			switch(actions[i]) {
-				case "work":
-					if(!occupation.equals("rich")) person.msgGoToWork();
-					break;
-				case "hungry":
-					person.msgGotHungry();
-					break;
-				case "market":
-					person.msgGoToMarket();
-					break;
-				case "restaurant":
-					person.msgGoToRestaurant();
-					break;
+		if(actions != null) {
+			for(int i = 0; i < actions.length; ++i) {
+				switch(actions[i]) {
+					case "work":
+						if(!occupation.equals("rich")) person.msgGoToWork();
+						break;
+					case "hungry":
+						person.msgGotHungry();
+						break;
+					case "market":
+						person.msgGoToMarket();
+						break;
+					case "restaurant":
+						person.msgGoToRestaurant();
+						break;
+				}
 			}
 		}
 		

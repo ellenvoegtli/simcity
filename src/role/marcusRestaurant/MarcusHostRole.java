@@ -1,6 +1,8 @@
 package role.marcusRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
@@ -79,20 +81,20 @@ public class MarcusHostRole extends Role implements ManagerRole {
 	
 	// Messages	
 	public void msgIWantToEat(Customer cust) {
-		print(cust + " wants to eat");
+		output(cust + " wants to eat");
 		waitingCustomers.add(cust);
 		newCustomer = true;
 		stateChanged();
 	}
 
 	public void msgIWillWait(Customer c) {
-		print(c + " decided to wait");
+		output(c + " decided to wait");
 		waitingCustomers.add(c);
 		stateChanged();
 	}
 	
 	public void msgTableIsClear(MarcusTable t) {
-		print(t + " is now clear");
+		output(t + " is now clear");
 		t.setUnoccupied();
 		customerCount--;
 		stateChanged();
@@ -109,7 +111,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 	}
 
 	public void msgWantToGoOnBreak(Waiter w) {
-		print(w + " just requested to go on break");
+		output(w + " just requested to go on break");
 		synchronized(waitersList) {
 			for(MyWaiter waiter : waitersList) {
 				if(waiter.waiter == w) {
@@ -122,7 +124,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 	}
 	
 	public void msgBackOnDuty(Waiter w) {
-		print(w + " is now back on duty");
+		output(w + " is now back on duty");
 		synchronized(waitersList) {
 			for(MyWaiter waiter : waitersList) {
 				if(waiter.waiter == w) {
@@ -179,7 +181,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 
 	// Actions
 	private void seatCustomer(Customer customer, MarcusTable table) {
-		print("Calling a waiter to take " + customer + " to " + table);		
+		output("Calling a waiter to take " + customer + " to " + table);		
 		customerCount++;
 		chooseWaiter().msgSeatAtTable(customer, table);
 		table.setOccupant(customer);
@@ -215,7 +217,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 	}
 	
 	private void handleRequest(MyWaiter w) {
-		print("Handling waiter's break request");
+		output("Handling waiter's break request");
 		int counter = 0;
 		
 		synchronized(waitersList) {
@@ -234,6 +236,11 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		
 		w.state = WaiterState.onBreak;
 		w.waiter.msgBreakReply(true);
+	}
+	
+	private void output(String input) {
+		AlertLog.getInstance().logMessage(AlertTag.MARCUS_RESTAURANT, this.getName(), input);
+		AlertLog.getInstance().logMessage(AlertTag.MARCUS_HOST, this.getName(), input);
 	}
 	
 	private boolean restaurantFull() {

@@ -1,6 +1,8 @@
 package role.marcusRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.marcusRestaurant.gui.CustomerGui;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import mainCity.restaurants.marcusRestaurant.MarcusMenu;
@@ -72,20 +74,20 @@ public class MarcusCustomerRole extends Role implements Customer {
 	}
 	// Messages
 	public void gotHungry() {//from animation
-		print("I'm hungry");
+		output("I'm hungry");
 		
 		event = AgentEvent.gotHungry;
 		stateChanged();
 	}
 
 	public void msgWantToWait() {
-		print("Restaurant is full, do I want to wait?");
+		output("Restaurant is full, do I want to wait?");
 		event = AgentEvent.restaurantFull;
 		stateChanged();
 	}
 	
 	public void msgFollowMeToTable(int table, MarcusMenu m, Waiter w) {
-		print("Received msgSitAtTable");
+		output("Received msgSitAtTable");
 		this.tableNumber = table;
 		this.waiter = w;
 		this.menu = m;
@@ -94,20 +96,20 @@ public class MarcusCustomerRole extends Role implements Customer {
 	}
 	
 	public void msgWhatWouldYouLike() {
-		print("msgWhatWouldYouLike: Waiter just asked what I want");
+		output("msgWhatWouldYouLike: Waiter just asked what I want");
 		this.event = AgentEvent.respond;
 		stateChanged();
 	}
 	
 	public void msgPleaseReorder(MarcusMenu m) {
-		print("Reordering...");
+		output("Reordering...");
 		this.menu = m;
 		this.event = AgentEvent.respond;
 		stateChanged();
 	}
 	
 	public void msgHereIsYourOrder(String choice) {
-		print("msgHereIsYourOrder: just received my order of " + choice);
+		output("msgHereIsYourOrder: just received my order of " + choice);
 		this.event = AgentEvent.hereIsFood;
 		stateChanged();
 	}
@@ -119,7 +121,7 @@ public class MarcusCustomerRole extends Role implements Customer {
 	
 	public void msgDebtOwed(double amount) {
 		this.cash = amount;
-		print("Next time I come back, I'll be sure to settle my debt of $" + -amount);
+		output("Next time I come back, I'll be sure to settle my debt of $" + -amount);
 		
 		state = AgentState.DoingNothing;
 		event = AgentEvent.doneLeaving;
@@ -127,8 +129,8 @@ public class MarcusCustomerRole extends Role implements Customer {
 	
 	public void msgHereIsChange(double c) {
 		this.cash = c;
-		print("Received my change, I now have $" + cash);
-		print("I can now leave");
+		output("Received my change, I now have $" + cash);
+		output("I can now leave");
 		
 		state = AgentState.Leaving;
 		event = AgentEvent.doneLeaving;
@@ -226,22 +228,22 @@ public class MarcusCustomerRole extends Role implements Customer {
 		Do("Going to restaurant");
 		
 		if(cash < 0) {
-			print("I also have a debt to pay of $" + -cash);			
+			output("I also have a debt to pay of $" + -cash);			
 			cashier.msgPayingMyDebt(this, -cash);
 			cash += (-cash) + ((int) (Math.random()*25));
-			print("I have $" + cash + " in my wallet");
+			output("I have $" + cash + " in my wallet");
 		}
 		
 		host.msgIWantToEat(this);//send our instance, so he can respond to us
 	}
 
 	private void decide() {
-		print("Deciding...");
+		output("Deciding...");
 		event = AgentEvent.gotHungry;
 		
 		//If restaurant is full, there's a 35% chance the customer will leave
 		if((int)(Math.random() * 100) > 35){
-			print("I'm leaving...");
+			output("I'm leaving...");
 			state = AgentState.DoingNothing;
 			event = AgentEvent.doneLeaving;
 			customerGui.DoExitRestaurant();
@@ -258,7 +260,7 @@ public class MarcusCustomerRole extends Role implements Customer {
 	
 	private void chooseFromMenu() {
 		event = AgentEvent.choosing;
-		System.out.println(this + " is deciding what to eat...");
+		output(this + " is deciding what to eat...");
 
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -287,13 +289,13 @@ public class MarcusCustomerRole extends Role implements Customer {
 		}
 		
 		if(choice == null) {
-			print("Looks like I can't afford anything...leaving");
+			output("Looks like I can't afford anything...leaving");
 			hasToLeave();
 			return;
 		}
 		
 		if(orderCount > 3) {
-			print("This is ridiculous! I'm leaving..");
+			output("This is ridiculous! I'm leaving..");
 			hasToLeave();
 			return;
 		}
@@ -332,7 +334,7 @@ public class MarcusCustomerRole extends Role implements Customer {
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
-				print("Done eating, cookie=" + cookie);
+				output("Done eating, cookie=" + cookie);
 				event = AgentEvent.doneEating;
 				customerGui.DoClearLabel();
 				stateChanged();
@@ -342,7 +344,7 @@ public class MarcusCustomerRole extends Role implements Customer {
 	}
 
 	private void askForCheck() {
-		print("Requesting check");
+		output("Requesting check");
 		waiter.msgReadyForCheck(this);
 	}
 	
@@ -354,7 +356,7 @@ public class MarcusCustomerRole extends Role implements Customer {
 	}
 
 	private void payCheck() {
-		print("Going to cashier to pay check...");
+		output("Going to cashier to pay check...");
 		cashier.msgHereIsPayment(this, cash, tableNumber);
 		state = AgentState.waitingForChange;
 	}
@@ -376,6 +378,11 @@ public class MarcusCustomerRole extends Role implements Customer {
 		return name;
 	}
 
+	private void output(String input) {
+		AlertLog.getInstance().logMessage(AlertTag.MARCUS_RESTAURANT, this.getName(), input);
+		AlertLog.getInstance().logMessage(AlertTag.MARCUS_CUSTOMER, this.getName(), input);
+	}
+	
 	public String toString() {
 		return "customer " + getName();
 	}

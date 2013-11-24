@@ -48,6 +48,7 @@ public class ContactList {
 		stops.add(enaRestStop);
 		stops.add(bankStop); 
 		stops.add(marketStop);
+		
 	}
 	
 	public static ContactList getInstance(){

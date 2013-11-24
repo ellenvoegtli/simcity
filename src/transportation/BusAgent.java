@@ -33,8 +33,14 @@ public class BusAgent extends Agent{
 			
 		/** Messages  **/ 
 			public void msgIWantToGetOnBus(PersonAgent p){ 
-				System.out.println(p.getName() + "getting on bus.");
+				System.out.println(p.getName() + " getting on bus. My destination is " + p.getDestination());
 				Passengers.add(p);
+				
+			}
+			
+			public void msgImGettingOffBus(PersonAgent p){ 
+				System.out.println(p.getName() + " getting off bus."); 
+				Passengers.remove(p);
 			}
 			
 			public void msgAtBusStop(CityLocation cl){
@@ -61,28 +67,26 @@ public class BusAgent extends Agent{
 				gui.atBusStop = true;
 				currentState = BusState.ReadyToGo;
 				
-				List<PersonAgent> LeavingPassengers = new ArrayList<PersonAgent>(); 
-				
-				//Tell passengers that destination has been reached. 
-				if(Passengers.size() != 0){
-					for(int j=0; j<Passengers.size(); j++){ 
-						if(Passengers.get(j).getDestination() == currentLocation) 
-							Passengers.get(j).msgArrivedAtDestination(); 
-							LeavingPassengers.add(Passengers.get(j));
-					}
-					//remove passengers who left the bus from the passenger list. 
-					for(int k=0; k<LeavingPassengers.size(); k++){
-						Passengers.remove(LeavingPassengers.get(k));
-					}
-				}
-				
+				//System.out.println("But currently at " + currentLocation);
 				for(int i=0; i<ContactList.stops.size(); i++){ 
 					if(ContactList.stops.get(i).stopLocation == currentLocation) { 
 						if(ContactList.stops.get(i).waitingPeople.size() != 0) {
 							ContactList.stops.get(i).BusHasArrived(this, capacity);
+							System.out.println("At: " + ContactList.stops.get(i).stopLocation);
 						} 
 					}
 				}
+				
+				//Tell passengers that destination has been reached. 
+				if(Passengers.size() != 0){
+					for(int j=0; j<Passengers.size(); j++){ 
+						if(Passengers.get(j).getDestination() == currentLocation) {
+							Passengers.get(j).msgArrivedAtDestination();
+						}
+					}
+					//remove passengers who left the bus from the passenger list. 
+				}
+				
 				
 				stopTimer.schedule(new TimerTask() {
 					public void run() {
