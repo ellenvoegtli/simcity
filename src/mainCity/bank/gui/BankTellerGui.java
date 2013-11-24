@@ -5,11 +5,11 @@ import java.awt.Graphics2D;
 
 
 
-import mainCity.bank.BankTeller;
+import mainCity.bank.BankTellerRole;
 import mainCity.gui.Gui;
 
 public class BankTellerGui implements Gui {
-	private BankTeller bankteller = null;
+	private BankTellerRole bankteller = null;
     BankGui gui;
 	Graphics2D g2;
 	
@@ -34,7 +34,7 @@ public class BankTellerGui implements Gui {
     int t;
     public boolean atOrigin= true;
    
-    public BankTellerGui(BankTeller bankteller, BankGui gui) {
+    public BankTellerGui(BankTellerRole bankteller, BankGui gui) {
         this.bankteller = bankteller;
         this.gui=gui;
     }
