@@ -118,9 +118,10 @@ public class PersonGui implements Gui{
 	
 	public void DoGoToStop() {
 		System.out.println("Gui is told to go to nearest bus stop");
-
+		
 		//Looking for stop that is the minimum distance.
-		PersonAgent.CityLocation destination = findNearestStop();
+		//PersonAgent.CityLocation destination = findNearestStop();
+		PersonAgent.CityLocation destination = PersonAgent.CityLocation.restaurant_ellen; 
 		
 		System.out.println("Walking toward " + destination);
 		

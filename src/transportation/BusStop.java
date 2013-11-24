@@ -22,8 +22,8 @@ public class BusStop {
 	}
 	
 	public void ArrivedAtBusStop(PersonAgent p) { 
-		System.out.println(p.getName() + "has arrived at bus stop near" + stopLocation);
 		waitingPeople.add(p);
+		System.out.println(waitingPeople.get(0) + " has arrived at bus stop near" + stopLocation);
 	}
 	
 	public void BusHasArrived(BusAgent b, int capacity) { 
