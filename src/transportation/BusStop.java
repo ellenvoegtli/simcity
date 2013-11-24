@@ -2,15 +2,18 @@ package transportation;
 
 import java.util.*;
 
+import transportation.gui.BusGui;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.CityLocation;
 
 public class BusStop {
 	//List of people waiting at the bus stop
-	List<PersonAgent> waitingPeople = new ArrayList<PersonAgent>(); 
+	public List<PersonAgent> waitingPeople = new ArrayList<PersonAgent>(); 
 	public CityLocation stopLocation; 
 	
 	public int xLocation, yLocation; 
+	
+	public BusAgent currentBus;
 	
 	public BusStop(int xLoc, int yLoc, CityLocation cl){ 
 		xLocation = xLoc; 
@@ -23,7 +26,9 @@ public class BusStop {
 		waitingPeople.add(p);
 	}
 	
-	public void BusHasArrived(int capacity) { 
+	public void BusHasArrived(BusAgent b, int capacity) { 
+		
+		currentBus = b;
 		
 		//Keeps track of people who are getting on the bus when there isn't room for everyone
 		List<PersonAgent> tempList = new ArrayList<PersonAgent>(); 

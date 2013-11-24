@@ -637,6 +637,13 @@ public class PersonAgent extends Agent {
 	
 	private void boardBus() {
 		///message the bus
+		for(int i=0; i<ContactList.stops.size(); i++){ 
+			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
+				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
+					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+				}
+			}
+		}
 	}
 
 	//---Other Actions functions---//
