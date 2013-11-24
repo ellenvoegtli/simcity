@@ -36,39 +36,22 @@ public class HomePanel extends JPanel
     private OccupantRole occupant;
    private OccupantGui occupantGui; 
 
-    public HomePanel(HomeGui gui) {
-        this.gui = gui;
-       // occupant = new OccupantRole("mark");
-      //  occupant.setHouse(house);
-        //house = new personHome(occupant);
-        //house.setOccupant(occupant);
-        //occupantGui = new OccupantGui(occupant, gui);
-       // occupant.setGui(occupantGui);
-              
-        //gui.animationPanel.addGui(occupantGui);
-
-        //occupant.startThread();
-        
-       // occupant.setHouse(house);
-
-        //occupantGui.setHungry();
-
-
+    public HomePanel(HomeGui gui)
+    {
+       
+    	this.gui = gui;
         setLayout(new GridLayout(1, 2, 20, 20));
- 
-
         initRestLabel();
         add(homeLabel);
     }
 
     /**
-     * Sets up the restaurant label that includes the menu,
+     * Sets up the home label that includes the menu,
      * and host and cook information
      */
     private void initRestLabel() {
         JLabel label = new JLabel();
         homeLabel.setLayout(new BoxLayout((Container)homeLabel, BoxLayout.Y_AXIS));
-        //homeLabel.setLayout(new FlowLayout());
         /*label.setText(
                 "<html><h3><u>House's Belongs To: </u></h3><table><tr><td>occupant:</td><td>" + occupant.getName());*/
 
@@ -82,9 +65,6 @@ public class HomePanel extends JPanel
      * When a customer or waiter is clicked, this function calls
      * updatedInfoPanel() from the main gui so that person's information
      * will be shown
-     *
-     * @param type indicates whether the person is a customer or waiter
-     * @param name name of person
      */
     public void showInfo(String type, String name) 
     {
@@ -114,7 +94,6 @@ public class HomePanel extends JPanel
     		if(occ.equals(occupant.getName()))
     		{
     			  occupant.getGui().setHungry();
-
     		}
     	
     }
@@ -149,16 +128,11 @@ public class HomePanel extends JPanel
         	occupant = (OccupantRole) r;
         	        	 house = new personHome(occupant);
 
-        	 occupant.setHouse(house);
-             house.setOccupant(occupant);
-        	
-
-    		occupantGui = new OccupantGui(occupant, gui);
-        	
-    	
+        	occupant.setHouse(house);
+            house.setOccupant(occupant);
+    		occupantGui = new OccupantGui(occupant, gui); 	
     		occupant.setGui(occupantGui);
-    		occupantGui.setHungry();
-           
+    		occupantGui.setHungry();    
     		gui.animationPanel.addGui(occupantGui);
     		System.out.println("Occupant has been returned home");
 
