@@ -107,19 +107,20 @@ public class PersonAgent extends Agent {
 
 	//A message received from the system or GUI to tell person to get hungry - they will choose between restaurant and home
 	public void msgGotHungry() {
-		output(name + " got hungry");
-
-		actions.add(new Action(ActionType.hungry, 5));
-		//actions.add(new Action(ActionType.home, 10));
-
-		stateChanged();
+		if(!actions.contains(ActionType.restaurant)) {
+			output(name + " got hungry");
+			actions.add(new Action(ActionType.hungry, 5));
+			stateChanged();
+		}
 	}
 	
 	//A message received from the HomeAgent or GUI (possibly?) to go to a restaurant
 	public void msgGoToRestaurant() {
-		output(name + " will go to restaurant");
-		actions.add(new Action(ActionType.restaurant, 4));
-		stateChanged();
+		if(!actions.contains(ActionType.restaurant)) {
+			output(name + " will go to restaurant");
+			actions.add(new Action(ActionType.restaurant, 4));
+			stateChanged();
+		}
 	}
 
 	//A message received from the HomeAgent or GUI (possibly?) to go to the market
@@ -465,7 +466,7 @@ public class PersonAgent extends Agent {
 					break;
 				case restaurant:
 					switch(destination) {
-						/*case restaurant_marcus:
+						case restaurant_marcus:
 							MarcusCustomerRole m = new MarcusCustomerRole(this, name);
 							ContactList.getInstance().getMarcusRestaurant().handleRole(m);
 							roles.put(action, m);
@@ -474,17 +475,17 @@ public class PersonAgent extends Agent {
 							EllenCustomerRole e = new EllenCustomerRole(this, name);
 							ContactList.getInstance().getEllenRestaurant().handleRole(e);
 							roles.put(action, e);
-							break;*/
+							break;
 						case restaurant_ena:
 							EnaCustomerRole en = new EnaCustomerRole(this, name);
 							ContactList.getInstance().getEnaRestaurant().handleRole(en);
 							roles.put(action, en);
 							break;
-						/*case restaurant_jefferson:
+						case restaurant_jefferson:
 							JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
 							ContactList.getInstance().getJeffersonRestaurant().handleRoleGui(jc);
 							roles.put(action,jc);
-							break;*/
+							break;
 						default:
 							break;
 					}

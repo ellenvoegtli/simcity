@@ -33,8 +33,6 @@ public class CityPanel extends JPanel{
 		this.gui = gui;
 		clock = 6;
 		
-		parseConfig();
-		
     	MarketGui marketGui = new MarketGui();
     	//marketGui.setVisible(true);
 		
@@ -59,11 +57,13 @@ public class CityPanel extends JPanel{
     	
     	BankGui bank = new BankGui();
     	ContactList.getInstance().setBank(bank.getBankPanel());
-    	bank.setVisible(true);
+    	//bank.setVisible(true);
     	
     	HomeGui home= new HomeGui();
     	ContactList.getInstance().setHome(home.getHomePanel());
-    	home.setVisible(true);
+    	//home.setVisible(true);
+    	
+		parseConfig();
    
 /*
     	PersonAgent person = new PersonAgent("joeMoe");
@@ -140,7 +140,7 @@ public class CityPanel extends JPanel{
 				 updateCity();
 			 }
 		 };
-		 
+
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 		 executor.scheduleAtFixedRate(standChecker, 0, 5, TimeUnit.SECONDS); //Timer goes off every 10 seconds
 	}
@@ -159,20 +159,19 @@ public class CityPanel extends JPanel{
 		    String strLine;
 		    
 		    while ((strLine = br.readLine()) != null)   {
-		    	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
-		    	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Occupation")-1);
-		    	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
-		    	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
-		    	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
-		    	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
-		    	
-		    	String[] actionList = actions.split(",");
-		    	
-		    	for(int i = 0; i < actionList.length; ++i) {
-		    		System.out.println(actionList[i]);
-		    	}
-		    	
-		    	addPerson(name, Integer.parseInt(cash), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
+			   	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
+			   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Occupation")-1);
+			   	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
+			   	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
+			   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
+			   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
+			    String[] actionList = actions.split(",");
+			    	
+			   	for(int i = 0; i < actionList.length; ++i) {
+			   		System.out.println(actionList[i]);
+			   	}
+			    	
+			    addPerson(name, Integer.parseInt(cash), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    }
 
 		    in.close();
@@ -183,7 +182,6 @@ public class CityPanel extends JPanel{
 	}
 	
 	private void addPerson(String name, double c, String occupation, int sb, int se, String[] actions) {
-		System.out.println("Generating person " + name);
     	PersonAgent person = new PersonAgent(name);
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);
