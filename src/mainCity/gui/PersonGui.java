@@ -26,7 +26,7 @@ public class PersonGui implements Gui{
 	private static final int h = 20;
 	private boolean isPresent = false;
 	private boolean isVisible = true;
-	private boolean traveling = false;
+	private boolean traveling;
 	private BufferedImage personImg = null;
 	private ArrayList<Coordinate> corners = new ArrayList<Coordinate>();
 	private LinkedList<Coordinate> path = new LinkedList<Coordinate>();
@@ -34,8 +34,9 @@ public class PersonGui implements Gui{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
-		xDestination = xPos = 0;
+		xDestination = xPos = 600;
 		yDestination = yPos = 0;
+		traveling  = false;
 		StringBuilder path = new StringBuilder("imgs/");
 		try {
 			personImg = ImageIO.read(new File(path.toString() + "person.png"));
@@ -58,11 +59,6 @@ public class PersonGui implements Gui{
 	}
 
 	public void updatePosition() {
-		if(xPos == xDestination && yPos == yDestination && traveling) {
-			xDestination = path.peek().x;
-			yDestination = path.poll().y;
-		}
-		
 		if (xPos < xDestination)
 			xPos++;
 		else if (xPos > xDestination)
@@ -72,6 +68,11 @@ public class PersonGui implements Gui{
 			yPos++;
 		else if (yPos > yDestination)
 			yPos--;
+		
+		if(xPos == xDestination && yPos == yDestination && traveling) {
+			xDestination = path.peek().x;
+			yDestination = path.poll().y;
+		}
 		
 		if (path.isEmpty() && traveling) {
 			traveling = false;
@@ -147,51 +148,95 @@ public class PersonGui implements Gui{
 	
 	public void DoGoToStop() {
 		System.out.println("Gui is told to go to nearest bus stop");
-
+		
 		//Looking for stop that is the minimum distance.
 		PersonAgent.CityLocation destination = findNearestStop();
 		
 		System.out.println("Walking toward " + destination);
 		
 		switch(destination) {
-		case restaurant_marcus:
-			xDestination = 130;
-			yDestination = 180;
-			break;
-		case restaurant_ellen:
-			xDestination = 130;
-			yDestination = 280;
-			break;
-		case restaurant_david:
-			xDestination = 635;
-			yDestination = 230;
-			break;
-		case restaurant_ena:
-			xDestination = 260;
-			yDestination = 80;
-			break;
-		case restaurant_jefferson:
-			xDestination = 220;
-			yDestination = 380;
-			break;
-		case market:
-			xDestination = 455;
-			yDestination = 80;
-			break;
-		case bank:
-			xDestination = 130;
-			yDestination = 230;
-			break;
-		case home:
-			xDestination = 320;
-			yDestination = 80;
-			break;
-		default:
-			xDestination = 0;
-			yDestination = 0;
-			break;
-	}
+			case restaurant_marcus:
+				xDestination = 130;
+				yDestination = 180;
+				break;
+			case restaurant_ellen:
+				xDestination = 130;
+				yDestination = 280;
+				break;
+			case restaurant_david:
+				xDestination = 635;
+				yDestination = 230;
+				break;
+			case restaurant_ena:
+				xDestination = 260;
+				yDestination = 80;
+				break;
+			case restaurant_jefferson:
+				xDestination = 220;
+				yDestination = 380;
+				break;
+			case market:
+				xDestination = 455;
+				yDestination = 80;
+				break;
+			case bank:
+				xDestination = 130;
+				yDestination = 230;
+				break;
+			case home:
+				xDestination = 320;
+				yDestination = 80;
+				break;
+			default:
+				xDestination = 0;
+				yDestination = 0;
+				break;
+		}
+
 		traveling = true;
+	}
+	
+	public void DoGoToLocationOnBus(PersonAgent.CityLocation destination) { 
+		
+		switch(destination) {
+			case restaurant_marcus:
+				xPos = 105;
+				yPos = 180;
+				break;
+			case restaurant_ellen:
+				xPos = 105;
+				yPos = 280;
+				break;
+			case restaurant_ena:
+				xPos = 347;
+				yPos = 180;
+				break;
+			case restaurant_jefferson:
+				xPos =  347;
+				yPos = 280;
+				break;
+			case restaurant_david: 
+				xPos = 585; 
+				yPos = 230; 
+				break;
+			case market:
+				xPos = 415;
+				yPos = 215;
+				break;
+			case bank:
+				xPos = 175;
+				yPos = 230;
+				break;
+			case home:
+				xPos = 100;
+				yPos = 500;
+				break;
+			default:
+				xPos = 0;
+				yPos = 0;
+				break;
+		}
+
 	}
 	
 	public void DoGoInside() {
@@ -226,7 +271,7 @@ public class PersonGui implements Gui{
 				destination = ContactList.stops.get(i).stopLocation;
 			}
 		}
-		
+		System.out.println("Nearest stop found: " + destination);
 		return destination;
 	}
 	

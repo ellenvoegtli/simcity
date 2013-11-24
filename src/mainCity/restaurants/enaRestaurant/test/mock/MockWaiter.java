@@ -3,6 +3,7 @@ package mainCity.restaurants.enaRestaurant.test.mock;
 
 //import restaurant.WaiterAgent.AgentEvent;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
+import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
 //import restaurant.WaiterAgent.custState;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
@@ -24,6 +25,16 @@ public class MockWaiter extends Mock implements Waiter {
 	public void msgHereIsBill(double check, Customer c)
 	{
 		log.add(new LoggedEvent("message recieved to give the check to customer. Check is: $ " +check));
+	}
+	@Override
+	public void msgOutofFood(String choice) {
+		log.add(new LoggedEvent("message that market is out of food"));
+		
+	}
+	@Override
+	public void msgOrderReady(String choice, Table table) {
+		log.add(new LoggedEvent("message that order is ready"));
+		
 	}
 	
 	

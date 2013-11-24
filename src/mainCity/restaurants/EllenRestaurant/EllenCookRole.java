@@ -97,11 +97,16 @@ public class EllenCookRole extends Role implements Cook{
 		kitchenGui = gui;
 	}
 	
+	//for alert log trace statements
+		public void log(String s){
+	        AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), s);
+	        AlertLog.getInstance().logMessage(AlertTag.ELLEN_COOK, this.getName(), s);
+		}
+	
 	// Messages
 	
 	public void depleteInventory(String choice){		//from restaurantPanel
-		//print("Deplete inventory message received");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Deplete inventory message received");
+		log("Deplete inventory message received");
 
 		Food f = inventory.get(choice);
 		f.amount = 0;
@@ -116,29 +121,25 @@ public class EllenCookRole extends Role implements Cook{
 		orders.add(o);
 		o.s = OrderState.pending;
 		
-		//print(w.getName() + ", received msgHereIsOrder: " + choice);
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), w.getName() + ", received msgHereIsOrder: " + choice);
+		log(w.getName() + ", received msgHereIsOrder: " + choice);
 		stateChanged();
 	}
 
 	
 	public void msgFoodDone(Order o){	//from timer
 		o.s = OrderState.plated;
-		//print(o.choice + " done cooking!");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), o.choice + " done cooking!");
+		log(o.choice + " done cooking!");
 		stateChanged();
 	}
 	
 	//new market message
 	public void msgHereIsYourOrder(Map<String, Integer>inventoryFulfilled){
-		//print("Received msgHereIsYourOrder from market");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgHereIsYourOrder from market");
+		log("Received msgHereIsYourOrder from market");
 		for (Map.Entry<String, Integer> entry : inventoryFulfilled.entrySet()){
-			//print("Had " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
-			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Had " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
+			log("Had " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
 			inventory.get(entry.getKey()).amount += entry.getValue();
-			//print("Now have " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
-			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Now have " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
+			
+			log("Now have " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
 			Food f = inventory.get(entry.getKey());
 			f.s = FoodState.delivered;
 		}
@@ -147,8 +148,7 @@ public class EllenCookRole extends Role implements Cook{
 	}
 	
 	public void msgCantFulfill(String choice, int amountStillNeeded){
-		//print("Received msgCantFulfill: still need " + amountStillNeeded + " " + choice + "(s)");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgCantFulfill: still need " + amountStillNeeded + " " + choice + "(s)");
+		log("Received msgCantFulfill: still need " + amountStillNeeded + " " + choice + "(s)");
 
 		Food f = inventory.get(choice);
 		f.s = FoodState.tryAgain;
@@ -158,9 +158,7 @@ public class EllenCookRole extends Role implements Cook{
 	}
 	
 	public void pickingUpFood(int table){
-		//print("Received pickingUpFood for table " + table);
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received pickingUpFood for table " + table);
-
+		log("Received pickingUpFood for table " + table);
 		Order order = null;
 		synchronized(orders){
 			for (Order o: orders){
@@ -175,7 +173,6 @@ public class EllenCookRole extends Role implements Cook{
 	}
 	
 	public void msgCheckStand() {		//from RestaurantPanel
-		//print("Received msgCheckStand");
 		if(!isCheckingStand) {
 			isCheckingStand = true;
 			stateChanged();
@@ -227,7 +224,6 @@ public class EllenCookRole extends Role implements Cook{
 			for (String i : menu.menuItems){
 				if (inventory.get(i).s == FoodState.depleted){
 					inventoryNeeded.put(i, inventory.get(i).amountToOrder);
-					//OrderFromMarket(inventory.get(i), inventory.get(i).amountToOrder, inventory.get(i).nextMarket);
 				}
 			}
 			if(!inventoryNeeded.isEmpty()){
@@ -270,16 +266,14 @@ public class EllenCookRole extends Role implements Cook{
 	public void TryToCookIt(final Order o){
 		Map<String, Integer>inventoryNeeded = new TreeMap<String, Integer>();
 		Food f = inventory.get(o.choice);
-		//print("Amount of " + f.type + " left = " + f.amount);
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Amount of " + f.type + " left = " + f.amount);
+		log("Amount of " + f.type + " left = " + f.amount);
 
 		if (f.amount <= f.low && f.s == FoodState.none){
 			inventoryNeeded.put(f.type, (f.capacity-f.amount));
 			OrderFromMarket(inventoryNeeded);
 		}
 		if (f.amount == 0){
-			//print("Out of " + f.type);
-			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Out of " + f.type);
+			log("Out of " + f.type);
 			o.waiter.msgOutOfFood(o.choice, o.table);	//waiter doesn't come back on GUI to get this msg
 			orders.remove(o);
 			return;
@@ -328,8 +322,7 @@ public class EllenCookRole extends Role implements Cook{
 		
 		for (String c : menu.menuItems){
 			if (inventory.get(c).amount <= inventory.get(c).low){
-				//print("Adding " + inventory.get(c).type + " to market order");
-				AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Adding " + inventory.get(c).type + " to market order");
+				log("Adding " + inventory.get(c).type + " to market order");
 				inventory.get(c).amountToOrder = (inventory.get(c).capacity - inventory.get(c).amount);
 				lowInventory.put(c, inventory.get(c).amountToOrder);
 			}

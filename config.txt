@@ -18,6 +18,6 @@ Name:Person3;Cash:10;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:Person4;Cash:10;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Other
 Name:PersonK;Cash:480;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
-Name:Personl;Cash:480;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
-Name:Personm;Cash:480;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
-Name:Personn;Cash:480;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
+-Name:Personl;Cash:480;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
+-Name:Personm;Cash:480;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
+-Name:Personn;Cash:480;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant

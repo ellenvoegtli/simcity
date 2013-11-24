@@ -137,6 +137,7 @@ public class JeffersonCustomerRole extends Role implements Customer {
 	public void msgAnimationFinishedLeaveRestaurant() {
 		//from animation
 		event = AgentEvent.doneLeaving;
+		setInactive();
 		stateChanged();
 	}
 	

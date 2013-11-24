@@ -94,6 +94,7 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		traveling = false;
+		gui.DoGoOutside();
 		state = PersonState.normal;
 		stateChanged();
 	}
@@ -268,7 +269,8 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				output("Arrived at market!");
+				//TODO Unsquelch message later
+				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((MarketCustomerRole) customer).getGui().goInside()){
@@ -576,7 +578,7 @@ public class PersonAgent extends Agent {
 					roles.put(action, mcr);
 					break;
 				case home :
-					OccupantRole or = new OccupantRole(this, name, false);
+					OccupantRole or = new OccupantRole(this, name, true);
 					ContactList.getInstance().getHome().handleRoleGui(or);
 					roles.put(action, or);
 					break;
@@ -694,7 +696,7 @@ public class PersonAgent extends Agent {
 		//destination = CityLocation.restaurant_ena;
 		//destination = CityLocation.restaurant_marcus;
 
-		switch((int) (Math.random() * 3)) {
+		switch((int) (Math.random() * 4)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
 				break;
@@ -703,6 +705,9 @@ public class PersonAgent extends Agent {
 				break;
 			case 2:
 				destination = CityLocation.restaurant_marcus;
+				break;
+			case 3:
+				destination = CityLocation.restaurant_jefferson;
 				break;
 			default:
 				break;
@@ -800,10 +805,14 @@ public class PersonAgent extends Agent {
 	
 	private void boardBus() {
 		///message the bus
+		print("Getting on Bus");
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
+				print(i + ", " + j);
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+					//gui.DoGoInside();
+					//gui.DoGoToLocationOnBus(destination);
 				}
 			}
 		}
