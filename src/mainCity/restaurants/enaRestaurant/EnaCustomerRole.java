@@ -305,6 +305,7 @@ public class EnaCustomerRole extends Role implements Customer{
 			System.out.println("done");
 			state = AgentState.DoingNothing;
 			getCustomerGui().DoExitRestaurant();
+			super.setInactive();
 			//no action
 			return true;
 		}
