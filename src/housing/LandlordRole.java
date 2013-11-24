@@ -1,29 +1,56 @@
 package housing;
 
+import housing.personHome.Appliance;
+import housing.OccupantRole.fixState;
+import housing.gui.LandlordGui;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
+
+import agent.Agent;
+import mainCity.PersonAgent;
+import role.Role;
 
 
 
 
-public class LandlordRole
+public class LandlordRole extends Agent
 {
 
 	
 	//DATA
-	
+	Timer timer = new Timer();
+
 	int id;
 	List<Property> properties = new ArrayList<Property>();
 	Map<OccupantRole, String> ToDo = new HashMap<OccupantRole, String>(); 
-	
+	LandlordGui gui;
+	private Semaphore atDest = new Semaphore(0,true);
+
 	
 	//MESSAGES
 	
+	public LandlordRole(PersonAgent p)
+	{
+		super();
+		
+	}
+	
 	public void msgPleaseFix(OccupantRole occp, String appName)
 	{
-		ToDo.put(occp, occp.getName());
+		for(Property pr: properties)
+		{
+			if(pr.renter == occp )		
+			{
+				ToDo.put(occp, occp.getName());
+			}
+
+		}
 	}
 	//SCHEDULER
 	public boolean pickAndExecuteAnAction() 
@@ -45,16 +72,46 @@ public class LandlordRole
 	{
 		for(OccupantRole occ : ToDo.keySet())
 		{
-			//DoGoToRenterHome(occ.getHouse().getLocation());
-			//DoGoToKitchenApp(ToDo.get(occ));
+			gui.DoGoToRenterHome(occ.getHome());
+			int xPos = 0;
+			int yPos = 0;
+			for (Appliance appl : occ.getHome().Appliances)
+			{
+				if(appl.appliance.equals(ToDo.get(occ)))
+				{
+					xPos = appl.getXPos();
+					yPos = appl.getYPos();
+					appl.working = true;
+					
+				}
+				
+			}
+			
+			gui.DoGoToAppliance(xPos, yPos);
 			repair();
 			ToDo.remove(occ);
-			//DoGoBackHome();
-		}
+			if(ToDo.size() == 0)break;
+		}			
+		gui.DoGoBackHome();
+
 	}
 	
 	public void repair()
 	{
+		/*try {
+			occupant.destination.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}*/
+		
+		timer.schedule(new TimerTask() {
+			Object cookie = 1;
+			public void run() {
+				print("fixed appliance");
+				stateChanged();
+			}
+		},
+		1000);
 		//timer to execute while owner is fixing appliance;
 	}
 	
@@ -64,10 +121,16 @@ public class LandlordRole
 		personHome house;
 		OccupantRole renter;
 		
-		Property()
+		Property(OccupantRole prs)
 		{
 			
 		}
 		
+	}
+
+
+	public void msgAtDestination() {
+		atDest.release();
+		stateChanged();		
 	}
 }
