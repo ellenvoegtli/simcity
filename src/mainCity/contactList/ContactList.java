@@ -13,6 +13,7 @@ import role.marcusRestaurant.*;
 import mainCity.restaurants.restaurant_zhangdt.*;
 import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
 import mainCity.bank.*;
+import mainCity.bank.gui.BankPanel;
 import mainCity.interfaces.*;
 import transportation.BusStop;
 import housing.gui.HomePanel;
@@ -55,7 +56,7 @@ public class ContactList {
 	
 	HomePanel home;
 	
-	BankManagerRole bankManager;
+	
 	
 	public MarketGreeterRole marketGreeter;
 	public MarketCashierRole marketCashier;
@@ -82,6 +83,9 @@ public class ContactList {
 	public JeffersonHostRole jeffersonHost;
 	public DavidHostRole davidHost;
 
+	//all of bank's people
+	public BankManagerRole bankManager;
+	
 
 	
 	//TESTING
@@ -90,6 +94,7 @@ public class ContactList {
 	EllenRestaurantPanel ellenRestaurant;
 	EnaRestaurantPanel enaRestaurant;
 	DavidRestaurantPanel davidRestaurant; 
+	BankPanel bank;
 	
 	//anything else? apartment landlords?
 	
@@ -114,6 +119,16 @@ public class ContactList {
 		bankManager = m;
 	}
 	
+	public BankManagerRole getBankManager(){
+		return bankManager;
+	}
+	
+	public void setBank(BankPanel b){
+		bank=b;
+	}
+	public BankPanel getBank(){
+		return bank;
+	}
 	//Market********
 	public void setMarketGreeter(MarketGreeterRole g){
 		marketGreeter = g;

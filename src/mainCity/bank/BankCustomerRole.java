@@ -95,6 +95,10 @@ public class BankCustomerRole extends Role {
 	public void msgNeedLoan(){
 		Do("Recieved message need loan");
 	    tstate=BankCustomerTransactionState.wantLoan;
+	    if(myaccountnumber== -1){
+			tstate=BankCustomerTransactionState.wantNewAccount;
+			Do("no account exists, making account");
+		}
 	    stateChanged();
 	}
 	
@@ -107,14 +111,22 @@ public class BankCustomerRole extends Role {
 	public void msgWantToDeposit(){
 		Do("Recieved message want to deposit");
 		tstate=BankCustomerTransactionState.wantToDeposit;
+		if(myaccountnumber== -1){
+			tstate=BankCustomerTransactionState.wantNewAccount;
+			Do("no account exists, making account");
+		}
 		stateChanged();
 	}
 	
 	public void msgWantToWithdraw(){
 		Do("Recieved message want to withdraw");
 		tstate=BankCustomerTransactionState.wantToWithdraw;
+		if(myaccountnumber== -1){
+			tstate=BankCustomerTransactionState.wantNewAccount;
+			Do("no account exists, making account");
+		}
 		stateChanged();
-		System.out.println("statechanged");
+		
 	}
 	
 	

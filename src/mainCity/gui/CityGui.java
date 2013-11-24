@@ -13,8 +13,8 @@ import mainCity.gui.trace.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CityGui extends JFrame implements ActionListener, KeyListener{
-	
+
+public class CityGui extends JFrame implements ActionListener, KeyListener{	
 	private AnimationPanel animationPanel = new AnimationPanel(); 
 	private CityView view = new CityView(this);
 	private TracePanel tracePanel1;
@@ -44,12 +44,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JButton addPersonButton = new JButton("Add new person");
 	
 	public CityGui() { 
-		
 		int WINDOWX = 1300; 
 		int WINDOWY = 600;
 
 		animationPanel.setGui(this);
-		
+
 		setBounds(50, 50, WINDOWX, WINDOWY+150);
 		setLayout(new BorderLayout());
 		
@@ -114,12 +113,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		layout.setVerticalGroup(vGroup);
 	   //====END GROUP LAYOUT=====
 		
-		
-		
+
 		//---MAIN PANEL BEGIN---//
-		setBounds(50, 50, WINDOWX, WINDOWY+150);
-		setLayout(new BorderLayout());
-        
         Dimension mainDim = new Dimension((int) (WINDOWX * .6), WINDOWY);
         mainPanel.setPreferredSize(mainDim);
         mainPanel.setMinimumSize(mainDim);

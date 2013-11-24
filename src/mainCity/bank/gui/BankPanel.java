@@ -57,6 +57,7 @@ public class BankPanel extends JPanel {
     public BankPanel(BankGui gui) {
         this.gui = gui;
         //hack creating a new account with 0 monies
+        //TODO use this info for handlerole()
         PersonAgent p = new PersonAgent("bob");
         bankcust = new BankCustomerRole(p, p.getName());
         BankCustomerGui bcGui = new BankCustomerGui(bankcust, gui);
@@ -64,8 +65,8 @@ public class BankPanel extends JPanel {
         bankcust.setGui(bcGui);
 		bankcust.setBankManager(bankmanager);
 		bankcust.setAmount(400);
-        bankcust.setMyaccountnumber(0);
-        bankcust.setBankbalance(0);
+        //bankcust.setMyaccountnumber(0);
+        //bankcust.setBankbalance(0);
 
         p.setCash(400);
         p.addRole(PersonAgent.ActionType.bankWithdraw, bankcust);
@@ -165,7 +166,7 @@ public class BankPanel extends JPanel {
         
         add(group);
     }
-
+    //TODO finish this
     public void handleRoleGui(Role r){
     	if(r instanceof BankCustomerRole){
     		BankCustomerRole b = (BankCustomerRole) r;

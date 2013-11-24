@@ -7,6 +7,7 @@ import housing.OccupantRole;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import mainCity.bank.BankCustomerRole;
 import mainCity.contactList.ContactList;
 import mainCity.gui.PersonGui;
 import mainCity.gui.trace.AlertLog;
@@ -492,6 +493,17 @@ public class PersonAgent extends Agent {
 					OccupantRole or = new OccupantRole(this, name, true);
 					ContactList.getInstance().getHome().handleRoleGui(or);
 					roles.put(action, or);
+					break;
+					
+				case bankWithdraw:
+					BankCustomerRole bc = new BankCustomerRole(this, name);
+					ContactList.getInstance().getBank().handleRoleGui(bc);
+					roles.put(action, bc);
+				
+				case bankDeposit:
+				
+				case bankLoan:
+					
 				default:
 					break;
 			}
@@ -565,6 +577,7 @@ public class PersonAgent extends Agent {
 
 		//destination = CityLocation.restaurant_marcus;
 		
+
 		switch((int) (Math.random() * 3)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;

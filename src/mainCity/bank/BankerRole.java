@@ -143,6 +143,12 @@ public class BankerRole extends Agent {
 		}
 		for(BankAccount b: ba.accounts){
 			if(mc.accountnumber==b.accountNumber){
+				if(b.debt>=500){
+					b.creditScore-=20;
+				}
+				if(b.debt<=500){
+					b.creditScore+=20;
+				}
 				if(b.creditScore>=600){
 					b.debt+=mc.amount;
 					mc.bc.msgLoanApproved(mc.amount);
