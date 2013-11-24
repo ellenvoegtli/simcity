@@ -35,10 +35,5 @@ public class BusGui extends Vehicle {
 	public int getYLoc() { 
 		return yLocation;
 	}
-	
-	
-	public void recognition() { 
-		System.out.println("Wuddup Mofo!");
-	}
 
 }
