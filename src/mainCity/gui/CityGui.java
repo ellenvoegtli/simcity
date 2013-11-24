@@ -1,6 +1,7 @@
 package mainCity.gui;
 
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 
 import mainCity.gui.AnimationPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
@@ -12,7 +13,7 @@ import mainCity.gui.trace.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CityGui extends JFrame{
+public class CityGui extends JFrame implements ActionListener, KeyListener{
 	
 	private AnimationPanel animationPanel = new AnimationPanel(); 
 	private TracePanel tracePanel1;
@@ -23,19 +24,97 @@ public class CityGui extends JFrame{
 	private CityPanel cityPanel = new CityPanel(this);
 	private JPanel mainPanel = new JPanel();
 	private JPanel leftPanel = new JPanel();
-	private JPanel controlPanel = new JPanel();
 	private JPanel detailedPanel = new JPanel();
-	//private MarketGui marketGui = new MarketGui();
+
+	//====Control panel components====
+	private JPanel controlPanel = new JPanel();
+	private GroupLayout layout = new GroupLayout(controlPanel);
+	private JLabel nameFieldLabel = new JLabel("Enter name: ");
+	private JTextField nameField = new JTextField(100);
+	private JLabel moneyFieldLabel = new JLabel("Enter starting $: ");
+	private JTextField moneyField = new JTextField(100);
+	private JLabel occupationMenuLabel = new JLabel("Choose occupation: ");
+	private JComboBox occupationMenu;
+	private JLabel AMshiftLabel = new JLabel("Choose shift: ");
+	private JLabel PMshiftLabel = new JLabel(" ");
+	private JRadioButton AMshiftButton = new JRadioButton("AM shift");
+	private JRadioButton PMshiftButton = new JRadioButton("PM shift");
+	private ButtonGroup shiftGroup = new ButtonGroup();
+	private JButton addPersonButton = new JButton("Add new person");
 	
 	public CityGui() { 
 		
 		int WINDOWX = 1300; 
 		int WINDOWY = 600;
 		
-		setBounds(50, 50, WINDOWX, WINDOWY+150);
-		setLayout(new BorderLayout());
+		
+		//---CONTROL PANEL BEGIN---//
+		nameFieldLabel.setVisible(true);
+        Dimension nameDim = new Dimension(150, 30);
+		nameField.setPreferredSize(nameDim);
+		nameField.setMinimumSize(nameDim);
+		nameField.setMaximumSize(nameDim);
+		
+		moneyFieldLabel.setVisible(true);
+		Dimension moneyDim = new Dimension(150, 30);
+		moneyField.setPreferredSize(moneyDim);
+		moneyField.setMinimumSize(moneyDim);
+		moneyField.setMaximumSize(moneyDim);
+		
+		String[] occupationStrings = {"Random", "Rich (no occupation)", "Bank manager", "Bank teller", "Banker", 
+				"Restaurant host", "Restaurant waiter", "Restaurant cook", "Restaurant cashier", 
+				"Market greeter", "Market employee", "Market cashier", "Market delivery man"
+		};
+		occupationMenu = new JComboBox(occupationStrings);
+		Dimension occupationDim = new Dimension(150, 30);
+		occupationMenu.setPreferredSize(occupationDim);
+		occupationMenu.setMinimumSize(occupationDim);
+		occupationMenu.setMaximumSize(occupationDim);
+		occupationMenu.setSelectedIndex(0);
+		occupationMenu.addActionListener(this);
+        occupationMenu.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        //AM/PM shift
+        AMshiftLabel.setVisible(true);
+        AMshiftButton.setSelected(false);
+        PMshiftButton.setSelected(false);
+        shiftGroup.add(AMshiftButton);
+        shiftGroup.add(PMshiftButton);
+		
+		//===GROUP LAYOUT FOR CONTROL PANEL====
+		controlPanel.setLayout(layout);
+		layout.setAutoCreateGaps(true);
+		layout.setAutoCreateContainerGaps(true);
+		
+		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
+		hGroup.addGroup(layout.createParallelGroup().
+	            addComponent(nameFieldLabel).addComponent(moneyFieldLabel).addComponent(occupationMenuLabel).
+	            addComponent(AMshiftLabel).addComponent(PMshiftLabel));
+		hGroup.addGroup(layout.createParallelGroup().
+	            addComponent(nameField).addComponent(moneyField).addComponent(occupationMenu).addComponent(AMshiftButton).
+	            addComponent(PMshiftButton));
+		layout.setHorizontalGroup(hGroup);
+		
+		GroupLayout.SequentialGroup vGroup = layout.createSequentialGroup();
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+	            addComponent(nameFieldLabel).addComponent(nameField));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+	            addComponent(moneyFieldLabel).addComponent(moneyField));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+	            addComponent(occupationMenuLabel).addComponent(occupationMenu));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+	            addComponent(AMshiftLabel).addComponent(AMshiftButton));
+		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
+	            addComponent(PMshiftLabel).addComponent(PMshiftButton));
+		layout.setVerticalGroup(vGroup);
+	   //====END GROUP LAYOUT=====
+		
+		
+	
 		
 		//---MAIN PANEL BEGIN---//
+		setBounds(50, 50, WINDOWX, WINDOWY+150);
+		setLayout(new BorderLayout());
         
         Dimension mainDim = new Dimension((int) (WINDOWX * .6), WINDOWY);
         mainPanel.setPreferredSize(mainDim);
@@ -51,7 +130,7 @@ public class CityGui extends JFrame{
         getAnimationPanel().setBorder(BorderFactory.createEtchedBorder());
         mainPanel.add(getAnimationPanel(), BorderLayout.CENTER);
         	//Control Panel
-        Dimension controlDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .2));
+        Dimension controlDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .4));
         controlPanel.setPreferredSize(controlDim);
         controlPanel.setMinimumSize(controlDim);
         controlPanel.setMaximumSize(controlDim);
@@ -137,6 +216,13 @@ public class CityGui extends JFrame{
         leftPanel.add(tabbedPane, BorderLayout.SOUTH);       
 	}
 	
+	public void actionPerformed(ActionEvent e){
+		JComboBox cb = (JComboBox)e.getSource();
+        String petName = (String)cb.getSelectedItem();
+        //updateLabel(petName);
+	}
+	
+	
 	public static void main(String[] args) {
         CityGui gui = new CityGui();
         gui.setTitle("SimCity201");
@@ -148,5 +234,32 @@ public class CityGui extends JFrame{
 	
 	public AnimationPanel getAnimationPanel() {
 		return animationPanel;
+	}
+	
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		/*
+		if (e.getSource() == nameField){
+			hungryB.setEnabled(true);
+			hungryB.setSelected(false);
+		}
+		else if (e.getSource() == moneyField){
+			onBreakB.setEnabled(true);
+			onBreakB.setSelected(false);
+		}*/
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
