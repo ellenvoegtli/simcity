@@ -13,7 +13,7 @@ public class BankAccounts {
 	public class BankAccount{
 		
 	    String name;
-	    int creditScore ;
+	    int creditScore;
 	    double balance;
 	    double debt;
 	    double accountNumber;
@@ -21,7 +21,7 @@ public class BankAccounts {
 	    
 	    public BankAccount(String n, double a, PersonAgent pa, double newaccnum){
 	    	name=n;
-	    	creditScore=630;
+	    	creditScore=650;
 	    	balance = a;
 	    	debt=0;
 	    	accountNumber=newaccnum;

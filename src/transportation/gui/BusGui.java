@@ -2,11 +2,13 @@ package transportation.gui;
 
 import java.awt.Graphics2D;
 
+import transportation.BusAgent;
 import mainCity.gui.CityGui;
 import mainCity.gui.Gui;
 
 public class BusGui extends Vehicle {
-	
+
+	public BusAgent agent = null;
 	CityGui gui; 
 	
 	public int x; 
@@ -17,12 +19,13 @@ public class BusGui extends Vehicle {
 	private int height; 
 	private int xDestination, yDestination;
 	
-	public BusGui(int x, int y, int w, int h){ 
+	public BusGui(int x, int y, int w, int h, BusAgent b){ 
 		super(x, y, w, h);
 		xLocation = x; 
 		yLocation = y; 
 		width = w; 
 		height = h;
+		agent = b;
 	}
 	
 	public int getXLoc() { 
@@ -31,6 +34,11 @@ public class BusGui extends Vehicle {
 	
 	public int getYLoc() { 
 		return yLocation;
+	}
+	
+	
+	public void recognition() { 
+		System.out.println("Wuddup Mofo!");
 	}
 
 }
