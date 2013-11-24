@@ -108,7 +108,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     }
 
 	public void actionPerformed(ActionEvent e) {
-
+		
 		if(bus != null){
 			if(onlyOnce == true){
 				onlyOnce = false;
@@ -153,7 +153,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 		}	
 		//Bus stop at 210, 130
 		
-		
+		/*
 		//Make them all lanes stop
 		if ( count % 500 == 0 ) {
 			for ( int i=0; i<lanes.size(); i++ ) {
@@ -166,6 +166,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				lanes.get(i).greenLight();
 			}
 		}
+		*/
 		repaint();  //Will have paintComponent called
 	}
 
@@ -230,7 +231,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         
         
         //drawing restaurants 
-        Building building = new Building ( 35, 150, "restaurant_right.png", "rest1");
+        Building building = new Building ( 35, 150, "restaurant_right.png", "marcusRestaurant");
         buildings.add(building); 
         addBuildingGui(building);
         

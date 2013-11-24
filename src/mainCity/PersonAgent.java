@@ -94,6 +94,7 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		traveling = false;
+		gui.DoGoOutside();
 		state = PersonState.normal;
 		stateChanged();
 	}
@@ -691,10 +692,8 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		destination = CityLocation.restaurant_ena;
-
+		//destination = CityLocation.restaurant_ena;
 		//destination = CityLocation.restaurant_marcus;
-		
 
 		switch((int) (Math.random() * 3)) {
 			case 0:
@@ -766,8 +765,13 @@ public class PersonAgent extends Agent {
 	
 	private void goToRenters()
 	{
+		output("Going to a renters home");
+		travelToLocation(CityLocation.home);
 		
+		stateChanged();
 	}
+	
+	
 	private void goToMarket() {
 		output("Going to the market");
 		travelToLocation(CityLocation.market);
@@ -797,10 +801,13 @@ public class PersonAgent extends Agent {
 	
 	private void boardBus() {
 		///message the bus
+		print("Getting on Bus");
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+					//gui.DoGoInside();
+					//gui.DoGoToLocationOnBus(destination);
 				}
 			}
 		}
