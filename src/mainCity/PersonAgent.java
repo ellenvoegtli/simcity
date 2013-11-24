@@ -124,6 +124,10 @@ public class PersonAgent extends Agent {
 		actions.add(new Action(ActionType.market, 3));
 		stateChanged();
 	}
+	public void msgGoHome() {
+		actions.add(new Action(ActionType.home, 3));
+		stateChanged();
+	}
 
 	//A message received to tell the person to go to the bank
 	public void msgGoToBank(String purpose) {
@@ -458,7 +462,7 @@ public class PersonAgent extends Agent {
 					break;
 				case restaurant:
 					switch(destination) {
-						case restaurant_marcus:
+						/*case restaurant_marcus:
 							MarcusCustomerRole m = new MarcusCustomerRole(this, name);
 							ContactList.getInstance().getMarcusRestaurant().handleRole(m);
 							roles.put(action, m);
@@ -467,23 +471,23 @@ public class PersonAgent extends Agent {
 							EllenCustomerRole e = new EllenCustomerRole(this, name);
 							ContactList.getInstance().getEllenRestaurant().handleRole(e);
 							roles.put(action, e);
-							break;
+							break;*/
 						case restaurant_ena:
 							EnaCustomerRole en = new EnaCustomerRole(this, name);
 							ContactList.getInstance().getEnaRestaurant().handleRole(en);
 							roles.put(action, en);
 							break;
-						case restaurant_jefferson:
+						/*case restaurant_jefferson:
 							JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
 							ContactList.getInstance().getJeffersonRestaurant().handleRoleGui(jc);
 							roles.put(action,jc);
-							break;
+							break;*/
 						default:
 							break;
 					}
 					break;
 				case home :
-					OccupantRole or = new OccupantRole(this, name);
+					OccupantRole or = new OccupantRole(this, name, true);
 					ContactList.getInstance().getHome().handleRoleGui(or);
 					roles.put(action, or);
 				default:
@@ -554,7 +558,7 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		destination = CityLocation.restaurant_marcus;
+		destination = CityLocation.restaurant_ena;
 		/*
 		switch((int) (Math.random() * 3)) {
 			case 0:
