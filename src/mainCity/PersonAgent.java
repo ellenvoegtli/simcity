@@ -595,7 +595,7 @@ public class PersonAgent extends Agent {
 		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = true;
 		
-		if(false) { //chose to walk
+		if(temp) { //chose to walk
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -623,10 +623,8 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		destination = CityLocation.restaurant_ena;
-
+		//destination = CityLocation.restaurant_ena;
 		//destination = CityLocation.restaurant_marcus;
-		
 
 		switch((int) (Math.random() * 3)) {
 			case 0:

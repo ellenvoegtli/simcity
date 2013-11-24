@@ -139,12 +139,12 @@ public class ListPanel extends JPanel implements ActionListener {
     		waiterButton.setEnabled(false);
         }
         
-        else {
-        	for (JButton temp:list){
-                if (e.getSource() == temp)
-                    restPanel.showInfo(type, temp.getText());
-            }
-        }
+//        else {
+//        	for (JButton temp:list){
+//                if (e.getSource() == temp)
+//                    restPanel.showInfo(type, temp.getText());
+//            }
+//        }
     }
 
     /**
@@ -169,7 +169,7 @@ public class ListPanel extends JPanel implements ActionListener {
             list.add(button);
             view.add(button);
             restPanel.addPerson(type, name, checked);//puts customer on list
-            restPanel.showInfo(type, name);//puts hungry button on panel
+            //restPanel.showInfo(type, name);//puts hungry button on panel
             validate();
         }
     }
