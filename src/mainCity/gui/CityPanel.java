@@ -50,8 +50,12 @@ public class CityPanel extends JPanel{
 
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
+<<<<<<< HEAD
     	jeffersonRestaurant.setVisible(true);
     	
+=======
+    	//jeffersonRestaurant.setVisible(true);
+>>>>>>> ca53a70ce4e8b1a1a2b3050f2b57d90683e67095
 
     	BankGui bank = new BankGui();
     	ContactList.getInstance().setBank(bank.getBankPanel());
@@ -68,6 +72,7 @@ public class CityPanel extends JPanel{
     	bus.setGui(bg);
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
+
 
     	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
 

@@ -2,6 +2,8 @@ package role.marcusRestaurant;
 
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.sharedData.*;
 import mainCity.restaurants.marcusRestaurant.gui.CookGui;
@@ -79,14 +81,14 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 */
 	// Messages
 	public void msgHereIsAnOrder(Waiter w, String choice, MarcusTable t) {
-		print("msgHereIsAnOrder: received an order of "+ choice + " for table " + t.getTableNumber());
+		output("msgHereIsAnOrder: received an order of "+ choice + " for table " + t.getTableNumber());
 		orders.add(new Order(w, choice, t.getTableNumber()));
 		cookGui.DoGoToCounter();
 		stateChanged();
 	}
 	
 	public void msgHereIsYourOrder(Map<String, Integer> inventory) {
-		print("Received my order from the market!");
+		output("Received my order from the market!");
 
 		for(Map.Entry<String, Integer> entry : inventory.entrySet()) {
 			foods.get(entry.getKey()).addQuantity(entry.getValue());
@@ -101,8 +103,8 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 		stateChanged();
 	}
 /*
-	public void msgOrderFulfillment(String choice, int q) {
-		print("Received " + q + " of " + choice);
+	public void msgOrderFulfillment(String choice, ioutput {
+		output("Received " + q + " of " + choice);
 		
 		synchronized(foods) {
 			foods.get(choice).addQuantity(q);
@@ -177,7 +179,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 			Food f = foods.get(o.choice);
 		
 			if(f.amount == 0) {
-				print("Looks like we're all out of " + o.choice + ", Telling waiter " + o.waiter);
+				output("Looks like we're all out of " + o.choice + ", Telling waiter " + o.waiter);
 				o.waiter.msgOutOfFood(o.table, o.choice);
 				order = o.choice;
 				status = CookStatus.lowFood;
@@ -188,12 +190,12 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 			f.amount--;
 			
 			if(f.amount < f.threshold) {
-				print("I'm running low on " + o.choice);
+				output("I'm running low on " + o.choice);
 				order = o.choice;
 				status = CookStatus.lowFood;
 			}
 			
-			print("Cooking order: " + o.choice + " with " + f.amount + " left");
+			output("Cooking order: " + o.choice + " with " + f.amount + " left");
 			o.grill = (++grill) % 4;
 			cookGui.DoGoToGrill(o.grill);
 			timer.schedule(new CookTimer(o), foods.get(o.choice).cookTime);
@@ -201,7 +203,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	}
 	
 	private void callWaiter(Order o) {
-		print("Calling back waiter for table " + o.table);
+		output("Calling back waiter for table " + o.table);
 		o.waiter.msgOrderIsReady(o.table, o.choice);
 		orders.remove(o);
 	}
@@ -227,7 +229,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	}
 	
 	private void orderFromMarket() {
-		//print("Sending an order to Market #" + selector);
+		//output("Sending an order to Market #" + selector);
 		
 		synchronized(foods) {
 			//Food f = foods.get(order);
@@ -255,7 +257,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 			return;
 		}
 		
-		print("There's orders on the stand. Processing...");
+		output("There's orders on the stand. Processing...");
 		while(!stand.isEmpty()) {
 			OrderTicket temp = stand.remove();
 			orders.add(new Order(temp.getWaiter(), temp.getChoice(), temp.getTable().getTableNumber()));
@@ -317,5 +319,10 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 			cookGui.DoGoToCounter();
 			stateChanged();
 		}
+	}
+	
+	private void output(String input) {
+		AlertLog.getInstance().logMessage(AlertTag.MARCUS_RESTAURANT, this.getName(), input);
+		AlertLog.getInstance().logMessage(AlertTag.MARCUS_COOK, this.getName(), input);
 	}
 }

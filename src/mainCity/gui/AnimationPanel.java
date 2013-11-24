@@ -42,6 +42,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     private BufferedImage stopSign = null;
     
     boolean onlyOnce = true;
+    public boolean atStop = false;
     int count; 
     private Image bufferImage;
     private Dimension bufferSize;
@@ -73,7 +74,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         lanes = new ArrayList<Lane>();
         
         //Creating Lanes (int xo, int yo, int w, int h, int xv, int yv, boolean ish, Color lc, Color sc)
-        Lane l = new Lane( 0, 75, 650, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
+        Lane l = new Lane( 0, 75, 651, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
         l = new Lane( 0, 100, 780, (RoadWidth/2), 5, 0, true, Color.gray, Color.white );
         lanes.add(l);
@@ -95,7 +96,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         lanes.add(l);
         l = new Lane( 630, 125, (RoadWidth/2), 226, 0, -5, false, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 650, 75, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
+        l = new Lane( 651, 75, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
         
         //drawing top houses
@@ -141,6 +142,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         buildings.add(building); 
         addBuildingGui(building);
         
+        
         javax.swing.Timer t = new javax.swing.Timer( 25, this );
 		t.start();
       
@@ -157,15 +159,15 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				onlyOnce = false;
 				lanes.get(1).addVehicle(bus);
 			}
-			
-			if(ContactList.stops.size() != 0){
-				for(int i=0; i<ContactList.stops.size(); i++){
-					if( (bus.getX() == ContactList.stops.get(i).xLocation) 
-							&& (bus.getY() == ContactList.stops.get(i).yLocation) ) {
-						bus.agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
+
+					for(int i=0; i<ContactList.stops.size(); i++){
+						if( ( bus.getX() > (ContactList.stops.get(i).xLocation-5) ) && ( (bus.getX()) < (ContactList.stops.get(i).xLocation+5) ) 
+								&& (bus.getY() > ContactList.stops.get(i).yLocation - 5) && (bus.getY() < ContactList.stops.get(i).yLocation + 5) ) {
+							bus.agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
+						}
 					}
-				}
-			}
+				
+			
 			
 			if(bus.getX() == 130 && bus.getY() == 105){ 
 				lanes.get(1).vehicles.remove(bus); 
