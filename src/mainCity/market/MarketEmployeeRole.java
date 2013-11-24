@@ -7,6 +7,8 @@ import mainCity.market.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
+import role.Role;
+import mainCity.PersonAgent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -25,7 +27,7 @@ import role.market.MarketDeliveryManRole;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class MarketEmployeeRole extends Agent {
+public class MarketEmployeeRole extends Role {
 	private String name;
 	Timer timer = new Timer();
 	
@@ -51,8 +53,8 @@ public class MarketEmployeeRole extends Agent {
 
 		
 
-	public MarketEmployeeRole(String name) {
-		super();
+	public MarketEmployeeRole(PersonAgent p, String name) {
+		super(p);
 		this.name = name;
 	}
 	
@@ -209,7 +211,7 @@ public class MarketEmployeeRole extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/*
 		Always check to see if the waiter is at the "checkpoint" position ("doingNothing")
 		before carrying out the next action.

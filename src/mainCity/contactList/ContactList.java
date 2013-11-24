@@ -17,6 +17,7 @@ import mainCity.bank.gui.BankPanel;
 import mainCity.interfaces.*;
 import transportation.BusStop;
 import housing.gui.HomePanel;
+import role.market.*;
 
 import java.util.*;
 
@@ -60,6 +61,7 @@ public class ContactList {
 	
 	public MarketGreeterRole marketGreeter;
 	public MarketCashierRole marketCashier;
+	public MarketDeliveryManRole marketDeliveryMan;
 	
 	//List<MainCook> cooks = new ArrayList<MainCook>();		//will this work with different subclasses?
 	
@@ -135,6 +137,9 @@ public class ContactList {
 	}
 	public void setMarketCashier(MarketCashierRole c){
 		marketCashier = c;
+	}
+	public void setMarketDeliveryMan(MarketDeliveryManRole d){
+		marketDeliveryMan = d;
 	}
 	
 	//Ellen's Restaurant******

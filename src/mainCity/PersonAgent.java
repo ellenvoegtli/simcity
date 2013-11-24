@@ -19,6 +19,8 @@ import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
+import mainCity.market.*;
+import role.market.*;
 
 /*
  * To Do for the personagent:
@@ -458,6 +460,28 @@ public class PersonAgent extends Agent {
 							EllenHostRole elh = new EllenHostRole(this, name);
 							ContactList.getInstance().getEllenRestaurant().handleRole(elh);
 							roles.put(action, elh);
+							break;
+						
+						//-----Market Roles---//
+						case "marketEmployee":
+							MarketEmployeeRole mem = new MarketEmployeeRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(mem);
+							roles.put(action, mem);
+							break;
+						case "marketGreeter":
+							MarketGreeterRole mgr = new MarketGreeterRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(mgr);
+							roles.put(action, mgr);
+							break;
+						case "marketCashier":
+							MarketCashierRole mcsh = new MarketCashierRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(mcsh);
+							roles.put(action, mcsh);
+							break;
+						case "marketDeliveryMan":
+							MarketDeliveryManRole mdm = new MarketDeliveryManRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(mdm);
+							roles.put(action, mdm);
 							break;
 						default:
 							break;

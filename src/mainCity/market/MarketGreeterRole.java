@@ -6,6 +6,9 @@ import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 //import restaurant.gui.HostGui;
 import mainCity.interfaces.*;
+import role.market.*;
+import role.Role;
+import mainCity.PersonAgent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -16,8 +19,10 @@ import role.Role;
  * Restaurant Host Agent
  */
 //change to GreeterAgent
-public class MarketGreeterRole extends Agent {
+public class MarketGreeterRole extends Role {
 	private String name;
+	MarketCashierRole cashier;
+	MarketDeliveryManRole deliveryMan;
 	
 	private List<MyWaitingCustomer> waitingCustomers 
 	= Collections.synchronizedList(new ArrayList<MyWaitingCustomer>());
@@ -32,14 +37,17 @@ public class MarketGreeterRole extends Agent {
 	int nextEmployee = 0;
 
 	
-	public MarketGreeterRole(String name) {
-		super();
+	public MarketGreeterRole(PersonAgent p, String name) {
+		super(p);
 
 		this.name = name;
 	}
 	
-	public void addCook(MainCook c){
-		cooks.add(c);
+	public void setCashier(MarketCashierRole c){
+		cashier = c;
+	}
+	public void setDeliveryMan(MarketDeliveryManRole d){
+		deliveryMan = d;
 	}
 
 	public String getMaitreDName() {
@@ -79,7 +87,7 @@ public class MarketGreeterRole extends Agent {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 
 		/* Think of this rule as:
