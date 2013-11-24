@@ -126,37 +126,37 @@ public class PersonGui implements Gui{
 		
 		switch(destination) {
 		case restaurant_marcus:
-			xDestination = 500;
-			yDestination = 300;
+			xDestination = 130;
+			yDestination = 180;
 			
 			break;
 		case restaurant_ellen:
-			xDestination = 300;
-			yDestination = 400;
+			xDestination = 130;
+			yDestination = 280;
 			break;
 		case restaurant_david:
-			xDestination = 300;
-			yDestination = 400;
+			xDestination = 635;
+			yDestination = 230;
 			break;
 		case restaurant_ena:
-			xDestination = 300;
-			yDestination = 400;
+			xDestination = 260;
+			yDestination = 80;
 			break;
 		case restaurant_jefferson:
-			xDestination = 300;
-			yDestination = 400;
+			xDestination = 220;
+			yDestination = 380;
 			break;
 		case market:
-			xDestination = 400;
-			yDestination = 400;
+			xDestination = 455;
+			yDestination = 80;
 			break;
 		case bank:
-			xDestination = 200;
-			yDestination = 100;
+			xDestination = 130;
+			yDestination = 230;
 			break;
 		case home:
-			xDestination = 100;
-			yDestination = 500;
+			xDestination = 320;
+			yDestination = 80;
 			break;
 		default:
 			xDestination = 0;

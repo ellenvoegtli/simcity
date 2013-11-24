@@ -21,7 +21,7 @@ public class BankAccounts {
 	    
 	    public BankAccount(String n, double a, PersonAgent pa, double newaccnum){
 	    	name=n;
-	    	creditScore=650;
+	    	creditScore=830;
 	    	balance = a;
 	    	debt=0;
 	    	accountNumber=newaccnum;
