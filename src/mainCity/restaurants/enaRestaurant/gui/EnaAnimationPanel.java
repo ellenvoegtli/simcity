@@ -2,26 +2,35 @@ package mainCity.restaurants.enaRestaurant.gui;
 
 import javax.swing.*;
 
+import mainCity.contactList.ContactList;
+import mainCity.gui.CityCard;
+import mainCity.gui.CityGui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class EnaAnimationPanel extends CityCard implements ActionListener {
 
     private final int WINDOWX = 850;
     private final int WINDOWY = 850;
     private int tableX = 200;
-    private int tableY = 350;
+    private int tableY = 150;
     private int tableWidth = 50;
     private int tableHeight = 50;
     private Image bufferImage;
     private Dimension bufferSize;
+	private EnaRestaurantPanel restaurant = new EnaRestaurantPanel(this);
+
 
     private List<Gui> guis = new ArrayList<Gui>();
 
-    public AnimationPanel() {
+    public EnaAnimationPanel(CityGui gui) {
+    	super(gui);
+    	ContactList.getInstance().setEnaRestaurant(restaurant);
+
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         
@@ -52,9 +61,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
         g2.fillRect(350,  tableY,  tableWidth,  tableHeight);
 
         g.setColor(Color.RED);
-        g.fillRect(275, 490, 90, 25);
+        g.fillRect(275, 290, 90, 25);
         g.setColor(Color.LIGHT_GRAY);
-        g.fillRect(375, 490, 35, 105);
+        g.fillRect(375, 290, 35, 105);
         
         for(Gui gui : guis) {
             if (gui.isPresent()) {

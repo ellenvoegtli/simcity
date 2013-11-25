@@ -21,7 +21,7 @@ public class EnaCustomerGui implements Gui{
 	private enum Command {noCommand, GoToSeat, LeaveRestaurant};
 	private Command command=Command.noCommand;
 	public static String fd;
-	public static int yTable = 350;
+	public static int yTable = 150;
 	public final int xTable1 = 50;
     public final int xTable2 = 200;
     public final int xTable3 = 350;
@@ -57,7 +57,7 @@ public class EnaCustomerGui implements Gui{
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
 				isHungry = false;
-				gui.setCustomerEnabled(agent);
+				//gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}
@@ -117,16 +117,32 @@ public class EnaCustomerGui implements Gui{
 	public boolean isPresent() {
 		return isPresent;
 	}
-	public void setHungry()
+	/*public void setHungry()
 	{
 		if(agent.restaurantOpen())
 		{
+			System.out.println("^^^^^^^^^^^^^^^");
 		isHungry = true;
 		agent.gotHungry();
 		setPresent(true);
 		xDestination = xPos;
 		yDestination = yPos;
 		}
+	}*/
+	
+	public boolean goInside() {
+		if(agent.restaurantOpen()) {
+			System.out.println("^^^^^^^^^^^^^^^");
+
+			isHungry = true;
+			agent.gotHungry();
+			setPresent(true);
+			xDestination = xPos;
+			yDestination = yPos;
+			return true;
+		}
+		
+		return false;
 	}
 	public boolean isHungry() {
 		return isHungry;
