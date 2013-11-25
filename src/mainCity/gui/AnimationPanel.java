@@ -116,7 +116,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         
         //drawing top houses
         for(int i=0; i<7; i++){
-	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "tophouse" + i);
+	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "house" +i );
 	        buildings.add(house);
 	        houses.put(house, false);
 	        addBuildingGui(house);
@@ -124,7 +124,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         
         //drawing bottom houses 
         for(int i=0; i<7; i++){
-	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "bothouse" + i);
+	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "apartment" +i);
 	        buildings.add(house);
 	        apartments.put(house, false);
 	        addBuildingGui(house);
