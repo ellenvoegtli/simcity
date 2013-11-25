@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 public class EmployeeGui implements Gui {
-    private static final int WINDOWX = 550, WINDOWY = 350;
+    private static final int WINDOWX = 500, WINDOWY = 370;
 
     private MarketEmployeeRole agent = null;
     MarketGui gui;

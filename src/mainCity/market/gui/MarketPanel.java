@@ -20,6 +20,7 @@ import java.util.Vector;
  * including host, cook, waiters, and customers.
  */
 public class MarketPanel extends JPanel implements ActionListener{
+	private MarketAnimationPanel animation;
     //Host and cook
     //private MarketGreeterRole host = new MarketGreeterRole("Market Greeter");
     //private MarketCashierRole cashier = new MarketCashierRole("Market Cashier");
@@ -51,11 +52,8 @@ public class MarketPanel extends JPanel implements ActionListener{
     
     private MarketGui gui; //reference to main gui
 
-    //public MarketPanel(MarketGui gui) {
-    public MarketPanel(MarketGui gui){
-    	//contactList = c;
-        this.gui = gui;
-        //host.setGui(hostGui);
+    public MarketPanel(MarketAnimationPanel market){
+        this.animation = market;
         
         /*
         DeliveryManGui deliveryGui = new DeliveryManGui(deliveryMan, gui);
@@ -240,7 +238,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     		MarketEmployeeRole e = (MarketEmployeeRole) r;
     		EmployeeGui g = new EmployeeGui(e, gui);
     		
-    		gui.animationPanel.addGui(g);
+    		animation.addGui(g);
     		e.setHost(host);
     		e.setCashier(cashier);
     		e.setDeliveryMan(deliveryMan);
@@ -281,7 +279,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     			if (cust.equals(c)) g.setWaitingAreaPosition(10 + (i%5)*25, (10 + ( (int)(Math.floor(i/5)) *25) ));
     			else i++;
     		}
-			gui.animationPanel.addGui(g);
+			animation.addGui(g);
 			c.setHost(host);
 			c.setGui(g);
 			c.setCashier(cashier);

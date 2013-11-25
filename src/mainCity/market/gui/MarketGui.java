@@ -24,7 +24,7 @@ public class MarketGui extends JFrame implements ActionListener {
     /* The GUI has two frames, the control frame (in variable gui) 
      * and the animation frame, (in variable animationFrame within gui)
      */	
-	AnimationPanel animationPanel = new AnimationPanel();
+	//MarketAnimationPanel animationPanel = new MarketAnimationPanel();
 	
     /* marketPanel holds 2 panels
      * 1) the staff listing, menu, and lists of current customers all constructed
@@ -32,7 +32,7 @@ public class MarketGui extends JFrame implements ActionListener {
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
 
-    private MarketPanel marketPanel = new MarketPanel(this);
+    //private MarketPanel marketPanel = new MarketPanel(this);
     
     /* infoPanel holds information about the clicked customer, if there is one*/
     private JPanel infoPanel;
@@ -68,13 +68,13 @@ public class MarketGui extends JFrame implements ActionListener {
         nonAnimPanel.setMinimumSize(groupDim);
         nonAnimPanel.setMaximumSize(groupDim);
         
-        
+        /*
         Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY * .25));
         marketPanel.setPreferredSize(restDim);
         marketPanel.setMinimumSize(restDim);
         marketPanel.setMaximumSize(restDim);
         nonAnimPanel.add(marketPanel);
-        
+        */
 
         // Now, setup the info panel
         Dimension infoDim = new Dimension(WINDOWX, (int) (WINDOWY * .25));
@@ -100,6 +100,7 @@ public class MarketGui extends JFrame implements ActionListener {
         //nonAnimPanel.add(tracePanel);
         add(nonAnimPanel);
        
+        /*
         //ANIMATION PANEL
         animationPanel.setBounds(0, 0, WINDOWX, WINDOWY);
         Dimension animDim = new Dimension(WINDOWX, WINDOWY);
@@ -112,12 +113,9 @@ public class MarketGui extends JFrame implements ActionListener {
 
         
         add(animationPanel);
-        
+        */
     }
 
-    public MarketPanel getMarketPanel(){
-    	return marketPanel;
-    }
 
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and

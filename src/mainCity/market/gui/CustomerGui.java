@@ -11,8 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class CustomerGui implements Gui{
-    private final int WINDOWX = 550;
-    private final int WINDOWY = 350;
+    private final int WINDOWX = 500;
+    private final int WINDOWY = 370;
 
 	private MarketCustomerRole agent = null;
 	private boolean isPresent = false;
