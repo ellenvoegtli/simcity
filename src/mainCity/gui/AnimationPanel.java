@@ -60,7 +60,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     private Dimension bufferSize;
     
     CityGui gui;
-    BusGui bus;
+    List<BusGui> Buses = new ArrayList<BusGui>(); 
 
     //List of all guis that we need to animate in the city (Busses, Cars, People...etc) 
     //Will be Added in CityPanel analogous to RestaurantPanel
@@ -168,47 +168,52 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 
 	public void actionPerformed(ActionEvent e) {
 		
-		if(bus != null){
+		if(Buses.size() != 0){
 			if(onlyOnce == true){
 				onlyOnce = false;
-				lanes.get(1).addVehicle(bus);
+				for(int y=0; y<Buses.size(); y++){
+					lanes.get(1).addVehicle(Buses.get(y));
+				}
 			}
 
 					for(int i=0; i<ContactList.stops.size(); i++){
-						if( ( bus.getX() > (ContactList.stops.get(i).xLocation-5) ) && ( (bus.getX()) < (ContactList.stops.get(i).xLocation+5) ) 
-								&& (bus.getY() > ContactList.stops.get(i).yLocation - 5) && (bus.getY() < ContactList.stops.get(i).yLocation + 5) ) {
-							bus.agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
+						for(int s=0; s<Buses.size(); s++){
+							if( ( Buses.get(s).getX() > (ContactList.stops.get(i).xLocation-5) ) && ( (Buses.get(s).getX()) < (ContactList.stops.get(i).xLocation+5) ) 
+									&& (Buses.get(s).getY() > ContactList.stops.get(i).yLocation - 5) && (Buses.get(s).getY() < ContactList.stops.get(i).yLocation + 5) ) {
+								Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
+							}
 						}
 					}
 				
 			
-			
-			if(bus.getX() == 130 && bus.getY() == 105){ 
-				lanes.get(1).vehicles.remove(bus); 
-				lanes.get(5).addVehicle(bus);
-			}
-			
-			
-			if(bus.getX() == 130 && bus.getY() == 335){ 
-				lanes.get(5).vehicles.remove(bus);
-				lanes.get(4).addVehicle(bus);
-			}
-			
-			if(bus.getX() == 635 && bus.getY() == 380){ 
-				lanes.get(4).vehicles.remove(bus); 
-				lanes.get(10).addVehicle(bus);
-			}
-			
-			if(bus.getX() == 635 && bus.getY() == 130){ 
-				lanes.get(10).vehicles.remove(bus);
-				lanes.get(0).addVehicle(bus);
-			}
-			
-			if(bus.getX() == 0 && bus.getY() == 80){
-				lanes.get(1).addVehicle(bus);
-			}
-			
-		}	
+			for(int t=0; t<Buses.size(); t++){
+				if(Buses.get(t).getX() == 130 && Buses.get(t).getY() == 105){ 
+					lanes.get(1).vehicles.remove(Buses.get(t)); 
+					lanes.get(5).addVehicle(Buses.get(t));
+				}
+				
+				
+				if(Buses.get(t).getX() == 130 && Buses.get(t).getY() == 335){ 
+					lanes.get(5).vehicles.remove(Buses.get(t));
+					lanes.get(4).addVehicle(Buses.get(t));
+				}
+				
+				if(Buses.get(t).getX() == 635 && Buses.get(t).getY() == 380){ 
+					lanes.get(4).vehicles.remove(Buses.get(t)); 
+					lanes.get(10).addVehicle(Buses.get(t));
+				}
+				
+				if(Buses.get(t).getX() == 635 && Buses.get(t).getY() == 130){ 
+					lanes.get(10).vehicles.remove(Buses.get(t));
+					lanes.get(0).addVehicle(Buses.get(t));
+				}
+				
+				if(Buses.get(t).getX() == 0 && Buses.get(t).getY() == 80){
+					lanes.get(1).addVehicle(Buses.get(t));
+				}
+				
+			}	
+		}
 		
 		/*
 		//Make them all lanes stop
@@ -243,20 +248,20 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 		}
         
         //drawing bus stops 
-        g2.drawImage(stopSign, 320, 80, null); 
-        g2.drawImage(stopSign, 635, 230, null); 
-        g2.drawImage(stopSign, 130, 180, null); 
-        g2.drawImage(stopSign, 220 , 380, null);
-        g2.drawImage(stopSign, 130, 280, null); 
-        g2.drawImage(stopSign, 260 , 80, null); 
-        g2.drawImage(stopSign, 130, 230, null);
-        g2.drawImage(stopSign, 455, 80, null);
+        g2.drawImage(stopSign, 320, 55, null); 
+        g2.drawImage(stopSign, 660, 230, null); 
+        g2.drawImage(stopSign, 105, 155, null); 
+        g2.drawImage(stopSign, 220 , 405, null);
+        g2.drawImage(stopSign, 105, 305, null); 
+        g2.drawImage(stopSign, 215 , 55, null); 
+        g2.drawImage(stopSign, 105, 230, null);
+        g2.drawImage(stopSign, 440, 55, null);
         
       
         
-        g2.setColor(Color.yellow);
+        g2.setColor(Color.LIGHT_GRAY);
         //Location of doorways 
-        g2.fillRect(36, 55, 20, 20);  //house1
+        g2.fillRect(36, 55, 20, 20);  //house1 
         g2.fillRect(146, 55, 20, 20);
         g2.fillRect(256, 55, 20, 20);
         g2.fillRect(366, 55, 20, 20);
@@ -315,8 +320,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     
     
     public void addBusGui(BusGui gui){
-
-    	bus = gui;
+    	 Buses.add(gui);
     }
 
     public void addPersonGui(PersonGui gui) {
