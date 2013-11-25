@@ -252,8 +252,6 @@ public class EllenCashierRole extends Role implements Cashier {
 	}
 	
 
-	
-
 	public class Check {		//made public for unit testing
 		Customer cust;
 		Waiter w;
