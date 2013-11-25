@@ -16,11 +16,7 @@ import mainCity.gui.PersonGui;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
-import mainCity.restaurants.enaRestaurant.EnaCashierRole;
-import mainCity.restaurants.enaRestaurant.EnaCookRole;
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaHostRole;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
+import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
 import mainCity.market.*;
 import role.market.*;
@@ -77,6 +73,12 @@ public class PersonAgent extends Agent {
 	
 	public CityLocation getDestination() { 
 		return destination;
+	}
+	
+	public boolean isHungry(){
+		if(actions.contains(ActionType.hungry) || actions.contains(ActionType.restaurant))
+			return true;
+		return false;
 	}
 	
 	//----------Messages----------//
@@ -272,7 +274,7 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				output("Arrived at market!");
+				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((MarketCustomerRole) customer).getGui().goInside()){

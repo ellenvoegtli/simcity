@@ -202,7 +202,7 @@ public class EllenCashierRole extends Role implements Cashier {
 			//non-norm??*****
 		
 		//new method call
-		b.deliveryMan.msgHereIsPayment(b.billAmount);
+		b.deliveryMan.msgHereIsPayment(b.billAmount, "EllenRestaurant");
 		b.s = MarketBillState.waitingForChange;
 	}
 	

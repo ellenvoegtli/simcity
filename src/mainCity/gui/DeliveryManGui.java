@@ -2,8 +2,7 @@ package mainCity.gui;
 
 
 import mainCity.market.*;
-import mainCity.market.gui.Gui;
-import mainCity.market.gui.MarketGui;
+import mainCity.gui.*;
 
 import java.awt.*;
 import java.util.Map;
@@ -17,26 +16,15 @@ import role.market.MarketDeliveryManRole;
 
 public class DeliveryManGui implements Gui {
 
-    private final int WINDOWX = 550;
-    private final int WINDOWY = 350;
-	
-
     private MarketDeliveryManRole agent = null;
-    MarketGui gui;
+    CityGui gui;
     private boolean isPresent;
 
-    private int xPos = -20, yPos = -20;//default waiter position
-    private int xDestination = -20, yDestination = -20;//default start position
-
+    private int xPos = 415, yPos = 215;//default delivery position
+    private int xDestination = 415, yDestination = 215;//default start position
     static final int waiterWidth = 20;
     static final int waiterHeight = 20;
-    
-    private final int startX = -20;
-    private final int startY = -20;
-    private final int cookX = WINDOWX - 110;
-    private final int cookY = WINDOWY/2;
-    
-    public int homeX = 530, homeY = 10;
+    public int homeX = 415, homeY = 215;
     public int exitMarketX = 530, exitMarketY = 350/2;
     private int cashierX = 20, cashierY = 250;
 
@@ -45,34 +33,28 @@ public class DeliveryManGui implements Gui {
 	
 	private boolean atDestination = true;
 	private boolean isDeliveringFood = false;
-	private String customerChoice;
 	
 
-    public DeliveryManGui(MarketDeliveryManRole agent, MarketGui gui) {
+    public DeliveryManGui(MarketDeliveryManRole agent) {
         this.agent = agent;
         this.gui = gui;
         
         //initialize restaurant locations map -- NECESSARY? or will we have a "contact list" equivalent to get restaurant locations?
-        restaurantX.put("EllenRestaurant", 200);
-    	restaurantY.put("EllenRestaurant", 100);
+        restaurantX.put("EllenRestaurant", 105);
+    	restaurantY.put("EllenRestaurant", 280);
          
-    	restaurantX.put("enaRestaurant", 250);
-    	restaurantY.put("enaRestaurant", 100);
+    	restaurantX.put("enaRestaurant", 347);
+    	restaurantY.put("enaRestaurant", 180);
          
-        restaurantX.put("marcusRestaurant", 300);
-        restaurantY.put("marcusRestaurant", 100);
+        restaurantX.put("marcusRestaurant", 105);
+        restaurantY.put("marcusRestaurant", 180);
          
-        restaurantX.put("davidRestaurant", 350);
-        restaurantY.put("davidRestaurant", 100);
+        restaurantX.put("davidRestaurant", 585);
+        restaurantY.put("davidRestaurant", 230);
         
-        restaurantX.put("jeffersonRestaurant", 400);
-        restaurantY.put("jeffersonRestaurant", 100);
+        restaurantX.put("jeffersonRestaurant", 347);
+        restaurantY.put("jeffersonRestaurant", 280);
 
-    }
-    
-    public void setHomePosition(int x, int y){
-    	this.homeX = x;
-    	this.homeY = y;
     }
 
     public void updatePosition() {
@@ -136,19 +118,6 @@ public class DeliveryManGui implements Gui {
         
         if (isDeliveringFood){
         	g.setColor(Color.BLACK);
-        	
-        	if (customerChoice == "steak"){
-        		g.drawString("STK", xPos + 20, yPos + 10); //"carrying" the food behind him
-        	}
-        	else if (customerChoice == "pasta"){
-        		g.drawString("PST", xPos + 20, yPos + 10); //"carrying" the food behind him
-        	}
-        	else if (customerChoice == "pizza"){
-        		g.drawString("PZA", xPos + 20, yPos + 10); //"carrying" the food behind him
-        	}
-        	else if (customerChoice == "soup"){
-        		g.drawString("SP", xPos + 20, yPos + 10); //"carrying" the food behind him
-        	}
         }
         
     }
@@ -183,25 +152,17 @@ public class DeliveryManGui implements Gui {
     	xDestination = restaurantX.get(restaurantName);
     	yDestination = restaurantY.get(restaurantName);
     	atDestination = false;
-
-    	/* but it's really supposed to be...:
-    	xDestination = exitMarketX;
-    	yDestination = exitMarketY;
-    	*/
-    	//then goes outside of market...?
     }
-   
-   
+
     public void setIsDeliveringFood(boolean isDeliveringFood){	//for food text label
     	this.isDeliveringFood = isDeliveringFood;
     }
 
-    
     public void DoGoToStart(){
     	atDestination = false;
 
-        xDestination = startX;
-        yDestination = startY;
+        xDestination = homeX;
+        yDestination = homeY;
     }
 
     public int getXPos() {

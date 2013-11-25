@@ -211,8 +211,10 @@ public class EllenHostRole extends Role {
 					if (!table.isOccupied) {
 						if (!waitingCustomers.isEmpty()) {
 							if (!myWaiters.isEmpty()){
+								if (isOpen()){
 									assignCustomerToWaiter(waitingCustomers.iterator().next(), table, currentWaiter); //the action
 									return true;//return true to the abstract agent to reinvoke the scheduler.
+								}
 							}
 						}
 					}
@@ -273,6 +275,7 @@ public class EllenHostRole extends Role {
 	}
 */
 	public boolean isOpen() {
+		stateChanged();
 		return (cook != null && cook.isActive()) && (cashier != null && cashier.isActive());
 	}
 	
