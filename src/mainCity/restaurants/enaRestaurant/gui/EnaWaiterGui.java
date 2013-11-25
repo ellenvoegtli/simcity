@@ -16,8 +16,8 @@ public class EnaWaiterGui implements Gui
 	    
 	   private EnaRestaurantGui gui;
 
-	    private int xPos = 500, yPos = 100;//default waiter position
-	    private int xDestination = 500, yDestination = 100;//default start position
+	    private int xPos = 400, yPos = 100;//default waiter position
+	    private int xDestination = 400, yDestination = 100;//default start position
 	    public int tableXX;
 	    int home;
 	    public static  int xTable;
@@ -29,14 +29,14 @@ public class EnaWaiterGui implements Gui
 	    boolean entrance = false;
 
 	    boolean onBreak = false;
-	    public static final int yTable = 350;
+	    public static final int yTable = 150;
 	    private boolean fdChoice = false;
 	    public EnaWaiterGui(EnaWaiterRole w, EnaRestaurantGui gui, int yP)
 		{ //HostAgent m) {
 			agent = w;
-			xPos =500;
+			xPos =400;
 			yPos = 100 + yP;
-			xDestination = 500;
+			xDestination =400;
 			yDestination = 100 + yP;
 			home = 100 + yP;
 			//maitreD = m;
@@ -91,7 +91,7 @@ public class EnaWaiterGui implements Gui
 	            yPos++;
 	        else if (yPos > yDestination)
 	            yPos--;
-	        if(xDestination != 500 || yDestination != home)
+	        if(xDestination != 400 || yDestination != home)
        		{
        				lobby = true;
     	   			//agent.msgAtHome();
@@ -108,7 +108,7 @@ public class EnaWaiterGui implements Gui
 	           				{
 	        					agent.msgAtTable();
 	           				}
-	        		if(xDestination == 280 && yDestination == 480)
+	        		if(xDestination == 280 && yDestination == 280)
 	        		{
 	        			agent.msgAtKitchen();
 	        		}
@@ -121,7 +121,7 @@ public class EnaWaiterGui implements Gui
 	           				entrance = false;
 	        	   			agent.msgAtEntrance();
 	           		}
-	           		else if(xDestination == 500 && yDestination == home && lobby == true)
+	           		else if(xDestination == 400 && yDestination == home && lobby == true)
 	           		{
 	           				lobby = false;
 	        	   			agent.msgAtHome();
@@ -219,7 +219,7 @@ public class EnaWaiterGui implements Gui
 		public void DoGoToKitchen()
 		{
 			xDestination = 280;
-			yDestination = 480;
+			yDestination = 280;
 		}
 		public void DoGoToCashier()
 		{
@@ -241,7 +241,7 @@ public class EnaWaiterGui implements Gui
 		
 	    public void DoLeaveCustomer() 
 	    {
-	        xDestination = 500;
+	        xDestination = 400;
 	        yDestination = home;
 	    }
 

@@ -462,7 +462,9 @@ public class EnaCustomerRole extends Role implements Customer{
 	}
 	public boolean restaurantOpen() {
 		if(host != null && host.isActive() && host.isItOpen())
-			return true;
+			{
+				return true;
+			}
 		return false;
 	}
 
