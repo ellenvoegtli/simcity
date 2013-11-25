@@ -2,13 +2,19 @@ package mainCity.restaurants.restaurant_zhangdt.gui;
 
 import javax.swing.*;
 
+import mainCity.contactList.ContactList;
+import mainCity.gui.CityCard;
+import mainCity.gui.CityGui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class DavidAnimationPanel extends CityCard implements ActionListener {
+    
+    private DavidRestaurantPanel restaurant = new DavidRestaurantPanel(this); 
 
     private final int WINDOWX = 500;
     private final int WINDOWY = 400;
@@ -29,7 +35,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
     private List<Gui> guis = new ArrayList<Gui>();
 
-    public AnimationPanel() {
+    public DavidAnimationPanel(CityGui gui) {
+    	super(gui);
+    	ContactList.getInstance().setDavidRestaurant(restaurant);
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         

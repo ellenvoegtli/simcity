@@ -2,23 +2,26 @@ package mainCity.restaurants.jeffersonrestaurant;
 
 import java.util.*;
 
+import role.Role;
 import role.market.MarketDeliveryManRole;
+import mainCity.PersonAgent;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole.Order;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
-
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 import agent.Agent;
 
 
-public class JeffersonCashierRole extends Agent implements Cashier{
+public class JeffersonCashierRole extends Role implements Cashier{
 
+	private PersonAgent p;
 	private String name;
 	public List <Check> checks = Collections.synchronizedList(new ArrayList<Check>());
 	public List <Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
 	Timer timer = new Timer();
 	public double profits;
+	private boolean onDuty;
 	
 	
 	
@@ -63,8 +66,8 @@ public class JeffersonCashierRole extends Agent implements Cashier{
 		
 	}
 	
-	public JeffersonCashierRole(String name){
-		super();
+	public JeffersonCashierRole(PersonAgent p,String name){
+		super(p);
 		this.name=name;
 		profits=0;
 	}
@@ -175,7 +178,7 @@ public class JeffersonCashierRole extends Agent implements Cashier{
 	//Actions
 
 	private void tellDeliveryManVerified(Bill b) {
-		b.deliveryPerson.msgChangeVerified();
+		b.deliveryPerson.msgChangeVerified("jeffersonrestaurant");
 		
 	}
 	
@@ -207,7 +210,7 @@ public class JeffersonCashierRole extends Agent implements Cashier{
 		
 		//b.m.msgHereIsMonies(b.amount);
 		// TODO deliveryperson.msgHereIsPayment(double)
-		b.deliveryPerson.msgHereIsPayment(b.amount);
+		b.deliveryPerson.msgHereIsPayment(b.amount,"jeffersonrestaurant");
 		
 	}
 

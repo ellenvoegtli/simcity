@@ -17,7 +17,6 @@ import mainCity.bank.gui.BankPanel;
 import mainCity.contactList.ContactList;
 import mainCity.market.*;
 import mainCity.market.gui.*;
-import mainCity.restaurants.EllenRestaurant.gui.EllenRestaurantGui;
 import mainCity.restaurants.marcusRestaurant.gui.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantGui;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
@@ -41,10 +40,6 @@ public class CityPanel extends JPanel{
     	ContactList.getInstance().setMarket(marketGui.getMarketPanel());
     	//marketGui.setVisible(true);
 		
-	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
-	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
-        //ellenRestaurant.setVisible(true);
-		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 
@@ -58,9 +53,9 @@ public class CityPanel extends JPanel{
     	ContactList.getInstance().setBank(bank.getBankPanel());
     	//bank.setVisible(true);
     	
-    	HomeGui home= new HomeGui();
-    	ContactList.getInstance().setHome(home.getHomePanel());
-    	home.setVisible(true);
+    	//HomeGui home= new HomeGui();
+    	//ContactList.getInstance().setHome(home.getHomePanel());
+    	//home.setVisible(true);
     	
 
     	//Hardcoding a bus
@@ -84,7 +79,9 @@ public class CityPanel extends JPanel{
     	//String[] actions = {"hungry"}; 
     	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
 
-    	
+    	String[] actions = {"work"}; 
+    	addPerson("David", 500, false, "davidWaiter", 7, 19, actions); 
+
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
 			 public void run() {

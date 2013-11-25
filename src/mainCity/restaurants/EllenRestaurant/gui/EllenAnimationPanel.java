@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+import mainCity.contactList.ContactList;
+import mainCity.gui.*;
 
+public class EllenAnimationPanel extends CityCard implements ActionListener {
+	private EllenRestaurantPanel restaurant = new EllenRestaurantPanel(this);
     private static final int WINDOWX = 550;
-    private static final int WINDOWY = 350;
+    private static final int WINDOWY = 370;
     private Image bufferImage;
     private Dimension bufferSize;
     static final int timerStart = 10;
@@ -36,7 +39,9 @@ public class AnimationPanel extends JPanel implements ActionListener {
 
     private List<Gui> guis = new ArrayList<Gui>();
 
-    public AnimationPanel() {
+    public EllenAnimationPanel(CityGui gui) {
+    	super(gui);
+    	ContactList.getInstance().setEllenRestaurant(restaurant);
     	 tableX.put(1, 200);
          tableY.put(1, 150);
          
@@ -111,6 +116,14 @@ public class AnimationPanel extends JPanel implements ActionListener {
         for(Gui gui : guis) {
             if (gui.isPresent()) {
             	gui.draw(g2);
+            }
+        }
+    }
+    
+    public void backgroundUpdate() {
+    	for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
             }
         }
     }

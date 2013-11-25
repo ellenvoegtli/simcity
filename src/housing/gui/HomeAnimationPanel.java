@@ -2,12 +2,17 @@ package housing.gui;
 
 import javax.swing.*;
 
+import mainCity.contactList.ContactList;
+import mainCity.gui.CityCard;
+import mainCity.gui.CityGui;
+import mainCity.restaurants.enaRestaurant.gui.EnaRestaurantPanel;
+
 	import java.awt.*;
-	import java.awt.event.ActionEvent;
-	import java.awt.event.ActionListener;
-	import java.util.List;
-	import java.util.ArrayList;
-public class AnimationPanel extends JPanel implements ActionListener
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.ArrayList;
+public class HomeAnimationPanel extends CityCard implements ActionListener
 {
 	
 
@@ -20,10 +25,15 @@ public class AnimationPanel extends JPanel implements ActionListener
 	    private int tableHeight = 20;
 	    private Image bufferImage;
 	    private Dimension bufferSize;
+		private HomePanel home = new HomePanel(this);
 
 	    private List<Gui> guis = new ArrayList<Gui>();
 
-	    public AnimationPanel() {
+	    public HomeAnimationPanel(CityGui cg) {
+	    	super(cg);
+	    	ContactList.getInstance().setHome(home);
+
+	    	
 	    	setSize(WINDOWX, WINDOWY);
 	        setVisible(true);
 	        

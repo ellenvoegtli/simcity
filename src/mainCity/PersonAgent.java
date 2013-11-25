@@ -18,7 +18,16 @@ import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.market.*;
 import role.market.*;
 
@@ -284,8 +293,11 @@ public class PersonAgent extends Agent {
 					}
 				}
 				else if(customer instanceof JeffersonCustomerRole){
-					((JeffersonCustomerRole) customer).gotHungry();
-					((JeffersonCustomerRole) customer).getGui().setHungry();
+					//((JeffersonCustomerRole) customer).gotHungry();
+					if(!((JeffersonCustomerRole) customer).getGui().goInside()){
+						chooseRestaurant();
+						return true;
+					}
 				}
 				
 				customer.setActive();
@@ -419,6 +431,30 @@ public class PersonAgent extends Agent {
 			switch(action) {
 				case work:
 					switch(job.occupation) {
+						//-----Jefferson Restaurant Roles---//
+						case "jeffersonCook":
+							JeffersonCookRole jc = new JeffersonCookRole(this, name);
+							ContactList.getInstance().getJeffersonRestaurant().handleRole(jc);
+							roles.put(action,jc);
+							break;
+						case "jeffersonCashier":
+							JeffersonCashierRole jr = new JeffersonCashierRole(this, name);
+							ContactList.getInstance().getJeffersonRestaurant().handleRole(jr);
+							roles.put(action, jr);
+							break;
+						case "jeffersonWaiter":
+							JeffersonWaiterRole jw = new JeffersonWaiterRole(this, name);
+							ContactList.getInstance().getJeffersonRestaurant().handleRole(jw);
+							roles.put(action, jw);
+							break;
+						case "jeffersonHost":
+							JeffersonHostRole jh = new JeffersonHostRole(this, name);
+							ContactList.getInstance().getJeffersonRestaurant().handleRole(jh);
+							roles.put(action, jh);
+							break;
+							
+							
+						
 						//-----Marcus Restaurant Roles---//
 						case "marcusCook":
 							MarcusCookRole mco = new MarcusCookRole(this, name);
@@ -490,6 +526,31 @@ public class PersonAgent extends Agent {
 							roles.put(action, elh);
 							break;
 						
+						//-----David Restaurant Roles---//
+						case "davidWaiter": 
+							DavidWaiterRole dw = new DavidWaiterRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dw); 
+							roles.put(action, dw); 
+							break; 
+						
+						case "davidCook": 
+							DavidCookRole dc = new DavidCookRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dc);
+							roles.put(action, dc); 
+							break;
+							
+						case "davidCashier": 
+							DavidCashierRole dca = new DavidCashierRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dca); 
+							roles.put(action, dca); 
+							break; 
+						
+						case "davidHost": 
+							DavidHostRole dh = new DavidHostRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dh);
+							roles.put(action, dh);
+							break;
+						
 						//-----Market Roles---//
 						case "marketEmployee":
 							MarketEmployeeRole mem = new MarketEmployeeRole(this, name);
@@ -535,8 +596,13 @@ public class PersonAgent extends Agent {
 							break;
 						case restaurant_jefferson:
 							JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
-							ContactList.getInstance().getJeffersonRestaurant().handleRoleGui(jc);
+							ContactList.getInstance().getJeffersonRestaurant().handleRole(jc);
 							roles.put(action,jc);
+							break;
+						case restaurant_david: 
+							DavidCustomerRole d = new DavidCustomerRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(d); 
+							roles.put(action, d);
 							break;
 						default:
 							break;
@@ -657,9 +723,6 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		//destination = CityLocation.restaurant_ena;
-		//destination = CityLocation.restaurant_marcus;
-
 		switch((int) (Math.random() * 4)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -726,6 +789,10 @@ public class PersonAgent extends Agent {
 		}
 		else if(job.occupation.contains("ellen")) {
 			destination = CityLocation.restaurant_ellen;
+		}
+		else if(job.occupation.contains("jefferson")){
+			destination =CityLocation.restaurant_jefferson;
+			
 		}
 		
 		travelToLocation(destination);
@@ -857,10 +924,11 @@ public class PersonAgent extends Agent {
 		{
 			for(Building apartment : AnimationPanel.getApartments().keySet())
 			{
-				if(AnimationPanel.getApartments().get(apartment) == false)
+				if(AnimationPanel.getApartments().get(apartment).size() <= 3)
 				{
 					this.homePlace = apartment;
-					AnimationPanel.apartments.put(apartment, true);
+					AnimationPanel.getApts().add(AnimationPanel.getApartments().get(apartment).size()+1);
+					AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
 					break;
 				}
 			}
@@ -874,7 +942,6 @@ public class PersonAgent extends Agent {
 				{
 					this.homePlace = house;
 					AnimationPanel.houses.put(house, true);
-
 					break;
 				}
 			}
