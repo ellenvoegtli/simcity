@@ -662,9 +662,10 @@ public class PersonAgent extends Agent {
 		output(name + " is going to " + d);
 
 		//Check for a way to travel: public transportation, car, or walking
-		boolean temp = false;
-		
-		if(!temp) { //chose to walk
+		boolean temp = true;
+
+		if(false) { //chose to walk
+
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -808,12 +809,11 @@ public class PersonAgent extends Agent {
 	
 	private void boardBus() {
 		///message the bus
-		print("Getting on Bus");
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
-				print(i + ", " + j);
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+					ContactList.stops.get(i).LeavingBusStop(this);
 					gui.DoGoInside();
 					gui.DoGoToLocationOnBus(destination);
 					
