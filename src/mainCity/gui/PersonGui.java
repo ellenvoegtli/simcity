@@ -68,8 +68,8 @@ public class PersonGui implements Gui{
 		
 		
 		
-		xHome = agent.getHomePlace().getXLoc();
-		yHome = agent.getHomePlace().getYLoc();
+		//xHome = agent.getHomePlace().getXLoc();
+		//yHome = agent.getHomePlace().getYLoc();
 	}
 
 	public void updatePosition() {
@@ -253,8 +253,8 @@ public class PersonGui implements Gui{
 				yPos = 230;
 				break;
 			case home:
-				xPos = 100;
-				yPos = 500;
+				xPos = xHome;
+				yPos = yHome;
 				break;
 			default:
 				xPos = 0;

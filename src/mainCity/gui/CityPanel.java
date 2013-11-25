@@ -81,17 +81,12 @@ public class CityPanel extends JPanel{
     	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
 		parseConfig();
 
-<<<<<<< HEAD
+
     	//String[] actions = {"work"}; 
     	//addPerson("David", 500, false, "marcusWaiter", 7, 19, actions); 
-=======
-    	String[] actions = {"work"}; 
-    	addPerson("David", 500, false, "marcusWaiter", 7, 19, actions); 
-<<<<<<< HEAD
+
 		//parseConfig();
-=======
->>>>>>> 688e0ab14bc5ecb12541f45d3c872ff15d830455
->>>>>>> e640c2601e1ce580e203a5d70f0f5e30c2a5addf
+
    
 /*
     	PersonAgent person = new PersonAgent("joeMoe");
@@ -194,7 +189,6 @@ public class CityPanel extends JPanel{
 	
 	
 	private void parseConfig() {
-		System.out.println("^^^^^^^^^^^^^");
 		try {
 		    FileInputStream fstream = new FileInputStream("config.txt");
 		    DataInputStream in = new DataInputStream(fstream);
@@ -216,7 +210,6 @@ public class CityPanel extends JPanel{
 				   		System.out.println(actionList[i]);
 				   	}
 				    	
-				   	System.out.println("@@@@@@@@@@@");
 				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    	}
 		    }
