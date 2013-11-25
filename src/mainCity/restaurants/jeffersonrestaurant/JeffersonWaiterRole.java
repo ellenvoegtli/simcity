@@ -148,7 +148,8 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 		}	
 	}
 
-	public void msgGoOffDuty() {
+	public void msgGoOffDuty(double amount) {
+		addToCash(amount);
 		onDuty = false;
 		stateChanged();
 	}
@@ -177,7 +178,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 
 
 	public void msgFinishedLeavingRestaurant() {
-		super.setInactive();
+		setInactive();
 		onDuty= true;
 		
 	}

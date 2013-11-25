@@ -75,7 +75,8 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	
 	// Messages
 	
-	public void msgGoOffDuty() {
+	public void msgGoOffDuty(double d) {
+		addToCash(d);
 		onDuty = false;
 		stateChanged();
 	}
@@ -248,6 +249,11 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	public void HereIsMymoney(Customer c, double money) {
 		
 		
+	}
+
+
+	public void deductCash(double payroll) {
+		profits-=payroll;
 	}
 
 

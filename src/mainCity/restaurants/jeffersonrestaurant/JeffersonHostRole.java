@@ -6,11 +6,13 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
+
 import mainCity.PersonAgent;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.*;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Host;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
+
 
 /**
  * Restaurant Host Agent
@@ -41,6 +43,7 @@ public class JeffersonHostRole extends Role implements Host{
 	private JeffersonWaiterRole waiter;
 	public List<JeffersonWaiterRole> waiters = Collections.synchronizedList (new ArrayList<JeffersonWaiterRole>());
 	public List<myWaiters> breakWaiters = Collections.synchronizedList (new ArrayList<myWaiters>());
+	private boolean onDuty;
 	
 	
 	 
@@ -69,6 +72,11 @@ public class JeffersonHostRole extends Role implements Host{
 	*/
 	
 	//messages
+	public void msgOffDuty(){
+		onDuty=false;
+		stateChanged();
+	}
+	
 	public void msgFinishingShift(JeffersonWaiterRole jw) {
 		for(JeffersonWaiterRole j: waiters){
 			if(j==jw){
@@ -201,13 +209,53 @@ public class JeffersonHostRole extends Role implements Host{
 			}
 		}
 		
-
+		if(!onDuty){
+			closeBuilding();
+			
+		}
+		
+		
 		return false;
 	
 	}
 	
 	
 	//Actions
+	public boolean closeBuilding() {
+		if(!waitingCustomers.isEmpty()) return false;
+		
+		for(Table t : tables) {
+			if(t.isOccupied()) {
+				return false;
+			}
+		}
+		
+		double payroll = 0;
+		for(JeffersonWaiterRole w : waiters) {
+			JeffersonWaiterRole temp = w;
+			double amount = temp.getShiftDuration()*4.75;
+			temp.msgGoOffDuty(amount);
+			payroll += amount;
+		}
+		
+		if(cashier != null) {
+			payroll += cashier.getShiftDuration()*6.0;
+			cashier.msgGoOffDuty(cashier.getShiftDuration()*6.0);
+		}
+		if(cook != null){
+			payroll += cashier.getShiftDuration()*7.50;
+			cook.msgGoOffDuty(cook.getShiftDuration()*7.50);
+		}
+		
+		addToCash(getShiftDuration()*9.50);
+		payroll += getShiftDuration()*9.50;		
+		
+		cashier.deductCash(payroll);
+		setInactive();
+		onDuty = true;
+		return true;
+	}
+	
 		private void tellWaiterToSeatAtTable(Customer c, int t){
 			waiter.msgSeatAtTable(c, t);
 			
