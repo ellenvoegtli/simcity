@@ -720,9 +720,9 @@ public class PersonAgent extends Agent {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
 		
-		currentAction.type = ActionType.home;
-		handleAction(currentAction.type);
-		/*
+		//currentAction.type = ActionType.home;
+		//handleAction(currentAction.type);
+		
 		boolean temp = true;
 		
 		if(temp) { //chose restaurant
@@ -741,7 +741,7 @@ public class PersonAgent extends Agent {
 				currentAction.type = ActionType.home;
 				handleAction(currentAction.type);
 			}
-		}*/
+		}
 
 		stateChanged();
 	}
