@@ -18,8 +18,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AnimationPanel extends JPanel implements ActionListener, MouseListener {
 
@@ -31,8 +33,18 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     private final int TopHouseLocY = -4;
     private final int BotHouseLocY = 416;
     
+    public int xPos;
+    public int yPos;
+    
     //List of buildings in the city 
     List<Building> buildings = new ArrayList<Building>(); 
+    
+    //List of houses in the city
+    public static Map<Building, Boolean> houses = new HashMap<Building, Boolean>();
+    
+    
+    //list of apartment buildings in the city
+   public static  Map<Building, Boolean> apartments = new HashMap<Building, Boolean>();
     
     //Road Data
     ArrayList<Lane> lanes;
@@ -103,6 +115,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         for(int i=0; i<7; i++){
 	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "tophouse" + i);
 	        buildings.add(house);
+	        houses.put(house, false);
 	        addBuildingGui(house);
         }
         
@@ -110,6 +123,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         for(int i=0; i<7; i++){
 	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "bothouse" + i);
 	        buildings.add(house);
+	        apartments.put(house, false);
 	        addBuildingGui(house);
         }
         
@@ -297,6 +311,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     		}
     	}
     }
+   
+    
     
     public void addBusGui(BusGui gui){
 
@@ -309,6 +325,17 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     
     public void addBuildingGui(Building gui) { 
     	guis.add(gui);
+    }
+    
+    
+    public static Map<Building, Boolean> getHouses()
+    {
+    	return houses;
+    }
+    
+    public static Map<Building, Boolean> getApartments()
+    {
+    	return apartments;
     }
     
 //Unused.

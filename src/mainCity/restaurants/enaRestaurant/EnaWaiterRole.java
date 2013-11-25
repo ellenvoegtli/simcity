@@ -115,6 +115,7 @@ public class EnaWaiterRole extends Role implements Waiter{
 	
 	public void msgSeatCustomer(EnaCustomerRole c, Table t) 
 	{
+		print("seating customer");
 		MyCust.add(new MyCustomers(c,t, custState.waiting, c.getChoice()));
 		stateChanged();
 	}
@@ -273,6 +274,7 @@ try
 			if(customer.customerState == custState.waiting)
 			{
 					SeatCustomer(customer);
+					print("customer..............seated");
 					customer.customerState = custState.Ordered;
 					return true;
 			}
@@ -362,19 +364,20 @@ catch(ConcurrentModificationException e){};
 	public void SeatCustomer(MyCustomers c)
 	{
 		waiterGui.DoGetCustomer(c.cust);
+		print("at entrance semaphore acquiring");
 		try {
+
 			atEntrance.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+
+		} catch (InterruptedException e) 
+		{
 			e.printStackTrace();
 		}		
-	
 		c.cust.msgFollowToTable();	
 		DoSeatCustomer(c);
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		host.msgWaiterArrived(c.cust);
@@ -384,7 +387,6 @@ catch(ConcurrentModificationException e){};
 		try{
 			atLobby.acquire();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		System.out.println("LEAVING CUST");
