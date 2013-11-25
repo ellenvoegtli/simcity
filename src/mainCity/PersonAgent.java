@@ -316,8 +316,11 @@ public class PersonAgent extends Agent {
 					((EnaCustomerRole) customer).getGui().setHungry();
 				}
 				else if(customer instanceof JeffersonCustomerRole){
-					((JeffersonCustomerRole) customer).gotHungry();
-					((JeffersonCustomerRole) customer).getGui().setHungry();
+					//((JeffersonCustomerRole) customer).gotHungry();
+					if(!((JeffersonCustomerRole) customer).getGui().goInside()){
+						chooseRestaurant();
+						return true;
+					}
 				}
 				
 				customer.setActive();
@@ -761,6 +764,10 @@ public class PersonAgent extends Agent {
 		}
 		else if(job.occupation.contains("ellen")) {
 			destination = CityLocation.restaurant_ellen;
+		}
+		else if(job.occupation.contains("jefferson")){
+			destination =CityLocation.restaurant_jefferson;
+			
 		}
 		
 		travelToLocation(destination);

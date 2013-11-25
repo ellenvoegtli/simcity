@@ -5,6 +5,8 @@ import agent.Agent;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import role.Role;
+import mainCity.PersonAgent;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.*;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Host;
@@ -16,7 +18,7 @@ import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 
 
 
-public class JeffersonHostRole extends Agent implements Host{
+public class JeffersonHostRole extends Role implements Host{
 	
 	
 	static final int NTABLES = 3;
@@ -27,11 +29,15 @@ public class JeffersonHostRole extends Agent implements Host{
 	
 	public Collection<Table> tables;
 	
+	boolean restaurantOpen;
+	
 	
 	
 	public List<Customer> waitingCustomers
 	= Collections.synchronizedList (new ArrayList<Customer>());
-	
+	private PersonAgent p;
+	private JeffersonCashierRole cashier;
+	private JeffersonCookRole cook;
 	private JeffersonWaiterRole waiter;
 	public List<JeffersonWaiterRole> waiters = Collections.synchronizedList (new ArrayList<JeffersonWaiterRole>());
 	public List<myWaiters> breakWaiters = Collections.synchronizedList (new ArrayList<myWaiters>());
@@ -39,8 +45,8 @@ public class JeffersonHostRole extends Agent implements Host{
 	
 	 
 	
-	public JeffersonHostRole(String name) {
-		super();
+	public JeffersonHostRole(PersonAgent p,String name) {
+		super(p);
 
 		this.name = name;
 		// make some tables
@@ -63,7 +69,20 @@ public class JeffersonHostRole extends Agent implements Host{
 	*/
 	
 	//messages
+	public void msgFinishingShift(JeffersonWaiterRole jw) {
+		for(JeffersonWaiterRole j: waiters){
+			if(j==jw){
+				waiters.remove(j);
+			if(waiters.isEmpty()){
+				
+			}
+				
+			}
+		}
+		
+	}
 	public void msgWaitersUpdate(){
+	
 		stateChanged();
 	}
 	
@@ -76,6 +95,7 @@ public class JeffersonHostRole extends Agent implements Host{
 	
 	public void msgWaiterAdded(){
 		if (waiters.size()==1){
+			
 			stateChanged();
 		}
 	}
@@ -102,6 +122,8 @@ public class JeffersonHostRole extends Agent implements Host{
 	//scheduler
 	//This is temporarily set to public, should be protected
 	public boolean pickAndExecuteAnAction() {
+		
+		
 		//System.out.println("entered host scheduler");
 		tablesFull=true;
 		
@@ -216,9 +238,16 @@ public class JeffersonHostRole extends Agent implements Host{
 			
 		}
 		
+		public boolean isOpen() {
+			return (cook != null && cook.isActive()) && (cashier != null && cashier.isActive() && !waiters.isEmpty());
+		}
 		
-		
-		
+		public void setCook(JeffersonCookRole ck){
+			cook=ck;
+		}
+		public void setCashier (JeffersonCashierRole ca){
+			cashier=ca;
+		}
 		
 		public class Table {
 			Customer occupiedBy;
@@ -279,4 +308,10 @@ public class JeffersonHostRole extends Agent implements Host{
 		}
 	
 	*/
+
+
+
+
+
+
 }

@@ -149,6 +149,11 @@ public class WaiterGui implements Gui {
         yDestination = yHome;
         traveling = true;
     }
+    public void DoGoHome(){
+    	xDestination = xHome;
+        yDestination = yHome;
+        traveling = true;
+    }
 
     public int getXPos() {
         return xPos;
