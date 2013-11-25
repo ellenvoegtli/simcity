@@ -71,14 +71,19 @@ public class CityPanel extends JPanel{
     	bus.setGui(bg);
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
+    	BusAgent bus1 = new BusAgent(); 
+    	BusGui bg1 = new BusGui(15,15,16,16,bus1); 
+    	bus1.setGui(bg1);
+    	gui.getAnimationPanel().addBusGui(bg1); 
+    	bus1.startThread();
 
 
     	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
+		parseConfig();
 
     	String[] actions = {"work"}; 
-    	addPerson("David", 500, "marcusWaiter", 7, 19, actions); 
-		//parseConfig();
-   
+    	addPerson("David", 500, false, "marcusWaiter", 7, 19, actions); 
+
 /*
     	PersonAgent person = new PersonAgent("joeMoe");
     	PersonAgent person2 = new PersonAgent("Waiter");
@@ -180,6 +185,7 @@ public class CityPanel extends JPanel{
 	
 	
 	private void parseConfig() {
+		System.out.println("^^^^^^^^^^^^^");
 		try {
 		    FileInputStream fstream = new FileInputStream("config.txt");
 		    DataInputStream in = new DataInputStream(fstream);
@@ -194,13 +200,14 @@ public class CityPanel extends JPanel{
 				   	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
 				   	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
 				   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
-				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
+				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length()-1);
 				    String[] actionList = actions.split(",");
 				    	
 				   	for(int i = 0; i < actionList.length; ++i) {
 				   		System.out.println(actionList[i]);
 				   	}
 				    	
+				   	System.out.println("@@@@@@@@@@@");
 				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    	}
 		    }

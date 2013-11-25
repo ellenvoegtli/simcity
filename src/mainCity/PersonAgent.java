@@ -97,7 +97,7 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		traveling = false;
-		gui.DoGoOutside();
+		
 		state = PersonState.normal;
 		stateChanged();
 	}
@@ -667,14 +667,8 @@ public class PersonAgent extends Agent {
 		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = false;
 		
-<<<<<<< HEAD
-
-
 		if(!temp) { //chose to walk
 
-=======
-		if(temp) { //chose to walk
->>>>>>> 0fc5541ede02091587a05498f0580672660ddc70
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -824,8 +818,9 @@ public class PersonAgent extends Agent {
 				print(i + ", " + j);
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
-					//gui.DoGoInside();
-					//gui.DoGoToLocationOnBus(destination);
+					gui.DoGoInside();
+					gui.DoGoToLocationOnBus(destination);
+					
 				}
 			}
 		}
