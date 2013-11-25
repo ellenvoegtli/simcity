@@ -3,14 +3,14 @@ package role.marcusRestaurant;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.ManagerRole;
+import mainCity.interfaces.WorkerRole;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
 import java.util.*;
 
-import role.ManagerRole;
 import role.Role;
-import role.WorkerRole;
 
 /**
  * Restaurant Host Agent
@@ -99,16 +99,6 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		customerCount--;
 		stateChanged();
 	}
-	
-	public void msgFinishingShift(Waiter w) {
-		for(MyWaiter waiter : waitersList) {
-			if(waiter.waiter == w) {
-				waiter.state = WaiterState.onBreak;
-				stateChanged();
-				return;
-			}
-		}
-	}
 
 	public void msgWantToGoOnBreak(Waiter w) {
 		output(w + " just requested to go on break");
@@ -136,7 +126,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		}
 	}
 	
-	public void msgGoOffDuty() {
+	public void msgEndShift(int hours) {
 		onDuty = false;
 		stateChanged();
 	}
@@ -145,6 +135,10 @@ public class MarcusHostRole extends Role implements ManagerRole {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(!checkWaiters()) {
+			return false;
+		}
+		
 		if(restaurantFull() && newCustomer && !waitingCustomers.isEmpty()) {//If the restaurant is full, we get the customer in the back of the queue 
 			waitingCustomers.get(0).msgWantToWait();
 			waitingCustomers.remove(waitingCustomers.get(0));
@@ -183,7 +177,11 @@ public class MarcusHostRole extends Role implements ManagerRole {
 	private void seatCustomer(Customer customer, MarcusTable table) {
 		output("Calling a waiter to take " + customer + " to " + table);		
 		customerCount++;
-		chooseWaiter().msgSeatAtTable(customer, table);
+		Waiter temp = chooseWaiter();
+		
+		if(temp == null) return;
+		
+		temp.msgSeatAtTable(customer, table);
 		table.setOccupant(customer);
 		waitingCustomers.remove(customer);
 	}
@@ -194,7 +192,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		int counter = 0;
 		synchronized(waitersList) {
 			for(MyWaiter waiter : waitersList) {
-				if(waiter.state == WaiterState.onBreak) {
+				if(waiter.state == WaiterState.onBreak || !((MarcusWaiterRole) waiter.waiter).isActive()) {
 					++counter;
 				}
 			}
@@ -202,7 +200,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		
 		synchronized(waitersList) {
 			for(MyWaiter w : waitersList) {
-				if(w.state != WaiterState.onBreak) {
+				if(w.state != WaiterState.onBreak && ((MarcusWaiterRole) w.waiter).isActive()) {
 					if(((customerCount < waitersList.size() && w.waiter.getCustomerCount() == 0)) || (waitersList.size() - counter) == 1) {
 						return w.waiter;
 					}
@@ -255,6 +253,16 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		return true;
 	}
 	
+	private boolean checkWaiters() {		
+		for(MyWaiter w : waitersList) {
+			if(((MarcusWaiterRole) w.waiter).isActive()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public boolean closeBuilding() {
 		if(!waitingCustomers.isEmpty()) return false;
 		
@@ -264,13 +272,27 @@ public class MarcusHostRole extends Role implements ManagerRole {
 			}
 		}
 		
+		double payroll = 0;
 		for(MyWaiter w : waitersList) {
-			((MarcusWaiterRole) w.waiter).msgGoOffDuty();
+			MarcusWaiterRole temp = ((MarcusWaiterRole) w.waiter);
+			double amount = temp.getShiftDuration()*4.75;
+			temp.msgGoOffDuty(amount);
+			payroll += amount;
 		}
 		
-		if(cashier != null) cashier.msgGoOffDuty();
-		if(cook != null) cook.msgGoOffDuty();
+		if(cashier != null) {
+			payroll += cashier.getShiftDuration()*6.0;
+			cashier.msgGoOffDuty(cashier.getShiftDuration()*6.0);
+		}
+		if(cook != null){
+			payroll += cashier.getShiftDuration()*7.50;
+			cook.msgGoOffDuty(cook.getShiftDuration()*7.50);
+		}
 		
+		addToCash(getShiftDuration()*9.50);
+		payroll += getShiftDuration()*9.50;		
+		
+		cashier.deductCash(payroll);
 		setInactive();
 		onDuty = true;
 		return true;

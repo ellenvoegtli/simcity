@@ -15,6 +15,7 @@ import mainCity.gui.Building;
 import mainCity.gui.PersonGui;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
@@ -397,7 +398,7 @@ public class PersonAgent extends Agent {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
 				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
 					output("Closing up shop");
-					((ManagerRole) r.getValue()).msgGoOffDuty();
+					((ManagerRole) r.getValue()).msgEndShift(job.shiftEnd-job.shiftBegin);
 				}
 			}
 		}
@@ -583,9 +584,7 @@ public class PersonAgent extends Agent {
 					BankCustomerRole bc2 = new BankCustomerRole(this, name);
 					ContactList.getInstance().getBank().handleRoleGui(bc2);
 					roles.put(action, bc2);
-					break;
-					
-					
+					break;	
 				default:
 					break;
 			}
@@ -610,11 +609,7 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
-				event = PersonEvent.needToBank;
-				break;
 			case bankDeposit:
-				event = PersonEvent.needToBank;
-				break;
 			case bankLoan: 
 				event = PersonEvent.needToBank;
 				break;
@@ -662,9 +657,9 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		destination = CityLocation.restaurant_ena;
+		//destination = CityLocation.restaurant_ena;
 		//destination = CityLocation.restaurant_marcus;
-/*
+
 		switch((int) (Math.random() * 4)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -680,7 +675,7 @@ public class PersonAgent extends Agent {
 				break;
 			default:
 				break;
-		}*/
+		}
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
@@ -809,12 +804,18 @@ public class PersonAgent extends Agent {
 
 	public void updateClock(int newTime) {
 		this.time = newTime;
-		print("Time: " + newTime);
 		checkSelf();
 	}
 	
 	public int getTime() {
 		return time;
+	}
+	
+	public int getWorkHours() {
+		if(job.shiftBegin < job.shiftEnd) {
+			return job.shiftEnd-job.shiftBegin;
+		}
+		return (24 - (job.shiftBegin-job.shiftEnd));
 	}
 	
 	public double getCash() {

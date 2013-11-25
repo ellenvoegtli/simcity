@@ -33,7 +33,7 @@ public class CityPanel extends JPanel{
 		
 	public CityPanel(CityGui gui) {
 		this.gui = gui;
-		clock = 3; //Initially 3am
+		clock = 4;
 		
 		ContactList.getInstance().setCity(this);
 		
@@ -45,10 +45,6 @@ public class CityPanel extends JPanel{
 	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
         //ellenRestaurant.setVisible(true);
 		
-		//EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
-	    //ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
-	    //enaRestaurant.setVisible(true);
-		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 
@@ -56,9 +52,7 @@ public class CityPanel extends JPanel{
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
 
     	//jeffersonRestaurant.setVisible(true);
-    	
-
-
+ 
 
     	BankGui bank = new BankGui();
     	ContactList.getInstance().setBank(bank.getBankPanel());
@@ -90,148 +84,9 @@ public class CityPanel extends JPanel{
     	//String[] actions = {"hungry"}; 
     	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
 
-/*
-    	PersonAgent person = new PersonAgent("joeMoe"); 
-    	PersonAgent person2 = new PersonAgent("Waiter");
-    	PersonAgent person3 = new PersonAgent("Cook");
-    	PersonAgent person4 = new PersonAgent("Cashier");
-    	PersonAgent person5 = new PersonAgent("Host");    	
-    	
-    	occupants.add(person);
-    	occupants.add(person2);
-    	occupants.add(person3);
-    	occupants.add(person4);
-    	occupants.add(person5);*/
-
-    	//person.msgGoHome();
-    	//person.msgGotHungry();
-    	//person.msgGoToMarket();
-    	//person.msgGoToWork();
-    	/*
-		PersonGui pg1 = new PersonGui(person, gui);
-		PersonGui pg2 = new PersonGui(person2, gui); 
-		PersonGui pg3 = new PersonGui(person3, gui);
-		PersonGui pg4 = new PersonGui(person4, gui);
-		PersonGui pg5 = new PersonGui(person5, gui);
-		
-
-		//person.updateOccupation("rich", -1, -1);
-		//person2.updateOccupation("marcusWaiter", 8, 22);
-		//person3.updateOccupation("marcusCook", 8, 22);
-		//person4.updateOccupation("marcusCashier", 8, 22);
-		//person5.updateOccupation("marcusHost", 7, 22);
-
-		
-		//person2.updateOccupation("enaHost", 8, 11);
-		//person3.updateOccupation("enaCook", 8, 11);
-		//person4.updateOccupation("enaCashier", 8, 11);
-		//person5.updateOccupation("enaWaiter", 7, 10);
-		 
-		
-		//person2.updateOccupation("ellenWaiter", 8, 11);
-		//person3.updateOccupation("ellenCook", 8, 11);
-		//person4.updateOccupation("ellenCashier", 8, 11);
-		//person5.updateOccupation("ellenHost", 7, 10);
-		
-		person2.updateOccupation("marketGreeter", 7, 11);
-		person3.updateOccupation("marketCashier", 7, 11);
-		person4.updateOccupation("marketDeliveryMan", 7, 11);
-		//person5.updateOccupation("enaWaiter", 7, 10);
-
-
-		gui.getAnimationPanel().addPersonGui(pg1);
-		gui.getAnimationPanel().addPersonGui(pg2);
-		gui.getAnimationPanel().addPersonGui(pg3);
-		gui.getAnimationPanel().addPersonGui(pg4);
-		gui.getAnimationPanel().addPersonGui(pg5);
-		
-
-		person.setGui(pg1);
-		person2.setGui(pg2);
-		person3.setGui(pg3);
-		person4.setGui(pg4);
-		person5.setGui(pg5);
-
-
-		//person.msgGoToRestaurant();
-		person2.msgGoToWork();
-		person3.msgGoToWork();
-		person4.msgGoToWork();
-
-		person5.msgGoToWork();	
-		
-		
-
-		//person.startThread(); 
-		person2.startThread(); 
-		person3.startThread();
-		person4.startThread();
-		person5.startThread();
-		*/
-    	
-		/*
-    	PersonAgent person = new PersonAgent("Delivery");
-    	person.msgGoToWork();
-    	PersonGui pg1 = new PersonGui(person, gui);
-    	person.updateOccupation("marketDeliveryMan", 8, 22);
-    	gui.getAnimationPanel().addPersonGui(pg1);
-    	person.setGui(pg1);
-    	person.startThread(); 
-    	    	
-    	PersonAgent person2 = new PersonAgent("Employee");
-    	person2.msgGoToWork();
-    	PersonGui pg2 = new PersonGui(person2, gui);
-    	person2.updateOccupation("marketEmployee", 8, 22);
-    	gui.getAnimationPanel().addPersonGui(pg2);
-    	person2.setGui(pg2);
-    	person2.startThread(); 
-    	
-    	PersonAgent person3 = new PersonAgent("Greeter");
-    	person3.msgGoToWork();
-    	PersonGui pg3 = new PersonGui(person3, gui);
-    	person3.updateOccupation("marketGreeter", 8, 22);
-    	gui.getAnimationPanel().addPersonGui(pg3);
-    	person3.setGui(pg3);
-    	person3.startThread(); 
-    	
-    	PersonAgent person6 = new PersonAgent("Cashier");
-    	person6.msgGoToWork();
-    	PersonGui pg6 = new PersonGui(person6, gui);
-    	person6.updateOccupation("marketCashier", 8, 22);
-    	gui.getAnimationPanel().addPersonGui(pg6);
-    	person6.setGui(pg6);
-    	person6.startThread(); 
-    	
-    	
-    	PersonAgent person4 = new PersonAgent("Host");
-    	person4.msgGoToWork();
-    	PersonGui pg4 = new PersonGui(person4, gui);
-    	person4.updateOccupation("ellenHost", 8, 22);
-    	gui.getAnimationPanel().addPersonGui(pg4);
-    	person4.setGui(pg4);
-    	person4.startThread(); 
-    	
-    	PersonAgent person5 = new PersonAgent("Cook");
-    	person5.msgGoToWork();
-    	PersonGui pg5 = new PersonGui(person5, gui);
-    	person5.updateOccupation("ellenCook", 8, 22);
-    	gui.getAnimationPanel().addPersonGui(pg5);
-    	person5.setGui(pg5);
-    	person5.startThread(); 
-    	
-    	PersonAgent person7 = new PersonAgent("Rest Cashier");
-    	person7.msgGoToWork();
-    	PersonGui pg7 = new PersonGui(person7, gui);
-    	person7.updateOccupation("ellenCashier", 8, 22);
-    	gui.getAnimationPanel().addPersonGui(pg7);
-    	person7.setGui(pg7);
-    	person7.startThread(); 
-    	*/
-    	
-    	//add(personPanel);
     	
 		//Instantiation of the Global City Clock
-		Runnable standChecker = new Runnable() {
+		Runnable cityClock = new Runnable() {
 			 public void run() {
 				 clock = (clock+1) % 24;
 				 updateCity();
@@ -239,7 +94,7 @@ public class CityPanel extends JPanel{
 		 };
 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		 executor.scheduleAtFixedRate(standChecker, 0, 5, TimeUnit.SECONDS); //Timer goes off every 30 seconds
+		 executor.scheduleAtFixedRate(cityClock, 0, 5, TimeUnit.SECONDS); //Timer goes off every 30 seconds
 	}
 	
 	public void addDeliveryGui(MarketDeliveryManRole d){

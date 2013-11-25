@@ -3,6 +3,7 @@ package role.marcusRestaurant;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.WorkerRole;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import mainCity.restaurants.marcusRestaurant.gui.WaiterGui;
 import mainCity.restaurants.marcusRestaurant.MarcusMenu;
@@ -12,7 +13,6 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
-import role.WorkerRole;
 
 public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRole {
 	public WaiterGui waiterGui = null;
@@ -77,7 +77,8 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		stateChanged();
 	}
 	
-	public void msgGoOffDuty() {
+	public void msgGoOffDuty(double amount) {
+		addToCash(amount);
 		onDuty = false;
 		stateChanged();
 	}
@@ -386,16 +387,9 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	}
 	
 	private void leaveRestaurant() {
-		try {
-			host.msgFinishingShift(this);
-		}
-		catch(NullPointerException e) {
-			
-		}
-		
 		waiterGui.DoLeaveRestaunt();
 		waitForGui();
-		super.setInactive();
+		setInactive();
 		onDuty = true;
 	}
 	

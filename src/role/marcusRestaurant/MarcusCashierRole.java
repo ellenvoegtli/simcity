@@ -3,13 +3,13 @@ package role.marcusRestaurant;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.WorkerRole;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
 import java.util.*;
 
 import role.Role;
-import role.WorkerRole;
 import role.marcusRestaurant.MarcusCustomerRole.AgentEvent;
 import role.market.MarketDeliveryManRole;
 
@@ -36,7 +36,8 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 			prices.put("Salad", 6);
 			prices.put("Pizza", 9);
 		}
-		cash = 300;
+		
+		cash = 1675;
 	}
 
 	public int getBills() {
@@ -58,6 +59,11 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	public double getCash() {
 		return cash;
 	}
+	
+	public void deductCash(double min) {
+		cash -= min;
+	}
+	
 	// Messages
 	public void msgPayingMyDebt(Customer c, double amount) {
 		output(c + " has just settled their debt with the restaurant of $" + amount);
@@ -87,7 +93,8 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		}
 	}
 	
-	public void msgGoOffDuty() {
+	public void msgGoOffDuty(double amount) {
+		addToCash(amount);
 		onDuty = false;
 		stateChanged();
 	}
@@ -140,17 +147,6 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 				}
 			}
 		}
-
-		if(!onDuty) {
-			Timer timer = new Timer();
-			timer.schedule(new TimerTask() {
-				public void run() {
-					setInactive();
-					onDuty = true;
-				}
-			},
-			10000);
-		}
 		
 		return false;
 	}
@@ -185,6 +181,11 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 
 		b.customer.msgHereIsChange((b.receivedAmount - b.bill));
 		bills.remove(b);
+		
+		if(!onDuty) {
+			setInactive();
+			onDuty = true;
+		}
 	}
 	
 	private void computeBill(Bill b) {
