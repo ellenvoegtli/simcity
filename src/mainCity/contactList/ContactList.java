@@ -29,12 +29,12 @@ public class ContactList {
 	public static ArrayList<BusStop> stops;
 	public BusStop homeStop = new BusStop(320, 80, PersonAgent.CityLocation.home); 
 	public BusStop davidRestStop = new BusStop(635, 230, PersonAgent.CityLocation.restaurant_david);
-	public BusStop marcusRestStop = new BusStop(130, 180, PersonAgent.CityLocation.restaurant_marcus); 
+	public BusStop marcusRestStop = new BusStop(130, 155, PersonAgent.CityLocation.restaurant_marcus); 
 	public BusStop jeffersonRestStop = new BusStop( 220 , 380, PersonAgent.CityLocation.restaurant_jefferson); 
-	public BusStop ellenRestStop = new BusStop(130, 280, PersonAgent.CityLocation.restaurant_ellen); 
-	public BusStop enaRestStop = new BusStop( 260 , 80, PersonAgent.CityLocation.restaurant_ena); 
+	public BusStop ellenRestStop = new BusStop(130, 305, PersonAgent.CityLocation.restaurant_ellen); 
+	public BusStop enaRestStop = new BusStop( 215 , 80, PersonAgent.CityLocation.restaurant_ena); 
 	public BusStop bankStop = new BusStop(130, 230, PersonAgent.CityLocation.bank); 
-	public BusStop marketStop = new BusStop( 455, 80 , PersonAgent.CityLocation.market);
+	public BusStop marketStop = new BusStop( 440, 80 , PersonAgent.CityLocation.market);
 	
 	private static ContactList contactList = null;
 	

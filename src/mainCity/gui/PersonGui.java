@@ -22,6 +22,7 @@ public class PersonGui implements Gui{
 	private PersonAgent agent = null;
 	private int xPos, yPos;
 	private int xDestination, yDestination;
+	private int xHome, yHome;
 	private static final int w = 20;
 	private static final int h = 20;
 	private boolean isPresent = false;
@@ -34,8 +35,16 @@ public class PersonGui implements Gui{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
+		xHome = agent.getHomePlace().getXLoc();
+		yHome = agent.getHomePlace().getYLoc();
+		
+		xDestination = xPos = xHome;
+		yDestination = yPos = yHome;;
+		
+		/*
 		xDestination = xPos = (int) (Math.random() * 700);
-		yDestination = yPos = (int) (Math.random() * 500);
+		yDestination = yPos = (int) (Math.random() * 500);*/
+		
 		traveling  = false;
 		StringBuilder path = new StringBuilder("imgs/");
 		try {
@@ -56,6 +65,11 @@ public class PersonGui implements Gui{
 		corners.add(new Coordinate(585, 330));
 		corners.add(new Coordinate(655, 125));
 		corners.add(new Coordinate(655, 330));
+		
+		
+		
+		xHome = agent.getHomePlace().getXLoc();
+		yHome = agent.getHomePlace().getYLoc();
 	}
 
 	public void updatePosition() {
@@ -121,8 +135,9 @@ public class PersonGui implements Gui{
 				calculatePath(175, 230);
 				break;
 			case home:
-				calculatePath(100, 500);
+				calculatePath(xHome, yHome);
 				break;
+		
 			default:
 				calculatePath(0, 0);
 				break;
@@ -144,40 +159,49 @@ public class PersonGui implements Gui{
 		
 		switch(destination) {
 			case restaurant_marcus:
-				xDestination = 130;
-				yDestination = 180;
+				calculatePath(105,155);
+				xDestination = path.peek().x;
+				yDestination = path.poll().y;
 				break;
 			case restaurant_ellen:
-				xDestination = 130;
-				yDestination = 280;
+				calculatePath(105, 305);
+				xDestination = path.peek().x;
+				yDestination = path.poll().y;
 				break;
 			case restaurant_david:
-				xDestination = 635;
-				yDestination = 230;
+				calculatePath(660, 230); 
+				xDestination = path.peek().x;
+				yDestination = path.poll().y;
 				break;
 			case restaurant_ena:
-				xDestination = 260;
-				yDestination = 80;
+				calculatePath(215, 55); 
+				xDestination = path.peek().x;
+				yDestination = path.poll().y;
 				break;
 			case restaurant_jefferson:
-				xDestination = 220;
-				yDestination = 380;
+				calculatePath(220, 405);
+				xDestination = path.peek().x;
+				yDestination = path.poll().y;
 				break;
 			case market:
+				calculatePath(440, 55); 
 				xDestination = 455;
 				yDestination = 80;
 				break;
 			case bank:
-				xDestination = 130;
-				yDestination = 230;
+				calculatePath(105, 230);
+				xDestination = path.peek().x;
+				yDestination = path.poll().y;
 				break;
 			case home:
-				xDestination = 320;
-				yDestination = 80;
+				calculatePath(320, 55); 
+				xDestination = path.peek().x;
+				yDestination = path.poll().y;
 				break;
 			default:
-				xDestination = 0;
-				yDestination = 0;
+				calculatePath(0, 0); 
+				xDestination = path.peek().x;
+				yDestination = path.poll().y;
 				break;
 		}
 

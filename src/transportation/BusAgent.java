@@ -86,16 +86,10 @@ public class BusAgent extends Agent{
 					}
 					//remove passengers who left the bus from the passenger list. 
 				}
-				
-				
-				stopTimer.schedule(new TimerTask() {
-					public void run() {
-						gui.atBusStop = false;
-						stateChanged();
-					}
-				},
-				500);
-				
+
+				gui.atBusStop = false;
+				stateChanged();
+	
 			}
 			
 		public void setGui(BusGui bg){ 

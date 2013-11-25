@@ -1,21 +1,21 @@
 -Marcus Restaurant
-Name:PersonA;Cash:10;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:PersonA;Cash:10;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:PersonB;Cash:50;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:PersonC;Cash:82;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
-Name:PersonD;Cash:50;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
+Name:PersonA;Cash:10;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:PersonA;Cash:10;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:PersonB;Cash:50;Renter:true;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:PersonC;Cash:82;Renter:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
+Name:PersonD;Cash:50;Renter:true;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
 -Ellen Restaurant
-Name:PersonE;Cash:15;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,market
-Name:PersonF;Cash:52;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
-Name:PersonG;Cash:50;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
-Name:PersonH;Cash:537;Occupation:ellenHost;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
-Name:PersonH;Cash:537;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
+Name:PersonE;Cash:15;Renter:true;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,market
+Name:PersonF;Cash:52;Renter:true;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
+Name:PersonG;Cash:50;Renter:true;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
+Name:PersonH;Cash:537;Renter:true;Occupation:ellenHost;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
+Name:PersonH;Cash:537;Renter:true;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
 -Ena Restaurant
-Name:Person5;Cash:12;Occupation:enaCashier;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
-Name:PersonJ;Cash:10;Occupation:enaCook;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
-Name:Person9;Cash:480;Occupation:enaHost;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:Person3;Cash:10;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:Person4;Cash:10;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:Person5;Cash:12;Renter:true;Occupation:enaCashier;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
+Name:PersonJ;Cash:10;Renter:true;Occupation:enaCook;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
+Name:Person9;Cash:480;Renter:true;Occupation:enaHost;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:Person3;Cash:10;Renter:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:Person4;Cash:10;Renter:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Other
 Name:PersonK;Cash:480;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant
 Name:Personl;Cash:480;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:bank
