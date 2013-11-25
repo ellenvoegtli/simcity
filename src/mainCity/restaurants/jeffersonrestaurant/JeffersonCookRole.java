@@ -121,7 +121,8 @@ public class JeffersonCookRole extends Role implements Cook{
 	
 	
 	// Messages
-	public void msgGoOffDuty(){
+	public void msgGoOffDuty(double d){
+		addToCash(d);
 		onDuty=false;
 		stateChanged();
 	}

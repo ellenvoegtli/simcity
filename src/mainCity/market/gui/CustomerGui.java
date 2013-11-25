@@ -11,8 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class CustomerGui implements Gui{
-    private final int WINDOWX = 550;
-    private final int WINDOWY = 350;
+    private final int WINDOWX = 500;
+    private final int WINDOWY = 370;
 
 	private MarketCustomerRole agent = null;
 	private boolean isPresent = false;
@@ -21,7 +21,7 @@ public class CustomerGui implements Gui{
 	
 	private Map<String, Integer>inventoryNeeded = new TreeMap<String, Integer>();	//empty for now
 
-	MarketGui gui;
+	private MarketAnimationPanel animation;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -46,7 +46,8 @@ public class CustomerGui implements Gui{
 	private int myTable;
 	
 
-	public CustomerGui(MarketCustomerRole c, MarketGui gui){ //HostAgent m) {
+	public CustomerGui(MarketCustomerRole c, MarketAnimationPanel a){ //HostAgent m) {
+		this.animation = a;
 		
 		//initialize table locations map
         tableX.put(1, 200);
@@ -71,7 +72,6 @@ public class CustomerGui implements Gui{
 		xDestination = -40;
 		yDestination = -40;
 		//maitreD = m;
-		this.gui = gui;
 	}
 
 	public void updatePosition() {
@@ -99,7 +99,6 @@ public class CustomerGui implements Gui{
 				agent.msgAnimationFinishedLeaveRestaurant();
 				System.out.println("about to call gui.setCustomerEnabled(agent);");
 				isHungry = false;
-				gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}

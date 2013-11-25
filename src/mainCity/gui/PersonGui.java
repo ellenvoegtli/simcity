@@ -268,6 +268,10 @@ public class PersonGui implements Gui{
 		return yDestination;
 	}
 	
+	public boolean isVisible() {
+		return isVisible;
+	}
+	
 	public CityLocation findNearestStop(){ 
 		
 		//starts off with first bus stop

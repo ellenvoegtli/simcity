@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 
+import mainCity.market.gui.MarketAnimationPanel;
 import mainCity.restaurants.EllenRestaurant.gui.EllenAnimationPanel;
 import mainCity.restaurants.enaRestaurant.gui.EnaAnimationPanel;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusAnimationPanel;
@@ -43,7 +44,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 			cards.put("rest"+i, new CityCard(city, Color.DARK_GRAY));
 		}
 		cards.put("bank", new CityCard(city, Color.green));
-		cards.put("market", new CityCard(city, Color.orange));
+		cards.put("market", new MarketAnimationPanel(city));
 		
 		cards.put("marcusRestaurant", new MarcusAnimationPanel(city));
 		cards.put("EllenRestaurant", new EllenAnimationPanel(city));

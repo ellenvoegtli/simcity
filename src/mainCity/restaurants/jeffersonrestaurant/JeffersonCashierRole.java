@@ -68,6 +68,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	
 	public JeffersonCashierRole(PersonAgent p,String name){
 		super(p);
+		onDuty=true;
 		this.name=name;
 		profits=0;
 	}
@@ -75,7 +76,12 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	
 	// Messages
 	
-
+	public void msgGoOffDuty(double d) {
+		addToCash(d);
+		onDuty = false;
+		stateChanged();
+	}
+	
 
 	public void msgHereIsMarketBill(Map<String, Integer> inventory,
 			double billAmount, MarketDeliveryManRole deliveryPerson) {
@@ -143,6 +149,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 				if(b.needverify){
 					b.needverify=false;
 					tellDeliveryManVerified(b);
+					return true;
 				}
 				
 			}
@@ -166,7 +173,13 @@ public class JeffersonCashierRole extends Role implements Cashier{
 					return true;
 				}
 			}
-		}	
+		}
+		
+		if(!onDuty){
+			DoLeaveRestaurant();
+			
+		}
+		
 		return false;
 	}
 
@@ -176,6 +189,13 @@ public class JeffersonCashierRole extends Role implements Cashier{
 
 
 	//Actions
+
+	private void DoLeaveRestaurant() {
+		setInactive();
+		onDuty=true;
+		
+	}
+
 
 	private void tellDeliveryManVerified(Bill b) {
 		b.deliveryPerson.msgChangeVerified("jeffersonrestaurant");
@@ -230,6 +250,11 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	public void HereIsMymoney(Customer c, double money) {
 		
 		
+	}
+
+
+	public void deductCash(double payroll) {
+		profits-=payroll;
 	}
 
 
