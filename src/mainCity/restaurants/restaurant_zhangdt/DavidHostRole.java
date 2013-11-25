@@ -1,17 +1,20 @@
 package mainCity.restaurants.restaurant_zhangdt;
 
 import agent.Agent;
+import mainCity.PersonAgent;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import role.Role;
+
 /**
  * Restaurant Host Agent
  */
 
-public class DavidHostRole extends Agent {
+public class DavidHostRole extends Role {
 	
 /*   Data   */
 	
@@ -34,10 +37,14 @@ public class DavidHostRole extends Agent {
 	
 	//Name of the Host
 	private String name;
+	
+	//Connection with other agents
+	DavidCashierRole cashier;
+	DavidCookRole cook;
 
 	//Constructor
-	public DavidHostRole(String name) {
-		super();
+	public DavidHostRole(String name, PersonAgent p) {
+		super(p);
 		waiterLoc = -1;
 		this.name = name;
 		// Make some tables, hardcoded for now
@@ -124,7 +131,7 @@ public class DavidHostRole extends Agent {
 
 /*   Scheduler   */
 	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -156,7 +163,7 @@ public class DavidHostRole extends Agent {
 /*   Actions    */
 
 	private void designateCustomer(DavidCustomerRole customer, Table table) {
-		DavidWaiterRole w = new DavidWaiterRole(""); 
+		DavidWaiterRole w; 
 		w = waiters.get(0); 
 		
 		
@@ -261,6 +268,15 @@ public class DavidHostRole extends Agent {
 		int getY() {
 			return yPos;
 		}
+	}
+
+	public void setCashier(DavidCashierRole cashier) {
+		this.cashier = cashier;
+	}
+
+	public void setCook(DavidCookRole cook) {
+		this.cook = cook;
+		
 	}
 }
 
