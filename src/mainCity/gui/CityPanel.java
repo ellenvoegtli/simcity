@@ -82,11 +82,8 @@ public class CityPanel extends JPanel{
 		parseConfig();
 
     	String[] actions = {"work"}; 
-    	addPerson("David", 500, false, "marcusWaiter", 7, 19, actions); 
-<<<<<<< HEAD
+    	addPerson("David", 500, false, "marcusWaiter", 7, 19, actions);
 		//parseConfig();
-=======
->>>>>>> 688e0ab14bc5ecb12541f45d3c872ff15d830455
    
 /*
     	PersonAgent person = new PersonAgent("joeMoe");
