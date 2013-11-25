@@ -312,8 +312,14 @@ public class PersonAgent extends Agent {
 					}
 					//((EllenCustomerRole) customer).gotHungry();
 				}
-				else if(customer instanceof EnaCustomerRole) {
-					((EnaCustomerRole) customer).getGui().setHungry();
+				else if(customer instanceof EnaCustomerRole)
+				{
+					print("is customer hungry????");
+					if (!((EnaCustomerRole) customer).getGui().goInside())
+					{	chooseRestaurant();
+						print("customer set to hungry");
+						return true;
+					}
 				}
 				else if(customer instanceof JeffersonCustomerRole){
 					((JeffersonCustomerRole) customer).gotHungry();
@@ -402,17 +408,20 @@ public class PersonAgent extends Agent {
 			}
 		}
 		
-		if(state == PersonState.boardingBus) {
+		if(state == PersonState.boardingBus) 
+		{
 			boardBus();
 		}
 
-		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
+		if(actions.isEmpty() && state == PersonState.normal && !traveling) 
+		{
 			output("My action list is empty. Going home");
 			actions.add(new Action(ActionType.home, 10));
 			return true;
 		}
 		
 		return false;
+
 	}
 
 	
@@ -664,7 +673,7 @@ public class PersonAgent extends Agent {
 		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = true;
 
-		if(false) { //chose to walk
+		if(true) { //chose to walk
 
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
@@ -693,9 +702,9 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		//destination = CityLocation.restaurant_ena;
+		destination = CityLocation.restaurant_ena;
 		//destination = CityLocation.restaurant_marcus;
-
+/*
 		switch((int) (Math.random() * 4)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -711,7 +720,7 @@ public class PersonAgent extends Agent {
 				break;
 			default:
 				break;
-		}
+		}*/
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);

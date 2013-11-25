@@ -41,8 +41,8 @@ public class CityPanel extends JPanel{
 	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
         //ellenRestaurant.setVisible(true);
 		
-		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
-	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
+		//EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
+	    //ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
 	    //enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
@@ -51,7 +51,7 @@ public class CityPanel extends JPanel{
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
 
-    	jeffersonRestaurant.setVisible(true);
+    	//jeffersonRestaurant.setVisible(true);
     	
 
 
@@ -83,11 +83,11 @@ public class CityPanel extends JPanel{
 
 
 
-    	//String[] actions = {"work"}; 
-    	//addPerson("David", 500, false, "marcusWaiter", 7, 19, actions); 
+    	//String[] actions = {"hungry"}; 
+    	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
 
 /*
-    	PersonAgent person = new PersonAgent("joeMoe");
+    	PersonAgent person = new PersonAgent("joeMoe"); 
     	PersonAgent person2 = new PersonAgent("Waiter");
     	PersonAgent person3 = new PersonAgent("Cook");
     	PersonAgent person4 = new PersonAgent("Cashier");
