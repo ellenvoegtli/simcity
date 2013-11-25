@@ -36,7 +36,7 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
         bufferSize = this.getSize();
         setLayout(null);
         
-    	Timer timer = new Timer(20, this );
+    	Timer timer = new Timer(100, this );
     	timer.start();
     }
 
@@ -50,36 +50,44 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
         
         //Clear the screen by painting a rectangle the size of the frame
         g2.setColor(getBackground());
-        g2.fillRect(0, 0, WINDOWX, WINDOWY );
+	    g2.fillRect(0, 0, WINDOWX, WINDOWY );
+	
+	    for(int i = 0; i < tableCount; i++) {
+	     	g2.setColor(Color.ORANGE);
+	        g2.fillRect(x+100*i, y, w, h);
+	    }
+	        
+	    kitchen.setColor(Color.GRAY);
+	    kitchen.fillRect(160, 0, 95, 45);
+        kitchen.setColor(Color.GRAY);
+	    kitchen.fillRect(255, 15, 20, 30);
+        
+	    for(int i = 0; i < tableCount; i++) {
+	    	kitchen.setColor(Color.WHITE);
+	        kitchen.fillRect(170 + 20*i, 1, 15, 15);
+	    }
 
-        for(int i = 0; i < tableCount; i++) {
-        	g2.setColor(Color.ORANGE);
-            g2.fillRect(x+100*i, y, w, h);
-        }
-        
-        kitchen.setColor(Color.GRAY);
-        kitchen.fillRect(160, 0, 95, 45);
-        kitchen.setColor(Color.GRAY);
-        kitchen.fillRect(255, 15, 20, 30);
-        
-        for(int i = 0; i < tableCount; i++) {
-        	kitchen.setColor(Color.WHITE);
-            kitchen.fillRect(170 + 20*i, 1, 15, 15);
-        }
-        
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
         }
+        
+	    for(Gui gui : guis) {
+	        if (gui.isPresent()) {
+	            gui.draw(g2);
+	        }
+	    }
+    }
 
-        for(Gui gui : guis) {
+    public void backgroundUpdate() {
+    	for(Gui gui : guis) {
             if (gui.isPresent()) {
-                gui.draw(g2);
+                gui.updatePosition();
             }
         }
     }
-
+    
     public void addGui(CustomerGui gui) {
         guis.add(gui);
     }

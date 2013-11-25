@@ -10,6 +10,8 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
 import mainCity.contactList.ContactList;
+import mainCity.gui.AnimationPanel;
+import mainCity.gui.Building;
 import mainCity.gui.PersonGui;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
@@ -42,6 +44,7 @@ public class PersonAgent extends Agent {
 	private double accountnumber;
 	private boolean traveling;
 	private boolean onBreak;
+	private Building homePlace;
 	private int time;
 	private Job job;
 	private PersonState state;
@@ -100,7 +103,7 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		traveling = false;
-		gui.DoGoOutside();
+		
 		state = PersonState.normal;
 		stateChanged();
 	}
@@ -226,7 +229,7 @@ public class PersonAgent extends Agent {
 			return true;
 		}
 		
-		if(!actions.isEmpty() && currentAction == null) {
+		if(!actions.isEmpty() && currentAction == null ) {
 			actions.peek().state = ActionState.inProgress;
 			currentAction = actions.poll();
 			handleAction(currentAction.type);
@@ -422,8 +425,7 @@ public class PersonAgent extends Agent {
 	//----------Actions----------//
 	private void checkSelf() {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
-
-		if(time == job.shiftBegin && state != PersonState.working && !actions.contains(ActionType.work)) {
+		if(time == job.shiftBegin && state != PersonState.working && !actions.contains(ActionType.work) && !job.occupation.equals("rich")) {
 			actions.add(new Action(ActionType.work, 1));
 			stateChanged();
 		}
@@ -436,12 +438,11 @@ public class PersonAgent extends Agent {
 			}
 		}
 		
-		
-		if(cash<50 && !actions.contains(ActionType.bankWithdraw)){
+		if(cash < 50 && !actions.contains(ActionType.bankWithdraw)){
 			actions.add(new Action(ActionType.bankWithdraw,3));
 			stateChanged();
 		}
-		if(cash>200 && !actions.contains(ActionType.bankDeposit)){
+		if(cash > 200 && !actions.contains(ActionType.bankDeposit)){
 			actions.add(new Action(ActionType.bankDeposit,3));
 			stateChanged();
 		}
@@ -449,7 +450,6 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void handleRole(ActionType action) {
-		//this way works well except for the banking part
 		if(!roles.containsKey(action)) {
 			switch(action) {
 				case work:
@@ -669,8 +669,9 @@ public class PersonAgent extends Agent {
 
 		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = true;
-		
-		if(temp) { //chose to walk
+
+		if(false) { //chose to walk
+
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -725,6 +726,9 @@ public class PersonAgent extends Agent {
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
+		
+		//currentAction.type = ActionType.home;
+		//handleAction(currentAction.type);
 		
 		boolean temp = true;
 		
@@ -788,7 +792,8 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-	private void goHome() {
+	private void goHome() 
+	{
 		output("Going home");
 		travelToLocation(CityLocation.home);
 		event = PersonEvent.arrivedAtHome;
@@ -810,14 +815,14 @@ public class PersonAgent extends Agent {
 	
 	private void boardBus() {
 		///message the bus
-		print("Getting on Bus");
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
-				print(i + ", " + j);
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
-					//gui.DoGoInside();
-					//gui.DoGoToLocationOnBus(destination);
+					ContactList.stops.get(i).LeavingBusStop(this);
+					gui.DoGoInside();
+					gui.DoGoToLocationOnBus(destination);
+					
 				}
 			}
 		}
@@ -878,6 +883,45 @@ public class PersonAgent extends Agent {
 
 	public void setAccountnumber(double accountnumber) {
 		this.accountnumber = accountnumber;
+	}
+	
+	
+	public void setHomePlace(boolean renter)
+	{
+		if(renter)
+		{
+			for(Building apartment : AnimationPanel.getApartments().keySet())
+			{
+				if(AnimationPanel.getApartments().get(apartment) == false)
+				{
+					this.homePlace = apartment;
+					AnimationPanel.apartments.put(apartment, true);
+					break;
+				}
+			}
+		}
+		
+		if(!renter)
+		{
+			for(Building house : AnimationPanel.getHouses().keySet())
+			{
+				if(AnimationPanel.getHouses().get(house) == false)
+				{
+					this.homePlace = house;
+					AnimationPanel.houses.put(house, true);
+
+					break;
+				}
+			}
+		}
+	}
+
+	public Building getHomePlace() {
+		return homePlace;
+	}
+
+	public void setHomePlace(Building homePlace) {
+		this.homePlace = homePlace;
 	}
 
 	//Lower the priority level, the more "important" it is (it'll get done faster)

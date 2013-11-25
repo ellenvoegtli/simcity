@@ -3,7 +3,9 @@ package mainCity.gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import mainCity.PersonAgent.ActionType;
 import mainCity.contactList.ContactList;
+import role.Role;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
 import transportation.gui.Lane;
@@ -19,8 +21,10 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AnimationPanel extends JPanel implements ActionListener, MouseListener {
 
@@ -32,8 +36,18 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     private final int TopHouseLocY = -4;
     private final int BotHouseLocY = 416;
     
+    public int xPos;
+    public int yPos;
+    
     //List of buildings in the city 
     List<Building> buildings = new ArrayList<Building>(); 
+    
+    //List of houses in the city
+    public static Map<Building, Boolean> houses = new HashMap<Building, Boolean>();
+    
+    
+    //list of apartment buildings in the city
+   public static  Map<Building, Boolean> apartments = new HashMap<Building, Boolean>();
     
     //Road Data
     ArrayList<Lane> lanes;
@@ -43,12 +57,13 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     private BufferedImage stopSign = null;
     
     boolean onlyOnce = true;
+    public boolean atStop = false;
     int count; 
     private Image bufferImage;
     private Dimension bufferSize;
     
     CityGui gui;
-    BusGui bus;
+    List<BusGui> Buses = new ArrayList<BusGui>(); 
 
     //List of all guis that we need to animate in the city (Busses, Cars, People...etc) 
     //Will be Added in CityPanel analogous to RestaurantPanel
@@ -74,7 +89,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         lanes = new ArrayList<Lane>();
         
         //Creating Lanes (int xo, int yo, int w, int h, int xv, int yv, boolean ish, Color lc, Color sc)
-        Lane l = new Lane( 0, 75, 650, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
+        Lane l = new Lane( 0, 75, 651, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
         l = new Lane( 0, 100, 780, (RoadWidth/2), 5, 0, true, Color.gray, Color.white );
         lanes.add(l);
@@ -96,13 +111,14 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         lanes.add(l);
         l = new Lane( 630, 125, (RoadWidth/2), 226, 0, -5, false, Color.gray, Color.white );
         lanes.add(l);
-        l = new Lane( 650, 75, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
+        l = new Lane( 651, 75, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
         
         //drawing top houses
         for(int i=0; i<7; i++){
 	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "tophouse" + i);
 	        buildings.add(house);
+	        houses.put(house, false);
 	        addBuildingGui(house);
         }
         
@@ -110,6 +126,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         for(int i=0; i<7; i++){
 	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "bothouse" + i);
 	        buildings.add(house);
+	        apartments.put(house, false);
 	        addBuildingGui(house);
         }
         
@@ -142,59 +159,72 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         buildings.add(building); 
         addBuildingGui(building);
         
+        
         javax.swing.Timer t = new javax.swing.Timer( 25, this );
 		t.start();
       
         bufferSize = this.getSize();
  
-    	Timer timer = new Timer(20, this );
+    	Timer timer = new Timer(100, this );
     	timer.start();
     }
 
 	public void actionPerformed(ActionEvent e) {
 		
-		if(bus != null){
+		if(Buses.size() != 0){
 			if(onlyOnce == true){
 				onlyOnce = false;
-				lanes.get(1).addVehicle(bus);
-			}
-			
-			if(ContactList.stops.size() != 0){
-				for(int i=0; i<ContactList.stops.size(); i++){
-					if( (bus.getX() == ContactList.stops.get(i).xLocation) 
-							&& (bus.getY() == ContactList.stops.get(i).yLocation) ) {
-						bus.agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
-					}
+				for(int y=0; y<Buses.size(); y++){
+					lanes.get(1).addVehicle(Buses.get(y));
 				}
 			}
+
+					for(int i=0; i<ContactList.stops.size(); i++){
+						for(int s=0; s<Buses.size(); s++){
+							if( ( Buses.get(s).getX() > (ContactList.stops.get(i).xLocation-5) ) && ( (Buses.get(s).getX()) < (ContactList.stops.get(i).xLocation+5) ) 
+									&& (Buses.get(s).getY() > ContactList.stops.get(i).yLocation - 5) && (Buses.get(s).getY() < ContactList.stops.get(i).yLocation + 5) ) {
+								Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
+							}
+						}
+					}
+				
 			
-			if(bus.getX() == 130 && bus.getY() == 105){ 
-				lanes.get(1).vehicles.remove(bus); 
-				lanes.get(5).addVehicle(bus);
-			}
-			
-			
-			if(bus.getX() == 130 && bus.getY() == 335){ 
-				lanes.get(5).vehicles.remove(bus);
-				lanes.get(4).addVehicle(bus);
-			}
-			
-			if(bus.getX() == 635 && bus.getY() == 380){ 
-				lanes.get(4).vehicles.remove(bus); 
-				lanes.get(10).addVehicle(bus);
-			}
-			
-			if(bus.getX() == 635 && bus.getY() == 130){ 
-				lanes.get(10).vehicles.remove(bus);
-				lanes.get(0).addVehicle(bus);
-			}
-			
-			if(bus.getX() == 0 && bus.getY() == 80){
-				lanes.get(1).addVehicle(bus);
-			}
-			
-		}	
+			for(int t=0; t<Buses.size(); t++){
+				if(Buses.get(t).getX() == 130 && Buses.get(t).getY() == 105){ 
+					lanes.get(1).vehicles.remove(Buses.get(t)); 
+					lanes.get(5).addVehicle(Buses.get(t));
+				}
+				
+				
+				if(Buses.get(t).getX() == 130 && Buses.get(t).getY() == 335){ 
+					lanes.get(5).vehicles.remove(Buses.get(t));
+					lanes.get(4).addVehicle(Buses.get(t));
+				}
+				
+				if(Buses.get(t).getX() == 635 && Buses.get(t).getY() == 380){ 
+					lanes.get(4).vehicles.remove(Buses.get(t)); 
+					lanes.get(10).addVehicle(Buses.get(t));
+				}
+				
+				if(Buses.get(t).getX() == 635 && Buses.get(t).getY() == 130){ 
+					lanes.get(10).vehicles.remove(Buses.get(t));
+					lanes.get(0).addVehicle(Buses.get(t));
+				}
+				
+				if(Buses.get(t).getX() == 0 && Buses.get(t).getY() == 80){
+					lanes.get(1).addVehicle(Buses.get(t));
+				}
+				
+			}	
+		}
 		
+		if(gui != null) {
+			for(Map.Entry<String, CityCard> r : gui.getView().getCards().entrySet()) {
+				if(!r.getValue().isVisible()) {
+					r.getValue().backgroundUpdate();
+				}
+			}
+		}
 		/*
 		//Make them all lanes stop
 		if ( count % 500 == 0 ) {
@@ -219,7 +249,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
 
-   //Draw city objects here (where we drew tables before)
+   //Draw city objects here (where we drew tables before)    
         
         //drawing lanes
         for ( int i=0; i<lanes.size(); i++ ) {
@@ -228,20 +258,20 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 		}
         
         //drawing bus stops 
-        g2.drawImage(stopSign, 320, 80, null); 
-        g2.drawImage(stopSign, 635, 230, null); 
-        g2.drawImage(stopSign, 130, 180, null); 
-        g2.drawImage(stopSign, 220 , 380, null);
-        g2.drawImage(stopSign, 130, 280, null); 
-        g2.drawImage(stopSign, 260 , 80, null); 
-        g2.drawImage(stopSign, 130, 230, null);
-        g2.drawImage(stopSign, 455, 80, null);
+        g2.drawImage(stopSign, 320, 55, null); 
+        g2.drawImage(stopSign, 660, 230, null); 
+        g2.drawImage(stopSign, 105, 155, null); 
+        g2.drawImage(stopSign, 220 , 405, null);
+        g2.drawImage(stopSign, 105, 305, null); 
+        g2.drawImage(stopSign, 215 , 55, null); 
+        g2.drawImage(stopSign, 105, 230, null);
+        g2.drawImage(stopSign, 440, 55, null);
         
       
         
-        g2.setColor(Color.yellow);
+        g2.setColor(Color.LIGHT_GRAY);
         //Location of doorways 
-        g2.fillRect(36, 55, 20, 20);  //house1
+        g2.fillRect(36, 55, 20, 20);  //house1 
         g2.fillRect(146, 55, 20, 20);
         g2.fillRect(256, 55, 20, 20);
         g2.fillRect(366, 55, 20, 20);
@@ -271,8 +301,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(347, 280, 20, 20); //doorway
         g2.fillRect(415, 215, 20, 20); //doorway
         g2.fillRect(585, 230, 20, 20); //doorway
-        
-        
 
         for(Gui gui : guis) {
             if (gui.isPresent() ) {
@@ -298,10 +326,11 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     		}
     	}
     }
+   
+    
     
     public void addBusGui(BusGui gui){
-
-    	bus = gui;
+    	 Buses.add(gui);
     }
 
     public void addPersonGui(PersonGui gui) {
@@ -312,8 +341,19 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     	guis.add(gui);
     }
     
+
     public void addMarketDeliveryGui(DeliveryManGui gui){
     	guis.add(gui);
+    }
+    
+    public static Map<Building, Boolean> getHouses()
+    {
+    	return houses;
+    }
+    
+    public static Map<Building, Boolean> getApartments()
+    {
+    	return apartments;
     }
     
 //Unused.

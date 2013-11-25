@@ -52,7 +52,6 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 	public boolean onBreak;
 	
 	public waiterCustState atStart() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	private Menu menu;
@@ -160,6 +159,13 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 	public void msgAtCook(){
 		atCook.release();
 		stateChanged();
+	}
+
+
+
+	public void msgFinishedLeavingRestaurant() {
+		// TODO set inactive
+		
 	}
 	
 	public void msgImReadyToOrder(Customer cust){
@@ -385,7 +391,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		//print("finished seating");
@@ -400,14 +406,14 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		waiterGui.DoBringToTable(customer,table);
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		//print ("TEST");
@@ -415,7 +421,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -427,14 +433,14 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		waiterGui.DoBringToTable(cust.c,cust.table);
 				try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 				cust.c.msgWhatWouldYouLike();
@@ -451,7 +457,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 			atTable.acquire();
 		} 
 		catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -461,7 +467,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 			atCook.acquire();
 		} 
 		catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -471,7 +477,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 	}
@@ -481,14 +487,14 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		waiterGui.DoGetFood();
 		try {
 			atPlating.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		cook.msgOrderTaken(cust.table);
@@ -497,7 +503,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		try {
 			atTable.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		cust.c.msgHereIsYourFood();
@@ -505,7 +511,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		
@@ -516,7 +522,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		waiterGui.DoDeliverOrder(w.table);
@@ -549,7 +555,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 		waiterGui.DoDeliverOrder(w.table);
@@ -662,6 +668,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		}
 
 	}
+
 
 	
 

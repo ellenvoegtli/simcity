@@ -14,14 +14,14 @@ public class MarcusSharedWaiterRole extends MarcusWaiterRole {
 	}
 
 	protected void handleOrder(MyCustomer c) {
-		print("Writing down order onto order ticket..");
+		output("Writing down order onto order ticket..");
 		OrderTicket order = new OrderTicket(this, c.choice, c.table);
 		
 		waiterGui.DoGoToCook();
 		waitForGui();
 		
 		if(!stand.isFull()) {
-			print("Posting order to the board...");
+			output("Posting order to the board...");
 			stand.insert(order);
 		}
 		else {

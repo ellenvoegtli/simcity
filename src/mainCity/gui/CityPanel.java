@@ -39,7 +39,7 @@ public class CityPanel extends JPanel{
 		
     	MarketGui marketGui = new MarketGui();
     	ContactList.getInstance().setMarket(marketGui.getMarketPanel());
-    	marketGui.setVisible(true);
+    	//marketGui.setVisible(true);
 		
 	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
 	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
@@ -54,8 +54,11 @@ public class CityPanel extends JPanel{
 
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
+
     	jeffersonRestaurant.setVisible(true);
     	
+
+
 
     	BankGui bank = new BankGui();
     	ContactList.getInstance().setBank(bank.getBankPanel());
@@ -63,7 +66,7 @@ public class CityPanel extends JPanel{
     	
     	HomeGui home= new HomeGui();
     	ContactList.getInstance().setHome(home.getHomePanel());
-    	//home.setVisible(true);
+    	home.setVisible(true);
     	
 
     	//Hardcoding a bus
@@ -72,23 +75,28 @@ public class CityPanel extends JPanel{
     	bus.setGui(bg);
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
-    	
-    	
 
-    	String[] actions = {"work"}; 
-    	addPerson("David", 500, "marcusWaiter", 7, 19, actions); 
+    	BusAgent bus1 = new BusAgent(); 
+    	BusGui bg1 = new BusGui(15,15,16,16,bus1); 
+    	bus1.setGui(bg1);
+    	gui.getAnimationPanel().addBusGui(bg1); 
+    	bus1.startThread();
+
+
+    	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
 		parseConfig();
-   
+
+
+
+    	//String[] actions = {"work"}; 
+    	//addPerson("David", 500, false, "marcusWaiter", 7, 19, actions); 
+
 /*
     	PersonAgent person = new PersonAgent("joeMoe");
     	PersonAgent person2 = new PersonAgent("Waiter");
     	PersonAgent person3 = new PersonAgent("Cook");
     	PersonAgent person4 = new PersonAgent("Cashier");
-    	PersonAgent person5 = new PersonAgent("Host");
-    	
-    	
-    	
-    	
+    	PersonAgent person5 = new PersonAgent("Host");    	
     	
     	occupants.add(person);
     	occupants.add(person2);
@@ -258,18 +266,19 @@ public class CityPanel extends JPanel{
 		    while ((strLine = br.readLine()) != null)   {
 		    	if(!strLine.startsWith("-")) {
 				   	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
-				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Occupation")-1);
+				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
+				   	String renter = strLine.substring(strLine.indexOf("Renter")+7, strLine.indexOf("Occupation")-1);
 				   	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
 				   	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
 				   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
-				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
+				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length()-1);
 				    String[] actionList = actions.split(",");
 				    	
 				   	for(int i = 0; i < actionList.length; ++i) {
 				   		System.out.println(actionList[i]);
 				   	}
 				    	
-				    addPerson(name, Integer.parseInt(cash), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
+				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    	}
 		    }
 
@@ -280,29 +289,32 @@ public class CityPanel extends JPanel{
 		}
 	}
 	
-	public void addPerson(String name, double c, String occupation, int sb, int se, String[] actions) {
+	public void addPerson(String name, double c, boolean renter, String occupation, int sb, int se, String[] actions) {
     	PersonAgent person = new PersonAgent(name);
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);
-
+		person.setHomePlace(renter);
+		System.out.println("selected house for person to live in");
 		PersonGui pg = new PersonGui(person, gui);
 		gui.getAnimationPanel().addPersonGui(pg);
 		person.setGui(pg);
 		
-		for(int i = 0; i < actions.length; ++i) {
-			switch(actions[i]) {
-				case "work":
-					if(!occupation.equals("rich")) person.msgGoToWork();
-					break;
-				case "hungry":
-					person.msgGotHungry();
-					break;
-				case "market":
-					person.msgGoToMarket();
-					break;
-				case "restaurant":
-					person.msgGoToRestaurant();
-					break;
+		if(actions != null) {
+			for(int i = 0; i < actions.length; ++i) {
+				switch(actions[i]) {
+					case "work":
+						if(!occupation.equals("rich")) person.msgGoToWork();
+						break;
+					case "hungry":
+						person.msgGotHungry();
+						break;
+					case "market":
+						person.msgGoToMarket();
+						break;
+					case "restaurant":
+						person.msgGoToRestaurant();
+						break;
+				}
 			}
 		}
 		
