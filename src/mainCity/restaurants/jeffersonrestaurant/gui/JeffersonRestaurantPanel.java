@@ -253,7 +253,10 @@ public class JeffersonRestaurantPanel extends JPanel {
     		cook.setGui(cg);
             gui.animationPanel.addGui(cg);
             
-            cook.setCashier(cashier);
+            
+            if(cashier!=null){
+            	cook.setCashier(cashier);
+            }
             
             if(host != null) {
             	host.setCook(cook);
@@ -275,6 +278,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     		for(JeffersonCustomerRole c:customers){
     			c.setHost(host);
     		}
+    		
     		host.setCook(cook);
     		host.setCashier(cashier);
     		
