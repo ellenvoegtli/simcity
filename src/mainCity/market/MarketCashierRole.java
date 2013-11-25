@@ -4,6 +4,7 @@ package mainCity.market;
 import agent.Agent;
 
 import java.util.*;
+
 import role.Role;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
@@ -43,30 +44,30 @@ public class MarketCashierRole extends Role{
 		return bills;
 	}
 
+	//for alert log trace statements
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET_CASHIER, this.getName(), s);
+	}
+	
 	// Messages
 	
 	//customer
 	public void msgComputeBill(Map<String, Integer> inventory, MarketCustomerRole c, MarketEmployeeRole e){
 		bills.add(new Bill(inventory, c, BillState.computing, e));
-		
-		//print(e.getName() + ", received msgComputeBill for " + c.getName());
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), e.getName() + ", received msgComputeBill for " + c.getName());
+		log(e.getName() + ", received msgComputeBill for " + c.getName());
 		stateChanged();
 	}
 	
 	//business
 	public void msgComputeBill(Map<String, Integer> inventory, String name, MarketEmployeeRole e){
-		//print("Received msgComputeBill for " + name);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgComputeBill for " + name);
-		
+		log("Received msgComputeBill for " + name);		
 		bills.add(new Bill(inventory, name, BillState.computing, e));
 		stateChanged();
 	}
 	
 	public void msgHereIsPayment(double amount, MarketCustomerRole cust){
-		//print("Received msgHereIsPayment: got $" + amount);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsPayment: got $" + amount);
-
+		log("Received msgHereIsPayment: got $" + amount);
 		Bill b = null;
 		synchronized(bills){
 			for (Bill thisB : bills){	
@@ -82,8 +83,7 @@ public class MarketCashierRole extends Role{
 	}
 	
 	public void msgPleaseRecalculateBill(MarketCustomerRole cust){
-		AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgPleaseRecalculateBill from " + cust.getName());
-
+		log("Received msgPleaseRecalculateBill from " + cust.getName());
 		Bill b = null;
 		synchronized(bills){
 			for (Bill thisB : bills){	
@@ -98,8 +98,7 @@ public class MarketCashierRole extends Role{
 	}
 	
 	public void msgChangeVerified(MarketCustomerRole cust){
-		AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgChangeVerified from " + cust.getName());
-
+		log("Received msgChangeVerified from " + cust.getName());
 		Bill b = null;
 		synchronized(bills){
 			for (Bill thisB : bills){	
@@ -115,9 +114,8 @@ public class MarketCashierRole extends Role{
 	}
 	
 	public void msgHereIsMoneyIOwe(MarketCustomerRole cust, double amount){
-		AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgHereIsMoneyIOwe from " + cust.getName() + ": $" + amount);
-
-		Bill b = null;
+		log("Received msgHereIsMoneyIOwe from " + cust.getName() + ": $" + amount);
+		/*Bill b = null;
 		synchronized(bills){
 			for (Bill thisB : bills){	
 				if (thisB.c.equals(cust)){
@@ -125,7 +123,7 @@ public class MarketCashierRole extends Role{
 					break;
 				}
 			}
-		}
+		}*/
 		availableMoney += amount;
 	}
 	
@@ -171,9 +169,7 @@ public class MarketCashierRole extends Role{
 	// Actions
 	
 	public void ComputeBill(final Bill b){
-		//print("Computing bill");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Computing bill");
-
+		log("Computing bill");
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
 			b.amountCharged += marketMenu.getPrice(entry.getKey()) * entry.getValue();
 		}
@@ -186,9 +182,7 @@ public class MarketCashierRole extends Role{
 	}
 	
 	public void CalculateChange(Bill b){
-		//print("Calculating change");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Calculating change");
-
+		log("Calculating change");
 		//check to make sure payment is large enough
 		if (b.amountPaid >= b.amountCharged){
 			b.c.msgHereIsYourChange((b.amountPaid - b.amountCharged), b.amountCharged);
@@ -203,9 +197,7 @@ public class MarketCashierRole extends Role{
 	}
 
 	public void RecomputeBill(final Bill b){
-		//print("Recomputing bill");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Recomputing bill");
-
+		log("Recomputing bill");
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
 			b.newAmountCharged += marketMenu.getPrice(entry.getKey()) * entry.getValue();
 		}

@@ -8,6 +8,7 @@ import transportation.BusAgent;
 import transportation.gui.BusGui;
 import transportation.gui.Lane;
 import transportation.gui.Vehicle;
+import mainCity.gui.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -308,6 +309,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     }
     
     public void addBuildingGui(Building gui) { 
+    	guis.add(gui);
+    }
+    
+    public void addMarketDeliveryGui(DeliveryManGui gui){
     	guis.add(gui);
     }
     

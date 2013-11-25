@@ -76,6 +76,12 @@ public class PersonAgent extends Agent {
 		return destination;
 	}
 	
+	public boolean isHungry(){
+		if(actions.contains(ActionType.hungry) || actions.contains(ActionType.restaurant))
+			return true;
+		return false;
+	}
+	
 	//----------Messages----------//
 	//From a timer to tell the person to do a checkup
 	public void updateOccupation(String o, int b, int e) {
@@ -269,7 +275,7 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				output("Arrived at market!");
+				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((MarketCustomerRole) customer).getGui().goInside()){

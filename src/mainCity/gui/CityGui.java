@@ -57,7 +57,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JPanel subControlPanel2 = new JPanel();
 	
 	
-	private JLabel infoLabel;
+	private JLabel infoLabel = new JLabel();
 	private JPanel infoPanel = new JPanel();
 	private GroupLayout layout2 = new GroupLayout(infoPanel);
 	private JLabel hungryLabel = new JLabel("Hungry?");
@@ -233,18 +233,24 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		layout2.setVerticalGroup(vGroup2);
 	   //====END GROUP LAYOUT 2=====
 		
+		restaurantButton.addActionListener(this);
+		homeButton.addActionListener(this);
+		workCB.addActionListener(this);
+		depositButton.addActionListener(this);
+		withdrawButton.addActionListener(this);
+		loanButton.addActionListener(this);
+		
+		//infoLabel.setText("");
 		subControlPanel2.setLayout(new GridBagLayout());
 		Dimension listDim = new Dimension((int) (WINDOWX * .15), (int) (WINDOWY * .2));
         personPanel.setPreferredSize(listDim);
         personPanel.setMinimumSize(listDim);
         personPanel.setMaximumSize(listDim);
+		subControlPanel2.add(infoLabel);	//not showing up
 		subControlPanel2.add(personPanel);
 		subControlPanel2.add(infoPanel);
 		tabbedPane2.addTab("Controls", subControlPanel2);
-		
-		
 		controlPanel.add(tabbedPane2);
-		//controlPanel.add(subControlPanel2);
 		
 		occupationMenu.addActionListener(this);
 		shiftMenu.addActionListener(this);
@@ -272,7 +278,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         //=============== TRACE PANEL ====================//
         JTabbedPane tabbedPane = new JTabbedPane();
         tracePanel1 = new TracePanel();
-        tracePanel1.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel1.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
         tracePanel1.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel1.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel1.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -285,7 +291,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         tabbedPane.addTab("PERSON", tracePanel1);
         
         tracePanel2 = new TracePanel();
-        tracePanel2.setPreferredSize(new Dimension((int) (WINDOWY * .4), (int) (WINDOWY * .4)));
+        tracePanel2.setPreferredSize(new Dimension((int) (WINDOWY * .4), (int) (WINDOWY * .25)));
         tracePanel2.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel2.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel2.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -298,7 +304,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         tabbedPane.addTab("MARKET", tracePanel2);
         
         tracePanel3 = new TracePanel();
-        tracePanel3.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel3.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
         tracePanel3.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel3.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel3.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -312,7 +318,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         
         tracePanel4 = new TracePanel();
-        tracePanel4.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel4.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
         tracePanel4.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel4.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel4.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -328,7 +334,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         
         tracePanel5 = new TracePanel();
-        tracePanel5.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel5.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
         tracePanel5.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel5.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel5.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -343,7 +349,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         
         tracePanel6 = new TracePanel();
-        tracePanel6.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel6.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
         tracePanel6.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel6.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel6.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -358,7 +364,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         
         tracePanel7 = new TracePanel();
-        tracePanel7.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel7.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
         tracePanel7.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel7.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel7.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -373,7 +379,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         
         tracePanel8 = new TracePanel();
-        tracePanel8.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .4)));
+        tracePanel8.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
         tracePanel8.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
         tracePanel8.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
         tracePanel8.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
@@ -415,19 +421,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         controlPanel.setMaximumSize(controlDim);
         //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
         leftPanel.add(controlPanel, BorderLayout.SOUTH);
-        
-        /*
-        Dimension listDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .2));
-        cityPanel.setPreferredSize(listDim);
-        cityPanel.setMinimumSize(listDim);
-        cityPanel.setMaximumSize(listDim);
-        subControlPanel2.add(cityPanel);*/
-        //Dimension listDim = new Dimension((int) (WINDOWX * .6), (int) (WINDOWY * .2));
-        //personPanel.setPreferredSize(listDim);
-        //personPanel.setMinimumSize(listDim);
-        //personPanel.setMaximumSize(listDim);
-        
-        //controlPanel.add(subControlPanel2);        
+               
 	}
 	
 	public void showInfo(String name) {
@@ -443,16 +437,19 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         currentPerson = person;
 
         PersonAgent p = (PersonAgent) person;
-        infoLabel.setText(
-               "<html><pre>     Name: " + p.getName() + " </pre></html>");
+        System.out.println("name = " + p.getName());
+        infoLabel.setText(p.getName());
 
-        //set buttons enabled/disabled...
+        if(p.isHungry()){
+        	restaurantButton.setEnabled(false);
+        	homeButton.setEnabled(false);
+        }
+        
         infoPanel.validate();
     }
 	
 	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == addPersonButton){
-			System.out.println("name = " + nameField.getText());
 			String name = nameField.getText();
 			double money = Double.parseDouble(moneyField.getText());
 			String occupation = (String) occupationMenu.getSelectedItem();
@@ -467,10 +464,22 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			}
 			String [] actions ={"work"};
 			cityPanel.addPerson(name, money, occupation, sb, se, actions);
+			personPanel.addPerson(name);
+			
+			//Reset all fields
+			nameField.setText("");
+			moneyField.setText("");
+			occupationMenu.setSelectedIndex(0);
+			shiftMenu.setSelectedIndex(0);
+			housingMenu.setSelectedIndex(0);
+			carMenu.setSelectedIndex(0);
 		}
 		else if (e.getSource() == restaurantButton){
+			System.out.println("RESTAURANT BUTTON PRESSED");
+			PersonAgent p = (PersonAgent) currentPerson;
+			p.msgGotHungry();
 			restaurantButton.setEnabled(false);
-			//...
+			
 		}
 		else if (e.getSource() == homeButton){
 			homeButton.setEnabled(false);
@@ -479,7 +488,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			workCB.setEnabled(false);
 			
 		}
-			
+
 	}
 	
 	
@@ -508,15 +517,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		/*
-		if (e.getSource() == nameField){
-			hungryB.setEnabled(true);
-			hungryB.setSelected(false);
-		}
-		else if (e.getSource() == moneyField){
-			onBreakB.setEnabled(true);
-			onBreakB.setSelected(false);
-		}*/
+
 	}
 
 	@Override

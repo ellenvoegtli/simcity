@@ -14,6 +14,7 @@ import mainCity.restaurants.restaurant_zhangdt.*;
 import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
 import mainCity.bank.*;
 import mainCity.bank.gui.BankPanel;
+import mainCity.gui.CityPanel;
 import mainCity.interfaces.*;
 import transportation.BusStop;
 import housing.gui.HomePanel;
@@ -100,11 +101,21 @@ public class ContactList {
 	BankPanel bank;
 	MarketPanel market;
 	
+	CityPanel city;
+	
 	//anything else? apartment landlords?
 	
 	
 	
 	//*****SETTERS********
+	
+	//City
+	public void setCity(CityPanel cp){
+		city = cp;
+	}
+	public CityPanel getCity(){
+		return city;
+	}
 	
 	// Home *****
 	

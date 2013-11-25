@@ -8,6 +8,7 @@ import java.util.concurrent.*;
 
 import javax.swing.JPanel;
 
+import role.market.MarketDeliveryManRole;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
 import mainCity.PersonAgent;
@@ -17,6 +18,7 @@ import mainCity.contactList.ContactList;
 import mainCity.market.*;
 import mainCity.market.gui.*;
 import mainCity.restaurants.EllenRestaurant.gui.EllenRestaurantGui;
+import mainCity.restaurants.marcusRestaurant.gui.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantGui;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
@@ -32,6 +34,8 @@ public class CityPanel extends JPanel{
 	public CityPanel(CityGui gui) {
 		this.gui = gui;
 		clock = 6;
+		
+		ContactList.getInstance().setCity(this);
 		
     	MarketGui marketGui = new MarketGui();
     	ContactList.getInstance().setMarket(marketGui.getMarketPanel());
@@ -69,9 +73,10 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
     	
+    	
 
     	String[] actions = {"work"}; 
-    	//addPerson("David", 500, "marcusWaiter", 7, 19, actions); 
+    	addPerson("David", 500, "marcusWaiter", 7, 19, actions); 
 		parseConfig();
    
 /*
@@ -157,6 +162,65 @@ public class CityPanel extends JPanel{
 		person5.startThread();
 		*/
     	
+		/*
+    	PersonAgent person = new PersonAgent("Delivery");
+    	person.msgGoToWork();
+    	PersonGui pg1 = new PersonGui(person, gui);
+    	person.updateOccupation("marketDeliveryMan", 8, 22);
+    	gui.getAnimationPanel().addPersonGui(pg1);
+    	person.setGui(pg1);
+    	person.startThread(); 
+    	    	
+    	PersonAgent person2 = new PersonAgent("Employee");
+    	person2.msgGoToWork();
+    	PersonGui pg2 = new PersonGui(person2, gui);
+    	person2.updateOccupation("marketEmployee", 8, 22);
+    	gui.getAnimationPanel().addPersonGui(pg2);
+    	person2.setGui(pg2);
+    	person2.startThread(); 
+    	
+    	PersonAgent person3 = new PersonAgent("Greeter");
+    	person3.msgGoToWork();
+    	PersonGui pg3 = new PersonGui(person3, gui);
+    	person3.updateOccupation("marketGreeter", 8, 22);
+    	gui.getAnimationPanel().addPersonGui(pg3);
+    	person3.setGui(pg3);
+    	person3.startThread(); 
+    	
+    	PersonAgent person6 = new PersonAgent("Cashier");
+    	person6.msgGoToWork();
+    	PersonGui pg6 = new PersonGui(person6, gui);
+    	person6.updateOccupation("marketCashier", 8, 22);
+    	gui.getAnimationPanel().addPersonGui(pg6);
+    	person6.setGui(pg6);
+    	person6.startThread(); 
+    	
+    	
+    	PersonAgent person4 = new PersonAgent("Host");
+    	person4.msgGoToWork();
+    	PersonGui pg4 = new PersonGui(person4, gui);
+    	person4.updateOccupation("ellenHost", 8, 22);
+    	gui.getAnimationPanel().addPersonGui(pg4);
+    	person4.setGui(pg4);
+    	person4.startThread(); 
+    	
+    	PersonAgent person5 = new PersonAgent("Cook");
+    	person5.msgGoToWork();
+    	PersonGui pg5 = new PersonGui(person5, gui);
+    	person5.updateOccupation("ellenCook", 8, 22);
+    	gui.getAnimationPanel().addPersonGui(pg5);
+    	person5.setGui(pg5);
+    	person5.startThread(); 
+    	
+    	PersonAgent person7 = new PersonAgent("Rest Cashier");
+    	person7.msgGoToWork();
+    	PersonGui pg7 = new PersonGui(person7, gui);
+    	person7.updateOccupation("ellenCashier", 8, 22);
+    	gui.getAnimationPanel().addPersonGui(pg7);
+    	person7.setGui(pg7);
+    	person7.startThread(); 
+    	*/
+    	
     	//add(personPanel);
     	
 		//Instantiation of the Global City Clock
@@ -169,6 +233,12 @@ public class CityPanel extends JPanel{
 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 		 executor.scheduleAtFixedRate(standChecker, 0, 5, TimeUnit.SECONDS); //Timer goes off every 10 seconds
+	}
+	
+	public void addDeliveryGui(MarketDeliveryManRole d){
+		DeliveryManGui dg = new DeliveryManGui(d);
+		d.setGui(dg);
+		gui.getAnimationPanel().addMarketDeliveryGui(dg);
 	}
 	
 	private void updateCity() {
