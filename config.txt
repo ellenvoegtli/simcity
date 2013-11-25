@@ -1,17 +1,4 @@
 -Marcus Restaurant
-<<<<<<< HEAD
-Name:PersonA;Cash:10;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:PersonA1;Cash:10;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:PersonB;Cash:50;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:PersonC;Cash:82;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
-Name:PersonD;Cash:50;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
--Ellen Restaurant
-Name:PersonE;Cash:15;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,market
-Name:PersonF;Cash:52;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
-Name:PersonG;Cash:50;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
-Name:PersonH;Cash:537;Occupation:ellenHost;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
-Name:PersonH1;Cash:537;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
-=======
 Name:PersonA;Cash:10;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:PersonA;Cash:10;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:PersonB;Cash:50;Renter:true;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work
@@ -30,8 +17,15 @@ Name:Person9;Cash:480;Renter:true;Occupation:enaHost;ShiftBegin:7;ShiftEnd:19;Ac
 Name:Person3;Cash:10;Renter:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:Person4;Cash:10;Renter:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Other
-Name:PersonK;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
-Name:Personl;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
-Name:Personm;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restuarant
-Name:Personn;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
-
+Name:PersonK;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:market,hungry
+Name:Personl;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant
+Name:Personm;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:bank
+Name:Personn;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant
+Name:PersonK;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home,bank
+Name:Personl;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant
+Name:Personm;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:market,home
+Name:Personn;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant
+Name:PersonK;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:market,hungry
+Name:Personl;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant
+Name:Personm;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant
+Name:Personn;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant

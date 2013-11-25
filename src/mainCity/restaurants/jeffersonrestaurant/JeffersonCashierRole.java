@@ -1,7 +1,5 @@
 package mainCity.restaurants.jeffersonrestaurant;
 
-import mainCity.restaurants.jeffersonrestaurant.*;
-
 import java.util.*;
 
 import role.market.MarketDeliveryManRole;
@@ -9,7 +7,7 @@ import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole.Order;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
-import mainCity.restaurants.jeffersonrestaurant.interfaces.Market;
+
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 import agent.Agent;
 
