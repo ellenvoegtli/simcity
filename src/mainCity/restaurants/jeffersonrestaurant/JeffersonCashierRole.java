@@ -5,7 +5,6 @@ import mainCity.restaurants.jeffersonrestaurant.*;
 import java.util.*;
 
 import role.market.MarketDeliveryManRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonMarketRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole.Order;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;

@@ -223,7 +223,7 @@ public class PersonAgent extends Agent {
 			return true;
 		}
 		
-		if(!actions.isEmpty() && currentAction == null) {
+		if(!actions.isEmpty() && currentAction == null ) {
 			actions.peek().state = ActionState.inProgress;
 			currentAction = actions.poll();
 			handleAction(currentAction.type);
@@ -665,9 +665,10 @@ public class PersonAgent extends Agent {
 		output(name + " is going to " + d);
 
 		//Check for a way to travel: public transportation, car, or walking
-		boolean temp = true;
+		boolean temp = false;
 		
-		if(false) { //chose to walk
+		if(!temp) { //chose to walk
+
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -723,6 +724,9 @@ public class PersonAgent extends Agent {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
 		
+		currentAction.type = ActionType.home;
+		handleAction(currentAction.type);
+		/*
 		boolean temp = true;
 		
 		if(temp) { //chose restaurant
@@ -741,7 +745,7 @@ public class PersonAgent extends Agent {
 				currentAction.type = ActionType.home;
 				handleAction(currentAction.type);
 			}
-		}
+		}*/
 
 		stateChanged();
 	}
@@ -889,6 +893,7 @@ public class PersonAgent extends Agent {
 				if(AnimationPanel.getApartments().get(apartment) == false)
 				{
 					this.homePlace = apartment;
+					AnimationPanel.apartments.put(apartment, true);
 					break;
 				}
 			}
@@ -901,10 +906,20 @@ public class PersonAgent extends Agent {
 				if(AnimationPanel.getHouses().get(house) == false)
 				{
 					this.homePlace = house;
+					AnimationPanel.houses.put(house, true);
+
 					break;
 				}
 			}
 		}
+	}
+
+	public Building getHomePlace() {
+		return homePlace;
+	}
+
+	public void setHomePlace(Building homePlace) {
+		this.homePlace = homePlace;
 	}
 
 	//Lower the priority level, the more "important" it is (it'll get done faster)

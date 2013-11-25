@@ -68,5 +68,15 @@ public class Building implements Gui{
 	public boolean contains(int x, int y) {
 		return rectangle.contains(x, y);
 	}
+	
+	public int getXLoc()
+	{
+		return xLocation;
+		
+	}
+	public int getYLoc()
+	{
+		return yLocation;
+	}
 
 }

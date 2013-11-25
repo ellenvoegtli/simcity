@@ -43,15 +43,17 @@ public class CityPanel extends JPanel{
 		
 		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
 	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
-	    enaRestaurant.setVisible(true);
+	    //enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
-    	//jeffersonRestaurant.setVisible(true);
+
+    	jeffersonRestaurant.setVisible(true);
     	
+
 
 
     	BankGui bank = new BankGui();
@@ -77,10 +79,14 @@ public class CityPanel extends JPanel{
 
 
     	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
+		parseConfig();
 
     	String[] actions = {"work"}; 
     	addPerson("David", 500, false, "marcusWaiter", 7, 19, actions); 
+<<<<<<< HEAD
 		//parseConfig();
+=======
+>>>>>>> 688e0ab14bc5ecb12541f45d3c872ff15d830455
    
 /*
     	PersonAgent person = new PersonAgent("joeMoe");
@@ -183,6 +189,7 @@ public class CityPanel extends JPanel{
 	
 	
 	private void parseConfig() {
+		System.out.println("^^^^^^^^^^^^^");
 		try {
 		    FileInputStream fstream = new FileInputStream("config.txt");
 		    DataInputStream in = new DataInputStream(fstream);
@@ -197,13 +204,14 @@ public class CityPanel extends JPanel{
 				   	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
 				   	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
 				   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
-				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
+				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length()-1);
 				    String[] actionList = actions.split(",");
 				    	
 				   	for(int i = 0; i < actionList.length; ++i) {
 				   		System.out.println(actionList[i]);
 				   	}
 				    	
+				   	System.out.println("@@@@@@@@@@@");
 				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    	}
 		    }
@@ -220,7 +228,7 @@ public class CityPanel extends JPanel{
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);
 		person.setHomePlace(renter);
-
+		System.out.println("selected house for person to live in");
 		PersonGui pg = new PersonGui(person, gui);
 		gui.getAnimationPanel().addPersonGui(pg);
 		person.setGui(pg);
