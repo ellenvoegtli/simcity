@@ -33,7 +33,7 @@ public class CityPanel extends JPanel{
 		
 	public CityPanel(CityGui gui) {
 		this.gui = gui;
-		clock = 6;
+		clock = 3; //Initially 3am
 		
 		ContactList.getInstance().setCity(this);
 		
@@ -82,11 +82,10 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg1); 
     	bus1.startThread();
 
-
-    	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
+    	//String[] actions = {"work"}; 
+    	//addPerson("waiter", 100, true, "marcusWaiter", 12, -1, actions);
+    	//addPerson("host", 100, true, "marcusHost", 8, 11, actions);
 		parseConfig();
-
-
 
     	//String[] actions = {"hungry"}; 
     	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
@@ -240,7 +239,7 @@ public class CityPanel extends JPanel{
 		 };
 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		 executor.scheduleAtFixedRate(standChecker, 0, 30, TimeUnit.SECONDS); //Timer goes off every 30 seconds
+		 executor.scheduleAtFixedRate(standChecker, 0, 5, TimeUnit.SECONDS); //Timer goes off every 30 seconds
 	}
 	
 	public void addDeliveryGui(MarketDeliveryManRole d){

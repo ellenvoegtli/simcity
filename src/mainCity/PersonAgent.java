@@ -168,47 +168,6 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-	//A message received from the MarketCustomerAgent when they are done at the market
-	public void msgFinishedAtBank() {
-		if((currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankWithdraw) && currentAction.state == ActionState.inProgress) {
-			currentAction.state = ActionState.done;
-		}
-		
-		state = PersonState.normal;			
-		stateChanged();
-	}
-	
-	//A message received from the MarketCustomerAgent when they are done at the market
-	public void msgFinishedAtMarket() {
-		if(currentAction.type == ActionType.market && currentAction.state == ActionState.inProgress) {
-			currentAction.state = ActionState.done;
-		}
-		
-		state = PersonState.normal;
-		//event = PersonEvent.gotFood;
-		stateChanged();
-	}
-
-	//A message received from the RestaurauntAgent when they are done at the restaurant
-	public void msgFinishedAtRestaurant() {
-		if(currentAction.type == ActionType.restaurant && currentAction.state == ActionState.inProgress) {
-			currentAction.state = ActionState.done;
-		}
-		
-		state = PersonState.normal;
-			
-		if(onBreak) {
-			actions.add(new Action(ActionType.work, 1));
-			event = PersonEvent.timeToWork;
-		}
-		else {
-			//do nothing maybe? go home
-			event = PersonEvent.gotFood; // different event maybe? this one sends them home or back to work if they were on break?
-		}
-		
-		stateChanged();
-	}
-
 	//----------Scheduler----------//
 	public boolean pickAndExecuteAnAction() {
 		//Handling active roles takes top priority
@@ -849,7 +808,8 @@ public class PersonAgent extends Agent {
 	}
 
 	public void updateClock(int newTime) {
-		this.time = newTime;		
+		this.time = newTime;
+		print("Time: " + newTime);
 		checkSelf();
 	}
 	
