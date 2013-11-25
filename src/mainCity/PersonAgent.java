@@ -10,6 +10,8 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
 import mainCity.contactList.ContactList;
+import mainCity.gui.AnimationPanel;
+import mainCity.gui.Building;
 import mainCity.gui.PersonGui;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
@@ -42,6 +44,7 @@ public class PersonAgent extends Agent {
 	private double accountnumber;
 	private boolean traveling;
 	private boolean onBreak;
+	private Building homePlace;
 	private int time;
 	private Job job;
 	private PersonState state;
@@ -94,7 +97,6 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		traveling = false;
-		print("msgArrivedAtDestination called");
 		gui.DoGoOutside();
 		state = PersonState.normal;
 		stateChanged();
@@ -270,8 +272,7 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				//TODO Unsquelch message later
-				//output("Arrived at market!");
+				output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((MarketCustomerRole) customer).getGui().goInside()){
@@ -315,7 +316,6 @@ public class PersonAgent extends Agent {
 					((EnaCustomerRole) customer).getGui().setHungry();
 				}
 				else if(customer instanceof JeffersonCustomerRole){
-					
 					((JeffersonCustomerRole) customer).gotHungry();
 					((JeffersonCustomerRole) customer).getGui().setHungry();
 				}
@@ -667,7 +667,7 @@ public class PersonAgent extends Agent {
 		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = true;
 		
-		if(false) { //chose to walk
+		if(temp) { //chose to walk
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -785,7 +785,8 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-	private void goHome() {
+	private void goHome() 
+	{
 		output("Going home");
 		travelToLocation(CityLocation.home);
 		event = PersonEvent.arrivedAtHome;
@@ -807,14 +808,13 @@ public class PersonAgent extends Agent {
 	
 	private void boardBus() {
 		///message the bus
-		print("Boarding Bus");
+		print("Getting on Bus");
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
+				print(i + ", " + j);
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
-					ContactList.stops.get(i).waitingPeople.remove(this);
-					gui.DoGoInside();
-					state = PersonState.waiting;
+					//gui.DoGoInside();
 					//gui.DoGoToLocationOnBus(destination);
 				}
 			}
@@ -876,6 +876,34 @@ public class PersonAgent extends Agent {
 
 	public void setAccountnumber(double accountnumber) {
 		this.accountnumber = accountnumber;
+	}
+	
+	
+	public void setHomePlace(boolean renter)
+	{
+		if(renter)
+		{
+			for(Building apartment : AnimationPanel.getApartments().keySet())
+			{
+				if(AnimationPanel.getApartments().get(apartment) == false)
+				{
+					this.homePlace = apartment;
+					break;
+				}
+			}
+		}
+		
+		if(!renter)
+		{
+			for(Building house : AnimationPanel.getHouses().keySet())
+			{
+				if(AnimationPanel.getHouses().get(house) == false)
+				{
+					this.homePlace = house;
+					break;
+				}
+			}
+		}
 	}
 
 	//Lower the priority level, the more "important" it is (it'll get done faster)

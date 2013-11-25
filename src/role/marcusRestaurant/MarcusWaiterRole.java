@@ -1,6 +1,8 @@
 package role.marcusRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import mainCity.restaurants.marcusRestaurant.gui.WaiterGui;
 import mainCity.restaurants.marcusRestaurant.MarcusMenu;
@@ -81,7 +83,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	}
 	
 	public void msgBreakReply(boolean r) {
-		print("Can " + this + " go on break? " + r);
+		output("Can " + this + " go on break? " + r);
 		onBreak = tired = requested = r;
 		stateChanged();
 	}
@@ -92,7 +94,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	}
 
 	public void msgImReadyToOrder(Customer customer) {
-		print(customer + " is ready to order");
+		output(customer + " is ready to order");
 		
 		synchronized(customers) {
 			for(MyCustomer c : customers) {
@@ -106,7 +108,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	}
 	
 	public void msgHereIsMyChoice(Customer customer, String choice) {
-		print("msgHereIsMyChoice " + customer + " asked for " + choice);
+		output("msgHereIsMyChoice " + customer + " asked for " + choice);
 		
 		synchronized(customers) {
 			for(MyCustomer c : customers) {
@@ -121,7 +123,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	}
 	
 	public void msgOutOfFood(int table, String choice) {
-		print("The cook tells me we're out of " + choice);
+		output("The cook tells me we're out of " + choice);
 		
 		synchronized(customers) {
 			for(MyCustomer c : customers) {
@@ -136,7 +138,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	}
 	
 	public void msgOrderIsReady(int table, String choice) {
-		print("msgOrderIsReady: Ready to deliver food to " + table);
+		output("msgOrderIsReady: Ready to deliver food to " + table);
 		
 		synchronized(customers) {
 			for(MyCustomer c : customers) {
@@ -261,7 +263,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 				
 				//catch statement
 				catch(ConcurrentModificationException e) {
-					print("Error has occurred. Waiting.");
+					output("Error has occurred. Waiting.");
 					return false;
 				}
 			}
@@ -288,7 +290,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		waitForGui();
 
 		c.customer.msgFollowMeToTable(c.table.getTableNumber(), waiterMenu, this);
-		print("Seating " + c.customer + " at " + c.table);
+		output("Seating " + c.customer + " at " + c.table);
 		
 		waiterGui.DoGoToTable(c.table.getTableNumber()); 
 		waitForGui();
@@ -302,7 +304,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		waitForGui();
 		
 		c.state = CustomerState.waitingForOrder;
-		print("Asking " + c.customer + " what they want");
+		output("Asking " + c.customer + " what they want");
 		c.customer.msgWhatWouldYouLike();
 	}
 	
@@ -310,7 +312,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		waiterGui.DoGoToTable(c.table.getTableNumber()); 
 		waitForGui();
 		
-		print("Asking for reorder");
+		output("Asking for reorder");
 		c.customer.msgPleaseReorder(waiterMenu);
 		waiterMenu = new MarcusMenu();
 		c.state = CustomerState.waitingForOrder;
@@ -319,11 +321,11 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	protected abstract void handleOrder(MyCustomer c);
 
 	private void serveFood(MyCustomer c) {
-		print("Picking up order from Cook...");
+		output("Picking up order from Cook...");
 		waiterGui.DoDeliverFood(c.choice);
 		waitForGui();
 		
-		print("Taking order to " + c.customer);
+		output("Taking order to " + c.customer);
 		waiterGui.DoGoToTable(c.table.getTableNumber()); 
 		waitForGui();
 
@@ -333,7 +335,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	}
 	
 	private void retrieveCheck(MyCustomer c) {
-		print("Getting check from cashier");
+		output("Getting check from cashier");
 		c.state = CustomerState.waitingForWaiter;
 		
 		waiterGui.DoGoToCook(); //Location offscreen
@@ -346,7 +348,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		waiterGui.DoGoToCook();
 		waitForGui();
 
-		print("Delivering check to customer");
+		output("Delivering check to customer");
 		waiterGui.DoGoToTable(c.table.getTableNumber()); 
 		waitForGui();
 				
@@ -368,7 +370,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	}
 	
 	private void goOnBreak() {
-		print("I'm going on break now");
+		output("I'm going on break now");
 		timer.schedule(new TimerTask() {
 			public void run() {
 				finishBreak();
@@ -416,6 +418,11 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	
 	public String toString() {
 		return "Waiter " + this.name;
+	}
+	
+	protected void output(String input) {
+		AlertLog.getInstance().logMessage(AlertTag.MARCUS_RESTAURANT, name, input);
+		AlertLog.getInstance().logMessage(AlertTag.MARCUS_WAITER, name, input);
 	}
 	
 	protected enum CustomerState {waiting, seated, readyToOrder, waitingForOrder, ordered, reorder,

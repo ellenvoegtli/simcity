@@ -1,6 +1,8 @@
 package role.marcusRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 
@@ -58,18 +60,18 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	}
 	// Messages
 	public void msgPayingMyDebt(Customer c, double amount) {
-		print(c + " has just settled their debt with the restaurant of $" + amount);
+		output(c + " has just settled their debt with the restaurant of $" + amount);
 		cash += amount;
 	}
 	
 	public void msgComputeBill(Waiter w, String choice, MarcusTable t) {
-		print("Received a check request of for table " + t.getTableNumber());
+		output("Received a check request of for table " + t.getTableNumber());
 		bills.add(new Bill(w, choice, t.getTableNumber()));
 		stateChanged();
 	}
 	
 	public void msgHereIsPayment(Customer c, double amount, int table) {
-		print("Received payment from " + c + " of $" + amount + " for table " + table);
+		output("Received payment from " + c + " of $" + amount + " for table " + table);
 		
 		synchronized(bills) {
 			for(Bill b : bills) {
@@ -92,20 +94,20 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	
 /*
 	public void msgHereIsFoodBill(Market m, int amount) {
-		print("Received a food bill of $" + amount + " from market");
+		output("Received a food bill of $" + amount + " from market");
 		marketBills.add(new MarketBill(m, amount));
 		stateChanged();
 	}
 */
 
 	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, MarketDeliveryManRole deliveryPerson) {
-		print("Received a food bill of $" + billAmount + " from market");
+		output("Received a food bill of $" + billAmount + " from market");
 		marketBills.add(new MarketBill(inventory, billAmount, deliveryPerson));
 		stateChanged();
 	}
 	
 	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
-		print("Received change of $" + amount);
+		output("Received change of $" + amount);
 		cash += amount;
 		stateChanged();
 	}
@@ -155,12 +157,12 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 
 	//Actions
 	private void payMarket(MarketBill b) {
-		print("Processing the food bill...");
-		print("We currently have $" + cash);
-		print(b.deliveryPerson + " has billed us $" + b.bill + "\nSending payment now...");
+		output("Processing the food bill...");
+		output("We currently have $" + cash);
+		output(b.deliveryPerson + " has billed us $" + b.bill + "\nSending payment now...");
 		
 		if(b.bill > cash) {
-			print("Uh oh! We don't have enough money to pay the delivery person. Sending what we have and an IOU");
+			output("Uh oh! We don't have enough money to pay the delivery person. Sending what we have and an IOU");
 			//b.market.msgHereIsPayment(this, cash);
 			cash = 0;
 		}
@@ -169,13 +171,13 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 			cash -= b.bill;
 		}
 		
-		print("We now have $" + cash);
+		output("We now have $" + cash);
 		marketBills.remove(b);
 	}
 	
 	private void handlePayment(Bill b) {
 		if(b.receivedAmount < b.bill) {
-			print(b.customer + " doesn't have enough money. I'll let you pay next time you arrive..");
+			output(b.customer + " doesn't have enough money. I'll let you pay next time you arrive..");
 			b.customer.msgDebtOwed(b.receivedAmount-b.bill);
 			bills.remove(b);
 			return;
@@ -186,7 +188,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	}
 	
 	private void computeBill(Bill b) {
-		print("Computing bill...");
+		output("Computing bill...");
 		
 		synchronized(prices) {
 			b.bill = prices.get(b.choice);
@@ -231,6 +233,11 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 			receivedAmount = 0;
 			customer = null;
 		}
+	}
+	
+	private void output(String input) {
+		AlertLog.getInstance().logMessage(AlertTag.MARCUS_RESTAURANT, this.getName(), input);
+		AlertLog.getInstance().logMessage(AlertTag.MARCUS_CASHIER, this.getName(), input);
 	}
 }
 

@@ -34,8 +34,8 @@ public class PersonGui implements Gui{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
-		xDestination = xPos = 400;
-		yDestination = yPos = 400;
+		xDestination = xPos = (int) (Math.random() * 700);
+		yDestination = yPos = (int) (Math.random() * 500);
 		traveling  = false;
 		StringBuilder path = new StringBuilder("imgs/");
 		try {
