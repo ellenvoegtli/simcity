@@ -25,14 +25,14 @@ public class HomeGui extends JFrame implements ActionListener{
 
 	
 	
-AnimationPanel animationPanel = new AnimationPanel();
+//HomeAnimationPanel animationPanel = new HomeAnimationPanel();
 	
     /* restPanel holds 2 panels
      * 1) the staff listing, menu, and lists of current customers all constructed
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private HomePanel homePanel = new HomePanel(this);
+    //private HomePanel homePanel = new HomePanel(this);
     private Agent agent = null;
     private JPanel ProjectPanel = new JPanel();
     
@@ -64,10 +64,10 @@ AnimationPanel animationPanel = new AnimationPanel();
         //setLayout(new BoxLayout((Container) getContentPane(), BoxLayout.Y_AXIS));
 
         Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY * .3));
-        homePanel.setPreferredSize(restDim);
-        homePanel.setMinimumSize(restDim);
-        homePanel.setMaximumSize(restDim);
-        add(homePanel);
+       // homePanel.setPreferredSize(restDim);
+       // homePanel.setMinimumSize(restDim);
+        //homePanel.setMaximumSize(restDim);
+       // add(homePanel);
         
         // Now, setup the info panel
         Dimension infoDim = new Dimension(WINDOWX, (int) (WINDOWY * .2));
@@ -105,20 +105,20 @@ AnimationPanel animationPanel = new AnimationPanel();
         ProjectPanel.setLayout(new BorderLayout());
        
         
-        ProjectPanel.add(homePanel, BorderLayout.CENTER);
+       // ProjectPanel.add(homePanel, BorderLayout.CENTER);
         ProjectPanel.add(infoPanel, BorderLayout.SOUTH);
         	
         
         Dimension animDim = new Dimension((int)(WINDOWX * .55), WINDOWY);
         
-        animationPanel.setPreferredSize(animDim);
-        animationPanel.setMinimumSize(animDim);
-        animationPanel.setMaximumSize(animDim);
+       // animationPanel.setPreferredSize(animDim);
+       // animationPanel.setMinimumSize(animDim);
+       // animationPanel.setMaximumSize(animDim);
         //animationPanel.setLayout(new BorderLayout());
         
        
        add(ProjectPanel, BorderLayout.WEST);
-       add(animationPanel, BorderLayout.EAST);
+      // add(animationPanel, BorderLayout.EAST);
     }
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
@@ -181,9 +181,9 @@ AnimationPanel animationPanel = new AnimationPanel();
         }	
     }
     
-   public HomePanel getHomePanel() {
+  /* public HomePanel getHomePanel() {
 		return homePanel;
-	}
+	}*/
     /**
      * Main routine to get gui started
      */
