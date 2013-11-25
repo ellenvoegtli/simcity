@@ -239,6 +239,9 @@ public class ContactList {
 	public void setDavidCashier(DavidCashierRole cashier){
 		davidCashier = cashier;
 	}
+	public void setDavidRestaurant(DavidRestaurantPanel d){ 
+		this.davidRestaurant = d;
+	}
 	
 	//Ena's Restaurant
 	public void setEnaHost(EnaHostRole h){
