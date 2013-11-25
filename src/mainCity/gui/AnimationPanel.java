@@ -10,6 +10,7 @@ import transportation.BusAgent;
 import transportation.gui.BusGui;
 import transportation.gui.Lane;
 import transportation.gui.Vehicle;
+import mainCity.gui.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -142,7 +143,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         buildings.add(building); 
         addBuildingGui(building);
         
-        building = new Building ( 275, 150, "restaurant_right.png", "rest3");
+        building = new Building ( 275, 150, "restaurant_right.png", "enarestaurant");
         buildings.add(building); 
         addBuildingGui(building);
         
@@ -340,6 +341,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     	guis.add(gui);
     }
     
+
+    public void addMarketDeliveryGui(DeliveryManGui gui){
+    	guis.add(gui);
+    }
     
     public static Map<Building, Boolean> getHouses()
     {

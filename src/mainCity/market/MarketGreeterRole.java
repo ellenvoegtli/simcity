@@ -35,6 +35,7 @@ public class MarketGreeterRole extends Role {
 
 	
 	int nextEmployee = 0;
+	boolean cashierArrived = false;
 
 	
 	public MarketGreeterRole(PersonAgent p, String name) {
@@ -44,6 +45,7 @@ public class MarketGreeterRole extends Role {
 	}
 	public void setCashier(MarketCashierRole c){
 		cashier = c;
+		cashierArrived = true;
 	}
 	public void setDeliveryMan(MarketDeliveryManRole d){
 		deliveryMan = d;
@@ -61,21 +63,24 @@ public class MarketGreeterRole extends Role {
 		return (/*deliveryMan != null && deliveryMan.isActive()) &&*/ (cashier != null && cashier.isActive()));
 	}
 
+	//for alert log trace statements
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET_GREETER, this.getName(), s);
+	}
 	
 	// Messages
 	
 	//from customers
 	public void msgINeedInventory(MarketCustomerRole c, int x, int y){
-		//print("Received msgINeedInventory");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgINeedInventory from " + c.getName());
+		log("Received msgINeedInventory from: " + c.getName());
         waitingCustomers.add(new MyWaitingCustomer(c, x, y));
 		stateChanged();
 	}
 	
 	//from businesses
 	public void msgINeedInventory(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer> inventoryNeeded){
-		//print("Received msgINeedInventory from " + restaurantName);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Received msgINeedInventory from " + restaurantName);
+		log("Received msgINeedInventory from " + restaurantName);
 		waitingBusinesses.add(new MyWaitingBusiness(restaurantName, cook, cashier, inventoryNeeded));
 		stateChanged();
 	}
@@ -112,13 +117,16 @@ public class MarketGreeterRole extends Role {
 		
 		if (!waitingBusinesses.isEmpty()){
 			if (!myEmployees.isEmpty()){
-				nextEmployee++;
-				if (nextEmployee > myEmployees.size() - 1)
-					nextEmployee = 0;
-				
-				assignBusinessToEmployee(waitingBusinesses.get(0), myEmployees.get(nextEmployee));
-				
-				return true;
+				if (isOpen() || cashierArrived){
+					cashierArrived = false;
+					nextEmployee++;
+					if (nextEmployee > myEmployees.size() - 1)
+						nextEmployee = 0;
+					
+					assignBusinessToEmployee(waitingBusinesses.get(0), myEmployees.get(nextEmployee));
+					
+					return true;
+				}
 			}
 		}
 
@@ -132,15 +140,12 @@ public class MarketGreeterRole extends Role {
 	// Actions
 
 	private void assignCustomerToEmployee(MyWaitingCustomer cust, MyEmployee me) {
-		//print("Assigning " + cust.c.getName() + " to " + me.e.getName());
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Assigning " + cust.c.getName() + " to " + me.e.getName());
-
+		log("Assigning " + cust.c.getName() + " to " + me.e.getName());
 		me.e.msgAssignedToCustomer(cust.c, cust.waitingPosX, cust.waitingPosY);
 		waitingCustomers.remove(cust);
 	}
 	private void assignBusinessToEmployee(MyWaitingBusiness business, MyEmployee e){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "Assigning " + business.restaurantName + " to " + e.e.getName());
-		
+        log("Assigning " + business.restaurantName + " to " + e.e.getName());
 		e.e.msgAssignedToBusiness(business.restaurantName, business.cook, business.cashier, business.inventory);
 		waitingBusinesses.remove(business);
 	}
@@ -148,18 +153,13 @@ public class MarketGreeterRole extends Role {
 
 	
 	//utilities
-/*
-	public void setGui(HostGui gui) {
-		hostGui = gui;
-	}
-
-	public HostGui getGui() {
-		return hostGui;
-	}
-*/
-	
+	/*
 	public void addEmployee(MarketEmployeeRole e, int x, int y){
 		myEmployees.add(new MyEmployee(e, x, y));
+		stateChanged();
+	}*/
+	public void addEmployee(MarketEmployeeRole e){
+		myEmployees.add(new MyEmployee(e));
 		stateChanged();
 	}
 	
@@ -167,11 +167,17 @@ public class MarketGreeterRole extends Role {
 		MarketEmployeeRole e;
 		int homeX, homeY;
 		
-		MyEmployee(MarketEmployeeRole e, int homeX, int homeY){
+		/*MyEmployee(MarketEmployeeRole e, int homeX, int homeY){
 			this.e = e;
 			this.homeX = homeX;
 			this.homeY = homeY;
+		}*/
+		MyEmployee(MarketEmployeeRole e){
+			this.e = e;
+			//this.homeX = homeX;
+			//this.homeY = homeY;
 		}
+		
 	}
 	
 	

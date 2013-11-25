@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
+import mainCity.restaurants.enaRestaurant.gui.EnaAnimationPanel;
 import mainCity.restaurants.enaRestaurant.gui.EnaWaiterGui;
 import role.Role;
 import housing.LandlordRole;
@@ -35,11 +36,12 @@ public class HomePanel extends JPanel
     private HomeGui gui; //reference to main gui
     private OccupantRole occupant;
    private OccupantGui occupantGui; 
+   private HomeAnimationPanel animation;
 
-    public HomePanel(HomeGui gui)
+    public HomePanel(HomeAnimationPanel homeAnimationPanel)
     {
        
-    	this.gui = gui;
+    	this.animation = homeAnimationPanel;
         setLayout(new GridLayout(1, 2, 20, 20));
         initRestLabel();
         add(homeLabel);
@@ -134,7 +136,7 @@ public class HomePanel extends JPanel
     		occupantGui = new OccupantGui(occupant, gui); 	
     		occupant.setGui(occupantGui);
     		occupantGui.setHungry();    
-    		gui.animationPanel.addGui(occupantGui);
+    		animation.addGui(occupantGui);
     		System.out.println("Occupant has been returned home");
 
     		
@@ -147,7 +149,7 @@ public class HomePanel extends JPanel
 
     		landLordGui = new LandlordGui(landLord);
     		landLord.setGui(landLordGui);
-    		gui.animationPanel.addGui(landLordGui);
+    		animation.addGui(landLordGui);
     	}
     
    

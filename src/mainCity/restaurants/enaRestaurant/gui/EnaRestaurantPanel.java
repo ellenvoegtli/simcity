@@ -11,6 +11,7 @@ import mainCity.restaurants.enaRestaurant.EnaHostRole;
 import mainCity.restaurants.enaRestaurant.EnaCookRole;
 import mainCity.restaurants.enaRestaurant.gui.EnaCookGui;
 import mainCity.restaurants.enaRestaurant.sharedData.RevolvingStand;
+import mainCity.restaurants.marcusRestaurant.gui.MarcusAnimationPanel;
 
 import javax.swing.*;
 
@@ -42,6 +43,7 @@ public class EnaRestaurantPanel extends JPanel
 
     private Vector<EnaCustomerRole> customers = new Vector<EnaCustomerRole>();
     private Vector<EnaWaiterRole> waiters = new Vector<EnaWaiterRole>();
+    private EnaAnimationPanel animation;
 
     private JPanel restLabel = new JPanel();
     private ListPanel customerPanel = new ListPanel(this, "Customers");
@@ -50,11 +52,12 @@ public class EnaRestaurantPanel extends JPanel
 
     private EnaRestaurantGui gui; //reference to main gui
 
-    public EnaRestaurantPanel(EnaRestaurantGui gui) {
-        this.gui = gui;
+    public EnaRestaurantPanel(EnaAnimationPanel pnl) {
+        
+    	this.animation = pnl;
        
         //creating instances of people to test shared waiters  w/o rest of city
-        PersonAgent base = new PersonAgent("Host");
+        /*PersonAgent base = new PersonAgent("Host");
 		host = new EnaHostRole(base, base.getName());
 		base.addRole(PersonAgent.ActionType.work, host);
 		host.setActive();
@@ -82,7 +85,7 @@ public class EnaRestaurantPanel extends JPanel
 		
 		cookGui = new EnaCookGui(cook);
 		cook.setGui(cookGui);
-		gui.animationPanel.addGui(cookGui);
+		animation.addGui(cookGui);
 		cook.setCashier(cashier);
 	
 		host.setCashier(cashier);
@@ -93,7 +96,7 @@ public class EnaRestaurantPanel extends JPanel
 		customers.add(customer);
 		//int posX = 22 * customers.size();
 	EnaCustomerGui g = new EnaCustomerGui(customer, gui);
-	gui.animationPanel.addGui(g);// dw
+	animation.addGui(g);// dw
 	customer.setHost(host);
 	customer.setCashier(cashier);
 	customer.setGui(g);
@@ -107,15 +110,15 @@ public class EnaRestaurantPanel extends JPanel
 		waiter.setCook(cook);
 		waiter.setCashier(cashier);
 		waiters.add(waiter);
-		gui.animationPanel.addGui(wg);
+		animation.addGui(wg);
 		  
-		//g.setHungry();
+		g.setHungry();
 	//host.setGui(hostGui);
         //cook.setGui(cookGui);
         //cook.setCashier(cashier);
         //gui.animationPanel.addGui(hostGui);
 		
-		//gui.animationPanel.addGui(gui);
+		//animation.addGui(gui);
 		
 		base.startThread();
 		base2.startThread();
@@ -125,7 +128,7 @@ public class EnaRestaurantPanel extends JPanel
      
 		g.setHungry();
 
-    
+    */
         	
         ContactList.getInstance().setEnaCook(cook);
         ContactList.getInstance().setEnaCashier(cashier);
@@ -135,7 +138,6 @@ public class EnaRestaurantPanel extends JPanel
 
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(2, 1, 10, 10));
-        //group.setLayout(new BorderLayout());
 
         group.add(waiterPanel);
         
@@ -209,7 +211,7 @@ public class EnaRestaurantPanel extends JPanel
     	{
     		if(cust.equals(customers.get(i).getName())) 
     		{
-    			   customers.get(i).getGui().setHungry();
+    			   customers.get(i).getGui().goInside();
 
     		}
     	}
@@ -271,7 +273,7 @@ public class EnaRestaurantPanel extends JPanel
           int pos = 22;
           if(host != null)  pos = 22* host.waiters.size();
            EnaWaiterGui g = new EnaWaiterGui(w, gui,pos);
-   		   gui.animationPanel.addGui(g);
+   		   animation.addGui(g);
 
     		if(host != null) host.addWaiterRole(w);
     		w.setHost(host);
@@ -298,9 +300,8 @@ public class EnaRestaurantPanel extends JPanel
 			customers.add(c);
 			EnaCustomerGui g = new EnaCustomerGui(c, gui);
 	
-			gui.animationPanel.addGui(g);
+			animation.addGui(g);
 			c.setHost(host);
-			//c.getGui().setHungry();
 			c.setCashier(cashier);
 			c.setGui(g);
 			
@@ -329,9 +330,7 @@ public class EnaRestaurantPanel extends JPanel
     		}
     		ContactList.getInstance().setEnaHost(host);
 
-    		//EnaHostGui g = new EnaHostGui(host);
-			//gui.animationPanel.addGui(g);
-			//host.setGui(g);
+    		
     	}
     	
     	
@@ -359,7 +358,7 @@ public class EnaRestaurantPanel extends JPanel
 	    	
 			cookGui = new EnaCookGui(cook);
             //cook.setStand(stand);
-    		gui.animationPanel.addGui(cookGui);
+    		animation.addGui(cookGui);
             cook.setGui(cookGui);
             cook.setCashier(cashier);
             if(host != null)

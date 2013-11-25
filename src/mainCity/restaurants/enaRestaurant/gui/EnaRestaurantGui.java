@@ -17,14 +17,14 @@ public class EnaRestaurantGui extends JFrame implements ActionListener {
      * and the animation frame, (in variable animationFrame within gui)
      */
 	//JFrame animationFrame = new JFrame("Restaurant Animation");
-	AnimationPanel animationPanel = new AnimationPanel();
+	//EnaAnimationPanel animationPanel = new EnaAnimationPanel();
 	
     /* restPanel holds 2 panels
      * 1) the staff listing, menu, and lists of current customers all constructed
      *    in RestaurantPanel()
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
-    private EnaRestaurantPanel restPanel = new EnaRestaurantPanel(this);
+  ///  private EnaRestaurantPanel restPanel = new EnaRestaurantPanel(this);
     private Agent agent = null;
     private JPanel ProjectPanel = new JPanel();
     private boolean paused = false;
@@ -60,10 +60,10 @@ public class EnaRestaurantGui extends JFrame implements ActionListener {
         //setLayout(new BoxLayout((Container) getContentPane(), BoxLayout.Y_AXIS));
 
         Dimension restDim = new Dimension(WINDOWX, (int) (WINDOWY * .3));
-        restPanel.setPreferredSize(restDim);
-        restPanel.setMinimumSize(restDim);
-        restPanel.setMaximumSize(restDim);
-        add(restPanel);
+        //restPanel.setPreferredSize(restDim);
+        //restPanel.setMinimumSize(restDim);
+        //restPanel.setMaximumSize(restDim);
+        //add(restPanel);
         
         // Now, setup the info panel
         Dimension infoDim = new Dimension(WINDOWX, (int) (WINDOWY * .2));
@@ -106,20 +106,20 @@ public class EnaRestaurantGui extends JFrame implements ActionListener {
         ProjectPanel.setLayout(new BorderLayout());
        
         
-        ProjectPanel.add(restPanel, BorderLayout.CENTER);
+        //ProjectPanel.add(restPanel, BorderLayout.CENTER);
         ProjectPanel.add(infoPanel, BorderLayout.SOUTH);
         	
         
         Dimension animDim = new Dimension((int)(WINDOWX * .5), WINDOWY);
         
-        animationPanel.setPreferredSize(animDim);
-        animationPanel.setMinimumSize(animDim);
-        animationPanel.setMaximumSize(animDim);
+       // animationPanel.setPreferredSize(animDim);
+        //animationPanel.setMinimumSize(animDim);
+        //animationPanel.setMaximumSize(animDim);
         //animationPanel.setLayout(new BorderLayout());
         
        
        add(ProjectPanel, BorderLayout.WEST);
-       add(animationPanel, BorderLayout.EAST);
+      // add(animationPanel, BorderLayout.EAST);
     }
     /**
      * updateInfoPanel() takes the given customer (or, for v3, Host) object and
@@ -167,7 +167,7 @@ public class EnaRestaurantGui extends JFrame implements ActionListener {
             if (currentPerson instanceof EnaCustomerRole) 
             {
                 EnaCustomerRole c = (EnaCustomerRole) currentPerson;
-                c.getGui().setHungry();
+                c.getGui().goInside();
                 stateCB.setEnabled(false);
             }
             if(currentPerson instanceof EnaWaiterRole)
@@ -187,13 +187,13 @@ public class EnaRestaurantGui extends JFrame implements ActionListener {
         	{
         		paused = false;
         		System.out.println("pause button restarting call");
-        		restPanel.restartAll();
+        	//	restPanel.restartAll();
         	}
         	else
         	{
         		paused = true;
         		System.out.println("pause button clicked to pause gui");
-        		restPanel.pauseAll();
+        	//	restPanel.pauseAll();
         	}
         	
         }
@@ -229,7 +229,7 @@ public class EnaRestaurantGui extends JFrame implements ActionListener {
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-	public EnaRestaurantPanel getEnaRestaurantPanel() {
+	/*public EnaRestaurantPanel getEnaRestaurantPanel() {
 		return restPanel;
-	}
+	}*/
 }
