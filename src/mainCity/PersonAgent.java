@@ -17,7 +17,11 @@ import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
+import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
@@ -467,6 +471,29 @@ public class PersonAgent extends Agent {
 			switch(action) {
 				case work:
 					switch(job.occupation) {
+						//-----Jefferson Restaurant Roles---//
+						case "jeffersonCook":
+							JeffersonCookRole jc = new JeffersonCookRole(this, name);
+							ContactList.getInstance().getJeffersonRestaurant().handleRole(jc);
+							roles.put(action,jc);
+							break;
+						case "jeffersonCashier":
+							JeffersonCashierRole jr = new JeffersonCashierRole(this, name);
+							ContactList.getInstance().getJeffersonRestaurant().handleRole(jr);
+							roles.put(action, jr);
+							break;
+						case "jeffersonWaiter":
+							JeffersonWaiterRole jw = new JeffersonWaiterRole(this, name);
+							ContactList.getInstance().getJeffersonRestaurant().handleRole(jw);
+							roles.put(action, jw);
+							break;
+						case "jeffersonHost":
+							JeffersonHostRole jh = new JeffersonHostRole(this, name);
+							ContactList.getInstance().getJeffersonRestaurant().handleRole(jh);
+							roles.put(action, jh);
+							break;
+							
+							
 						
 						//-----Marcus Restaurant Roles---//
 						case "marcusCook":
@@ -609,7 +636,7 @@ public class PersonAgent extends Agent {
 							break;
 						case restaurant_jefferson:
 							JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
-							ContactList.getInstance().getJeffersonRestaurant().handleRoleGui(jc);
+							ContactList.getInstance().getJeffersonRestaurant().handleRole(jc);
 							roles.put(action,jc);
 							break;
 						case restaurant_david: 

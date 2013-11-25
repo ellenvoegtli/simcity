@@ -243,7 +243,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     	}
     */	
     }
-    public void handleRoleGui(Role r) {
+    public void handleRole(Role r) {
     	
     	if(r instanceof JeffersonCookRole) {
     		cook = (JeffersonCookRole) r;
