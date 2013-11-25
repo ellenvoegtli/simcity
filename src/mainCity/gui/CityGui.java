@@ -456,18 +456,32 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			System.out.println("name = " + nameField.getText());
 			String name = nameField.getText();
 			double money = Double.parseDouble(moneyField.getText());
+			//String housing = (String) housingMenu.getSelectedItem();
 			String occupation = (String) occupationMenu.getSelectedItem();
 			String shift = (String) shiftMenu.getSelectedItem();
 			String housing = (String) housingMenu.getSelectedItem();
 			String car = (String) carMenu.getSelectedItem();
-
+			boolean renter = false;
+			
+			if (housing.equalsIgnoreCase("apartment"))
+			{
+				renter = true;
+			}
+			if (housing.equalsIgnoreCase("house"))
+			{
+				renter = false;
+			}
+			else
+			{//change this later--- other has to be random true/false not always false
+				renter = false;
+			}
 			int sb = 0, se = 0;
 			if (shift.equalsIgnoreCase("AM")){
 				sb = 7;
 				se = 9;
 			}
 			String [] actions ={"work"};
-			cityPanel.addPerson(name, money, occupation, sb, se, actions);
+			cityPanel.addPerson(name, money, renter, occupation, sb, se, actions);
 		}
 		else if (e.getSource() == restaurantButton){
 			restaurantButton.setEnabled(false);

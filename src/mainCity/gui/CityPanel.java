@@ -43,7 +43,7 @@ public class CityPanel extends JPanel{
 		
 		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
 	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
-	    enaRestaurant.setVisible(true);
+	    //enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
@@ -215,7 +215,7 @@ public class CityPanel extends JPanel{
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);
 		person.setHomePlace(renter);
-
+		System.out.println("selected house for person to live in");
 		PersonGui pg = new PersonGui(person, gui);
 		gui.getAnimationPanel().addPersonGui(pg);
 		person.setGui(pg);

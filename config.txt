@@ -19,6 +19,6 @@ Name:Person4;Cash:10;Renter:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;A
 -Other
 Name:PersonK;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
 Name:Personl;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
-Name:Personm;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
+Name:Personm;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restuarant
 Name:Personn;Cash:480;Renter:false;Occupation:rich;ShiftBegin:7;ShiftEnd:19;Actions:restaurant
 

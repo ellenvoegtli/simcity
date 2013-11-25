@@ -22,6 +22,7 @@ public class PersonGui implements Gui{
 	private PersonAgent agent = null;
 	private int xPos, yPos;
 	private int xDestination, yDestination;
+	private int xHome, yHome;
 	private static final int w = 20;
 	private static final int h = 20;
 	private boolean isPresent = false;
@@ -34,8 +35,16 @@ public class PersonGui implements Gui{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
+		xHome = agent.getHomePlace().getXLoc();
+		yHome = agent.getHomePlace().getYLoc();
+		
+		xDestination = xPos = xHome;
+		yDestination = yPos = yHome;;
+		
+		/*
 		xDestination = xPos = (int) (Math.random() * 700);
-		yDestination = yPos = (int) (Math.random() * 500);
+		yDestination = yPos = (int) (Math.random() * 500);*/
+		
 		traveling  = false;
 		StringBuilder path = new StringBuilder("imgs/");
 		try {
@@ -56,6 +65,11 @@ public class PersonGui implements Gui{
 		corners.add(new Coordinate(585, 330));
 		corners.add(new Coordinate(655, 125));
 		corners.add(new Coordinate(655, 330));
+		
+		
+		
+		xHome = agent.getHomePlace().getXLoc();
+		yHome = agent.getHomePlace().getYLoc();
 	}
 
 	public void updatePosition() {
@@ -135,10 +149,11 @@ public class PersonGui implements Gui{
 				yDestination = path.poll().y;
 				break;
 			case home:
-				calculatePath(100, 500);
+				calculatePath(xHome, yHome);
 				xDestination = path.peek().x;
 				yDestination = path.poll().y;
 				break;
+		
 			default:
 				calculatePath(0, 0);
 				xDestination = path.peek().x;
