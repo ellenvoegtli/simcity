@@ -1,14 +1,11 @@
 package mainCity.gui;
 
-import mainCity.restaurants.EllenRestaurant.*;
-import mainCity.market.gui.*;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
 import java.util.ArrayList;
-import mainCity.PersonAgent;
 
 /**
  * Subpanel of restaurantPanel.
@@ -22,9 +19,7 @@ public class ListPanel extends JPanel implements ActionListener {
     private JPanel personView = new JPanel();
     private List<JButton> personList = new ArrayList<JButton>();
    
-    //private CityPanel cityPanel;
     private CityGui cityGui;
-    private String type;
 
     /**
      * Constructor for ListPanel.  Sets up all the gui
@@ -33,12 +28,9 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param type indicates if this is for customers or waiters
      */
     public ListPanel(CityGui cg) {
-
-        //cityPanel = cp;
     	cityGui = cg;
-        //this.type = type;
+    	
         this.setAlignmentX(Component.LEFT_ALIGNMENT);
-
         setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));    	
         add(new JLabel("<html><u> People </u><br></html>"));
 
@@ -59,7 +51,7 @@ public class ListPanel extends JPanel implements ActionListener {
     		if (e.getSource() == temp){
     			cityGui.showInfo(temp.getText());
     		}
-    	}//end of second for loop
+    	}
     }
 
 
@@ -87,7 +79,7 @@ public class ListPanel extends JPanel implements ActionListener {
             personList.add(button);
             personView.add(button);
          
-            cityGui.showInfo(name);//puts hungry button on panel
+            cityGui.showInfo(name);
 
             validate();
         }
