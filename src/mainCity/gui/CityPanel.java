@@ -40,8 +40,14 @@ public class CityPanel extends JPanel{
     	ContactList.getInstance().setMarket(marketGui.getMarketPanel());
     	//marketGui.setVisible(true);
 		
-		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
-	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
+
+	    //EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
+	    //ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
+        //ellenRestaurant.setVisible(true);
+		
+		//EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
+	    //ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
+
 	    //enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
@@ -50,7 +56,7 @@ public class CityPanel extends JPanel{
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
 
-    	jeffersonRestaurant.setVisible(true);
+    	//jeffersonRestaurant.setVisible(true);
     	
 
 
@@ -59,9 +65,9 @@ public class CityPanel extends JPanel{
     	ContactList.getInstance().setBank(bank.getBankPanel());
     	//bank.setVisible(true);
     	
-    	HomeGui home= new HomeGui();
-    	ContactList.getInstance().setHome(home.getHomePanel());
-    	home.setVisible(true);
+    	//HomeGui home= new HomeGui();
+    	//ContactList.getInstance().setHome(home.getHomePanel());
+    	//home.setVisible(true);
     	
 
     	//Hardcoding a bus
@@ -79,15 +85,17 @@ public class CityPanel extends JPanel{
 
 
     	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
-		parseConfig();
+		//parseConfig();
+
+    	String[] actions = {"work"}; 
+    	addPerson("David", 500, false, "davidWaiter", 7, 19, actions); 
 
 
-
-    	//String[] actions = {"work"}; 
-    	//addPerson("David", 500, false, "marcusWaiter", 7, 19, actions); 
+    	//String[] actions = {"hungry"}; 
+    	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
 
 /*
-    	PersonAgent person = new PersonAgent("joeMoe");
+    	PersonAgent person = new PersonAgent("joeMoe"); 
     	PersonAgent person2 = new PersonAgent("Waiter");
     	PersonAgent person3 = new PersonAgent("Cook");
     	PersonAgent person4 = new PersonAgent("Cashier");

@@ -21,7 +21,7 @@ public class EnaHostGui implements Gui {
     public final int xTable2 = 200;
     public final int xTable3 = 350;
 
-    public static final int yTable = 450;
+    public static final int yTable = 150;
 
 public int setPositionX(int tableNum)
 {

@@ -1,5 +1,8 @@
 package mainCity.gui;
 
+import housing.gui.HomeAnimationPanel;
+import housing.gui.HomePanel;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,8 +14,13 @@ import java.util.HashMap;
 
 import javax.swing.JPanel;
 
+<<<<<<< HEAD
 import mainCity.restaurants.EllenRestaurant.gui.EllenAnimationPanel;
+=======
+import mainCity.restaurants.enaRestaurant.gui.EnaAnimationPanel;
+>>>>>>> f0ce3b42ce4b66fbfd0059b56b6f12bd9f54c3e4
 import mainCity.restaurants.marcusRestaurant.gui.MarcusAnimationPanel;
+import mainCity.restaurants.restaurant_zhangdt.gui.DavidAnimationPanel;
 
 public class CityView extends JPanel implements MouseListener, ActionListener {
 
@@ -34,7 +42,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		for(int i=0; i<7; i++){ 
 			cards.put("bothouse"+i, new CityCard(city, Color.cyan));
 		}
-		for(int i=1; i<6; i++){
+		for(int i=2; i<5; i++){
 			cards.put("rest"+i, new CityCard(city, Color.DARK_GRAY));
 		}
 		cards.put("bank", new CityCard(city, Color.green));
@@ -42,6 +50,19 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		
 		cards.put("marcusRestaurant", new MarcusAnimationPanel(city));
 		cards.put("EllenRestaurant", new EllenAnimationPanel(city));
+		cards.put("davidRestaurant", new DavidAnimationPanel(city));
+		cards.put("enarestaurant",  new EnaAnimationPanel(city));
+		
+		for(int i=1; i<8; i++)
+		{
+					cards.put("house"+ i, new HomeAnimationPanel(city));
+
+		}
+		for(int j=0; j<8; j++)
+		{
+			cards.put("apartment" +j, new HomeAnimationPanel(city));
+
+		}
 		
 		layout = new CardLayout();
 		this.setLayout(layout);

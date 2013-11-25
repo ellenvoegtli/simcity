@@ -221,7 +221,7 @@ public boolean pickAndExecuteAnAction()
 			
 				print("The cashier is has taken care of the market's bill for: $ " +checks.checks);
 				restCash = restCash - checks.checks;
-				checks.deliveryMan.msgHereIsPayment(checks.checks);
+				checks.deliveryMan.msgHereIsPayment(checks.checks, "enaRestaurant");
 				print("The restaurant now has $ " +restCash);
 				marketChecks.remove(checks);
 			

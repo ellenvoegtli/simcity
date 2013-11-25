@@ -22,7 +22,7 @@ public class EnaCookGui implements Gui
 	private EnaCookRole agent;
 	private EnaRestaurantGui gui;
 	private int grillPosX = 375;
-	private int platePosY = 500;
+	private int platePosY = 300;
 
 	    private int xPos, yPos;//default waiter position
 	    //private int xDestination, yDestination;//default start position
@@ -41,11 +41,11 @@ public class EnaCookGui implements Gui
 	public void draw(Graphics2D g) 
 	{
 			g.setColor(Color.BLUE);
-	        g.fillRect(310, 530, 20, 20);
+	        g.fillRect(310, 330, 20, 20);
 	        g.setColor(Color.RED);
-	        g.fillRect(275, 490, 90, 25);
+	        g.fillRect(275, 290, 90, 25);
 	        g.setColor(Color.LIGHT_GRAY);
-	        g.fillRect(375, 490, 35, 105);
+	        g.fillRect(375, 290, 35, 105);
 	       synchronized(grillingFoods)
 	       {
 	        for(String gfd: grillingFoods)
@@ -56,20 +56,20 @@ public class EnaCookGui implements Gui
 	        
 	        	if (gfd.equals("steak"))
 	        	{
-	        			g.drawString("ST", grillPosX, 492);
+	        			g.drawString("ST", grillPosX, 292);
 	        	}
 	        	if(gfd.equals("porkchops"))
 	        	{
-	        		g.drawString("PH", grillPosX, 502);
+	        		g.drawString("PH", grillPosX, 302);
 
 	        	}
 	        	if (gfd.equals("lamb"))
 	        	{
-	        		g.drawString("LA", grillPosX, 512);
+	        		g.drawString("LA", grillPosX, 312);
 	        	}
 	        	if (gfd.equals("lambchops"))
 	        	{
-	        		g.drawString("LC", grillPosX, 522);
+	        		g.drawString("LC", grillPosX, 322);
 	        	}
 	        
 	       }
