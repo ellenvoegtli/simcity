@@ -13,6 +13,8 @@ import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.TreeMap;
 
+import role.Role;
+import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.market.MarketGreeterRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole.*;
@@ -24,14 +26,16 @@ import mainCity.restaurants.jeffersonrestaurant.sharedData.RevolvingStand;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.Table;
 import mainCity.restaurants.jeffersonrestaurant.sharedData.OrderTicket;
 
-public class JeffersonCookRole extends Agent implements Cook{
+public class JeffersonCookRole extends Role implements Cook{
 
+	private PersonAgent p;
 
 	public enum OrderState
 	{pending, marketOrdering, cooking, Done, Delivered};
 	
 	private OrderState state=OrderState.pending;
 	private String name;
+	public boolean onDuty;
 	public CookGui cookGui = null;
 	private JeffersonCashierRole cashier;
 	private RevolvingStand revolvingstand;
@@ -52,9 +56,10 @@ public class JeffersonCookRole extends Agent implements Cook{
 	
 	
 	
-	public JeffersonCookRole(String name){
-		super();
+	public JeffersonCookRole(PersonAgent p, String name){
+		super(p);
 		this.name=name;
+		onDuty=true;
 		cookingTimes.put("steak",8);
 		cookingTimes.put("chicken",6);
 		cookingTimes.put("salad",4);
@@ -116,6 +121,17 @@ public class JeffersonCookRole extends Agent implements Cook{
 	
 	
 	// Messages
+	public void msgGoOffDuty(){
+		onDuty=false;
+		stateChanged();
+	}
+	public void msgLeftRestaurant() {
+		super.setInactive();
+		onDuty=true;
+		
+	}
+
+	
 	public void msghereIsAnOrder (int table, String Choice, Waiter w){
 		print("cook recieved order");
 		orders.add(new Order (table,Choice, w));
@@ -239,7 +255,7 @@ public class JeffersonCookRole extends Agent implements Cook{
 	
 	// Scheduler
 	
-	protected boolean pickAndExecuteAnAction(){
+	public boolean pickAndExecuteAnAction(){
 		
 		
 		if(!ordersTaken.isEmpty()){
@@ -250,7 +266,9 @@ public class JeffersonCookRole extends Agent implements Cook{
 			}
 			
 		}
-		
+		if(!onDuty && orders.isEmpty()){
+			leaveRestaurant();
+		}
 		synchronized(orders){
 			for(Order o:orders){
 				//print("entered for loop");
@@ -284,6 +302,11 @@ public class JeffersonCookRole extends Agent implements Cook{
 	
 	// Actions
 	
+	private void leaveRestaurant() {
+		cookGui.DoLeaveRestaurant();
+		
+	}
+
 	private void checkStand() {
 		
 		
@@ -302,6 +325,7 @@ public class JeffersonCookRole extends Agent implements Cook{
 		}
 	}
 	private void cook( Order o){
+		cookGui.DoEnterRestaurant();
 		String order=o.Choice;
 		
 		if(inventory.get(order)==0){
@@ -433,6 +457,7 @@ public class JeffersonCookRole extends Agent implements Cook{
 		o.w.msgOrderIsReady(o.tableNumber);
 		
 	}
+
 
 	
 

@@ -17,7 +17,7 @@ public class CustomerGui implements Gui{
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 
-	EllenRestaurantGui gui;
+	EllenAnimationPanel animation;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -46,7 +46,8 @@ public class CustomerGui implements Gui{
 	private boolean atDestination = false;
 	
 
-	public CustomerGui(EllenCustomerRole c, EllenRestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(EllenCustomerRole c, EllenAnimationPanel a){ //HostAgent m) {
+		animation = a;
 		
 		//initialize table locations map
         tableX.put(1, 200);
@@ -68,7 +69,6 @@ public class CustomerGui implements Gui{
 		xDestination = -40;
 		yDestination = -40;
 		//maitreD = m;
-		this.gui = gui;
 	}
 
 	public void updatePosition() {
@@ -92,9 +92,7 @@ public class CustomerGui implements Gui{
 
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
-				System.out.println("about to call gui.setCustomerEnabled(agent);");
 				isHungry = false;
-				gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}

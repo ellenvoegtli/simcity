@@ -7,9 +7,11 @@ import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
 
 public class CookGui implements Gui {
+	private int xPos;
+	private int yPos;
 	private int xHome=370;
 	private int yHome = 200;
-	JeffersonRestaurantGui gui;
+	
 	Graphics2D g2;
 	private JeffersonCookRole agent = null;
 	
@@ -19,11 +21,13 @@ public class CookGui implements Gui {
 	
 	int table;
 	
-	public CookGui(JeffersonCookRole c, JeffersonRestaurantGui gui){ //HostAgent m) {
+	public CookGui(JeffersonCookRole c){ //HostAgent m) {
 		agent = c;
 		xHome=370;
 		yHome = 200;
-		this.gui = gui;
+		xPos = -20;
+		yPos = -20;
+		
 		
 	}
 	
@@ -44,7 +48,7 @@ public class CookGui implements Gui {
 		g2=g;
 	
 		g.setColor(Color.RED);
-        g.fillRect(xHome, yHome, 20, 20);
+        g.fillRect(xPos, yPos, 20, 20);
         /*
         if(!c1 & !p1){
         	g2.setColor(Color.BLUE);
@@ -163,6 +167,17 @@ public class CookGui implements Gui {
 	
 	public boolean isPresent() {
 		return true;
+	}
+	
+	public void DoLeaveRestaurant(){
+		xPos=-20;
+		yPos=-20;
+		agent.msgLeftRestaurant();
+	}
+	
+	public void DoEnterRestaurant(){
+		xPos=xHome;
+		yPos=yHome;
 	}
 /*	
 	public void drawFood(int t){

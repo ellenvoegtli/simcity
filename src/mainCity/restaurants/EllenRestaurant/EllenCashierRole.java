@@ -28,7 +28,7 @@ public class EllenCashierRole extends Role implements Cashier {
 	Map<String, Integer> prices = new TreeMap<String, Integer>();
 	
 	public enum CheckState {newCheck, computing, waitingForPayment, calculatingChange, done};
-	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, done};	//is this ok???
+	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, oweMoney, done};	//is this ok???
 	
 	
 	boolean opened = true;
@@ -120,6 +120,21 @@ public class EllenCashierRole extends Role implements Cashier {
 		b.s = MarketBillState.receivedChange;
 		stateChanged();
 	}
+	public void msgNotEnoughMoney(double amountCharged, double amountPaid){
+		log("Received msgNotEnoughMoney");
+		MarketBill b = null;
+		synchronized(marketBills){
+			for (MarketBill thisMB : marketBills){
+				if (thisMB.amountPaid == amountPaid){
+					b = thisMB;
+					break;
+				}
+			}
+		}
+		b.amountOwed = amountCharged - amountPaid;
+		b.s = MarketBillState.oweMoney;
+		stateChanged();
+	}
 	
 
 	 // Scheduler.  Determine what action is called for, and do it.
@@ -161,6 +176,14 @@ public class EllenCashierRole extends Role implements Cashier {
 				}
 			}
 		}
+		synchronized(marketBills){
+			for (MarketBill b : marketBills){
+				if (b.s == MarketBillState.oweMoney){
+					AcknowledgeDebt(b);
+					return true;
+				}
+			}
+		}
 		
 
 		return false;
@@ -198,11 +221,12 @@ public class EllenCashierRole extends Role implements Cashier {
 			availableMoney -= b.billAmount;
 			b.amountPaid = b.billAmount;
 		}
-		//else
-			//non-norm??*****
+		else {
+			b.amountPaid = availableMoney;
+		}
 		
 		//new method call
-		b.deliveryMan.msgHereIsPayment(b.billAmount, "EllenRestaurant");
+		b.deliveryMan.msgHereIsPayment(b.amountPaid, "EllenRestaurant");
 		b.s = MarketBillState.waitingForChange;
 	}
 	
@@ -213,15 +237,19 @@ public class EllenCashierRole extends Role implements Cashier {
 			//correct change
 			log("Equal. Change verified.");
 			availableMoney += b.amountChange;
-			b.deliveryMan.msgChangeVerified();
+			b.deliveryMan.msgChangeVerified("ellenRestaurant");
 			b.s = MarketBillState.done;		//unnecessary
 			marketBills.remove(b);
 		}
 		
 		//else?******
 	}
-	
-
+	public void AcknowledgeDebt(MarketBill b){
+		log("Acknowledging debt");
+		b.deliveryMan.msgIOweYou(b.amountOwed, "ellenRestaurant");
+		//message the restaurant manager to pay the market somehow?
+		marketBills.remove(b);
+	}
 	
 
 	public class Check {		//made public for unit testing
@@ -258,6 +286,7 @@ public class EllenCashierRole extends Role implements Cashier {
 		double billAmount;
 		double amountPaid;
 		double amountChange;
+		double amountOwed;
 		MarketBillState s;
 		Map<String, Integer> itemsBought; 
 		

@@ -3,7 +3,10 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 import javax.swing.*;
 
 import role.Role;
-
+import role.marcusRestaurant.MarcusCookRole;
+import role.marcusRestaurant.MarcusCustomerRole;
+import role.marcusRestaurant.MarcusWaiterRole;
+import mainCity.contactList.ContactList;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
@@ -22,10 +25,10 @@ public class JeffersonRestaurantPanel extends JPanel {
 
     //Host, cook, waiters and customers
   // private WaiterAgent waiter = new WaiterAgent("Sarah");
-    private JeffersonHostRole host =new JeffersonHostRole ("Sal");
+    private JeffersonHostRole host;
   // private WaiterGui waiterGui = new WaiterGui(waiter);
-    private JeffersonCookRole cook = new JeffersonCookRole("Jim");
-    private JeffersonCashierRole cashier = new JeffersonCashierRole("Dave");
+    private JeffersonCookRole cook;
+    private JeffersonCashierRole cashier;
     /* 
     private JeffersonMarketRole m1 = new JeffersonMarketRole();
     private JeffersonMarketRole m2 = new JeffersonMarketRole();
@@ -63,12 +66,11 @@ public class JeffersonRestaurantPanel extends JPanel {
        // waiter.setHost(host);
         //gui.animationPanel.addGui(waiterGui);
        // waiter.startThread();
-        addPerson("waiter", "dave", false);
+     
         
         
         
-        cook.startThread();
-        cook.setCashier(cashier);
+
        /*
         m1.startThread();
         m2.startThread();
@@ -91,12 +93,12 @@ public class JeffersonRestaurantPanel extends JPanel {
         cook.addMarket(m3);
         cook.addMarket(m4);
         */
-        CookGui cg = new CookGui(cook,gui);
-        cook.setGui(cg);
-        gui.animationPanel.addGui(cg);
+        //CookGui cg = new CookGui(cook,gui);
+        //cook.setGui(cg);
+        //gui.animationPanel.addGui(cg);
         
-        host.startThread();
-        cashier.startThread();
+        //host.startThread();
+        //cashier.startThread();
         //host.waiters.add(waiter);
        // waiters.add(waiter);
 
@@ -109,21 +111,7 @@ public class JeffersonRestaurantPanel extends JPanel {
         initRestLabel();
         add(restLabel);
         add(group);
-//TODO remove hardcoding after test
-        JeffersonWaiterRole w =  new JeffersonWaiterRole("testwaiter");
-    	WaiterGui waiterGui = new WaiterGui(w);
-    	w.setCook(cook);
-        w.setHost(host);
-        w.setCashier(cashier);
-        gui.animationPanel.addGui(waiterGui);
-		w.setGui(waiterGui);
-		waiters.add(w);
-		waiterGui.setOrigin(waiters.size()*25 + 50, 170);
-		host.waiters.add(w);
-		
-		System.out.println("waiter added");
-        w.startThread();
-    
+
     
         
         
@@ -201,7 +189,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     }
     */
     public void addPerson(String type, String name, boolean hungry) {
-    	
+    	/*
     	
     	if (type.equals("Customers")) {
     		JeffersonCustomerRole c = new JeffersonCustomerRole(null,name );
@@ -253,29 +241,72 @@ public class JeffersonRestaurantPanel extends JPanel {
             //host.msgWaitersUpdate();
             //host.msgWaiterAdded();
     	}
-    	
+    */	
     }
-    public void handleRoleGui(Role r) {
-    	/*
-    	if(r instanceof JeffersonWaiterRole) {
-        	JeffersonWaiterRole w = (MarcusNormalWaiterRole) r;
-
-    		if(r.getName().contains("share")) {
-    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
-    			a.setStand(stand);
+    public void handleRole(Role r) {
+    	
+    	if(r instanceof JeffersonCookRole) {
+    		cook = (JeffersonCookRole) r;
+    		
+    		CookGui cg = new CookGui((JeffersonCookRole) r);
+            //cook.setStand(stand);
+    		cook.setGui(cg);
+            gui.animationPanel.addGui(cg);
+            
+            
+            if(cashier!=null){
+            	cook.setCashier(cashier);
+            }
+            
+            if(host != null) {
+            	host.setCook(cook);
+            }
+            for(JeffersonWaiterRole w : waiters) {
+    			w.setCook(cook);
+    		}
+    		ContactList.getInstance().setJeffersonCook(cook);
+    	}
+    	
+    	if( r instanceof JeffersonHostRole){
+    		host= (JeffersonHostRole) r;
+    		
+    		for(JeffersonWaiterRole w: waiters){
+    			w.setHost(host);
+    			host.waiters.add(w);
+    			host.msgWaiterAdded();
+    		}
+    		for(JeffersonCustomerRole c:customers){
+    			c.setHost(host);
     		}
     		
-    		WaiterGui g = new WaiterGui(w, waiters.size());
+    		host.setCook(cook);
+    		host.setCashier(cashier);
+    		
+    	}
+    	
+    	
+    	
+    	if(r instanceof JeffersonWaiterRole) {
+        	JeffersonWaiterRole w = (JeffersonWaiterRole) r;
+
+    	
+    		
+    		WaiterGui g = new WaiterGui(w);
     		
     		gui.animationPanel.addGui(g);
     		w.setHost(host);
     		w.setGui(g);
             w.setCook(cook);
             w.setCashier(cashier);
-            host.addWaiter(w);
+            if(host!=null){
+            	  host.waiters.add(w);
+            }
+          
     		waiters.add(w);
+    		g.setOrigin(waiters.size()*25 + 50, 170);
+    		System.out.println("jeffersonwaiter added");
     	}
-    	*/
+    	
     	if(r instanceof JeffersonCustomerRole) {
     		JeffersonCustomerRole c = (JeffersonCustomerRole) r;
 	    	
