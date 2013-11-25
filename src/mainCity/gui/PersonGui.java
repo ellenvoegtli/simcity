@@ -101,50 +101,37 @@ public class PersonGui implements Gui{
 		switch(destination) {
 			case restaurant_marcus:
 				calculatePath(105, 180);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case restaurant_ellen:
 				calculatePath(105, 280);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case restaurant_ena:
 				calculatePath(347, 180);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case restaurant_jefferson:
 				calculatePath(347, 280);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case restaurant_david: 
 				calculatePath(585, 230);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case market:
 				calculatePath(415, 215);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case bank:
 				calculatePath(175, 230);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case home:
 				calculatePath(100, 500);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			default:
 				calculatePath(0, 0);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
-		}		
+		}
+		
+		if(!path.isEmpty()) {
+			xDestination = path.peek().x;
+			yDestination = path.poll().y;
+		}
 	}
 	
 	public void DoGoToStop() {
@@ -310,11 +297,7 @@ public class PersonGui implements Gui{
 			path.add(pathNext);			
 			nodes.clear();
 		}
-		
-		for(int i = 0; i < path.size(); i++) {
-			System.out.println(path.get(i));
-		}
-		
+
 		traveling = true;
 	}
 	

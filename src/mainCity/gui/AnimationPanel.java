@@ -3,7 +3,9 @@ package mainCity.gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import mainCity.PersonAgent.ActionType;
 import mainCity.contactList.ContactList;
+import role.Role;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
 import transportation.gui.Lane;
@@ -20,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class AnimationPanel extends JPanel implements ActionListener, MouseListener {
 
@@ -196,6 +199,13 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 			
 		}	
 		
+		if(gui != null) {
+			for(Map.Entry<String, CityCard> r : gui.getView().getCards().entrySet()) {
+				if(!r.getValue().isVisible()) {
+					r.getValue().backgroundUpdate();
+				}
+			}
+		}
 		/*
 		//Make them all lanes stop
 		if ( count % 500 == 0 ) {
