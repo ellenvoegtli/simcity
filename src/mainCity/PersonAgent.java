@@ -99,7 +99,7 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		traveling = false;
-		
+		gui.DoGoOutside();
 		state = PersonState.normal;
 		stateChanged();
 	}

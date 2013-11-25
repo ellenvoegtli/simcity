@@ -224,7 +224,17 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					r.getValue().backgroundUpdate();
 				}
 			}
+			/*
+			for(Gui g : guis) {
+				if(g instanceof PersonGui) {
+					if(!((PersonGui) g).isVisible()) {
+						g.updatePosition();
+					}
+				}
+			}
+			*/
 		}
+		
 		/*
 		//Make them all lanes stop
 		if ( count % 500 == 0 ) {
