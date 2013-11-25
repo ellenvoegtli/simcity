@@ -48,23 +48,7 @@ public class OccupantRole extends Role
 
 	
 	
-/*public OccupantRole(PersonAgent p, String person, personHome hm, boolean owner, LandlordRole ownr)
-{
-	super(p);
-	name = person;
-	//setHouse(hm);
-	//renter = rent;
-	meal = "pasta";
-	if(!owner)
-	{
-		//// what happens if he is renting?;
 
-	}
-	if(owner)
-	{
-		//this = ownr;
-	}
-}*/
 
 public void msgAtDestination()
 {

@@ -1,6 +1,7 @@
 package mainCity.restaurants.restaurant_zhangdt.gui;
 
 import mainCity.contactList.ContactList;
+import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
@@ -15,139 +16,52 @@ import role.Role;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Panel in frame that contains all the restaurant information,
  * including host, cook, waiters, and customers.
  */
 public class DavidRestaurantPanel extends JPanel implements ActionListener{
-
-    //Host, cook, waiters and customers
-    private DavidHostRole host = new DavidHostRole("Sarah");
-    private DavidCookRole cook = new DavidCookRole("Jim");
-    private DavidCashierRole cashier = new DavidCashierRole("Bob");
+	DavidAnimationPanel animation; 
+    private DavidHostRole host;
     
-    private Vector<DavidMarketRole> markets = new Vector<DavidMarketRole>();
     private Vector<DavidCustomerRole> customers = new Vector<DavidCustomerRole>();
     private Vector<DavidWaiterRole> waiters = new Vector<DavidWaiterRole>();
+    //private RevolvingStand stand = new RevolvingStand();
     
-    private ContactList contactList;
-
-    private JPanel restLabel = new JPanel();
-    private JTabbedPane CWPane = new JTabbedPane();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
-    private JPanel group = new JPanel();
+    private DavidCashierRole cashier;
+    private DavidCookRole cook;
+    private CookGui cookGui;
     
     private int WaiterXLoc = 60;
     private int WaiterYLoc = 20; 
-    
-    private JButton pauseButton = new JButton("Pause");
 
-    private DavidRestaurantGui gui; //reference to main gui
-
-    public DavidRestaurantPanel(DavidRestaurantGui gui) {
-        this.gui = gui;
+    public DavidRestaurantPanel(DavidAnimationPanel a) {
+        this.animation = a;
         
-        host.startThread(); 
-        CookGui cg = new CookGui(cook, 20, 200, 20, 200); 
-        gui.getAnimationPanel().addGui(cg);
-        cook.setGui(cg);
+        Runnable standChecker = new Runnable() { 
+        	public void run() { 
+        		try { 
+        			if(cook.isActive()) {
+        				//cook.msgCheckStand(); 
+        			}
+        		}
+        		catch(NullPointerException e) {
+        			
+        		}
+        	}
+        };
         
-        for(int i=0; i<3; i++){
-	        markets.add(new DavidMarketRole(i,5,5,5,5));
-	        markets.get(i).addCook(cook);
-	        markets.get(i).addCashier(cashier);
-	        markets.get(i).setGui(gui);
-	        markets.get(i).startThread();
-	        cook.addMarket(markets.get(i));
-	        cashier.addMarket(markets.get(i));
-        }
-        
-        cook.addCashier(cashier);
-        cook.startThread();
-        cashier.startThread();
-        cashier.setGui(gui);
-        
-        contactList.getInstance().setDavidCook(cook);
-        contactList.getInstance().setDavidCashier(cashier);
-        contactList.getInstance().setDavidHost(host);
-
-        setLayout(new BorderLayout());
-        CWPane.addTab("Customers",  customerPanel);
-        CWPane.addTab("Waiters", waiterPanel);
-        group.setLayout(new GridLayout(1, 2, 10, 10));
-        group.setPreferredSize(new Dimension(200, 40));
-        group.add(CWPane);
-        
-        // Creating contents of RestLabel
-        initRestLabel();
-        restLabel.setPreferredSize(new Dimension(150, 40));
- 
-        // Adding properties to pause button
-        JPanel buttonPanel = new JPanel(); 
-        buttonPanel.setLayout(new BorderLayout());
-        pauseButton.addActionListener(this);
-        pauseButton.setPreferredSize(new Dimension(100, 40));
-        buttonPanel.add(pauseButton, BorderLayout.CENTER);
-        
-        // Adding components to Restaurant Panel
-        add(restLabel, BorderLayout.WEST);
-        add(group, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.EAST);
-        
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		executor.scheduleAtFixedRate(standChecker, 0, 15, TimeUnit.SECONDS);
         addKeyBindings();
     }
 
-    /**
-     * Sets up the restaurant label that includes the menu,
-     * and host and cook information
-     */
-    private void initRestLabel() {
-        JLabel label = new JLabel();
-        restLabel.setLayout(new BorderLayout());
-        label.setText(
-                "<html><h3><u>Tonight's Staff</u></h3><table><tr><td>host:</td><td>" + host.getName() + "</td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Chicken</td><td>$10.99</td></tr><tr><td>Salad</td><td>$5.99</td></tr><tr><td>Pizza</td><td>$8.99</td></tr></table><br></html>");
-
-        restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-        restLabel.add(label, BorderLayout.CENTER);
-        restLabel.add(new JLabel("        "), BorderLayout.WEST);
-    }
-
-    /**
-     * When a customer or waiter is clicked, this function calls
-     * updatedInfoPanel() from the main gui so that person's information
-     * will be shown
-     *
-     * @param type indicates whether the person is a customer or waiter
-     * @param name name of person
-     */
-    public void showInfo(String type, String name) {
-
-        if (type.equals("Customers")) {
-
-            for (int i = 0; i < customers.size(); i++) {
-                DavidCustomerRole temp = customers.get(i);
-                if (temp.getName() == name)
-                    gui.updateInfoPanel(temp);
-            }
-        }
-        
-        if (type.equals("Waiters")) { 
-        	for (int i = 0; i < waiters.size(); i++) { 
-        		DavidWaiterRole temp = waiters.get(i); 
-        		if (temp.getName() == name) 
-        			gui.updateInfoPanel(temp);
-        	}
-        }
-    }
-
-    /**
-     * Adds a customer or waiter to the appropriate list
-     *
-     * @param type indicates whether the person is a customer or waiter (later)
-     * @param name name of person
-     */
+    
+    /*
     public void addPerson(String type, String name, boolean hungry) {
 
     	if (type.equals("Customers")) {
@@ -191,61 +105,106 @@ public class DavidRestaurantPanel extends JPanel implements ActionListener{
     		host.addWaiter(w);
     	}
     }
+    */
 
-    public void handleRoleGui(Role r) { 
-    	if(r instanceof DavidCustomerRole) {
-    		DavidCustomerRole c = (DavidCustomerRole) r; 
+    
+    public void actionPerformed(ActionEvent e) { 
+    	
+    }
+    
+    public void handleRole(Role r) { 
+    	if(r instanceof DavidCashierRole) { 
+    		cashier = (DavidCashierRole) r; 
     		
-    		for(DavidCustomerRole cust : customers) { 
-    			if(cust == c) { 
-    				return; 
-    			}
+    		for(DavidWaiterRole w : waiters) { 
+    			w.setCashier(cashier); 
+    		}
+    		for(DavidCustomerRole c : customers) {
+    			c.setCashier(cashier);
     		}
     		
-    		customers.add(c); 
-    		CustomerGui g = new CustomerGui(c, gui); 
+    		if(host != null) { 
+    			host.setCashier(cashier); 
+    			cashier.setHost(host);
+    		}
     		
-    		gui.getAnimationPanel().addGui(g); 
-    		c.setHost(host); 
+    		ContactList.getInstance().setDavidCashier(cashier);
+    	}
+    	
+    	if(r instanceof DavidCookRole) { 
+    		cook = (DavidCookRole) r;
+    		cookGui = new CookGui(cook, 20, 200, 20, 200); 
+    		//cook.setStand(stand);
+    		animation.addGui(cookGui);
+    		cook.setGui(cookGui); 
+    		cook.addCashier(cashier);
+    		
+    		if(host != null) 
+    			host.setCook(cook); 
+    		for(DavidWaiterRole w : waiters) { 
+    			w.setCook(cook);
+    		}
+    		ContactList.getInstance().setDavidCook(cook);
+    	}
+    	
+    	if(r instanceof DavidCustomerRole) { 
+    		DavidCustomerRole c = (DavidCustomerRole) r; 
+    		customers.add(c); 
+    		CustomerGui g = new CustomerGui(c, animation);
+    		
+    		animation.addGui(g); 
+    		c.setHost(host);
     		c.setGui(g); 
     		c.setCashier(cashier);
     	}
+    	
+    	if(r instanceof DavidHostRole) { 
+    		host = (DavidHostRole) r; 
+    		
+    		for(DavidWaiterRole w : waiters) { 
+    			w.setHost(host); 
+    			host.addWaiter(w); 
+    		}
+    		for(DavidCustomerRole c : customers) { 
+    			c.setHost(host); 
+    		}
+    		
+    		host.setCook(cook);
+    		host.setCashier(cashier);
+    		
+    		if(cashier != null) { 
+    			cashier.setHost(host); 
+    			ContactList.getInstance().setDavidHost(host);
+    		}
+    	}
+    	
+    	if(r instanceof DavidWaiterRole) {
+    		/*
+    		if(r instanceof DavidSharedWaiterRole) { 
+    			((DavidSharedWaiterRole) r).setStand(stand);
+    		}
+    		*/
+    		DavidWaiterRole w = (DavidWaiterRole) r; 
+    		
+    		WaiterGui g = new WaiterGui(w, WaiterXLoc, WaiterYLoc, WaiterXLoc, WaiterYLoc); 
+    		
+	    		WaiterYLoc = WaiterYLoc + 30;
+	    		if(WaiterYLoc > 165){ 
+	    			WaiterYLoc = 20;
+	    			WaiterXLoc = WaiterXLoc + 30;
+	    		}
+	    	
+	    	animation.addGui(g); 
+	    	w.setHost(host);
+	    	w.setGui(g); 
+	    	w.setCook(cook);
+	    	w.setCashier(cashier); 
+	    	if(host != null) { 
+	    		host.addWaiter(w);
+	    		waiters.add(w); 
+	    	}
+    	}
     }
-    
-    public void actionPerformed(ActionEvent e) { 
-    	if(e.getSource() == pauseButton){
-    		//if(host.pause == false){
-	    		host.pause();
-	    		cook.pause();
-	    		
-	    		for(int i=0; i<waiters.size(); i++) {
-	    			waiters.get(i).pause();
-	    		}
-	    		
-	    		for(int i=0; i<customers.size(); i++){
-	    			customers.get(i).pause(); 
-	    		}
-	    		
-	    		pauseButton.setText("Resume"); 
-	    		
-    		}
-    		else{ 
-    			host.restart();
-	    		cook.restart();
-	    		
-	    		for(int i=0; i<waiters.size(); i++) {
-	    			waiters.get(i).restart();
-	    		}
-	    		
-	    		for(int i=0; i<customers.size(); i++){
-	    			customers.get(i).restart(); 
-	    		}
-	    		
-	    		pauseButton.setText("Pause");
-	    		
-    		}
-    	}	
-    
     
     protected void addKeyBindings() { 
     	
@@ -300,7 +259,6 @@ public class DavidRestaurantPanel extends JPanel implements ActionListener{
         Action keyCtrlY = new AbstractAction() { 
         	public void actionPerformed(ActionEvent e){
         		System.out.println("Ctrl Y : Empties first market"); 
-        		markets.get(0).emptyMarket();
         	}
         };
         

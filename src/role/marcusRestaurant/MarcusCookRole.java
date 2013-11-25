@@ -4,6 +4,7 @@ import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.WorkerRole;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.sharedData.*;
 import mainCity.restaurants.marcusRestaurant.gui.CookGui;
@@ -12,7 +13,6 @@ import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import java.util.*;
 
 import role.Role;
-import role.WorkerRole;
 
 /**
  * Restaurant Cook Agent
@@ -98,7 +98,8 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 		stateChanged();
 	}
 	
-	public void msgGoOffDuty() {
+	public void msgGoOffDuty(double amount) {
+		addToCash(amount);
 		onDuty = false;
 		stateChanged();
 	}

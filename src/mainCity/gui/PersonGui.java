@@ -144,6 +144,7 @@ public class PersonGui implements Gui{
 		}
 		
 		if(!path.isEmpty()) {
+			System.out.println("path not empty");
 			xDestination = path.peek().x;
 			yDestination = path.poll().y;
 		}
@@ -265,6 +266,10 @@ public class PersonGui implements Gui{
 	
 	public int getY() {
 		return yDestination;
+	}
+	
+	public boolean isVisible() {
+		return isVisible;
 	}
 	
 	public CityLocation findNearestStop(){ 

@@ -40,11 +40,19 @@ public abstract class Role extends Agent {
 
 	public abstract boolean pickAndExecuteAnAction();
 	
+	protected void addToCash(double amount) {
+		person.setCash(person.getCash() + amount);
+	}
+	
 	protected double getCash() {
 		return person.getCash();
 	}
 	
 	protected int getTime() {
 		return person.getTime();
-	}	
+	}
+	
+	public int getShiftDuration() {
+		return person.getWorkHours();
+	}
 }

@@ -15,6 +15,7 @@ import mainCity.gui.Building;
 import mainCity.gui.PersonGui;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
@@ -108,7 +109,7 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		traveling = false;
-		
+		gui.DoGoOutside();
 		state = PersonState.normal;
 		stateChanged();
 	}
@@ -174,47 +175,6 @@ public class PersonAgent extends Agent {
 			break;
 		}
 
-		stateChanged();
-	}
-
-	//A message received from the MarketCustomerAgent when they are done at the market
-	public void msgFinishedAtBank() {
-		if((currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankWithdraw) && currentAction.state == ActionState.inProgress) {
-			currentAction.state = ActionState.done;
-		}
-		
-		state = PersonState.normal;			
-		stateChanged();
-	}
-	
-	//A message received from the MarketCustomerAgent when they are done at the market
-	public void msgFinishedAtMarket() {
-		if(currentAction.type == ActionType.market && currentAction.state == ActionState.inProgress) {
-			currentAction.state = ActionState.done;
-		}
-		
-		state = PersonState.normal;
-		//event = PersonEvent.gotFood;
-		stateChanged();
-	}
-
-	//A message received from the RestaurauntAgent when they are done at the restaurant
-	public void msgFinishedAtRestaurant() {
-		if(currentAction.type == ActionType.restaurant && currentAction.state == ActionState.inProgress) {
-			currentAction.state = ActionState.done;
-		}
-		
-		state = PersonState.normal;
-			
-		if(onBreak) {
-			actions.add(new Action(ActionType.work, 1));
-			event = PersonEvent.timeToWork;
-		}
-		else {
-			//do nothing maybe? go home
-			event = PersonEvent.gotFood; // different event maybe? this one sends them home or back to work if they were on break?
-		}
-		
 		stateChanged();
 	}
 
@@ -450,7 +410,7 @@ public class PersonAgent extends Agent {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
 				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
 					output("Closing up shop");
-					((ManagerRole) r.getValue()).msgGoOffDuty();
+					((ManagerRole) r.getValue()).msgEndShift(job.shiftEnd-job.shiftBegin);
 				}
 			}
 		}
@@ -690,9 +650,7 @@ public class PersonAgent extends Agent {
 					BankCustomerRole bc2 = new BankCustomerRole(this, name);
 					ContactList.getInstance().getBank().handleRoleGui(bc2);
 					roles.put(action, bc2);
-					break;
-					
-					
+					break;	
 				default:
 					break;
 			}
@@ -717,11 +675,7 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
-				event = PersonEvent.needToBank;
-				break;
 			case bankDeposit:
-				event = PersonEvent.needToBank;
-				break;
 			case bankLoan: 
 				event = PersonEvent.needToBank;
 				break;
@@ -741,8 +695,7 @@ public class PersonAgent extends Agent {
 		//Check for a way to travel: public transportation, car, or walking
 		boolean temp = true;
 
-		if(true) { //chose to walk
-
+		if(temp) { //chose to walk
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -770,11 +723,6 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		//destination = CityLocation.restaurant_ena;
-		//destination = CityLocation.restaurant_marcus;
-		destination = CityLocation.restaurant_david;
-
-/*
 		switch((int) (Math.random() * 4)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -790,7 +738,7 @@ public class PersonAgent extends Agent {
 				break;
 			default:
 				break;
-		}*/
+		}
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
@@ -922,12 +870,19 @@ public class PersonAgent extends Agent {
 	}
 
 	public void updateClock(int newTime) {
-		this.time = newTime;		
+		this.time = newTime;
 		checkSelf();
 	}
 	
 	public int getTime() {
 		return time;
+	}
+	
+	public int getWorkHours() {
+		if(job.shiftBegin < job.shiftEnd) {
+			return job.shiftEnd-job.shiftBegin;
+		}
+		return (24 - (job.shiftBegin-job.shiftEnd));
 	}
 	
 	public double getCash() {
@@ -969,10 +924,11 @@ public class PersonAgent extends Agent {
 		{
 			for(Building apartment : AnimationPanel.getApartments().keySet())
 			{
-				if(AnimationPanel.getApartments().get(apartment) == false)
+				if(AnimationPanel.getApartments().get(apartment).size() <= 3)
 				{
 					this.homePlace = apartment;
-					AnimationPanel.apartments.put(apartment, true);
+					AnimationPanel.getApts().add(AnimationPanel.getApartments().get(apartment).size()+1);
+					AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
 					break;
 				}
 			}

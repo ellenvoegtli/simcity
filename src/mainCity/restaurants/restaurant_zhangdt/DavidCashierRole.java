@@ -8,8 +8,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.TreeMap;
 
+import role.Role;
 import role.market.MarketDeliveryManRole;
 import agent.Agent;
+import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.EllenCashierRole.MarketBill;
 import mainCity.restaurants.EllenRestaurant.EllenCashierRole.MarketBillState;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Food;
@@ -17,7 +19,6 @@ import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.OrderStatus;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole.myCustomer;
-import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cashier;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Market;
@@ -27,11 +28,16 @@ import mainCity.restaurants.restaurant_zhangdt.test.mock.LoggedEvent;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
 
-public class DavidCashierRole extends Agent implements Cashier {
+public class DavidCashierRole extends Role implements Cashier {
 /*   Data   */ 
 	
+	//Name
 	String name;
+	
+	//Agent Connections
 	DavidCookRole cookAgent; 
+	DavidHostRole host;
+	
 	boolean CashierFree = true;
 	Timer checkTimer;
 	public double Money = 1000; 
@@ -44,8 +50,8 @@ public class DavidCashierRole extends Agent implements Cashier {
 	public EventLog log = new EventLog();
 	
 	//Constructor
-	public DavidCashierRole(String name) { 
-		super(); 
+	public DavidCashierRole(String name, PersonAgent p) { 
+		super(p); 
 		this.name = name; 
 	}
 	
@@ -78,7 +84,6 @@ public class DavidCashierRole extends Agent implements Cashier {
 	public double Payment;
 	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, done};
 	
-	private DavidRestaurantGui gui;
 	
 /*   Messages   */ 
 	
@@ -202,10 +207,6 @@ public class DavidCashierRole extends Agent implements Cashier {
 	
 // utilities 
 	
-	public void setGui(DavidRestaurantGui RG) {
-		this.gui = RG;
-	}
-	
 	public void setCook(DavidCookRole c) {
 		cookAgent = c;
 	}
@@ -254,6 +255,10 @@ public class DavidCashierRole extends Agent implements Cashier {
 		public int getCheckAmount(){
 			return checkAmount;
 		}
+	}
+
+	public void setHost(DavidHostRole host) {
+		this.host = host;
 	}
 }
 

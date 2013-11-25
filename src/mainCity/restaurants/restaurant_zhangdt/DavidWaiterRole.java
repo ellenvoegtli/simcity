@@ -1,22 +1,23 @@
 package mainCity.restaurants.restaurant_zhangdt;
 
 import agent.Agent;
+import mainCity.PersonAgent;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order; 
-import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Waiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import role.Role;
 import mainCity.restaurants.restaurant_zhangdt.DavidHostRole.Table; 
 
 /**
  * Restaurant Waiter Agent
  */
 
-public class DavidWaiterRole extends Agent implements Waiter {
+public class DavidWaiterRole extends Role implements Waiter {
 
 /*   Data   */	
 
@@ -27,7 +28,6 @@ public class DavidWaiterRole extends Agent implements Waiter {
 	{none, AskForBreak, GotBreak, ComingOffBreak, OffBreak, breakGranted, breakDenied, onBreak, notOnBreak}; 
 	private WaiterStates wState = WaiterStates.none;
 	
-	private DavidRestaurantGui restGui;
 	
 	class myCustomer { 
 		DavidCustomerRole c; 
@@ -71,8 +71,8 @@ public class DavidWaiterRole extends Agent implements Waiter {
 	
 	public WaiterGui waiterGui = null;
 
-	public DavidWaiterRole(String name) {
-		super();
+	public DavidWaiterRole(String name, PersonAgent p) {
+		super(p);
 		this.name = name;
 	}
 
@@ -250,7 +250,7 @@ public class DavidWaiterRole extends Agent implements Waiter {
     
 /*   Scheduler   */
 	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		try{
 			if(customerList.size() != 0) {
 				for(myCustomer customer : customerList) {
@@ -500,7 +500,7 @@ public class DavidWaiterRole extends Agent implements Waiter {
 	
 	private void breakDenied() { 
 		print("break denied");
-		restGui.deselectBreakCB();
+		//restGui.deselectBreakCB();
 		wState = WaiterStates.notOnBreak;
 		setOnBreak(false);
 		setRequestingBreak(true); 
@@ -512,10 +512,7 @@ public class DavidWaiterRole extends Agent implements Waiter {
 	public void setGui(WaiterGui gui) {
 		waiterGui = gui;
 	}
-	
-	public void setRGui(DavidRestaurantGui gui){ 
-		restGui = gui;
-	}
+
 
 	public WaiterGui getGui() {
 		return waiterGui;
