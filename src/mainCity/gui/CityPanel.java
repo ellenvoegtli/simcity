@@ -36,8 +36,8 @@ public class CityPanel extends JPanel{
 		
 		ContactList.getInstance().setCity(this);
 		
-    	MarketGui marketGui = new MarketGui();
-    	ContactList.getInstance().setMarket(marketGui.getMarketPanel());
+    	//MarketGui marketGui = new MarketGui();
+    	//ContactList.getInstance().setMarket(marketGui.getMarketPanel());
     	//marketGui.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 

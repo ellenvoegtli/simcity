@@ -15,7 +15,7 @@ import mainCity.gui.*;
 
 public class EllenAnimationPanel extends CityCard implements ActionListener {
 	private EllenRestaurantPanel restaurant = new EllenRestaurantPanel(this);
-    private static final int WINDOWX = 550;
+    private static final int WINDOWX = 500;
     private static final int WINDOWY = 370;
     private Image bufferImage;
     private Dimension bufferSize;

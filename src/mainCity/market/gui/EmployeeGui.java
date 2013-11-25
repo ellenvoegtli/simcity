@@ -12,10 +12,10 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 public class EmployeeGui implements Gui {
-    private static final int WINDOWX = 550, WINDOWY = 350;
+    private static final int WINDOWX = 500, WINDOWY = 370;
 
     private MarketEmployeeRole agent = null;
-    MarketGui gui;
+    private MarketAnimationPanel animation;
     private boolean isPresent;
 
     static final int waiterWidth = 20;
@@ -44,9 +44,9 @@ public class EmployeeGui implements Gui {
 	State s;
 	enum State {wantsBreak, onBreak, offBreak};
 
-    public EmployeeGui(MarketEmployeeRole agent, MarketGui gui) {
+    public EmployeeGui(MarketEmployeeRole agent, MarketAnimationPanel a) {
         this.agent = agent;
-        this.gui = gui;
+        this.animation = a;
         
         //initialize table locations map
         stationX.put(1, 150);	//station 1
