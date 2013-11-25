@@ -13,7 +13,7 @@ public class KitchenGui implements Gui {
     private final int WINDOWX = 550;
     private final int WINDOWY = 350;
 	
-    EllenRestaurantGui gui;
+    EllenAnimationPanel animation;
 	private boolean isPresent = false;
 	
 	/* for reference:
@@ -31,9 +31,9 @@ public class KitchenGui implements Gui {
 	enum OrderState {pending, cooking, finished};
 
 
-    public KitchenGui(EllenRestaurantGui gui) {
+    public KitchenGui(EllenAnimationPanel a) {
         //this.agent = agent;
-        this.gui = gui;
+        this.animation = a;
 
     }
     
@@ -47,25 +47,6 @@ public class KitchenGui implements Gui {
 
 
     public void updatePosition() {
-    	/*
-        if (xPos < xDestination)
-            xPos++;
-        else if (xPos > xDestination)
-            xPos--;
-
-        if (yPos < yDestination)
-            yPos++;
-        else if (yPos > yDestination)
-            yPos--;
-		*/
-        /*
-        if (xPos == xDestination && yPos == yDestination
-        		&& (xDestination == tableX.get(1) + 20) 
-        		&& (yDestination == tableY.get(1) - 20) && !atDestination) {
-           agent.msgAtTable();
-           atDestination = true;
-        }
-        */
 
     }
     

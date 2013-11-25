@@ -17,6 +17,12 @@ Name:PersonJ;Cash:10;Renter:true;Occupation:enaCook;ShiftBegin:7;ShiftEnd:19;Act
 Name:Person9;Cash:480;Renter:false;Occupation:enaHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:Person3;Cash:10;Renter:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:Person4;Cash:10;Renter:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+-Jefferson Restaurant/*******UNSTABLE********/
+-Name:PersonE;Cash:100;Renter:false;Occupation:jeffersonWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+-Name:PersonF;Cash:100;Renter:false;Occupation:jeffersonCook;ShiftBegin:7;ShiftEnd:19;Actions:work
+-Name:PersonG;Cash:100;Renter:true;Occupation:jeffersonCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
+-Name:PersonH;Cash:100;Renter:false;Occupation:ejeffersonHost;ShiftBegin:7;ShiftEnd:19;Actions:work
+
 -Other
 Name:PersonK;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:market,hungry
 Name:Personl;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant

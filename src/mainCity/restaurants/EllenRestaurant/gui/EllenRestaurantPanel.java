@@ -1,16 +1,8 @@
 package mainCity.restaurants.EllenRestaurant.gui;
 
 import mainCity.restaurants.EllenRestaurant.*;
-import mainCity.restaurants.EllenRestaurant.gui.*;
-import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
-import mainCity.restaurants.marcusRestaurant.gui.CookGui;
 import role.Role;
-import role.marcusRestaurant.MarcusCashierRole;
-import role.marcusRestaurant.MarcusCookRole;
-import role.marcusRestaurant.MarcusCustomerRole;
-import role.marcusRestaurant.MarcusHostRole;
-import role.marcusRestaurant.MarcusWaiterRole;
 
 import javax.swing.*;
 
@@ -27,6 +19,7 @@ import mainCity.contactList.*;
  * including host, cook, waiters, and customers.
  */
 public class EllenRestaurantPanel extends JPanel implements ActionListener{
+	private EllenAnimationPanel animation;
     //Host and cook
     //private EllenHostRole host = new EllenHostRole("EllenRestaurant Host");
     //private EllenCashierRole cashier = new EllenCashierRole("EllenRestaurant Cashier");
@@ -47,9 +40,6 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     private Vector<EllenWaiterRole> waiters = new Vector<EllenWaiterRole>();
 
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this, "Waiters");
-    private JPanel group = new JPanel();
     public JPanel pausePanel = new JPanel();
     JButton pauseBtn = new JButton("Pause");
     JButton unpauseBtn = new JButton("Unpause");
@@ -57,33 +47,13 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     JButton soupBtn = new JButton("Deplete soup");
     JButton pizzaBtn = new JButton("Deplete pizza");
 
-    private EllenRestaurantGui gui; //reference to main gui
-
-    public EllenRestaurantPanel(EllenRestaurantGui gui) {
-    	
-        this.gui = gui;
-
-        /*
-        cook.setMenu(new EllenMenu());
-        cook.setStand(revolvingStand);
-        host.startThread();
-        cashier.startThread();
-        cook.startThread();
-        */
+    public EllenRestaurantPanel(EllenAnimationPanel panel) {
+    	this.animation = panel;
         
         setLayout(new GridLayout(1, 2, 0, 0));
-        group.setLayout(new GridLayout(1, 3, 0, 0));
-        
-        waiterPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        customerPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
-        //group.add(waiterPanel);
-        //group.add(customerPanel);
-        
 
         //initRestLabel();
         add(restLabel);
-        //add(group);
 
         cookInventoryPanel.setLayout(new GridLayout(1, 2, 5, 5));
         soupBtn.addActionListener(this);
@@ -158,41 +128,6 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
         restLabel.add(new JLabel("            "), BorderLayout.WEST);
     }
 */
-    /**
-     * When a customer or waiter is clicked, this function calls
-     * updatedInfoPanel() from the main gui so that person's information
-     * will be shown
-     *
-     * @param type indicates whether the person is a customer or waiter
-     * @param name name of person
-     */
-    public void showInfo(String type, String name) {
-
-        if (type.equals("Customers")) {
-            for (int i = 0; i < customers.size(); i++) {
-                EllenCustomerRole temp = customers.get(i);
-                if (temp.getName() == name) {
-                    gui.updateInfoPanel(temp);
-                }
-            }
-        }
-        else if (type.equals("Waiters")){
-        	for (int i = 0; i < waiters.size(); i++) {
-                EllenWaiterRole temp = waiters.get(i);
-                if (temp.getName() == name) {
-                    gui.updateInfoPanel(temp);
-                }
-            }
-        }
-    }
-    
-    public EllenHostRole getHost() {
-    	return host;
-    }
-    
-    public EllenCashierRole getCashier() {
-    	return cashier;
-    }
 
     /**
      * Adds a customer or waiter to the appropriate list
@@ -228,9 +163,9 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
             cook.setCashier(cashier);
             cook.setMenu(new EllenMenu());
             
-            KitchenGui kitchenGui = new KitchenGui(gui);
+            KitchenGui kitchenGui = new KitchenGui(animation);
             cook.setKitchenGui(kitchenGui);
-            gui.animationPanel.addGui(kitchenGui);
+            animation.addGui(kitchenGui);
             
             if(host != null) host.setCook(cook);
             for(EllenWaiterRole w : waiters) {
@@ -242,6 +177,7 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     	if(r instanceof EllenHostRole) {
     		host = (EllenHostRole) r;
     		
+        	System.out.println("Setting EllenHostRole: " + host.getName());
     		for(EllenWaiterRole w : waiters) {
     			w.setHost(host);
     			host.addWaiter(w);
@@ -259,25 +195,25 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     	
     	if(r instanceof EllenWaiterRole) {
         	EllenNormalWaiterRole w = (EllenNormalWaiterRole) r;
+        	System.out.println("Setting EllenNormalWaiterRole: " + w.getName());
         	/*
     		if(r.getName().contains("share")) {
     			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
     			a.setStand(stand);
     		}*/
-    		WaiterGui g = new WaiterGui(w, gui);
+    		WaiterGui g = new WaiterGui(w, animation);
     		//set the home positions based on position in waiter list
     		int i = 0;
     		for (EllenWaiterRole wait : waiters){
     			if (wait.equals(w)) g.setHomePosition((WINDOWX + i*70)/3, 30); 
     			else i++;
     		}
-    		gui.animationPanel.addGui(g);
+    		animation.addGui(g);
             if(host != null) host.addWaiter(w);
     		w.setHost(host);
     		w.setGui(g);
             w.setCook(cook);
             w.setCashier(cashier);
-            //host.addWaiter(w);
     		waiters.add(w);
     	}
     	
@@ -288,13 +224,13 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
 	    		if (cust == c) return;
 	    	}
 			customers.add(c);
-			CustomerGui g = new CustomerGui(c, gui);
+			CustomerGui g = new CustomerGui(c, animation);
     		int i = 0;
     		for (EllenCustomerRole cust : customers){
     			if (cust.equals(c)) g.setWaitingAreaPosition(10 + (i%5)*25, (10 + ( (int)(Math.floor(i/5)) *25) ));
     			else i++;
     		}
-			gui.animationPanel.addGui(g);
+			animation.addGui(g);
 			c.setHost(host);
 			c.setGui(g);
 			c.setCashier(cashier);

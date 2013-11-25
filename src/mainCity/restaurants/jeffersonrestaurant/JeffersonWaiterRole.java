@@ -3,9 +3,13 @@ package mainCity.restaurants.jeffersonrestaurant;
 import agent.Agent;
 //import sun.awt.windows.WWindowPeer;
 
+
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
+import role.Role;
+import mainCity.PersonAgent;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
 //import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole.Table;
@@ -21,7 +25,7 @@ import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class JeffersonWaiterRole extends Agent implements Waiter {
+public class JeffersonWaiterRole extends Role implements Waiter {
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -39,6 +43,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 	private Semaphore atCook =new Semaphore(0, false);
 	private Semaphore atPlating =new Semaphore(0, false);
 	
+	private PersonAgent p;
 	private JeffersonCookRole cook;
 	private JeffersonHostRole host;
 	private JeffersonCashierRole cashier;
@@ -49,7 +54,8 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 
 	public boolean wantToBreak;
 	public boolean canBreak;
-	public boolean onBreak;
+	public boolean onBreak,onDuty;
+	
 	
 	public waiterCustState atStart() {
 		return null;
@@ -57,12 +63,14 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 	private Menu menu;
 	
 
-	public JeffersonWaiterRole(String name) {
-		super();
+	public JeffersonWaiterRole(PersonAgent p, String name) {
+		super(p);
+		this.p=p;
 		this.name = name;
 		this.wantToBreak=false;
 		this.canBreak=false;
 		this.onBreak=false;
+		this.onDuty = true;
 		//hack to establish connection  to cookgui
 		//cookgui=cook.cookGui;
 		}
@@ -140,6 +148,11 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		}	
 	}
 
+	public void msgGoOffDuty() {
+		onDuty = false;
+		stateChanged();
+	}
+	
 	public void msgAtTable() {//from animation
 		//print("msgAtTable() called");
 		atTable.release();// = true;
@@ -164,7 +177,8 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 
 
 	public void msgFinishedLeavingRestaurant() {
-		// TODO set inactive
+		super.setInactive();
+		onDuty= true;
 		
 	}
 	
@@ -247,7 +261,7 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		if(CustomerList.isEmpty()&& canBreak){
 			Do("going on break");
@@ -255,16 +269,16 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 			onBreak=true;
 			return true;
 		}
-		
-		
-		
-		
+
 		
 		if(wantToBreak==true){
 			
 			askHostForBreak();
 			this.wantToBreak=false;
 			return true;
+		}
+		if(CustomerList.isEmpty() && !onDuty){
+			leaveRestaurant();
 		}
 		
 		synchronized(CustomerList){
@@ -577,6 +591,11 @@ public class JeffersonWaiterRole extends Agent implements Waiter {
 		}
 		
 		
+	}
+	
+	private void leaveRestaurant(){
+		waiterGui.DoLeaveRestaurant();
+		host.msgFinishingShift(this);
 	}
 	private void deliverPayment(WaiterCust w){
 		Do("giving money to cashier");
