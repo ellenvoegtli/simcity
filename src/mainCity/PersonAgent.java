@@ -665,9 +665,16 @@ public class PersonAgent extends Agent {
 		output(name + " is going to " + d);
 
 		//Check for a way to travel: public transportation, car, or walking
-		boolean temp = true;
+		boolean temp = false;
 		
+<<<<<<< HEAD
+
+
+		if(!temp) { //chose to walk
+
+=======
 		if(temp) { //chose to walk
+>>>>>>> 0fc5541ede02091587a05498f0580672660ddc70
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
