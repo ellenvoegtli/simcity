@@ -419,8 +419,7 @@ public class PersonAgent extends Agent {
 	//----------Actions----------//
 	private void checkSelf() {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
-
-		if(time == job.shiftBegin && state != PersonState.working && !actions.contains(ActionType.work)) {
+		if(time == job.shiftBegin && state != PersonState.working && !actions.contains(ActionType.work) && !job.occupation.equals("rich")) {
 			actions.add(new Action(ActionType.work, 1));
 			stateChanged();
 		}
@@ -433,12 +432,11 @@ public class PersonAgent extends Agent {
 			}
 		}
 		
-		
-		if(cash<50 && !actions.contains(ActionType.bankWithdraw)){
+		if(cash < 50 && !actions.contains(ActionType.bankWithdraw)){
 			actions.add(new Action(ActionType.bankWithdraw,3));
 			stateChanged();
 		}
-		if(cash>200 && !actions.contains(ActionType.bankDeposit)){
+		if(cash > 200 && !actions.contains(ActionType.bankDeposit)){
 			actions.add(new Action(ActionType.bankDeposit,3));
 			stateChanged();
 		}
@@ -446,7 +444,6 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void handleRole(ActionType action) {
-		//this way works well except for the banking part
 		if(!roles.containsKey(action)) {
 			switch(action) {
 				case work:
@@ -668,7 +665,6 @@ public class PersonAgent extends Agent {
 		boolean temp = false;
 		
 		if(!temp) { //chose to walk
-
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -724,9 +720,9 @@ public class PersonAgent extends Agent {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
 		
-		currentAction.type = ActionType.home;
-		handleAction(currentAction.type);
-		/*
+		//currentAction.type = ActionType.home;
+		//handleAction(currentAction.type);
+		
 		boolean temp = true;
 		
 		if(temp) { //chose restaurant
@@ -745,7 +741,7 @@ public class PersonAgent extends Agent {
 				currentAction.type = ActionType.home;
 				handleAction(currentAction.type);
 			}
-		}*/
+		}
 
 		stateChanged();
 	}

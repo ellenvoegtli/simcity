@@ -49,25 +49,23 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
         Graphics2D kitchen = (Graphics2D)g;
         
         //Clear the screen by painting a rectangle the size of the frame
-        if(isVisible()) {
-	        g2.setColor(getBackground());
-	        g2.fillRect(0, 0, WINDOWX, WINDOWY );
+        g2.setColor(getBackground());
+	    g2.fillRect(0, 0, WINDOWX, WINDOWY );
 	
-	        for(int i = 0; i < tableCount; i++) {
-	        	g2.setColor(Color.ORANGE);
-	            g2.fillRect(x+100*i, y, w, h);
-	        }
+	    for(int i = 0; i < tableCount; i++) {
+	     	g2.setColor(Color.ORANGE);
+	        g2.fillRect(x+100*i, y, w, h);
+	    }
 	        
-	        kitchen.setColor(Color.GRAY);
-	        kitchen.fillRect(160, 0, 95, 45);
-	        kitchen.setColor(Color.GRAY);
-	        kitchen.fillRect(255, 15, 20, 30);
+	    kitchen.setColor(Color.GRAY);
+	    kitchen.fillRect(160, 0, 95, 45);
+        kitchen.setColor(Color.GRAY);
+	    kitchen.fillRect(255, 15, 20, 30);
         
-	        for(int i = 0; i < tableCount; i++) {
-	        	kitchen.setColor(Color.WHITE);
-	            kitchen.fillRect(170 + 20*i, 1, 15, 15);
-	        }
-        }
+	    for(int i = 0; i < tableCount; i++) {
+	    	kitchen.setColor(Color.WHITE);
+	        kitchen.fillRect(170 + 20*i, 1, 15, 15);
+	    }
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
@@ -75,15 +73,21 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
             }
         }
         
-        if(isVisible()) {
-	        for(Gui gui : guis) {
-	            if (gui.isPresent()) {
-	                gui.draw(g2);
-	            }
+	    for(Gui gui : guis) {
+	        if (gui.isPresent()) {
+	            gui.draw(g2);
 	        }
-        }
+	    }
     }
 
+    public void backgroundUpdate() {
+    	for(Gui gui : guis) {
+            if (gui.isPresent()) {
+                gui.updatePosition();
+            }
+        }
+    }
+    
     public void addGui(CustomerGui gui) {
         guis.add(gui);
     }

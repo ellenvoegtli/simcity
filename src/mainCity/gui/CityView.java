@@ -15,7 +15,7 @@ import mainCity.restaurants.marcusRestaurant.gui.MarcusAnimationPanel;
 
 public class CityView extends JPanel implements MouseListener, ActionListener {
 
-	HashMap<String, CityCard> cards;
+	HashMap<String, CityCard> cards = new HashMap<String, CityCard>();
 	CityGui city;
 	public static final int VIEW_WIDTH = 500, VIEW_HEIGHT = 500;
 	CardLayout layout;
@@ -27,7 +27,6 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		addMouseListener(this);
 		this.city = city;
 		
-		cards = new HashMap<String, CityCard>();
 		for(int i=0; i<7; i++){ 
 			cards.put("tophouse"+i, new CityCard(city, Color.red));
 		}
@@ -65,10 +64,13 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 			//city.info.setText(key);
 		}
 	}
-
+	
+	public HashMap<String, CityCard> getCards() {
+		return cards;
+	}
 	
 	public void actionPerformed(ActionEvent arg0) {
-		
+
 	}
 
 	

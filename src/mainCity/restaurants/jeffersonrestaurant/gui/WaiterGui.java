@@ -23,6 +23,7 @@ public class WaiterGui implements Gui {
     public static final int height = 20;
     int t;
     public boolean atOrigin= true;
+    public boolean traveling = false;
     public CookGui cookgui =null;
     public WaiterGui(JeffersonWaiterRole agent) {
         this.agent = agent;
@@ -73,6 +74,11 @@ public class WaiterGui implements Gui {
         	agent.msgAtHome();
         	//System.out.println("reached home");
         }
+        if(xPos==-20 && yPos == -20 && traveling==true){
+        	traveling=false;
+        	agent.msgFinishedLeavingRestaurant();
+        	
+        }
         
       
         else
@@ -97,29 +103,40 @@ public class WaiterGui implements Gui {
         
         	xDestination = xTable + 20+ 100*t -100;
         	yDestination = yTable - 20;
-        
+        	traveling = true;
        }
     
     public void DoGoToCook(){
     	xDestination = 400;
     	yDestination = 200;
+    	traveling = true;
     	
     }
     public void DoTakeOrder(int table){
     	t=table;
     	xDestination = xTable + 20+ 100*t -100;
     	yDestination = yTable - 20;
+    	traveling = true;
     }
     
     public void DoGetFood(){
     	xDestination = 240;
     	yDestination = 200;
+    	traveling = true;
     	
     }
     public void DoDeliverOrder(int table){
     	t=table;
     	xDestination = xTable + 20+ 100*t -100;
     	yDestination = yTable - 20;
+    	traveling = true;
+    	
+    }
+    
+    public void DoLeaveRestaurant(){
+    	xDestination = -20;
+    	yDestination = -20;
+    	traveling = true;
     	
     }
     public boolean atStart()
@@ -130,6 +147,7 @@ public class WaiterGui implements Gui {
     public void DoLeaveCustomer() {
         xDestination = xHome;
         yDestination = yHome;
+        traveling = true;
     }
 
     public int getXPos() {
