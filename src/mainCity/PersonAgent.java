@@ -986,7 +986,6 @@ public class PersonAgent extends Agent {
 				{
 					this.homePlace = house;
 					AnimationPanel.houses.put(house, true);
-
 					break;
 				}
 			}
