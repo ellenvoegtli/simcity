@@ -46,8 +46,8 @@ public class EnaCookRole extends Role implements MainCook {
 		
 		this.name = name;
 		Foods.put( "steak", new Food("steak", 1));
-		Foods.put("porkchops", new Food("porkchops", 2));
-		Foods.put("lamb" , new Food("lamb", 0));
+		Foods.put("porkchops", new Food("porkchops", 1));
+		Foods.put("lamb" , new Food("lamb", 1));
 		Foods.put("lambchops", new Food("lambchops", 1));
 		
 		//super().msgGoToWork();
@@ -231,8 +231,10 @@ if(status == CookStatus.checkingStand)
 			}
 		}
 		
-		
-		ContactList.getInstance().marketGreeter.msgINeedInventory("enaRestaurant", this, cashier, Stock);
+		if(ContactList.getInstance().marketGreeter != null)
+		 { 
+			ContactList.getInstance().marketGreeter.msgINeedInventory("enaRestaurant", this, cashier, Stock);
+		 }
 			
 
 		

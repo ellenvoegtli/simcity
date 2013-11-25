@@ -26,6 +26,11 @@ public class BusStop {
 		System.out.println(waitingPeople.get(0) + " has arrived at bus stop near " + stopLocation);
 	}
 	
+	public void LeavingBusStop(PersonAgent p) {
+		waitingPeople.remove(p); 
+		System.out.println(p.getName() + "Leaving Bus Stop at " + stopLocation); 
+	}
+	
 	public void BusHasArrived(BusAgent b, int capacity) { 
 		
 		currentBus = b;

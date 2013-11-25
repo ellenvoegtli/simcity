@@ -16,12 +16,13 @@ import mainCity.gui.PersonGui;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
-import mainCity.restaurants.enaRestaurant.EnaCashierRole;
-import mainCity.restaurants.enaRestaurant.EnaCookRole;
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaHostRole;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
+import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.market.*;
 import role.market.*;
 
@@ -77,6 +78,12 @@ public class PersonAgent extends Agent {
 	
 	public CityLocation getDestination() { 
 		return destination;
+	}
+	
+	public boolean isHungry(){
+		if(actions.contains(ActionType.hungry) || actions.contains(ActionType.restaurant))
+			return true;
+		return false;
 	}
 	
 	//----------Messages----------//
@@ -272,7 +279,7 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				output("Arrived at market!");
+				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((MarketCustomerRole) customer).getGui().goInside()){
@@ -312,8 +319,14 @@ public class PersonAgent extends Agent {
 					}
 					//((EllenCustomerRole) customer).gotHungry();
 				}
-				else if(customer instanceof EnaCustomerRole) {
-					((EnaCustomerRole) customer).getGui().setHungry();
+				else if(customer instanceof EnaCustomerRole)
+				{
+					print("is customer hungry????");
+					if (!((EnaCustomerRole) customer).getGui().goInside())
+					{	chooseRestaurant();
+						print("customer set to hungry");
+						return true;
+					}
 				}
 				else if(customer instanceof JeffersonCustomerRole){
 					//((JeffersonCustomerRole) customer).gotHungry();
@@ -405,17 +418,20 @@ public class PersonAgent extends Agent {
 			}
 		}
 		
-		if(state == PersonState.boardingBus) {
+		if(state == PersonState.boardingBus) 
+		{
 			boardBus();
 		}
 
-		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
+		if(actions.isEmpty() && state == PersonState.normal && !traveling) 
+		{
 			output("My action list is empty. Going home");
 			actions.add(new Action(ActionType.home, 10));
 			return true;
 		}
 		
 		return false;
+
 	}
 
 	
@@ -522,6 +538,31 @@ public class PersonAgent extends Agent {
 							roles.put(action, elh);
 							break;
 						
+						//-----David Restaurant Roles---//
+						case "davidWaiter": 
+							DavidWaiterRole dw = new DavidWaiterRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dw); 
+							roles.put(action, dw); 
+							break; 
+						
+						case "davidCook": 
+							DavidCookRole dc = new DavidCookRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dc);
+							roles.put(action, dc); 
+							break;
+							
+						case "davidCashier": 
+							DavidCashierRole dca = new DavidCashierRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dca); 
+							roles.put(action, dca); 
+							break; 
+						
+						case "davidHost": 
+							DavidHostRole dh = new DavidHostRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dh);
+							roles.put(action, dh);
+							break;
+						
 						//-----Market Roles---//
 						case "marketEmployee":
 							MarketEmployeeRole mem = new MarketEmployeeRole(this, name);
@@ -569,6 +610,11 @@ public class PersonAgent extends Agent {
 							JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
 							ContactList.getInstance().getJeffersonRestaurant().handleRoleGui(jc);
 							roles.put(action,jc);
+							break;
+						case restaurant_david: 
+							DavidCustomerRole d = new DavidCustomerRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(d); 
+							roles.put(action, d);
 							break;
 						default:
 							break;
@@ -665,9 +711,10 @@ public class PersonAgent extends Agent {
 		output(name + " is going to " + d);
 
 		//Check for a way to travel: public transportation, car, or walking
-		boolean temp = false;
-		
-		if(!temp) { //chose to walk
+		boolean temp = true;
+
+		if(true) { //chose to walk
+
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -697,7 +744,9 @@ public class PersonAgent extends Agent {
 	private void chooseRestaurant() {
 		//destination = CityLocation.restaurant_ena;
 		//destination = CityLocation.restaurant_marcus;
+		destination = CityLocation.restaurant_david;
 
+/*
 		switch((int) (Math.random() * 4)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -713,7 +762,7 @@ public class PersonAgent extends Agent {
 				break;
 			default:
 				break;
-		}
+		}*/
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
@@ -815,12 +864,11 @@ public class PersonAgent extends Agent {
 	
 	private void boardBus() {
 		///message the bus
-		print("Getting on Bus");
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
-				print(i + ", " + j);
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+					ContactList.stops.get(i).LeavingBusStop(this);
 					gui.DoGoInside();
 					gui.DoGoToLocationOnBus(destination);
 					

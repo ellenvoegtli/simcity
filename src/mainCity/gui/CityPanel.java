@@ -8,6 +8,7 @@ import java.util.concurrent.*;
 
 import javax.swing.JPanel;
 
+import role.market.MarketDeliveryManRole;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
 import mainCity.PersonAgent;
@@ -16,7 +17,7 @@ import mainCity.bank.gui.BankPanel;
 import mainCity.contactList.ContactList;
 import mainCity.market.*;
 import mainCity.market.gui.*;
-import mainCity.restaurants.EllenRestaurant.gui.EllenRestaurantGui;
+import mainCity.restaurants.marcusRestaurant.gui.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantGui;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
@@ -33,16 +34,20 @@ public class CityPanel extends JPanel{
 		this.gui = gui;
 		clock = 6;
 		
+		ContactList.getInstance().setCity(this);
+		
     	MarketGui marketGui = new MarketGui();
     	ContactList.getInstance().setMarket(marketGui.getMarketPanel());
     	//marketGui.setVisible(true);
 		
-	    EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
-	    ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
+
+	    //EllenRestaurantGui ellenRestaurant = new EllenRestaurantGui();
+	    //ContactList.getInstance().setEllenRestaurant(ellenRestaurant.getEllenRestaurantPanel());
         //ellenRestaurant.setVisible(true);
 		
-		EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
-	    ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
+		//EnaRestaurantGui enaRestaurant = new EnaRestaurantGui();
+	    //ContactList.getInstance().setEnaRestaurant(enaRestaurant.getEnaRestaurantPanel());
+
 	    //enaRestaurant.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
@@ -51,7 +56,7 @@ public class CityPanel extends JPanel{
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
 
-    	jeffersonRestaurant.setVisible(true);
+    	//jeffersonRestaurant.setVisible(true);
     	
 
 
@@ -60,9 +65,9 @@ public class CityPanel extends JPanel{
     	ContactList.getInstance().setBank(bank.getBankPanel());
     	//bank.setVisible(true);
     	
-    	HomeGui home= new HomeGui();
-    	ContactList.getInstance().setHome(home.getHomePanel());
-    	home.setVisible(true);
+    	//HomeGui home= new HomeGui();
+    	//ContactList.getInstance().setHome(home.getHomePanel());
+    	//home.setVisible(true);
     	
 
     	//Hardcoding a bus
@@ -71,6 +76,7 @@ public class CityPanel extends JPanel{
     	bus.setGui(bg);
     	gui.getAnimationPanel().addBusGui(bg);
     	bus.startThread();
+
     	BusAgent bus1 = new BusAgent(); 
     	BusGui bg1 = new BusGui(15,15,16,16,bus1); 
     	bus1.setGui(bg1);
@@ -79,13 +85,17 @@ public class CityPanel extends JPanel{
 
 
     	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
-		parseConfig();
+		//parseConfig();
 
-    	//String[] actions = {"work"}; 
-    	//addPerson("David", 500, false, "marcusWaiter", 7, 19, actions); 
+    	String[] actions = {"work"}; 
+    	addPerson("David", 500, false, "davidWaiter", 7, 19, actions); 
+
+
+    	//String[] actions = {"hungry"}; 
+    	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
 
 /*
-    	PersonAgent person = new PersonAgent("joeMoe");
+    	PersonAgent person = new PersonAgent("joeMoe"); 
     	PersonAgent person2 = new PersonAgent("Waiter");
     	PersonAgent person3 = new PersonAgent("Cook");
     	PersonAgent person4 = new PersonAgent("Cashier");
@@ -163,6 +173,8 @@ public class CityPanel extends JPanel{
 		person5.startThread();
 		*/
     	
+
+    	
     	//add(personPanel);
     	
 		//Instantiation of the Global City Clock
@@ -177,6 +189,12 @@ public class CityPanel extends JPanel{
 		 executor.scheduleAtFixedRate(standChecker, 0, 5, TimeUnit.SECONDS); //Timer goes off every 10 seconds
 	}
 	
+	public void addDeliveryGui(MarketDeliveryManRole d){
+		DeliveryManGui dg = new DeliveryManGui(d);
+		d.setGui(dg);
+		gui.getAnimationPanel().addMarketDeliveryGui(dg);
+	}
+	
 	private void updateCity() {
 		for(PersonAgent p : occupants) {
 			p.updateClock(clock);
@@ -185,7 +203,6 @@ public class CityPanel extends JPanel{
 	
 	
 	private void parseConfig() {
-		System.out.println("^^^^^^^^^^^^^");
 		try {
 		    FileInputStream fstream = new FileInputStream("config.txt");
 		    DataInputStream in = new DataInputStream(fstream);
@@ -193,6 +210,7 @@ public class CityPanel extends JPanel{
 		    String strLine;
 	
 		    while ((strLine = br.readLine()) != null)   {
+		    	System.out.println(strLine);
 		    	if(!strLine.startsWith("-")) {
 				   	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
 				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
@@ -200,14 +218,9 @@ public class CityPanel extends JPanel{
 				   	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
 				   	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
 				   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
-				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length()-1);
+				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
 				    String[] actionList = actions.split(",");
-				    	
-				   	for(int i = 0; i < actionList.length; ++i) {
-				   		System.out.println(actionList[i]);
-				   	}
-				    	
-				   	System.out.println("@@@@@@@@@@@");
+
 				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    	}
 		    }
@@ -215,11 +228,12 @@ public class CityPanel extends JPanel{
 		    in.close();
 		}
 		catch(Exception e) {
-			//System.err.println("Error: " + e.getMessage());
+			System.err.println("Error: " + e.getMessage());
 		}
 	}
 	
 	public void addPerson(String name, double c, boolean renter, String occupation, int sb, int se, String[] actions) {
+		System.out.println(name);
     	PersonAgent person = new PersonAgent(name);
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);

@@ -10,6 +10,7 @@ import transportation.BusAgent;
 import transportation.gui.BusGui;
 import transportation.gui.Lane;
 import transportation.gui.Vehicle;
+import mainCity.gui.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -115,7 +116,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         
         //drawing top houses
         for(int i=0; i<7; i++){
-	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "tophouse" + i);
+	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "house" +i );
 	        buildings.add(house);
 	        houses.put(house, false);
 	        addBuildingGui(house);
@@ -123,7 +124,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         
         //drawing bottom houses 
         for(int i=0; i<7; i++){
-	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "bothouse" + i);
+	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "apartment" +i);
 	        buildings.add(house);
 	        apartments.put(house, false);
 	        addBuildingGui(house);
@@ -134,7 +135,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         buildings.add(building); 
         addBuildingGui(building);
         
-        building = new Building ( 35, 250, "restaurant_right.png", "rest2");
+        building = new Building ( 35, 250, "restaurant_right.png", "EllenRestaurant");
         buildings.add(building); 
         addBuildingGui(building);
        
@@ -142,7 +143,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         buildings.add(building); 
         addBuildingGui(building);
         
-        building = new Building ( 275, 150, "restaurant_right.png", "rest3");
+        building = new Building ( 275, 150, "restaurant_right.png", "enarestaurant");
         buildings.add(building); 
         addBuildingGui(building);
         
@@ -154,7 +155,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         buildings.add(building); 
         addBuildingGui(building);
         
-        building = new Building ( 520, 200, "restaurant_right.png", "rest5");
+        building = new Building ( 520, 200, "restaurant_right.png", "davidRestaurant");
         buildings.add(building); 
         addBuildingGui(building);
         
@@ -340,6 +341,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     	guis.add(gui);
     }
     
+
+    public void addMarketDeliveryGui(DeliveryManGui gui){
+    	guis.add(gui);
+    }
     
     public static Map<Building, Boolean> getHouses()
     {

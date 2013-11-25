@@ -18,7 +18,7 @@ public class WaiterGui implements Gui {
 	
 
     private EllenWaiterRole agent = null;
-    EllenRestaurantGui gui;
+    EllenAnimationPanel animation;
     private boolean isPresent;
 
     private int xPos = -20, yPos = -20;//default waiter position
@@ -48,9 +48,9 @@ public class WaiterGui implements Gui {
 	State s;
 	enum State {wantsBreak, onBreak, offBreak};
 
-    public WaiterGui(EllenWaiterRole agent, EllenRestaurantGui gui) {
+    public WaiterGui(EllenWaiterRole agent, EllenAnimationPanel animation) {
         this.agent = agent;
-        this.gui = gui;
+        this.animation = animation;
         
         //initialize table locations map
         tableX.put(1, 200);
@@ -169,12 +169,12 @@ public class WaiterGui implements Gui {
 	public void IWantBreak() {
 		s = State.wantsBreak;
 		agent.wantToGoOnBreak();
-		gui.updateInfoPanel(agent);
+		//gui.updateInfoPanel(agent);
 	}
 
 	public void GoOnBreak(){
 		s = State.onBreak;
-		gui.updateInfoPanel(agent);
+		//gui.updateInfoPanel(agent);
 	}
 	
 	public void GoOffBreak(){		//called from either RestaurantGui (if coming back) or HostAgent (if denied break request)
@@ -182,7 +182,7 @@ public class WaiterGui implements Gui {
 			agent.wantToGoOffBreak();
 		
 		s = State.offBreak;
-		gui.updateInfoPanel(agent);
+		//gui.updateInfoPanel(agent);
 	}
 
     public void DoGoToTable(int table) {
