@@ -52,6 +52,7 @@ public class JeffersonHostRole extends Role implements Host{
 		super(p);
 
 		this.name = name;
+		onDuty=true;
 		// make some tables
 		tables =Collections.synchronizedList (new ArrayList<Table>(NTABLES));
 		System.out.println("making tables");
@@ -78,16 +79,16 @@ public class JeffersonHostRole extends Role implements Host{
 	}
 	
 	public void msgFinishingShift(JeffersonWaiterRole jw) {
-		for(JeffersonWaiterRole j: waiters){
-			if(j==jw){
-				waiters.remove(j);
+		synchronized(waiters){
 			if(waiters.isEmpty()){
-				
+				return;
 			}
-				
+			for(JeffersonWaiterRole j: waiters){
+				if(j==jw){
+					waiters.remove(j);
+				}
 			}
 		}
-		
 	}
 	public void msgWaitersUpdate(){
 	
@@ -250,7 +251,9 @@ public class JeffersonHostRole extends Role implements Host{
 		addToCash(getShiftDuration()*9.50);
 		payroll += getShiftDuration()*9.50;		
 		
-		cashier.deductCash(payroll);
+		if(cashier!=null){
+			cashier.deductCash(payroll);
+		}
 		setInactive();
 		onDuty = true;
 		return true;

@@ -68,6 +68,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	
 	public JeffersonCashierRole(PersonAgent p,String name){
 		super(p);
+		onDuty=true;
 		this.name=name;
 		profits=0;
 	}
