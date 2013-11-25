@@ -18,6 +18,11 @@ import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
+import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.market.*;
 import role.market.*;
 
@@ -530,6 +535,31 @@ public class PersonAgent extends Agent {
 							roles.put(action, elh);
 							break;
 						
+						//-----David Restaurant Roles---//
+						case "davidWaiter": 
+							DavidWaiterRole dw = new DavidWaiterRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dw); 
+							roles.put(action, dw); 
+							break; 
+						
+						case "davidCook": 
+							DavidCookRole dc = new DavidCookRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dc);
+							roles.put(action, dc); 
+							break;
+							
+						case "davidCashier": 
+							DavidCashierRole dca = new DavidCashierRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dca); 
+							roles.put(action, dca); 
+							break; 
+						
+						case "davidHost": 
+							DavidHostRole dh = new DavidHostRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dh);
+							roles.put(action, dh);
+							break;
+						
 						//-----Market Roles---//
 						case "marketEmployee":
 							MarketEmployeeRole mem = new MarketEmployeeRole(this, name);
@@ -577,6 +607,11 @@ public class PersonAgent extends Agent {
 							JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
 							ContactList.getInstance().getJeffersonRestaurant().handleRoleGui(jc);
 							roles.put(action,jc);
+							break;
+						case restaurant_david: 
+							DavidCustomerRole d = new DavidCustomerRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(d); 
+							roles.put(action, d);
 							break;
 						default:
 							break;
