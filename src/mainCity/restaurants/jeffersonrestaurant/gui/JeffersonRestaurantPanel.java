@@ -267,6 +267,20 @@ public class JeffersonRestaurantPanel extends JPanel {
     		ContactList.getInstance().setJeffersonCook(cook);
     	}
     	
+    	if(r instanceof JeffersonCashierRole){
+    		cashier = (JeffersonCashierRole) r;
+    		if(host!=null){
+    			host.setCashier(cashier);
+    		}
+    		for(JeffersonWaiterRole w: waiters){
+    			w.setCashier(cashier);
+    		}
+    		//Any need to add host to teh cashier?
+    		ContactList.getInstance().setJeffersonCashier(cashier);
+    		
+    		
+    	}
+    	
     	if( r instanceof JeffersonHostRole){
     		host= (JeffersonHostRole) r;
     		
@@ -321,6 +335,7 @@ public class JeffersonRestaurantPanel extends JPanel {
 	
 			gui.animationPanel.addGui(g);
 			c.setHost(host);
+			
 			c.setGui(g);
 			
     	}

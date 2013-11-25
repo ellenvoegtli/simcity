@@ -75,7 +75,11 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	
 	// Messages
 	
-
+	public void msgGoOffDuty() {
+		onDuty = false;
+		stateChanged();
+	}
+	
 
 	public void msgHereIsMarketBill(Map<String, Integer> inventory,
 			double billAmount, MarketDeliveryManRole deliveryPerson) {
@@ -143,6 +147,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 				if(b.needverify){
 					b.needverify=false;
 					tellDeliveryManVerified(b);
+					return true;
 				}
 				
 			}
@@ -166,7 +171,13 @@ public class JeffersonCashierRole extends Role implements Cashier{
 					return true;
 				}
 			}
-		}	
+		}
+		
+		if(!onDuty){
+			DoLeaveRestaurant();
+			
+		}
+		
 		return false;
 	}
 
@@ -176,6 +187,13 @@ public class JeffersonCashierRole extends Role implements Cashier{
 
 
 	//Actions
+
+	private void DoLeaveRestaurant() {
+		setInactive();
+		onDuty=true;
+		
+	}
+
 
 	private void tellDeliveryManVerified(Bill b) {
 		b.deliveryPerson.msgChangeVerified("jeffersonrestaurant");
