@@ -1,6 +1,7 @@
 package mainCity.restaurants.restaurant_zhangdt;
 
 import agent.Agent;
+import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.restaurant_zhangdt.DavidMarketRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
@@ -8,14 +9,15 @@ import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole.myCustomer;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
-import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cook;
 
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
-public class DavidCookRole extends Agent implements Cook{
+import role.Role;
+
+public class DavidCookRole extends Role implements Cook{
 	
 /*   Data   */ 
 	
@@ -85,8 +87,8 @@ public class DavidCookRole extends Agent implements Cook{
 	private Semaphore atGrill = new Semaphore(0,true);
 	
 	//Constructor
-	public DavidCookRole(String name) { 
-		super(); 
+	public DavidCookRole(String name, PersonAgent p) { 
+		super(p); 
 		
 		this.name = name; 
 		
@@ -177,7 +179,7 @@ public class DavidCookRole extends Agent implements Cook{
 	
 /*   Scheduler   */ 
 	
-	protected boolean pickAndExecuteAnAction() { 
+	public boolean pickAndExecuteAnAction() { 
 		try{	
 			if(cstate == CookStatus.Opening){
 				CheckInventory();

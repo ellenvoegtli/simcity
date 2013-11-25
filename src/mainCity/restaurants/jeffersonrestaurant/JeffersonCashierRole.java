@@ -178,7 +178,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	//Actions
 
 	private void tellDeliveryManVerified(Bill b) {
-		b.deliveryPerson.msgChangeVerified();
+		b.deliveryPerson.msgChangeVerified("jeffersonrestaurant");
 		
 	}
 	
@@ -210,7 +210,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 		
 		//b.m.msgHereIsMonies(b.amount);
 		// TODO deliveryperson.msgHereIsPayment(double)
-		b.deliveryPerson.msgHereIsPayment(b.amount);
+		b.deliveryPerson.msgHereIsPayment(b.amount,"jeffersonrestaurant");
 		
 	}
 

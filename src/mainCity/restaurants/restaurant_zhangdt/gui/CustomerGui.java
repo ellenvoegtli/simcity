@@ -12,7 +12,7 @@ public class CustomerGui implements Gui{
 	private boolean isHungry = false;
 
 	//private HostAgent host;
-	DavidRestaurantGui gui;
+	DavidAnimationPanel animation;
 
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -33,14 +33,14 @@ public class CustomerGui implements Gui{
 	private int width = 20;
 	private int height = 20;
 
-	public CustomerGui(DavidCustomerRole c, DavidRestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(DavidCustomerRole c, DavidAnimationPanel a){ //HostAgent m) {
 		agent = c;
 		xPos = 40;
 		yPos = 40;
 		xDestination = 40;
 		yDestination = 40;
 		//maitreD = m;
-		this.gui = gui;
+		this.animation = a;
 	}
 
 	public void updatePosition() {
@@ -65,9 +65,6 @@ public class CustomerGui implements Gui{
 			}
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
-				System.out.println("about to call gui.setCustomerEnabled(agent);");
-				isHungry = false;
-				gui.setCustomerEnabled(agent);
 			}
 			
 			command=Command.noCommand;

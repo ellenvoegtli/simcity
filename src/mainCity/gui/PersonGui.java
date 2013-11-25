@@ -144,6 +144,7 @@ public class PersonGui implements Gui{
 		}
 		
 		if(!path.isEmpty()) {
+			System.out.println("path not empty");
 			xDestination = path.peek().x;
 			yDestination = path.poll().y;
 		}

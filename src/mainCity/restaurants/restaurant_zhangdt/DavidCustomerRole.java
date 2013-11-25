@@ -2,7 +2,6 @@ package mainCity.restaurants.restaurant_zhangdt;
 
 import mainCity.PersonAgent;
 import mainCity.restaurants.restaurant_zhangdt.gui.CustomerGui;
-import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
 import agent.Agent;
 

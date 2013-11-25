@@ -242,6 +242,9 @@ public class ContactList {
 	public void setDavidRestaurant(DavidRestaurantPanel d){ 
 		this.davidRestaurant = d;
 	}
+	public DavidRestaurantPanel getDavidRestaurant(){ 
+		return davidRestaurant; 
+	}
 	
 	//Ena's Restaurant
 	public void setEnaHost(EnaHostRole h){
