@@ -444,7 +444,6 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void handleRole(ActionType action) {
-		//this way works well except for the banking part
 		if(!roles.containsKey(action)) {
 			switch(action) {
 				case work:
