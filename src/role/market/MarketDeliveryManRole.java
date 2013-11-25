@@ -26,10 +26,16 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	//private Bill b;
 	private List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
 	private List<MarketEmployeeRole> employees = Collections.synchronizedList(new ArrayList<MarketEmployeeRole>());
-	private DeliveryState s = DeliveryState.doingNothing;
+	/*private DeliveryState s = DeliveryState.doingNothing;
 	enum DeliveryState {doingNothing, enRoute, waitingForPayment, calculatingChange, goingBackToMarket, done};
 	private DeliveryEvent event;
-	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, arrivedAtMarket};
+	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, owedMoney, arrivedAtMarket};*/
+	private AgentState state;
+	enum AgentState {doingNothing, makingDelivery};
+	
+	enum DeliveryState {newBill, enRoute, waitingForPayment, calculatingChange, waitingForVerification, goingBackToMarket, done};
+	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, owedMoney, arrivedAtMarket};
+	
 	
 	private Semaphore atHome = new Semaphore(0, true);
 	private Semaphore atDestination = new Semaphore(0, true);
@@ -39,6 +45,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	public MarketDeliveryManRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
+		state = AgentState.doingNothing;
 	}
 	public void setCashier(MarketCashierRole c){
 		cashier = c;
@@ -54,12 +61,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 		print("Received msgHereIsOrderForDelivery");
 
 		bills.add(new Bill(restaurantName, cook, cashier, billAmount, inventory));
-		event = DeliveryEvent.deliveryRequested;
-		stateChanged();
-	}
-	
-	public void msgArrivedAtLocation(){		//from gui
-		event = DeliveryEvent.arrivedAtLocation;
+		//event = DeliveryEvent.deliveryRequested;
 		stateChanged();
 	}
 
@@ -75,25 +77,48 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 		}
 		
 		b.amountPaid = amount;
-		event = DeliveryEvent.receivedPayment;
+		b.event = DeliveryEvent.receivedPayment;
 		stateChanged();
 	}
-	public void msgChangeVerified(){
+	public void msgChangeVerified(String name){
 		print("Received msgChangeVerified");
-		event = DeliveryEvent.changeVerified;
+		Bill b = null;
+		for (Bill thisB : bills){	//to find the myCustomer with this specific Customer within myCustomers list
+			if (thisB.restaurantName.equalsIgnoreCase(name)){
+				b = thisB;
+				break;
+			}
+		}
+		
+		b.event = DeliveryEvent.changeVerified;
 		stateChanged();
 	}
+	
+	public void msgIOweYou(double amount, String name){
+		print("Received msgIOweYou");
+		Bill b = null;
+		for (Bill thisB : bills){	//to find the myCustomer with this specific Customer within myCustomers list
+			if (thisB.restaurantName.equalsIgnoreCase(name)){
+				b = thisB;
+				break;
+			}
+		}
+		b.amountOwed = amount;
+		b.event = DeliveryEvent.owedMoney;
+		stateChanged();
+	}
+	
+	
+	
 	
 	public void msgAtHome(){		//from gui
 		print("msgAtHome called");
 		atHome.release();
-		event = DeliveryEvent.arrivedAtMarket;
 		stateChanged();
 	}
 	public void msgAtDestination(){
 		print("msgAtDestination called");
 		atDestination.release();
-		event = DeliveryEvent.arrivedAtLocation;
 		stateChanged();
 	}
 	
@@ -104,37 +129,23 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	public boolean pickAndExecuteAnAction() {
 		
 		for(Bill b: bills){
-			if (s == DeliveryState.doingNothing && event == DeliveryEvent.deliveryRequested){
-				TravelToLocation(b);
-				s = DeliveryState.enRoute;
-				return true;
-			}
-		}
-		for(Bill b: bills){
-			if (s == DeliveryState.enRoute && event == DeliveryEvent.arrivedAtLocation){
+			if (b.s == DeliveryState.newBill && b.event == DeliveryEvent.deliveryRequested && state == AgentState.doingNothing){
 				DeliverOrder(b);
-				s = DeliveryState.waitingForPayment;
+				state = AgentState.makingDelivery;
 				return true;
 			}
 		}
 		for(Bill b: bills){
-			if (s == DeliveryState.waitingForPayment && event == DeliveryEvent.receivedPayment){
+			if (b.s == DeliveryState.waitingForPayment && b.event == DeliveryEvent.receivedPayment){
 				CalculateChange(b);
-				s = DeliveryState.calculatingChange;
 				return true;
 			}
 		}
 		for(Bill b: bills){
-			if (s == DeliveryState.calculatingChange && event == DeliveryEvent.changeVerified){
+			if (b.s == DeliveryState.waitingForVerification && b.event == DeliveryEvent.changeVerified){
 				ReturnToMarket(b);
-				s = DeliveryState.goingBackToMarket;
 				return true;
 			}
-		}
-		if (s == DeliveryState.goingBackToMarket && event == DeliveryEvent.arrivedAtMarket){
-			//no action
-			s = DeliveryState.doingNothing;
-			return true;
 		}
 
 
@@ -146,7 +157,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	
 
 	// Actions
-	public void TravelToLocation(Bill b){
+	public void DeliverOrder(Bill b){
 		print("Traveling to delivery location: " + b.restaurantName);
 		
 		//gui call for truck to travel to restaurant
@@ -157,9 +168,44 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
 		//gui will then message deliveryMan when it arrives
+		if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
+			b.cook = ContactList.getInstance().ellenCook;
+			b.cashier = ContactList.getInstance().ellenCashier;
+			b.cook.msgHereIsYourOrder(b.itemsBought);
+			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+		}
+		else if (b.restaurantName.equalsIgnoreCase("enaRestaurant")){
+			b.cook = ContactList.getInstance().enaCook;
+			b.cashier = ContactList.getInstance().enaCashier;
+			b.cook.msgHereIsYourOrder(b.itemsBought);
+			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+		}
+		else if (b.restaurantName.equalsIgnoreCase("marcusRestaurant")){
+			b.cook = ContactList.getInstance().marcusCook;
+			b.cashier = ContactList.getInstance().marcusCashier;
+			b.cook.msgHereIsYourOrder(b.itemsBought);
+			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+		}
+		else if (b.restaurantName.equalsIgnoreCase("jeffersonRestaurant")){
+			b.cook = ContactList.getInstance().jeffersonCook;
+			b.cashier = ContactList.getInstance().jeffersonCashier;
+			b.cook.msgHereIsYourOrder(b.itemsBought);
+			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+		}
+		else if (b.restaurantName.equalsIgnoreCase("davidRestaurant")){
+			b.cook = ContactList.getInstance().davidCook;
+			b.cashier = ContactList.getInstance().davidCashier;
+			b.cook.msgHereIsYourOrder(b.itemsBought);
+			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+		}
+		
+		b.s = DeliveryState.waitingForPayment;
 	}
 	
+	/*
 	public void DeliverOrder(Bill b){
 		print("Delivering order");
 		if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
@@ -192,7 +238,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 			b.cook.msgHereIsYourOrder(b.itemsBought);
 			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 		}
-	}
+	}*/
 	
 	public void CalculateChange(Bill b){
 		print("Calculating change");
@@ -200,8 +246,10 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 		//check to make sure payment is large enough
 		if (b.amountPaid >= b.amountCharged)
 			b.cashier.msgHereIsChange((b.amountPaid - b.amountCharged), this);
-		//else?
-			//you still owe ..
+		else {
+			
+		}
+		b.s = DeliveryState.waitingForVerification;
 	}
 	
 	public void ReturnToMarket(Bill b){
@@ -214,6 +262,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		state = AgentState.doingNothing;
 		
 	}
 
@@ -229,6 +278,8 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 
 	private class Bill {
 		//List<OrderItem> itemsBought;
+		private DeliveryState s = DeliveryState.newBill;
+		private DeliveryEvent event = DeliveryEvent.deliveryRequested;
 		Map<String, Integer> itemsBought;
 		double amountCharged;
 		double amountPaid;
