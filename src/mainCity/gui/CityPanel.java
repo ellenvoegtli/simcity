@@ -62,7 +62,7 @@ public class CityPanel extends JPanel{
     	
     	HomeGui home= new HomeGui();
     	ContactList.getInstance().setHome(home.getHomePanel());
-    	//home.setVisible(true);
+    	home.setVisible(true);
     	
 
     	//Hardcoding a bus
@@ -80,9 +80,6 @@ public class CityPanel extends JPanel{
 
     	//addPerson("Test", 100, "marcusWaiter", -1, -1, null);
 		parseConfig();
-
-    	String[] actions = {"work"}; 
-    	addPerson("David", 500, false, "marcusWaiter", 7, 19, actions); 
 
 /*
     	PersonAgent person = new PersonAgent("joeMoe");
