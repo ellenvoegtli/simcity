@@ -11,7 +11,7 @@ public class CookGui implements Gui {
 	private int yPos;
 	private int xHome=370;
 	private int yHome = 200;
-	JeffersonRestaurantGui gui;
+	
 	Graphics2D g2;
 	private JeffersonCookRole agent = null;
 	
@@ -21,13 +21,13 @@ public class CookGui implements Gui {
 	
 	int table;
 	
-	public CookGui(JeffersonCookRole c, JeffersonRestaurantGui gui){ //HostAgent m) {
+	public CookGui(JeffersonCookRole c){ //HostAgent m) {
 		agent = c;
 		xHome=370;
 		yHome = 200;
 		xPos = -20;
 		yPos = -20;
-		this.gui = gui;
+		
 		
 	}
 	
@@ -172,6 +172,7 @@ public class CookGui implements Gui {
 	public void DoLeaveRestaurant(){
 		xPos=-20;
 		yPos=-20;
+		agent.msgLeftRestaurant();
 	}
 	
 	public void DoEnterRestaurant(){

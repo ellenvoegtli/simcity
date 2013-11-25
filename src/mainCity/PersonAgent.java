@@ -467,6 +467,7 @@ public class PersonAgent extends Agent {
 			switch(action) {
 				case work:
 					switch(job.occupation) {
+						
 						//-----Marcus Restaurant Roles---//
 						case "marcusCook":
 							MarcusCookRole mco = new MarcusCookRole(this, name);

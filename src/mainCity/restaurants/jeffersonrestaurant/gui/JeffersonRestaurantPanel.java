@@ -3,7 +3,10 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 import javax.swing.*;
 
 import role.Role;
+import role.marcusRestaurant.MarcusCookRole;
 import role.marcusRestaurant.MarcusCustomerRole;
+import role.marcusRestaurant.MarcusWaiterRole;
+import mainCity.contactList.ContactList;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
@@ -242,9 +245,23 @@ public class JeffersonRestaurantPanel extends JPanel {
     }
     public void handleRoleGui(Role r) {
     	
-    	if (r instanceof JeffersonCookRole){
+    	if(r instanceof JeffersonCookRole) {
+    		cook = (JeffersonCookRole) r;
     		
-    		
+    		CookGui cg = new CookGui((JeffersonCookRole) r);
+            //cook.setStand(stand);
+    		cook.setGui(cg);
+            gui.animationPanel.addGui(cg);
+            
+            cook.setCashier(cashier);
+            
+            if(host != null) {
+            	host.setCook(cook);
+            }
+            for(JeffersonWaiterRole w : waiters) {
+    			w.setCook(cook);
+    		}
+    		ContactList.getInstance().setJeffersonCook(cook);
     	}
     	
     	if( r instanceof JeffersonHostRole){
