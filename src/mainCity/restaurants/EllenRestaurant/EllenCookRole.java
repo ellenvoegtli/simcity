@@ -135,6 +135,7 @@ public class EllenCookRole extends Role implements Cook{
 	//new market message
 	public void msgHereIsYourOrder(Map<String, Integer>inventoryFulfilled){
 		log("Received msgHereIsYourOrder from market");
+		
 		for (Map.Entry<String, Integer> entry : inventoryFulfilled.entrySet()){
 			log("Had " + inventory.get(entry.getKey()).amount + " " + inventory.get(entry.getKey()).type + "(s).");
 			inventory.get(entry.getKey()).amount += entry.getValue();
@@ -144,7 +145,7 @@ public class EllenCookRole extends Role implements Cook{
 			f.s = FoodState.delivered;
 		}
 		
-		//stateChanged(); ?
+		stateChanged();		//necessary?
 	}
 	
 	public void msgCantFulfill(String choice, int amountStillNeeded){
@@ -259,8 +260,19 @@ public class EllenCookRole extends Role implements Cook{
 	
 
 	// Actions
-	public void OrderFromMarket(Map<String, Integer>inventory){
-		ContactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventory);
+	public void OrderFromMarket(Map<String, Integer>inventoryNeeded){
+		if (ContactList.getInstance().marketGreeter != null) {
+			ContactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventoryNeeded);
+			for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+				inventory.get(entry.getKey()).s = FoodState.requested;
+			}
+		}
+		else {
+			for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+				inventory.get(entry.getKey()).s = FoodState.depleted;
+			}
+		}
+			
 	}
 	
 	public void TryToCookIt(final Order o){

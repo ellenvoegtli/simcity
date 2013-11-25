@@ -75,6 +75,12 @@ public class PersonAgent extends Agent {
 		return destination;
 	}
 	
+	public boolean isHungry(){
+		if(actions.contains(ActionType.hungry) || actions.contains(ActionType.restaurant))
+			return true;
+		return false;
+	}
+	
 	//----------Messages----------//
 	//From a timer to tell the person to do a checkup
 	public void updateOccupation(String o, int b, int e) {
@@ -268,7 +274,7 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				output("Arrived at market!");
+				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((MarketCustomerRole) customer).getGui().goInside()){
@@ -658,9 +664,10 @@ public class PersonAgent extends Agent {
 		output(name + " is going to " + d);
 
 		//Check for a way to travel: public transportation, car, or walking
-		boolean temp = false;
-		
-		if(!temp) { //chose to walk
+		boolean temp = true;
+
+		if(false) { //chose to walk
+
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -804,12 +811,11 @@ public class PersonAgent extends Agent {
 	
 	private void boardBus() {
 		///message the bus
-		print("Getting on Bus");
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
-				print(i + ", " + j);
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+					ContactList.stops.get(i).LeavingBusStop(this);
 					gui.DoGoInside();
 					gui.DoGoToLocationOnBus(destination);
 					

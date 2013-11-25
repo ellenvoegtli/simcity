@@ -189,6 +189,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     public void handleRole(Role r){
     	if(r instanceof MarketCashierRole) {
     		cashier = (MarketCashierRole) r;
+    		System.out.println("setting cashier");
     		
     		for(MarketEmployeeRole e : employees) {
     			e.setCashier(cashier);
@@ -207,10 +208,8 @@ public class MarketPanel extends JPanel implements ActionListener{
     	
     	if(r instanceof MarketDeliveryManRole) {
     		deliveryMan = (MarketDeliveryManRole) r;
-    		//DeliveryManGui deliveryGui = new DeliveryManGui(deliveryMan, gui);
-    		//gui.animationPanel.addGui(cookGui);
+    		ContactList.getInstance().getCity().addDeliveryGui(deliveryMan);
             deliveryMan.setCashier(cashier);
-            
             
             if(host != null) host.setDeliveryMan(deliveryMan);
             for(MarketEmployeeRole e : employees) {
@@ -224,7 +223,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     		
     		for(MarketEmployeeRole e : employees) {
     			e.setHost(host);
-    			//host.addEmployee(w);
+    			host.addEmployee(e);
     		}
     		for(MarketCustomerRole c : customers) {
     			c.setHost(host);
@@ -266,7 +265,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     				i++;
     		}
     		
-    		host.addEmployee(e, x, y);
+    		if (host != null) /*host.addEmployee(e, x, y);*/ host.addEmployee(e);
     	}
     	
     	if(r instanceof MarketCustomerRole) {

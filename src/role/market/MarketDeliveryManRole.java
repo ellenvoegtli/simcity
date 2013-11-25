@@ -23,7 +23,8 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	
 	//private int availableMoney = 500;
 	Timer timer = new Timer();
-	private Bill b;
+	//private Bill b;
+	private List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
 	private List<MarketEmployeeRole> employees = Collections.synchronizedList(new ArrayList<MarketEmployeeRole>());
 	private DeliveryState s = DeliveryState.doingNothing;
 	enum DeliveryState {doingNothing, enRoute, waitingForPayment, calculatingChange, goingBackToMarket, done};
@@ -52,7 +53,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){
 		print("Received msgHereIsOrderForDelivery");
 
-		b = new Bill(restaurantName, cook, cashier, billAmount, inventory);
+		bills.add(new Bill(restaurantName, cook, cashier, billAmount, inventory));
 		event = DeliveryEvent.deliveryRequested;
 		stateChanged();
 	}
@@ -63,8 +64,15 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	}
 
 	
-	public void msgHereIsPayment(double amount){		//sent by any restaurant's cashier
+	public void msgHereIsPayment(double amount, String restaurantName){		//sent by any restaurant's cashier
 		print("Received msgHereIsPayment: got $" + amount);
+		Bill b = null;
+		for (Bill thisB : bills){	//to find the myCustomer with this specific Customer within myCustomers list
+			if (thisB.restaurantName.equalsIgnoreCase(restaurantName)){
+				b = thisB;
+				break;
+			}
+		}
 		
 		b.amountPaid = amount;
 		event = DeliveryEvent.receivedPayment;
@@ -78,13 +86,13 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	
 	public void msgAtHome(){		//from gui
 		print("msgAtHome called");
-		//atHome.release();
+		atHome.release();
 		event = DeliveryEvent.arrivedAtMarket;
 		stateChanged();
 	}
 	public void msgAtDestination(){
 		print("msgAtDestination called");
-		//atDestination.release();
+		atDestination.release();
 		event = DeliveryEvent.arrivedAtLocation;
 		stateChanged();
 	}
@@ -95,33 +103,40 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	 
 	public boolean pickAndExecuteAnAction() {
 		
-		if(b!=null){
+		for(Bill b: bills){
 			if (s == DeliveryState.doingNothing && event == DeliveryEvent.deliveryRequested){
-				TravelToLocation();
+				TravelToLocation(b);
 				s = DeliveryState.enRoute;
 				return true;
 			}
-			else if (s == DeliveryState.enRoute && event == DeliveryEvent.arrivedAtLocation){
-				DeliverOrder();
+		}
+		for(Bill b: bills){
+			if (s == DeliveryState.enRoute && event == DeliveryEvent.arrivedAtLocation){
+				DeliverOrder(b);
 				s = DeliveryState.waitingForPayment;
 				return true;
 			}
-			else if (s == DeliveryState.waitingForPayment && event == DeliveryEvent.receivedPayment){
-				CalculateChange();
+		}
+		for(Bill b: bills){
+			if (s == DeliveryState.waitingForPayment && event == DeliveryEvent.receivedPayment){
+				CalculateChange(b);
 				s = DeliveryState.calculatingChange;
 				return true;
 			}
-			else if (s == DeliveryState.calculatingChange && event == DeliveryEvent.changeVerified){
-				ReturnToMarket();
+		}
+		for(Bill b: bills){
+			if (s == DeliveryState.calculatingChange && event == DeliveryEvent.changeVerified){
+				ReturnToMarket(b);
 				s = DeliveryState.goingBackToMarket;
 				return true;
 			}
-			else if (s == DeliveryState.goingBackToMarket && event == DeliveryEvent.arrivedAtMarket){
-				//no action
-				s = DeliveryState.doingNothing;
-				return true;
-			}
 		}
+		if (s == DeliveryState.goingBackToMarket && event == DeliveryEvent.arrivedAtMarket){
+			//no action
+			s = DeliveryState.doingNothing;
+			return true;
+		}
+
 
 		return false;
 		//we have tried all our rules and found
@@ -131,16 +146,9 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	
 
 	// Actions
-	public void TravelToLocation(){
+	public void TravelToLocation(Bill b){
 		print("Traveling to delivery location: " + b.restaurantName);
 		
-		timer.schedule(new TimerTask() {
-			public void run() {
-				msgAtDestination();
-			}
-		}, 5000);
-		
-		/*
 		//gui call for truck to travel to restaurant
 		deliveryGui.DoDeliverOrder(b.restaurantName);
 		try {
@@ -148,11 +156,11 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
-		//gui will message deliveryMan when it arrives
+		}
+		//gui will then message deliveryMan when it arrives
 	}
 	
-	public void DeliverOrder(){
+	public void DeliverOrder(Bill b){
 		print("Delivering order");
 		if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
 			b.cook = ContactList.getInstance().ellenCook;
@@ -186,7 +194,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 		}
 	}
 	
-	public void CalculateChange(){
+	public void CalculateChange(Bill b){
 		print("Calculating change");
 		
 		//check to make sure payment is large enough
@@ -196,16 +204,16 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 			//you still owe ..
 	}
 	
-	public void ReturnToMarket(){
+	public void ReturnToMarket(Bill b){
 		print("Returning to market");
-		b = null;
-		
-		//deliveryGui.DoGoToHomePosition();
-		timer.schedule(new TimerTask() {
-			public void run() {
-				msgAtHome();
-			}
-		}, 5000);
+		bills.remove(b);
+		deliveryGui.DoGoToHomePosition();
+		try {
+			atHome.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 

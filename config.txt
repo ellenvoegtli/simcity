@@ -1,7 +1,7 @@
 -Marcus Restaurant
 Name:PersonA;Cash:10;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:PersonA;Cash:10;Renter:false;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:PersonB;Cash:50;Renter:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:PersonA;Cash:100;Renter:false;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work,restaurant
+Name:PersonB;Cash:60;Renter:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work,restaurant
 Name:PersonC;Cash:82;Renter:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
 Name:PersonD;Cash:50;Renter:true;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
 -Ellen Restaurant
