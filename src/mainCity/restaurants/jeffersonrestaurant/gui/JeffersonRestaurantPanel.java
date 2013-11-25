@@ -8,7 +8,7 @@ import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonMarketRole;
+
 import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 
 import java.awt.*;
