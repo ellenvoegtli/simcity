@@ -167,7 +167,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 			cash = 0;
 		}
 		else {
-			b.deliveryPerson.msgHereIsPayment(b.bill);
+			b.deliveryPerson.msgHereIsPayment(b.bill, "marcusRestaurant");
 			cash -= b.bill;
 		}
 		
