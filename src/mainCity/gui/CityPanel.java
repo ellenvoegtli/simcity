@@ -64,9 +64,9 @@ public class CityPanel extends JPanel{
     	ContactList.getInstance().setBank(bank.getBankPanel());
     	//bank.setVisible(true);
     	
-    	HomeGui home= new HomeGui();
-    	ContactList.getInstance().setHome(home.getHomePanel());
-    	home.setVisible(true);
+    	//HomeGui home= new HomeGui();
+    	//ContactList.getInstance().setHome(home.getHomePanel());
+    	//home.setVisible(true);
     	
 
     	//Hardcoding a bus

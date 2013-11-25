@@ -1,5 +1,8 @@
 package mainCity.gui;
 
+import housing.gui.HomeAnimationPanel;
+import housing.gui.HomePanel;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -42,6 +45,17 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		
 		cards.put("marcusRestaurant", new MarcusAnimationPanel(city));
 		cards.put("enarestaurant",  new EnaAnimationPanel(city));
+		
+		for(int i=1; i<8; i++)
+		{
+					cards.put("house"+ i, new HomeAnimationPanel(city));
+
+		}
+		for(int j=0; j<8; j++)
+		{
+			cards.put("apartment" +j, new HomeAnimationPanel(city));
+
+		}
 		
 		layout = new CardLayout();
 		this.setLayout(layout);
