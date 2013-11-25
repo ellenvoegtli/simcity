@@ -42,12 +42,18 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     //List of buildings in the city 
     List<Building> buildings = new ArrayList<Building>(); 
     
+    
+    
     //List of houses in the city
-    public static Map<Building, Boolean> houses = new HashMap<Building, Boolean>();
+    public static Map<Building, Boolean > houses = new HashMap<Building, Boolean >();
     
     
     //list of apartment buildings in the city
-   public static  Map<Building, Boolean> apartments = new HashMap<Building, Boolean>();
+   public static  Map<Building, List<Integer>> apartments = new HashMap<Building, List<Integer> >();
+   
+   //list to hold apartments in a single apartment building
+   
+   static List<Integer> Apt = new ArrayList<Integer>();
     
     //Road Data
     ArrayList<Lane> lanes;
@@ -125,8 +131,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         //drawing bottom houses 
         for(int i=0; i<7; i++){
 	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "apartment" +i);
+	        		//list to hold apartments in a single apartment building
+	        		List<Integer> Apt = new ArrayList<Integer>();
 	        buildings.add(house);
-	        apartments.put(house, false);
+	        apartments.put(house, Apt);
 	        addBuildingGui(house);
         }
         
@@ -351,9 +359,13 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     	return houses;
     }
     
-    public static Map<Building, Boolean> getApartments()
+    public static Map<Building, List<Integer>> getApartments()
     {
     	return apartments;
+    }
+    public static List<Integer> getApts()
+    {
+    	return Apt;
     }
     
 //Unused.

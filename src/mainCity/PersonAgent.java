@@ -942,10 +942,11 @@ public class PersonAgent extends Agent {
 		{
 			for(Building apartment : AnimationPanel.getApartments().keySet())
 			{
-				if(AnimationPanel.getApartments().get(apartment) == false)
+				if(AnimationPanel.getApartments().get(apartment).size() <= 3)
 				{
 					this.homePlace = apartment;
-					AnimationPanel.apartments.put(apartment, true);
+					AnimationPanel.getApts().add(AnimationPanel.getApartments().get(apartment).size()+1);
+					AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
 					break;
 				}
 			}
