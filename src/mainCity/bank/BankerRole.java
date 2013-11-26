@@ -12,8 +12,8 @@ import agent.Agent;
 
 
 public class BankerRole extends Role {
-	public enum BankerState{none, atWork, offWork }
-	BankerState bstate =BankerState.none;
+	
+	
 	BankAccounts ba;
 	String name;
 	myClient mc;
@@ -35,6 +35,7 @@ public class BankerRole extends Role {
 	
 	public BankerRole(PersonAgent p, String name){
 		super(p);
+		this.p=p;
 		this.name=name;
 		Do("Bank Teller initiated");
 		onDuty=true;
@@ -54,14 +55,11 @@ public class BankerRole extends Role {
 	public void msgGoToWork(){
 		
 		System.out.println("Banker at station");
-		bstate=BankerState.atWork;
+		onDuty=true;
 		stateChanged();
 	}
 	
-	public void msgLeaveWork(){
-		bstate=BankerState.offWork;
-		stateChanged();
-	}
+
 	
 	public void msgIWantALoan(BankCustomerRole b, double accnum, double amnt){
 		Do("Recieved msgIWantALoan from customer");
@@ -86,19 +84,13 @@ public class BankerRole extends Role {
 	
 	
 	public boolean pickAndExecuteAnAction() {
-		
-		if(bstate==BankerState.atWork){
-			bstate=BankerState.none;
+		if(onDuty){
 			doGoToWork();
-			return true;
 		}
-		if(bstate==BankerState.offWork){
-			bstate=BankerState.none;
-			doLeaveWork();
-			return true;
-		}
+	
 		
 		if(mc!=null){
+			
 			
 			if(mc.cs==ClientState.wantsAccount){
 				createAccount(mc);
@@ -134,6 +126,8 @@ public class BankerRole extends Role {
 		
 	private void doLeaveWork(){
 			bGui.doLeaveWork();
+			setInactive();
+			onDuty=true;
 		}
 		
 		
@@ -155,10 +149,7 @@ public class BankerRole extends Role {
 	private void processLoan(myClient mc){
 		Do("processing loan");
 		if(mc.accountnumber==-1){
-			mc.bc.msgLoanDenied(mc.amount);
-			Do("Loan denied, no account exists");
-			mc=null;
-			return;
+			createAccount(mc);
 		}
 		for(BankAccount b: ba.accounts){
 			if(mc.accountnumber==b.accountNumber){
