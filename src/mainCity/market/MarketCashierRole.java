@@ -9,19 +9,21 @@ import role.Role;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.market.interfaces.*;
+
 
 
  // Restaurant Cook Agent
 
-public class MarketCashierRole extends Role{	
+public class MarketCashierRole extends Role implements Cashier {	
 	private String name;
-	MarketGreeterRole greeter;
+	Greeter greeter;
 	private double availableMoney = 0;		//we don't actually need to start with any money (don't need to buy anything)
 	Timer timer = new Timer();
 	private MarketMenu marketMenu = new MarketMenu();
 	
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());	//from waiters
-	private List<MarketEmployeeRole> employees = Collections.synchronizedList(new ArrayList<MarketEmployeeRole>());
+	private List<Employee> employees = Collections.synchronizedList(new ArrayList<Employee>());
 		
 	public enum BillState {computing, waitingForPayment, recomputingBill, calculatingChange, oweMoney, paid};
 	
@@ -31,10 +33,10 @@ public class MarketCashierRole extends Role{
 		this.name = name;
 
 	}
-	public void addWaiter(MarketEmployeeRole w){	//hack
+	public void addWaiter(Employee w){	//hack
 		employees.add(w);
 	}
-	public void setGreeter(MarketGreeterRole g){
+	public void setGreeter(Greeter g){
 		greeter = g;
 	}
 	public String getName() {
@@ -42,6 +44,9 @@ public class MarketCashierRole extends Role{
 	}
 	public List getBills(){
 		return bills;
+	}
+	public double getAvailableMoney(){
+		return availableMoney;
 	}
 
 	//for alert log trace statements
@@ -53,20 +58,20 @@ public class MarketCashierRole extends Role{
 	// Messages
 	
 	//customer
-	public void msgComputeBill(Map<String, Integer> inventory, MarketCustomerRole c, MarketEmployeeRole e){
+	public void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e){
 		bills.add(new Bill(inventory, c, BillState.computing, e));
 		log(e.getName() + ", received msgComputeBill for " + c.getName());
 		stateChanged();
 	}
 	
 	//business
-	public void msgComputeBill(Map<String, Integer> inventory, String name, MarketEmployeeRole e){
+	public void msgComputeBill(Map<String, Integer> inventory, String name, Employee e){
 		log("Received msgComputeBill for " + name);		
 		bills.add(new Bill(inventory, name, BillState.computing, e));
 		stateChanged();
 	}
 	
-	public void msgHereIsPayment(double amount, MarketCustomerRole cust){
+	public void msgHereIsPayment(double amount, Customer cust){
 		log("Received msgHereIsPayment: got $" + amount);
 		Bill b = null;
 		synchronized(bills){
@@ -82,7 +87,7 @@ public class MarketCashierRole extends Role{
 		stateChanged();
 	}
 	
-	public void msgPleaseRecalculateBill(MarketCustomerRole cust){
+	public void msgPleaseRecalculateBill(Customer cust){
 		log("Received msgPleaseRecalculateBill from " + cust.getName());
 		Bill b = null;
 		synchronized(bills){
@@ -97,7 +102,7 @@ public class MarketCashierRole extends Role{
 		stateChanged();
 	}
 	
-	public void msgChangeVerified(MarketCustomerRole cust){
+	public void msgChangeVerified(Customer cust){
 		log("Received msgChangeVerified from " + cust.getName());
 		Bill b = null;
 		synchronized(bills){
@@ -109,21 +114,12 @@ public class MarketCashierRole extends Role{
 			}
 		}
 		//NOW we can add the money they finally, for sure paid and are not taking back
-		availableMoney += b.amountPaid;
+		availableMoney += b.amountMarketGets;
 		bills.remove(b);
 	}
 	
-	public void msgHereIsMoneyIOwe(MarketCustomerRole cust, double amount){
+	public void msgHereIsMoneyIOwe(Customer cust, double amount){
 		log("Received msgHereIsMoneyIOwe from " + cust.getName() + ": $" + amount);
-		/*Bill b = null;
-		synchronized(bills){
-			for (Bill thisB : bills){	
-				if (thisB.c.equals(cust)){
-					b = thisB;
-					break;
-				}
-			}
-		}*/
 		availableMoney += amount;
 	}
 	
@@ -170,9 +166,12 @@ public class MarketCashierRole extends Role{
 	
 	public void ComputeBill(final Bill b){
 		log("Computing bill");
+		double dollars = 0;
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-			b.amountCharged += marketMenu.getPrice(entry.getKey()) * entry.getValue();
+			dollars += marketMenu.getPrice(entry.getKey()) * entry.getValue();
 		}
+		b.amountCharged = Math.round(dollars * 100.0)/100.0;
+		
 		if (b.c == null)
 			b.e.msgHereIsBill(b.restaurantName, b.amountCharged);
 		else
@@ -183,24 +182,32 @@ public class MarketCashierRole extends Role{
 	
 	public void CalculateChange(Bill b){
 		log("Calculating change");
+		double dollars = 0;
 		//check to make sure payment is large enough
 		if (b.amountPaid >= b.amountCharged){
-			b.c.msgHereIsYourChange((b.amountPaid - b.amountCharged), b.amountCharged);
+			dollars = Math.round((b.amountPaid - b.amountCharged)*100.0)/100.0;
+			b.c.msgHereIsYourChange(dollars, b.amountCharged);
+			
+			b.amountMarketGets = Math.round(b.amountCharged *100.0)/100.0;
 			b.s = BillState.paid;
 		}
 		else {		//if they didn't pay enough
-			b.c.msgNotEnoughCash((b.amountCharged - b.amountPaid));
+			b.amountOwed = Math.round((b.amountCharged - b.amountPaid)*100.0)/100.0;		//mostly for testing purposes
+			b.amountMarketGets = b.amountPaid;
+			
+			b.c.msgNotEnoughCash(b.amountOwed);
 			b.s = BillState.oweMoney;
 		}
-		
-		//delete Bill?
 	}
 
 	public void RecomputeBill(final Bill b){
 		log("Recomputing bill");
+		double dollars = 0;
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-			b.newAmountCharged += marketMenu.getPrice(entry.getKey()) * entry.getValue();
+			dollars += marketMenu.getPrice(entry.getKey()) * entry.getValue();
 		}
+		b.newAmountCharged = Math.round(dollars * 100.0)/100.0;
+		
 		if (b.newAmountCharged < b.amountCharged){	//if they over-billed the first time, fix the bill to be correct
 			b.amountCharged = b.newAmountCharged;
 			
@@ -210,11 +217,10 @@ public class MarketCashierRole extends Role{
 				b.c.msgHereIsBill(b.amountCharged);
 			
 		} else if (b.newAmountCharged > b.amountCharged) {//else if they under-billed the first time, send them the first bill charge (they messed up, so they'll lose that money)
-			//same as above
 			/*if (b.c == null)
 				b.e.msgHereIsBill(b.restaurantName, b.amountCharged);
 			else*/
-				b.e.msgHereIsBill(b.c, b.amountCharged);
+				b.c.msgHereIsBill(b.amountCharged);
 			
 		} else if (b.newAmountCharged == b.amountCharged){		//if it's the same, send them a final non-negotiable bill charge
 			/*if (b.c == null)
@@ -226,28 +232,43 @@ public class MarketCashierRole extends Role{
 
 	}
 
-	private class Bill {
+	public class Bill {		//for testing purposes only
 		Map<String, Integer> itemsBought = new TreeMap<String, Integer>();
 		double amountCharged;
 		double newAmountCharged; 	//if customer asks cashier to recalculate
 		double amountPaid;
+		double amountMarketGets;
 		double amountOwed;
-		MarketCustomerRole c;
+		Customer c;
 		String restaurantName;
 		BillState s;
-		MarketEmployeeRole e;
+		Employee e;
 		
-		Bill(Map<String, Integer> inventory, MarketCustomerRole cust, BillState state, MarketEmployeeRole em){
+		Bill(Map<String, Integer> inventory, Customer cust, BillState state, Employee em){
 			itemsBought = inventory;
 			c = cust;
 			s = state;
 			e = em;
 		}
-		Bill(Map<String, Integer> inventory, String name, BillState state, MarketEmployeeRole em){
+		Bill(Map<String, Integer> inventory, String name, BillState state, Employee em){
 			itemsBought = inventory;
 			restaurantName = name;
 			s = state;
 			e = em;
+		}
+		
+		//for testing purposes
+		public BillState getState(){
+			return s;
+		}
+		public Employee getEmployee(){
+			return e;
+		}
+		public Customer getCustomer(){
+			return c;
+		}
+		public double getAmountPaid(){
+			return amountPaid;
 		}
 	}
 
