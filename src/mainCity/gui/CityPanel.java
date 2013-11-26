@@ -12,7 +12,7 @@ import role.market.MarketDeliveryManRole;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
 import mainCity.PersonAgent;
-import mainCity.bank.gui.BankGui;
+
 import mainCity.bank.gui.BankPanel;
 import mainCity.contactList.ContactList;
 import mainCity.market.*;
@@ -49,9 +49,9 @@ public class CityPanel extends JPanel{
     	//jeffersonRestaurant.setVisible(true);
  
 
-    	BankGui bank = new BankGui();
-    	ContactList.getInstance().setBank(bank.getBankPanel());
-    	bank.setVisible(true);
+    	//BankGui bank = new BankGui();
+    	//ContactList.getInstance().setBank(bank.getBankPanel());
+    	//bank.setVisible(true);
     	
     	//HomeGui home= new HomeGui();
     	//ContactList.getInstance().setHome(home.getHomePanel());

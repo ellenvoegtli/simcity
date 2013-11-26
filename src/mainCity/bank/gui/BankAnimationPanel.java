@@ -3,6 +3,9 @@ package mainCity.bank.gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import mainCity.contactList.ContactList;
+import mainCity.gui.CityCard;
+import mainCity.gui.CityGui;
 import mainCity.gui.Gui;
 
 import java.awt.*;
@@ -14,7 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
-public class BankAnimationPanel extends JPanel implements ActionListener {
+public class BankAnimationPanel extends CityCard implements ActionListener {
 
     private final int WINDOWX = 500;
     private final int WINDOWY = 500;
@@ -24,13 +27,15 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     static final int  Y = 0;
     static final int width = 50;
     static final int height = 50;
+    private BankPanel bankPanel = new BankPanel(this);
     
     private BufferedImage teller_areaImg = null;
     private BufferedImage banker_areaImg = null;
 
-    private List<Gui> guis = new ArrayList<Gui>();
+    public List<Gui> guis = new ArrayList<Gui>();
 
-    public BankAnimationPanel() {
+    public BankAnimationPanel(CityGui gui) {
+    	super(gui);
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         
@@ -46,6 +51,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
 			
 			e.printStackTrace();
 		}
+	    ContactList.getInstance().setBank(bankPanel);
     }
 
 	public void actionPerformed(ActionEvent e) {
@@ -104,6 +110,7 @@ public class BankAnimationPanel extends JPanel implements ActionListener {
     }
 
     public void addGui(BankTellerGui gui){
+    	System.out.println("addGui");
     	guis.add(gui);
     }
 

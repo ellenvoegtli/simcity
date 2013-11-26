@@ -1,4 +1,4 @@
-package mainCity.restaurants.restaurant_zhangdt;
+package role.davidRestaurant;
 
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import role.davidRestaurant.DavidCookRole.Order;
+import role.davidRestaurant.DavidCookRole.OrderStatus;
+import role.davidRestaurant.DavidCustomerRole.AgentEvent;
 import agent.Agent;
-import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order;
-import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.OrderStatus;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Market;
 
 public class DavidMarketRole extends Agent implements Market{

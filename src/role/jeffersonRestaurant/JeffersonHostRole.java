@@ -73,7 +73,9 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	*/
 	
 	//messages
-	public void msgOffDuty(){
+
+	public void msgEndShift(){
+		Do("jeffersonHost closing");
 		onDuty=false;
 		stateChanged();
 	}
@@ -363,11 +365,8 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	
 	*/
 
-		@Override
-		public void msgEndShift(int hours) {
-			// TODO Auto-generated method stub
-			
-		}
+		
+
 
 
 
