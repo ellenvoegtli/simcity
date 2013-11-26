@@ -1,12 +1,12 @@
-package mainCity.restaurants.jeffersonrestaurant;
+package role.jeffersonRestaurant;
 
 import java.util.*;
 
 import role.Role;
+import role.jeffersonRestaurant.JeffersonWaiterRole;
+import role.jeffersonRestaurant.JeffersonCookRole.Order;
 import role.market.MarketDeliveryManRole;
 import mainCity.PersonAgent;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole.Order;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;

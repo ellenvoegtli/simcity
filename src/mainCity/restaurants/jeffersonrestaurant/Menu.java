@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 public class Menu{
 	
-	ArrayList<Item> choices = new ArrayList<Item>();
+	public ArrayList<Item> choices = new ArrayList<Item>();
 	
 	
 	public class Item{
-		String itemName;
+		public String itemName;
 		double itemPrice;
 		
 		public Item(String name, double price){

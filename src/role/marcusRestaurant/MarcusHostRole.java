@@ -19,8 +19,8 @@ import role.Role;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class MarcusHostRole extends Role implements ManagerRole {
 	static final int NTABLES = 4;//a global for the number of tables.
+	public class MarcusHostRole extends Role implements ManagerRole {
 	private MarcusCookRole cook;
 	private MarcusCashierRole cashier;
 	private List<Customer> waitingCustomers = Collections.synchronizedList(new ArrayList<Customer>());

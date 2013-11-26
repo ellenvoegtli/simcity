@@ -1,6 +1,11 @@
 package mainCity;
 import agent.Agent;
 import role.*;
+import role.jeffersonRestaurant.JeffersonCashierRole;
+import role.jeffersonRestaurant.JeffersonCookRole;
+import role.jeffersonRestaurant.JeffersonCustomerRole;
+import role.jeffersonRestaurant.JeffersonHostRole;
+import role.jeffersonRestaurant.JeffersonWaiterRole;
 import role.marcusRestaurant.*;
 import housing.LandlordRole;
 import housing.OccupantRole;
@@ -18,11 +23,6 @@ import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
@@ -412,10 +412,7 @@ public class PersonAgent extends Agent {
 					output("Closing up shop");
 					((ManagerRole) r.getValue()).msgEndShift(job.shiftEnd-job.shiftBegin);
 				}
-				if(r.getValue() instanceof JeffersonHostRole && r.getValue().isActive()){
-					((JeffersonHostRole) r.getValue()).msgOffDuty();
-					output("Closing up jefferson restaurant");
-				}
+				
 			}
 		}
 		

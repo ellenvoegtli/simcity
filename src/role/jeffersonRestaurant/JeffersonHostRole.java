@@ -1,4 +1,4 @@
-package mainCity.restaurants.jeffersonrestaurant;
+package role.jeffersonRestaurant;
 
 import agent.Agent;
 
@@ -6,9 +6,9 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
-
+import role.jeffersonRestaurant.JeffersonWaiterRole.*;
 import mainCity.PersonAgent;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.*;
+import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Host;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
@@ -20,7 +20,7 @@ import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 
 
 
-public class JeffersonHostRole extends Role implements Host{
+public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	
 	
 	static final int NTABLES = 3;
@@ -362,6 +362,12 @@ public class JeffersonHostRole extends Role implements Host{
 		}
 	
 	*/
+
+		@Override
+		public void msgEndShift(int hours) {
+			// TODO Auto-generated method stub
+			
+		}
 
 
 
