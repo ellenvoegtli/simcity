@@ -673,7 +673,7 @@ public class PersonAgent extends Agent implements Person {
 		traveling = true;
 		this.destination = d;
 		
-		boolean walk = (60 > ((int) (Math.random() * 100)));
+		boolean walk = (70 > ((int) (Math.random() * 100)));
 
 		if(walk || state == PersonState.walkingFromBus) { //chose to walk
 			output(name + " is walking to " + d);
@@ -724,7 +724,7 @@ public class PersonAgent extends Agent implements Person {
 			default:
 				break;
 		}
-
+		
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}

@@ -81,7 +81,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 	
 	// Messages	
 	public void msgIWantToEat(Customer cust) {
-		output(cust + " wants to eat");
+		output(cust + " wants to eat at Marcus' Grilled Cheese Restaurant");
 		waitingCustomers.add(cust);
 		newCustomer = true;
 		stateChanged();

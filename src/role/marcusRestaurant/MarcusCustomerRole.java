@@ -303,17 +303,17 @@ public class MarcusCustomerRole extends Role implements Customer {
 		waiter.msgHereIsMyChoice(this, choice);
 		
 		switch(choice) {
-		case "Steak":
-			customerGui.DoCreateLabel("ST?");
+		case "Swiss":
+			customerGui.DoCreateLabel("SWIS?");
 			break;
-		case "Chicken":
-			customerGui.DoCreateLabel("CH?");
+		case "American":
+			customerGui.DoCreateLabel("AMRC?");
 			break;
-		case "Salad":
-			customerGui.DoCreateLabel("SAL?");
+		case "Cheddar":
+			customerGui.DoCreateLabel("CHED?");
 			break;
-		case "Pizza":
-			customerGui.DoCreateLabel("PIZ?");
+		case "Provolone":
+			customerGui.DoCreateLabel("PROV?");
 			break;
 		}
 		

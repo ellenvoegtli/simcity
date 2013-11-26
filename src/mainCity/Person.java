@@ -30,6 +30,8 @@ public interface Person {
 	public abstract void addRole(ActionType type, Role role);
 
 	public abstract void roleInactive();
+	
+	public abstract void stateChanged();
 
 	public abstract int getTime();
 

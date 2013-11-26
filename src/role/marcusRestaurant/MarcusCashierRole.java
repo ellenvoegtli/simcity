@@ -31,10 +31,10 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		onDuty = true;
 		
 		synchronized(prices) {
-			prices.put("Steak", 16);
-			prices.put("Chicken", 11);
-			prices.put("Salad", 6);
-			prices.put("Pizza", 9);
+			prices.put("Swiss", 9);
+			prices.put("American", 14);
+			prices.put("Cheddar", 6);
+			prices.put("Provolone", 12);
 		}
 		
 		cash = 1675;
