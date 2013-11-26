@@ -8,6 +8,8 @@ import mainCity.interfaces.*;
 import mainCity.market.*;
 import mainCity.market.MarketCashierRole.BillState;
 import mainCity.market.gui.*;
+import mainCity.market.interfaces.Cashier;
+import mainCity.market.interfaces.DeliveryMan;
 import role.Role;
 
 import java.util.*;
@@ -16,25 +18,25 @@ import java.util.concurrent.*;
 
  // Restaurant Cook Agent
 
-public class MarketDeliveryManRole extends Role{			//only handles one restaurant at a time right now
+public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only handles one restaurant at a time right now
 	private String name;
 	public DeliveryManGui deliveryGui;
-	MarketCashierRole cashier;
+	Cashier cashier;
 	
-	//private int availableMoney = 500;
+	private double availableMoney = 0;
 	Timer timer = new Timer();
 	//private Bill b;
-	private List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
+	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
 	private List<MarketEmployeeRole> employees = Collections.synchronizedList(new ArrayList<MarketEmployeeRole>());
 	/*private DeliveryState s = DeliveryState.doingNothing;
 	enum DeliveryState {doingNothing, enRoute, waitingForPayment, calculatingChange, goingBackToMarket, done};
 	private DeliveryEvent event;
 	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, owedMoney, arrivedAtMarket};*/
-	private AgentState state;
-	enum AgentState {doingNothing, makingDelivery};
+	public AgentState state;
+	public enum AgentState {doingNothing, makingDelivery};
 	
-	enum DeliveryState {newBill, enRoute, waitingForPayment, calculatingChange, oweMoney, waitingForVerification, goingBackToMarket, done};
-	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, acknowledgedDebt, arrivedAtMarket};
+	public enum DeliveryState {newBill, enRoute, waitingForPayment, calculatingChange, oweMoney, waitingForVerification, goingBackToMarket, done};
+	public enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, acknowledgedDebt, arrivedAtMarket};
 	
 	
 	private Semaphore atHome = new Semaphore(0, true);
@@ -47,12 +49,21 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 		this.name = name;
 		state = AgentState.doingNothing;
 	}
-	public void setCashier(MarketCashierRole c){
+	public void setCashier(Cashier c){
 		cashier = c;
+	}
+	public List getBills(){
+		return bills;
+	}
+	public double getAvailableMoney(){
+		return availableMoney;
 	}
 
 	public String getName() {
 		return name;
+	}
+	public AgentState getState(){
+		return state;
 	}
 
 	// Messages
@@ -89,6 +100,8 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 				break;
 			}
 		}
+		availableMoney += b.amountMarketGets;
+		availableMoney = Math.round(availableMoney*100.0)/100.0;
 		
 		b.event = DeliveryEvent.changeVerified;
 		stateChanged();
@@ -255,10 +268,9 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	}
 	
 
-	private class Bill {
-		//List<OrderItem> itemsBought;
-		private DeliveryState s = DeliveryState.newBill;
-		private DeliveryEvent event = DeliveryEvent.deliveryRequested;
+	public class Bill {		//public only for testing purposes
+		public DeliveryState s = DeliveryState.newBill;
+		public DeliveryEvent event = DeliveryEvent.deliveryRequested;
 		Map<String, Integer> itemsBought;
 		double amountCharged;
 		double amountPaid;
@@ -274,6 +286,34 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 			amountCharged = billAmount;
 			restaurantName = name;
 			itemsBought = new TreeMap<String, Integer>(inventory);
+		}
+		
+		public double getAmountPaid(){
+			return amountPaid;
+		}
+		public double getAmountCharged(){
+			return amountCharged;
+		}
+		public double getAmountOwed(){
+			return amountOwed;
+		}
+		public double getAmountMarketGets(){
+			return amountMarketGets;
+		}
+		public MainCook getCook(){
+			return cook;
+		}
+		public MainCashier getCashier(){
+			return cashier;
+		}
+		public String getRestaurant(){
+			return restaurantName;
+		}
+		public DeliveryState getState(){
+			return s;
+		}
+		public DeliveryEvent getEvent(){
+			return event;
 		}
 	}
 

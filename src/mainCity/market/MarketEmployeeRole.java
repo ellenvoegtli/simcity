@@ -299,6 +299,8 @@ public class MarketEmployeeRole extends Role implements Employee {
 
 	// Actions
 
+	
+	//=========================== IN-STORE CUSTOMERS ==============================================================
 	private void GreetCustomer(MyCustomer mc){
 		log("Going to pick up customer: " + mc.c.getName());
 		employeeGui.DoPickUpWaitingCustomer(mc.waitingAreaX, mc.waitingAreaY);
@@ -378,7 +380,7 @@ public class MarketEmployeeRole extends Role implements Employee {
 	
 	
 	
-	//businesses
+	//=========================== BUSINESSES ===========================================================================
 	private void ProcessOrder(MyBusiness mb){
 		log("Processing order for " + mb.restaurantName);
 		for (Map.Entry<String, Integer> entry : mb.inventoryOrdered.entrySet()){
