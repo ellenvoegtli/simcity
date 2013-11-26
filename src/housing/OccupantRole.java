@@ -5,7 +5,7 @@ import housing.personHome.Appliance;
 import housing.personHome.type;
 import housing.gui.OccupantGui;
 import agent.Agent;
-
+import mainCity.gui.AnimationPanel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Timer;
@@ -13,7 +13,7 @@ import java.util.TimerTask;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import mainCity.Person;
+import mainCity.PersonAgent;
 import role.Role;
 
 
@@ -58,12 +58,17 @@ public void msgAtDestination()
 }
 	
 	
-public OccupantRole(Person p, String personNm, boolean owner) 
+public OccupantRole(PersonAgent p, String personNm) 
 {
 	super(p);
 	this.name = personNm;
-	this.owner = owner;
-	
+
+	/*if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
+	{
+		owner = false;
+		rent = 850;
+	}*/
+	//this.owner = owner;
 	if(owner == false)
 	{
 		rent = 850;
