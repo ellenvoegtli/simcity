@@ -7,10 +7,14 @@ import java.util.List;
 import role.Role;
 import mainCity.PersonAgent;
 import mainCity.bank.BankAccounts.BankAccount;
+import mainCity.bank.interfaces.BankCustomer;
+import mainCity.bank.interfaces.BankManager;
+import mainCity.bank.interfaces.BankTeller;
+import mainCity.bank.interfaces.Banker;
 import mainCity.interfaces.ManagerRole;
 import agent.Agent;
 
-public class BankManagerRole extends Role implements ManagerRole {
+public class BankManagerRole extends Role implements ManagerRole, BankManager {
 
 	String name;
 	PersonAgent p;
@@ -22,9 +26,9 @@ public class BankManagerRole extends Role implements ManagerRole {
 	public boolean onDuty;
 
 	public static class myTeller{
-	    BankTellerRole t;
+	    BankTeller t;
 	    int tellernumber;
-	    BankCustomerRole bc;
+	    BankCustomer bc;
 	    boolean Occupied;
 	    public int gettellernumber(){
 	    	return tellernumber;
@@ -34,7 +38,7 @@ public class BankManagerRole extends Role implements ManagerRole {
 	    	tellernumber=tn;
 	    }
 	    
-	    public myTeller(BankTellerRole bt, int tn){
+	    public myTeller(BankTeller bt, int tn){
 	    	t=bt;
 	    	Occupied=false;
 	    	tellernumber=tn;
@@ -44,7 +48,7 @@ public class BankManagerRole extends Role implements ManagerRole {
 	public static class myBanker{
 	    BankerRole b;
 	    int bankernumber;
-	    BankCustomerRole bc;
+	    BankCustomer bc;
 	    boolean Occupied;
 	    public myBanker(BankerRole ba){
 	    	b=ba;
@@ -53,8 +57,8 @@ public class BankManagerRole extends Role implements ManagerRole {
 	}
 	
 	public static class myBankCustomer{
-		BankCustomerRole bc;
-		public myBankCustomer(BankCustomerRole bc){
+		BankCustomer bc;
+		public myBankCustomer(BankCustomer bc){
 			this.bc=bc;
 		}
 	}
@@ -68,15 +72,27 @@ public class BankManagerRole extends Role implements ManagerRole {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#setBanker(mainCity.bank.BankerRole)
+	 */
+	@Override
 	public void setBanker(BankerRole br){
 		mbanker=new myBanker(br);
 	}
 	
 	//Messages
 	
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgBankerAdded()
+	 */
+	@Override
 	public void msgBankerAdded(){
 		stateChanged();
 	}
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgEndShift()
+	 */
+	@Override
 	public void msgEndShift() {
 		/*
 		Do("bank closing");
@@ -85,10 +101,18 @@ public class BankManagerRole extends Role implements ManagerRole {
 		*/
 	}
 	
-	public void msgTellerAdded(BankTellerRole bt){
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgTellerAdded(mainCity.bank.BankTellerRole)
+	 */
+	@Override
+	public void msgTellerAdded(BankTeller bt){
 		tellers.add(new myTeller(bt,tellers.size()));
 	}
 	
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgDirectDeposit(double, int)
+	 */
+	@Override
 	public void msgDirectDeposit(double accountNumber, int amount){
 		synchronized (ba.accounts) {
 			for(BankAccount account:ba.accounts){
@@ -100,19 +124,31 @@ public class BankManagerRole extends Role implements ManagerRole {
 		}
 	}
 	
-	public void msgIWantToDeposit( BankCustomerRole bc){
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgIWantToDeposit(mainCity.bank.interfaces.BankCustomer)
+	 */
+	@Override
+	public void msgIWantToDeposit( BankCustomer bc){
 		Do("recieved message IWantToDeposit");
 	    teller_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 
-	public void msgIWantToWithdraw( BankCustomerRole bc){
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgIWantToWithdraw(mainCity.bank.interfaces.BankCustomer)
+	 */
+	@Override
+	public void msgIWantToWithdraw( BankCustomer bc){
 		Do("recieved message IWantToWithdraw");
 		teller_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 	
-	public void msgIWantNewAccount(BankCustomerRole bc) {
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgIWantNewAccount(mainCity.bank.interfaces.BankCustomer)
+	 */
+	@Override
+	public void msgIWantNewAccount(BankCustomer bc) {
 		Do("recieved message want new account");
 		banker_bankCustomers.add(new myBankCustomer(bc));
 		stateChanged();
@@ -121,13 +157,21 @@ public class BankManagerRole extends Role implements ManagerRole {
 	
 	
 
-	public void msgIWantALoan(BankCustomerRole bc){
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgIWantALoan(mainCity.bank.interfaces.BankCustomer)
+	 */
+	@Override
+	public void msgIWantALoan(BankCustomer bc){
 		Do("recieved message IWantALoan");
 		banker_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 
-	public void msgImLeaving(BankTellerRole bt){
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgImLeaving(mainCity.bank.BankTellerRole)
+	 */
+	@Override
+	public void msgImLeaving(BankTeller bt){
 		for (myTeller mt: tellers){
 			if(mt.t==bt){
 				tellers.remove(mt);
@@ -136,11 +180,19 @@ public class BankManagerRole extends Role implements ManagerRole {
 		
 	}
 	
-	public void msgImLeaving(BankerRole b){
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgImLeaving(mainCity.bank.interfaces.Banker)
+	 */
+	@Override
+	public void msgImLeaving(Banker b){
 		mbanker=null;
 	}
 	
-	public void msgImLeaving(BankCustomerRole bc){
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#msgImLeaving(mainCity.bank.interfaces.BankCustomer)
+	 */
+	@Override
+	public void msgImLeaving(BankCustomer bc){
 		Do("recieved message ImLeaving");
 	    for (myTeller mt: tellers){
 	        if( mt.bc==bc){                                                  
@@ -169,6 +221,10 @@ public class BankManagerRole extends Role implements ManagerRole {
 //TODO handle scenarios where not enough employees	
 	
 
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#pickAndExecuteAnAction()
+	 */
+	@Override
 	public boolean pickAndExecuteAnAction() {
 	
 		
@@ -201,6 +257,10 @@ public class BankManagerRole extends Role implements ManagerRole {
 	
 //Actions
 	
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#isOpen()
+	 */
+	@Override
 	public boolean isOpen(){
 		System.out.println("bank manager checking open");
 		if(tellers.isEmpty() || mbanker.b==null || !onDuty || !mbanker.b.isActive()){
@@ -228,10 +288,18 @@ public class BankManagerRole extends Role implements ManagerRole {
 	    banker_bankCustomers.remove(0);
 	}
 
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#setBankAccounts(mainCity.bank.BankAccounts)
+	 */
+	@Override
 	public void setBankAccounts(BankAccounts accounts){
 		ba= accounts;
 	}
 
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankManager#closeBuilding()
+	 */
+	@Override
 	public boolean closeBuilding() {
 		if(!teller_bankCustomers.isEmpty() || banker_bankCustomers.isEmpty()){
 			return false;
