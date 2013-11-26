@@ -12,8 +12,7 @@ public class LandlordGui implements Gui {
 
 	
 	public List<OccupantRole>  Renters;
-	private boolean isPresent = false;
-	private boolean isHungry = false;
+	private boolean isPresent = true;
 
 	
 	HomeGui gui;

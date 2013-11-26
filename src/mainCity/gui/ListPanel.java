@@ -63,9 +63,7 @@ public class ListPanel extends JPanel implements ActionListener {
      * @param name name of new person
      */
 
-    public void addPerson(String name) {
-    	System.out.println("LISTPANEL ADD PERSON");
-    	
+    public void addPerson(String name) {    	
         if (name != null) {
         	System.out.println("name is not null");
         	System.out.println(name);

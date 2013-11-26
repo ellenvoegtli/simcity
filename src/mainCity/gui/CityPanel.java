@@ -119,7 +119,7 @@ public class CityPanel extends JPanel{
 		gui.getAnimationPanel().addPersonGui(pg);
 		person.setGui(pg);
 		
-		//gui.getListPanel().addPerson(name);
+		gui.addPerson(person);
 		
 		if(actions != null) {
 			for(int i = 0; i < actions.length; ++i) {
