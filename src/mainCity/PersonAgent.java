@@ -910,6 +910,10 @@ public class PersonAgent extends Agent {
 	public void setEvent(PersonEvent e) {
 		event = e;
 	}
+	
+	public PersonState getState() {
+		return state;
+	}
 	//---      ---//
 	
 	public void setHomePlace(boolean renter)

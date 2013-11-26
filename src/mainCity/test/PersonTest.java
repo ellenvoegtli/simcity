@@ -41,6 +41,10 @@ public class PersonTest extends TestCase {
 		
 		person.setEvent(PersonEvent.arrivedAtWork);
 		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertEquals("MockPersonGui should have 1 event log after the goInside call. Instead, the MockCustomer's event log reads: " + gui.getLog().toString(), 1, gui.getLog().size());
+
+		assertTrue("Person's MarcusNormalWaiterRole should be active. It isn't", waiter.isActive());
+		assertEquals("Person's state should be inBuilding. It isn't", PersonState.working, person.getState());
 
 	}
 }

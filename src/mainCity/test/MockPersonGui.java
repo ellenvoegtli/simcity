@@ -6,7 +6,6 @@ import mainCity.interfaces.PersonGuiInterface;
 import mainCity.test.Mock;
 
 public class MockPersonGui extends Mock implements PersonGuiInterface{
-	EventLog log;
 	public MockPersonGui(String name) {
 		super(name);
 	}

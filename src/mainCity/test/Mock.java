@@ -1,13 +1,8 @@
 package mainCity.test;
 
-/**
- * This is the base class for all mocks.
- *
- * @author Sean Turner
- *
- */
 public class Mock {
 	public String name;
+	public EventLog log = new EventLog();
 
 	public Mock(String name) {
 		this.name = name;
@@ -20,5 +15,8 @@ public class Mock {
 	public String toString() {
 		return this.getClass().getName() + ": " + name;
 	}
-
+	
+	public EventLog getLog() {
+		return log;
+	}
 }
