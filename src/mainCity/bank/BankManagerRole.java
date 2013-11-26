@@ -68,7 +68,9 @@ public class BankManagerRole extends Role implements ManagerRole {
 		
 	}
 	
-	
+	public void setBanker(BankerRole br){
+		mbanker=new myBanker(br);
+	}
 	
 	//Messages
 	
