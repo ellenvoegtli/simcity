@@ -1,6 +1,6 @@
 package role.marcusRestaurant;
 
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.WorkerRole;
@@ -30,7 +30,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	
 	Timer timer = new Timer();
 	
-	public MarcusWaiterRole(Person p, String name) {
+	public MarcusWaiterRole(PersonAgent p, String name) {
 		super(p);
 
 		this.name = name;

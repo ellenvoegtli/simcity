@@ -3,12 +3,13 @@ package mainCity.bank;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.bank.gui.BankCustomerGui;
+import mainCity.market.gui.CustomerGui;
 
 
 public class BankCustomerRole extends Role {
-	Person p;
+	PersonAgent p;
 	String name;
 	BankManagerRole bm;
 	BankerRole b;
@@ -42,7 +43,7 @@ public class BankCustomerRole extends Role {
 	
 	BankCustomerState bcstate=BankCustomerState.none;
 	
-	public BankCustomerRole(Person p,String name){
+	public BankCustomerRole(PersonAgent p,String name){
 		super(p);
 		Do("bank customer initiated");
 		this.p=p;
@@ -455,6 +456,17 @@ public void msgLoanDenied(double loanamount){
 	public void setGui(BankCustomerGui bcGui) {
 		custGui=bcGui;
 		
+	}
+
+	public BankCustomerGui getGui() {
+		return custGui;
+		}
+
+	public boolean bankOpen() {
+		if(bm != null && bm.isActive() && bm.isOpen()){
+			return true;
+		}
+		return false;
 	}
 
 	
