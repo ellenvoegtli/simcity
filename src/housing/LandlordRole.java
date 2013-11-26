@@ -1,6 +1,9 @@
 package housing;
 
 import housing.personHome.Appliance;
+import housing.personHome;
+import housing.Interfaces.Occupant;
+import housing.Interfaces.landLord;
 import housing.OccupantRole.fixState;
 import housing.gui.LandlordGui;
 
@@ -21,7 +24,7 @@ import role.Role;
 
 
 
-public class LandlordRole extends Role
+public class LandlordRole extends Role implements landLord
 {
 
 	
@@ -40,6 +43,9 @@ public class LandlordRole extends Role
 	
 	
 	//for alert log trace statements
+	/* (non-Javadoc)
+	 * @see housing.landLord#log(java.lang.String)
+	 */
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
@@ -54,6 +60,10 @@ public class LandlordRole extends Role
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see housing.landLord#msgPleaseFix(housing.OccupantRole, java.lang.String)
+	 */
+	@Override
 	public void msgPleaseFix(OccupantRole occp, String appName)
 	{
 		for(Property pr: properties)
@@ -68,6 +78,10 @@ public class LandlordRole extends Role
 		}
 	}
 	//SCHEDULER
+	/* (non-Javadoc)
+	 * @see housing.landLord#pickAndExecuteAnAction()
+	 */
+	@Override
 	public boolean pickAndExecuteAnAction() 
 	{
 		if(ToDo.isEmpty() == false)
@@ -83,9 +97,13 @@ public class LandlordRole extends Role
 	
 	//ACTIONS
 	
+	/* (non-Javadoc)
+	 * @see housing.landLord#serviceRenter()
+	 */
+	
 	public void serviceRenter()
 	{
-		for(OccupantRole occ : ToDo.keySet())
+		for(Occupant occ : ToDo.keySet())
 		{
 			log("the landlord is going to renters home");
 			person.msgNeedToFix();
@@ -122,6 +140,9 @@ public class LandlordRole extends Role
 
 
 	
+	/* (non-Javadoc)
+	 * @see housing.landLord#repair()
+	 */
 	public void repair()
 	{
 		/*try {
@@ -145,9 +166,9 @@ public class LandlordRole extends Role
 	public class Property
 	{
 		personHome house;
-		OccupantRole renter;
+		Occupant renter;
 		
-		Property(OccupantRole prs)
+		Property(Occupant prs)
 		{
 			
 		}
@@ -155,19 +176,32 @@ public class LandlordRole extends Role
 	}
 
 
+	/* (non-Javadoc)
+	 * @see housing.landLord#msgAtDestination()
+	 */
+	@Override
 	public void msgAtDestination() {
 		atDest.release();
 		stateChanged();		
 	}
+
 
 	public void setGui(LandlordGui landLordGui) 
 	{
 			this.gui = landLordGui;		
 	}
 
-	public void setRenter(OccupantRole occupant) 
+
+	public void setRenter(Occupant occupant) 
 	{
 		//this.occupant = occupant;
 		//renters.add(occupant);
+	}
+
+
+	@Override
+	public void setRenter(OccupantRole occupant) {
+		// TODO Auto-generated method stub
+		
 	}
 }

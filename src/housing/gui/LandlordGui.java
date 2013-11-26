@@ -1,8 +1,8 @@
 package housing.gui;
 
-import housing.LandlordRole;
 import housing.OccupantRole;
 import housing.personHome;
+import housing.Interfaces.landLord;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -16,7 +16,7 @@ public class LandlordGui implements Gui {
 
 	
 	HomeGui gui;
-	LandlordRole landlord;
+	landLord landlord;
 	public int xPos;
 	private int yPos;
 	public int xDestination;
@@ -26,7 +26,7 @@ public class LandlordGui implements Gui {
 	private Command command=Command.noCommand;
 	//private OccupantRole renter;
 	
-	public LandlordGui(LandlordRole landLord) 
+	public LandlordGui(landLord landLord) 
 	{
 		this.landlord = landLord;
 		xPos = 400;

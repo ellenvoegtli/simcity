@@ -1,5 +1,7 @@
 package housing;
 
+import housing.Interfaces.landLord;
+
 public class apartmentAgent extends personHome{
 
 	//data
@@ -9,7 +11,7 @@ public class apartmentAgent extends personHome{
 	
 	
 	
-	apartmentAgent(OccupantRole occ, LandlordRole lndlrd, type home) 
+	apartmentAgent(OccupantRole occ, landLord lndlrd, type home) 
 	{
 		super(occ);
 		// TODO Auto-generated constructor stub
