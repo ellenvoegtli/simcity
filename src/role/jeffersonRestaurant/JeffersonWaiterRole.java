@@ -7,13 +7,15 @@ import agent.Agent;
 
 
 
+
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
 import role.jeffersonRestaurant.JeffersonHostRole;
 import role.jeffersonRestaurant.JeffersonHostRole.Table;
-import mainCity.Person;
+import mainCity.PersonAgent;
 //import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
@@ -46,7 +48,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 	private Semaphore atCook =new Semaphore(0, false);
 	private Semaphore atPlating =new Semaphore(0, false);
 	
-	private Person p;
+	private PersonAgent p;
 	private JeffersonCookRole cook;
 	private JeffersonHostRole host;
 	private JeffersonCashierRole cashier;
@@ -66,7 +68,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 	private Menu menu;
 	
 
-	public JeffersonWaiterRole(Person p, String name) {
+	public JeffersonWaiterRole(PersonAgent p, String name) {
 		super(p);
 		this.p=p;
 		this.name = name;

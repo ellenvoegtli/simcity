@@ -1,6 +1,6 @@
 package role.marcusRestaurant;
 
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.WorkerRole;
@@ -22,7 +22,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	private double cash;
 	private boolean onDuty;
 
-	public MarcusCashierRole(Person p, String n) {
+	public MarcusCashierRole(PersonAgent p, String n) {
 		super(p);
 		this.name = n;
 		bills =  Collections.synchronizedList(new ArrayList<Bill>());

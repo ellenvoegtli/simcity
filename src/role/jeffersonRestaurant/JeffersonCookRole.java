@@ -16,7 +16,7 @@ import java.util.TreeMap;
 import role.Role;
 import role.jeffersonRestaurant.JeffersonCustomerRole.*;
 import role.jeffersonRestaurant.JeffersonWaiterRole.Table;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.market.MarketGreeterRole;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
@@ -28,7 +28,7 @@ import mainCity.restaurants.jeffersonrestaurant.sharedData.OrderTicket;
 
 public class JeffersonCookRole extends Role implements Cook{
 
-	private Person p;
+	private PersonAgent p;
 
 	public enum OrderState
 	{pending, marketOrdering, cooking, Done, Delivered};
@@ -56,7 +56,7 @@ public class JeffersonCookRole extends Role implements Cook{
 	
 	
 	
-	public JeffersonCookRole(Person p, String name){
+	public JeffersonCookRole(PersonAgent p, String name){
 		super(p);
 		this.name=name;
 		onDuty=true;

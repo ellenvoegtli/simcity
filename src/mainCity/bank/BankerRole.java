@@ -1,13 +1,13 @@
 package mainCity.bank;
 
 import role.Role;
-import mainCity.Person;
 import mainCity.bank.BankAccounts.BankAccount;
 import mainCity.bank.BankTellerRole.ClientState;
-import mainCity.bank.BankTellerRole.TellerState;
+//import mainCity.bank.BankTellerRole.TellerState;
 import mainCity.bank.BankTellerRole.myClient;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.gui.BankerGui;
+import mainCity.PersonAgent;
 import mainCity.interfaces.WorkerRole;
 import agent.Agent;
 
@@ -19,12 +19,12 @@ public class BankerRole extends Role implements WorkerRole {
 	String name;
 	myClient mc;
 	BankerGui bGui;
-	private Person p;
+	private PersonAgent p;
 	public enum ClientState{none,wantsLoan, wantsAccount,done}
 	private boolean onDuty;
 	
 	public class myClient{
-		Person p;
+		PersonAgent p;
 	    BankCustomerRole bc;
 	    String mcname;
 	    double accountnumber;
@@ -34,7 +34,7 @@ public class BankerRole extends Role implements WorkerRole {
 	}
 	
 	
-	public BankerRole(Person p, String name){
+	public BankerRole(PersonAgent p, String name){
 		super(p);
 		this.p=p;
 		this.name=name;
@@ -72,7 +72,7 @@ public class BankerRole extends Role implements WorkerRole {
 		stateChanged();
 	}
 	
-	public void msgIWantNewAccount(Person p, BankCustomerRole b, String name, double amnt){
+	public void msgIWantNewAccount(PersonAgent p, BankCustomerRole b, String name, double amnt){
 		Do("Recieved msgIWantNewAccount from customer");
 		mc=new myClient();
 		mc.p=p;

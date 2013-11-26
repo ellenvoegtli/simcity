@@ -1,7 +1,6 @@
 package mainCity;
 import agent.Agent;
 import role.*;
-
 import role.davidRestaurant.*;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
@@ -20,12 +19,11 @@ import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
-
 import mainCity.market.*;
 import role.market.*;
 import transportation.BusAgent;
 
-public class PersonAgent extends Agent implements Person {
+public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
 	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
@@ -238,7 +236,7 @@ public class PersonAgent extends Agent implements Person {
 					//System.out.println("Waiting for restaurant to open");
 					return true;
 				}
-				
+				//check home agent to get a list of what they need?
 				customer.setActive();
 				
 				if(currentAction != null && currentAction.type == ActionType.restaurant) {
@@ -724,7 +722,7 @@ public class PersonAgent extends Agent implements Person {
 			default:
 				break;
 		}
-		
+
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}

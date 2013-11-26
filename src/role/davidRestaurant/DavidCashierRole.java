@@ -18,7 +18,7 @@ import role.davidRestaurant.DavidCustomerRole.AgentEvent;
 import role.davidRestaurant.DavidWaiterRole.myCustomer;
 import role.market.MarketDeliveryManRole;
 import agent.Agent;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.EllenCashierRole.MarketBill;
 import mainCity.restaurants.EllenRestaurant.EllenCashierRole.MarketBillState;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cashier;
@@ -50,7 +50,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	public EventLog log = new EventLog();
 	
 	//Constructor
-	public DavidCashierRole(String name, Person p) { 
+	public DavidCashierRole(String name, PersonAgent p) { 
 		super(p); 
 		this.name = name; 
 	}

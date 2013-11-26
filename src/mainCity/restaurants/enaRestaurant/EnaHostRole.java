@@ -2,7 +2,7 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
@@ -35,7 +35,7 @@ public class EnaHostRole extends Role {
 	private String name;
 	//public EnaHostGui hostGui;
 	Timer timer = new Timer();
-	public EnaHostRole( Person p, String name) 
+	public EnaHostRole( PersonAgent p, String name) 
 	{
 		super(p);
 

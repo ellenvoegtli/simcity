@@ -1,6 +1,6 @@
 package role.davidRestaurant;
 
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.restaurants.restaurant_zhangdt.gui.CustomerGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
 import agent.Agent;
@@ -53,7 +53,7 @@ public class DavidCustomerRole extends Role implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public DavidCustomerRole(String name, Person p){
+	public DavidCustomerRole(String name, PersonAgent p){
 		super(p);
 		this.name = name;
 		Random ChoiceGenerator = new Random(); 

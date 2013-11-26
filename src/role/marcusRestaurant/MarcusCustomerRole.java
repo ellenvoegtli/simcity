@@ -1,6 +1,6 @@
 package role.marcusRestaurant;
 
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.marcusRestaurant.gui.CustomerGui;
@@ -46,7 +46,7 @@ public class MarcusCustomerRole extends Role implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public MarcusCustomerRole(Person p, String name){
+	public MarcusCustomerRole(PersonAgent p, String name){
 		super(p);
 		this.name = name;
 		orderCount = 0;
