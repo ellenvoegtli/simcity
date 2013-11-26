@@ -115,7 +115,6 @@ public class CityPanel extends JPanel{
 		    String strLine;
 	
 		    while ((strLine = br.readLine()) != null)   {
-		    	System.out.println(strLine);
 		    	if(!strLine.startsWith("-")) {
 				   	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
 				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
@@ -133,7 +132,7 @@ public class CityPanel extends JPanel{
 		    in.close();
 		}
 		catch(Exception e) {
-			System.err.println("Error: " + e.getMessage());
+			//System.err.println("Error: " + e.getMessage());
 		}
 	}
 	

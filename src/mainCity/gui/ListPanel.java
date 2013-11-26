@@ -34,9 +34,7 @@ public class ListPanel extends JPanel implements ActionListener {
 
         personView.setLayout(new BoxLayout((Container) personView, BoxLayout.Y_AXIS));
         personPane.setViewportView(personView);
-        add(personPane);
-     
-        addPerson("jose");//test
+        add(personPane);     
     }
 
     /**
