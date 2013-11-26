@@ -109,9 +109,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		//moneyField.addKeyListener(this);
 		
 		
-		String[] occupationStrings = {"Random", "Rich", "bankManager", "bankTeller", "banker", 
-				"restaurantHost", "restaurantWaiter", "ellenCook", "restaurantCashier", 
-				"marketGreeter", "marketEmployee", "marketCashier", "marketDeliveryMan"
+		String[] occupationStrings = {"Random", "Rich", "jeffersonWaiter", 
+				"marcusWaiter", "marcusShareWaiter", "enaWaiter",
+				 "marketEmployee", "ellenWaiter", "davidWaiter"
 		};
 		occupationMenu = new JComboBox(occupationStrings);
 		Dimension occupationDim = new Dimension(150, 30);
@@ -488,6 +488,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			shiftMenu.setSelectedIndex(0);
 			housingMenu.setSelectedIndex(0);
 			carMenu.setSelectedIndex(0);
+
 			cityPanel.addPerson(name, money, renter, occupation, sb, se, actions);
 		}
 		else if (e.getSource() == restaurantButton){

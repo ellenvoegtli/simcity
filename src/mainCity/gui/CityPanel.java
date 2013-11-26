@@ -33,28 +33,6 @@ public class CityPanel extends JPanel{
 		clock = 4;
 		
 		ContactList.getInstance().setCity(this);
-		
-    	//MarketGui marketGui = new MarketGui();
-    	//ContactList.getInstance().setMarket(marketGui.getMarketPanel());
-    	//marketGui.setVisible(true);
-		
-		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
-		//davidRestGui.setVisible(true);
-
-    	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
-    	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
-
-    	//jeffersonRestaurant.setVisible(true);
- 
-
-    	//BankGui bank = new BankGui();
-    	//ContactList.getInstance().setBank(bank.getBankPanel());
-    	//bank.setVisible(true);
-    	
-    	//HomeGui home= new HomeGui();
-    	//ContactList.getInstance().setHome(home.getHomePanel());
-    	//home.setVisible(true);
-    	
 
     	//Hardcoding a bus
     	BusAgent bus = new BusAgent();
@@ -69,16 +47,7 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg1); 
     	bus1.startThread();
 
-    	//String[] actions = {"work"}; 
-    	//addPerson("waiter", 100, true, "marcusWaiter", 12, -1, actions);
-    	//addPerson("host", 100, true, "marcusHost", 8, 11, actions);
-		parseConfig();
-
-    	//String[] actions = {"hungry"}; 
-    	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
-
-    	String[] actions = {"work"}; 
-    	//addPerson("David", 500, false, "davidWaiter", 7, 19, actions); 
+		//parseConfig();
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
