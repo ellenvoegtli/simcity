@@ -8,10 +8,11 @@ import mainCity.bank.BankTellerRole.TellerState;
 import mainCity.bank.BankTellerRole.myClient;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.gui.BankerGui;
+import mainCity.interfaces.WorkerRole;
 import agent.Agent;
 
 
-public class BankerRole extends Role {
+public class BankerRole extends Role implements WorkerRole {
 	
 	
 	BankAccounts ba;
@@ -46,7 +47,7 @@ public class BankerRole extends Role {
 	
 	
 //Messages
-	public void msgOffDuty(double d){
+	public void msgGoOffDuty(double d){
 		addToCash(d);
 		onDuty=false;
 		stateChanged();
@@ -109,6 +110,7 @@ public class BankerRole extends Role {
 		
 		if(!onDuty && mc ==null){
 			doLeaveWork();
+			return false;
 			
 		}
 		

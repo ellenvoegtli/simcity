@@ -13,6 +13,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankerRole;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
 import mainCity.gui.trace.*;
@@ -420,6 +421,13 @@ public class PersonAgent extends Agent {
 			switch(action) {
 				case work:
 					switch(job.occupation) {
+						//TODO add scenario for bank
+						case "banker":
+							BankerRole bk = new BankerRole(this, name);
+							ContactList.getInstance().getBank().handleRole(bk);
+							roles.put(action, bk);
+							break;
+						
 						//-----Jefferson Restaurant Roles---//
 						case "jeffersonCook":
 							JeffersonCookRole jc = new JeffersonCookRole(this, name);
@@ -618,9 +626,31 @@ public class PersonAgent extends Agent {
 						return;
 					}
 					BankCustomerRole bc = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc);
+					ContactList.getInstance().getBank().handleRole(bc);
 					roles.put(action, bc);
+<<<<<<< HEAD
+					break;
+				
+				case bankDeposit:
+					if(roles.containsKey("bankWithdraw")||roles.containsKey("bankLoan")){
+						break;
+					}
+					BankCustomerRole bc1 = new BankCustomerRole(this, name);
+					ContactList.getInstance().getBank().handleRole(bc1);
+					roles.put(action, bc1);
+					break;
+				
+				case bankLoan:
+					if(roles.containsKey("bankWithdraw")||roles.containsKey("bankDeposit")){
+						break;
+					}
+					BankCustomerRole bc2 = new BankCustomerRole(this, name);
+					ContactList.getInstance().getBank().handleRole(bc2);
+					roles.put(action, bc2);
+					break;	
+=======
 					break;				
+>>>>>>> 0dc995527cf318edb1304c42f3cab092f7795beb
 				default:
 					break;
 			}
@@ -645,7 +675,11 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
+				event = PersonEvent.needToBank;
+				break;
 			case bankDeposit:
+				event = PersonEvent.needToBank;
+				break;
 			case bankLoan: 
 				event = PersonEvent.needToBank;
 				break;

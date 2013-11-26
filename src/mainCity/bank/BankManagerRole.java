@@ -12,7 +12,7 @@ public class BankManagerRole extends Agent {
 	String name;
 	private BankAccounts ba;
 	public List <myTeller> tellers= new ArrayList<myTeller>();
-	public List <myBanker> bankers = new ArrayList<myBanker>();
+	public myBanker mbanker;
 	public List <myBankCustomer>  teller_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
 	public List <myBankCustomer>  banker_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
 
@@ -66,7 +66,7 @@ public class BankManagerRole extends Agent {
 	
 	//Messages
 	
-	//TODO msg for banker added
+	//TODO end shift and tell all employees to leave
 	
 	public void msgTellerAdded(BankTellerRole bt){
 		tellers.add(new myTeller(bt,tellers.size()));
@@ -120,11 +120,7 @@ public class BankManagerRole extends Agent {
 	}
 	
 	public void msgImLeaving(BankerRole b){
-		for (myBanker mb: bankers){
-			if(mb.b==b){
-				bankers.remove(b);
-			}
-		}
+		mbanker=null;
 	}
 	
 	public void msgImLeaving(BankCustomerRole bc){
@@ -139,13 +135,13 @@ public class BankManagerRole extends Agent {
 
 
 
-	    for (myBanker mb: bankers){
-	        if( mb.bc==bc){
-	            mb.bc=null;
-	            mb.Occupied=false;
-	            stateChanged();
-	        }   
-	    }
+	    
+	       	if( mbanker.bc==bc){
+	       		mbanker.bc=null;
+	       		mbanker.Occupied=false;
+	       		stateChanged();
+	       	}   
+	    
 	    
 	}
 	
@@ -156,7 +152,7 @@ public class BankManagerRole extends Agent {
 //TODO handle scenarios where not enough employees	
 	
 	protected boolean pickAndExecuteAnAction() {
-		if(tellers.isEmpty() || bankers.isEmpty()){
+		if(tellers.isEmpty() || mbanker==null){
 			sayClosed();
 			return false;
 		}
@@ -171,13 +167,13 @@ public class BankManagerRole extends Agent {
 			}
 		}
 		
-		for(myBanker mb: bankers){
-			if(!mb.Occupied && !banker_bankCustomers.isEmpty()){
-				assignBanker(mb);
-				return true;
-			}
-			
+		
+		if(mbanker.Occupied && !banker_bankCustomers.isEmpty()){
+			assignBanker(mbanker);
+			return true;
 		}
+			
+		
 			
 		
 		return false;

@@ -35,7 +35,7 @@ public class BankPanel extends JPanel {
 	
 	public BankManagerRole bankmanager = new BankManagerRole("Saul");
 	
-	//private BankerRole banker = new BankerRole("Dave");
+	private BankerRole banker;
 	private BankTellerRole bankteller = new BankTellerRole("kim");
 	private BankTellerRole bankteller1 = new BankTellerRole("sam");
 	
@@ -175,7 +175,7 @@ public class BankPanel extends JPanel {
         add(group);
     }
     //TODO finish this
-    public void handleRoleGui(Role r){
+    public void handleRole(Role r){
     	if(r instanceof BankCustomerRole){
     		BankCustomerRole b = (BankCustomerRole) r;
     		
@@ -193,6 +193,23 @@ public class BankPanel extends JPanel {
     		b.setAmount(((BankCustomerRole) r).getAmount());
             b.setMyaccountnumber(((BankCustomerRole) r).getMyaccountnumber());
             b.setBankbalance(((BankCustomerRole) r).getBankbalance());
+    		
+    	}
+    	
+    	
+    	
+    	if (r instanceof BankerRole){
+    		banker = (BankerRole) r;
+    		BankerGui bg = new BankerGui(banker);
+    		banker.setGui(bg);
+    		banker.setBankAccounts(mainaccounts);
+    		bankAnimationPanel.addGui(bg);
+    		
+    		if(bankmanager!=null){
+    			bankmanager.mbanker=new myBanker(banker);
+    		}
+    		
+    		
     		
     	}
     	
