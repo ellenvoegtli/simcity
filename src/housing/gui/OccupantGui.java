@@ -1,6 +1,6 @@
 package housing.gui;
 
-import housing.OccupantRole;
+import housing.Interfaces.Occupant;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -11,7 +11,7 @@ public class OccupantGui implements Gui
 {
 
 	
-	private OccupantRole person;
+	private Occupant person;
 	private boolean isPresent = true;
 	private boolean isHungry = false;
 
@@ -28,7 +28,7 @@ public class OccupantGui implements Gui
 	
 	
 	
-	public OccupantGui(OccupantRole occupant) 
+	public OccupantGui(Occupant occupant) 
 	{
 		System.out.println("^^^^^^^^^^^^^^^^^^");
 		person = occupant;

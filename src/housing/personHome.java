@@ -4,6 +4,8 @@ package housing;
 //import housing.houseAgent.kitchenState;
 //import housing.houseAgent.type;
 
+import housing.Interfaces.landLord;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,15 +19,15 @@ import java.util.Map;
 public class personHome 
 {
 	OccupantRole occupant;
-	LandlordRole owner;
+	landLord owner;
 	String cookingMeal;
 	Map<String, Integer> FoodSupply = new HashMap<String, Integer>();
 	enum kitchenState {pending, checkingSupplies, stocked, reStocked, cooking, done};
 	kitchenState kState = kitchenState.pending;
 	enum type {apartment, house};
 	type homeType;
-	List <Appliance> Appliances = new ArrayList<Appliance>();
-	List <Appliance> AAppliances = new ArrayList<Appliance>();
+	public List <Appliance> Appliances = new ArrayList<Appliance>();
+	public List <Appliance> AAppliances = new ArrayList<Appliance>();
 
 	List<String> needFood = new ArrayList<String>();
 	
