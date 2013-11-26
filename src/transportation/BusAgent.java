@@ -37,14 +37,14 @@ public class BusAgent extends Agent{
 			
 		/** Messages  **/ 
 			public void msgIWantToGetOnBus(PersonAgent p){ 
-				log.add(new LoggedEvent(p.getName() + "wants to get on bus"));
+				log.add(new LoggedEvent(p.getName() + " wants to get on bus"));
 				System.out.println(p.getName() + " getting on bus. My destination is " + p.getDestination());
 				Passengers.add(p);
 				
 			}
 			
 			public void msgImGettingOffBus(PersonAgent p){ 
-				log.add(new LoggedEvent(p.getName() + "wants to get off bus"));
+				log.add(new LoggedEvent(p.getName() + " wants to get off bus"));
 				System.out.println(p.getName() + " getting off bus."); 
 				Passengers.remove(p);
 			}
