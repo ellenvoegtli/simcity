@@ -1,6 +1,11 @@
 package mainCity;
 import agent.Agent;
 import role.*;
+import role.davidRestaurant.DavidCashierRole;
+import role.davidRestaurant.DavidCookRole;
+import role.davidRestaurant.DavidCustomerRole;
+import role.davidRestaurant.DavidHostRole;
+import role.davidRestaurant.DavidWaiterRole;
 import role.jeffersonRestaurant.JeffersonCashierRole;
 import role.jeffersonRestaurant.JeffersonCookRole;
 import role.jeffersonRestaurant.JeffersonCustomerRole;
@@ -24,11 +29,6 @@ import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
-import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.market.*;
 import role.market.*;
 
@@ -718,6 +718,9 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
+		
+		destination = CityLocation.restaurant_marcus;
+		/*
 		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -737,6 +740,7 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
+		*/
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
