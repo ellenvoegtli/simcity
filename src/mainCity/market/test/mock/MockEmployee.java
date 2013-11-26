@@ -33,12 +33,13 @@ public class MockEmployee extends Mock implements Employee {
 		
 	}
 	
-	
+	@Override
 	public void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory){
-		
+		log.add(new LoggedEvent("Received msgAssignedToBusiness: " + restaurantName));
 	}
+	@Override
 	public void msgAssignedToCustomer(Customer c, int waitPosX, int waitPosY){
-		
+		log.add(new LoggedEvent("Received msgAssignedToCustomer: " + c.getName()));
 	}
 	public void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory, String deliveryMethod){
 		log.add(new LoggedEvent("Received msgHereIsMyOrder from " + c.getName()));
