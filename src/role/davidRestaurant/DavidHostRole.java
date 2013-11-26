@@ -286,10 +286,9 @@ public class DavidHostRole extends Role implements ManagerRole{
 		
 	}
 
-	@Override
 	public void msgEndShift() {
-		// TODO Auto-generated method stub
-		
+		onDuty = false;
+		stateChanged();
 	}
 
 	

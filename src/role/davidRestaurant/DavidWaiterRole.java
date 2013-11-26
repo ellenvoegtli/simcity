@@ -463,6 +463,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		print("cashier present?" + cashierAgent.name);
 		cashierAgent.msgHeresACheck(this, customer.orderChoice, customer.t.tableNumber);
 	}
 	
