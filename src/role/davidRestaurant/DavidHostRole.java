@@ -3,7 +3,8 @@ package role.davidRestaurant;
 import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.interfaces.ManagerRole;
-import mainCity.restaurants.EllenRestaurant.interfaces.Waiter;
+import mainCity.Person;
+import role.davidRestaurant.*; 
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 
 import java.util.*;
@@ -46,7 +47,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 	boolean onDuty;
 
 	//Constructor
-	public DavidHostRole(String name, PersonAgent p) {
+	public DavidHostRole(String name, Person p) {
 		super(p);
 		waiterLoc = -1;
 		this.name = name;

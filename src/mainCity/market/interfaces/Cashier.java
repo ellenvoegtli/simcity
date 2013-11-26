@@ -7,14 +7,14 @@ import mainCity.market.MarketEmployeeRole;
 
 
 public interface Cashier {
+	public abstract void setGreeter(Greeter g);
 	
-	
-	public abstract void msgComputeBill(Map<String, Integer> inventory, MarketCustomerRole c, MarketEmployeeRole e);
-	public abstract void msgComputeBill(Map<String, Integer> inventory, String name, MarketEmployeeRole e);
-	public abstract void msgHereIsPayment(double amount, MarketCustomerRole cust);
-	public abstract void msgPleaseRecalculateBill(MarketCustomerRole cust);
-	public abstract void msgChangeVerified(MarketCustomerRole cust);
-	public abstract void msgHereIsMoneyIOwe(MarketCustomerRole cust, double amount);
+	public abstract void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e);
+	public abstract void msgComputeBill(Map<String, Integer> inventory, String name, Employee e);
+	public abstract void msgHereIsPayment(double amount, Customer cust);
+	public abstract void msgPleaseRecalculateBill(Customer cust);
+	public abstract void msgChangeVerified(Customer cust);
+	public abstract void msgHereIsMoneyIOwe(Customer cust, double amount);
 	
 	
 }

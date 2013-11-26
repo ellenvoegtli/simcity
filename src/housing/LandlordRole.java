@@ -13,7 +13,7 @@ import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import agent.Agent;
-import mainCity.PersonAgent;
+import mainCity.Person;
 import role.Role;
 
 
@@ -37,7 +37,7 @@ public class LandlordRole extends Role
 	
 	//MESSAGES
 	
-	public LandlordRole(PersonAgent p)
+	public LandlordRole(Person p)
 	{
 		super(p);
 		

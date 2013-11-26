@@ -6,13 +6,14 @@ import agent.Agent;
 
 
 
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
 import role.jeffersonRestaurant.JeffersonHostRole;
 import role.jeffersonRestaurant.JeffersonHostRole.Table;
-import mainCity.PersonAgent;
+import mainCity.Person;
 //import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
@@ -45,7 +46,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 	private Semaphore atCook =new Semaphore(0, false);
 	private Semaphore atPlating =new Semaphore(0, false);
 	
-	private PersonAgent p;
+	private Person p;
 	private JeffersonCookRole cook;
 	private JeffersonHostRole host;
 	private JeffersonCashierRole cashier;
@@ -65,7 +66,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 	private Menu menu;
 	
 
-	public JeffersonWaiterRole(PersonAgent p, String name) {
+	public JeffersonWaiterRole(Person p, String name) {
 		super(p);
 		this.p=p;
 		this.name = name;
@@ -152,7 +153,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 
 	public void msgGoOffDuty(double amount) {
 		addToCash(amount);
-		System.out.println("go off duty called");
+		//System.out.println("go off duty called");
 		onDuty = false;
 		stateChanged();
 	}

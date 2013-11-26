@@ -1,6 +1,7 @@
 package mainCity.restaurants.marcusRestaurant.test;
 
 import role.marcusRestaurant.MarcusSharedWaiterRole;
+import mainCity.Person;
 import mainCity.PersonAgent;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.test.mock.*;

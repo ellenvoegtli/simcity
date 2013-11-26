@@ -4,6 +4,7 @@ import java.util.Map;
 
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
+import mainCity.market.MarketCashierRole;
 import mainCity.market.interfaces.*;
 
 public class MockDeliveryMan extends Mock implements DeliveryMan {
@@ -11,6 +12,9 @@ public class MockDeliveryMan extends Mock implements DeliveryMan {
 		super(name);
 	}
 	
+	public void setCashier(Cashier c){
+		
+	}
 	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){
 		
 	}

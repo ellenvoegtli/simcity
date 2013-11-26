@@ -1,22 +1,27 @@
 package mainCity.bank;
 import java.util.List;
 
+import role.Role;
+import mainCity.PersonAgent;
 import mainCity.bank.BankAccounts.BankAccount;
 import mainCity.bank.gui.BankTellerGui;
+import mainCity.interfaces.WorkerRole;
 import agent.Agent;
 
 
-public class BankTellerRole extends Agent {
+public class BankTellerRole extends Role implements WorkerRole {
 	
-	public enum TellerState{none, atWork, offWork }
 	
-	TellerState tstate =TellerState.none;
+	
+	PersonAgent p;
+	
 	BankAccounts ba;
 	String name;
 	myClient mc;
 	private int tellernumber;
 	BankTellerGui btGui;
 	public enum ClientState{withdrawing, depositing, talking}
+	public boolean onDuty;
 	
 	public class myClient{
 	    BankCustomerRole bc;
@@ -25,10 +30,12 @@ public class BankTellerRole extends Agent {
 	    ClientState cs;
 	}
 
-	public BankTellerRole(String name){
-		super();
+	public BankTellerRole(PersonAgent p, String name){
+		super(p);
+		this.p=p;
 		this.name=name;
 		Do("Bank Teller initiated");
+		onDuty=false;
 	}
 	
 	public void setBankAccounts(BankAccounts ba){
@@ -40,16 +47,13 @@ public class BankTellerRole extends Agent {
 	}
 	
 	//Messages
-	public void msgGoToWork(){
-		Do("tellernumber is" + tellernumber);
-		System.out.println("Teller at station");
-		tstate=TellerState.atWork;
+	public void msgGoOffDuty(double amount) {
+		
+		addToCash(amount);
+		
+		onDuty = false;
 		stateChanged();
-	}
-	
-	public void msgLeaveWork(){
-		tstate=TellerState.offWork;
-		stateChanged();
+		
 	}
 	
 	public void msgIWantToDeposit(BankCustomerRole b, double accnum, int amount){
@@ -76,15 +80,10 @@ public class BankTellerRole extends Agent {
 	
 	
 	
-	protected boolean pickAndExecuteAnAction() {
-		if(tstate==TellerState.atWork){
-			tstate=TellerState.none;
+	public boolean pickAndExecuteAnAction() {
+		if(onDuty){
+			
 			doGoToWork();
-			return true;
-		}
-		if(tstate==TellerState.offWork){
-			tstate=TellerState.none;
-			doLeaveWork();
 			return true;
 		}
 		
@@ -103,6 +102,10 @@ public class BankTellerRole extends Agent {
 			}
 		}
 		
+		if(!onDuty && mc==null){
+			doLeaveWork();
+			return true;
+		}
 		
 		
 		return false;
@@ -117,6 +120,8 @@ public class BankTellerRole extends Agent {
 	
 	private void doLeaveWork(){
 		btGui.doLeaveWork();
+		setInactive();
+		onDuty=true;
 	}
 	
 	
@@ -177,6 +182,8 @@ public class BankTellerRole extends Agent {
 	public void setGui(BankTellerGui gui){
 		this.btGui=gui;
 	}
+
+
 	
 	
 	

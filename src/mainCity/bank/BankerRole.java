@@ -1,29 +1,30 @@
 package mainCity.bank;
 
 import role.Role;
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.bank.BankAccounts.BankAccount;
 import mainCity.bank.BankTellerRole.ClientState;
 import mainCity.bank.BankTellerRole.TellerState;
 import mainCity.bank.BankTellerRole.myClient;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.gui.BankerGui;
+import mainCity.interfaces.WorkerRole;
 import agent.Agent;
 
 
-public class BankerRole extends Role {
+public class BankerRole extends Role implements WorkerRole {
 	
 	
 	BankAccounts ba;
 	String name;
 	myClient mc;
 	BankerGui bGui;
-	private PersonAgent p;
+	private Person p;
 	public enum ClientState{none,wantsLoan, wantsAccount,done}
 	private boolean onDuty;
 	
 	public class myClient{
-		PersonAgent p;
+		Person p;
 	    BankCustomerRole bc;
 	    String mcname;
 	    double accountnumber;
@@ -33,7 +34,7 @@ public class BankerRole extends Role {
 	}
 	
 	
-	public BankerRole(PersonAgent p, String name){
+	public BankerRole(Person p, String name){
 		super(p);
 		this.p=p;
 		this.name=name;
@@ -46,7 +47,7 @@ public class BankerRole extends Role {
 	
 	
 //Messages
-	public void msgOffDuty(double d){
+	public void msgGoOffDuty(double d){
 		addToCash(d);
 		onDuty=false;
 		stateChanged();
@@ -71,7 +72,7 @@ public class BankerRole extends Role {
 		stateChanged();
 	}
 	
-	public void msgIWantNewAccount(PersonAgent p, BankCustomerRole b, String name, double amnt){
+	public void msgIWantNewAccount(Person p, BankCustomerRole b, String name, double amnt){
 		Do("Recieved msgIWantNewAccount from customer");
 		mc=new myClient();
 		mc.p=p;
@@ -109,6 +110,7 @@ public class BankerRole extends Role {
 		
 		if(!onDuty && mc ==null){
 			doLeaveWork();
+			return false;
 			
 		}
 		

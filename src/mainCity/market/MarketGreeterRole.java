@@ -2,13 +2,14 @@ package mainCity.market;
 
 import agent.Agent;
 import mainCity.market.*;
+import mainCity.market.interfaces.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 //import restaurant.gui.HostGui;
 import mainCity.interfaces.*;
 import role.market.*;
 import role.Role;
-import mainCity.PersonAgent;
+import mainCity.Person;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -19,10 +20,10 @@ import role.Role;
  * Restaurant Host Agent
  */
 //change to GreeterAgent
-public class MarketGreeterRole extends Role {
+public class MarketGreeterRole extends Role implements Greeter {
 	private String name;
-	MarketCashierRole cashier;
-	MarketDeliveryManRole deliveryMan;
+	Cashier cashier;
+	DeliveryMan deliveryMan;
 	
 	private List<MyWaitingCustomer> waitingCustomers 
 	= Collections.synchronizedList(new ArrayList<MyWaitingCustomer>());
@@ -38,16 +39,16 @@ public class MarketGreeterRole extends Role {
 	boolean cashierArrived = false;
 
 	
-	public MarketGreeterRole(PersonAgent p, String name) {
+	public MarketGreeterRole(Person p, String name) {
 		super(p);
 
 		this.name = name;
 	}
-	public void setCashier(MarketCashierRole c){
+	public void setCashier(Cashier c){
 		cashier = c;
 		cashierArrived = true;
 	}
-	public void setDeliveryMan(MarketDeliveryManRole d){
+	public void setDeliveryMan(DeliveryMan d){
 		deliveryMan = d;
 	}
 	public String getMaitreDName() {
@@ -60,7 +61,11 @@ public class MarketGreeterRole extends Role {
 		return waitingCustomers;
 	}
 	public boolean isOpen() {
-		return (/*deliveryMan != null && deliveryMan.isActive()) &&*/ (cashier != null && cashier.isActive()));
+		if (cashier instanceof MarketCashierRole){
+			MarketCashierRole c = (MarketCashierRole) cashier;
+			return (/*deliveryMan != null && deliveryMan.isActive()) &&*/ (c != null && c.isActive()));
+		}
+		return false;
 	}
 
 	//for alert log trace statements
@@ -154,25 +159,25 @@ public class MarketGreeterRole extends Role {
 	
 	//utilities
 	/*
-	public void addEmployee(MarketEmployeeRole e, int x, int y){
+	public void addEmployee(Employee e, int x, int y){
 		myEmployees.add(new MyEmployee(e, x, y));
 		stateChanged();
 	}*/
-	public void addEmployee(MarketEmployeeRole e){
+	public void addEmployee(Employee e){
 		myEmployees.add(new MyEmployee(e));
 		stateChanged();
 	}
 	
 	private class MyEmployee {
-		MarketEmployeeRole e;
+		Employee e;
 		int homeX, homeY;
 		
-		/*MyEmployee(MarketEmployeeRole e, int homeX, int homeY){
+		/*MyEmployee(Employee e, int homeX, int homeY){
 			this.e = e;
 			this.homeX = homeX;
 			this.homeY = homeY;
 		}*/
-		MyEmployee(MarketEmployeeRole e){
+		MyEmployee(Employee e){
 			this.e = e;
 			//this.homeX = homeX;
 			//this.homeY = homeY;

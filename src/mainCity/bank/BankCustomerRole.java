@@ -3,12 +3,12 @@ package mainCity.bank;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.bank.gui.BankCustomerGui;
 
 
 public class BankCustomerRole extends Role {
-	PersonAgent p;
+	Person p;
 	String name;
 	BankManagerRole bm;
 	BankerRole b;
@@ -42,7 +42,7 @@ public class BankCustomerRole extends Role {
 	
 	BankCustomerState bcstate=BankCustomerState.none;
 	
-	public BankCustomerRole(PersonAgent p,String name){
+	public BankCustomerRole(Person p,String name){
 		super(p);
 		Do("bank customer initiated");
 		this.p=p;

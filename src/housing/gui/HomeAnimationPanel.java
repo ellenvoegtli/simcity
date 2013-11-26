@@ -5,6 +5,7 @@ import javax.swing.*;
 import mainCity.contactList.ContactList;
 import mainCity.gui.CityCard;
 import mainCity.gui.CityGui;
+import mainCity.gui.CityView;
 import mainCity.restaurants.enaRestaurant.gui.EnaRestaurantPanel;
 
 	import java.awt.*;
@@ -16,8 +17,8 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 {
 	
 
-	   // private final int WINDOWX = 950;
-	   // private final int WINDOWY = 550;
+	   // private  int WINDOWX = 520;
+	   // private  int WINDOWY = 360;
 	    
 	    private int applianceWidth = 20;
 	    private int applianceHeight = 15;
@@ -25,6 +26,7 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    private int tableHeight = 20;
 	    private Image bufferImage;
 	    private Dimension bufferSize;
+	    private boolean ty;
 		private HomePanel home = new HomePanel(this);
 		
 
@@ -32,18 +34,21 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 
 		
 
-	    private List<Gui> guis = new ArrayList<Gui>();
+	    protected List<Gui> guis = new ArrayList<Gui>();
 
-	    public HomeAnimationPanel(CityGui cg) {
+public HomeAnimationPanel(CityGui cg, boolean type) {
 	    	super(cg);
-	    	ContactList.getInstance().setHome(getHomeP());
+	    	this.ty = type;
+	    	ContactList.getInstance().setHome(home);
+	        setBorder(BorderFactory.createRaisedBevelBorder());
+
 	    	
 	    	
 	    	//**********************
 	    	//ContactList.getInstance().setAptB(AptBuilding);
 
 	    	
-	    	setSize(600, 400);
+	    	setSize(520, 360);
 	        setVisible(true);
 	        
 	        bufferSize = this.getSize();
@@ -59,10 +64,14 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    public void paintComponent(Graphics g) {
 	        Graphics2D g2 = (Graphics2D)g;
 	        JLabel label;
+	        
+	        
+	     if(ty)
+	     {
 
 	        //Clear the screen by painting a rectangle the size of the frame
 	        g2.setColor(getBackground());
-	        g2.fillRect(0, 0, 600, 400 );
+	        g2.fillRect(0, 0, 540, 380 );
 
 	        //Here is the table
 	        g2.setColor(Color.BLACK);       
@@ -86,7 +95,36 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	        
 	        g2.setColor(Color.darkGray);       
 	        g2.fillRect(70 ,80, 25, 15);
+	     }
+	     
+	     
+	     if (!ty)
+	     {
+	    	//Clear the screen by painting a rectangle the size of the frame
+		        g2.setColor(getBackground());
+		        g2.fillRect(0, 0, 540, 380 );
 
+		        //Here is the table
+		        g2.setColor(Color.BLACK);       
+		        g2.fillRect(350 ,15, applianceWidth, applianceHeight);
+		        g2.drawString("stove", 350, 15);
+		       
+		        g2.fillRect(400, 15, applianceWidth, applianceHeight);//200 and 250 need to be table params
+		        g2.drawString("sink", 400, 15);
+
+		        
+		        g2.fillRect(450,  15,  applianceWidth,  applianceHeight);
+		        g2.drawString("fridge", 450, 15);
+		        
+		        g2.setColor(Color.ORANGE);       
+		        g2.fillRect(250, 150, tableWidth, tableHeight);//200 and 250 need to be table params
+		        
+		        g2.setColor(Color.lightGray);       
+		        g2.fillRect(50 ,200, 50, 20);
+		        
+		        g2.setColor(Color.darkGray);       
+		        g2.fillRect(70 ,80, 25, 15);
+	     }
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {
 	                gui.updatePosition();
@@ -109,12 +147,9 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    	guis.add(gui);
 	    }
 
-		public HomePanel getHomeP() {
+		public HomePanel getHomeP() 
+		{
 			return home;
-		}
-
-		public void setHomeP(HomePanel home) {
-			this.home = home;
 		}
 	
 	}

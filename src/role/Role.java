@@ -1,23 +1,23 @@
 package role;
-import mainCity.PersonAgent;
+import mainCity.Person;
 import agent.Agent;
 
 public abstract class Role extends Agent {
-	protected PersonAgent person;
+	protected Person person;
 	protected boolean isActive;
 
-	protected Role(PersonAgent p) {
+	protected Role(Person p) {
 		super();
 		
 		this.person = p;
 		this.isActive = false;
 	}
 	
-	public PersonAgent getPerson() {
+	public Person getPerson() {
 		return person;
 	}
 
-	public void setPerson(PersonAgent p) {
+	public void setPerson(Person p) {
 		person = p;
 	}
 

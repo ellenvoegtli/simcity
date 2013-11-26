@@ -1,5 +1,5 @@
 package mainCity.restaurants.enaRestaurant;
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.restaurants.enaRestaurant.sharedData.OrderTicket;
 import mainCity.restaurants.enaRestaurant.sharedData.RevolvingStand;
 //import mainCity.restaurants.EnaRestaurant.sharedData.*;
@@ -7,7 +7,7 @@ import mainCity.restaurants.enaRestaurant.sharedData.RevolvingStand;
 public class EnaSharedWaiterRole extends EnaWaiterRole {
 	private RevolvingStand stand;
 	
-	public EnaSharedWaiterRole(PersonAgent p, String name) {
+	public EnaSharedWaiterRole(Person p, String name) {
 		super(p, name);
 	}
 	

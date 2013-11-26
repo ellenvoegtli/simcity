@@ -31,6 +31,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 	CityGui city;
 	public static final int VIEW_WIDTH = 500, VIEW_HEIGHT = 500;
 	CardLayout layout;
+	public static boolean aptmt;
 	
 	public CityView(CityGui city) {
 		
@@ -60,7 +61,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		
 		for(int i=1; i<8; i++)
 		{
-					cards.put("house"+ i, new HomeAnimationPanel(city));
+					cards.put("house"+ i, new HomeAnimationPanel(city, true));
 
 		}
 		for(int j=0; j<8; j++)

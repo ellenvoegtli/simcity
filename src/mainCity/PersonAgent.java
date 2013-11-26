@@ -13,6 +13,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankerRole;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
 import mainCity.gui.trace.*;
@@ -24,7 +25,7 @@ import mainCity.market.*;
 import role.market.*;
 import transportation.BusAgent;
 
-public class PersonAgent extends Agent {
+public class PersonAgent extends Agent implements Person {
 	private enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
 	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
@@ -100,13 +101,12 @@ public class PersonAgent extends Agent {
 		state = PersonState.walkingFromBus;
 		stateChanged();
 	}
-	//A message for the landlord
-	
-	public void msgNeedToFix()
-	{
+	//A message for the landlord	
+	public void msgNeedToFix() {
 		actions.add(new Action(ActionType.maintenance, 1));
 		stateChanged();
 	}
+	
 	
 	public void msgBusHasArrived() {
 		print("msgBusHasArrived received");
@@ -143,6 +143,7 @@ public class PersonAgent extends Agent {
 		actions.add(new Action(ActionType.market, 3));
 		stateChanged();
 	}
+	
 	public void msgGoHome() {
 		actions.add(new Action(ActionType.home, 3));
 		stateChanged();
@@ -316,9 +317,7 @@ public class PersonAgent extends Agent {
 					Role bankCustomer = roles.get(ActionType.bankLoan);
 					((BankCustomerRole) bankCustomer).msgNeedLoan();
 				}
-				
-				
-				
+
 				if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
 					currentAction.state = ActionState.done;
 				}
@@ -375,6 +374,8 @@ public class PersonAgent extends Agent {
 		}
 		
 		if(state == PersonState.walkingFromBus) {
+			currentBus.Passengers.remove(this);
+			currentBus = null; 
 			travelToLocation(destination);
 			return true;
 		}
@@ -386,9 +387,7 @@ public class PersonAgent extends Agent {
 		}
 		
 		return false;
-
 	}
-
 	
 	//----------Actions----------//
 	private void checkSelf() {
@@ -423,6 +422,12 @@ public class PersonAgent extends Agent {
 			switch(action) {
 				case work:
 					switch(job.occupation) {
+						case "banker":
+							BankerRole bk = new BankerRole(this, name);
+							ContactList.getInstance().getBank().handleRole(bk);
+							roles.put(action, bk);
+							break;
+						
 						//-----Jefferson Restaurant Roles---//
 						case "jeffersonCook":
 							JeffersonCookRole jc = new JeffersonCookRole(this, name);
@@ -444,9 +449,6 @@ public class PersonAgent extends Agent {
 							ContactList.getInstance().getJeffersonRestaurant().handleRole(jh);
 							roles.put(action, jh);
 							break;
-							
-							
-						
 						//-----Marcus Restaurant Roles---//
 						case "marcusCook":
 							MarcusCookRole mco = new MarcusCookRole(this, name);
@@ -618,31 +620,15 @@ public class PersonAgent extends Agent {
 					break;
 					
 				case bankWithdraw:
-					if(roles.containsKey("bankDeposit")||roles.containsKey("bankLoan")){
-						break;
+				case bankDeposit:
+				case bankLoan:
+					if(roles.containsKey("bankDeposit") || roles.containsKey("bankLoan") || roles.containsKey("bankWithdraw")){
+						return;
 					}
 					BankCustomerRole bc = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc);
+					ContactList.getInstance().getBank().handleRole(bc);
 					roles.put(action, bc);
 					break;
-				
-				case bankDeposit:
-					if(roles.containsKey("bankWithdraw")||roles.containsKey("bankLoan")){
-						break;
-					}
-					BankCustomerRole bc1 = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc1);
-					roles.put(action, bc1);
-					break;
-				
-				case bankLoan:
-					if(roles.containsKey("bankWithdraw")||roles.containsKey("bankDeposit")){
-						break;
-					}
-					BankCustomerRole bc2 = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc2);
-					roles.put(action, bc2);
-					break;	
 				default:
 					break;
 			}
@@ -667,11 +653,15 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
+				event = PersonEvent.needToBank;
+				break;
 			case bankDeposit:
+				event = PersonEvent.needToBank;
+				break;
 			case bankLoan: 
 				event = PersonEvent.needToBank;
 				break;
-			default://If can't find anything or if home. go home
+			default:
 				event = PersonEvent.goHome;
 				break;
 		}
@@ -683,12 +673,10 @@ public class PersonAgent extends Agent {
 		traveling = true;
 		this.destination = d;
 		
-		boolean walk = false;//(60 > ((int) (Math.random() * 100)));
+		boolean walk = (60 > ((int) (Math.random() * 100)));
 
 		if(walk || state == PersonState.walkingFromBus) { //chose to walk
 			output(name + " is walking to " + d);
-			currentBus.Passengers.remove(this);
-			currentBus = null; 
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -717,9 +705,6 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		
-		destination = CityLocation.restaurant_marcus;
-		/*
 		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -739,7 +724,6 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
-		*/
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
@@ -748,9 +732,6 @@ public class PersonAgent extends Agent {
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
-		
-		//currentAction.type = ActionType.home;
-		//handleAction(currentAction.type);
 		
 		boolean temp = true;
 		
@@ -801,7 +782,6 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-	
 	private void goToRenters()
 	{
 		output("Going to a renters home");
@@ -810,7 +790,6 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 	
-	
 	private void goToMarket() {
 		output("Going to the market");
 		travelToLocation(CityLocation.market);
@@ -818,8 +797,7 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-	private void goHome() 
-	{
+	private void goHome()  {
 		output("Going home");
 		travelToLocation(CityLocation.home);
 		event = PersonEvent.arrivedAtHome;
@@ -888,7 +866,7 @@ public class PersonAgent extends Agent {
 	public double getCash() {
 		return cash;
 	}
-
+	
 	public void setCash(double d) {
 		this.cash = d;
 	}
@@ -916,7 +894,6 @@ public class PersonAgent extends Agent {
 	public void setAccountnumber(double accountnumber) {
 		this.accountnumber = accountnumber;
 	}
-	
 	
 	public void setHomePlace(boolean renter)
 	{
@@ -947,7 +924,7 @@ public class PersonAgent extends Agent {
 			}
 		}
 	}
-
+	
 	public Building getHomePlace() {
 		return homePlace;
 	}

@@ -13,7 +13,7 @@ import java.util.TimerTask;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import mainCity.PersonAgent;
+import mainCity.Person;
 import role.Role;
 
 
@@ -58,7 +58,7 @@ public void msgAtDestination()
 }
 	
 	
-public OccupantRole(PersonAgent p, String personNm, boolean owner) 
+public OccupantRole(Person p, String personNm, boolean owner) 
 {
 	super(p);
 	this.name = personNm;
