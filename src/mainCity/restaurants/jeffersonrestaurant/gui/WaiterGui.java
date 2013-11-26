@@ -18,7 +18,7 @@ public class WaiterGui implements Gui {
     private int xDestination = -20, yDestination = -20;//default start position
     private boolean atTable=false;
     public static final int xTable = 200;
-    public static final int yTable = 350;
+    public static final int yTable = 300;
     public static final int width = 20;
     public static final int height = 20;
     int t;

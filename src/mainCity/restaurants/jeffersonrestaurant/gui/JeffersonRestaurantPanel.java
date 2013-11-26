@@ -23,6 +23,7 @@ import java.util.Vector;
  */
 public class JeffersonRestaurantPanel extends JPanel {
 
+	private JeffersonAnimationPanel JAnimationPanel;
     //Host, cook, waiters and customers
   // private WaiterAgent waiter = new WaiterAgent("Sarah");
     private JeffersonHostRole host;
@@ -49,7 +50,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     
     private JPanel group = new JPanel();
 
-    private JeffersonRestaurantGui gui; //reference to main gui
+    //private JeffersonRestaurantGui gui; //reference to main gui
     
     public void addWaiterToList(JeffersonWaiterRole w){
     	host.waiters.add(w);
@@ -59,8 +60,8 @@ public class JeffersonRestaurantPanel extends JPanel {
 
 
 
-    public JeffersonRestaurantPanel(JeffersonRestaurantGui gui) {
-        this.gui = gui;
+    public JeffersonRestaurantPanel(JeffersonAnimationPanel JAPanel) {
+        this.JAnimationPanel=  JAPanel;
        // waiter.setGui(waiterGui);
         //waiter.setCook(cook);
        // waiter.setHost(host);
@@ -101,7 +102,7 @@ public class JeffersonRestaurantPanel extends JPanel {
         //cashier.startThread();
         //host.waiters.add(waiter);
        // waiters.add(waiter);
-
+        /*
         setLayout(new GridLayout(1, 2, 20, 20));
         group.setLayout(new GridLayout(1, 2, 10, 10));
         
@@ -111,7 +112,7 @@ public class JeffersonRestaurantPanel extends JPanel {
         initRestLabel();
         add(restLabel);
         add(group);
-
+		*/
     
         
         
@@ -143,6 +144,7 @@ public class JeffersonRestaurantPanel extends JPanel {
      * @param type indicates whether the person is a customer or waiter
      * @param name name of person
      */
+    /*
     public void showInfo(String type, String name) {
 
         if (type.equals("Customers")) {
@@ -163,7 +165,8 @@ public class JeffersonRestaurantPanel extends JPanel {
         }
         
     }
-
+*/
+    
     /**
      * Adds a customer or waiter to the appropriate list
      *
@@ -251,7 +254,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     		CookGui cg = new CookGui((JeffersonCookRole) r);
             //cook.setStand(stand);
     		cook.setGui(cg);
-            gui.animationPanel.addGui(cg);
+           JAnimationPanel.addGui(cg);
             
             
             if(cashier!=null){
@@ -307,7 +310,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     		
     		WaiterGui g = new WaiterGui(w);
     		
-    		gui.animationPanel.addGui(g);
+    		JAnimationPanel.addGui(g);
     		w.setHost(host);
     		w.setGui(g);
             w.setCook(cook);
@@ -331,9 +334,9 @@ public class JeffersonRestaurantPanel extends JPanel {
 	    	}
 	    	
 			customers.add(c);
-			CustomerGui g = new CustomerGui(c, gui);
+			CustomerGui g = new CustomerGui(c);
 	
-			gui.animationPanel.addGui(g);
+			JAnimationPanel.addGui(g);
 			c.setHost(host);
 			
 			c.setGui(g);
