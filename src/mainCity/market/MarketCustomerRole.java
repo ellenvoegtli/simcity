@@ -23,7 +23,7 @@ public class MarketCustomerRole extends Role implements Customer {
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
-	private CustomerGui customerGui;
+	private CustomerGuiInterface customerGui;
 
 	// agent correspondents
 	private Greeter host;
@@ -395,7 +395,7 @@ public class MarketCustomerRole extends Role implements Customer {
 		customerGui = g;
 	}
 
-	public CustomerGui getGui() {
+	public CustomerGuiInterface getGui() {
 		return customerGui;
 	}
 	

@@ -15,6 +15,16 @@ public class MockCustomer extends Mock implements Customer {
 
         }
         
+        public void msgAnimationFinishedGoToCashier(){
+        	
+        }
+    	public void msgAnimationFinishedLeaveRestaurant(){
+    		
+    	}
+    	public boolean restaurantOpen(){
+    		return true;
+    	}
+        
     	public void goGetInventory(Map<String, Integer> inventoryNeeded){
     		
     	}
