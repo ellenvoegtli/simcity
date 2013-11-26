@@ -93,8 +93,9 @@ public class BankCustomerRole extends Role {
 	public void msgLeftBank(){
 		Do("finished leaving bank");
 		atHome.release();
+		
 		bcstate=BankCustomerState.left;
-		stateChanged();
+		setInactive();
 		
 	}
 	
@@ -116,18 +117,30 @@ public class BankCustomerRole extends Role {
 	}
 	
 	public void msgWantToDeposit(){
+		amount = (int) p.getCash()-100;
+		System.out.println(amount);
+		if(amount<100){
+			bcstate=BankCustomerState.done;
+			dtrans=DeferredTransaction.none;
+			System.out.println("setting done");
+			//setInactive();
+		}
 		Do("Recieved message want to deposit");
 		tstate=BankCustomerTransactionState.wantToDeposit;
+		bcstate=BankCustomerState.none;
 		if(myaccountnumber== -1){
 			tstate=BankCustomerTransactionState.wantNewAccount;
-			dtrans=DeferredTransaction.deposit;
+			//dtrans=DeferredTransaction.deposit;
 			Do("no account exists, making account");
+			System.out.println("tstate is " + tstate);
+			System.out.println("bcstate is " + bcstate);
 		}
 		stateChanged();
 	}
 	
 	public void msgWantToWithdraw(){
 		Do("Recieved message want to withdraw");
+		amount = 50;
 		tstate=BankCustomerTransactionState.wantToWithdraw;
 		if(myaccountnumber== -1){
 			tstate=BankCustomerTransactionState.wantNewAccount;
@@ -218,6 +231,7 @@ public void msgLoanDenied(double loanamount){
 		
 		if(bcstate == BankCustomerState.none && tstate==BankCustomerTransactionState.wantNewAccount){
 			bcstate=BankCustomerState.waitingInBank;
+			Do("waiting in bank");
 			tellBankManagerNewAccount();
 			return true;
 		}
@@ -252,6 +266,7 @@ public void msgLoanDenied(double loanamount){
 			}
 			
 			if(tstate==BankCustomerTransactionState.wantToDeposit){
+				System.out.println(amount);
 				depositTeller(getAmount());
 				return true;
 			}
@@ -261,12 +276,12 @@ public void msgLoanDenied(double loanamount){
 			bcstate=BankCustomerState.talking;
 			
 			if(tstate==BankCustomerTransactionState.wantNewAccount){
-				requestNewAccount(getAmount());
+				requestNewAccount(amount);
 				return true;
 			}
 			
 			if(tstate==BankCustomerTransactionState.wantLoan){
-				requestLoan(getAmount());
+				requestLoan(amount);
 				return true;
 			}
 			
@@ -299,15 +314,15 @@ public void msgLoanDenied(double loanamount){
 			
 		}
 			
-		if(bcstate==BankCustomerState.done){
+		if(bcstate==BankCustomerState.done && dtrans==DeferredTransaction.none){
 			
 			bcstate=BankCustomerState.leaving;
 			Do("leaving");
 			Do("New account balance is " + bankbalance);
 			Do("current cash balance is " + p.getCash());
-			
-			doLeaveBank();
 			setInactive();
+			doLeaveBank();
+			
 		}
 			
 			
@@ -420,12 +435,12 @@ public void msgLoanDenied(double loanamount){
 
 	private void requestLoan(int n){
 		Do("requesting loan");
-	    b.msgIWantALoan(this, getMyaccountnumber() ,getAmount());
+	    b.msgIWantALoan(this, getMyaccountnumber() ,n);
 	}
 
 	private void requestNewAccount(int n){
 		Do("requesting new acccount");
-	    b.msgIWantNewAccount(p, this, name, getAmount());
+	    b.msgIWantNewAccount(p, this, name, n);
 
 	}
 
@@ -462,11 +477,13 @@ public void msgLoanDenied(double loanamount){
 		return custGui;
 		}
 
-	public boolean bankOpen() {
+	public boolean bankClosed() {
+		
 		if(bm != null && bm.isActive() && bm.isOpen()){
-			return true;
+			return false;
 		}
-		return false;
+		System.out.println("customer checked and bank is closed");
+		return true;
 	}
 
 	

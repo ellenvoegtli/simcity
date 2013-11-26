@@ -13,6 +13,7 @@ import mainCity.bank.BankManagerRole.myBanker;
 import mainCity.bank.BankManagerRole.myTeller;
 import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
+import mainCity.bank.gui.*;
 
 
 import java.awt.*;
@@ -144,7 +145,7 @@ public class BankPanel extends JPanel {
         
 
 
-        bankmanager.startThread();
+        //bankmanager.startThread();
         
         //banker.msgGoToWork();
         //banker.startThread();
@@ -207,9 +208,11 @@ public class BankPanel extends JPanel {
     		
     		if(bankmanager!=null){
     			bankmanager.mbanker=new myBanker(banker);
+    			bankmanager.msgBankerAdded();
     		}
-    		
+    	}
     	if (r instanceof BankTellerRole){
+    		//System.out.println("in bankpanel teller handlerole");
     		BankTellerRole btr = (BankTellerRole) r;
     		for(BankTellerRole bt:banktellers){
     			if(bt==btr){
@@ -217,6 +220,7 @@ public class BankPanel extends JPanel {
     			}
     		}
     		BankTellerGui btgui = new BankTellerGui(btr);
+    		//System.out.println("teller gui instantiated");
     		btr.setGui(btgui);
     		btr.setBankAccounts(mainaccounts);
     		bankAnimationPanel.addGui(btgui);
@@ -242,8 +246,7 @@ public class BankPanel extends JPanel {
     			bc.setBankManager(bankmanager);
     		}
     		
-    		
-    		
+    			
     		
     	}
     		
@@ -255,4 +258,4 @@ public class BankPanel extends JPanel {
     
  
 
-}
+

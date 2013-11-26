@@ -12,6 +12,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankManagerRole;
 import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
 import mainCity.contactList.ContactList;
@@ -217,6 +218,7 @@ public class PersonAgent extends Agent {
 				}
 				else {
 					handleRole(currentAction.type);
+					
 					roles.get(currentAction.type).setActive();
 				}
 
@@ -304,6 +306,7 @@ public class PersonAgent extends Agent {
 				Role customer = roles.get(currentAction.type);
 				if (!((BankCustomerRole) customer).getGui().goInside()){
 					//System.out.println("bank closed");
+					currentAction.state=ActionState.done;
 					return true;
 				}
 				if(roles.containsKey(ActionType.bankWithdraw)){
@@ -410,11 +413,24 @@ public class PersonAgent extends Agent {
 			}
 		}
 		
-		if(cash < 50 && !actions.contains(ActionType.bankWithdraw)){
+		if(cash < 20 && !actions.contains(ActionType.bankWithdraw)&& currentAction!=null && currentAction.type != ActionType.bankWithdraw ){
+			for(Action a:actions){
+				if (a.type==ActionType.bankWithdraw){
+					return;
+				}
+			}
 			actions.add(new Action(ActionType.bankWithdraw,3));
 			stateChanged();
 		}
-		if(cash > 200 && !actions.contains(ActionType.bankDeposit)){
+		
+		
+		if(cash > 200 && !actions.contains(ActionType.bankDeposit)&& currentAction!=null && currentAction.type != ActionType.bankDeposit){
+			for(Action a:actions){
+				if (a.type==ActionType.bankDeposit){
+					return;
+				}
+			}
+			
 			actions.add(new Action(ActionType.bankDeposit,3));
 			stateChanged();
 		}
@@ -434,6 +450,12 @@ public class PersonAgent extends Agent {
 						case "bankTeller":	
 							BankTellerRole bt = new BankTellerRole(this, name);
 							ContactList.getInstance().getBank().handleRole(bt);
+							roles.put(action, bt);
+							break;
+						case "bankManager":
+							BankManagerRole bm = new BankManagerRole(this, name);
+							ContactList.getInstance().getBank().handleRole(bm);
+							roles.put(action, bm);
 							break;
 						
 						//-----Jefferson Restaurant Roles---//

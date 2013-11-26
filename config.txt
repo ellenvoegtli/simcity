@@ -1,8 +1,15 @@
+-Bank stuff
+Name:JBankManager;Cash:100;Renter:false;Occupation:bankManager;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:JTeller;Cash:100;Renter:false;Occupation:bankTeller;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:JBanker;Cash:100;Renter:false;Occupation:banker;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:Personm;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:bank
+
+
 -Marcus Restaurant
--Name:marcuswaiter;Cash:100;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
--Name:marcuscook;Cash:60;Renter:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work,restaurant
--Name:marcushost;Cash:82;Renter:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
--Name:marcuscashier;Cash:50;Renter:true;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
+Name:marcuswaiter;Cash:100;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:marcuscook;Cash:60;Renter:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work,restaurant
+Name:marcushost;Cash:82;Renter:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
+Name:marcuscashier;Cash:50;Renter:true;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
 -Ellen Restaurant
 Name:PersonE;Cash:15;Renter:false;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant
 Name:PersonF;Cash:52;Renter:false;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
@@ -20,6 +27,10 @@ Name:Jwaiter;Cash:100;Renter:true;Occupation:jeffersonWaiter;ShiftBegin:7;ShiftE
 Name:Jcook;Cash:100;Renter:false;Occupation:jeffersonCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:Jcashier;Cash:100;Renter:false;Occupation:jeffersonCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:Jhost;Cash:100;Renter:false;Occupation:jeffersonHost;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:Jwaiter;Cash:100;Renter:true;Occupation:jeffersonWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+
+
+
 -David Restaurant 
 Name:DHost;Cash:82;Renter:true;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
 Name:DWaiter1;Cash:10;Renter:true;Occupation:davidWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work

@@ -160,6 +160,8 @@ public class CityPanel extends JPanel{
 					case "restaurant":
 						person.msgGoToRestaurant();
 						break;
+					case "bank":
+						person.msgGoToBank("deposit");
 				}
 			}
 		}

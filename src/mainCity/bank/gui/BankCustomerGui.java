@@ -164,8 +164,11 @@ public void doGoToTeller2(){
     }
 
 	public boolean goInside() {
-		return bankcustomer.bankOpen();
 		
+		if(bankcustomer.bankClosed()){
+			return false;
+		}
+		return true;
 	}
 }
 

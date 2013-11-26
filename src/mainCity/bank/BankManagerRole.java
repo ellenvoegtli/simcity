@@ -74,13 +74,15 @@ public class BankManagerRole extends Role implements ManagerRole {
 	
 	//Messages
 	
-	//TODO end shift and tell all employees to leave
-	@Override
+	public void msgBankerAdded(){
+		stateChanged();
+	}
 	public void msgEndShift() {
+		/*
 		Do("bank closing");
 		onDuty = false;
 		stateChanged();
-		
+		*/
 	}
 	
 	public void msgTellerAdded(BankTellerRole bt){
@@ -181,7 +183,7 @@ public class BankManagerRole extends Role implements ManagerRole {
 		}
 		
 		
-		if(mbanker.Occupied && !banker_bankCustomers.isEmpty()){
+		if(!mbanker.Occupied && !banker_bankCustomers.isEmpty()){
 			assignBanker(mbanker);
 			return true;
 		}
@@ -200,9 +202,12 @@ public class BankManagerRole extends Role implements ManagerRole {
 //Actions
 	
 	public boolean isOpen(){
-		if(tellers.isEmpty() || mbanker==null || !onDuty ){
+		System.out.println("bank manager checking open");
+		if(tellers.isEmpty() || mbanker.b==null || !onDuty || !mbanker.b.isActive()){
+			System.out.println("false");
 			return false;
 		}
+		System.out.println("true");
 		return true;
 		
 	}
