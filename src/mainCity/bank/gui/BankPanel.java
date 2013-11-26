@@ -34,7 +34,7 @@ public class BankPanel extends JPanel {
 	
 	public BankManagerRole bankmanager = new BankManagerRole("Saul");
 	
-	private BankerRole banker = new BankerRole("Dave");
+	//private BankerRole banker = new BankerRole("Dave");
 	private BankTellerRole bankteller = new BankTellerRole("kim");
 	private BankTellerRole bankteller1 = new BankTellerRole("sam");
 	
@@ -98,12 +98,12 @@ public class BankPanel extends JPanel {
         //gui.bankAnimationPanel.addGui(bcGui);
         
         
-        BankerGui bGui = new BankerGui(banker,gui);
-        banker.setGui(bGui);
+       // BankerGui bGui = new BankerGui(banker,gui);
+        //banker.setGui(bGui);
         //gui.bankAnimationPanel.addGui(bGui);
         
-        banker.startThread();
-        banker.setBankAccounts(mainaccounts);
+        //banker.startThread();
+        //banker.setBankAccounts(mainaccounts);
         
         bankteller.startThread();
         bankteller.msgGoToWork();
@@ -113,7 +113,7 @@ public class BankPanel extends JPanel {
         bankteller1.msgGoToWork();
         bankteller1.setBankAccounts(mainaccounts);
         
-        bankmanager.bankers.add(new myBanker(banker));
+       // bankmanager.bankers.add(new myBanker(banker));
         bankmanager.msgTellerAdded(bankteller);
         bankmanager.setBankAccounts(mainaccounts);
         //bankmanager.msgTellerAdded(bankteller1);
@@ -145,8 +145,8 @@ public class BankPanel extends JPanel {
 
         bankmanager.startThread();
         
-        banker.msgGoToWork();
-        banker.startThread();
+        //banker.msgGoToWork();
+        //banker.startThread();
         
         
         //bankcustomers.add(bankcust);

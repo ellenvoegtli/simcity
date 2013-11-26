@@ -33,7 +33,7 @@ public class JeffersonHostRole extends Role implements Host{
 	
 	boolean restaurantOpen;
 	
-	
+	int temp;
 	
 	public List<Customer> waitingCustomers
 	= Collections.synchronizedList (new ArrayList<Customer>());
@@ -79,16 +79,19 @@ public class JeffersonHostRole extends Role implements Host{
 	}
 	
 	public void msgFinishingShift(JeffersonWaiterRole jw) {
+		
 		synchronized(waiters){
 			if(waiters.isEmpty()){
 				return;
 			}
 			for(JeffersonWaiterRole j: waiters){
 				if(j==jw){
-					waiters.remove(j);
+					temp=waiters.indexOf(j);
 				}
 			}
+			
 		}
+		waiters.remove(temp);
 	}
 	public void msgWaitersUpdate(){
 	
