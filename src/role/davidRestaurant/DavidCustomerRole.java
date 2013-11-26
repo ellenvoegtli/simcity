@@ -232,7 +232,7 @@ public class DavidCustomerRole extends Role implements Customer {
 			if (state == AgentState.OutOfFood){ 
 				state = AgentState.DoingNothing;
 				LeaveWithoutOrdering();
-				super.setInactive();
+				super.setInactive(); 
 			}
 			return false;
 		}
