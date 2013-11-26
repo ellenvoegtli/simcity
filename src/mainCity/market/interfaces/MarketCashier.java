@@ -17,5 +17,4 @@ public interface MarketCashier {
 	public abstract void msgChangeVerified(Customer cust);
 	public abstract void msgHereIsMoneyIOwe(Customer cust, double amount);
 	
-	
 }

@@ -14,7 +14,6 @@ import mainCity.bank.interfaces.Banker;
 import mainCity.interfaces.ManagerRole;
 import agent.Agent;
 
-
 public class BankManagerRole extends Role implements ManagerRole, BankManager {
 
 	String name;
@@ -126,7 +125,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	}
 	
 	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgIWantToDeposit(mainCity.bank.BankCustomerRole)
+	 * @see mainCity.bank.BankManager#msgIWantToDeposit(mainCity.bank.interfaces.BankCustomer)
 	 */
 	@Override
 	public void msgIWantToDeposit( BankCustomer bc){
@@ -136,7 +135,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	}
 
 	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgIWantToWithdraw(mainCity.bank.BankCustomerRole)
+	 * @see mainCity.bank.BankManager#msgIWantToWithdraw(mainCity.bank.interfaces.BankCustomer)
 	 */
 	@Override
 	public void msgIWantToWithdraw( BankCustomer bc){
@@ -146,7 +145,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	}
 	
 	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgIWantNewAccount(mainCity.bank.BankCustomerRole)
+	 * @see mainCity.bank.BankManager#msgIWantNewAccount(mainCity.bank.interfaces.BankCustomer)
 	 */
 	@Override
 	public void msgIWantNewAccount(BankCustomer bc) {
@@ -159,7 +158,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	
 
 	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgIWantALoan(mainCity.bank.BankCustomerRole)
+	 * @see mainCity.bank.BankManager#msgIWantALoan(mainCity.bank.interfaces.BankCustomer)
 	 */
 	@Override
 	public void msgIWantALoan(BankCustomer bc){
@@ -182,7 +181,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	}
 	
 	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgImLeaving(mainCity.bank.BankerRole)
+	 * @see mainCity.bank.BankManager#msgImLeaving(mainCity.bank.interfaces.Banker)
 	 */
 	@Override
 	public void msgImLeaving(Banker b){
@@ -190,7 +189,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	}
 	
 	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgImLeaving(mainCity.bank.BankCustomerRole)
+	 * @see mainCity.bank.BankManager#msgImLeaving(mainCity.bank.interfaces.BankCustomer)
 	 */
 	@Override
 	public void msgImLeaving(BankCustomer bc){
