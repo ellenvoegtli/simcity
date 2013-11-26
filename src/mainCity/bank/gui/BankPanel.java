@@ -33,7 +33,7 @@ public class BankPanel extends JPanel {
 	
 	//public PersonAgent p1 = new PersonAgent("bob1");
 	
-	public BankManagerRole bankmanager = new BankManagerRole("Saul");
+	public BankManagerRole bankmanager;
 	
 	private BankerRole banker;
 	//private BankTellerRole bankteller = new BankTellerRole("kim");
@@ -209,6 +209,31 @@ public class BankPanel extends JPanel {
     			bankmanager.mbanker=new myBanker(banker);
     		}
     		
+    	if (r instanceof BankTellerRole){
+    		BankTellerRole btr = (BankTellerRole) r;
+    		for(BankTellerRole bt:banktellers){
+    			if(bt==btr){
+    				return;
+    			}
+    		}
+    		BankTellerGui btgui = new BankTellerGui(btr);
+    		btr.setGui(btgui);
+    		btr.setBankAccounts(mainaccounts);
+    		bankAnimationPanel.addGui(btgui);
+    		btr.setTellerNumber(banktellers.size());
+    		banktellers.add(btr);
+    		if(bankmanager!=null){
+    			bankmanager.msgTellerAdded(btr);
+    		}
+    		
+    		
+    	}
+    	if(r instanceof BankManagerRole){
+    		
+    		
+    		
+    		
+    	}
     		
     		
     	}

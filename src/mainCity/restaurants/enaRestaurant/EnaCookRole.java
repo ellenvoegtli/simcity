@@ -2,7 +2,7 @@
 package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.interfaces.MainCook;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
@@ -41,7 +41,7 @@ public class EnaCookRole extends Role implements MainCook {
 			public EnaCookGui cookGui;
 			public EnaCashierRole cashier;
 
-	public EnaCookRole( Person p, String name) {
+	public EnaCookRole( PersonAgent p, String name) {
 		super(p);
 		
 		this.name = name;

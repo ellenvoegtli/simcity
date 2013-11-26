@@ -31,10 +31,10 @@ public class OccupantGui implements Gui
 	public OccupantGui(OccupantRole occupant, HomeGui gui) 
 	{
 		person = occupant;
-		xPos = 175;
-		yPos = 150;
-		xDestination = 175 ;
-		yDestination = 150;
+		xPos = 0;
+		yPos = 35;
+		xDestination = 40;
+		yDestination = 35;
 		this.gui = gui;
 	}
 
@@ -51,7 +51,8 @@ public class OccupantGui implements Gui
 		else if (yPos > yDestination)
 			yPos--;
 		
-		if ((xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) || (xDestination == 70 && yDestination == 100) )
+		if ((xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) || (xDestination == 70 && yDestination == 100) ||
+				(xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55)	)
 			{
 					atDestination = true;
 			}
@@ -64,7 +65,9 @@ public class OccupantGui implements Gui
 				gui.setCustomerEnabled(person);
 			}
 			command=Command.noCommand;
-			if (((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 50 && yDestination ==150) || (xDestination == 70 && yDestination == 100) ) && atDestination == true)
+			if (((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 50 && yDestination ==150) || (xDestination == 70 && yDestination == 100) ) 
+					|| (xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55) 
+																																								&& atDestination == true)
 			{
 				atDestination = false;				
 				person.msgAtDestination();
@@ -123,8 +126,8 @@ public class OccupantGui implements Gui
 		
 		public void DoGoToAppliance(int x, int y)
 		{
-			xDestination = 70;
-			yDestination = 100;
+			xDestination = x;
+			yDestination = y;
 		}
 		
 		public void DoGoToFridge()
@@ -135,6 +138,12 @@ public class OccupantGui implements Gui
 			//command = Command.GoCook;
 		}
 		
+		public void DoGoToFridgeA()
+		{
+			xDestination = 450;
+			yDestination = 30;
+		}
+		
 		public void DoGoToStove()
 		{
 			//System.out.println("cooking at stove");
@@ -142,6 +151,14 @@ public class OccupantGui implements Gui
 			yDestination = 40;
 			//command = Command.GoCook;
 		}
+		
+		public void DoGoToStoveA()
+		{
+			xDestination = 350;
+			yDestination = 30;
+		}
+		
+		
 		
 		public void DoGoToSink()
 		{
@@ -151,11 +168,23 @@ public class OccupantGui implements Gui
 			command = Command.doneInKitchen;
 		}
 		
+		public void DoGoToSinkA()
+		{
+			xDestination = 400;
+			yDestination = 30;
+		}
+		
 		public void DoGoToKitchenTable() 
 		{
 			//System.out.println("going to table to eat");
 			xDestination = 250;
 			yDestination = 150;
+		}
+		
+		public void DoGoToKitchenTableA()
+		{
+			xDestination = 415;
+			yDestination = 63;
 		}
 		
 		public void DoGoRest()
@@ -164,10 +193,16 @@ public class OccupantGui implements Gui
 			yDestination = 200;
 		}
 		
+		public void DoGoRestA()
+		{
+			xDestination = 50;
+			yDestination = 55;
+		}
+		
 		public void DoLeave()
 		{
 			xDestination = -10;
-			yDestination = 180;
+			yDestination = 45;
 		}
 		
 		

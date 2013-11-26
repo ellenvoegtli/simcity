@@ -1,7 +1,7 @@
 package role.davidRestaurant;
 
 import agent.Agent;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
@@ -23,6 +23,8 @@ public class DavidCookRole extends Role implements Cook{
 	
 	private String name; 
 	Timer cookTimer = new Timer(); 
+	
+	boolean onDuty;
 	
 	enum CookStatus
 	{none, Opening, sendingOrder, Checked, massOrderReady, recievedOrder, NoFood, ordering} 
@@ -87,9 +89,9 @@ public class DavidCookRole extends Role implements Cook{
 	private Semaphore atGrill = new Semaphore(0,true);
 	
 	//Constructor
-	public DavidCookRole(String name, Person p) { 
+	public DavidCookRole(String name, PersonAgent p) { 
 		super(p); 
-		
+		onDuty = true;
 		this.name = name; 
 		
 		menu.add("Steak");
@@ -173,6 +175,12 @@ public class DavidCookRole extends Role implements Cook{
 			atGrill.release(); 
 			stateChanged();
 		}
+	}
+	
+	public void msgGoOffDuty(double d) {
+		addToCash(d); 
+		onDuty = false; 
+		stateChanged();
 	}
 	
 

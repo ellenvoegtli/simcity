@@ -1,11 +1,11 @@
 package mainCity.restaurants.enaRestaurant;
 
-import mainCity.Person;
+import mainCity.PersonAgent;
 
 public class EnaNormalWaiterRole extends EnaWaiterRole 
 {
 
-	public EnaNormalWaiterRole(Person p, String name) 
+	public EnaNormalWaiterRole(PersonAgent p, String name) 
 	{
 		super(p, name);
 	}

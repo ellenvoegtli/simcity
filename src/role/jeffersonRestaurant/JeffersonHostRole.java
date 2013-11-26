@@ -7,7 +7,7 @@ import java.util.concurrent.Semaphore;
 
 import role.Role;
 import role.jeffersonRestaurant.JeffersonWaiterRole.*;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Host;
@@ -37,7 +37,7 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	
 	public List<Customer> waitingCustomers
 	= Collections.synchronizedList (new ArrayList<Customer>());
-	private Person p;
+	private PersonAgent p;
 	private JeffersonCashierRole cashier;
 	private JeffersonCookRole cook;
 	private JeffersonWaiterRole waiter;
@@ -48,7 +48,7 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	
 	 
 	
-	public JeffersonHostRole(Person p,String name) {
+	public JeffersonHostRole(PersonAgent p,String name) {
 		super(p);
 
 		this.name = name;

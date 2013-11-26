@@ -1,11 +1,11 @@
 package role.marcusRestaurant;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.restaurants.marcusRestaurant.sharedData.*;
 
 public class MarcusSharedWaiterRole extends MarcusWaiterRole {
 	private RevolvingStand stand;
 	
-	public MarcusSharedWaiterRole(Person p, String name) {
+	public MarcusSharedWaiterRole(PersonAgent p, String name) {
 		super(p, name);
 	}
 	

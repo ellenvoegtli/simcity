@@ -6,7 +6,7 @@ import role.Role;
 import role.jeffersonRestaurant.JeffersonWaiterRole;
 import role.jeffersonRestaurant.JeffersonCookRole.Order;
 import role.market.MarketDeliveryManRole;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
@@ -15,7 +15,7 @@ import agent.Agent;
 
 public class JeffersonCashierRole extends Role implements Cashier{
 
-	private Person p;
+	private PersonAgent p;
 	private String name;
 	public List <Check> checks = Collections.synchronizedList(new ArrayList<Check>());
 	public List <Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
@@ -66,7 +66,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 		
 	}
 	
-	public JeffersonCashierRole(Person p,String name){
+	public JeffersonCashierRole(PersonAgent p,String name){
 		super(p);
 		onDuty=true;
 		this.name=name;
@@ -75,7 +75,13 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	
 	
 	// Messages
-	
+
+
+	public void msgNotEnoughMoney(double amountOwed, double amountPaid) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void msgGoOffDuty(double d) {
 		addToCash(d);
 		onDuty = false;
@@ -256,6 +262,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	public void deductCash(double payroll) {
 		profits-=payroll;
 	}
+
 
 
 

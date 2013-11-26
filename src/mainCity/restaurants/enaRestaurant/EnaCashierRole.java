@@ -7,7 +7,7 @@ import java.util.Map;
 
 import role.Role;
 import role.market.MarketDeliveryManRole;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
@@ -35,7 +35,7 @@ public class EnaCashierRole extends Role implements Cashier{
 		
 				public EnaHostGui hostGui;
 
-		public EnaCashierRole( Person p, String name) 
+		public EnaCashierRole( PersonAgent p, String name) 
 		{
 			super(p);
 
@@ -211,7 +211,7 @@ public boolean pickAndExecuteAnAction()
 		{
 			print("the restaurant has money : $ " +restCash);
 			//^^^^^^^^^^^^^^^^^^^^^^^^ NON NORM IF RESTAURANT DOES NOT HAVE ENOUGH MONEY TO PAY THE MARKET BILL ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-			/*if(restCash == 0)
+			/*if(restCash < checks.check)
 			{
 				print("The restaurant does not have any money to pay the market's bill");
 				checks.deliveryMan.msgRestCantPay();
@@ -328,6 +328,14 @@ public boolean pickAndExecuteAnAction()
 	public void setHost(EnaHostRole host) 
 	{
 		this.host = host;		
+	}
+
+
+
+	
+	public void msgNotEnoughMoney(double amountOwed, double amountPaid) 
+	{
+			
 	}
 
 
