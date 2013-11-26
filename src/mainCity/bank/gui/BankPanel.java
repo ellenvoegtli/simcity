@@ -13,7 +13,7 @@ import mainCity.bank.BankManagerRole.myBanker;
 import mainCity.bank.BankManagerRole.myTeller;
 import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
-import mainCity.bank.gui.BankGui;
+
 
 import java.awt.*;
 import java.awt.event.*;
@@ -25,6 +25,7 @@ import java.util.Vector;
  */
 public class BankPanel extends JPanel {
 	
+	private BankAnimationPanel bankAnimationPanel;
 	private Vector <BankCustomerRole> bankcustomers = new Vector <BankCustomerRole>();
 	private Vector <BankTellerRole> banktellers = new Vector <BankTellerRole>();
 	
@@ -50,13 +51,13 @@ public class BankPanel extends JPanel {
     
     private JPanel group = new JPanel();
 
-    private BankGui gui; //reference to main gui
+    //private BankGui gui; //reference to main gui
 
 
 
-    public BankPanel(BankGui gui) {
-        this.gui = gui;
-        
+    public BankPanel(BankAnimationPanel BAPanel) {
+        //this.gui = gui;
+        bankAnimationPanel=BAPanel;
         //hack creating a new account with 100 monies
         
         
@@ -89,12 +90,12 @@ public class BankPanel extends JPanel {
         bankteller1.setTellerNumber(banktellers.size());
         banktellers.add(bankteller1);
         
-        BankTellerGui btGui = new BankTellerGui(bankteller, gui);
-        BankTellerGui btGui1 = new BankTellerGui(bankteller1, gui);
+        BankTellerGui btGui = new BankTellerGui(bankteller);
+        BankTellerGui btGui1 = new BankTellerGui(bankteller1);
         bankteller.setGui(btGui);
         bankteller1.setGui(btGui1);
-        gui.bankAnimationPanel.addGui(btGui);
-        gui.bankAnimationPanel.addGui(btGui1);
+        //bankAnimationPanel.addGui(btGui);
+        //bankAnimationPanel.addGui(btGui1);
         //gui.bankAnimationPanel.addGui(bcGui);
         
         
@@ -185,9 +186,9 @@ public class BankPanel extends JPanel {
     		}
     		
     		bankcustomers.add(b);
-    		BankCustomerGui bcGui = new BankCustomerGui(b, gui);
+    		BankCustomerGui bcGui = new BankCustomerGui(b);
     		b.setGui(bcGui);
-    		gui.bankAnimationPanel.addGui(bcGui);
+    		bankAnimationPanel.addGui(bcGui);
     		b.setBankManager(bankmanager);
     		b.setAmount(((BankCustomerRole) r).getAmount());
             b.setMyaccountnumber(((BankCustomerRole) r).getMyaccountnumber());
