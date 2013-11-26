@@ -25,14 +25,12 @@ public class MarketGreeterRole extends Role implements Greeter {
 	MarketCashier cashier;
 	DeliveryMan deliveryMan;
 	
-	private List<MyWaitingCustomer> waitingCustomers 
+	public List<MyWaitingCustomer> waitingCustomers 
 	= Collections.synchronizedList(new ArrayList<MyWaitingCustomer>());
-	private List<MyWaitingBusiness> waitingBusinesses
+	public List<MyWaitingBusiness> waitingBusinesses
 	= Collections.synchronizedList(new ArrayList<MyWaitingBusiness>());
-	private List<MyEmployee> myEmployees
+	public List<MyEmployee> myEmployees
 	= Collections.synchronizedList(new ArrayList<MyEmployee>());
-	private List<MainCook> cooks
-	= Collections.synchronizedList(new ArrayList<MainCook>());
 
 	
 	int nextEmployee = 0;
@@ -60,6 +58,15 @@ public class MarketGreeterRole extends Role implements Greeter {
 	public List getWaitingCustomers(){
 		return waitingCustomers;
 	}
+	public List getWaitingBusinesses(){
+		return waitingBusinesses;
+	}
+	public List getEmployees(){
+		return myEmployees;
+	}
+	public void setCashierArrived(boolean x){		//for testing
+		cashierArrived = x;
+	}
 	public boolean isOpen() {
 		if (cashier instanceof MarketCashierRole){
 			MarketCashierRole c = (MarketCashierRole) cashier;
@@ -77,7 +84,7 @@ public class MarketGreeterRole extends Role implements Greeter {
 	// Messages
 	
 	//from customers
-	public void msgINeedInventory(MarketCustomerRole c, int x, int y){
+	public void msgINeedInventory(Customer c, int x, int y){
 		log("Received msgINeedInventory from: " + c.getName());
         waitingCustomers.add(new MyWaitingCustomer(c, x, y));
 		stateChanged();
@@ -123,7 +130,7 @@ public class MarketGreeterRole extends Role implements Greeter {
 		if (!waitingBusinesses.isEmpty()){
 			if (!myEmployees.isEmpty()){
 				if (isOpen() || cashierArrived){
-					cashierArrived = false;
+					//cashierArrived = false;
 					nextEmployee++;
 					if (nextEmployee > myEmployees.size() - 1)
 						nextEmployee = 0;
@@ -186,7 +193,7 @@ public class MarketGreeterRole extends Role implements Greeter {
 	}
 	
 	
-	private class MyWaitingBusiness {
+	public class MyWaitingBusiness {
 		String restaurantName;
 		MainCook cook;
 		MainCashier cashier;
@@ -200,23 +207,29 @@ public class MarketGreeterRole extends Role implements Greeter {
 			this.cashier = cashier;
 			inventory = inventoryNeeded;
 		}
+		public String getRestaurant(){
+			return restaurantName;
+		}
 	}
 	
-	private class MyWaitingCustomer {
-		MarketCustomerRole c;
+	public class MyWaitingCustomer {
+		Customer c;
 		//boolean confirmedToWait;
 		
 		int waitingPosX;
 		int waitingPosY;
 
-		MyWaitingCustomer (MarketCustomerRole cust, int waitingX, int waitingY) {
+		MyWaitingCustomer (Customer cust, int waitingX, int waitingY) {
 			this.c = cust;
 			this.waitingPosX = waitingX;
 			this.waitingPosY = waitingY;
 		}
 		
-		MyWaitingCustomer(MarketCustomerRole cust){
+		MyWaitingCustomer(Customer cust){
 			c = cust;
+		}
+		public Customer getCustomer(){
+			return c;
 		}
 	}
 }

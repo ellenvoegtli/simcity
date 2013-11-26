@@ -209,7 +209,6 @@ public boolean pickAndExecuteAnAction()
 		}
 		return true;
 	}*/
-
 	
 	if(needsWork.isEmpty() && fState == fixState.nothing && eState != eatingState.hungry )
 	{
@@ -272,6 +271,10 @@ public boolean pickAndExecuteAnAction()
 	if(owner == false)
 	{
 		PayRent();
+		return true;
+	}
+	if(!person.getRoles().isEmpty()) {//makes the person leave the home if there's something else to do
+		setInactive();
 		return true;
 	}
 	

@@ -992,6 +992,10 @@ public class PersonAgent extends Agent {
 		event = e;
 	}
 	
+	public void setDestination(CityLocation dest) {
+		destination = dest;
+	}
+	
 	public PersonState getState() {
 		return state;
 	}

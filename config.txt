@@ -2,6 +2,7 @@
 Name:bankteller;Cash:100;Renter:true;Occupation:bankTeller;ShiftBegin:6;ShiftEnd:22;Actions:work
 Name:bankmanager;Cash:100;Renter:true;Occupation:bankManager;ShiftBegin:6;ShiftEnd:22;Actions:work
 Name:banker;Cash:100;Renter:true;Occupation:banker;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:testbankcust;Cash:400;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:bank
 -Market
 Name:marketgreeter;Cash:100;Renter:true;Occupation:marketGreeter;ShiftBegin:6;ShiftEnd:22;Actions:work
 Name:marketcashier;Cash:100;Renter:true;Occupation:marketCashier;ShiftBegin:6;ShiftEnd:22;Actions:work
