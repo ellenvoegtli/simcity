@@ -21,6 +21,7 @@ import mainCity.restaurants.enaRestaurant.gui.EnaAnimationPanel;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonAnimationPanel;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusAnimationPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.DavidAnimationPanel;
+import mainCity.restaurants.restaurant_zhangdt.gui.DavidAnimationPanel;
 
 public class CityView extends JPanel implements MouseListener, ActionListener {
 
@@ -50,7 +51,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		
 		cards.put("marcusRestaurant", new MarcusAnimationPanel(city));
 		cards.put("EllenRestaurant", new EllenAnimationPanel(city));
-		//cards.put("davidRestaurant", new DavidAnimationPanel(city));
+		cards.put("davidRestaurant", new DavidAnimationPanel(city));
 		cards.put("enarestaurant",  new EnaAnimationPanel(city));
 		cards.put("jeffersonrestaurant", new JeffersonAnimationPanel(city));
 		
