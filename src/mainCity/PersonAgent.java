@@ -74,10 +74,23 @@ public class PersonAgent extends Agent {
 		return destination;
 	}
 	
-	public boolean isHungry(){
-		if(actionExists(ActionType.hungry) || actionExists(ActionType.restaurant))
+	public boolean isHungryForRestaurant(){
+		if(actions.contains(ActionType.restaurant) || (currentAction != null && currentAction.type == ActionType.restaurant))
 			return true;
 		return false;
+	}
+	public boolean isHungryForHome(){
+		if(actions.contains(ActionType.homeAndEat) || (currentAction != null && currentAction.type == ActionType.homeAndEat))
+			return true;
+		return false;
+	}
+	public boolean isGoingOrAtWork(){
+		if(actions.contains(ActionType.work) || (currentAction != null && currentAction.type == ActionType.work))
+			return true;
+		return false;
+	}
+	public Building getBuilding(){
+		return homePlace;
 	}
 	
 	//----------Messages----------//
@@ -122,11 +135,11 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-	//A message received from the system or GUI to tell person to get hungry - they will choose between restaurant and home
-	public void msgGotHungry() {
-		if(!actionExists(ActionType.restaurant)) {
-			output(name + " got hungry");
-			actions.add(new Action(ActionType.hungry, 5));
+	//A message received from the system or GUI to tell person to get hungry - //they will choose between restaurant and home
+	public void msgGotHungryForHome() {
+		if(!actions.contains(ActionType.homeAndEat)) {
+			output(name + " got hungry, will go home");
+			actions.add(new Action(ActionType.homeAndEat, 5));
 			stateChanged();
 		}
 	}
@@ -201,7 +214,20 @@ public class PersonAgent extends Agent {
 				output("Arrived at home!");
 				
 				handleRole(currentAction.type);
-				roles.get(currentAction.type).setActive();
+				
+				if(currentAction != null && (currentAction.type == ActionType.homeAndEat)){
+					if (roles.get(ActionType.home) != null) {
+						((OccupantRole) roles.get(ActionType.home)).gotHungry();
+						roles.get(ActionType.home).setActive();
+					}
+
+					else {
+						((OccupantRole) roles.get(ActionType.homeAndEat)).gotHungry();
+						roles.get(ActionType.homeAndEat).setActive();
+					}
+				}
+				else
+					roles.get(currentAction.type).setActive();
 				
 				if(currentAction != null && (currentAction.type == ActionType.market || currentAction.type == ActionType.home)) {
 					currentAction.state = ActionState.done;
@@ -640,11 +666,14 @@ public class PersonAgent extends Agent {
 					roles.put(action, mcr);
 					break;
 				case home :
+				case homeAndEat : 
+					if (actions.contains(ActionType.home) || actions.contains(ActionType.homeAndEat))
+						return;
 					OccupantRole or = new OccupantRole(this, name);
 					ContactList.getInstance().getHome().handleRoleGui(or);
 					roles.put(action, or);
 					break;
-					
+
 				case maintenance:
 					LandlordRole lr = new LandlordRole(this);
 					ContactList.getInstance().getHome().handleRoleGui(lr);
@@ -677,6 +706,9 @@ public class PersonAgent extends Agent {
 				break;
 			case hungry:
 				event = PersonEvent.gotHungry;
+				break;
+			case homeAndEat:
+				event = PersonEvent.goHome;
 				break;
 			case market:
 				event = PersonEvent.needMarket;
@@ -738,8 +770,10 @@ public class PersonAgent extends Agent {
 
 	private void chooseRestaurant() {
 		
-		destination = CityLocation.restaurant_jefferson;
-		/*
+
+		//destination = CityLocation.restaurant_david;
+		
+
 		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -759,7 +793,7 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
-		*/
+		
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
@@ -768,9 +802,8 @@ public class PersonAgent extends Agent {
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
-		currentAction.type = ActionType.home;
 		handleAction(currentAction.type);
-		/*boolean temp = true;
+		boolean temp = true;
 		
 		if(temp) { //chose restaurant
 			output("Chose to eat at a restaurant");
@@ -788,7 +821,7 @@ public class PersonAgent extends Agent {
 				currentAction.type = ActionType.home;
 				handleAction(currentAction.type);
 			}
-		}*/
+		}
 
 		stateChanged();
 	}
@@ -811,9 +844,10 @@ public class PersonAgent extends Agent {
 		}
 		else if(job.occupation.contains("jefferson")){
 			destination =CityLocation.restaurant_jefferson;
-			
 		}
-		
+		else if(job.occupation.contains("david")){ 
+			destination =CityLocation.restaurant_david;
+		}
 		travelToLocation(destination);
 		event = PersonEvent.arrivedAtWork;
 		stateChanged();
@@ -1002,7 +1036,7 @@ public class PersonAgent extends Agent {
 
 	//Lower the priority level, the more "important" it is (it'll get done faster)
 	private enum ActionState {created, inProgress, done}
-	public enum ActionType {work, maintenance, hungry, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
+	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
 	public class Action implements Comparable<Object> {
 		public ActionState state;
 		public ActionType type;

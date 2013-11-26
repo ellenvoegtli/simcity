@@ -1,5 +1,7 @@
 package mainCity.gui;
 
+import housing.OccupantRole;
+
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 
@@ -9,6 +11,7 @@ import mainCity.gui.AnimationPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
 import mainCity.market.gui.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
+import mainCity.PersonAgent.ActionType;
 import mainCity.contactList.*;
 import mainCity.gui.trace.*;
 import mainCity.gui.ListPanel;
@@ -76,9 +79,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel workLabel = new JLabel("Go to work?");
 	private JCheckBox workCB = new JCheckBox();
 	
-	private JButton depositButton = new JButton("Deposit");
-	private JButton loanButton = new JButton("Request a loan");
-	private JButton withdrawButton = new JButton("Withdraw");
+	private JLabel breakLabel = new JLabel("Home/Apartment: ");
+	private JButton breakButton = new JButton("Break something");
+	//private JButton depositButton = new JButton("Deposit");
+	//private JButton loanButton = new JButton("Request a loan");
+	//private JButton withdrawButton = new JButton("Withdraw");
 	private JTextField depositField = new JTextField(100);
 	private JTextField withrawField = new JTextField(100);
 	private JTextField loanField = new JTextField(100);
@@ -118,7 +123,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		//moneyField.addKeyListener(this);
 		
 		
-		String[] occupationStrings = {"Random", "Rich", "jeffersonWaiter", 
+		String[] occupationStrings = {"Rich", "jeffersonWaiter", 
 				"marcusWaiter", "marcusShareWaiter", "enaWaiter",
 				 "marketEmployee", "ellenWaiter", "davidWaiter"
 		};
@@ -130,7 +135,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		occupationMenu.setSelectedIndex(0);
 		occupationMenu.addActionListener(this);
 		
-		String[] shiftStrings = {"Random", "AM", "PM"};
+		String[] shiftStrings = {"AM", "PM"};
 		shiftMenu = new JComboBox(shiftStrings);
 		Dimension shiftDim = new Dimension(150, 30);
 		shiftMenu.setPreferredSize(shiftDim);
@@ -139,7 +144,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		shiftMenu.setSelectedIndex(0);
 		shiftMenu.addActionListener(this);
 
-		String[] housingStrings = {"Random", "House", "Apartment"};
+		String[] housingStrings = {"House", "Apartment"};
 		housingMenu = new JComboBox(housingStrings);
 		Dimension housingDim = new Dimension(150, 30);
 		housingMenu.setPreferredSize(housingDim);
@@ -148,7 +153,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		housingMenu.setSelectedIndex(0);
 		housingMenu.addActionListener(this);
 		
-		String[] carStrings = {"Random", "Car", "No car"};
+		String[] carStrings = {"Car", "No car"};
 		carMenu = new JComboBox(carStrings);
 		Dimension carDim = new Dimension(150, 30);
 		carMenu.setPreferredSize(carDim);
@@ -181,13 +186,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 		hGroup.addGroup(layout.createParallelGroup().
 	            addComponent(nameFieldLabel).addComponent(moneyFieldLabel).addComponent(occupationMenuLabel).
-	            addComponent(shiftMenuLabel).addComponent(housingMenuLabel).addComponent(carMenuLabel).
-	            addComponent(addPersonButton)
+	            addComponent(housingMenuLabel).addComponent(addPersonButton)
 	            );
 		hGroup.addGroup(layout.createParallelGroup().
 	            addComponent(nameField).addComponent(moneyField).addComponent(occupationMenu).
-	            addComponent(shiftMenu).addComponent(housingMenu).addComponent(carMenu).
-	            addComponent(blankLabel)
+	            addComponent(housingMenu).addComponent(blankLabel)
 	            );
 		layout.setHorizontalGroup(hGroup);
 		
@@ -199,11 +202,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
 	            addComponent(occupationMenuLabel).addComponent(occupationMenu));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-	            addComponent(shiftMenuLabel).addComponent(shiftMenu));
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
 	            addComponent(housingMenuLabel).addComponent(housingMenu));
-		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
-	            addComponent(carMenuLabel).addComponent(carMenu));
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
 				addComponent(addPersonButton).addComponent(blankLabel));
 		layout.setVerticalGroup(vGroup);
@@ -218,12 +217,12 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		
 		GroupLayout.SequentialGroup hGroup2 = layout2.createSequentialGroup();
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(personLabel).addComponent(blankLabel).
-	            addComponent(hungryLabel).addComponent(blankLabel).addComponent(workLabel).
-	            addComponent(depositField).addComponent(withrawField).addComponent(loanField)
+	            addComponent(hungryLabel).addComponent(blankLabel).addComponent(workLabel)
+	            .addComponent(breakLabel)
 	            );
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(infoLabel).addComponent(blankLabel).
-	            addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB).
-	            addComponent(depositButton).addComponent(withdrawButton).addComponent(loanButton)
+	            addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB)
+	            .addComponent(breakButton)
 	            );
 		layout2.setHorizontalGroup(hGroup2);
 		
@@ -239,38 +238,29 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
 	            addComponent(workLabel).addComponent(workCB));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
-	            addComponent(depositField).addComponent(depositButton));
-		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
-	            addComponent(withrawField).addComponent(withdrawButton));
-		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
-	            addComponent(loanField).addComponent(loanButton));
+	            addComponent(breakLabel).addComponent(breakButton));
 		layout2.setVerticalGroup(vGroup2);
 	   //====END GROUP LAYOUT 2=====
 		
 		restaurantButton.addActionListener(this);
 		homeButton.addActionListener(this);
 		workCB.addActionListener(this);
-		depositButton.addActionListener(this);
-		withdrawButton.addActionListener(this);
-		loanButton.addActionListener(this);
+		breakButton.addActionListener(this);
+
 		
-		//infoLabel.setText("");
 		subControlPanel2.setLayout(new GridBagLayout());
 		Dimension listDim = new Dimension((int) (WINDOWX * .15), (int) (WINDOWY * .5));
         personPanel.setPreferredSize(listDim);
         personPanel.setMinimumSize(listDim);
         personPanel.setMaximumSize(listDim);
 		subControlPanel2.add(personPanel);
-		//subControlPanel2.add(infoLabel);	//not showing up
 		infoLabel.setVisible(false);
 		subControlPanel2.add(infoPanel);
 		tabbedPane2.addTab("Controls", subControlPanel2);
 		controlPanel.add(tabbedPane2);
 		
 		occupationMenu.addActionListener(this);
-		shiftMenu.addActionListener(this);
 		housingMenu.addActionListener(this);
-		carMenu.addActionListener(this);
 		addPersonButton.addActionListener(this);
 		
 
@@ -402,7 +392,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         tracePanel8.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
         tracePanel8.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel8.hideAlertsWithTag(AlertTag.BANK);
-        tracePanel8.showAlertsWithTag(AlertTag.DAVID_RESTAURANT);
+        tracePanel8.showAlertsWithTag(AlertTag.JEFFERSON_RESTAURANT);
         
         AlertLog.getInstance().addAlertListener(tracePanel8);
         tabbedPane.addTab("JEFFERSON RESTAURANT", tracePanel8);
@@ -470,11 +460,12 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         PersonAgent p = (PersonAgent) person;
         infoLabel.setText(p.getName());
         infoLabel.setVisible(true);
-
-        if(p.isHungry()){
-        	restaurantButton.setEnabled(false);
-        	homeButton.setEnabled(false);
-        }
+        
+        restaurantButton.setEnabled(!p.isHungryForRestaurant() || !p.isHungryForHome());
+        homeButton.setEnabled(!p.isHungryForHome() || !p.isHungryForRestaurant());
+        workCB.setEnabled(!p.isGoingOrAtWork());
+        
+        
         
         infoPanel.validate();
     }
@@ -529,16 +520,32 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		else if (e.getSource() == restaurantButton){
 			System.out.println("RESTAURANT BUTTON PRESSED");
 			PersonAgent p = (PersonAgent) currentPerson;
-			p.msgGotHungry();
+			p.msgGoToRestaurant();
 			restaurantButton.setEnabled(false);
-			
-		}
-		else if (e.getSource() == homeButton){
 			homeButton.setEnabled(false);
 		}
+		else if (e.getSource() == homeButton){
+			System.out.println("HOME BUTTON PRESSED");
+			PersonAgent p = (PersonAgent) currentPerson;
+			p.msgGotHungryForHome();
+			homeButton.setEnabled(false);
+			restaurantButton.setEnabled(false);
+		}
 		else if (e.getSource() == workCB){
+			System.out.println("WORK CHECKBOX PRESSED");
+			PersonAgent p = (PersonAgent) currentPerson;
+			p.msgGoToWork();
 			workCB.setEnabled(false);
-			
+		}
+		else if (e.getSource() == breakButton){
+			System.out.println("BREAK SOMETHING BUTTON PRESSED");
+			PersonAgent p = (PersonAgent) currentPerson;
+			/*for (PersonAgent pers : cityPanel.getOccupants()){
+	        	if (pers.equals(p))
+	        		OccupantRole o = (OccupantRole) p.getRoles().getValue(ActionType.homeAndEat);
+	        		OccupantRole o = p.getRoles().getValue(ActionType.home);
+	        		
+	        }*/
 		}
 
 	}
