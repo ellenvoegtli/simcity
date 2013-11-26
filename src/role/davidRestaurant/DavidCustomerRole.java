@@ -1,4 +1,4 @@
-package mainCity.restaurants.restaurant_zhangdt;
+package role.davidRestaurant;
 
 import mainCity.PersonAgent;
 import mainCity.restaurants.restaurant_zhangdt.gui.CustomerGui;
