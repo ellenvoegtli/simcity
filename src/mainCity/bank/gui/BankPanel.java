@@ -36,8 +36,8 @@ public class BankPanel extends JPanel {
 	public BankManagerRole bankmanager = new BankManagerRole("Saul");
 	
 	private BankerRole banker;
-	private BankTellerRole bankteller = new BankTellerRole("kim");
-	private BankTellerRole bankteller1 = new BankTellerRole("sam");
+	//private BankTellerRole bankteller = new BankTellerRole("kim");
+	//private BankTellerRole bankteller1 = new BankTellerRole("sam");
 	
 	BankCustomerRole bankcust;
 	//BankCustomerRole bankcust1 = new BankCustomerRole(p1,"bob1");
@@ -84,7 +84,7 @@ public class BankPanel extends JPanel {
         //p1.setCash(500);
       
         
-        
+        /*
         bankteller.setTellerNumber(banktellers.size());
         banktellers.add(bankteller);
         bankteller1.setTellerNumber(banktellers.size());
@@ -113,7 +113,7 @@ public class BankPanel extends JPanel {
         bankteller1.startThread();
         bankteller1.msgGoToWork();
         bankteller1.setBankAccounts(mainaccounts);
-        
+        *.
        // bankmanager.bankers.add(new myBanker(banker));
         bankmanager.msgTellerAdded(bankteller);
         bankmanager.setBankAccounts(mainaccounts);

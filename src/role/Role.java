@@ -1,8 +1,8 @@
 package role;
-import mainCity.PersonAgent;
 import agent.Agent;
+import mainCity.PersonAgent;
 
-public abstract class Role extends Agent {
+public abstract class Role extends Agent{
 	protected PersonAgent person;
 	protected boolean isActive;
 

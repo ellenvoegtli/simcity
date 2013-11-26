@@ -1,23 +1,21 @@
 package mainCity.market;
 
 import agent.Agent;
+import mainCity.PersonAgent;
 //import restaurant.gui.CustomerGui;
 import mainCity.market.gui.*;
+import mainCity.market.interfaces.*;
 import mainCity.market.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
 import role.Role;
-import mainCity.PersonAgent;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
-import role.market.MarketDeliveryManRole;
-
 
 
 /**
@@ -27,13 +25,13 @@ import role.market.MarketDeliveryManRole;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class MarketEmployeeRole extends Role {
+public class MarketEmployeeRole extends Role implements Employee {
 	private String name;
 	Timer timer = new Timer();
 	
-	private MarketGreeterRole host;
-	private MarketCashierRole cashier;
-	private MarketDeliveryManRole deliveryMan;
+	private Greeter host;
+	private Cashier cashier;
+	private DeliveryMan deliveryMan;
 	private MarketMenu marketMenu = new MarketMenu();
 	
 	public EmployeeGui employeeGui = null;
@@ -58,19 +56,19 @@ public class MarketEmployeeRole extends Role {
 		this.name = name;
 	}
 	
-	public void setHost(MarketGreeterRole host){
+	public void setHost(Greeter host){
 		this.host = host;
 	}
 	
-	public void setCashier(MarketCashierRole cashier){
+	public void setCashier(Cashier cashier){
 		this.cashier = cashier;
 	}
 	
-	public void setDeliveryMan(MarketDeliveryManRole d){
+	public void setDeliveryMan(DeliveryMan d){
 		this.deliveryMan = d;
 	}
 	
-	public MarketGreeterRole getHost(){
+	public Greeter getHost(){
 		return this.host;
 	}
 
@@ -102,13 +100,13 @@ public class MarketEmployeeRole extends Role {
     	stateChanged();
     }
    
-	public void msgAssignedToCustomer(MarketCustomerRole c, int waitPosX, int waitPosY){
+	public void msgAssignedToCustomer(Customer c, int waitPosX, int waitPosY){
 		log("Received msgAssignedToCustomer");		
 		myCustomers.add(new MyCustomer(c, waitPosX, waitPosY, CustomerState.newCustomer));
 		stateChanged();
 	}
 	
-	public void msgHereIsMyOrder(MarketCustomerRole c, Map<String, Integer> inventory, String deliveryMethod) {
+	public void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory, String deliveryMethod) {
 		MyCustomer mc = null;
 		for (MyCustomer thisMC : myCustomers){	//to find the myCustomer with this specific Customer within myCustomers list
 			if (thisMC.c.equals(c)){
@@ -123,7 +121,7 @@ public class MarketEmployeeRole extends Role {
 		stateChanged();
 	}
 	
-	public void msgHereIsBill(MarketCustomerRole c, double amount){		//from cashier
+	public void msgHereIsBill(Customer c, double amount){		//from cashier
 		MyCustomer mc = null;
 		for (MyCustomer thisMC : myCustomers){	//to find the myCustomer with this specific Customer within myCustomers list
 			if (thisMC.c.equals(c)){
@@ -131,7 +129,7 @@ public class MarketEmployeeRole extends Role {
 				break;
 			}
 		}
-		log("Received msgHereIsBill");
+		log("Received msgHereIsBill from cashier. Amount = $" + amount);
 		mc.billAmount = amount;
 		mc.s = CustomerState.gotCheckFromCashier;
 		stateChanged();
@@ -164,7 +162,7 @@ public class MarketEmployeeRole extends Role {
 	}
 	
 	
-	public void msgDoneAndLeaving(MarketCustomerRole c) {
+	public void msgDoneAndLeaving(Customer c) {
 		MyCustomer mc = null;
 		for (MyCustomer thisMC : myCustomers){ //to find the myCustomer with this specific Customer within myCustomers list
 			if (thisMC.c.equals(c)){
@@ -458,7 +456,7 @@ public class MarketEmployeeRole extends Role {
 
 	
 	public class MyCustomer {		//public only for testing purposes
-		MarketCustomerRole c;
+		Customer c;
 		double billAmount;
 		CustomerState s;
 		
@@ -468,7 +466,7 @@ public class MarketEmployeeRole extends Role {
 		Map<String, Integer> inventoryOrdered;
 		Map<String, Integer> inventoryFulfilled = new TreeMap<String, Integer>();
 		
-		MyCustomer(MarketCustomerRole c, int posX, int posY, CustomerState s){
+		MyCustomer(Customer c, int posX, int posY, CustomerState s){
 			this.c = c;
 			waitingAreaX = posX;
 			waitingAreaY = posY;

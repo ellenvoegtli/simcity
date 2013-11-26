@@ -12,8 +12,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
-import agent.Agent;
 import mainCity.PersonAgent;
+import agent.Agent;
 import role.Role;
 
 

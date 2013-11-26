@@ -5,6 +5,7 @@ import agent.Agent;
 
 import java.util.*;
 
+import mainCity.PersonAgent;
 import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
@@ -15,7 +16,6 @@ import mainCity.gui.trace.AlertTag;
 //import mainCity.role.marcusRestaurant.MarcusCookRole.CookStatus;
 import mainCity.interfaces.*;
 import mainCity.contactList.*;
-import mainCity.PersonAgent;
 import role.Role;
 
  // Restaurant Cook Agent

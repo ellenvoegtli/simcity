@@ -1,13 +1,12 @@
 package mainCity.restaurants.EllenRestaurant;
 
+import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 
 import java.util.concurrent.*;
-
-import mainCity.PersonAgent;
 
 
 public class EllenNormalWaiterRole extends EllenWaiterRole {	

@@ -1,19 +1,15 @@
 package mainCity.market.gui;
 
 import mainCity.market.*;
-import mainCity.gui.DeliveryManGui;
-import mainCity.interfaces.*;
 import mainCity.contactList.*;
-import mainCity.gui.trace.*;
+import mainCity.market.interfaces.*;
 
 import javax.swing.*;
+import java.awt.event.*;
+import java.util.Vector;
 
 import role.Role;
 import role.market.MarketDeliveryManRole;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Vector;
 
 /**
  * Panel in frame that contains all the restaurant information,
@@ -21,9 +17,9 @@ import java.util.Vector;
  */
 public class MarketPanel extends JPanel implements ActionListener{
 	private MarketAnimationPanel animation;
-	private MarketGreeterRole host;
-	private MarketCashierRole cashier;
-	private MarketDeliveryManRole deliveryMan;
+	private Greeter host;
+	private Cashier cashier;
+	private DeliveryMan deliveryMan;
         
     private Vector<MarketCustomerRole> customers = new Vector<MarketCustomerRole>();
     private Vector<MarketEmployeeRole> employees = new Vector<MarketEmployeeRole>();
@@ -61,19 +57,19 @@ public class MarketPanel extends JPanel implements ActionListener{
     			cashier.setGreeter(host);
     		}
     		
-    		ContactList.getInstance().setMarketCashier(cashier);
+    		ContactList.getInstance().setMarketCashier((MarketCashierRole)cashier);
     	}
     	
     	if(r instanceof MarketDeliveryManRole) {
-    		deliveryMan = (MarketDeliveryManRole) r;
-    		ContactList.getInstance().getCity().addDeliveryGui(deliveryMan);
+    		deliveryMan = (DeliveryMan) r;
+    		ContactList.getInstance().getCity().addDeliveryGui((MarketDeliveryManRole) deliveryMan);
             deliveryMan.setCashier(cashier);
             
             if(host != null) host.setDeliveryMan(deliveryMan);
             for(MarketEmployeeRole e : employees) {
     			e.setDeliveryMan(deliveryMan);
     		}
-    		ContactList.getInstance().setMarketDeliveryMan(deliveryMan);
+    		ContactList.getInstance().setMarketDeliveryMan((MarketDeliveryManRole) deliveryMan);
     	}
     	
     	if(r instanceof MarketGreeterRole) {
@@ -91,7 +87,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     		host.setCashier(cashier);
     		
     		if(cashier != null) cashier.setGreeter(host);
-    		ContactList.getInstance().setMarketGreeter(host);
+    		ContactList.getInstance().setMarketGreeter((MarketGreeterRole) host);
     	}
     	
     	if(r instanceof MarketEmployeeRole) {

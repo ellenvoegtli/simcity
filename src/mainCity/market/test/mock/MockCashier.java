@@ -16,22 +16,26 @@ public class MockCashier extends Mock implements Cashier {
 
     }
     
-	public void msgComputeBill(Map<String, Integer> inventory, MarketCustomerRole c, MarketEmployeeRole e){
+    public void setGreeter(Greeter g){
+    	
+    }
+    
+	public void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e){
 		
 	}
-	public void msgComputeBill(Map<String, Integer> inventory, String name, MarketEmployeeRole e){
+	public void msgComputeBill(Map<String, Integer> inventory, String name, Employee e){
 		
 	}
-	public void msgHereIsPayment(double amount, MarketCustomerRole cust){
+	public void msgHereIsPayment(double amount, Customer cust){
 		
 	}
-	public void msgPleaseRecalculateBill(MarketCustomerRole cust){
+	public void msgPleaseRecalculateBill(Customer cust){
 		
 	}
-	public void msgChangeVerified(MarketCustomerRole cust){
+	public void msgChangeVerified(Customer cust){
 		
 	}
-	public void msgHereIsMoneyIOwe(MarketCustomerRole cust, double amount){
+	public void msgHereIsMoneyIOwe(Customer cust, double amount){
 		
 	}
 }

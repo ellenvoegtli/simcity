@@ -1,11 +1,11 @@
 package mainCity.restaurants.EllenRestaurant;
 
+import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import agent.Agent;
 import role.Role;
-import mainCity.PersonAgent;
 
 import java.util.*;
 

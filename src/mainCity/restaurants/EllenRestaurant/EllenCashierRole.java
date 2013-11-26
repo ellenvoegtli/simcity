@@ -6,12 +6,12 @@ import agent.Agent;
 import java.util.*;
 
 import role.market.MarketDeliveryManRole;
+import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.market.*;
 import role.Role;
-import mainCity.PersonAgent;
 
 
  // Restaurant Cook Agent
@@ -120,8 +120,8 @@ public class EllenCashierRole extends Role implements Cashier {
 		b.s = MarketBillState.receivedChange;
 		stateChanged();
 	}
-	public void msgNotEnoughMoney(double amountCharged, double amountPaid){
-		log("Received msgNotEnoughMoney");
+	public void msgNotEnoughMoney(double amountOwed, double amountPaid){
+		log("Received msgNotEnoughMoney: owe $" + amountOwed);
 		MarketBill b = null;
 		synchronized(marketBills){
 			for (MarketBill thisMB : marketBills){
@@ -131,7 +131,7 @@ public class EllenCashierRole extends Role implements Cashier {
 				}
 			}
 		}
-		b.amountOwed = amountCharged - amountPaid;
+		b.amountOwed = Math.round(amountOwed*100.0)/100.0;
 		b.s = MarketBillState.oweMoney;
 		stateChanged();
 	}
@@ -245,7 +245,7 @@ public class EllenCashierRole extends Role implements Cashier {
 		//else?******
 	}
 	public void AcknowledgeDebt(MarketBill b){
-		log("Acknowledging debt");
+		log("Acknowledging debt of: $" + b.amountOwed);
 		b.deliveryMan.msgIOweYou(b.amountOwed, "ellenRestaurant");
 		//message the restaurant manager to pay the market somehow?
 		marketBills.remove(b);
