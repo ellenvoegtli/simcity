@@ -57,6 +57,9 @@ public class personHome
 		
 	}
 	
+	
+	
+	
 	public void applianceBroke()
 	{
 		System.out.println("house set appliance to broken");

@@ -14,6 +14,8 @@ import java.util.concurrent.Semaphore;
 
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import role.Role;
 
 
@@ -34,6 +36,14 @@ public class LandlordRole extends Role
 	private List <String> fixJobs = new ArrayList<String>(); 
 
 	//private OccupantRole occupant;
+
+	
+	
+	//for alert log trace statements
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
+	}
 
 	
 	//MESSAGES
@@ -77,7 +87,7 @@ public class LandlordRole extends Role
 	{
 		for(OccupantRole occ : ToDo.keySet())
 		{
-			print("the landlord is going to renters home");
+			log("the landlord is going to renters home");
 			person.msgNeedToFix();
 			//gui.DoGoToRenterHome(occ.getHome());
 			int xPos = 0;
@@ -117,13 +127,13 @@ public class LandlordRole extends Role
 		/*try {
 			occupant.destination.acquire();
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			e.logStackTrace();
 		}*/
 		
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
-				print("fixed appliance");
+				log("fixed appliance");
 				stateChanged();
 			}
 		},

@@ -6,6 +6,9 @@ import housing.personHome.type;
 import housing.gui.OccupantGui;
 import agent.Agent;
 import mainCity.gui.AnimationPanel;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Timer;
@@ -48,6 +51,11 @@ public class OccupantRole extends Role
 
 	
 	
+	//for alert log trace statements
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
+	}
 
 
 public void msgAtDestination()
@@ -87,14 +95,14 @@ public String getName()
 	
 public void gotHungry()
 {
-	System.out.println("person is hungry, will cook himself a meal");
+	log("person is hungry, will cook himself a meal");
 	eState = eatingState.hungry;
 	stateChanged();
 }
 
 /*public void applianceBroke()
 {
-	System.out.println("user set appliance to broken");
+	log("user set appliance to broken");
 	String appln = "sink";
 	switch((int) (Math.random() * 4)) {
 	case 0:
@@ -156,7 +164,7 @@ public boolean pickAndExecuteAnAction()
 		{
 		if(app.working == false)
 		{
-			print("tool is broken" +app.appliance);
+			log("tool is broken" +app.appliance);
 			needsWork.add(app.appliance);
 			fState = fixState.fixing;
 		}
@@ -177,13 +185,13 @@ public boolean pickAndExecuteAnAction()
 	}
 	if (sState == shoppingState.needMarket)
 	{
-		print("needs to go to the market");
+		log("needs to go to the market");
 		goToStore();
 		return true;
 	}
 	if(!needsWork.isEmpty() && eState == eatingState.cooking)
 	{
-		print("needs to fix appliance");
+		log("needs to fix appliance");
 		serviceAppliance();	
 		return true;
 	}
@@ -241,7 +249,7 @@ private void checkMaintenance()
 
 public void PayRent()
 {
-	print("pay the owner rent money");
+	log("pay the owner rent money");
 	//timer to run for a reasonable amount of time to make rent due, a "week?"
 	//bank.DirectDeposit(owner.id, rent);
 }
@@ -253,7 +261,7 @@ public void serviceAppliance()
 	{
 		if(owner == false)
 		{
-			print("calling landlord for maintenance");
+			log("calling landlord for maintenance");
 			landLord.msgPleaseFix(this, app);
 		}
 		if(owner == true)
@@ -293,7 +301,7 @@ public void fixAppliance(String app)
 	timer.schedule(new TimerTask() {
 		Object cookie = 1;
 		public void run() {
-			print("fixed appliance");
+			log("fixed appliance");
 			fState = fixState.fixed;
 			stateChanged();
 		}
@@ -309,7 +317,7 @@ public void wantsToEat(String mealChoice)
 	if(owner) gui.DoGoToFridge();
 	
 	if(!owner) gui.DoGoToFridgeA();
-	System.out.println("has reached the fridge&&&&&&&&&&&&");
+	log("has reached the fridge");
 	
 	try {
 		destination.acquire();
@@ -323,7 +331,7 @@ public void wantsToEat(String mealChoice)
 
 public void goToStore()
 {
-	print("Going To the store to buy groceries");
+	log("Going To the store to buy groceries");
 	gui.DoLeave();
 	super.setInactive();
 	person.msgGoToMarket();
@@ -350,7 +358,7 @@ public void cookAMeal()
 	timer.schedule(new TimerTask() {
 		//Object cookie = 1;
 		public void run() {
-			print("Done cooking");
+			log("Done cooking");
 			//EatFood();
 			eState = eatingState.eating;
 			stateChanged();
@@ -374,7 +382,7 @@ public void EatFood()
 }
 	timer.schedule(new TimerTask() {
 		public void run() {
-			print("Done eating");
+			log("Done eating");
 			
 			eState = eatingState.washing;
 			stateChanged();
@@ -397,7 +405,7 @@ public void GoWashDishes()
 	
 	timer.schedule(new TimerTask() {
 		public void run() {
-			print("Done washing");
+			log("Done washing");
 			
 			eState = eatingState.nothing;
 			stateChanged();
