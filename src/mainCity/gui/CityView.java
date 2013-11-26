@@ -1,5 +1,6 @@
 package mainCity.gui;
 
+import housing.gui.ApartAnimationPanel;
 import housing.gui.HomeAnimationPanel;
 import housing.gui.HomePanel;
 
@@ -60,7 +61,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		}
 		for(int j=0; j<8; j++)
 		{
-			cards.put("apartment" +j, new HomeAnimationPanel(city));
+			cards.put("apartment" +j, new ApartAnimationPanel(city));
 
 		}
 		

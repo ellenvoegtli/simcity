@@ -17,7 +17,7 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	
 
 	    private final int WINDOWX = 950;
-	    private final int WINDOWY = 350;
+	    private final int WINDOWY = 550;
 	    
 	    private int applianceWidth = 20;
 	    private int applianceHeight = 15;
@@ -41,6 +41,8 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 		AptBuilding.add(Apt4);
 
 
+
+		
 */
 	    private List<Gui> guis = new ArrayList<Gui>();
 
