@@ -144,7 +144,7 @@ public class BankPanel extends JPanel {
         
 
 
-        bankmanager.startThread();
+        //bankmanager.startThread();
         
         //banker.msgGoToWork();
         //banker.startThread();
