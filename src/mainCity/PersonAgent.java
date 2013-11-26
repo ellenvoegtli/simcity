@@ -23,6 +23,8 @@ import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
+import mainCity.test.EventLog;
+import mainCity.test.LoggedEvent;
 import mainCity.market.*;
 import role.market.*;
 import transportation.BusAgent;
@@ -49,6 +51,8 @@ public class PersonAgent extends Agent {
 	private Map<ActionType, Role> roles;
 	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
+	
+	public EventLog log = new EventLog(); 
 	
 	public PersonAgent(String n) {
 		super();
@@ -112,6 +116,7 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		//traveling = false;
+		log.add(new LoggedEvent("msgArrivedAtDestination received")); 
 		gui.DoGoOutside();
 		state = PersonState.walkingFromBus;
 		stateChanged();
@@ -125,6 +130,7 @@ public class PersonAgent extends Agent {
 	
 	public void msgBusHasArrived() {
 		//print("msgBusHasArrived received");
+		log.add(new LoggedEvent("msgBusHasArrived received"));
 		state = PersonState.boardingBus;
 		stateChanged();
 	}

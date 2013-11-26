@@ -28,6 +28,8 @@ public class BusAgent extends Agent{
 			int DestinationX, DestinationY; 
 			private Semaphore atDestination = new Semaphore(0, true); 
 			
+			
+			
 			public BusAgent() { 
 			}
 			
@@ -98,7 +100,4 @@ public class BusAgent extends Agent{
 							
 }
 
-		//Bus Stop, how to handle multiple people with different destinations 
-		//When the bus arrives, call a message within all of the PersonAgents at the bus stop
-		//Bus stop class? Every time bus stop is altered, send message that changes the information within all busses regarding that stop
 
