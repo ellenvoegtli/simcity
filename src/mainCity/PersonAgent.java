@@ -286,6 +286,12 @@ public class PersonAgent extends Agent {
 						return true;
 					}
 				}
+				else if(customer instanceof DavidCustomerRole){
+					if(!((DavidCustomerRole) customer).getGui().goInside()){
+						chooseRestaurant(); 
+						return true;
+					}
+				}
 				
 				customer.setActive();
 
@@ -713,6 +719,9 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
+		
+		destination = CityLocation.restaurant_david;
+		/*
 		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -732,6 +741,7 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
+		*/
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);

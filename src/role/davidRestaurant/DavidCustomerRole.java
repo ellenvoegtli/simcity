@@ -225,13 +225,14 @@ public class DavidCustomerRole extends Role implements Customer {
 			
 			if (state == AgentState.ExitingRestaurant && event == AgentEvent.doneLeaving){
 				state = AgentState.DoingNothing;
-				//no action
+				super.setInactive();
 				return true;
 			}
 			
 			if (state == AgentState.OutOfFood){ 
 				state = AgentState.DoingNothing;
 				LeaveWithoutOrdering();
+				super.setInactive();
 			}
 			return false;
 		}
@@ -512,6 +513,13 @@ public class DavidCustomerRole extends Role implements Customer {
 	
 	public void setMoral(){
 		morallyUpright = false;
+	}
+
+	public boolean restaurantOpen() {
+		if(host != null && host.isActive() && host.isOpen()){ 
+			return true;
+		}
+		return false;
 	}
 
 	

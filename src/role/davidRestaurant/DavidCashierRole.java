@@ -319,6 +319,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	}
 
 	public void msgGoOffDuty(double d) {
+		print("David Cashier going off duty...");
 		addToCash(d); 
 		onDuty = false;
 		stateChanged();
