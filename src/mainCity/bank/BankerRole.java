@@ -139,10 +139,7 @@ public class BankerRole extends Role implements WorkerRole {
 		double temp =ba.getNumberOfAccounts();
 		ba.addAccount(mc.mcname, mc.amount, mc.p, temp);
 		mc.bc.msgAccountCreated(temp);
-		if(mc.bc.getBankbalance()< 50){
-			processLoan(mc);
-			return;
-		}
+		
 		mc.bc.msgRequestComplete(mc.amount*-1, mc.amount);
 		mc=null;
 	}

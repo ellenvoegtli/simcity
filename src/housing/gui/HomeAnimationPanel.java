@@ -123,7 +123,9 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		        g2.setColor(Color.darkGray);       
 		        g2.fillRect(65 ,10, 25, 10);
 	     }
-	        for(Gui gui : guis) {
+	        
+	     
+	     for(Gui gui : guis) {
 	            if (gui.isPresent()) {
 	                gui.updatePosition();
 	            }
@@ -138,10 +140,13 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 
 	    public void addGui(LandlordGui gui) 
 	    {
+	    	System.out.println("gui added to window???");
 	        guis.add(gui);
 	    }
 	    public void addGui(OccupantGui gui)
 	    {
+	    	System.out.println("gui added to window???");
+
 	    	guis.add(gui);
 	    }
 

@@ -35,7 +35,7 @@ public class BankTellerRole extends Role implements WorkerRole {
 		this.p=p;
 		this.name=name;
 		Do("Bank Teller initiated");
-		onDuty=false;
+		onDuty=true;
 	}
 	
 	public void setBankAccounts(BankAccounts ba){
@@ -84,7 +84,7 @@ public class BankTellerRole extends Role implements WorkerRole {
 		if(onDuty){
 			
 			doGoToWork();
-			return true;
+			
 		}
 		
 		
@@ -180,6 +180,7 @@ public class BankTellerRole extends Role implements WorkerRole {
 	}
 	
 	public void setGui(BankTellerGui gui){
+		//Do("gui set");
 		this.btGui=gui;
 	}
 

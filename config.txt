@@ -1,3 +1,8 @@
+-Bank stuff
+-Name:JBankManager;Cash:100;Renter:false;Occupation:bankManager;ShiftBegin:7;ShiftEnd:19;Actions:work
+-Name:JTeller;Cash:100;Renter:false;Occupation:bankTeller;ShiftBegin:7;ShiftEnd:19;Actions:work
+-Name:JBanker;Cash:100;Renter:false;Occupation:banker;ShiftBegin:7;ShiftEnd:19;Actions:work
+-Name:Personm;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:bank
 -Marcus Restaurant
 -Name:marcuswaiter;Cash:100;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Name:marcuscook;Cash:60;Renter:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work,restaurant

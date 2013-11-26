@@ -9,7 +9,7 @@ import mainCity.bank.BankTellerRole;
 import mainCity.gui.Gui;
 
 public class BankTellerGui implements Gui {
-	private BankTellerRole bankteller = null;
+	private BankTellerRole bankteller;
     //BankGui gui;
 	Graphics2D g2;
 	
@@ -35,6 +35,7 @@ public class BankTellerGui implements Gui {
     public boolean atOrigin= true;
    
     public BankTellerGui(BankTellerRole bankteller) {
+    	//System.out.println("teller instantiated in file");
         this.bankteller = bankteller;
         //this.gui=gui;
     }

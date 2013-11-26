@@ -2,6 +2,8 @@ package role.davidRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Waiter;
 
@@ -97,11 +99,16 @@ public class DavidWaiterRole extends Role implements Waiter {
 	public void setCashier(DavidCashierRole c){
 		cashierAgent = c;
 	}
+
+	public void log(String s) { 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this. getName(), s); 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_WAITER, this.getName(), s);
+	}
 	
 /*   Messages   */
 	
 	public void msgSeatCustomer(DavidCustomerRole cust, Table table) { 
-		print("msgSeatCustomer() called"); 
+		log("msgSeatCustomer() called"); 
 		myCustomer newCustomer = new myCustomer();
 		newCustomer.c = cust; 
 		newCustomer.t = table;
@@ -111,7 +118,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 	
 	public void msgReadyToOrder(DavidCustomerRole c) {
-		print("msgReadyToOrder() called");
+		log("msgReadyToOrder() called");
 		for(myCustomer customer : customerList){ 
 			if(c == customer.c){ 
 				customer.custState = CustomerStates.ReadyToOrder; 
@@ -122,10 +129,10 @@ public class DavidWaiterRole extends Role implements Waiter {
 	
 	
 	public void msgHeresMyOrder(DavidCustomerRole c, String o){ 
-		print("msgHeresMyOrder() called"); 
+		log("msgHeresMyOrder() called"); 
 		for(myCustomer customer : customerList){ 
 			if(c == customer.c){ 
-				print("Current Order " + o);
+				log("Current Order " + o);
 				customer.orderChoice = o; 
 				customer.custState = CustomerStates.Ordered; 
 			}
@@ -134,7 +141,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 	
 	public void msgOrderIsReady(myCustomer c, Order o){
-		print("msgOrderIsReady() called"); 
+		log("msgOrderIsReady() called"); 
 		c.custState = CustomerStates.OrderIsReady; 
 		currentOrder = o;
 		orderChoice = o.Choice;
@@ -184,7 +191,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 	
 	public void msgAtCashier(){ 
-		print ("msgAtCashier called"); 
+		log ("msgAtCashier called"); 
 		if(atCashier.availablePermits() < 1) { 
 			atCashier.release(); 
 			stateChanged();
@@ -192,7 +199,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 	
 	public void msgCustomerLeaving(DavidCustomerRole c) {
-		//print ("msgCustomerLeaving() called"); 
+		//log ("msgCustomerLeaving() called"); 
 		for(myCustomer customer : customerList){ 
 			if(c == customer.c){
 				customer.custState = CustomerStates.Leaving; 
@@ -202,7 +209,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 	
 	public void msgAtTable() {  //from animation
-		print("msgAtTable() called");
+		log("msgAtTable() called");
 		if(atTable.availablePermits() < 1){
 			atTable.release();// = true;
 			stateChanged();
@@ -210,7 +217,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 	
 	public void msgHostFree() {
-		print("msgHostFree() called");
+		log("msgHostFree() called");
 		if(hostFree.availablePermits() < 1) {
 			hostFree.release();
 			stateChanged();
@@ -225,26 +232,26 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 
 	public void msgAskForBreak(){
-		print("msgAskForBreak called"); 
+		log("msgAskForBreak called"); 
 		wState = WaiterStates.AskForBreak;
 		setRequestingBreak(false);
 		stateChanged();
 	}
 	
 	public void msgOffBreak() {
-		print("msgOffBreak called"); 
+		log("msgOffBreak called"); 
 		wState = WaiterStates.ComingOffBreak;
 		stateChanged();
 	}
 	
 	public void msgBreakGranted() { 
-		print("msgBreakGranted called");
+		log("msgBreakGranted called");
 		wState = WaiterStates.breakGranted;
 		stateChanged();
 	}
 	
 	public void msgBreakDenied() {
-		print("msgBreakDenied called");
+		log("msgBreakDenied called");
 		wState = WaiterStates.breakDenied;
 		stateChanged();
 	}
@@ -390,8 +397,8 @@ public class DavidWaiterRole extends Role implements Waiter {
 	private void DoSeatCustomer(DavidCustomerRole customer, Table table) {
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"
-		print("Seating " + customer + " at " + table);
-		print("table x: " + table.getX() + " table y: " + table.getY());
+		log("Seating " + customer + " at " + table);
+		log("table x: " + table.getX() + " table y: " + table.getY());
 		waiterGui.DoBringToTable(customer, table.getX(), table.getY());  
 
 	}
@@ -463,12 +470,12 @@ public class DavidWaiterRole extends Role implements Waiter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		print("cashier present?" + cashierAgent.name);
+		log("cashier present?" + cashierAgent.name);
 		cashierAgent.msgHeresACheck(this, customer.orderChoice, customer.t.tableNumber);
 	}
 	
 	private void DeliverCheck(myCustomer customer) { 
-		print("Delivering Check");
+		log("Delivering Check");
 		hostFree.tryAcquire(); 
 		waiterGui.DoBringToTable(customer.c, customer.t.getX(), customer.t.getY());
 		try {
@@ -510,7 +517,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 	
 	private void breakGranted() { 
-		print("break granted"); 
+		log("break granted"); 
 		wState = WaiterStates.onBreak;
 		setOnBreak(true);
 		setRequestingBreak(true); 
@@ -518,7 +525,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 	
 	private void breakDenied() { 
-		print("break denied");
+		log("break denied");
 		//restGui.deselectBreakCB();
 		wState = WaiterStates.notOnBreak;
 		setOnBreak(false);
