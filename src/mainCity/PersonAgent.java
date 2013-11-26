@@ -18,6 +18,7 @@ import mainCity.contactList.ContactList;
 import mainCity.gui.*;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
+import mainCity.interfaces.PersonGuiInterface;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.market.*;
@@ -25,11 +26,11 @@ import role.market.*;
 import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
-	private enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
-	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
+	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
+	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
 	
-	private PersonGui gui;
+	private PersonGuiInterface gui;
 	private String name;
 	private double cash;
 	private double accountnumber;
@@ -63,7 +64,7 @@ public class PersonAgent extends Agent {
 		currentAction = null;
 	}
 	
-	public void setGui(PersonGui g) {
+	public void setGui(PersonGuiInterface g) {
 		this.gui = g;
 	}
 	
@@ -921,6 +922,28 @@ public class PersonAgent extends Agent {
 		this.accountnumber = accountnumber;
 	}
 	
+	//---Used for Unit Testing---//
+	public Map<ActionType, Role> getRoles() {
+		return roles;
+	}
+	
+	public PriorityBlockingQueue<Action> getActions() {
+		return actions;
+	}
+	
+	public Action getCurrentAction() {
+		return currentAction;
+	}
+	
+	public void setEvent(PersonEvent e) {
+		event = e;
+	}
+	
+	public PersonState getState() {
+		return state;
+	}
+	//---      ---//
+	
 	public void setHomePlace(boolean renter)
 	{
 		if(renter)
@@ -962,12 +985,12 @@ public class PersonAgent extends Agent {
 	//Lower the priority level, the more "important" it is (it'll get done faster)
 	private enum ActionState {created, inProgress, done}
 	public enum ActionType {work, maintenance, hungry, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
-	class Action implements Comparable<Object> {
-		ActionState state;
-		ActionType type;
-		int priority;
+	public class Action implements Comparable<Object> {
+		public ActionState state;
+		public ActionType type;
+		public int priority;
 		
-		Action(ActionType t, int p) {
+		public Action(ActionType t, int p) {
 			this.state = ActionState.created;
 			this.type = t;
 			this.priority = p;
