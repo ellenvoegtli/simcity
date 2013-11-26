@@ -810,9 +810,10 @@ public class PersonAgent extends Agent {
 		}
 		else if(job.occupation.contains("jefferson")){
 			destination =CityLocation.restaurant_jefferson;
-			
 		}
-		
+		else if(job.occupation.contains("david")){ 
+			destination =CityLocation.restaurant_david;
+		}
 		travelToLocation(destination);
 		event = PersonEvent.arrivedAtWork;
 		stateChanged();
