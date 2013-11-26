@@ -18,6 +18,13 @@ public class CityCard extends JPanel {
 		//background = Color.green;
 	}
 	
+	public CityCard(CityGui city, double i) {
+		super();
+		this.setPreferredSize(new Dimension((int) (CARD_WIDTH * i), (int) ( CARD_HEIGHT * i)));
+		this.setVisible(true);
+		//addMouseListener(this);
+		//background = Color.green;
+	}
 	public CityCard(CityGui city, Color c) {
 		super();
 		this.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));

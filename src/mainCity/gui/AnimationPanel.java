@@ -53,7 +53,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
    
    //list to hold apartments in a single apartment building
    
-   static List<Integer> Apt = new ArrayList<Integer>();
+   public static List<Integer> Apt = new ArrayList<Integer>();
     
     //Road Data
     ArrayList<Lane> lanes;
