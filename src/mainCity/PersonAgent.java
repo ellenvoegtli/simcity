@@ -737,8 +737,8 @@ public class PersonAgent extends Agent {
 
 	private void chooseRestaurant() {
 		
-		destination = CityLocation.restaurant_david;
-		/*
+		//destination = CityLocation.restaurant_david;
+		
 		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -758,7 +758,7 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
-		*/
+		
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
@@ -767,9 +767,8 @@ public class PersonAgent extends Agent {
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
-		currentAction.type = ActionType.home;
 		handleAction(currentAction.type);
-		/*boolean temp = true;
+		boolean temp = true;
 		
 		if(temp) { //chose restaurant
 			output("Chose to eat at a restaurant");
@@ -787,7 +786,7 @@ public class PersonAgent extends Agent {
 				currentAction.type = ActionType.home;
 				handleAction(currentAction.type);
 			}
-		}*/
+		}
 
 		stateChanged();
 	}
