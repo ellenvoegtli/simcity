@@ -10,7 +10,7 @@ import mainCity.gui.Gui;
 
 public class BankTellerGui implements Gui {
 	private BankTellerRole bankteller = null;
-    BankGui gui;
+    //BankGui gui;
 	Graphics2D g2;
 	
 	
@@ -34,9 +34,9 @@ public class BankTellerGui implements Gui {
     int t;
     public boolean atOrigin= true;
    
-    public BankTellerGui(BankTellerRole bankteller, BankGui gui) {
+    public BankTellerGui(BankTellerRole bankteller) {
         this.bankteller = bankteller;
-        this.gui=gui;
+        //this.gui=gui;
     }
 
     public void setOrigin( int x, int y){
