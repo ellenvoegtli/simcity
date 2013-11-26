@@ -20,6 +20,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankerRole;
 import mainCity.contactList.ContactList;
 import mainCity.gui.AnimationPanel;
 import mainCity.gui.Building;
@@ -430,6 +431,13 @@ public class PersonAgent extends Agent {
 			switch(action) {
 				case work:
 					switch(job.occupation) {
+						//TODO add scenario for bank
+						case "banker":
+							BankerRole bk = new BankerRole(this, name);
+							ContactList.getInstance().getBank().handleRole(bk);
+							roles.put(action, bk);
+							break;
+						
 						//-----Jefferson Restaurant Roles---//
 						case "jeffersonCook":
 							JeffersonCookRole jc = new JeffersonCookRole(this, name);
@@ -629,7 +637,7 @@ public class PersonAgent extends Agent {
 						break;
 					}
 					BankCustomerRole bc = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc);
+					ContactList.getInstance().getBank().handleRole(bc);
 					roles.put(action, bc);
 					break;
 				
@@ -638,7 +646,7 @@ public class PersonAgent extends Agent {
 						break;
 					}
 					BankCustomerRole bc1 = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc1);
+					ContactList.getInstance().getBank().handleRole(bc1);
 					roles.put(action, bc1);
 					break;
 				
@@ -647,7 +655,7 @@ public class PersonAgent extends Agent {
 						break;
 					}
 					BankCustomerRole bc2 = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc2);
+					ContactList.getInstance().getBank().handleRole(bc2);
 					roles.put(action, bc2);
 					break;	
 				default:
@@ -674,7 +682,11 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
+				event = PersonEvent.needToBank;
+				break;
 			case bankDeposit:
+				event = PersonEvent.needToBank;
+				break;
 			case bankLoan: 
 				event = PersonEvent.needToBank;
 				break;
