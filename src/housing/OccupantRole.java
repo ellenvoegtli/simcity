@@ -93,6 +93,11 @@ public void gotHungry()
 	stateChanged();
 }
 
+public void applianceBroke(String app)
+{
+	
+}
+
 /*public void msgNeedsMaintenance(String appName)
 {
 	needsWork.add(appName);

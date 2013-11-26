@@ -19,6 +19,8 @@ import role.davidRestaurant.DavidWaiterRole.myCustomer;
 import role.market.MarketDeliveryManRole;
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cashier;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Market;
@@ -84,11 +86,15 @@ public class DavidCashierRole extends Role implements Cashier {
 	public double Payment;
 	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, done, oweMoney};
 	
+	public void log(String s) { 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this. getName(), s); 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_CASHIER, this.getName(), s);
+	}
 	
 /*   Messages   */ 
 	
 	public void msgHeresACheck(Waiter w, String order, int tableNumber) {
-		print("msgHeresACheck called");
+		log("msgHeresACheck called");
 		log.add(new LoggedEvent("Recieved check from waiter."));
 		CashierFree = false;
 		double price = 0; 
@@ -103,7 +109,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	}
 	
 	public void msgHeresMyPayment(Customer c, double custPayment, int tableNumber){
-		print("Recieved Payment from Customer of " + custPayment);
+		log("Recieved Payment from Customer of " + custPayment);
 		for(int i=0; i<checkList.size(); i++){ 
 			if(checkList.get(i).tableNum == tableNumber){ 
 				checkList.get(i).checkState = CheckState.recievedPayment; 
@@ -116,14 +122,14 @@ public class DavidCashierRole extends Role implements Cashier {
 	}
 	
 	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, MarketDeliveryManRole d){
-		print("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
+		log("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
 		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
 		stateChanged();
 	}
 	
 	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
 		// TODO Auto-generated method stub
-		print("Received msgHereIsChange");
+		log("Received msgHereIsChange");
 		MarketBill b = null;
 		synchronized(marketBills){
 			for (MarketBill thisMB : marketBills){
@@ -198,7 +204,7 @@ public class DavidCashierRole extends Role implements Cashier {
 /*   Actions   */
 	
 	private void handleCheck(Check c){
-		print("Done calculating bill");
+		log("Done calculating bill");
 		c.checkState = CheckState.handledCheck;
 		c.waiterAgent.msgBringCheckToCustomer(c.Price, c.tableNum);
 		stateChanged();
@@ -206,20 +212,20 @@ public class DavidCashierRole extends Role implements Cashier {
 	}
 	
 	private void handlePayment(Check c){ 
-		print("Handling payment..");
+		log("Handling payment..");
 		c.checkState = CheckState.handledCheck;
 		for(int i=0; i<customers.size(); i++){
 			if(customers.get(i).getTableNum() == c.tableNum){
 				if(Payment == 0){
-					print("You don't have enough money, adding to your tab"); 
+					log("You don't have enough money, adding to your tab"); 
 					customers.get(i).msgHeresYourChange(change);
 					stateChanged();
 				}
 				else { 
-					print("Calculating Change");
+					log("Calculating Change");
 					change = Payment -= c.Price; 
 					Money = Money - change;
-					print("Here's your change: " + change); 
+					log("Here's your change: " + change); 
 					customers.get(i).msgHeresYourChange(change);
 					stateChanged();
 				}
@@ -228,7 +234,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	}
 	
 	private void handleMarketBill(MarketBill b) { 
-		print("Handling Market Bill for market ");
+		log("Handling Market Bill for market ");
 		log.add(new LoggedEvent("Handling market bill"));
 		cashierState = CashierState.handledMarketBill;
 		if(Money > b.billAmount){ 
@@ -319,7 +325,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	}
 
 	public void msgGoOffDuty(double d) {
-		print("David Cashier going off duty...");
+		log("David Cashier going off duty...");
 		addToCash(d); 
 		onDuty = false;
 		stateChanged();
