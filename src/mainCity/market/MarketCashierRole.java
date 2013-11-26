@@ -54,13 +54,6 @@ public class MarketCashierRole extends Role implements Cashier {
 	
 	// Messages
 	
-	//customer
-	public void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e){
-		bills.add(new Bill(inventory, c, BillState.computing, e));
-		log(e.getName() + ", received msgComputeBill for " + c.getName());
-		stateChanged();
-	}
-	
 	//business
 	public void msgComputeBill(Map<String, Integer> inventory, String name, Employee e){
 		log("Received msgComputeBill for " + name);		
@@ -68,6 +61,13 @@ public class MarketCashierRole extends Role implements Cashier {
 		stateChanged();
 	}
 	
+	
+	//customer
+	public void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e){
+		bills.add(new Bill(inventory, c, BillState.computing, e));
+		log(e.getName() + ", received msgComputeBill for " + c.getName());
+		stateChanged();
+	}
 	public void msgHereIsPayment(double amount, Customer cust){
 		log("Received msgHereIsPayment: got $" + amount);
 		Bill b = null;
@@ -83,7 +83,6 @@ public class MarketCashierRole extends Role implements Cashier {
 		b.s = BillState.calculatingChange;
 		stateChanged();
 	}
-	
 	public void msgPleaseRecalculateBill(Customer cust){
 		log("Received msgPleaseRecalculateBill from " + cust.getName());
 		Bill b = null;
@@ -98,7 +97,6 @@ public class MarketCashierRole extends Role implements Cashier {
 		b.s = BillState.recomputingBill;
 		stateChanged();
 	}
-	
 	public void msgChangeVerified(Customer cust){
 		log("Received msgChangeVerified from " + cust.getName());
 		Bill b = null;
@@ -114,13 +112,14 @@ public class MarketCashierRole extends Role implements Cashier {
 		availableMoney += b.amountMarketGets;
 		bills.remove(b);
 	}
-	
 	public void msgHereIsMoneyIOwe(Customer cust, double amount){
 		log("Received msgHereIsMoneyIOwe from " + cust.getName() + ": $" + amount);
 		availableMoney += amount;
 	}
 	
 
+	
+	
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	public boolean pickAndExecuteAnAction() {
@@ -159,6 +158,8 @@ public class MarketCashierRole extends Role implements Cashier {
 	}
 	
 
+	
+	
 	// Actions
 	
 	public void ComputeBill(final Bill b){
@@ -169,11 +170,14 @@ public class MarketCashierRole extends Role implements Cashier {
 		}
 		b.amountCharged = Math.round(dollars * 100.0)/100.0;
 		
-		if (b.c == null)
+		if (b.c == null){
 			b.e.msgHereIsBill(b.restaurantName, b.amountCharged);
-		else
+			bills.remove(b);		//employee hands it off to deliveryMan, it's handled there
+		}
+		else {
 			b.e.msgHereIsBill(b.c, b.amountCharged);
-		b.s = BillState.waitingForPayment;
+			b.s = BillState.waitingForPayment;
+		}
 
 	}
 	
@@ -266,6 +270,9 @@ public class MarketCashierRole extends Role implements Cashier {
 		}
 		public double getAmountPaid(){
 			return amountPaid;
+		}
+		public String getRestaurant(){
+			return restaurantName;
 		}
 	}
 
