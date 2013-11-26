@@ -152,7 +152,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 
 	public void msgGoOffDuty(double amount) {
 		addToCash(amount);
-		System.out.println("go off duty called");
+		//System.out.println("go off duty called");
 		onDuty = false;
 		stateChanged();
 	}

@@ -628,29 +628,9 @@ public class PersonAgent extends Agent {
 					BankCustomerRole bc = new BankCustomerRole(this, name);
 					ContactList.getInstance().getBank().handleRole(bc);
 					roles.put(action, bc);
-<<<<<<< HEAD
-					break;
-				
-				case bankDeposit:
-					if(roles.containsKey("bankWithdraw")||roles.containsKey("bankLoan")){
-						break;
-					}
-					BankCustomerRole bc1 = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRole(bc1);
-					roles.put(action, bc1);
-					break;
-				
-				case bankLoan:
-					if(roles.containsKey("bankWithdraw")||roles.containsKey("bankDeposit")){
-						break;
-					}
-					BankCustomerRole bc2 = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRole(bc2);
-					roles.put(action, bc2);
-					break;	
-=======
+
 					break;				
->>>>>>> 0dc995527cf318edb1304c42f3cab092f7795beb
+
 				default:
 					break;
 			}
