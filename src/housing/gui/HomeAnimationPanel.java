@@ -72,15 +72,15 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 
 	        //Here is the table
 	        g2.setColor(Color.BLACK);       
-	        g2.fillRect(200 ,25, applianceWidth, applianceHeight);
 	        
+	        g2.fillRect(200 ,25, applianceWidth, applianceHeight);
 	        g2.drawString("stove", 200, 20);
+	        
 	        g2.fillRect(250, 25, applianceWidth, applianceHeight);//200 and 250 need to be table params
 	        g2.drawString("sink", 250, 20);
 
 	        
 	        g2.fillRect(300,  25,  applianceWidth,  applianceHeight);
-
 	        g2.drawString("fridge", 300, 20);
 	        
 	        g2.setColor(Color.ORANGE);       
@@ -102,7 +102,8 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		        g2.fillRect(0, 0, 540, 380 );
 
 		        //Here is the table
-		        g2.setColor(Color.BLACK);       
+		        g2.setColor(Color.BLACK); 
+		        
 		        g2.fillRect(350 ,15, applianceWidth, applianceHeight);
 		        g2.drawString("stove", 350, 15);
 		       

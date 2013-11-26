@@ -58,30 +58,21 @@ public void msgAtDestination()
 }
 	
 	
-<<<<<<< HEAD
 public OccupantRole(PersonAgent p, String personNm) 
-=======
-public OccupantRole(PersonAgent p, String personNm, boolean owner) 
->>>>>>> eb1957f8e42a3fb60eb849f62a6eb23859650f00
 {
 	super(p);
 	this.name = personNm;
 
-	/*if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
+	if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
 	{
 		owner = false;
 		rent = 850;
-	}*/
-	//this.owner = owner;
-	if(owner == false)
-	{
-		rent = 850;
-		//what else needs to happen if he rents the house
 	}
-	if(owner == true)
+	if(AnimationPanel.houses.containsKey(p.getHomePlace()))
 	{
-		//what happens if he owns the house
+		owner = true;
 	}
+	
 	
 }
 
@@ -228,6 +219,7 @@ private void checkMaintenance()
 
 public void PayRent()
 {
+	print("pay the owner rent money");
 	//timer to run for a reasonable amount of time to make rent due, a "week?"
 	//bank.DirectDeposit(owner.id, rent);
 }
@@ -257,6 +249,7 @@ public void fixAppliance(String app)
 {
 	int xPos = 0;
 	int yPos = 0;
+		
 	for (Appliance appl : home.Appliances)
 	{
 		if(appl.appliance.equals(app))
