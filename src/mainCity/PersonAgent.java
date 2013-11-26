@@ -314,9 +314,7 @@ public class PersonAgent extends Agent {
 					Role bankCustomer = roles.get(ActionType.bankLoan);
 					((BankCustomerRole) bankCustomer).msgNeedLoan();
 				}
-				
-				
-				
+
 				if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
 					currentAction.state = ActionState.done;
 				}
@@ -384,7 +382,6 @@ public class PersonAgent extends Agent {
 		}
 		
 		return false;
-
 	}
 
 	
@@ -442,9 +439,6 @@ public class PersonAgent extends Agent {
 							ContactList.getInstance().getJeffersonRestaurant().handleRole(jh);
 							roles.put(action, jh);
 							break;
-							
-							
-						
 						//-----Marcus Restaurant Roles---//
 						case "marcusCook":
 							MarcusCookRole mco = new MarcusCookRole(this, name);
@@ -616,31 +610,15 @@ public class PersonAgent extends Agent {
 					break;
 					
 				case bankWithdraw:
-					if(roles.containsKey("bankDeposit")||roles.containsKey("bankLoan")){
-						break;
+				case bankDeposit:
+				case bankLoan:
+					if(roles.containsKey("bankDeposit") || roles.containsKey("bankLoan") || roles.containsKey("bankWithdraw")){
+						return;
 					}
 					BankCustomerRole bc = new BankCustomerRole(this, name);
 					ContactList.getInstance().getBank().handleRoleGui(bc);
 					roles.put(action, bc);
-					break;
-				
-				case bankDeposit:
-					if(roles.containsKey("bankWithdraw")||roles.containsKey("bankLoan")){
-						break;
-					}
-					BankCustomerRole bc1 = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc1);
-					roles.put(action, bc1);
-					break;
-				
-				case bankLoan:
-					if(roles.containsKey("bankWithdraw")||roles.containsKey("bankDeposit")){
-						break;
-					}
-					BankCustomerRole bc2 = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc2);
-					roles.put(action, bc2);
-					break;	
+					break;				
 				default:
 					break;
 			}
@@ -669,7 +647,7 @@ public class PersonAgent extends Agent {
 			case bankLoan: 
 				event = PersonEvent.needToBank;
 				break;
-			default://If can't find anything or if home. go home
+			default:
 				event = PersonEvent.goHome;
 				break;
 		}
@@ -681,7 +659,7 @@ public class PersonAgent extends Agent {
 		traveling = true;
 		this.destination = d;
 		
-		boolean walk = false;//(60 > ((int) (Math.random() * 100)));
+		boolean walk = (60 > ((int) (Math.random() * 100)));
 
 		if(walk || state == PersonState.walkingFromBus) { //chose to walk
 			output(name + " is walking to " + d);
@@ -713,9 +691,6 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		
-		destination = CityLocation.restaurant_marcus;
-		/*
 		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -735,7 +710,6 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
-		*/
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
@@ -744,9 +718,6 @@ public class PersonAgent extends Agent {
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
-		
-		//currentAction.type = ActionType.home;
-		//handleAction(currentAction.type);
 		
 		boolean temp = true;
 		
