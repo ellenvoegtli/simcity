@@ -8,6 +8,10 @@ import mainCity.market.MarketEmployeeRole;
 public interface Customer {
 	//public abstract void 
 	//all MESSAGE method stubs
+	public abstract void msgAnimationFinishedGoToCashier();
+	public abstract void msgAnimationFinishedLeaveRestaurant();
+	public abstract boolean restaurantOpen();
+	
 	
 	public abstract String getName();
 	public abstract void goGetInventory(Map<String, Integer> inventoryNeeded);
