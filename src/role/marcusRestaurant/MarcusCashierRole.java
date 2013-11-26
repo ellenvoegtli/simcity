@@ -113,6 +113,10 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		stateChanged();
 	}
 	
+	public void msgNotEnoughMoney(double amountOwed, double amountPaid) {		
+		output("I paid $" + amountPaid + " to the delivery man. I still owe $" + amountOwed);
+	}
+	
 	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
 		output("Received change of $" + amount);
 		cash += amount;
@@ -159,7 +163,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		
 		if(b.bill > cash) {
 			output("Uh oh! We don't have enough money to pay the delivery person. Sending what we have and an IOU");
-			//b.market.msgHereIsPayment(this, cash);
+			b.deliveryPerson.msgHereIsPayment(cash, "marcusRestaurant");
 			cash = 0;
 		}
 		else {
