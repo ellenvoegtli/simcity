@@ -2,8 +2,10 @@ package mainCity.restaurants.restaurant_zhangdt.gui;
 
 import role.davidRestaurant.*;
 
-
 import java.awt.*;
+
+import role.davidRestaurant.DavidCustomerRole;
+import role.davidRestaurant.DavidWaiterRole;
 
 public class CustomerGui implements Gui{
 

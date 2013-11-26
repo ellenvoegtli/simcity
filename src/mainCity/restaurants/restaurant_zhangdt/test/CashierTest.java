@@ -1,8 +1,10 @@
 package mainCity.restaurants.restaurant_zhangdt.test;
 
 import role.davidRestaurant.DavidCashierRole;
+import role.davidRestaurant.DavidWaiterRole;
+import role.davidRestaurant.DavidCashierRole.CashierState;
+import role.davidRestaurant.DavidCashierRole.CheckState;
 import role.davidRestaurant.DavidCashierRole.*;
-
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockCashier;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockCustomer;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockMarket;

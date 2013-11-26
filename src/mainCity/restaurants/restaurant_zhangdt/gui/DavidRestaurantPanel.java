@@ -8,6 +8,12 @@ import role.davidRestaurant.*;
 import javax.swing.*;
 
 import role.Role;
+import role.davidRestaurant.DavidCashierRole;
+import role.davidRestaurant.DavidCookRole;
+import role.davidRestaurant.DavidCustomerRole;
+import role.davidRestaurant.DavidHostRole;
+import role.davidRestaurant.DavidMarketRole;
+import role.davidRestaurant.DavidWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;

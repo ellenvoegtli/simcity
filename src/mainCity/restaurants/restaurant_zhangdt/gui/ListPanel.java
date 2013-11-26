@@ -4,6 +4,9 @@ import role.davidRestaurant.*;
 
 import javax.swing.*;
 
+import role.davidRestaurant.DavidCustomerRole;
+import role.davidRestaurant.DavidWaiterRole;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;

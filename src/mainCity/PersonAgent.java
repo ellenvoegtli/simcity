@@ -22,6 +22,7 @@ import mainCity.restaurants.enaRestaurant.*;
 
 import mainCity.market.*;
 import role.market.*;
+import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
@@ -34,6 +35,7 @@ public class PersonAgent extends Agent {
 	private double accountnumber;
 	private boolean traveling;
 	private boolean onBreak;
+	private BusAgent currentBus; 
 	private Building homePlace;
 	private int time;
 	private Job job;
@@ -663,6 +665,8 @@ public class PersonAgent extends Agent {
 
 		if(walk || state == PersonState.walkingFromBus) { //chose to walk
 			output(name + " is walking to " + d);
+			currentBus.Passengers.remove(this);
+			currentBus = null; 
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -812,6 +816,7 @@ public class PersonAgent extends Agent {
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+					currentBus = ContactList.stops.get(i).currentBus; 
 					ContactList.stops.get(i).LeavingBusStop(this);
 					gui.DoGoInside();
 					gui.DoGoToLocationOnBus(destination);	
