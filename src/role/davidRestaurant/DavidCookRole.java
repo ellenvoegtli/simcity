@@ -24,6 +24,8 @@ public class DavidCookRole extends Role implements Cook{
 	private String name; 
 	Timer cookTimer = new Timer(); 
 	
+	boolean onDuty;
+	
 	enum CookStatus
 	{none, Opening, sendingOrder, Checked, massOrderReady, recievedOrder, NoFood, ordering} 
 	CookStatus cstate = CookStatus.Opening; 
@@ -89,7 +91,7 @@ public class DavidCookRole extends Role implements Cook{
 	//Constructor
 	public DavidCookRole(String name, PersonAgent p) { 
 		super(p); 
-		
+		onDuty = true;
 		this.name = name; 
 		
 		menu.add("Steak");
@@ -173,6 +175,12 @@ public class DavidCookRole extends Role implements Cook{
 			atGrill.release(); 
 			stateChanged();
 		}
+	}
+	
+	public void msgGoOffDuty(double d) {
+		addToCash(d); 
+		onDuty = false; 
+		stateChanged();
 	}
 	
 

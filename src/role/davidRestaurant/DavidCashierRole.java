@@ -46,6 +46,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	public boolean PaidMarket = true;
 	public int MarketNumber;
 	List<Market> marketAgent = new ArrayList<Market>();
+	boolean onDuty;
 	
 	public EventLog log = new EventLog();
 	
@@ -53,6 +54,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	public DavidCashierRole(String name, PersonAgent p) { 
 		super(p); 
 		this.name = name; 
+		onDuty = true;
 	}
 	
 	public enum CheckState
@@ -259,6 +261,16 @@ public class DavidCashierRole extends Role implements Cashier {
 
 	public void setHost(DavidHostRole host) {
 		this.host = host;
+	}
+
+	public void msgGoOffDuty(double d) {
+		addToCash(d); 
+		onDuty = false;
+		stateChanged();
+	}
+
+	public void deductCash(double payroll) {
+		Money -= payroll;
 	}
 }
 
