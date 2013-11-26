@@ -62,7 +62,6 @@ public OccupantRole(PersonAgent p, String personNm)
 {
 	super(p);
 	this.name = personNm;
-	print("##############");
 
 	if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
 	{
@@ -93,10 +92,27 @@ public void gotHungry()
 	stateChanged();
 }
 
-public void applianceBroke(String app)
+/*public void applianceBroke()
 {
+	System.out.println("user set appliance to broken");
+	String appln = "sink";
+	switch((int) (Math.random() * 4)) {
+	case 0:
+		appln = "TV";		
+		break;
+	case 1:
+		appln = "sink";
+		break;
+	case 2:
+		appln = "fridge";
+		break;
+	case 3:
+		appln = "stove";
+		break;
+	}
+	needsWork.add(appln);
 	
-}
+}*/
 
 /*public void msgNeedsMaintenance(String appName)
 {
@@ -149,7 +165,7 @@ public boolean pickAndExecuteAnAction()
 	}*/
 
 	
-	if(needsWork.isEmpty() && fState == fixState.nothing )
+	if(needsWork.isEmpty() && fState == fixState.nothing && eState != eatingState.hungry )
 	{
 		checkMaintenance();
 		return true;
