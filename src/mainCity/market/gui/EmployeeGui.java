@@ -72,7 +72,9 @@ public class EmployeeGui implements Gui, EmployeeGuiInterface {
     
     public void setHomePosition(int x, int y){
     	this.homeX = x;
+    	agent.setHomeX(x);
     	this.homeY = y;
+    	agent.setHomeY(y);
     }
 
     public void updatePosition() {

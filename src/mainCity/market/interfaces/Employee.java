@@ -13,6 +13,8 @@ public interface Employee {
 	//public abstract void 
 	//all MESSAGE method stubs
 	public abstract String getName();
+	public abstract void setHomeX(int x);
+	public abstract void setHomeY(int y);
 	
 	public abstract void msgAtCashier();
 	public abstract void msgAtWaitingRoom();
