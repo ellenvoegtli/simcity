@@ -1,7 +1,10 @@
 package mainCity;
 import agent.Agent;
 import role.*;
+
+import role.davidRestaurant.*;
 import role.jeffersonRestaurant.*;
+import role.marcusRestaurant.*;
 import housing.LandlordRole;
 import housing.OccupantRole;
 
@@ -11,16 +14,12 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
 import mainCity.contactList.ContactList;
-import mainCity.gui.AnimationPanel;
-import mainCity.gui.Building;
-import mainCity.gui.PersonGui;
-import mainCity.gui.trace.AlertLog;
-import mainCity.gui.trace.AlertTag;
+import mainCity.gui.*;
+import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
-import role.davidRestaurant.*;
-import role.marcusRestaurant.*;
+
 import mainCity.market.*;
 import role.market.*;
 
@@ -714,6 +713,9 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
+		
+		destination = CityLocation.restaurant_marcus;
+		/*
 		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -733,6 +735,7 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
+		*/
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
