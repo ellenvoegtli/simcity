@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 import role.davidRestaurant.DavidCookRole;
 import role.davidRestaurant.DavidWaiterRole;
+import role.davidRestaurant.*;
 
 public class CookGui implements Gui{
 

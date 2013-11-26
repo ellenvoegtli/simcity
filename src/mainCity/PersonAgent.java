@@ -1,16 +1,9 @@
 package mainCity;
 import agent.Agent;
 import role.*;
-import role.davidRestaurant.DavidCashierRole;
-import role.davidRestaurant.DavidCookRole;
-import role.davidRestaurant.DavidCustomerRole;
-import role.davidRestaurant.DavidHostRole;
-import role.davidRestaurant.DavidWaiterRole;
-import role.jeffersonRestaurant.JeffersonCashierRole;
-import role.jeffersonRestaurant.JeffersonCookRole;
-import role.jeffersonRestaurant.JeffersonCustomerRole;
-import role.jeffersonRestaurant.JeffersonHostRole;
-import role.jeffersonRestaurant.JeffersonWaiterRole;
+
+import role.davidRestaurant.*;
+import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import housing.LandlordRole;
 import housing.OccupantRole;
@@ -21,14 +14,12 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
 import mainCity.contactList.ContactList;
-import mainCity.gui.AnimationPanel;
-import mainCity.gui.Building;
-import mainCity.gui.PersonGui;
-import mainCity.gui.trace.AlertLog;
-import mainCity.gui.trace.AlertTag;
+import mainCity.gui.*;
+import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
+
 import mainCity.market.*;
 import role.market.*;
 import transportation.BusAgent;

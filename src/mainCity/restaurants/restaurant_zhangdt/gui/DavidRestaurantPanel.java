@@ -2,6 +2,8 @@ package mainCity.restaurants.restaurant_zhangdt.gui;
 
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
+import role.davidRestaurant.*;
+
 
 import javax.swing.*;
 
