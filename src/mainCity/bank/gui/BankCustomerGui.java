@@ -3,14 +3,14 @@ package mainCity.bank.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import mainCity.bank.BankCustomerRole;
+import mainCity.bank.interfaces.BankCustomer;
 import mainCity.gui.Gui;
 
 
 
 public class BankCustomerGui implements Gui {
 
-    private BankCustomerRole bankcustomer = null;
+    private BankCustomer bankcustomer = null;
     //BankGui gui;
 	Graphics2D g2;
 	
@@ -40,7 +40,7 @@ public class BankCustomerGui implements Gui {
     public boolean atOrigin= true;
     public boolean traveling = true;
    
-    public BankCustomerGui(BankCustomerRole bankcustomer) {
+    public BankCustomerGui(BankCustomer bankcustomer) {
         this.bankcustomer = bankcustomer;
         //this.gui=gui;
     }
