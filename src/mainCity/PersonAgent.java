@@ -1,11 +1,17 @@
 package mainCity;
 import agent.Agent;
 import role.*;
+import role.jeffersonRestaurant.JeffersonCashierRole;
+import role.jeffersonRestaurant.JeffersonCookRole;
+import role.jeffersonRestaurant.JeffersonCustomerRole;
+import role.jeffersonRestaurant.JeffersonHostRole;
+import role.jeffersonRestaurant.JeffersonWaiterRole;
 import role.marcusRestaurant.*;
 import housing.LandlordRole;
 import housing.OccupantRole;
 
 import java.util.*;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
@@ -18,11 +24,6 @@ import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
@@ -30,14 +31,6 @@ import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
 import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.market.*;
 import role.market.*;
-
-/*
- * To Do for the personagent:
- * 	implement a way for roles to get added
- * 	handle the decision between market/restaurant since i use individual actions?
- * 	handle decision making for person (car/bus/walk) (which restaurant/market or restaurant)
- * 
- */
 
 public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding, waiting, boardingBus}
@@ -57,8 +50,8 @@ public class PersonAgent extends Agent {
 	private PersonEvent event;
 	private CityLocation destination;
 	private Semaphore isMoving = new Semaphore(0, true);
-	private HashMap<ActionType, Role> roles;
-	private PriorityQueue<Action> actions;
+	private Map<ActionType, Role> roles;
+	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
 	
 	public PersonAgent(String n) {
@@ -72,8 +65,8 @@ public class PersonAgent extends Agent {
 		state = PersonState.normal;//maybe 'inBuilding' if we start everyone in home
 		event = PersonEvent.none;
 		destination = CityLocation.home;
-		roles = new HashMap<ActionType, Role>();
-		actions = new PriorityQueue<Action>(); 
+		roles = Collections.synchronizedMap(new HashMap<ActionType, Role>());
+		actions = new PriorityBlockingQueue<Action>();
 		currentAction = null;
 	}
 	
@@ -410,12 +403,9 @@ public class PersonAgent extends Agent {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
 				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
 					output("Closing up shop");
-					((ManagerRole) r.getValue()).msgEndShift(job.shiftEnd-job.shiftBegin);
+					((ManagerRole) r.getValue()).msgEndShift();
 				}
-				if(r.getValue() instanceof JeffersonHostRole && r.getValue().isActive()){
-					((JeffersonHostRole) r.getValue()).msgOffDuty();
-					output("Closing up jefferson restaurant");
-				}
+				
 			}
 		}
 		
@@ -696,16 +686,17 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 		output(name + " is going to " + d);
 
-		//Check for a way to travel: public transportation, car, or walking
-		boolean temp = false;
+		boolean walk = true;//(60 > ((int) (Math.random() * 100)));
 
-		if(!temp) { //chose to walk
+		if(walk) { //chose to walk
+			output(name + " is walking to " + d);
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
 		}
-		else if(temp) { //chose bus
-			gui.DoGoToStop(); // walk to the closest bus stop or subway station?
+		else if(!walk) { //chose bus
+			output(name + " is taking the bus to " + d);
+			gui.DoGoToStop();
 			waitForGui();
 
 			//add self to waiting list of BusStop once arrived
@@ -719,7 +710,7 @@ public class PersonAgent extends Agent {
 			//bus.myDestination(d); //send message to transportation object of where they want to go
 			//will receive an arrived at destination message when done
 		}
-		else if(temp) {//chose car
+		else if(walk) {//chose car
 			//DoGoToCar(); //walk to car
 			waitForGui();
 			//car.msgGoToPlace(d); //some message to tell the car where to go, will receive an arrived at destination message when done
@@ -853,8 +844,7 @@ public class PersonAgent extends Agent {
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
 					ContactList.stops.get(i).LeavingBusStop(this);
 					gui.DoGoInside();
-					gui.DoGoToLocationOnBus(destination);
-					
+					gui.DoGoToLocationOnBus(destination);	
 				}
 			}
 		}
@@ -869,7 +859,6 @@ public class PersonAgent extends Agent {
 		state = PersonState.normal;
 		gui.DoGoOutside();
 		stateChanged();
-		//possibly have the msgFinished...messages in here instead
 	}
 	
 	public void stateChanged() {

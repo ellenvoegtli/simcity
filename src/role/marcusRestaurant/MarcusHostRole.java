@@ -126,7 +126,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		}
 	}
 	
-	public void msgEndShift(int hours) {
+	public void msgEndShift() {
 		onDuty = false;
 		stateChanged();
 	}

@@ -3,8 +3,8 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 import java.awt.*;
 import java.util.Random;
 
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.*;
+import role.jeffersonRestaurant.JeffersonCustomerRole;
+import role.jeffersonRestaurant.JeffersonWaiterRole.*;
 
 public class CustomerGui implements Gui{
 

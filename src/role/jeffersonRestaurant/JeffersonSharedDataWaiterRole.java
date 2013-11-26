@@ -1,4 +1,4 @@
-package mainCity.restaurants.jeffersonrestaurant;
+package role.jeffersonRestaurant;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,9 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.Table;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.WaiterCust;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.waiterCustState;
+import role.jeffersonRestaurant.JeffersonWaiterRole.Table;
+import role.jeffersonRestaurant.JeffersonWaiterRole.WaiterCust;
+import role.jeffersonRestaurant.JeffersonWaiterRole.waiterCustState;
+import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
 import mainCity.restaurants.jeffersonrestaurant.gui.WaiterGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;

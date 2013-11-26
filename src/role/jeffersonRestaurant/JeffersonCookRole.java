@@ -1,4 +1,4 @@
-public package mainCity.restaurants.jeffersonrestaurant;
+public package role.jeffersonRestaurant;
 
 
 import agent.Agent;
@@ -14,16 +14,16 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 import role.Role;
+import role.jeffersonRestaurant.JeffersonCustomerRole.*;
+import role.jeffersonRestaurant.JeffersonWaiterRole.Table;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.market.MarketGreeterRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cook;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Market;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 import mainCity.restaurants.jeffersonrestaurant.sharedData.RevolvingStand;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.Table;
 import mainCity.restaurants.jeffersonrestaurant.sharedData.OrderTicket;
 
 public class JeffersonCookRole extends Role implements Cook{

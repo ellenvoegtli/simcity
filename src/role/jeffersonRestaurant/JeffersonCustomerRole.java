@@ -1,4 +1,4 @@
-package mainCity.restaurants.jeffersonrestaurant;
+package role.jeffersonRestaurant;
 
 
 import agent.Agent;
@@ -11,11 +11,11 @@ import java.util.Random;
 
 import mainCity.PersonAgent;
 import mainCity.restaurants.jeffersonrestaurant.Menu;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.Table;
 import mainCity.restaurants.jeffersonrestaurant.gui.CustomerGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 import role.*;
+import role.jeffersonRestaurant.JeffersonWaiterRole.Table;
 
 /**
  * Restaurant customer agent.

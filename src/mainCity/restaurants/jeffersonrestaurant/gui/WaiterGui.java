@@ -3,9 +3,9 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 
 import java.awt.*;
 
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole.*;
+import role.jeffersonRestaurant.JeffersonCustomerRole;
+import role.jeffersonRestaurant.JeffersonWaiterRole;
+import role.jeffersonRestaurant.JeffersonWaiterRole.*;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 
 public class WaiterGui implements Gui {
@@ -36,6 +36,7 @@ public class WaiterGui implements Gui {
     	yDestination =y;
     	xHome=x;
     	yHome=y;
+    	
     	
     }
     

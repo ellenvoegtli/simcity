@@ -3,15 +3,15 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 import javax.swing.*;
 
 import role.Role;
+import role.jeffersonRestaurant.JeffersonCashierRole;
+import role.jeffersonRestaurant.JeffersonCookRole;
+import role.jeffersonRestaurant.JeffersonCustomerRole;
+import role.jeffersonRestaurant.JeffersonHostRole;
+import role.jeffersonRestaurant.JeffersonWaiterRole;
 import role.marcusRestaurant.MarcusCookRole;
 import role.marcusRestaurant.MarcusCustomerRole;
 import role.marcusRestaurant.MarcusWaiterRole;
 import mainCity.contactList.ContactList;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -45,8 +45,8 @@ public class JeffersonRestaurantPanel extends JPanel {
     private Vector<JeffersonWaiterRole> waiters = new Vector<JeffersonWaiterRole>();
 
     private JPanel restLabel = new JPanel();
-    private ListPanel customerPanel = new ListPanel(this, "Customers");
-    private ListPanel waiterPanel = new ListPanel(this,"Waiters");
+    //private ListPanel customerPanel = new ListPanel(this, "Customers");
+    //private ListPanel waiterPanel = new ListPanel(this,"Waiters");
     
     private JPanel group = new JPanel();
 

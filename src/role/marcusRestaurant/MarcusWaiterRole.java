@@ -421,6 +421,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	
 	protected enum CustomerState {waiting, seated, readyToOrder, waitingForOrder, ordered, reorder,
 		waitingForFood, readyToServe, served, waitingForWaiter, wantsCheck, checkReady, leaving};
+	
 	protected class MyCustomer {
 		Customer customer;
 		MarcusTable table;
