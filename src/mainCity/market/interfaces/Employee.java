@@ -14,6 +14,11 @@ public interface Employee {
 	//all MESSAGE method stubs
 	public abstract String getName();
 	
+	public abstract void msgAtCashier();
+	public abstract void msgAtWaitingRoom();
+	public abstract void msgAtDeliveryMan();
+	public abstract void msgAtStation();
+	
     public abstract void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory);
 	public abstract void msgAssignedToCustomer(Customer c, int waitPosX, int waitPosY);
 	public abstract void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory, String deliveryMethod);
