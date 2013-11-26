@@ -3,8 +3,8 @@ package mainCity.restaurants.restaurant_zhangdt.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
+import role.davidRestaurant.DavidCookRole;
+import role.davidRestaurant.DavidWaiterRole;
 
 public class CookGui implements Gui{
 

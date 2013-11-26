@@ -1,7 +1,7 @@
 package mainCity.restaurants.restaurant_zhangdt.interfaces;
 
+import role.davidRestaurant.DavidWaiterRole;
 import mainCity.interfaces.MainCook;
-import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 
 public interface Cook extends MainCook{
 	

@@ -16,7 +16,7 @@ public class BusAgent extends Agent{
 			BusGui gui; 
 			Timer stopTimer = new Timer(); 
 		
-			List<PersonAgent> Passengers = new ArrayList<PersonAgent>(); 
+			public List<PersonAgent> Passengers = new ArrayList<PersonAgent>(); 
 			int capacity = 50; 
 			CityLocation currentLocation; 
 			CityLocation destination = CityLocation.restaurant_marcus;
