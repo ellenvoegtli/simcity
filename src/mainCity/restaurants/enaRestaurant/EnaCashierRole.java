@@ -8,6 +8,8 @@ import java.util.Map;
 import role.Role;
 import role.market.MarketDeliveryManRole;
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
@@ -48,28 +50,34 @@ public class EnaCashierRole extends Role implements Cashier{
 			return name;
 		}
 
-
+		//for alert log trace statements
+				public void log(String s){
+			        AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
+			        AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
+				}
+			
 		// Messages
 		public void msgNoMoney()
 		{
-			print("Restaurant had no money");
-			setRestCash(0);
+			log("Received msgNoMoney");
 		}
 		public void msgRestMoney()
 		{
-			print("Restaurant has cash");
+			log( "Received msg that restaurant has cash");
 			setRestCash(100);
 		}
 		public void msgComputeBill(String choice, Customer c)
 		{
 			log.add(new LoggedEvent("Recieved message to compute the bill"));
-			print("computing the bill for  " +c);
+			log( "Received msgComputeBill");
 			Tabs.add(new Tab(choice, c, payStatus.pending));
 			stateChanged();
 		}
 		public void msgHereIsMarketBill(Map<String,Integer> order, double bill, MarketDeliveryManRole name)
 		{
 			log.add(new LoggedEvent("recieved message to pay the market"));
+			log("Received msgHereIsMarketBill");
+
 			marketChecks.add(new MarketTab(name, bill, marketPay.pending));
 			stateChanged();
 			
@@ -77,6 +85,8 @@ public class EnaCashierRole extends Role implements Cashier{
 		
 		public void msgHereIsChange(double amount, MarketDeliveryManRole name)
 		{
+			log("Received msgHereIsChange");
+
 			setRestCash(getRestCash() + amount);
 			stateChanged();
 		}
@@ -91,6 +101,7 @@ public class EnaCashierRole extends Role implements Cashier{
 		public void msgRestockBill(double reciept, Market ma)
 		{
 			log.add(new LoggedEvent("recieved message to pay the market"));
+			log("receieved message to pay the market");
 			marketChecks.add(new MarketTab(ma, reciept, marketPay.pending));
 			//state = marketPay.pending;
 			stateChanged();
@@ -106,7 +117,9 @@ public class EnaCashierRole extends Role implements Cashier{
 				if(tab.c == c)
 				{
 					log.add(new LoggedEvent("Received payment message"));
-					print("Payment recieved from customer");
+					log( "payment recieved from customer");
+
+					//log("Payment recieved from customer");
 					tab.paymentStat = payStatus.paid;
 					stateChanged();
 				}
@@ -148,8 +161,9 @@ public boolean pickAndExecuteAnAction()
 						return true;
 				}
 				if (tab.paymentStat == payStatus.billed)
-				{
-					System.out.println("tab has been computed, is billed");
+				{		log("Tab has beeen computed, is billed");
+
+					//log("tab has been computed, is billed");
 					tab.paymentStat = payStatus.paying;
 					GiveCheck(tab);
 					return true;
@@ -157,7 +171,9 @@ public boolean pickAndExecuteAnAction()
 				if(tab.paymentStat == payStatus.paid)
 				{					
 					tab.paymentStat = payStatus.done;
-					System.out.println("Let the cashier know the customer has paid");
+					//log("Let the cashier know the customer has paid");
+					log("tell the cashier the customer has paid");
+
 					ComputeChange(tab);						
 					return true;
 				}
@@ -185,7 +201,9 @@ public boolean pickAndExecuteAnAction()
 			 double change = 0;
 			 if(t.c.getDebt() != 0)
 			 {
-				 print("customer is paying for tab and previous debt");
+					log("The customer has paid the previous debt");
+
+				 //log("customer is paying for tab and previous debt");
 				 change = t.c.getCash()- t.check - t.c.getDebt();
 				 t.c.setDebt(0);
 				 t.c.msgHereIsYourChange(change);
@@ -193,8 +211,8 @@ public boolean pickAndExecuteAnAction()
 			 else if(t.c.getName().equals("debt") && t.c.getDebt() == 0)
 			 {
 				 t.c.msgHereIsYourChange(change);
-				 print("Customer has $ " +t.c.getCash());
-				 print("Customer still owes $ " + (t.check-t.c.getCash()));
+				 log("Customer has $ " +t.c.getCash());
+				 log("Customer still owes $ " + (t.check-t.c.getCash()));
 				 t.c.setDebt(t.check-t.c.getCash());
 				 
 			 }
@@ -209,20 +227,20 @@ public boolean pickAndExecuteAnAction()
 		
 		public void payTheMarket(MarketTab checks)
 		{
-			print("the restaurant has money : $ " +restCash);
+			log("the restaurant has money : $ " +restCash);
 			//^^^^^^^^^^^^^^^^^^^^^^^^ NON NORM IF RESTAURANT DOES NOT HAVE ENOUGH MONEY TO PAY THE MARKET BILL ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 			/*if(restCash < checks.check)
 			{
-				print("The restaurant does not have any money to pay the market's bill");
+				log("The restaurant does not have any money to pay the market's bill");
 				checks.deliveryMan.msgRestCantPay();
-				print("Restaurant is looking for donations to pay off the debt and giving combinign it with coupons to even out tab");
+				log("Restaurant is looking for donations to pay off the debt and giving combinign it with coupons to even out tab");
 				restCash = 54;
 			}*/
 			
-				print("The cashier is has taken care of the market's bill for: $ " +checks.checks);
+				log("The cashier is has taken care of the market's bill for: $ " +checks.checks);
 				restCash = restCash - checks.checks;
 				checks.deliveryMan.msgHereIsPayment(checks.checks, "enaRestaurant");
-				print("The restaurant now has $ " +restCash);
+				log("The restaurant now has $ " +restCash);
 				marketChecks.remove(checks);
 			
 		}
