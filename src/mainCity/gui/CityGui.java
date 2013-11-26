@@ -32,6 +32,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private TracePanel tracePanel7;
 	private TracePanel tracePanel8;
 	
+	private Vector<PersonAgent> people = new Vector<PersonAgent>();
 	private ListPanel personPanel = new ListPanel(this);
 	private CityPanel cityPanel = new CityPanel(this);
 	
@@ -61,8 +62,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	
 	private JPanel subControlPanel2 = new JPanel();
 	
-	
-	private JLabel infoLabel = new JLabel();
+	private JLabel personLabel = new JLabel("Selected person: ");
+	private JLabel infoLabel = new JLabel("");
 	private JPanel infoPanel = new JPanel();
 	private GroupLayout layout2 = new GroupLayout(infoPanel);
 	private JLabel hungryLabel = new JLabel("Hungry?");
@@ -86,7 +87,6 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	//private JPanel infoPanel;		//add to subControlPanel2
 	
 	//private ListPanel personPanel;
-    private Vector<PersonAgent> people = new Vector<PersonAgent>();
 
 	
 	public CityGui() { 
@@ -214,17 +214,21 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		layout2.setAutoCreateContainerGaps(true);
 		
 		GroupLayout.SequentialGroup hGroup2 = layout2.createSequentialGroup();
-		hGroup2.addGroup(layout2.createParallelGroup().
+		hGroup2.addGroup(layout2.createParallelGroup().addComponent(personLabel).addComponent(blankLabel).
 	            addComponent(hungryLabel).addComponent(blankLabel).addComponent(workLabel).
 	            addComponent(depositField).addComponent(withrawField).addComponent(loanField)
 	            );
-		hGroup2.addGroup(layout2.createParallelGroup().
+		hGroup2.addGroup(layout2.createParallelGroup().addComponent(infoLabel).addComponent(blankLabel).
 	            addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB).
 	            addComponent(depositButton).addComponent(withdrawButton).addComponent(loanButton)
 	            );
 		layout2.setHorizontalGroup(hGroup2);
 		
 		GroupLayout.SequentialGroup vGroup2 = layout2.createSequentialGroup();
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(personLabel).addComponent(infoLabel));
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(blankLabel).addComponent(blankLabel));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
 	            addComponent(hungryLabel).addComponent(restaurantButton));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
@@ -253,8 +257,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         personPanel.setPreferredSize(listDim);
         personPanel.setMinimumSize(listDim);
         personPanel.setMaximumSize(listDim);
-		subControlPanel2.add(infoLabel);	//not showing up
 		subControlPanel2.add(personPanel);
+		//subControlPanel2.add(infoLabel);	//not showing up
+		infoLabel.setVisible(false);
 		subControlPanel2.add(infoPanel);
 		tabbedPane2.addTab("Controls", subControlPanel2);
 		controlPanel.add(tabbedPane2);
@@ -449,13 +454,16 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	public ListPanel getListPanel(){
 		return personPanel;
 	}
+	public void addPerson(PersonAgent p){
+		people.add(p);
+	}
 	
 	public void updateInfoPanel(Object person) {
         currentPerson = person;
 
         PersonAgent p = (PersonAgent) person;
-        System.out.println("name = " + p.getName());
         infoLabel.setText(p.getName());
+        infoLabel.setVisible(true);
 
         if(p.isHungry()){
         	restaurantButton.setEnabled(false);
