@@ -10,22 +10,19 @@ public class CityCard extends JPanel {
 
 	public static final int CARD_WIDTH = 500, CARD_HEIGHT = 500;
 
-	public CityCard(CityGui city) {
+	public CityCard(CityGui city) 
+	{
 		super();
 		this.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 		this.setVisible(true);
+		
 		//addMouseListener(this);
 		//background = Color.green;
 	}
 	
-	public CityCard(CityGui city, double i) {
-		super();
-		this.setPreferredSize(new Dimension((int) (CARD_WIDTH * i), (int) ( CARD_HEIGHT * i)));
-		this.setVisible(true);
-		//addMouseListener(this);
-		//background = Color.green;
-	}
-	public CityCard(CityGui city, Color c) {
+	
+	public CityCard(CityGui city, Color c) 
+	{
 		super();
 		this.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
 		this.setVisible(true);
@@ -58,7 +55,8 @@ public class CityCard extends JPanel {
 	}
 
 	//A method to be overwritten
-	public void backgroundUpdate() {
+	public void backgroundUpdate() 
+	{
 		
 	}
 

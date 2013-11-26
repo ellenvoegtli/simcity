@@ -35,8 +35,8 @@ public class PersonGui implements Gui{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
-		//xHome = agent.getHomePlace().getXLoc();
-		//yHome = agent.getHomePlace().getYLoc();
+		xHome = agent.getHomePlace().getXLoc();
+		yHome = agent.getHomePlace().getYLoc();
 		
 		xDestination = xPos = xHome;
 		yDestination = yPos = yHome;;

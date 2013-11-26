@@ -16,8 +16,8 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 {
 	
 
-	    private final int WINDOWX = 950;
-	    private final int WINDOWY = 550;
+	   // private final int WINDOWX = 950;
+	   // private final int WINDOWY = 550;
 	    
 	    private int applianceWidth = 20;
 	    private int applianceHeight = 15;
@@ -27,35 +27,23 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    private Dimension bufferSize;
 		private HomePanel home = new HomePanel(this);
 		
-		//****************Working on apartment layouts---------------
-		/*
-		private List<ApartPanel> AptBuilding = new ArrayList<ApartPanel>();
-		
-		private ApartPanel Apt1 = new ApartPanel(this);
-		AptBuilding.add(Apt1);
-		private ApartPanel Apt2 = new ApartPanel(this);
-		AptBuilding.add(Apt2);
-		private ApartPanel Apt3 = new ApartPanel(this);
-		AptBuilding.add(Apt3);
-		private ApartPanel Apt4 = new ApartPanel(this);
-		AptBuilding.add(Apt4);
 
 
 
 		
-*/
+
 	    private List<Gui> guis = new ArrayList<Gui>();
 
 	    public HomeAnimationPanel(CityGui cg) {
 	    	super(cg);
-	    	ContactList.getInstance().setHome(home);
+	    	ContactList.getInstance().setHome(getHomeP());
 	    	
 	    	
 	    	//**********************
 	    	//ContactList.getInstance().setAptB(AptBuilding);
 
 	    	
-	    	setSize(WINDOWX, WINDOWY);
+	    	setSize(600, 400);
 	        setVisible(true);
 	        
 	        bufferSize = this.getSize();
@@ -74,7 +62,7 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 
 	        //Clear the screen by painting a rectangle the size of the frame
 	        g2.setColor(getBackground());
-	        g2.fillRect(0, 0, WINDOWX, WINDOWY );
+	        g2.fillRect(0, 0, 600, 400 );
 
 	        //Here is the table
 	        g2.setColor(Color.BLACK);       
@@ -120,6 +108,14 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    {
 	    	guis.add(gui);
 	    }
+
+		public HomePanel getHomeP() {
+			return home;
+		}
+
+		public void setHomeP(HomePanel home) {
+			this.home = home;
+		}
 	
 	}
 
