@@ -696,16 +696,17 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 		output(name + " is going to " + d);
 
-		//Check for a way to travel: public transportation, car, or walking
-		boolean temp = false;
+		boolean walk = true;//(60 > ((int) (Math.random() * 100)));
 
-		if(!temp) { //chose to walk
+		if(walk) { //chose to walk
+			output(name + " is walking to " + d);
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
 		}
-		else if(temp) { //chose bus
-			gui.DoGoToStop(); // walk to the closest bus stop or subway station?
+		else if(!walk) { //chose bus
+			output(name + " is taking the bus to " + d);
+			gui.DoGoToStop();
 			waitForGui();
 
 			//add self to waiting list of BusStop once arrived
@@ -719,7 +720,7 @@ public class PersonAgent extends Agent {
 			//bus.myDestination(d); //send message to transportation object of where they want to go
 			//will receive an arrived at destination message when done
 		}
-		else if(temp) {//chose car
+		else if(walk) {//chose car
 			//DoGoToCar(); //walk to car
 			waitForGui();
 			//car.msgGoToPlace(d); //some message to tell the car where to go, will receive an arrived at destination message when done
@@ -850,8 +851,7 @@ public class PersonAgent extends Agent {
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
 					ContactList.stops.get(i).LeavingBusStop(this);
 					gui.DoGoInside();
-					gui.DoGoToLocationOnBus(destination);
-					
+					gui.DoGoToLocationOnBus(destination);	
 				}
 			}
 		}

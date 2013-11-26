@@ -6,7 +6,7 @@ import mainCity.restaurants.marcusRestaurant.test.mock.LoggedEvent;
 import mainCity.restaurants.marcusRestaurant.MarcusMenu;
 
 public class MockCustomer extends Mock implements Customer {
-	public Cashier cashier;
+	public Waiter waiter;
 	String name;
 	EventLog log;
 	
