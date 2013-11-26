@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 import role.Role;
 import mainCity.PersonAgent;
 import mainCity.bank.gui.BankCustomerGui;
+import mainCity.market.gui.CustomerGui;
 
 
 public class BankCustomerRole extends Role {
@@ -455,6 +456,17 @@ public void msgLoanDenied(double loanamount){
 	public void setGui(BankCustomerGui bcGui) {
 		custGui=bcGui;
 		
+	}
+
+	public BankCustomerGui getGui() {
+		return custGui;
+		}
+
+	public boolean bankOpen() {
+		if(bm != null && bm.isActive && bm.isOpen()){
+			return true;
+		}
+		return false;
 	}
 
 	

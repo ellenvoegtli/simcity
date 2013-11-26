@@ -1,7 +1,6 @@
 package mainCity;
 import agent.Agent;
 import role.*;
-
 import role.davidRestaurant.*;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
@@ -13,6 +12,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
@@ -20,7 +20,6 @@ import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
-
 import mainCity.market.*;
 import role.market.*;
 import transportation.BusAgent;
@@ -298,10 +297,15 @@ public class PersonAgent extends Agent {
 				state = PersonState.inBuilding;
 				return true;
 			}
-
+		
 			if(event == PersonEvent.arrivedAtBank) {
 				//set appropriate role and initial state for different actions
 				handleRole(currentAction.type);
+				Role customer = roles.get(currentAction.type);
+				if (!((BankCustomerRole) customer).getGui().goInside()){
+					//System.out.println("bank closed");
+					return true;
+				}
 				if(roles.containsKey(ActionType.bankWithdraw)){
 					roles.get(ActionType.bankWithdraw).setActive();
 					Role bankCustomer = roles.get(ActionType.bankWithdraw);
@@ -426,6 +430,10 @@ public class PersonAgent extends Agent {
 							BankerRole bk = new BankerRole(this, name);
 							ContactList.getInstance().getBank().handleRole(bk);
 							roles.put(action, bk);
+							break;
+						case "bankTeller":	
+							BankTellerRole bt = new BankTellerRole(this, name);
+							ContactList.getInstance().getBank().handleRole(bt);
 							break;
 						
 						//-----Jefferson Restaurant Roles---//
