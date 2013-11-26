@@ -13,7 +13,9 @@ import mainCity.bank.BankManagerRole.myBanker;
 import mainCity.bank.BankManagerRole.myTeller;
 import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
-
+import mainCity.bank.gui.*;
+import mainCity.bank.interfaces.BankCustomer;
+import mainCity.bank.interfaces.BankTeller;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -39,7 +41,7 @@ public class BankPanel extends JPanel {
 	//private BankTellerRole bankteller = new BankTellerRole("kim");
 	//private BankTellerRole bankteller1 = new BankTellerRole("sam");
 	
-	BankCustomerRole bankcust;
+	BankCustomer bankcust;
 	//BankCustomerRole bankcust1 = new BankCustomerRole(p1,"bob1");
 	
 	
@@ -144,6 +146,7 @@ public class BankPanel extends JPanel {
 
        // bankmanager.startThread();
 
+
         
         //banker.msgGoToWork();
         //banker.startThread();
@@ -178,7 +181,7 @@ public class BankPanel extends JPanel {
     	if(r instanceof BankCustomerRole){
     		BankCustomerRole b = (BankCustomerRole) r;
     		
-    		for (BankCustomerRole bc: bankcustomers){
+    		for (BankCustomer bc: bankcustomers){
     			if( bc==b){
     				return;
     			}
@@ -189,9 +192,9 @@ public class BankPanel extends JPanel {
     		b.setGui(bcGui);
     		bankAnimationPanel.addGui(bcGui);
     		b.setBankManager(bankmanager);
-    		b.setAmount(((BankCustomerRole) r).getAmount());
-            b.setMyaccountnumber(((BankCustomerRole) r).getMyaccountnumber());
-            b.setBankbalance(((BankCustomerRole) r).getBankbalance());
+    		b.setAmount(((BankCustomer) r).getAmount());
+            b.setMyaccountnumber(((BankCustomer) r).getMyaccountnumber());
+            b.setBankbalance(((BankCustomer) r).getBankbalance());
     		
     	}
     	
@@ -206,16 +209,19 @@ public class BankPanel extends JPanel {
     		
     		if(bankmanager!=null){
     			bankmanager.mbanker=new myBanker(banker);
+    			bankmanager.msgBankerAdded();
     		}
-    		
+    	}
     	if (r instanceof BankTellerRole){
+    		//System.out.println("in bankpanel teller handlerole");
     		BankTellerRole btr = (BankTellerRole) r;
-    		for(BankTellerRole bt:banktellers){
+    		for(BankTeller bt:banktellers){
     			if(bt==btr){
     				return;
     			}
     		}
     		BankTellerGui btgui = new BankTellerGui(btr);
+    		//System.out.println("teller gui instantiated");
     		btr.setGui(btgui);
     		btr.setBankAccounts(mainaccounts);
     		bankAnimationPanel.addGui(btgui);
@@ -232,17 +238,16 @@ public class BankPanel extends JPanel {
     		bankmanager.setBankAccounts(mainaccounts);
     		bankmanager.setBanker(banker);
     		
-    		for(BankTellerRole bt:banktellers){
+    		for(BankTeller bt:banktellers){
     			bankmanager.msgTellerAdded(bt);
     			
     		}
     		
-    		for(BankCustomerRole bc:bankcustomers){
+    		for(BankCustomer bc:bankcustomers){
     			bc.setBankManager(bankmanager);
     		}
     		
-    		
-    		
+    			
     		
     	}
     		
@@ -254,4 +259,4 @@ public class BankPanel extends JPanel {
     
  
 
-}
+

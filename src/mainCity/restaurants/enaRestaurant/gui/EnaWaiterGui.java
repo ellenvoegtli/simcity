@@ -36,7 +36,7 @@ public class EnaWaiterGui implements Gui
 			agent = w;
 			xPos =400;
 			yPos = 100 + yP;
-			xDestination =400;
+			xDestination = 400;
 			yDestination = 100 + yP;
 			home = 100 + yP;
 			//maitreD = m;

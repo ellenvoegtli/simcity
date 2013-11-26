@@ -2,6 +2,8 @@ package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 import role.Role;
@@ -79,10 +81,17 @@ public class EnaWaiterRole extends Role implements Waiter{
 	
 	
 	public void wantBreak() {//from animation
-		print("Wants a Break");
+		log("Wants a Break");
 		state = waiterState.wantsBreak;
 		stateChanged();
 	}
+	
+	//for alert log trace statements
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
+	}
+
 	
 	// Messages
 
@@ -115,7 +124,9 @@ public class EnaWaiterRole extends Role implements Waiter{
 	
 	public void msgSeatCustomer(EnaCustomerRole c, Table t) 
 	{
-		print("seating customer");
+		//log("seating customer");
+		AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "Received msgSeatCustomer");
+
 		MyCust.add(new MyCustomers(c,t, custState.waiting, c.getChoice()));
 		stateChanged();
 	}
@@ -126,7 +137,9 @@ public class EnaWaiterRole extends Role implements Waiter{
 		{
 			if(customer.cust == c)
 			{
-				System.out.println("customer ready to order");
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), " customer ready to order");
+
+				//log("customer ready to order");
 				customer.customerState = custState.readyToOrder;
 				stateChanged();
 			}
@@ -138,7 +151,9 @@ public class EnaWaiterRole extends Role implements Waiter{
 		{
 			if(customer.cust == c)
 			{
-				System.out.println("customer chooses food " +choice);
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), " customer chooses food " +choice );
+
+				//log("customer chooses food " +choice);
 				c.setChoice(choice);
 				customer.customerState = custState.Ordered;
 				stateChanged();
@@ -175,7 +190,9 @@ public class EnaWaiterRole extends Role implements Waiter{
 		{
 			if(customer.cust == c)
 			{
-				System.out.println("customer is finished eating");
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), " customer is finished eating");
+
+				//log("customer is finished eating");
 				//customer.customerState = custState.leaving;
 				stateChanged();
 			}
@@ -188,7 +205,9 @@ public class EnaWaiterRole extends Role implements Waiter{
 		{
 			if(customer.cust == c)
 			{
-				print("customer asked for bill");
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), " customer asked for bill " );
+
+				//log("customer asked for bill");
 				customer.customerState = custState.askedForBill;
 				stateChanged();
 			}
@@ -201,7 +220,9 @@ public class EnaWaiterRole extends Role implements Waiter{
 		{
 			if(customer.cust == c)
 			{
-				print("cashier gives bill to waiter");
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), " cashier gives bill to waiter" );
+
+				//log("cashier gives bill to waiter");
 				customer.customerState = custState.paying;
 				stateChanged();
 			}
@@ -214,7 +235,9 @@ public class EnaWaiterRole extends Role implements Waiter{
 		{
 			if(customer.cust == c)
 			{
-				System.out.println("customer is finished eating and has paid");
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), " customer is finished eating and has paid" );
+
+				//log("customer is finished eating and has paid");
 				customer.customerState = custState.leaving;
 				stateChanged();
 			}
@@ -247,17 +270,17 @@ public class EnaWaiterRole extends Role implements Waiter{
 	 */
 	public boolean pickAndExecuteAnAction() 
 	{
-		print("waiter scheduler");
+		log("waiter scheduler");
 	
 		if(state == waiterState.wantsBreak)
 		{
-			print("checking if break available");
+			log("checking if break available");
 			BreakReply();
 			return true;
 		}
 		if(state == waiterState.breaking)
 		{
-			print("it is time for a break");
+			log("it is time for a break");
 			GoOnBreak();
 			return true;
 		}
@@ -274,7 +297,7 @@ try
 			if(customer.customerState == custState.waiting)
 			{
 					SeatCustomer(customer);
-					print("customer..............seated");
+					//log("customer..............seated");
 					customer.customerState = custState.Ordered;
 					return true;
 			}
@@ -285,7 +308,6 @@ try
 		
 			if(customer.customerState == custState.readyToOrder)
 			{
-				print("" + MyCust.size());
 				customer.customerState = custState.Ordered;
 				TakeOrder(customer);
 				return true;
@@ -295,7 +317,7 @@ try
 		{
 			if(customer.customerState == custState.Ordered)
 			{
-				//System.out.println("The food is going to be delivered");
+				//log("The food is going to be delivered");
 				return true;
 			}
 		}
@@ -323,7 +345,9 @@ try
 		{
 			if(customer.customerState == custState.askedForBill)
 			{
-				print("waiter will now bring the tab to the customer");
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), " waiter will now bring the tab to the customer" );
+
+				//log("waiter will now bring the tab to the customer");
 				BringTab(customer);
 				customer.customerState = custState.paying;
 				return true;
@@ -333,7 +357,9 @@ try
 		{
 			if(customer.customerState == custState.paying)
 			{
-				print("customer is paying");			
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), " customer is paying" );
+
+				//log("customer is paying");			
 				PayCashier(customer);
 				customer.customerState = custState.leaving;
 				return true;
@@ -364,7 +390,7 @@ catch(ConcurrentModificationException e){};
 	public void SeatCustomer(MyCustomers c)
 	{
 		waiterGui.DoGetCustomer(c.cust);
-		print("at entrance semaphore acquiring");
+		//log("at entrance semaphore acquiring");
 		try {
 
 			atEntrance.acquire();
@@ -389,7 +415,7 @@ catch(ConcurrentModificationException e){};
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		System.out.println("LEAVING CUST");
+		log("LEAVING CUST");
 		
 	}
 
@@ -416,13 +442,17 @@ catch(ConcurrentModificationException e){};
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		print ("OLD CHOICE " + c.choice + "IS OUT OF STOCK CHOOSE SOMETHING ELSE");
+		AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "OLD CHOICE " + c.choice + "IS OUT OF STOCK CHOOSE SOMETHING ELSE");
+
+		//log ("OLD CHOICE " + c.choice + "IS OUT OF STOCK CHOOSE SOMETHING ELSE");
 		c.cust.msgWhatElseWouldYouLike();
 		for(int i=0; i<Menu.size(); i++)
 		{
 		  if(c.cust.getName().equals("onlyChoice"))
 		  {
-			  System.out.println("no money for new choice, customer will leave the restaurant");
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "no money for new choice, customer will leave the restaurant");
+
+			  //log("no money for new choice, customer will leave the restaurant");
 			  c.cust.getGui().DoExitRestaurant();
 			  waiterGui.DoLeaveCustomer();
 			  EmptyTable(c);
@@ -435,7 +465,9 @@ catch(ConcurrentModificationException e){};
 			{
 				c.setChoice(Menu.get(0));
 				c.cust.setCh(Menu.get(0));
-				System.out.println("GUI SHOULD BE TAKING ORDER TO KITCHEN");
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "GUI SHOULD BE TAKING ORDER TO KITCHEN");
+
+				//log("GUI SHOULD BE TAKING ORDER TO KITCHEN");
 				waiterGui.DoGoToKitchen();
 				waiterGui.SubmitOrder(c.choice);
 				try {
@@ -446,19 +478,23 @@ catch(ConcurrentModificationException e){};
 				}
 				
 				cook.msgHereIsTheOrder(this, c.choice, c.table);
-				print("Delivering new order to cook " + c.choice);
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "Delivering new order to cook " + c.choice);
+
+				//log("Delivering new order to cook " + c.choice);
 				waiterGui.DoLeaveCustomer();
 				break;
 			}
 			else if (c.choice == Menu.get(i))
 			{
-				print("setting new menu choice");
+				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "setting new menu choice " );
+
+				//log("setting new menu choice");
 				c.setChoice(Menu.get(i+1));
 				c.cust.setCh(Menu.get(i+1));
-				print("new choice" + c.choice);		
+				log("new choice" + c.choice);		
 				
 				
-				System.out.println("GUI SHOULD BE TAKING ORDER TO KITCHEN");
+				log("GUI SHOULD BE TAKING ORDER TO KITCHEN");
 				waiterGui.DoGoToKitchen();
 				waiterGui.SubmitOrder(c.choice);
 				try {
@@ -469,7 +505,7 @@ catch(ConcurrentModificationException e){};
 				}
 				
 				cook.msgHereIsTheOrder(this, c.choice, c.table);
-				print("Delivering New OrderToCook  " +c.choice);
+				log("Delivering New OrderToCook  " +c.choice);
 				waiterGui.DoLeaveCustomer();
 			break;
 			}
@@ -480,7 +516,9 @@ catch(ConcurrentModificationException e){};
 	
 	private void PassOrder(MyCustomers c)
 	{
-		System.out.println("GUI SHOULD BE TAKING ORDER TO KITCHEN");
+		AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "Gui should be taking order to the kitchen");
+
+		//log("GUI SHOULD BE TAKING ORDER TO KITCHEN");
 		waiterGui.DoGoToKitchen();
 		waiterGui.SubmitOrder(c.choice);
 		try {
@@ -507,8 +545,9 @@ catch(ConcurrentModificationException e){};
 		cook.msgRemovePlating(c.choice);
 
 		waiterGui.Arriving(c.choice);
+		AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "Delivering food to custoemr, being served");
 
-		System.out.println("Delivering food to customer, being served");
+		//log("Delivering food to customer, being served");
 		waiterGui.DoServe(c.choice, c.table);	
 
 		try {
@@ -529,7 +568,9 @@ catch(ConcurrentModificationException e){};
 	
 	private void BringTab(MyCustomers c)
 	{		
-		print("waiter going to the cashier and then table station");
+		AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "waiter going to the cashier and then table station");
+
+		//log("waiter going to the cashier and then table station");
 		waiterGui.DoGoToCashier();
 		try {
 			atCashier.acquire();
@@ -567,11 +608,11 @@ catch(ConcurrentModificationException e){};
 	{
 		waiterGui.DoLeaveCustomer();
 		//waiterGui.DoGoOnBreak();
-		//print( " is taking a break");
+		//log( " is taking a break");
 		timer.schedule(new TimerTask() {
 			public void run() 
 			{
-				print("break over");
+				//log("break over");
 				state = waiterState.breakOver;
 				stateChanged();
 			}
@@ -589,9 +630,9 @@ catch(ConcurrentModificationException e){};
 	}
 	private void DoSeatCustomer(MyCustomers c) 
 	{
-		//Notice how we print "customer" directly. It's toString method will do it.
+		//Notice how we log "customer" directly. It's toString method will do it.
 		//Same with "table"
-		print("Seating " + c.cust + " at " + c.table);
+		log("Seating " + c.cust + " at " + c.table);
 		
 		waiterGui.setXNum(c.table.tableNumber);
 		c.cust.setNum(c.table.tableNumber);

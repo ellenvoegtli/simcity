@@ -5,12 +5,12 @@ import java.awt.Graphics2D;
 
 import mainCity.bank.BankCustomerRole;
 import mainCity.bank.BankTellerRole;
-import mainCity.bank.BankerRole;
+import mainCity.bank.interfaces.Banker;
 import mainCity.gui.Gui;
 
 public class BankerGui implements Gui {
 
-	private BankerRole banker = null;
+	private Banker banker = null;
     //BankGui gui;
 	Graphics2D g2;
 	
@@ -35,7 +35,7 @@ public class BankerGui implements Gui {
     int t;
     public boolean atOrigin= true;
    
-    public BankerGui(BankerRole banker) {
+    public BankerGui(Banker banker) {
         this.banker = banker;
         //this.gui=gui;
     }

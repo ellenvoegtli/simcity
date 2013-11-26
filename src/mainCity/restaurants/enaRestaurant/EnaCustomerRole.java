@@ -1,6 +1,8 @@
 package mainCity.restaurants.enaRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
 import role.Role;
 
@@ -54,13 +56,13 @@ public class EnaCustomerRole extends Role implements Customer{
 					if(name.equals("poor"))
 					{
 						cash = 5.0;
-						print("customer has $ "  + cash);
+						log("customer has $ "  + cash);
 					}
 					
 					if(name.equals("debt"))
 					{
 						cash = 5.0;
-						print("customer has $ "  + cash);
+						log("customer has $ "  + cash);
 						Random rnd = new Random();
 						int meal = rnd.nextInt(4)+1;
 						if (meal == 1)
@@ -75,14 +77,14 @@ public class EnaCustomerRole extends Role implements Customer{
 					if(name.equals("cheapest"))
 					{
 						cash = 6.0;
-						print("customer has $ "  +cash);
+						log("customer has $ "  +cash);
 						this.choice = "lamb";	
 					}
 					
 					if(name.equals("onlyChoice"))
 					{
 						cash = 6.0;
-						print("customer has $ "  +cash);
+						log("customer has $ "  +cash);
 						this.choice = "lamb";
 					}
 					else
@@ -90,7 +92,7 @@ public class EnaCustomerRole extends Role implements Customer{
 						Random rndC = new Random();
 						int money = rndC.nextInt(20)+5;
 						cash = money;
-						print("customer has $-- "  + cash);
+						log("customer has $-- "  + cash);
 		
 						Random rnd = new Random();
 						int meal = rnd.nextInt(4)+1;
@@ -156,29 +158,37 @@ public class EnaCustomerRole extends Role implements Customer{
 	{
 		return cash;
 	}
+	
+	
+	//for alert log trace statements
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
+	}
+
 	// Messages
 
 	public void gotHungry() {//from animation
-		print("I'm hungry");
+		log("I'm hungry");
 		if(returnCustomer)
 		{
 			cash = cash + 10;
 		}
-		print("customer now has $  " +cash);
+		log("customer now has $  " +cash);
 		event = AgentEvent.gotHungry;
 		stateChanged();
 	}
 
 	public void msgFollowToTable() 
 	{
-		print("Received msgFollowToTable");
+		log("Received msgFollowToTable");
 		event = AgentEvent.followHost;
 		stateChanged();
 	}
 
 	public void msgWhatWouldYouLike() 
 	{
-		print("recieves message asking what would customer like");
+		log("recieves message asking what would customer like");
 		
 		//from animation
 		event = AgentEvent.AskedByWaiter;
@@ -186,14 +196,14 @@ public class EnaCustomerRole extends Role implements Customer{
 	}
 	public void msgWhatElseWouldYouLike()
 	{
-		print("recieves message for new order");
+		log("recieves message for new order");
 		event = AgentEvent.ReAskedByWaiter;
 		stateChanged();
 	}
 	public void msgHereIsYourFood(String choice) 
 	{
 		//from animation
-		print("received "+choice);
+		log("received "+choice);
 		event = AgentEvent.FoodArrived;
 		stateChanged();
 	}
@@ -207,7 +217,7 @@ public class EnaCustomerRole extends Role implements Customer{
 	{
 		event = AgentEvent.recievedChange;
 		this.cash = change;
-		print("the change is" +change) ;
+		log("the change is" +change) ;
 		stateChanged();
 	}
 	
@@ -236,14 +246,14 @@ public class EnaCustomerRole extends Role implements Customer{
 		
 		if (state == AgentState.DoingNothing && event == AgentEvent.gotHungry )
 		{	
-			System.out.println("agent doing nothing and got hungry");
+			log("agent doing nothing and got hungry");
 			state = AgentState.Waiting;
 			goToRestaurant();
 			return true;
 		}
 		if (state == AgentState.Waiting && event == AgentEvent.followHost )
 		{
-			System.out.println("agent waiting and following host, then calls SIT done");
+			log("agent waiting and following host, then calls SIT done");
 			state = AgentState.BeingSeated;
 			SitDown();
 			return true;
@@ -257,7 +267,7 @@ public class EnaCustomerRole extends Role implements Customer{
 
 		if (state == AgentState.Decided && event == AgentEvent.WaiterCall)
 		{
-			System.out.println("customer is finished looking at the menu and is looking to the waiter");
+			log("customer is finished looking at the menu and is looking to the waiter");
 			state = AgentState.Ordering;
 			getCustomerGui().Deciding();
 			RequestOrder();
@@ -265,7 +275,7 @@ public class EnaCustomerRole extends Role implements Customer{
 		}
 		if (state == AgentState.Ordering && event == AgentEvent.AskedByWaiter)
 		{
-			System.out.println("it is time to order a choice from the menu");
+			log("it is time to order a choice from the menu");
 			state = AgentState.Ordered;
 			OrderFood();
 			return true;
@@ -273,14 +283,14 @@ public class EnaCustomerRole extends Role implements Customer{
 		
 		if (state == AgentState.Ordered && event == AgentEvent.ReAskedByWaiter)
 		{
-			System.out.println("customer picking new item from menu");
+			log("customer picking new item from menu");
 			state = AgentState.ReOrdered;
 			ReOrderFood();
 			return true;
 		}
 		if ((state == AgentState.Ordered || state == AgentState.ReOrdered) && event == AgentEvent.FoodArrived)
 		{
-			System.out.println("the customer is eating his food/finishing");
+			log("the customer is eating his food/finishing");
 			state = AgentState.DoneEating;
 			getCustomerGui().Decided();
 			EatFood();
@@ -288,21 +298,21 @@ public class EnaCustomerRole extends Role implements Customer{
 		}
 		if (state == AgentState.DoneEating && event == AgentEvent.Done)
 		{
-			print("customer is preparing to leave");
+			log("customer is preparing to leave");
 			state = AgentState.payingBill;
 			FinishedMeal();
 			return true;
 		}
 		if(state == AgentState.payingBill && event == AgentEvent.recievedCheck)
 		{
-			print("customer is paying the bill");
+			log("customer is paying the bill");
 			state = AgentState.paidLeaving;
 			PayCashier();
 			return true;
 		}
 		if (state == AgentState.paidLeaving && event == AgentEvent.recievedChange)
 		{
-			System.out.println("done");
+			log("done");
 			state = AgentState.DoingNothing;
 			getCustomerGui().DoExitRestaurant();
 			super.setInactive();
@@ -322,7 +332,7 @@ public class EnaCustomerRole extends Role implements Customer{
 		Do("Going to restaurant");
 		if(name.equals("poor"))
 		{
-			print ("no money must leave");
+			log ("no money must leave");
 		}
 		
 		else
@@ -346,7 +356,7 @@ public class EnaCustomerRole extends Role implements Customer{
 		{
 			public void run() 
 			{
-				print("Browsing the menu");
+				log("Browsing the menu");
 				event = AgentEvent.WaiterCall;
 				stateChanged();
 			}
@@ -363,12 +373,12 @@ public class EnaCustomerRole extends Role implements Customer{
 	
 	private void OrderFood()
 	{
-		print("Ordering a choice from menu");
+		log("Ordering a choice from menu");
 		waiter.msgHereIsMyChoice(choice, this);
 	}
 	private void ReOrderFood()
 	{
-		print("customer choosing new order");
+		log("customer choosing new order");
 		waiter.msgHereIsMyChoice(choice, this);
 	}
 
@@ -388,7 +398,7 @@ public class EnaCustomerRole extends Role implements Customer{
 		timer.schedule(new TimerTask() {
 			Object cookie = 1;
 			public void run() {
-				print("Done eating, cookie=" + cookie);
+				log("Done eating, cookie=" + cookie);
 				event = AgentEvent.Done;
 				stateChanged();
 			}

@@ -127,8 +127,8 @@ public class CityPanel extends JPanel{
 					case "work":
 						if(!occupation.equals("rich")) person.msgGoToWork();
 						break;
-					case "hungry":
-						person.msgGotHungry();
+					case "homeAndEat":	//changed from hungry
+						person.msgGotHungryForHome();	//changed from gotHungry
 						break;
 					case "market":
 						person.msgGoToMarket();
@@ -136,6 +136,8 @@ public class CityPanel extends JPanel{
 					case "restaurant":
 						person.msgGoToRestaurant();
 						break;
+					case "bank":
+						person.msgGoToBank("deposit");
 				}
 			}
 		}

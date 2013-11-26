@@ -63,26 +63,6 @@ public class HomePanel extends JPanel
         homeLabel.add(new JLabel("               "), BorderLayout.WEST);
     }
 
-    /**
-     * When a customer or waiter is clicked, this function calls
-     * updatedInfoPanel() from the main gui so that person's information
-     * will be shown
-     */
-    public void showInfo(String type, String name) 
-    {
-
-    	/*if(type.equals("Occupant"))
-    	{
-    		   gui.updateInfoPanel(name);
-
-    	}
-      
-    	if(type.equals("Landlord"))
-    	{
-    		gui.updateInfoPanel(name);
-    	}*/
-      
-    }
 
     /**
      * Adds a customer or waiter to the appropriate list
@@ -133,9 +113,11 @@ public class HomePanel extends JPanel
         	occupant.setHouse(house);
         	occupant.setLandLord(landLord);
             house.setOccupant(occupant);
-    		occupantGui = new OccupantGui(occupant); 	
+    		occupantGui = new OccupantGui(occupant); 
+    		System.out.println("new gui created---------------");
     		occupant.setGui(occupantGui);
-    		//occupantGui.setHungry();    
+    		System.out.println("gui set yyyyyyyyyyyyy");
+    		occupantGui.setHungry();    
     		animation.addGui(occupantGui);
     		System.out.println("Occupant has been returned home");
 

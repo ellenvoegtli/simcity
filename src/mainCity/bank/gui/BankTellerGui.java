@@ -5,11 +5,13 @@ import java.awt.Graphics2D;
 
 
 
-import mainCity.bank.BankTellerRole;
+
+
+import mainCity.bank.interfaces.BankTeller;
 import mainCity.gui.Gui;
 
 public class BankTellerGui implements Gui {
-	private BankTellerRole bankteller = null;
+	private BankTeller bankteller;
     //BankGui gui;
 	Graphics2D g2;
 	
@@ -34,7 +36,8 @@ public class BankTellerGui implements Gui {
     int t;
     public boolean atOrigin= true;
    
-    public BankTellerGui(BankTellerRole bankteller) {
+    public BankTellerGui(BankTeller bankteller) {
+    	//System.out.println("teller instantiated in file");
         this.bankteller = bankteller;
         //this.gui=gui;
     }

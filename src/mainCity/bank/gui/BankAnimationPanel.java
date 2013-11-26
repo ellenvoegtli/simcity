@@ -110,7 +110,7 @@ public class BankAnimationPanel extends CityCard implements ActionListener {
     }
 
     public void addGui(BankTellerGui gui){
-    	System.out.println("addGui");
+    	//System.out.println("addGui");
     	guis.add(gui);
     }
 
