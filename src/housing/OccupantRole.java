@@ -3,6 +3,7 @@ package housing;
 
 import housing.personHome.Appliance;
 import housing.personHome.type;
+import housing.Interfaces.Occupant;
 import housing.gui.OccupantGui;
 import agent.Agent;
 import mainCity.gui.AnimationPanel;
@@ -21,12 +22,12 @@ import role.Role;
 
 
 
-public class OccupantRole extends Role
+public class OccupantRole extends Role implements Occupant
 {
 	
 //DATA
 	Timer timer = new Timer();
-	private LandlordRole landLord;
+	private housing.Interfaces.landLord landLord;
 	//private houseAgent house;
 	private personHome home;
 	public OccupantGui gui;
@@ -52,12 +53,20 @@ public class OccupantRole extends Role
 	
 	
 	//for alert log trace statements
+	/* (non-Javadoc)
+	 * @see housing.Occupant#log(java.lang.String)
+	 */
+	
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
 	}
 
 
+/* (non-Javadoc)
+ * @see housing.Occupant#msgAtDestination()
+ */
+@Override
 public void msgAtDestination()
 {
 	destination.release();
@@ -65,6 +74,11 @@ public void msgAtDestination()
 	
 }
 	
+@Override
+public void msgLeaveHome()
+{
+	setInactive();
+}
 	
 public OccupantRole(PersonAgent p, String personNm) 
 {
@@ -85,6 +99,10 @@ public OccupantRole(PersonAgent p, String personNm)
 }
 
 
+/* (non-Javadoc)
+ * @see housing.Occupant#getName()
+ */
+@Override
 public String getName()
 {
 	return name;
@@ -93,6 +111,10 @@ public String getName()
 	
 //MESSAGES
 	
+/* (non-Javadoc)
+ * @see housing.Occupant#gotHungry()
+ */
+@Override
 public void gotHungry()
 {
 	log("person is hungry, will cook himself a meal");
@@ -129,6 +151,10 @@ public void gotHungry()
 	stateChanged();
 }*/
 
+/* (non-Javadoc)
+ * @see housing.Occupant#msgFixed(java.lang.String)
+ */
+@Override
 public void msgFixed(String appName)
 {
 	
@@ -136,6 +162,10 @@ public void msgFixed(String appName)
 	stateChanged();
 }
 
+/* (non-Javadoc)
+ * @see housing.Occupant#msgNeedFood(java.util.List)
+ */
+@Override
 public void msgNeedFood(List<String> buyFood)
 {
 	for(String f : buyFood)
@@ -147,6 +177,10 @@ public void msgNeedFood(List<String> buyFood)
 }
 
 
+/* (non-Javadoc)
+ * @see housing.Occupant#msgCookFood(java.lang.String)
+ */
+@Override
 public void msgCookFood(String foodCh)
 {
 	eState = eatingState.cooking;
@@ -155,6 +189,10 @@ public void msgCookFood(String foodCh)
 
 	
 //SCHEDULER
+/* (non-Javadoc)
+ * @see housing.Occupant#pickAndExecuteAnAction()
+ */
+@Override
 public boolean pickAndExecuteAnAction()
 {
 	
@@ -250,12 +288,20 @@ private void checkMaintenance()
 		home.CheckAppliances();
 }
 
+/* (non-Javadoc)
+ * @see housing.Occupant#PayRent()
+ */
+
 public void PayRent()
 {
 	log("pay the owner rent money");
 	//timer to run for a reasonable amount of time to make rent due, a "week?"
 	//bank.DirectDeposit(owner.id, rent);
 }
+/* (non-Javadoc)
+ * @see housing.Occupant#serviceAppliance()
+ */
+
 public void serviceAppliance()
 {
 	synchronized(needsWork)
@@ -277,6 +323,10 @@ public void serviceAppliance()
 	}
 	fState = fixState.fixed;
 }
+
+/* (non-Javadoc)
+ * @see housing.Occupant#fixAppliance(java.lang.String)
+ */
 
 public void fixAppliance(String app)
 {
@@ -315,6 +365,10 @@ public void fixAppliance(String app)
 	
 }
 
+/* (non-Javadoc)
+ * @see housing.Occupant#wantsToEat(java.lang.String)
+ */
+
 public void wantsToEat(String mealChoice)
 {
 	if(owner) gui.DoGoToFridge();
@@ -332,6 +386,10 @@ public void wantsToEat(String mealChoice)
 		
 }
 
+/* (non-Javadoc)
+ * @see housing.Occupant#goToStore()
+ */
+
 public void goToStore()
 {
 	log("Going To the store to buy groceries");
@@ -342,11 +400,19 @@ public void goToStore()
 	sState = shoppingState.shopping;
 }
 
+/* (non-Javadoc)
+ * @see housing.Occupant#restockKitchen()
+ */
+
 public void restockKitchen()
 {
 	home.GroceryListDone();	
 	sState = shoppingState.reStocking;
 }
+/* (non-Javadoc)
+ * @see housing.Occupant#cookAMeal()
+ */
+
 public void cookAMeal()
 {
 	if(owner) gui.DoGoToStove();
@@ -373,6 +439,10 @@ public void cookAMeal()
 	
 }
 
+/* (non-Javadoc)
+ * @see housing.Occupant#EatFood()
+ */
+
 public void EatFood()
 {
 	if (owner) gui.DoGoToKitchenTable();
@@ -395,6 +465,10 @@ public void EatFood()
 	//timer to eat food
 }
 
+/* (non-Javadoc)
+ * @see housing.Occupant#GoWashDishes()
+ */
+
 public void GoWashDishes()
 {
 	if (owner) gui.DoGoToSink();
@@ -416,6 +490,10 @@ public void GoWashDishes()
 	},
 	1000);
 }
+/* (non-Javadoc)
+ * @see housing.Occupant#GoRest()
+ */
+
 public void GoRest()
 {
 	if(owner) gui.DoGoRest();
@@ -423,25 +501,44 @@ public void GoRest()
 }
 
 
+/* (non-Javadoc)
+ * @see housing.Occupant#getHome()
+ */
+
 public personHome getHome() {
 	return home;
 }
 
 
+/* (non-Javadoc)
+ * @see housing.Occupant#setHouse(housing.personHome)
+ */
+
 public void setHouse(personHome house) {
 	this.home = house;
 }
 
-public void setLandLord(LandlordRole land)
+/* (non-Javadoc)
+ * @see housing.Occupant#setLandLord(housing.LandlordRole)
+ */
+
+public void setLandLord(housing.Interfaces.landLord land)
 {
 	this.landLord = land;
 }
+
+/* (non-Javadoc)
+ * @see housing.Occupant#setGui(housing.gui.OccupantGui)
+ */
 
 public void setGui(OccupantGui occupantGui) 
 {
 	this.gui = occupantGui;	
 }
 
+/* (non-Javadoc)
+ * @see housing.Occupant#getGui()
+ */
 public OccupantGui getGui() {
 	return gui;
 }

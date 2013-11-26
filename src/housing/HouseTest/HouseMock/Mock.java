@@ -1,4 +1,4 @@
-package mainCity.bank.test.mock;
+package housing.HouseTest.HouseMock;
 
 /**
  * This is the base class for all mocks.

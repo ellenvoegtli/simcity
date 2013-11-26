@@ -2,6 +2,8 @@ package mainCity.market.gui;
 
 import mainCity.market.MarketCustomerRole;
 import mainCity.market.MarketGreeterRole;
+import mainCity.market.interfaces.Customer;
+import mainCity.market.interfaces.CustomerGuiInterface;
 
 import java.awt.*;
 import java.util.Map;
@@ -10,11 +12,12 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-public class CustomerGui implements Gui{
+
+public class CustomerGui implements Gui, CustomerGuiInterface{
     private final int WINDOWX = 500;
     private final int WINDOWY = 370;
 
-	private MarketCustomerRole agent = null;
+	private Customer agent = null;
 	private boolean isPresent = false;
 	private boolean isHungry = false;
 	private boolean needsInventory = false;
@@ -46,7 +49,7 @@ public class CustomerGui implements Gui{
 	private int myTable;
 	
 
-	public CustomerGui(MarketCustomerRole c, MarketAnimationPanel a){ //HostAgent m) {
+	public CustomerGui(Customer c, MarketAnimationPanel a){ //HostAgent m) {
 		this.animation = a;
 		
 		//initialize table locations map
@@ -229,13 +232,7 @@ public class CustomerGui implements Gui{
 		
 	}
 	
-    public void DoGoToCook() {
-    	//atDestination = false;
-    	xDestination = cookX;
-    	yDestination = cookY;
-    }
-    
-    public void DoGoToCashier(){
+	public void DoGoToCashier(){
     	//atDestination = false;
     	xDestination = cashierX;
     	yDestination = cashierY;
@@ -248,4 +245,5 @@ public class CustomerGui implements Gui{
 		yDestination = exitLocationY;
 		command = Command.LeaveRestaurant;
 	}
+
 }

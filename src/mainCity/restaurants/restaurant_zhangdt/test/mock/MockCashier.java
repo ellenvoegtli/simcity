@@ -39,4 +39,10 @@ public class MockCashier extends Mock implements Cashier{
 		log.add(new LoggedEvent("Received Change From Market. Change = $"+ amount));
 
 	}
+
+	@Override
+	public void msgNotEnoughMoney(double amountOwed, double amountPaid) {
+		// TODO Auto-generated method stub
+		
+	}
 }

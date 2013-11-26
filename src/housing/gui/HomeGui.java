@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 
 import housing.OccupantRole;
 import housing.LandlordRole;
-
+import housing.Interfaces.Occupant;
 import agent.Agent;
 
 
@@ -131,7 +131,7 @@ public class HomeGui extends JFrame implements ActionListener{
         currentPerson = person;
 
         if (person instanceof OccupantRole) {
-            OccupantRole customer = (OccupantRole) person;
+            Occupant customer = (Occupant) person;
             stateCB.setText("Hungry?");
           //Should checkmark be there? 
             stateCB.setSelected(customer.getGui().isHungry());
@@ -155,7 +155,7 @@ public class HomeGui extends JFrame implements ActionListener{
         {
             if (currentPerson instanceof OccupantRole) 
             {
-                OccupantRole c = (OccupantRole) currentPerson;
+                Occupant c = (Occupant) currentPerson;
                 c.getGui().setHungry();
                 stateCB.setEnabled(false);
             }
@@ -170,10 +170,10 @@ public class HomeGui extends JFrame implements ActionListener{
      *
      * @param c reference to the customer
      */
-    public void setCustomerEnabled(OccupantRole c) 
+    public void setCustomerEnabled(Occupant c) 
     {
         if (currentPerson instanceof OccupantRole) {
-            OccupantRole occ = (OccupantRole) currentPerson;
+            Occupant occ = (Occupant) currentPerson;
             if (c.equals(occ)) {
                 stateCB.setEnabled(true);
                 stateCB.setSelected(false);

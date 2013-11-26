@@ -5,6 +5,7 @@ import mainCity.bank.BankerRole;
 
 public interface BankManager {
 
+	public abstract void setBanker(BankerRole br);
 
 	public abstract void msgBankerAdded();
 
@@ -28,5 +29,12 @@ public interface BankManager {
 
 	public abstract void msgImLeaving(BankCustomer bc);
 
+	public abstract boolean pickAndExecuteAnAction();
+
+	public abstract boolean isOpen();
+
+	public abstract void setBankAccounts(BankAccounts accounts);
+
+	public abstract boolean closeBuilding();
 
 }

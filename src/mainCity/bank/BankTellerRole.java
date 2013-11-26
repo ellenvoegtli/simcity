@@ -7,6 +7,8 @@ import mainCity.bank.BankAccounts.BankAccount;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.bank.interfaces.BankTeller;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.WorkerRole;
 import agent.Agent;
 
@@ -43,6 +45,10 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	/* (non-Javadoc)
 	 * @see mainCity.bank.BankTeller#setBankAccounts(mainCity.bank.BankAccounts)
 	 */
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.BANK, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.BANK_TELLER, this.getName(), s);
+	}
 	@Override
 	public void setBankAccounts(BankAccounts ba){
 		this.ba=ba;
@@ -75,7 +81,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	 */
 	@Override
 	public void msgIWantToDeposit(BankCustomer b, double accnum, int amount){
-		Do("recieved msgIWantToDeposit from a customer");
+		log("recieved msgIWantToDeposit from a customer");
 		mc=new myClient();
 		mc.bc=b;
 		mc.amount=amount;
@@ -89,7 +95,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	 */
 	@Override
 	public void msgIWantToWithdraw(BankCustomer b, double accnum, int amount){
-		Do("recieved msgIWantToWithdraw from a customer");
+		log("recieved msgIWantToWithdraw from a customer");
 		mc=new myClient();
 		mc.bc=b;
 		mc.amount=amount;
@@ -153,7 +159,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	
 	
 	private void doDeposit(myClient mc){
-		Do("doing deposit");
+		log("doing deposit");
 		synchronized (ba.accounts) {
 			
 			for(BankAccount b: ba.accounts){
@@ -181,7 +187,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	}
 	
 	private void doWithdraw(myClient mc){
-		Do("doing withdraw");
+		log("doing withdraw");
 		synchronized (ba.accounts) {
 			
 			for(BankAccount b: ba.accounts){

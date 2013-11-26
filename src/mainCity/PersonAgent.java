@@ -6,6 +6,7 @@ import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import housing.LandlordRole;
 import housing.OccupantRole;
+import housing.Interfaces.Occupant;
 
 import java.util.*;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -15,6 +16,7 @@ import mainCity.bank.BankCustomerRole;
 import mainCity.bank.BankManagerRole;
 import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
+import mainCity.bank.BankCustomerRole;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
@@ -23,6 +25,8 @@ import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
+import mainCity.test.EventLog;
+import mainCity.test.LoggedEvent;
 import mainCity.market.*;
 import role.market.*;
 import transportation.BusAgent;
@@ -49,6 +53,8 @@ public class PersonAgent extends Agent {
 	private Map<ActionType, Role> roles;
 	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
+	
+	public EventLog log = new EventLog(); 
 	
 	public PersonAgent(String n) {
 		super();
@@ -112,6 +118,7 @@ public class PersonAgent extends Agent {
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
 		//traveling = false;
+		log.add(new LoggedEvent("msgArrivedAtDestination received")); 
 		gui.DoGoOutside();
 		state = PersonState.walkingFromBus;
 		stateChanged();
@@ -125,6 +132,7 @@ public class PersonAgent extends Agent {
 	
 	public void msgBusHasArrived() {
 		//print("msgBusHasArrived received");
+		log.add(new LoggedEvent("msgBusHasArrived received"));
 		state = PersonState.boardingBus;
 		stateChanged();
 	}
@@ -217,12 +225,12 @@ public class PersonAgent extends Agent {
 				
 				if(currentAction != null && (currentAction.type == ActionType.homeAndEat)){
 					if (roles.get(ActionType.home) != null) {
-						((OccupantRole) roles.get(ActionType.home)).gotHungry();
+						((Occupant) roles.get(ActionType.home)).gotHungry();
 						roles.get(ActionType.home).setActive();
 					}
 
 					else {
-						((OccupantRole) roles.get(ActionType.homeAndEat)).gotHungry();
+						((Occupant) roles.get(ActionType.homeAndEat)).gotHungry();
 						roles.get(ActionType.homeAndEat).setActive();
 					}
 				}

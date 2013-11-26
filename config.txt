@@ -1,3 +1,12 @@
+-Bank
+Name:bankteller;Cash:100;Renter:true;Occupation:bankTeller;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:bankmanager;Cash:100;Renter:true;Occupation:bankManager;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:banker;Cash:100;Renter:true;Occupation:banker;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:testbankcust;Cash:400;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:bank
+-Market
+Name:marketgreeter;Cash:100;Renter:true;Occupation:marketGreeter;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:marketcashier;Cash:100;Renter:true;Occupation:marketCashier;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:marketdeliveryman;Cash:100;Renter:true;Occupation:marketDeliveryMan;ShiftBegin:6;ShiftEnd:22;Actions:work
 -Marcus Restaurant
 Name:marcuscook;Cash:100;Renter:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:marcushost;Cash:100;Renter:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work
@@ -18,14 +27,6 @@ Name:jeffersonhost;Cash:100;Renter:true;Occupation:jeffersonHost;ShiftBegin:7;Sh
 Name:davidcook;Cash:100;Renter:true;Occupation:davidCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:davidcashier;Cash:100;Renter:true;Occupation:davidCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:davidhost;Cash:100;Renter:false;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work
--Market
-Name:marketgreeter;Cash:100;Renter:true;Occupation:marketGreeter;ShiftBegin:6;ShiftEnd:22;Actions:work
-Name:marketcashier;Cash:100;Renter:true;Occupation:marketCashier;ShiftBegin:6;ShiftEnd:22;Actions:work
-Name:marketdeliveryman;Cash:100;Renter:true;Occupation:marketDeliveryMan;ShiftBegin:6;ShiftEnd:22;Actions:work
--Bank
-Name:bankteller;Cash:100;Renter:true;Occupation:bankTeller;ShiftBegin:6;ShiftEnd:22;Actions:work
-Name:bankmanager;Cash:100;Renter:true;Occupation:bankManager;ShiftBegin:6;ShiftEnd:22;Actions:work
-Name:banker;Cash:100;Renter:true;Occupation:banker;ShiftBegin:6;ShiftEnd:22;Actions:work
 -Other
 Name:richpersonA;Cash:100;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:work
 Name:richpersonB;Cash:100;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:work
