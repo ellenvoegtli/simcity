@@ -1,12 +1,8 @@
-package mainCity.restaurants.restaurant_zhangdt;
+package role.davidRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
-import mainCity.restaurants.restaurant_zhangdt.DavidMarketRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
-import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole.myCustomer;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cook;
@@ -16,6 +12,10 @@ import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
+import role.davidRestaurant.DavidMarketRole;
+import role.davidRestaurant.DavidCustomerRole.AgentEvent;
+import role.davidRestaurant.DavidCustomerRole.AgentState;
+import role.davidRestaurant.DavidWaiterRole.myCustomer;
 
 public class DavidCookRole extends Role implements Cook{
 	
