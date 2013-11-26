@@ -272,10 +272,9 @@ public class PersonAgent extends Agent {
 				}
 				else if(customer instanceof EnaCustomerRole)
 				{
-					print("is customer hungry????");
+					print("is customer hungry?");
 					if (!((EnaCustomerRole) customer).getGui().goInside())
 					{	chooseRestaurant();
-						print("customer set to hungry");
 						return true;
 					}
 				}
@@ -406,6 +405,12 @@ public class PersonAgent extends Agent {
 			actions.add(new Action(ActionType.work, 1));
 			stateChanged();
 		}
+		
+		if(job.occupation.equals("rich") && event == PersonEvent.maintainWork)
+		{
+			actions.add(new Action(ActionType.maintenance , 1));
+		}
+		
 		if(time == job.shiftEnd && state == PersonState.working) {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
 				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
@@ -580,6 +585,7 @@ public class PersonAgent extends Agent {
 							ContactList.getInstance().getMarket().handleRole(mdm);
 							roles.put(action, mdm);
 							break;
+					
 						default:
 							break;
 					}
@@ -750,8 +756,9 @@ public class PersonAgent extends Agent {
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
-		
-		boolean temp = true;
+		currentAction.type = ActionType.home;
+		handleAction(currentAction.type);
+		/*boolean temp = true;
 		
 		if(temp) { //chose restaurant
 			output("Chose to eat at a restaurant");
@@ -769,7 +776,7 @@ public class PersonAgent extends Agent {
 				currentAction.type = ActionType.home;
 				handleAction(currentAction.type);
 			}
-		}
+		}*/
 
 		stateChanged();
 	}
@@ -802,7 +809,8 @@ public class PersonAgent extends Agent {
 
 	private void goToRenters()
 	{
-		output("Going to a renters home");
+		output("Going to a renters home for maintenance");
+		
 		travelToLocation(CityLocation.home);
 		
 		stateChanged();

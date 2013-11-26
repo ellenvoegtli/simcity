@@ -72,13 +72,20 @@ public class CityPanel extends JPanel{
     	//String[] actions = {"work"}; 
     	//addPerson("waiter", 100, true, "marcusWaiter", 12, -1, actions);
     	//addPerson("host", 100, true, "marcusHost", 8, 11, actions);
-		parseConfig();
+		//parseConfig();
 
     	//String[] actions = {"hungry"}; 
     	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
 
-    	String[] actions = {"work"}; 
-    	//addPerson("David", 500, false, "davidWaiter", 7, 19, actions); 
+    	String[] actions = {"home, hungry"}; 
+    	
+    	addPerson("David", 200, false, "davidWaiter", 18, 19, actions); 
+    	addPerson("roger", 200, false, "rich", 18, 19, actions); 
+    	//addPerson("sara", 200, false, "davidWaiter", 18, 19, actions); 
+    	//addPerson("bill", 200, false, "rich", 18, 19, actions); 
+    	addPerson("sam", 200, true, "davidWaiter", 18, 19, actions); 
+    	//addPerson("jes", 200, false, "rich", 18, 19, actions); 
+
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {

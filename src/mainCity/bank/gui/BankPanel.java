@@ -229,6 +229,18 @@ public class BankPanel extends JPanel {
     		
     	}
     	if(r instanceof BankManagerRole){
+    		bankmanager = (BankManagerRole) r;
+    		bankmanager.setBankAccounts(mainaccounts);
+    		bankmanager.setBanker(banker);
+    		
+    		for(BankTellerRole bt:banktellers){
+    			bankmanager.msgTellerAdded(bt);
+    			
+    		}
+    		
+    		for(BankCustomerRole bc:bankcustomers){
+    			bc.setBankManager(bankmanager);
+    		}
     		
     		
     		
