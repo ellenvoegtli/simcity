@@ -141,14 +141,9 @@ public class BankPanel extends JPanel {
         setLayout(new FlowLayout());
         group.setLayout(new FlowLayout());
      
-        
 
-
-<<<<<<< HEAD
        // bankmanager.startThread();
-=======
-        //bankmanager.startThread();
->>>>>>> b6bc1a8953b38907a8e1f29da3f96d9a0b909dc9
+
         
         //banker.msgGoToWork();
         //banker.startThread();

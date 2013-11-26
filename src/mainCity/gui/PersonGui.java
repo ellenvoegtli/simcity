@@ -255,10 +255,11 @@ public class PersonGui implements Gui{
 		PersonAgent.CityLocation destination = ContactList.stops.get(0).stopLocation;
 		
 		//goes through list of bus stops to find nearest stop
-		for(int i=1; i < ContactList.stops.size(); i++) { 
+		for(int i=0; i < ContactList.stops.size(); i++) { 
 			int tempdistance = Math.abs(xPos - ContactList.stops.get(i).xLocation) 
 								+ (Math.abs(yPos - ContactList.stops.get(i).yLocation)); 
-			if(tempdistance < distance){ 
+			if(tempdistance <= distance){ 
+				distance = tempdistance;
 				destination = ContactList.stops.get(i).stopLocation;
 			}
 		}
