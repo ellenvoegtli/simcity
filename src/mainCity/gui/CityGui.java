@@ -3,6 +3,7 @@ package mainCity.gui;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 
+import role.marcusRestaurant.MarcusCustomerRole.AgentEvent;
 import mainCity.PersonAgent;
 import mainCity.gui.AnimationPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
@@ -15,6 +16,8 @@ import mainCity.gui.ListPanel;
 import java.awt.*;
 import java.awt.event.*;
 import java.text.NumberFormat;
+import java.util.TimerTask;
+import java.util.Timer;
 import java.util.Vector;
 import java.math.*;
 
@@ -428,13 +431,16 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         controlPanel.setMaximumSize(controlDim);
         //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
         leftPanel.add(controlPanel, BorderLayout.SOUTH);
-        
-        
-        
-        //for (PersonAgent p : cityPanel.getOccupants()){
-        //	personPanel.addPerson(p.getName());
-        //}
-               
+                
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+			public void run() {
+		        for (PersonAgent p : cityPanel.getOccupants()){
+		        	personPanel.addPerson(p.getName());
+		        }
+			}
+		}, 200);
+         
 	}
 	
 	public void showInfo(String name) {
