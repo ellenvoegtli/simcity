@@ -727,7 +727,7 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		switch((int) (Math.random() * 4)) {
+		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
 				break;
@@ -739,6 +739,9 @@ public class PersonAgent extends Agent {
 				break;
 			case 3:
 				destination = CityLocation.restaurant_jefferson;
+				break;
+			case 4:
+				destination = CityLocation.restaurant_david; 
 				break;
 			default:
 				break;
