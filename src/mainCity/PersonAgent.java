@@ -6,6 +6,7 @@ import housing.LandlordRole;
 import housing.OccupantRole;
 
 import java.util.*;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
@@ -31,14 +32,6 @@ import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
 import mainCity.market.*;
 import role.market.*;
 
-/*
- * To Do for the personagent:
- * 	implement a way for roles to get added
- * 	handle the decision between market/restaurant since i use individual actions?
- * 	handle decision making for person (car/bus/walk) (which restaurant/market or restaurant)
- * 
- */
-
 public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding, waiting, boardingBus}
 	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
@@ -57,8 +50,8 @@ public class PersonAgent extends Agent {
 	private PersonEvent event;
 	private CityLocation destination;
 	private Semaphore isMoving = new Semaphore(0, true);
-	private HashMap<ActionType, Role> roles;
-	private PriorityQueue<Action> actions;
+	private Map<ActionType, Role> roles;
+	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
 	
 	public PersonAgent(String n) {
@@ -72,8 +65,8 @@ public class PersonAgent extends Agent {
 		state = PersonState.normal;//maybe 'inBuilding' if we start everyone in home
 		event = PersonEvent.none;
 		destination = CityLocation.home;
-		roles = new HashMap<ActionType, Role>();
-		actions = new PriorityQueue<Action>(); 
+		roles = Collections.synchronizedMap(new HashMap<ActionType, Role>());
+		actions = new PriorityBlockingQueue<Action>();
 		currentAction = null;
 	}
 	
@@ -410,7 +403,7 @@ public class PersonAgent extends Agent {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
 				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
 					output("Closing up shop");
-					((ManagerRole) r.getValue()).msgEndShift(job.shiftEnd-job.shiftBegin);
+					((ManagerRole) r.getValue()).msgEndShift();
 				}
 				if(r.getValue() instanceof JeffersonHostRole && r.getValue().isActive()){
 					((JeffersonHostRole) r.getValue()).msgOffDuty();
@@ -866,7 +859,6 @@ public class PersonAgent extends Agent {
 		state = PersonState.normal;
 		gui.DoGoOutside();
 		stateChanged();
-		//possibly have the msgFinished...messages in here instead
 	}
 	
 	public void stateChanged() {
