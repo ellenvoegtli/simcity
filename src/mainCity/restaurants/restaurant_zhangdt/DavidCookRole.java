@@ -97,10 +97,10 @@ public class DavidCookRole extends Role implements Cook{
 		menu.add("Salad");
 		menu.add("Pizza");
 		
-		Inventory.put("Steak", new Food("Steak", 3, 5000));	//type, cookingTime, amount
-        Inventory.put("Chicken", new Food("Chicken", 3, 2500));
-        Inventory.put("Salad", new Food("Salad", 3, 1500));
-        Inventory.put("Pizza", new Food("Pizza", 3, 2000));
+		Inventory.put("Steak", new Food("Steak", 10, 5000));	//type, cookingTime, amount
+        Inventory.put("Chicken", new Food("Chicken", 10, 2500));
+        Inventory.put("Salad", new Food("Salad", 10, 1500));
+        Inventory.put("Pizza", new Food("Pizza", 10, 2000));
         
         print("Inventory Steak: " + Inventory.get("Steak").quantity);
 		print("Inventory Chicken: " + Inventory.get("Chicken").quantity);

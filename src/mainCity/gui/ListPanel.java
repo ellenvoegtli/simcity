@@ -13,9 +13,7 @@ import java.util.ArrayList;
  */
 
 public class ListPanel extends JPanel implements ActionListener {
-    public JScrollPane personPane =
-            new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                    JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    public JScrollPane personPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     private JPanel personView = new JPanel();
     private List<JButton> personList = new ArrayList<JButton>();
    
@@ -37,6 +35,8 @@ public class ListPanel extends JPanel implements ActionListener {
         personView.setLayout(new BoxLayout((Container) personView, BoxLayout.Y_AXIS));
         personPane.setViewportView(personView);
         add(personPane);
+     
+        addPerson("jose");//test
     }
 
     /**
@@ -64,8 +64,8 @@ public class ListPanel extends JPanel implements ActionListener {
      */
 
     public void addPerson(String name) {
-
         if (name != null) {
+        	System.out.println(name);
             JButton button = new JButton(name);
             button.setBackground(Color.white);
 
@@ -79,9 +79,10 @@ public class ListPanel extends JPanel implements ActionListener {
             personList.add(button);
             personView.add(button);
          
-            cityGui.showInfo(name);
+            //cityGui.showInfo(name);
 
             validate();
+            repaint();
         }
     }
     

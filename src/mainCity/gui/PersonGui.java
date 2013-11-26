@@ -35,8 +35,8 @@ public class PersonGui implements Gui{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
-		//xHome = agent.getHomePlace().getXLoc();
-		//yHome = agent.getHomePlace().getYLoc();
+		xHome = agent.getHomePlace().getXLoc();
+		yHome = agent.getHomePlace().getYLoc();
 		
 		xDestination = xPos = xHome;
 		yDestination = yPos = yHome;;
@@ -137,14 +137,12 @@ public class PersonGui implements Gui{
 			case home:
 				calculatePath(xHome, yHome);
 				break;
-		
 			default:
 				calculatePath(0, 0);
 				break;
 		}
 		
 		if(!path.isEmpty()) {
-			System.out.println("path not empty");
 			xDestination = path.peek().x;
 			yDestination = path.poll().y;
 		}
@@ -273,7 +271,6 @@ public class PersonGui implements Gui{
 	}
 	
 	public CityLocation findNearestStop(){ 
-		
 		//starts off with first bus stop
 		//measures absolute value of difference in x and y between person's current location and bus stop's location
 		//sets destination to the stop

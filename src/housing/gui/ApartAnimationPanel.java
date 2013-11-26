@@ -35,9 +35,9 @@ import housing.gui.LandlordGui;
 public class ApartAnimationPanel extends HomeAnimationPanel{
 
 
-    private final int WINDOWX = 950;
-    private final int WINDOWY = 550;
-    private Image bufferImage;
+    //private final int WINDOWX = 950;
+    //private final int WINDOWY = 550;
+    //private Image bufferImage;
     private Dimension bufferSize;
     private CityGui gui;
 	private HomePanel home = new HomePanel(this);
@@ -45,9 +45,7 @@ public class ApartAnimationPanel extends HomeAnimationPanel{
     private List<HomeAnimationPanel> apts = new ArrayList<HomeAnimationPanel>();
     
     private HomeAnimationPanel apt1 = new HomeAnimationPanel(gui);
-   
     private HomeAnimationPanel apt2 = new HomeAnimationPanel(gui);
-    
     private HomeAnimationPanel apt3 = new HomeAnimationPanel(gui);
     private HomeAnimationPanel apt4 = new HomeAnimationPanel(gui);
     
@@ -55,27 +53,47 @@ public class ApartAnimationPanel extends HomeAnimationPanel{
 	public ApartAnimationPanel(CityGui gui) 
 	{
 		super(gui);
+		
+		Dimension dim = new Dimension(300,200);
+		
+        apt1.setBorder(BorderFactory.createRaisedBevelBorder());
+		apt1.setPreferredSize(dim);
+
+        apt2.setBorder(BorderFactory.createRaisedBevelBorder());
+		apt2.setPreferredSize(dim);
+
+        apt3.setBorder(BorderFactory.createRaisedBevelBorder());
+		apt3.setPreferredSize(dim);
+
+        apt4.setBorder(BorderFactory.createRaisedBevelBorder());
+		apt4.setPreferredSize(dim);
+
+
 	    apts.add(apt1);
 	    apts.add(apt2);
 	    apts.add(apt3);
 	    apts.add(apt4);
 		
-	    ContactList.getInstance().setHome(home);
+	    ContactList.getInstance().setHome(apt1.getHomeP());
+	    ContactList.getInstance().setHome(apt2.getHomeP());
+	    ContactList.getInstance().setHome(apt3.getHomeP());
+	    ContactList.getInstance().setHome(apt4.getHomeP());
 
 		//ContactList.getInstance().setApart(apts);
     	
-    	setSize(WINDOWX, WINDOWY);
+    	setSize(600, 400);
         setVisible(true);
        
         setLayout( new GridLayout(2,2,0,0));
-        
+		setPreferredSize(new Dimension(600,400));
+
         add(apt1);
         add(apt2);
-        add(apt2);
+        add(apt3);
         add(apt4);
         
         
-        bufferSize = this.getSize();
+       // bufferSize = this.getSize();
 	}
 	
 

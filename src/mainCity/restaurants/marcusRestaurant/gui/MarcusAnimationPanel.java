@@ -70,6 +70,7 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
         for(Gui gui : guis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
+                gui.updatePosition();
             }
         }
         
