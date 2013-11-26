@@ -457,7 +457,7 @@ public class MarketEmployeeRole extends Role {
 	}
 
 	
-	private class MyCustomer {
+	public class MyCustomer {		//public only for testing purposes
 		MarketCustomerRole c;
 		double billAmount;
 		CustomerState s;
@@ -476,7 +476,7 @@ public class MarketEmployeeRole extends Role {
 		}
 	}
 	
-	private class MyBusiness{
+	public class MyBusiness{		//public only for testing purposes
 		String restaurantName;
 		double billAmount;
 		BusinessState s;

@@ -18,7 +18,7 @@ import mainCity.contactList.ContactList;
 import mainCity.market.*;
 import mainCity.market.gui.*;
 import mainCity.restaurants.marcusRestaurant.gui.*;
-import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantGui;
+
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
@@ -43,10 +43,10 @@ public class CityPanel extends JPanel{
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
 		//davidRestGui.setVisible(true);
 
-    	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
-    	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
+    	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
+    	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
 
-    	jeffersonRestaurant.setVisible(true);
+    	//jeffersonRestaurant.setVisible(true);
  
 
     	BankGui bank = new BankGui();

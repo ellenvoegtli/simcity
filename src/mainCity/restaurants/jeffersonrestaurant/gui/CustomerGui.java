@@ -13,7 +13,7 @@ public class CustomerGui implements Gui{
 	private boolean isHungry = false;
 
 	//private HostAgent host;
-	JeffersonRestaurantGui gui;
+	//JeffersonRestaurantGui gui;
 	Graphics2D g2;
 
 	private int xPos, yPos;
@@ -22,7 +22,7 @@ public class CustomerGui implements Gui{
 	private Command command=Command.noCommand;
 
 	public static final int xTable = 200;
-	public static final int yTable = 350;
+	public static final int yTable = 300;
 	public static final int width = 20;
 	public static final int height = 20;
 	public static final int exitX= -40;
@@ -30,14 +30,14 @@ public class CustomerGui implements Gui{
 	int tablecount = 3;
 	int waitingloc;
 
-	public CustomerGui(JeffersonCustomerRole c, JeffersonRestaurantGui gui){ //HostAgent m) {
+	public CustomerGui(JeffersonCustomerRole c){ //HostAgent m) {
 		agent = c;
 		xPos = -40;
 		yPos = -40;
 		xDestination = -40;
 		yDestination = -40;
 		//maitreD = m;
-		this.gui = gui;
+		//this.gui = gui;
 	}
 
 	public void updatePosition() {
@@ -67,7 +67,7 @@ public class CustomerGui implements Gui{
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
 				isHungry = false;
-				gui.setCustomerEnabled(agent);
+				//gui.setCustomerEnabled(agent);
 			}
 			command=Command.noCommand;
 		}

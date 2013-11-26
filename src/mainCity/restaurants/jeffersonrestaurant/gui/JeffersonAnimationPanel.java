@@ -2,30 +2,38 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 
 import javax.swing.*;
 
+import mainCity.contactList.ContactList;
+import mainCity.gui.CityCard;
+import mainCity.gui.CityGui;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 
-public class AnimationPanel extends JPanel implements ActionListener {
+public class JeffersonAnimationPanel extends CityCard implements ActionListener {
 
     private final int WINDOWX = 650;
     private final int WINDOWY = 550;
     private Image bufferImage;
     private Dimension bufferSize;
     static final int  X = 200;
-    static final int  Y = 350;
+    static final int  Y = 300;
     static final int width = 50;
     static final int height = 50;
+    private JeffersonRestaurantPanel JRestPanel = new JeffersonRestaurantPanel(this);
+    
 
     private List<Gui> guis = new ArrayList<Gui>();
 
-    public AnimationPanel() {
+    public JeffersonAnimationPanel(CityGui gui) {
+    	super(gui);
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
         
         bufferSize = this.getSize();
+        ContactList.getInstance().setJeffersonRestaurant(JRestPanel);
  
     	Timer timer = new Timer(20, this );
     	timer.start();

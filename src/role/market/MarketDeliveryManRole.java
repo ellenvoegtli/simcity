@@ -1,4 +1,3 @@
-
 package role.market;
 
 import agent.Agent;
