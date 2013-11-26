@@ -28,7 +28,7 @@ public class MarketCustomerRole extends Role implements Customer {
 	// agent correspondents
 	private Greeter host;
 	private Employee employee;
-	private Cashier cashier;
+	private MarketCashier cashier;
 	private MarketMenu marketMenu = new MarketMenu();
 	
 	private int stationX;
@@ -84,7 +84,7 @@ public class MarketCustomerRole extends Role implements Customer {
 		this.host = host;
 	}
 	
-	public void setCashier(Cashier c){
+	public void setCashier(MarketCashier c){
 		this.cashier = c;
 	}
 

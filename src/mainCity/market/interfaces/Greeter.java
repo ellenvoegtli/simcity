@@ -9,7 +9,7 @@ import mainCity.market.MarketCustomerRole;
 
 
 public interface Greeter {
-	public abstract void setCashier(Cashier c);
+	public abstract void setCashier(MarketCashier c);
 	public abstract void setDeliveryMan(DeliveryMan d);
 	public abstract void addEmployee(Employee e);
 	

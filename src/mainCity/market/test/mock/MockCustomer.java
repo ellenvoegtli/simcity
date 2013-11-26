@@ -8,7 +8,7 @@ import mainCity.market.interfaces.*;
 
 public class MockCustomer extends Mock implements Customer {
         public Employee employee;
-        public Cashier cashier;
+        public MarketCashier cashier;
 
         public MockCustomer(String name) {
                 super(name);

@@ -6,7 +6,7 @@ import java.util.Map;
 import mainCity.market.interfaces.*;
 import mainCity.market.*;
 
-public class MockCashier extends Mock implements Cashier {
+public class MockCashier extends Mock implements MarketCashier {
 	public DeliveryMan deliveryMan;
     public Employee employee;
     public Greeter greeter;

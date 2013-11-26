@@ -13,7 +13,7 @@ public class MockGreeter extends Mock implements Greeter{
 		super(name);
 	}
 	
-	public void setCashier(Cashier c){
+	public void setCashier(MarketCashier c){
 	}
 	public void setDeliveryMan(DeliveryMan d){
 	}

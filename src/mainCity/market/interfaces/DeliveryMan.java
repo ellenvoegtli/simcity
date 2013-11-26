@@ -10,6 +10,7 @@ import mainCity.market.MarketCashierRole;
 public interface DeliveryMan {	
 	public abstract void msgAtHome();
 	public abstract void msgAtDestination();
+	public abstract void setCashier(MarketCashier c);
 	
 	public abstract void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount);
 	public abstract void msgHereIsPayment(double amount, String restaurantName);		//sent by any restaurant's cashier

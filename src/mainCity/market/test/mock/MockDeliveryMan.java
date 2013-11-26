@@ -12,6 +12,10 @@ public class MockDeliveryMan extends Mock implements DeliveryMan {
 		super(name);
 	}
 	
+	public void setCashier(MarketCashier c){
+		
+	}
+	
 	@Override
 	public void msgAtHome(){
 		log.add(new LoggedEvent("Received msgAtHome"));

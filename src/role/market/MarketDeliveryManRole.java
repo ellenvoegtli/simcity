@@ -8,7 +8,7 @@ import mainCity.interfaces.*;
 import mainCity.market.*;
 import mainCity.market.MarketCashierRole.BillState;
 import mainCity.market.gui.*;
-//import mainCity.market.interfaces.Cashier;
+import mainCity.market.interfaces.MarketCashier;
 import mainCity.market.interfaces.DeliveryMan;
 import mainCity.market.interfaces.DeliveryManGuiInterface;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
@@ -24,7 +24,7 @@ import java.util.concurrent.*;
 public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only handles one restaurant at a time right now
 	private String name;
 	public DeliveryManGuiInterface deliveryGui;
-	Cashier cashier;
+	MarketCashier cashier;
 	
 	private double availableMoney = 0;
 	Timer timer = new Timer();
@@ -61,6 +61,9 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 
 	public String getName() {
 		return name;
+	}
+	public void setCashier(MarketCashier c){
+		cashier = c;
 	}
 	public AgentState getState(){
 		return state;
