@@ -125,18 +125,22 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	     }
 	        
 	     
-	     for(Gui gui : guis) {
-	            if (gui.isPresent()) {
+	     for(Gui gui : guis)
+	     {
+	            if (gui.isPresent()) 
+	            {
 	                gui.updatePosition();
 	            }
-	        }
+	       }
 
-	        for(Gui gui : guis) {
-	            if (gui.isPresent()) {
+	        for(Gui gui : guis) 
+	        {
+	            if (gui.isPresent())
+	            {
 	                gui.draw(g2);
 	            }
 	        }
-	    }
+	 }
 
 	    public void addGui(LandlordGui gui) 
 	    {

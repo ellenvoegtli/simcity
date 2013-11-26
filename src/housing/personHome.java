@@ -47,17 +47,44 @@ public class personHome
 	Appliances.add(new Appliance("stove" , true, false));
 	Appliances.add(new Appliance("fridge" , true, false));
 	Appliances.add(new Appliance("sink" , true, false));
-	Appliances.add(new Appliance("TV", false, false));
+	Appliances.add(new Appliance("TV", true, false));
 	
 	AAppliances.add(new Appliance("stove" , true, true));
 	AAppliances.add(new Appliance("fridge" , true, true));
 	AAppliances.add(new Appliance("sink" , true, true));
-	AAppliances.add(new Appliance("TV", false, true));
+	AAppliances.add(new Appliance("TV", true, true));
 
 		
 	}
 	
 	
+	
+	
+	public void applianceBroke()
+	{
+		System.out.println("house set appliance to broken");
+		String appln = "sink";
+		switch((int) (Math.random() * 4)) {
+		case 0:
+			appln = "TV";		
+			break;
+		case 1:
+			appln = "sink";
+			break;
+		case 2:
+			appln = "fridge";
+			break;
+		case 3:
+			appln = "stove";
+			break;
+		}
+		for(Appliance a : Appliances )
+		{
+			if(a.appliance.equals(appln))
+			a.working = false;
+		}
+		
+	}
 	
 	
 	

@@ -66,10 +66,10 @@ public class JeffersonCookRole extends Role implements Cook{
 		cookingTimes.put("pizza",4);
 		
 		//Initial cook inventory
-		inventory.put("steak",3);
-		inventory.put("chicken",3);
-		inventory.put("salad",3);
-		inventory.put("pizza",3);
+		inventory.put("steak",0);
+		inventory.put("chicken",0);
+		inventory.put("salad",0);
+		inventory.put("pizza",0);
 		
 		//sets to first market
 		steakmarketcounter =1;
