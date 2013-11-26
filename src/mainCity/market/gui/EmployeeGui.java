@@ -2,6 +2,8 @@ package mainCity.market.gui;
 
 
 import mainCity.market.*;
+import mainCity.market.interfaces.Employee;
+import mainCity.market.interfaces.EmployeeGuiInterface;
 
 import java.awt.*;
 import java.util.Map;
@@ -11,10 +13,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
-public class EmployeeGui implements Gui {
+public class EmployeeGui implements Gui, EmployeeGuiInterface {
     private static final int WINDOWX = 500, WINDOWY = 370;
 
-    private MarketEmployeeRole agent = null;
+    private Employee agent = null;
     private MarketAnimationPanel animation;
     private boolean isPresent;
 
@@ -44,7 +46,7 @@ public class EmployeeGui implements Gui {
 	State s;
 	enum State {wantsBreak, onBreak, offBreak};
 
-    public EmployeeGui(MarketEmployeeRole agent, MarketAnimationPanel a) {
+    public EmployeeGui(Employee agent, MarketAnimationPanel a) {
         this.agent = agent;
         this.animation = a;
         

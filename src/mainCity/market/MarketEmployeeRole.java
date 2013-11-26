@@ -10,6 +10,7 @@ import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
 import role.Role;
+import role.market.MarketDeliveryManRole.AgentState;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -34,15 +35,15 @@ public class MarketEmployeeRole extends Role implements Employee {
 	private DeliveryMan deliveryMan;
 	private MarketMenu marketMenu = new MarketMenu();
 	
-	public EmployeeGui employeeGui = null;
+	public EmployeeGuiInterface employeeGui = null;
 	
-	private List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
-	private List<MyBusiness> myBusinesses = new ArrayList<MyBusiness>();
-	enum CustomerState {newCustomer, waitingForOrder, ordered, waitingForBill, fulfillingOrder, doneFulfillingOrder, gotCheckFromCashier, gotOrderAndBill, leaving};
-	enum BusinessState {ordered, waitingForBill, fulfillingOrder, waiting, doneFulfillingOrder, gotCheckFromCashier, sentForDelivery};
+	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
+	public List<MyBusiness> myBusinesses = new ArrayList<MyBusiness>();
+	public enum CustomerState {newCustomer, waitingForOrder, ordered, waitingForBill, fulfillingOrder, doneFulfillingOrder, gotCheckFromCashier, gotOrderAndBill, leaving};
+	public enum BusinessState {ordered, waitingForBill, fulfillingOrder, waiting, doneFulfillingOrder, gotCheckFromCashier, sentForDelivery};
 	
-	WaiterState wState;
-	enum WaiterState {doingNothing, busy};
+	public WaiterState wState;
+	public enum WaiterState {doingNothing, busy};
 	
 	private Semaphore atStation = new Semaphore(0,true);
 	private Semaphore atCashier = new Semaphore(0, true);
@@ -63,13 +64,14 @@ public class MarketEmployeeRole extends Role implements Employee {
 	public void setCashier(MarketCashier cashier){
 		this.cashier = cashier;
 	}
-	
 	public void setDeliveryMan(DeliveryMan d){
 		this.deliveryMan = d;
 	}
-	
 	public Greeter getHost(){
 		return this.host;
+	}
+	public WaiterState getState(){
+		return wState;
 	}
 
 	public String getMaitreDName() {
@@ -81,6 +83,9 @@ public class MarketEmployeeRole extends Role implements Employee {
 	}
 	public Collection getMyCustomers() {
 		return myCustomers;
+	}
+	public Collection getMyBusinesses(){
+		return myBusinesses;
 	}
 
     public boolean isReady() {
@@ -378,6 +383,11 @@ public class MarketEmployeeRole extends Role implements Employee {
 		mc.s = CustomerState.gotOrderAndBill;
 	}
 	
+	private void RemoveCustomer(MyCustomer mc){
+		log("Removing customer: " + mc.c.getName());
+		myCustomers.remove(mc);
+	}
+	
 	
 	
 	//=========================== BUSINESSES ===========================================================================
@@ -436,23 +446,18 @@ public class MarketEmployeeRole extends Role implements Employee {
 		log("Removing customer: " + mb.restaurantName);
 		myBusinesses.remove(mb);
 	}
-	
-	
-	private void RemoveCustomer(MyCustomer mc){
-		log("Removing customer: " + mc.c.getName());
-		myCustomers.remove(mc);
-	}
+
 	
 
 	
 	//utilities
 
 
-	public void setGui(EmployeeGui gui) {
+	public void setGui(EmployeeGuiInterface gui) {
 		employeeGui = gui;
 	}
 
-	public EmployeeGui getGui() {
+	public EmployeeGuiInterface getGui() {
 		return employeeGui;
 	}
 
@@ -474,6 +479,16 @@ public class MarketEmployeeRole extends Role implements Employee {
 			waitingAreaY = posY;
 			this.s = s;
 		}
+		
+		public CustomerState getState(){
+			return s;
+		}
+		public Customer getCustomer(){
+			return c;
+		}
+		public double getBillAmount(){
+			return billAmount;
+		}
 	}
 	
 	public class MyBusiness{		//public only for testing purposes
@@ -493,6 +508,14 @@ public class MarketEmployeeRole extends Role implements Employee {
 			inventoryOrdered = new TreeMap<String, Integer>(inventory);
 			this.s = s;
 		}
+		public String getRestaurant(){
+			return restaurantName;
+		}
+		public double getBillAmount(){
+			return billAmount;
+		}
+		
+		
 	}
 	
 }

@@ -8,15 +8,31 @@ import mainCity.market.*;
 import mainCity.market.MarketEmployeeRole.MyBusiness;
 import mainCity.market.MarketEmployeeRole.MyCustomer;
 import mainCity.market.interfaces.*;
+import mainCity.market.interfaces.MarketCashier;
 
 
 public class MockEmployee extends Mock implements Employee {
 	public DeliveryMan deliveryMan;
+	public MarketCashier cashier;
 	
 	public MockEmployee(String name){
 		super(name);
 	}
 
+	
+	public void msgAtCashier(){
+		
+	}
+	public void msgAtWaitingRoom(){
+		
+	}
+	public void msgAtDeliveryMan(){
+		
+	}
+	public void msgAtStation(){
+		
+	}
+	
 	
 	public void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory){
 		

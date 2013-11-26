@@ -21,7 +21,7 @@ public class MockCashier extends Mock implements MarketCashier {
     }
     
 	public void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e){
-		
+		log.add(new LoggedEvent("Received msgComputeBill from " + e.getName() + " for " + c.getName()));
 	}
 	public void msgComputeBill(Map<String, Integer> inventory, String name, Employee e){
 		
