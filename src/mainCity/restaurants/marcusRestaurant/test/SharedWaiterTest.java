@@ -24,7 +24,7 @@ public class SharedWaiterTest extends TestCase {
 		super.setUp();
 		PersonAgent base = new PersonAgent("Waiter");
 		sharedWaiter = new MarcusSharedWaiterRole(base, base.getName());
-		base.addRole(Person.ActionType.work, sharedWaiter);
+		base.addRole(PersonAgent.ActionType.work, sharedWaiter);
 		sharedWaiter.setActive();
 		
 		customer1 = new MockCustomer("mockcustomer1");		

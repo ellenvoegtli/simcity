@@ -5,6 +5,7 @@ import mainCity.contactList.ContactList;
 import mainCity.gui.DeliveryManGui;
 import mainCity.interfaces.*;
 import mainCity.market.*;
+import mainCity.market.MarketCashierRole.BillState;
 import mainCity.market.gui.*;
 import role.Role;
 import mainCity.Person;
@@ -32,8 +33,8 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	private AgentState state;
 	enum AgentState {doingNothing, makingDelivery};
 	
-	enum DeliveryState {newBill, enRoute, waitingForPayment, calculatingChange, waitingForVerification, goingBackToMarket, done};
-	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, owedMoney, arrivedAtMarket};
+	enum DeliveryState {newBill, enRoute, waitingForPayment, calculatingChange, oweMoney, waitingForVerification, goingBackToMarket, done};
+	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, acknowledgedDebt, arrivedAtMarket};
 	
 	
 	private Semaphore atHome = new Semaphore(0, true);
@@ -94,7 +95,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	}
 	
 	public void msgIOweYou(double amount, String name){
-		print("Received msgIOweYou");
+		print("Received msgIOweYou from " + name + " for $" + amount);
 		Bill b = null;
 		for (Bill thisB : bills){	//to find the myCustomer with this specific Customer within myCustomers list
 			if (thisB.restaurantName.equalsIgnoreCase(name)){
@@ -102,8 +103,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 				break;
 			}
 		}
-		b.amountOwed = amount;
-		b.event = DeliveryEvent.owedMoney;
+		b.event = DeliveryEvent.acknowledgedDebt;
 		stateChanged();
 	}
 	
@@ -146,6 +146,12 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 				return true;
 			}
 		}
+		for(Bill b: bills){
+			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt){
+				ReturnToMarket(b);
+				return true;
+			}
+		}
 
 
 		return false;
@@ -169,7 +175,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 		}
 		
 		
-		//gui will then message deliveryMan when it arrives
+		//gui will then message appropriate deliveryMan when it arrives
 		if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
 			b.cook = ContactList.getInstance().ellenCook;
 			b.cashier = ContactList.getInstance().ellenCashier;
@@ -204,51 +210,25 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 		b.s = DeliveryState.waitingForPayment;
 	}
 	
-	/*
-	public void DeliverOrder(Bill b){
-		print("Delivering order");
-		if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
-			b.cook = ContactList.getInstance().ellenCook;
-			b.cashier = ContactList.getInstance().ellenCashier;
-			b.cook.msgHereIsYourOrder(b.itemsBought);
-			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}
-		else if (b.restaurantName.equalsIgnoreCase("enaRestaurant")){
-			b.cook = ContactList.getInstance().enaCook;
-			b.cashier = ContactList.getInstance().enaCashier;
-			b.cook.msgHereIsYourOrder(b.itemsBought);
-			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}
-		else if (b.restaurantName.equalsIgnoreCase("marcusRestaurant")){
-			b.cook = ContactList.getInstance().marcusCook;
-			b.cashier = ContactList.getInstance().marcusCashier;
-			b.cook.msgHereIsYourOrder(b.itemsBought);
-			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}
-		else if (b.restaurantName.equalsIgnoreCase("jeffersonRestaurant")){
-			b.cook = ContactList.getInstance().jeffersonCook;
-			b.cashier = ContactList.getInstance().jeffersonCashier;
-			b.cook.msgHereIsYourOrder(b.itemsBought);
-			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}
-		else if (b.restaurantName.equalsIgnoreCase("davidRestaurant")){
-			b.cook = ContactList.getInstance().davidCook;
-			b.cashier = ContactList.getInstance().davidCashier;
-			b.cook.msgHereIsYourOrder(b.itemsBought);
-			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}
-	}*/
 	
 	public void CalculateChange(Bill b){
 		print("Calculating change");
-		
-		//check to make sure payment is large enough
-		if (b.amountPaid >= b.amountCharged)
-			b.cashier.msgHereIsChange((b.amountPaid - b.amountCharged), this);
-		else {
+
+		double dollars = 0;
+		if (b.amountPaid >= b.amountCharged){
+			dollars = Math.round((b.amountPaid - b.amountCharged)*100.0)/100.0;
+			b.cashier.msgHereIsChange(dollars, this);
 			
+			b.amountMarketGets = Math.round(b.amountCharged *100.0)/100.0;		//mostly for testing purposes
+			b.s = DeliveryState.waitingForVerification;
 		}
-		b.s = DeliveryState.waitingForVerification;
+		else {		//if they didn't pay enough
+			b.amountOwed = Math.round((b.amountCharged - b.amountPaid)*100.0)/100.0;		//mostly for testing purposes
+			b.amountMarketGets = b.amountPaid;
+			
+			b.cashier.msgNotEnoughMoney(b.amountOwed, b.amountPaid);
+			b.s = DeliveryState.oweMoney;
+		}
 	}
 	
 	public void ReturnToMarket(Bill b){
@@ -283,6 +263,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 		double amountCharged;
 		double amountPaid;
 		double amountOwed;
+		double amountMarketGets;
 		String restaurantName;
 		MainCook cook;
 		MainCashier cashier;

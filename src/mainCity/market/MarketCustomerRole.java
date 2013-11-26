@@ -2,7 +2,7 @@ package mainCity.market;
 
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
-import mainCity.market.MarketEmployeeRole;
+import mainCity.market.interfaces.*;
 import role.Role;
 import mainCity.Person;
 
@@ -10,6 +10,7 @@ import mainCity.Person;
 
 import agent.Agent;
 import mainCity.market.gui.*;
+import mainCity.market.interfaces.Customer;
 
 import java.util.*;
 import java.util.List;
@@ -18,16 +19,16 @@ import java.awt.*;
 /**
  * Restaurant customer agent.
  */
-public class MarketCustomerRole extends Role{
+public class MarketCustomerRole extends Role implements Customer {
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
 	private CustomerGui customerGui;
 
 	// agent correspondents
-	private MarketGreeterRole host;
-	private MarketEmployeeRole employee;
-	private MarketCashierRole cashier;
+	private Greeter host;
+	private Employee employee;
+	private Cashier cashier;
 	private MarketMenu marketMenu = new MarketMenu();
 	
 	private int stationX;
@@ -79,11 +80,11 @@ public class MarketCustomerRole extends Role{
 	/**
 	 * hack to establish connection to Host agent.
 	 */
-	public void setHost(MarketGreeterRole host) {
+	public void setHost(Greeter host) {
 		this.host = host;
 	}
 	
-	public void setCashier(MarketCashierRole c){
+	public void setCashier(Cashier c){
 		this.cashier = c;
 	}
 
@@ -117,7 +118,7 @@ public class MarketCustomerRole extends Role{
 		stateChanged();
 	}
 
-	public void msgFollowMe(MarketEmployeeRole e, int x, int y){
+	public void msgFollowMe(Employee e, int x, int y){
 		log("Received msgFollowMe");
 		stationX = x;
 		stationY = y - 20;
@@ -127,7 +128,7 @@ public class MarketCustomerRole extends Role{
 		stateChanged();
 	}
 
-	public void msgMayITakeYourOrder(MarketEmployeeRole e){
+	public void msgMayITakeYourOrder(Employee e){
 		log("Received msgMayITakeYourOrder from: " + e.getName());
 		event = AgentEvent.askedForOrder;
 		stateChanged();
@@ -151,7 +152,7 @@ public class MarketCustomerRole extends Role{
 	public void msgNotEnoughCash(double cashOwed){
 		log("Received msg NotEnoughCash: I owe $" + cashOwed);
 		this.cashOwed = cashOwed;
-		myCash += 100;
+		myCash += 100;		//ok to do in simcity?
         log("Now have in cash: $" + myCash);
 		IOweMarket = true;
 		event = AgentEvent.gotChange;		//essentially
@@ -159,9 +160,9 @@ public class MarketCustomerRole extends Role{
 	}
 	
 	public void msgHereIsBill(double amount){		//from cashier, who recalculated bill and now sends a lower one
-        log("Received msgHereIsBill");
+        log("Received msgHereIsBill for $" + amount);
         
-        bill.charge = amount;
+        bill.charge = Math.round(amount*100.0)/100.0;
         event = AgentEvent.gotNewBill;
         stateChanged();
 	}
@@ -219,12 +220,12 @@ public class MarketCustomerRole extends Role{
 		}
 		if (state == AgentState.OrderProcessing && event == AgentEvent.gotOrderAndBill){
 			state = AgentState.GoingToCashier;
-			GoToCashier();		//verifies bill first
+			GoToCashier();
 			return true;
 		}
 		if (state == AgentState.GoingToCashier && event == AgentEvent.atCashierAgent){
 			state = AgentState.Paying;
-			PayBill();		//verifies bill first
+			PayBill();	//verifies bill first
 			return true;
 		}
 		if (state == AgentState.Paying && event == AgentEvent.gotNewBill){		//new, cheaper, recalculated bill OR non-negotiable bill
@@ -282,18 +283,18 @@ public class MarketCustomerRole extends Role{
 		}
 		
 		
-		if (bill.nonNegotiable){		//don't verify again. Non-norm: sue restaurant later?
+		if (bill.nonNegotiable){		//don't verify again
 			if (myCash >= bill.charge){
 				log("Paying: $" + bill.charge);
 				cashier.msgHereIsPayment(bill.charge, this);
 				myCash -= bill.charge;
+				myCash = Math.round(myCash*100.0)/100.0;
 				bill.amountPaid = bill.charge;
 				return;
 			}
 			else {
 				log("I don't have enough money to pay full bill.");
 				cashier.msgHereIsPayment(myCash, this);
-				//cashOwed = bill.charge - myCash;		//cashier will tell us this himself
 				myCash = 0;
 				return;
 			}
@@ -304,18 +305,19 @@ public class MarketCustomerRole extends Role{
 			for (Map.Entry<String, Integer> entry : bill.inventoryFulfilled.entrySet()){
 				expected += marketMenu.getPrice(entry.getKey())*entry.getValue();	//price of each item * # that was fulfilled
 			}
-			if (expected == bill.charge){		//if the verfication of bill charge succeeds
+			if (expected >= bill.charge){		//if the verification of bill charge succeeds, or they don't charge us enough (we don't care, take it!)
 				if (myCash >= bill.charge){
 			        log("Paying: $" + bill.charge);
 					cashier.msgHereIsPayment(bill.charge, this);
 					myCash -= bill.charge;
+					myCash = Math.round(myCash*100.0)/100.0;
 					bill.amountPaid = bill.charge;
 					return;
 				}
-				else {
+				else {	//if my cash is less than bill charge
 					log("I don't have enough money to pay full bill.");
-					cashier.msgHereIsPayment(myCash, this);
-					cashOwed = bill.charge - myCash;
+					cashier.msgHereIsPayment(Math.round(myCash*100.0)/100, this);
+					cashOwed = Math.round((bill.charge - myCash)*100.0)/100.0;
 					myCash = 0;
 					return;
 				}
@@ -324,13 +326,12 @@ public class MarketCustomerRole extends Role{
 				cashier.msgPleaseRecalculateBill(this);
 				return;
 			}
-			//we don't care if they don't charge us enough. take it and run!
 		}
 	}
 	
 	private void LeaveMarket(){
 		if (IOweMarket) {
-	        log("No change.");
+	        log("No change. Didn't pay enough.");
 	        cashier.msgChangeVerified(this);		//essentially
 
 			employee.msgDoneAndLeaving(this);
@@ -399,9 +400,16 @@ public class MarketCustomerRole extends Role{
 	}
 	
 	public boolean restaurantOpen() {
+		if (host instanceof MarketGreeterRole){
+			MarketGreeterRole h = (MarketGreeterRole) host;
+			if (h !=null && h.isActive() && h.isOpen())
+				return true;
+		}
+		return false;
+		/*
 		if(host != null && host.isActive() && host.isOpen())
 			return true;
-		return false;
+		return false;*/
 	}
 	
 	

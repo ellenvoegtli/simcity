@@ -27,7 +27,7 @@ public class CashierTest extends TestCase {
 		super.setUp();
 		PersonAgent base = new PersonAgent("Cashier");
 		cashier = new MarcusCashierRole(base, base.getName());
-		base.addRole(Person.ActionType.work, cashier);
+		base.addRole(PersonAgent.ActionType.work, cashier);
 		
 		customer1 = new MockCustomer("mockcustomer1");		
 		customer2 = new MockCustomer("mockcustomer2");		

@@ -18,16 +18,20 @@ public class MockCustomer extends Mock implements Customer {
     	public void goGetInventory(Map<String, Integer> inventoryNeeded){
     		
     	}
-    	public void msgFollowMe(MarketEmployeeRole e, int x, int y){
+    	public void msgFollowMe(Employee e, int x, int y){
     		
     	}
-    	public void msgMayITakeYourOrder(MarketEmployeeRole e){
+    	public void msgMayITakeYourOrder(Employee e){
     	}
     	public void msgHereIsYourOrder(Map<String, Integer> inventoryFulfilled, double amount){
     	}
+    	@Override
     	public void msgHereIsYourChange(double amountChange, double amountCharged){
+    		log.add(new LoggedEvent("Received msgHereIsYourChange from cashier. Change = $"+ amountChange));
     	}
+    	@Override
     	public void msgNotEnoughCash(double cashOwed){
+    		log.add(new LoggedEvent("Received msgNotEnoughCash from cashier. Money Owed = $"+ cashOwed));
     	}
     	public void msgHereIsBill(double amount){		//from cashier, who recalculated bill and now sends a lower one
     	}
