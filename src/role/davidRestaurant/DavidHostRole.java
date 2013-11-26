@@ -2,6 +2,8 @@ package role.davidRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
 import role.davidRestaurant.*; 
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
@@ -94,10 +96,15 @@ public class DavidHostRole extends Role implements ManagerRole{
 		return tables;
 	}
 	
+	public void log(String s) { 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this. getName(), s); 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_HOST, this.getName(), s);
+	}
+	
 /*  Messages   */
 
 	public void msgIWantFood(DavidCustomerRole cust) {
-		print("msgIWantFood() called");
+		log("msgIWantFood() called");
 		waitingCustomers.add(cust);
 		stateChanged();
 	}
@@ -105,7 +112,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 	public void msgLeavingTable(DavidCustomerRole cust) {
 		for (Table table : tables) {
 			if (table.getOccupant() == cust) {
-				print(cust + " leaving " + table);
+				log(cust + " leaving " + table);
 				table.setUnoccupied();
 				stateChanged();
 			}
@@ -113,7 +120,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 	}
 	
 	public void msgRequestBreak(DavidWaiterRole w) {
-		print("msgRequestBreak called by " + w); 
+		log("msgRequestBreak called by " + w); 
 		
 		for(int i=0; i<waiters.size(); i++){
 			if(w == waiters.get(i).waiter){ 
@@ -126,7 +133,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 	}
 	
 	public void msgImOffBreak(DavidWaiterRole w){ 
-		print("msgWaiterOffBreak called by " + w); 
+		log("msgWaiterOffBreak called by " + w); 
 		//waiters.add(w); 
 		stateChanged();
 	}
@@ -190,7 +197,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 	
 	private void BreakAppropriate() { 
 		if(waiters.size() == 1){
-			print("You're the only waiter working!");
+			log("You're the only waiter working!");
 			waiters.get(waiterLoc).waiter.msgBreakDenied(); 
 		}
 		else { 
@@ -210,7 +217,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 	
 	public void DealWithImpatience(){ 
 		for(int i=0; i<waitingCustomers.size(); i++){
-			print(waitingCustomers.get(i).getCustomerName() + " leaving...");
+			log(waitingCustomers.get(i).getCustomerName() + " leaving...");
 			waitingCustomers.remove(i);	
 		}
 	}

@@ -12,6 +12,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankManagerRole;
 import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
 import mainCity.contactList.ContactList;
@@ -73,7 +74,7 @@ public class PersonAgent extends Agent {
 	}
 	
 	public boolean isHungry(){
-		if(actions.contains(ActionType.hungry) || actions.contains(ActionType.restaurant))
+		if(actionExists(ActionType.hungry) || actionExists(ActionType.restaurant))
 			return true;
 		return false;
 	}
@@ -109,7 +110,7 @@ public class PersonAgent extends Agent {
 	
 	
 	public void msgBusHasArrived() {
-		print("msgBusHasArrived received");
+		//print("msgBusHasArrived received");
 		state = PersonState.boardingBus;
 		stateChanged();
 	}
@@ -122,7 +123,7 @@ public class PersonAgent extends Agent {
 
 	//A message received from the system or GUI to tell person to get hungry - they will choose between restaurant and home
 	public void msgGotHungry() {
-		if(!actions.contains(ActionType.restaurant)) {
+		if(!actionExists(ActionType.restaurant)) {
 			output(name + " got hungry");
 			actions.add(new Action(ActionType.hungry, 5));
 			stateChanged();
@@ -131,8 +132,8 @@ public class PersonAgent extends Agent {
 	
 	//A message received from the HomeAgent or GUI (possibly?) to go to a restaurant
 	public void msgGoToRestaurant() {
-		if(!actions.contains(ActionType.restaurant)) {
-			output(name + " will go to restaurant");
+		if(!actionExists(ActionType.restaurant)) {
+			//output(name + " will go to restaurant");
 			actions.add(new Action(ActionType.restaurant, 4));
 			stateChanged();
 		}
@@ -218,6 +219,7 @@ public class PersonAgent extends Agent {
 				}
 				else {
 					handleRole(currentAction.type);
+					
 					roles.get(currentAction.type).setActive();
 				}
 
@@ -310,6 +312,7 @@ public class PersonAgent extends Agent {
 				Role customer = roles.get(currentAction.type);
 				if (!((BankCustomerRole) customer).getGui().goInside()){
 					//System.out.println("bank closed");
+					currentAction.state=ActionState.done;
 					return true;
 				}
 				if(roles.containsKey(ActionType.bankWithdraw)){
@@ -402,7 +405,7 @@ public class PersonAgent extends Agent {
 	//----------Actions----------//
 	private void checkSelf() {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
-		if(time == job.shiftBegin && state != PersonState.working && !actions.contains(ActionType.work) && !job.occupation.equals("rich")) {
+		if(time == job.shiftBegin && state != PersonState.working && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
 			actions.add(new Action(ActionType.work, 1));
 			stateChanged();
 		}
@@ -422,11 +425,12 @@ public class PersonAgent extends Agent {
 			}
 		}
 		
-		if(cash < 50 && !actions.contains(ActionType.bankWithdraw)){
+		if(cash < 50 && !actionExists(ActionType.bankWithdraw)){
 			actions.add(new Action(ActionType.bankWithdraw,3));
 			stateChanged();
 		}
-		if(cash > 200 && !actions.contains(ActionType.bankDeposit)){
+		if(cash > 200 && !actionExists(ActionType.bankDeposit)){
+
 			actions.add(new Action(ActionType.bankDeposit,3));
 			stateChanged();
 		}
@@ -446,6 +450,12 @@ public class PersonAgent extends Agent {
 						case "bankTeller":	
 							BankTellerRole bt = new BankTellerRole(this, name);
 							ContactList.getInstance().getBank().handleRole(bt);
+							roles.put(action, bt);
+							break;
+						case "bankManager":
+							BankManagerRole bm = new BankManagerRole(this, name);
+							ContactList.getInstance().getBank().handleRole(bm);
+							roles.put(action, bm);
 							break;
 						
 						//-----Jefferson Restaurant Roles---//
@@ -979,6 +989,13 @@ public class PersonAgent extends Agent {
 
 	public void setHomePlace(Building homePlace) {
 		this.homePlace = homePlace;
+	}
+	
+	private boolean actionExists(ActionType type) {
+		for(Action a : actions) { 
+			if(a.type == type) return true;
+		}
+		return false;
 	}
 
 	//Lower the priority level, the more "important" it is (it'll get done faster)

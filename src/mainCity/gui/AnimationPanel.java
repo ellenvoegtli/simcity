@@ -63,6 +63,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     private BufferedImage stopSign = null;
     
     boolean onlyOnce = true;
+    boolean dontReset = false;
     public boolean atStop = false;
     int count; 
     private Image bufferImage;
@@ -178,13 +179,19 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     }
 
 	public void actionPerformed(ActionEvent e) {
+		count++; 
+		
+		if(count % 100 == 0 && dontReset == false){ 
+			dontReset = true;
+			lanes.get(1).addVehicle(Buses.get(1));
+		}
 		
 		if(Buses.size() != 0){
 			if(onlyOnce == true){
 				onlyOnce = false;
-				for(int y=0; y<Buses.size(); y++){
-					lanes.get(1).addVehicle(Buses.get(y));
-				}
+				//for(int y=0; y<Buses.size(); y++){
+					lanes.get(1).addVehicle(Buses.get(0));
+				//}
 			}
 
 					for(int i=0; i<ContactList.stops.size(); i++){
