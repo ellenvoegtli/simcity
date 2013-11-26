@@ -5,13 +5,11 @@ import role.Role;
 import mainCity.PersonAgent;
 import mainCity.bank.BankAccounts.BankAccount;
 import mainCity.bank.gui.BankTellerGui;
-import mainCity.bank.interfaces.BankCustomer;
-import mainCity.bank.interfaces.BankTeller;
 import mainCity.interfaces.WorkerRole;
 import agent.Agent;
 
 
-public class BankTellerRole extends Role implements WorkerRole, BankTeller {
+public class BankTellerRole extends Role implements WorkerRole {
 	
 	
 	
@@ -26,7 +24,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	public boolean onDuty;
 	
 	public class myClient{
-	    BankCustomer bc;
+	    BankCustomerRole bc;
 	    double accountnumber;
 	    double amount;
 	    ClientState cs;
@@ -40,27 +38,15 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		onDuty=true;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#setBankAccounts(mainCity.bank.BankAccounts)
-	 */
-	@Override
 	public void setBankAccounts(BankAccounts ba){
 		this.ba=ba;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#setTellerNumber(int)
-	 */
-	@Override
 	public void setTellerNumber(int tn){
 		this.tellernumber=tn;
 	}
 	
 	//Messages
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#msgGoOffDuty(double)
-	 */
-	@Override
 	public void msgGoOffDuty(double amount) {
 		
 		addToCash(amount);
@@ -70,11 +56,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#msgIWantToDeposit(mainCity.bank.interfaces.BankCustomer, double, int)
-	 */
-	@Override
-	public void msgIWantToDeposit(BankCustomer b, double accnum, int amount){
+	public void msgIWantToDeposit(BankCustomerRole b, double accnum, int amount){
 		Do("recieved msgIWantToDeposit from a customer");
 		mc=new myClient();
 		mc.bc=b;
@@ -84,11 +66,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#msgIWantToWithdraw(mainCity.bank.interfaces.BankCustomer, double, int)
-	 */
-	@Override
-	public void msgIWantToWithdraw(BankCustomer b, double accnum, int amount){
+	public void msgIWantToWithdraw(BankCustomerRole b, double accnum, int amount){
 		Do("recieved msgIWantToWithdraw from a customer");
 		mc=new myClient();
 		mc.bc=b;
@@ -102,10 +80,6 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	
 	
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#pickAndExecuteAnAction()
-	 */
-	@Override
 	public boolean pickAndExecuteAnAction() {
 		if(onDuty){
 			
@@ -205,10 +179,6 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#setGui(mainCity.bank.gui.BankTellerGui)
-	 */
-	@Override
 	public void setGui(BankTellerGui gui){
 		//Do("gui set");
 		this.btGui=gui;

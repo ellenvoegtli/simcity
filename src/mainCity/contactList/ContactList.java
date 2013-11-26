@@ -23,7 +23,7 @@ import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import mainCity.bank.*;
 import mainCity.bank.gui.BankPanel;
-import mainCity.bank.interfaces.BankManager;
+import mainCity.bank.BankManagerRole;
 import mainCity.gui.CityPanel;
 import transportation.BusStop;
 import housing.gui.HomePanel;
@@ -103,7 +103,7 @@ public class ContactList {
 	public DavidHostRole davidHost;
 
 	//all of bank's people
-	public BankManager bankManager;
+	public BankManagerRole bankManager;
 	
 
 	
@@ -145,11 +145,11 @@ public class ContactList {
 	}
 	
 	//Bank*******
-	public void setBankManager(BankManager m){
+	public void setBankManager(BankManagerRole m){
 		bankManager = m;
 	}
 	
-	public BankManager getBankManager(){
+	public BankManagerRole getBankManager(){
 		return bankManager;
 	}
 	

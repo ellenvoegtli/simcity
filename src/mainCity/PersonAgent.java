@@ -15,7 +15,7 @@ import mainCity.bank.BankCustomerRole;
 import mainCity.bank.BankManagerRole;
 import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
-import mainCity.bank.interfaces.BankCustomer;
+import mainCity.bank.BankCustomerRole;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
 import mainCity.gui.trace.*;
@@ -343,7 +343,7 @@ public class PersonAgent extends Agent {
 				//set appropriate role and initial state for different actions
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
-				if (!((BankCustomer) customer).getGui().goInside()){
+				if (!((BankCustomerRole) customer).getGui().goInside()){
 					//System.out.println("bank closed");
 					currentAction.state=ActionState.done;
 					return true;
@@ -351,17 +351,17 @@ public class PersonAgent extends Agent {
 				if(roles.containsKey(ActionType.bankWithdraw)){
 					roles.get(ActionType.bankWithdraw).setActive();
 					Role bankCustomer = roles.get(ActionType.bankWithdraw);
-					((BankCustomer) bankCustomer).msgWantToWithdraw();
+					((BankCustomerRole) bankCustomer).msgWantToWithdraw();
 				}
 				else if(roles.containsKey(ActionType.bankDeposit)){
 					roles.get(ActionType.bankDeposit).setActive();
 					Role bankCustomer = roles.get(ActionType.bankDeposit);
-					((BankCustomer) bankCustomer).msgWantToDeposit();
+					((BankCustomerRole) bankCustomer).msgWantToDeposit();
 				}
 				else if(roles.containsKey(ActionType.bankLoan)){
 					roles.get(ActionType.bankLoan).setActive();
 					Role bankCustomer = roles.get(ActionType.bankLoan);
-					((BankCustomer) bankCustomer).msgNeedLoan();
+					((BankCustomerRole) bankCustomer).msgNeedLoan();
 				}
 
 				if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {

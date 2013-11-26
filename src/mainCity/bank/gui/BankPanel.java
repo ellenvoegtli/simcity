@@ -14,8 +14,7 @@ import mainCity.bank.BankManagerRole.myTeller;
 import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
 import mainCity.bank.gui.*;
-import mainCity.bank.interfaces.BankCustomer;
-import mainCity.bank.interfaces.BankTeller;
+
 
 import java.awt.*;
 import java.awt.event.*;
@@ -41,7 +40,7 @@ public class BankPanel extends JPanel {
 	//private BankTellerRole bankteller = new BankTellerRole("kim");
 	//private BankTellerRole bankteller1 = new BankTellerRole("sam");
 	
-	BankCustomer bankcust;
+	BankCustomerRole bankcust;
 	//BankCustomerRole bankcust1 = new BankCustomerRole(p1,"bob1");
 	
 	
@@ -181,7 +180,7 @@ public class BankPanel extends JPanel {
     	if(r instanceof BankCustomerRole){
     		BankCustomerRole b = (BankCustomerRole) r;
     		
-    		for (BankCustomer bc: bankcustomers){
+    		for (BankCustomerRole bc: bankcustomers){
     			if( bc==b){
     				return;
     			}
@@ -192,9 +191,9 @@ public class BankPanel extends JPanel {
     		b.setGui(bcGui);
     		bankAnimationPanel.addGui(bcGui);
     		b.setBankManager(bankmanager);
-    		b.setAmount(((BankCustomer) r).getAmount());
-            b.setMyaccountnumber(((BankCustomer) r).getMyaccountnumber());
-            b.setBankbalance(((BankCustomer) r).getBankbalance());
+    		b.setAmount(((BankCustomerRole) r).getAmount());
+            b.setMyaccountnumber(((BankCustomerRole) r).getMyaccountnumber());
+            b.setBankbalance(((BankCustomerRole) r).getBankbalance());
     		
     	}
     	
@@ -215,7 +214,7 @@ public class BankPanel extends JPanel {
     	if (r instanceof BankTellerRole){
     		//System.out.println("in bankpanel teller handlerole");
     		BankTellerRole btr = (BankTellerRole) r;
-    		for(BankTeller bt:banktellers){
+    		for(BankTellerRole bt:banktellers){
     			if(bt==btr){
     				return;
     			}
@@ -238,12 +237,12 @@ public class BankPanel extends JPanel {
     		bankmanager.setBankAccounts(mainaccounts);
     		bankmanager.setBanker(banker);
     		
-    		for(BankTeller bt:banktellers){
+    		for(BankTellerRole bt:banktellers){
     			bankmanager.msgTellerAdded(bt);
     			
     		}
     		
-    		for(BankCustomer bc:bankcustomers){
+    		for(BankCustomerRole bc:bankcustomers){
     			bc.setBankManager(bankmanager);
     		}
     		
