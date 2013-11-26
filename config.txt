@@ -5,7 +5,7 @@ Name:PersonB;Cash:60;Renter:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19
 Name:PersonC;Cash:82;Renter:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
 Name:PersonD;Cash:50;Renter:true;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
 -Ellen Restaurant
-Name:PersonE;Cash:15;Renter:true;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant
+-Name:PersonE;Cash:15;Renter:true;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant
 Name:PersonE;Cash:15;Renter:false;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant
 Name:PersonF;Cash:52;Renter:false;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
 Name:PersonG;Cash:50;Renter:true;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work
@@ -17,11 +17,11 @@ Name:PersonJ;Cash:10;Renter:true;Occupation:enaCook;ShiftBegin:7;ShiftEnd:19;Act
 Name:Person9;Cash:480;Renter:false;Occupation:enaHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:Person3;Cash:10;Renter:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:Person4;Cash:10;Renter:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
--Jefferson Restaurant/*******UNSTABLE********/
--Name:PersonE;Cash:100;Renter:false;Occupation:jeffersonWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
--Name:PersonF;Cash:100;Renter:false;Occupation:jeffersonCook;ShiftBegin:7;ShiftEnd:19;Actions:work
--Name:PersonG;Cash:100;Renter:true;Occupation:jeffersonCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
--Name:PersonH;Cash:100;Renter:false;Occupation:ejeffersonHost;ShiftBegin:7;ShiftEnd:19;Actions:work
+-Jefferson Restaurant
+Name:Jwaiter;Cash:100;Renter:true;Occupation:jeffersonWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:Jcook;Cash:100;Renter:false;Occupation:jeffersonCook;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:Jcashier;Cash:100;Renter:false;Occupation:jeffersonCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:Jhost;Cash:100;Renter:false;Occupation:jeffersonHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 
 -Other
 Name:PersonK;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:market,hungry

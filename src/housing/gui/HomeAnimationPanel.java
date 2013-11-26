@@ -26,12 +26,31 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    private Image bufferImage;
 	    private Dimension bufferSize;
 		private HomePanel home = new HomePanel(this);
+		
+		//****************Working on apartment layouts---------------
+		/*
+		private List<ApartPanel> AptBuilding = new ArrayList<ApartPanel>();
+		
+		private ApartPanel Apt1 = new ApartPanel(this);
+		AptBuilding.add(Apt1);
+		private ApartPanel Apt2 = new ApartPanel(this);
+		AptBuilding.add(Apt2);
+		private ApartPanel Apt3 = new ApartPanel(this);
+		AptBuilding.add(Apt3);
+		private ApartPanel Apt4 = new ApartPanel(this);
+		AptBuilding.add(Apt4);
 
+
+*/
 	    private List<Gui> guis = new ArrayList<Gui>();
 
 	    public HomeAnimationPanel(CityGui cg) {
 	    	super(cg);
 	    	ContactList.getInstance().setHome(home);
+	    	
+	    	
+	    	//**********************
+	    	//ContactList.getInstance().setAptB(AptBuilding);
 
 	    	
 	    	setSize(WINDOWX, WINDOWY);

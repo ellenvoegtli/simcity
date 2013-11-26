@@ -412,6 +412,10 @@ public class PersonAgent extends Agent {
 					output("Closing up shop");
 					((ManagerRole) r.getValue()).msgEndShift(job.shiftEnd-job.shiftBegin);
 				}
+				if(r.getValue() instanceof JeffersonHostRole && r.getValue().isActive()){
+					((JeffersonHostRole) r.getValue()).msgOffDuty();
+					output("Closing up jefferson restaurant");
+				}
 			}
 		}
 		
@@ -693,9 +697,9 @@ public class PersonAgent extends Agent {
 		output(name + " is going to " + d);
 
 		//Check for a way to travel: public transportation, car, or walking
-		boolean temp = true;
+		boolean temp = false;
 
-		if(temp) { //chose to walk
+		if(!temp) { //chose to walk
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;

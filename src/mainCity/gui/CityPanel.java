@@ -36,8 +36,8 @@ public class CityPanel extends JPanel{
 		
 		ContactList.getInstance().setCity(this);
 		
-    	MarketGui marketGui = new MarketGui();
-    	ContactList.getInstance().setMarket(marketGui.getMarketPanel());
+    	//MarketGui marketGui = new MarketGui();
+    	//ContactList.getInstance().setMarket(marketGui.getMarketPanel());
     	//marketGui.setVisible(true);
 		
 		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
@@ -46,12 +46,12 @@ public class CityPanel extends JPanel{
     	JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
     	ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
 
-    	//jeffersonRestaurant.setVisible(true);
+    	jeffersonRestaurant.setVisible(true);
  
 
     	BankGui bank = new BankGui();
     	ContactList.getInstance().setBank(bank.getBankPanel());
-    	//bank.setVisible(true);
+    	bank.setVisible(true);
     	
     	//HomeGui home= new HomeGui();
     	//ContactList.getInstance().setHome(home.getHomePanel());
@@ -80,7 +80,7 @@ public class CityPanel extends JPanel{
     	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
 
     	String[] actions = {"work"}; 
-    	addPerson("David", 500, false, "davidWaiter", 7, 19, actions); 
+    	//addPerson("David", 500, false, "davidWaiter", 7, 19, actions); 
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
