@@ -133,7 +133,7 @@ public class HomePanel extends JPanel
         	occupant.setHouse(house);
         	//occupant.setLandLord(landLord);
             house.setOccupant(occupant);
-    		occupantGui = new OccupantGui(occupant, gui); 	
+    		occupantGui = new OccupantGui(occupant); 	
     		occupant.setGui(occupantGui);
     		occupantGui.setHungry();    
     		animation.addGui(occupantGui);

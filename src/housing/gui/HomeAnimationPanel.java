@@ -17,8 +17,8 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 {
 	
 
-	   // private  int WINDOWX = 520;
-	   // private  int WINDOWY = 360;
+	   private  int WINDOWX = 520;
+	   private  int WINDOWY = 360;
 	    
 	    private int applianceWidth = 20;
 	    private int applianceHeight = 15;
@@ -36,7 +36,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    	super(cg);
 	    	this.ty = type;
 	    	ContactList.getInstance().setHome(home);
-	        setBorder(BorderFactory.createRaisedBevelBorder());
+	       // setBorder(BorderFactory.createRaisedBevelBorder());
 
 	    	
 	    	//**********************

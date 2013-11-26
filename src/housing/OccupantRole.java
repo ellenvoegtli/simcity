@@ -62,6 +62,7 @@ public OccupantRole(PersonAgent p, String personNm)
 {
 	super(p);
 	this.name = personNm;
+	print("##############");
 
 	if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
 	{
@@ -287,6 +288,7 @@ public void wantsToEat(String mealChoice)
 	if(owner) gui.DoGoToFridge();
 	
 	if(!owner) gui.DoGoToFridgeA();
+	System.out.println("has reached the fridge&&&&&&&&&&&&");
 	
 	try {
 		destination.acquire();

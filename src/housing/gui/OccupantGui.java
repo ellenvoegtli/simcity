@@ -16,7 +16,7 @@ public class OccupantGui implements Gui
 	private boolean isHungry = false;
 
 	
-	HomeGui gui;
+	//HomeGui gui;
 	
 	public int xPos;
 	private int yPos;
@@ -28,14 +28,15 @@ public class OccupantGui implements Gui
 	
 	
 	
-	public OccupantGui(OccupantRole occupant, HomeGui gui) 
+	public OccupantGui(OccupantRole occupant) 
 	{
+		System.out.println("^^^^^^^^^^^^^^^^^^");
 		person = occupant;
-		xPos = 0;
+		xPos = 10;
 		yPos = 35;
 		xDestination = 40;
 		yDestination = 35;
-		this.gui = gui;
+		//this.gui = gui;
 	}
 
 	
@@ -62,7 +63,7 @@ public class OccupantGui implements Gui
 			if (command==Command.doneInKitchen)
 			{
 				isHungry = false;
-				gui.setCustomerEnabled(person);
+				//gui.setCustomerEnabled(person);
 			}
 			command=Command.noCommand;
 			if (((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 50 && yDestination ==150) || (xDestination == 70 && yDestination == 100) ) 
