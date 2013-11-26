@@ -109,7 +109,7 @@ public class PersonAgent extends Agent {
 	
 	
 	public void msgBusHasArrived() {
-		print("msgBusHasArrived received");
+		//print("msgBusHasArrived received");
 		state = PersonState.boardingBus;
 		stateChanged();
 	}
@@ -132,7 +132,7 @@ public class PersonAgent extends Agent {
 	//A message received from the HomeAgent or GUI (possibly?) to go to a restaurant
 	public void msgGoToRestaurant() {
 		if(!actions.contains(ActionType.restaurant)) {
-			output(name + " will go to restaurant");
+			//output(name + " will go to restaurant");
 			actions.add(new Action(ActionType.restaurant, 4));
 			stateChanged();
 		}
