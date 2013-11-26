@@ -2,11 +2,12 @@ package mainCity.market.interfaces;
 
 import java.util.Map;
 
+import mainCity.interfaces.MainCashier;
 import mainCity.market.MarketCustomerRole;
 import mainCity.market.MarketEmployeeRole;
 
 
-public interface Cashier {
+public interface MarketCashier {
 	public abstract void setGreeter(Greeter g);
 	
 	public abstract void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e);

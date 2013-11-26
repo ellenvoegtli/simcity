@@ -18,7 +18,7 @@ import role.market.MarketDeliveryManRole;
 public class MarketPanel extends JPanel implements ActionListener{
 	private MarketAnimationPanel animation;
 	private Greeter host;
-	private Cashier cashier;
+	private MarketCashier cashier;
 	private DeliveryMan deliveryMan;
         
     private Vector<MarketCustomerRole> customers = new Vector<MarketCustomerRole>();

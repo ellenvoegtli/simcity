@@ -15,11 +15,11 @@ public class MockCashier extends Mock implements Cashier {
 	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, MarketDeliveryManRole d){
 		log.add(new LoggedEvent("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount + "."));
 	}
-	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson){
-		
+	public void msgHereIsChange(double amount, MarketDeliveryManRole d){
+		log.add(new LoggedEvent("Received msgHereIsChange from " + d.getName() + " for $" + amount + "."));
 	}
 	public void msgNotEnoughMoney(double amountOwed, double amountPaid){
-		
+		log.add(new LoggedEvent("Received msgNotEnoughMoney, amount owed = $" + amountOwed + "."));
 	}
 	
 	

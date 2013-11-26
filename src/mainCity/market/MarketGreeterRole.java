@@ -22,7 +22,7 @@ import role.Role;
 //change to GreeterAgent
 public class MarketGreeterRole extends Role implements Greeter {
 	private String name;
-	Cashier cashier;
+	MarketCashier cashier;
 	DeliveryMan deliveryMan;
 	
 	private List<MyWaitingCustomer> waitingCustomers 
@@ -44,7 +44,7 @@ public class MarketGreeterRole extends Role implements Greeter {
 
 		this.name = name;
 	}
-	public void setCashier(Cashier c){
+	public void setCashier(MarketCashier c){
 		cashier = c;
 		cashierArrived = true;
 	}

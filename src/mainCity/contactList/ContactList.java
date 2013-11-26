@@ -29,6 +29,11 @@ import transportation.BusStop;
 import housing.gui.HomePanel;
 import role.market.*;
 import mainCity.market.gui.*;
+import mainCity.market.interfaces.Greeter;
+import mainCity.market.interfaces.DeliveryMan;
+import mainCity.market.interfaces.Employee;
+import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
+import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
 
 import java.util.*;
 

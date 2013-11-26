@@ -12,7 +12,7 @@ import mainCity.market.interfaces.*;
 
  // Restaurant Cook Agent
 
-public class MarketCashierRole extends Role implements Cashier {	
+public class MarketCashierRole extends Role implements MarketCashier {	
 	private String name;
 	Greeter greeter;
 	private double availableMoney = 0;		//we don't actually need to start with any money (don't need to buy anything)

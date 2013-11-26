@@ -30,7 +30,7 @@ public class MarketEmployeeRole extends Role implements Employee {
 	Timer timer = new Timer();
 	
 	private Greeter host;
-	private Cashier cashier;
+	private MarketCashier cashier;
 	private DeliveryMan deliveryMan;
 	private MarketMenu marketMenu = new MarketMenu();
 	
@@ -60,7 +60,7 @@ public class MarketEmployeeRole extends Role implements Employee {
 		this.host = host;
 	}
 	
-	public void setCashier(Cashier cashier){
+	public void setCashier(MarketCashier cashier){
 		this.cashier = cashier;
 	}
 	
