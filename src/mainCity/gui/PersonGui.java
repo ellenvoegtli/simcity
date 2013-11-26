@@ -3,6 +3,7 @@ package mainCity.gui;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.CityLocation;
 import mainCity.contactList.ContactList;
+import mainCity.interfaces.PersonGuiInterface;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,7 +15,7 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-public class PersonGui implements Gui{
+public class PersonGui implements Gui, PersonGuiInterface{
 	CityGui gui;
 	private PersonAgent agent = null;
 	private int xPos, yPos;
@@ -105,6 +106,7 @@ public class PersonGui implements Gui{
 		isPresent = p;
 	}
 
+	@Override
 	public void DoGoToLocation(PersonAgent.CityLocation destination) {
 		switch(destination) {
 			case restaurant_marcus:
@@ -142,6 +144,7 @@ public class PersonGui implements Gui{
 		}
 	}
 	
+	@Override
 	public void DoGoToStop() {
 		System.out.println("Gui is told to go to nearest bus stop");
 		
@@ -186,6 +189,7 @@ public class PersonGui implements Gui{
 		}		
 	}
 	
+	@Override
 	public void DoGoToLocationOnBus(PersonAgent.CityLocation destination) { 
 		switch(destination) {
 			case restaurant_marcus:
@@ -227,10 +231,12 @@ public class PersonGui implements Gui{
 		}		
 	}
 	
+	@Override
 	public void DoGoInside() {
 		isVisible = false;
 	}
 	
+	@Override
 	public void DoGoOutside() {
 		isVisible = true;
 	}

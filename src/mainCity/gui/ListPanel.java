@@ -28,6 +28,8 @@ public class ListPanel extends JPanel implements ActionListener {
     public ListPanel(CityGui cg) {
     	cityGui = cg;
     	
+    	System.out.println("********************** LIST PANEL CREATED ****************************");
+    	
         this.setAlignmentX(Component.LEFT_ALIGNMENT);
         setLayout(new BoxLayout((Container) this, BoxLayout.Y_AXIS));    	
         add(new JLabel("<html><u> People </u><br></html>"));
@@ -62,7 +64,10 @@ public class ListPanel extends JPanel implements ActionListener {
      */
 
     public void addPerson(String name) {
+    	System.out.println("LISTPANEL ADD PERSON");
+    	
         if (name != null) {
+        	System.out.println("name is not null");
         	System.out.println(name);
             JButton button = new JButton(name);
             button.setBackground(Color.white);
@@ -80,7 +85,7 @@ public class ListPanel extends JPanel implements ActionListener {
             //cityGui.showInfo(name);
 
             validate();
-            repaint();
+            //repaint();
         }
     }
     

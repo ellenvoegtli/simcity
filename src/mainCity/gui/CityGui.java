@@ -21,6 +21,7 @@ import java.math.*;
 
 public class CityGui extends JFrame implements ActionListener, KeyListener{	
 	private AnimationPanel animationPanel = new AnimationPanel(); 
+
 	private CityView view = new CityView(this);
 	private TracePanel tracePanel1;
 	private TracePanel tracePanel2;
@@ -30,7 +31,10 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private TracePanel tracePanel6;
 	private TracePanel tracePanel7;
 	private TracePanel tracePanel8;
+	
+	private ListPanel personPanel = new ListPanel(this);
 	private CityPanel cityPanel = new CityPanel(this);
+	
 	private JPanel mainPanel = new JPanel();
 	private JPanel leftPanel = new JPanel();
 	private JPanel detailedPanel = new JPanel();
@@ -81,13 +85,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private Object currentPerson;
 	//private JPanel infoPanel;		//add to subControlPanel2
 	
-	private ListPanel personPanel = new ListPanel(this);
+	//private ListPanel personPanel;
     private Vector<PersonAgent> people = new Vector<PersonAgent>();
 
 	
 	public CityGui() { 
 		int WINDOWX = 1300; 
 		int WINDOWY = 600;
+		
+		//personPanel = new ListPanel(this);
 
 		animationPanel.setGui(this);
 
@@ -109,9 +115,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		//moneyField.addKeyListener(this);
 		
 		
-		String[] occupationStrings = {"Random", "Rich", "bankManager", "bankTeller", "banker", 
-				"restaurantHost", "restaurantWaiter", "ellenCook", "restaurantCashier", 
-				"marketGreeter", "marketEmployee", "marketCashier", "marketDeliveryMan"
+		String[] occupationStrings = {"Random", "Rich", "jeffersonWaiter", 
+				"marcusWaiter", "marcusShareWaiter", "enaWaiter",
+				 "marketEmployee", "ellenWaiter", "davidWaiter"
 		};
 		occupationMenu = new JComboBox(occupationStrings);
 		Dimension occupationDim = new Dimension(150, 30);
@@ -422,6 +428,12 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         controlPanel.setMaximumSize(controlDim);
         //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
         leftPanel.add(controlPanel, BorderLayout.SOUTH);
+        
+        
+        
+        //for (PersonAgent p : cityPanel.getOccupants()){
+        //	personPanel.addPerson(p.getName());
+        //}
                
 	}
 	
@@ -432,7 +444,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
                     updateInfoPanel(temp);
                 }
             }
-        }
+    }
+	
+	public ListPanel getListPanel(){
+		return personPanel;
+	}
 	
 	public void updateInfoPanel(Object person) {
         currentPerson = person;
@@ -452,7 +468,12 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	public void actionPerformed(ActionEvent e){
 		if (e.getSource() == addPersonButton){
 			String name = nameField.getText();
-			double money = Double.parseDouble(moneyField.getText());
+			double money = 0;
+			if (!moneyField.getText().isEmpty())
+				money = Double.parseDouble(moneyField.getText());
+			else
+				money = 0;
+			
 			//String housing = (String) housingMenu.getSelectedItem();
 			String occupation = (String) occupationMenu.getSelectedItem();
 			String shift = (String) shiftMenu.getSelectedItem();
@@ -488,6 +509,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			shiftMenu.setSelectedIndex(0);
 			housingMenu.setSelectedIndex(0);
 			carMenu.setSelectedIndex(0);
+
 			cityPanel.addPerson(name, money, renter, occupation, sb, se, actions);
 		}
 		else if (e.getSource() == restaurantButton){
