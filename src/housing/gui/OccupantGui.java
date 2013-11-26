@@ -11,8 +11,8 @@ public class OccupantGui implements Gui
 {
 
 	
-	private OccupantRole person = null;
-	private boolean isPresent = false;
+	private OccupantRole person;
+	private boolean isPresent = true;
 	private boolean isHungry = false;
 
 	
@@ -36,6 +36,7 @@ public class OccupantGui implements Gui
 		yPos = 35;
 		xDestination = 40;
 		yDestination = 35;
+		setPresent(true);
 		//this.gui = gui;
 	}
 
@@ -99,7 +100,7 @@ public class OccupantGui implements Gui
 	public void setHungry() {
 		isHungry = true;
 		person.gotHungry();
-		setPresent(true);
+		//setPresent(true);
 		xDestination = xPos;
 		yDestination = yPos;
 	}
