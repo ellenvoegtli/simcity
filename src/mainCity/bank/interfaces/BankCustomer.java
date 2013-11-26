@@ -2,6 +2,7 @@ package mainCity.bank.interfaces;
 
 import mainCity.bank.BankManagerRole;
 import mainCity.bank.gui.BankCustomerGui;
+import mainCity.market.gui.CustomerGui;
 
 public interface BankCustomer {
 
@@ -37,4 +38,7 @@ public interface BankCustomer {
 
 	public abstract void msgLoanDenied(double loanamount);
 
+	public abstract CustomerGui getGui();
+	
+}
 	
