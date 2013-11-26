@@ -1,10 +1,10 @@
 package role.davidRestaurant;
 
-import mainCity.Person;
+import mainCity.PersonAgent;
 
 public class DavidSharedDataWaiterRole extends DavidWaiterRole{
 
-	public DavidSharedDataWaiterRole(String name, Person p) {
+	public DavidSharedDataWaiterRole(String name, PersonAgent p) {
 		super(name, p);
 	}
 

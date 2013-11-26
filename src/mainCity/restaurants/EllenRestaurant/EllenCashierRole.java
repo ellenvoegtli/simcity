@@ -6,12 +6,12 @@ import agent.Agent;
 import java.util.*;
 
 import role.market.MarketDeliveryManRole;
+import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.market.*;
 import role.Role;
-import mainCity.Person;
 
 
  // Restaurant Cook Agent
@@ -35,7 +35,7 @@ public class EllenCashierRole extends Role implements Cashier {
 	EllenHostRole host;
 
 	
-	public EllenCashierRole(Person p, String name) {
+	public EllenCashierRole(PersonAgent p, String name) {
 		super(p);
 
 		this.name = name;

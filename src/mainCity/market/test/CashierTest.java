@@ -68,7 +68,7 @@ public class CashierTest extends TestCase {
             
             //postconditions 2/preconditions 3
             assertTrue("Employee should have logged \"Received msgHereIsBill\" with amount = $25.99 but didn't. His log reads instead: " 
-                    + employee.log.getLastLoggedEvent().toString(), employee.log.containsString("Received msgHereIsBill from cashier. Amount = $25.99"));
+                    + employee.log.getLastLoggedEvent().toString(), employee.log.containsString("Received msgHereIsBill from cashier for MockCustomer1. Amount = $25.99"));
             assertTrue("Cashier should contain a bill with state == waitingForPayment. It doesn't.",
                     cashier.bills.get(0).getState() == BillState.waitingForPayment);
             assertEquals("MockCustomer should have an empty event log after the Cashier's scheduler is called for the first time. Instead, the MockCustomer's event log reads: "
@@ -113,7 +113,44 @@ public class CashierTest extends TestCase {
 		}
 		
 		public void testOneNormalBusinessScenario(){
+			/* Here, the employee tells the cashier to compute a bill for a restaurant's inventory order.
+			 * Once the cashier has computed the bill, the employee hands off the bill and the inventory 
+			 * to the delivery man. The delivery man takes care of the rest of the order, so the cashier 
+			 * can delete the bill as soon as he computes it and gives it to the employee.
+			 */
 			
+			//check preconditions
+            assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
+            assertEquals("Cashier should have 0 available money but does not.", cashier.getAvailableMoney(), 0.0);
+            Map<String, Integer>inventory = new TreeMap<String, Integer>();
+            inventory.put("steak", 1);		//cost of steak = 15.99
+            inventory.put("soup", 2);		//cost of soup = 5.00
+            
+            
+            //step 1 - create a bill
+            cashier.msgComputeBill(inventory, "ellenRestaurant", employee);
+            
+            //postconditions 1/ preconditions 2
+            assertEquals("MockEmployee should have an empty event log before the Cashier's scheduler is called. Instead, the MockEmployee's event log reads: "
+                    + employee.log.toString(), 0, employee.log.size());
+            assertEquals("Cashier should have 1 bill but does not.", cashier.getBills().size(), 1);
+            assertTrue("Cashier should contain a bill with state == computing. It doesn't.",
+                    cashier.bills.get(0).getState() == BillState.computing);
+            assertTrue("Cashier should contain a bill with the correct waiter. It doesn't.",
+                    cashier.bills.get(0).getEmployee() == employee);
+            assertTrue("Cashier should contain a bill with the right restaurant in it. It doesn't.", 
+                    cashier.bills.get(0).getRestaurant().equalsIgnoreCase("ellenRestaurant"));
+            
+            //step 2 - check that scheduler returns true
+            assertTrue("Cashier's scheduler should have returned true (needs to react to new bill), but didn't.",
+            		cashier.pickAndExecuteAnAction());
+            
+            //postconditions 2/preconditions 3
+            assertTrue("Employee should have logged \"Received msgHereIsBill\" with amount = $25.99 but didn't. His log reads instead: " 
+                    + employee.log.getLastLoggedEvent().toString(), employee.log.containsString("Received msgHereIsBill from cashier for ellenRestaurant. Amount = $25.99"));
+            assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
+
+            
 		}
 		
 		public void testTwoNormalCustomersScenario(){	//two
@@ -125,6 +162,10 @@ public class CashierTest extends TestCase {
 		}
 		
 		public void testOneCustomerOneBusinessScenario(){	//one, one
+			
+		}
+		
+		public void testTwoCustomersTwoBusinessesScenario(){	//two, two
 			
 		}
 		
@@ -159,7 +200,7 @@ public class CashierTest extends TestCase {
 
             //postconditions for step 2/preconditions for step 3
             assertTrue("Employee should have logged \"Received msgHereIsBill\" with amount = $25.99 but didn't. His log reads instead: " 
-                    + employee.log.getLastLoggedEvent().toString(), employee.log.containsString("Received msgHereIsBill from cashier. Amount = $25.99"));
+                    + employee.log.getLastLoggedEvent().toString(), employee.log.containsString("Received msgHereIsBill from cashier for MockFlake. Amount = $25.99"));
             assertTrue("Cashier should contain a bill with state == waitingForPayment. It doesn't.",
                     cashier.bills.get(0).getState() == BillState.waitingForPayment);
             assertEquals("MockCustomer should have an empty event log after the Cashier's scheduler is called for the first time. Instead, the MockCustomer's event log reads: "
@@ -200,12 +241,7 @@ public class CashierTest extends TestCase {
             assertEquals("Cashier should have 0 bills but does not.", cashier.getBills().size(), 0);
 
 		}
-		
-		
-		
-		public void testOneFlakeBusinessScenario(){		//one flake business
-			
-		}
 	
+		
 	
 }

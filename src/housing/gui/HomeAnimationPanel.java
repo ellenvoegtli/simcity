@@ -28,13 +28,9 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    private Dimension bufferSize;
 	    private boolean ty;
 		private HomePanel home = new HomePanel(this);
-		
-
-
-
-		
-
 	    protected List<Gui> guis = new ArrayList<Gui>();
+	    
+	    
 
 public HomeAnimationPanel(CityGui cg, boolean type) {
 	    	super(cg);
@@ -42,7 +38,6 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    	ContactList.getInstance().setHome(home);
 	        setBorder(BorderFactory.createRaisedBevelBorder());
 
-	    	
 	    	
 	    	//**********************
 	    	//ContactList.getInstance().setAptB(AptBuilding);
@@ -61,7 +56,9 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 			repaint();  //Will have paintComponent called
 		}
 
-	    public void paintComponent(Graphics g) {
+		
+	    public void paintComponent(Graphics g)
+	    {
 	        Graphics2D g2 = (Graphics2D)g;
 	        JLabel label;
 	        
@@ -116,14 +113,14 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		        g2.fillRect(450,  15,  applianceWidth,  applianceHeight);
 		        g2.drawString("fridge", 450, 15);
 		        
-		        g2.setColor(Color.ORANGE);       
-		        g2.fillRect(250, 150, tableWidth, tableHeight);//200 and 250 need to be table params
+		        g2.setColor(Color.BLUE);       
+		        g2.fillRect(415, 63, 20, 13);//200 and 250 need to be table params
 		        
-		        g2.setColor(Color.lightGray);       
-		        g2.fillRect(50 ,200, 50, 20);
+		        g2.setColor(Color.MAGENTA);       
+		        g2.fillRect(50 ,55, 50, 20);
 		        
 		        g2.setColor(Color.darkGray);       
-		        g2.fillRect(70 ,80, 25, 15);
+		        g2.fillRect(65 ,10, 25, 10);
 	     }
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {

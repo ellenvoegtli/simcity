@@ -5,6 +5,7 @@ import agent.Agent;
 
 import java.util.*;
 
+import mainCity.PersonAgent;
 import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
@@ -15,7 +16,6 @@ import mainCity.gui.trace.AlertTag;
 //import mainCity.role.marcusRestaurant.MarcusCookRole.CookStatus;
 import mainCity.interfaces.*;
 import mainCity.contactList.*;
-import mainCity.Person;
 import role.Role;
 
  // Restaurant Cook Agent
@@ -45,7 +45,7 @@ public class EllenCookRole extends Role implements Cook{
 	boolean opened = true;
 	
 
-	public EllenCookRole(Person p, String name/*, int steakAmount, int pizzaAmount, int pastaAmount, int soupAmount*/) {
+	public EllenCookRole(PersonAgent p, String name/*, int steakAmount, int pizzaAmount, int pastaAmount, int soupAmount*/) {
 		super(p);
 
 		this.name = name;

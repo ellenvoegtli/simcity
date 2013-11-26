@@ -1,7 +1,6 @@
 package mainCity;
 import agent.Agent;
 import role.*;
-
 import role.davidRestaurant.*;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
@@ -13,6 +12,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
@@ -20,12 +20,11 @@ import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
-
 import mainCity.market.*;
 import role.market.*;
 import transportation.BusAgent;
 
-public class PersonAgent extends Agent implements Person {
+public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
 	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
@@ -238,7 +237,7 @@ public class PersonAgent extends Agent implements Person {
 					//System.out.println("Waiting for restaurant to open");
 					return true;
 				}
-				
+				//check home agent to get a list of what they need?
 				customer.setActive();
 				
 				if(currentAction != null && currentAction.type == ActionType.restaurant) {
@@ -298,10 +297,15 @@ public class PersonAgent extends Agent implements Person {
 				state = PersonState.inBuilding;
 				return true;
 			}
-
+		
 			if(event == PersonEvent.arrivedAtBank) {
 				//set appropriate role and initial state for different actions
 				handleRole(currentAction.type);
+				Role customer = roles.get(currentAction.type);
+				if (!((BankCustomerRole) customer).getGui().goInside()){
+					//System.out.println("bank closed");
+					return true;
+				}
 				if(roles.containsKey(ActionType.bankWithdraw)){
 					roles.get(ActionType.bankWithdraw).setActive();
 					Role bankCustomer = roles.get(ActionType.bankWithdraw);
@@ -426,6 +430,10 @@ public class PersonAgent extends Agent implements Person {
 							BankerRole bk = new BankerRole(this, name);
 							ContactList.getInstance().getBank().handleRole(bk);
 							roles.put(action, bk);
+							break;
+						case "bankTeller":	
+							BankTellerRole bt = new BankTellerRole(this, name);
+							ContactList.getInstance().getBank().handleRole(bt);
 							break;
 						
 						//-----Jefferson Restaurant Roles---//
@@ -673,7 +681,7 @@ public class PersonAgent extends Agent implements Person {
 		traveling = true;
 		this.destination = d;
 		
-		boolean walk = (60 > ((int) (Math.random() * 100)));
+		boolean walk = (70 > ((int) (Math.random() * 100)));
 
 		if(walk || state == PersonState.walkingFromBus) { //chose to walk
 			output(name + " is walking to " + d);

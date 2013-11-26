@@ -26,10 +26,10 @@ public class MockEmployee extends Mock implements Employee {
 	}
 	@Override
 	public void msgHereIsBill(Customer c, double amount){		//from cashier
-		log.add(new LoggedEvent("Received msgHereIsBill from cashier. Amount = $"+ amount));
+		log.add(new LoggedEvent("Received msgHereIsBill from cashier for " + c.getName() +". Amount = $"+ amount));
 	}
 	public void msgHereIsBill(String name, double amount){		//from cashier
-		
+		log.add(new LoggedEvent("Received msgHereIsBill from cashier for " + name +". Amount = $"+ amount));
 	}
 	public void msgOrderFulfilled(MyCustomer mc){		//from timer
 		

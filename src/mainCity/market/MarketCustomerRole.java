@@ -1,10 +1,10 @@
 package mainCity.market;
 
+import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.market.interfaces.*;
 import role.Role;
-import mainCity.Person;
 
 //import market.interfaces.*;
 
@@ -61,7 +61,7 @@ public class MarketCustomerRole extends Role implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public MarketCustomerRole(Person p, String name){
+	public MarketCustomerRole(PersonAgent p, String name){
 		super(p);
 		this.name = name;
 		

@@ -7,7 +7,7 @@ import java.util.Map;
 
 import role.Role;
 import role.market.MarketDeliveryManRole;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
@@ -35,7 +35,7 @@ public class EnaCashierRole extends Role implements Cashier{
 		
 				public EnaHostGui hostGui;
 
-		public EnaCashierRole( Person p, String name) 
+		public EnaCashierRole( PersonAgent p, String name) 
 		{
 			super(p);
 

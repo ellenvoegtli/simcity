@@ -1,7 +1,7 @@
 package mainCity.restaurants.EllenRestaurant;
 import java.util.concurrent.Semaphore;
 
-import mainCity.Person;
+import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
@@ -9,7 +9,7 @@ import mainCity.restaurants.EllenRestaurant.sharedData.*;
 public class EllenSharedDataWaiterRole extends EllenWaiterRole {
 	private RevolvingStand stand;
 	
-	public EllenSharedDataWaiterRole(Person p, String name) {
+	public EllenSharedDataWaiterRole(PersonAgent p, String name) {
 		super(p, name);
 		//print("Created a shared data waiter");
 		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Created a shared data waiter");

@@ -2,7 +2,6 @@ package mainCity.restaurants.marcusRestaurant.test;
 
 import role.marcusRestaurant.MarcusCashierRole;
 import role.marcusRestaurant.MarcusCashierRole.BillState;
-import mainCity.Person;
 import mainCity.PersonAgent;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.test.mock.*;

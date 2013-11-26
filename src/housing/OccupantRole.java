@@ -58,7 +58,11 @@ public void msgAtDestination()
 }
 	
 	
+<<<<<<< HEAD
 public OccupantRole(PersonAgent p, String personNm) 
+=======
+public OccupantRole(PersonAgent p, String personNm, boolean owner) 
+>>>>>>> eb1957f8e42a3fb60eb849f62a6eb23859650f00
 {
 	super(p);
 	this.name = personNm;

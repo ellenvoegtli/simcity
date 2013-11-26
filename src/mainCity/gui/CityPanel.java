@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import role.market.MarketDeliveryManRole;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
-import mainCity.Person;
 import mainCity.PersonAgent;
 import mainCity.bank.gui.BankPanel;
 import mainCity.contactList.ContactList;
@@ -100,7 +99,7 @@ public class CityPanel extends JPanel{
 	}
 	
 	private void updateCity() {
-		for(Person p : occupants) {
+		for(PersonAgent p : occupants) {
 			p.updateClock(clock);
 		}
 	}

@@ -5,9 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import mainCity.bank.BankAccounts.BankAccount;
+import mainCity.interfaces.ManagerRole;
 import agent.Agent;
 
-public class BankManagerRole extends Agent {
+public class BankManagerRole extends Agent implements ManagerRole {
 
 	String name;
 	private BankAccounts ba;
@@ -15,6 +16,7 @@ public class BankManagerRole extends Agent {
 	public myBanker mbanker;
 	public List <myBankCustomer>  teller_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
 	public List <myBankCustomer>  banker_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
+	public boolean onDuty;
 
 	public static class myTeller{
 	    BankTellerRole t;
@@ -58,6 +60,7 @@ public class BankManagerRole extends Agent {
 	public BankManagerRole(String name){
 		super();
 		this.name=name;
+		onDuty=true;
 		Do("Bank Manager instantiated");
 		
 	}
@@ -67,6 +70,13 @@ public class BankManagerRole extends Agent {
 	//Messages
 	
 	//TODO end shift and tell all employees to leave
+	@Override
+	public void msgEndShift() {
+		Do("bank closing");
+		onDuty = false;
+		stateChanged();
+		
+	}
 	
 	public void msgTellerAdded(BankTellerRole bt){
 		tellers.add(new myTeller(bt,tellers.size()));
@@ -151,11 +161,9 @@ public class BankManagerRole extends Agent {
 	
 //TODO handle scenarios where not enough employees	
 	
+
 	protected boolean pickAndExecuteAnAction() {
-		if(tellers.isEmpty() || mbanker==null){
-			sayClosed();
-			return false;
-		}
+	
 		
 		for(myTeller mt:tellers){
 			if(!mt.Occupied && !teller_bankCustomers.isEmpty()){
@@ -173,6 +181,10 @@ public class BankManagerRole extends Agent {
 			return true;
 		}
 			
+		if(!onDuty && teller_bankCustomers.isEmpty() && banker_bankCustomers.isEmpty()){
+			closeBuilding();
+			
+		}
 		
 			
 		
@@ -182,21 +194,14 @@ public class BankManagerRole extends Agent {
 	
 //Actions
 	
-	private void sayClosed(){
-		synchronized(banker_bankCustomers){
-			for(myBankCustomer mb : banker_bankCustomers){
-				mb.bc.msgBankClosed();
-				//banker_bankCustomers.remove(mb);
-				
-			}
-		}	
-		synchronized(teller_bankCustomers){
-			for (myBankCustomer mb: teller_bankCustomers){
-				mb.bc.msgBankClosed();
-				//teller_bankCustomers.remove(mb);
-			}
+	public boolean isOpen(){
+		if(tellers.isEmpty() || mbanker==null || !onDuty ){
+			return false;
 		}
+		return true;
+		
 	}
+	
 	
 	private void assignTeller(myTeller mt){
 	Do("assigning teller");
@@ -215,6 +220,11 @@ public class BankManagerRole extends Agent {
 
 	public void setBankAccounts(BankAccounts accounts){
 		ba= accounts;
+	}
+
+	public boolean closeBuilding() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	

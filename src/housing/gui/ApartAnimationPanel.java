@@ -67,7 +67,7 @@ public class ApartAnimationPanel extends HomeAnimationPanel{
 
 		setSize(520, 380);
         setVisible(true);
-		setLayout( new GridLayout(5,1,0,0));
+		setLayout( new GridLayout(6,0,0,0));
 	       
 		
 		bufferSize = this.getSize();

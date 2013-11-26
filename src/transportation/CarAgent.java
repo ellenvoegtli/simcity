@@ -3,7 +3,6 @@ package transportation;
 import java.util.*; 
 import java.util.concurrent.Semaphore;
 
-import mainCity.Person;
 import mainCity.PersonAgent;
 import agent.Agent;
 
@@ -11,7 +10,7 @@ public class CarAgent extends Agent {
 
 		/** Data **/
 			
-			Person Owner;
+			PersonAgent Owner;
 			List<PersonAgent> Passengers = new ArrayList<PersonAgent>();
 			
 			public enum CarState
