@@ -33,22 +33,18 @@ public class MarketCustomerRole extends Role{
 	private int stationX;
 	private int stationY;
 	
-	//private int checkAmount;
 	private double myCash;
 	private double cashOwed = 0;
 	String deliveryMethod;
-	//List<OrderItem> inventoryToOrder;
 	Map<String, Integer> inventoryToOrder;
 	
 	Bill bill;
 	enum BillState {unpaid, paid};
 
-	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
 	{DoingNothing, WaitingInMarket, WaitingForEmployee, GoingToStation, Ordering, OrderProcessing, WaitingForOrder, GoingToCashier, Paying,
 		WaitingForChange, Leaving};
 	private AgentState state = AgentState.DoingNothing;//The start state
-	
 	
 	public enum AgentEvent 
 	{none, toldToGetInventory, toldToWaitForEmployee, followEmployee, atStation, askedForOrder, gotOrderAndBill, 
@@ -98,7 +94,7 @@ public class MarketCustomerRole extends Role{
 	public double getMyCash(){
 		return myCash;
 	}
-	// Messages
+
 
 	//for alert log trace statements
 	public void log(String s){
@@ -106,6 +102,8 @@ public class MarketCustomerRole extends Role{
         AlertLog.getInstance().logMessage(AlertTag.MARKET_CUSTOMER, this.getName(), s);
 	}
 	
+	
+	// Messages
 	public void goGetInventory(Map<String, Integer> inventoryNeeded){
 		log("Told to go to market to order inventory");
 		this.inventoryToOrder = inventoryNeeded;
