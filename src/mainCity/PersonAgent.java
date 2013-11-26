@@ -12,6 +12,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
@@ -272,10 +273,9 @@ public class PersonAgent extends Agent {
 				}
 				else if(customer instanceof EnaCustomerRole)
 				{
-					print("is customer hungry????");
+					print("is customer hungry?");
 					if (!((EnaCustomerRole) customer).getGui().goInside())
 					{	chooseRestaurant();
-						print("customer set to hungry");
 						return true;
 					}
 				}
@@ -283,6 +283,12 @@ public class PersonAgent extends Agent {
 					//((JeffersonCustomerRole) customer).gotHungry();
 					if(!((JeffersonCustomerRole) customer).getGui().goInside()){
 						chooseRestaurant();
+						return true;
+					}
+				}
+				else if(customer instanceof DavidCustomerRole){
+					if(!((DavidCustomerRole) customer).getGui().goInside()){
+						chooseRestaurant(); 
 						return true;
 					}
 				}
@@ -297,10 +303,15 @@ public class PersonAgent extends Agent {
 				state = PersonState.inBuilding;
 				return true;
 			}
-
+		
 			if(event == PersonEvent.arrivedAtBank) {
 				//set appropriate role and initial state for different actions
 				handleRole(currentAction.type);
+				Role customer = roles.get(currentAction.type);
+				if (!((BankCustomerRole) customer).getGui().goInside()){
+					//System.out.println("bank closed");
+					return true;
+				}
 				if(roles.containsKey(ActionType.bankWithdraw)){
 					roles.get(ActionType.bankWithdraw).setActive();
 					Role bankCustomer = roles.get(ActionType.bankWithdraw);
@@ -395,6 +406,12 @@ public class PersonAgent extends Agent {
 			actions.add(new Action(ActionType.work, 1));
 			stateChanged();
 		}
+		
+		if(job.occupation.equals("rich") && event == PersonEvent.maintainWork)
+		{
+			actions.add(new Action(ActionType.maintenance , 1));
+		}
+		
 		if(time == job.shiftEnd && state == PersonState.working) {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
 				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
@@ -425,6 +442,10 @@ public class PersonAgent extends Agent {
 							BankerRole bk = new BankerRole(this, name);
 							ContactList.getInstance().getBank().handleRole(bk);
 							roles.put(action, bk);
+							break;
+						case "bankTeller":	
+							BankTellerRole bt = new BankTellerRole(this, name);
+							ContactList.getInstance().getBank().handleRole(bt);
 							break;
 						
 						//-----Jefferson Restaurant Roles---//
@@ -565,6 +586,7 @@ public class PersonAgent extends Agent {
 							ContactList.getInstance().getMarket().handleRole(mdm);
 							roles.put(action, mdm);
 							break;
+					
 						default:
 							break;
 					}
@@ -607,7 +629,7 @@ public class PersonAgent extends Agent {
 					roles.put(action, mcr);
 					break;
 				case home :
-					OccupantRole or = new OccupantRole(this, name, true);
+					OccupantRole or = new OccupantRole(this, name);
 					ContactList.getInstance().getHome().handleRoleGui(or);
 					roles.put(action, or);
 					break;
@@ -704,6 +726,9 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
+		
+		destination = CityLocation.restaurant_david;
+		/*
 		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -723,6 +748,7 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
+		*/
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
@@ -731,8 +757,9 @@ public class PersonAgent extends Agent {
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
-		
-		boolean temp = true;
+		currentAction.type = ActionType.home;
+		handleAction(currentAction.type);
+		/*boolean temp = true;
 		
 		if(temp) { //chose restaurant
 			output("Chose to eat at a restaurant");
@@ -750,7 +777,7 @@ public class PersonAgent extends Agent {
 				currentAction.type = ActionType.home;
 				handleAction(currentAction.type);
 			}
-		}
+		}*/
 
 		stateChanged();
 	}
@@ -783,7 +810,8 @@ public class PersonAgent extends Agent {
 
 	private void goToRenters()
 	{
-		output("Going to a renters home");
+		output("Going to a renters home for maintenance");
+		
 		travelToLocation(CityLocation.home);
 		
 		stateChanged();

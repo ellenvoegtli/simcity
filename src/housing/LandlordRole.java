@@ -12,8 +12,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
-import mainCity.PersonAgent;
 import agent.Agent;
+import mainCity.PersonAgent;
 import role.Role;
 
 
@@ -28,11 +28,12 @@ public class LandlordRole extends Role
 
 	int id;
 	List<Property> properties = new ArrayList<Property>();
-	Map<OccupantRole, String> ToDo = new HashMap<OccupantRole, String>(); 
+	Map<OccupantRole, List<String>> ToDo = new HashMap<OccupantRole, List<String>>(); 
 	LandlordGui gui;
 	private Semaphore atDest = new Semaphore(0,true);
+	private List <String> fixJobs = new ArrayList<String>(); 
 
-	private OccupantRole occupant;
+	//private OccupantRole occupant;
 
 	
 	//MESSAGES
@@ -47,9 +48,11 @@ public class LandlordRole extends Role
 	{
 		for(Property pr: properties)
 		{
-			if(pr.renter == occp )		
+			if(pr.renter == occp )	
+				
 			{
-				ToDo.put(occp, occp.getName());
+				fixJobs.add(appName);
+				ToDo.put(occp, fixJobs);
 			}
 
 		}
@@ -79,26 +82,35 @@ public class LandlordRole extends Role
 			//gui.DoGoToRenterHome(occ.getHome());
 			int xPos = 0;
 			int yPos = 0;
-			for (Appliance appl : occ.getHome().Appliances)
-			{
-				if(appl.appliance.equals(ToDo.get(occ)))
+			
+				for (String a : ToDo.get(occ))
 				{
-					xPos = appl.getXPos();
-					yPos = appl.getYPos();
-					appl.working = true;
+				  for (Appliance appl : occ.getHome().AAppliances)
+				  {
+					  if(appl.appliance.equals(a))
+					  {
+						xPos = appl.getXPos();
+						yPos = appl.getYPos();
+						appl.working = true;
 					
+					  }
+				   }
+				  ToDo.get(occ).remove(a);
+				  if(ToDo.get(occ).size() == 0) break;
 				}
 				
-			}
-			
 			gui.DoGoToAppliance(xPos, yPos);
 			repair();
 			ToDo.remove(occ);
 			if(ToDo.size() == 0)break;
-		}			
-		gui.DoGoBackHome();
+		}
+		gui.DoLeave();	
+		setInactive();	
+		//gui.DoGoBackHome();
 
-	}
+		}			
+
+
 	
 	public void repair()
 	{

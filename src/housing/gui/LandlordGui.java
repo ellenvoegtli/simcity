@@ -50,7 +50,7 @@ public class LandlordGui implements Gui {
 		else if (yPos > yDestination)
 			yPos--;
 		
-		if ((xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) || (xDestination == 70 && yDestination == 100) )
+		if((xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55)	)
 			{
 					atDestination = true;
 			}
@@ -58,7 +58,7 @@ public class LandlordGui implements Gui {
 		if (this.atEndPoint()) 
 		{
 			command=Command.noCommand;
-			if (((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 50 && yDestination ==150) || (xDestination == 70 && yDestination == 100) ) && atDestination == true)
+			if ((xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55)	&& atDestination == true)
 			{
 				atDestination = false;				
 				landlord.msgAtDestination();
@@ -71,8 +71,8 @@ public class LandlordGui implements Gui {
 	
 	public void draw(Graphics2D g) 
 	{
-		g.setColor(Color.CYAN);
-		g.fillRect(xPos, yPos, 20, 15);
+		g.setColor(Color.RED);
+		g.fillRect(xPos, yPos, 10, 10);
 		g.setColor(Color.BLACK);
 		
 	}
@@ -103,34 +103,18 @@ public class LandlordGui implements Gui {
 		
 		public void DoGoToAppliance(int x, int y)
 		{
-			xDestination = 70;
-			yDestination = 100;
+			xDestination = x;
+			yDestination = y;
 		}
 	
 		
 		public void DoLeave()
 		{
 			xDestination = -10;
-			yDestination = 180;
+			yDestination = 40;
 		}
 
-		public void DoGoBackHome() 
-		{
-			xDestination = 400;
-			yDestination = 300;
-		}
-
-		public void DoGoToRenterHome(personHome home) 
-		{
-			
-		}
-
-		
-		
 	
-	
-
-
 
 
 }

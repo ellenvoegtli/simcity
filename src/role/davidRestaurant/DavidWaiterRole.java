@@ -56,8 +56,9 @@ public class DavidWaiterRole extends Role implements Waiter {
 	
 	//False when waiter is interacting with host
 	private boolean requestingBreak = true;
-	
 	private boolean onBreak = false;
+	
+	private boolean onDuty; 
 	
 	Order currentOrder; 
 	private String orderChoice;
@@ -74,6 +75,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	public DavidWaiterRole(String name, PersonAgent p) {
 		super(p);
 		this.name = name;
+		onDuty = true;
 	}
 
 	public String getMaitreDName() {
@@ -315,10 +317,13 @@ public class DavidWaiterRole extends Role implements Waiter {
 				return true;
 			}
 			
-			
-			
 			hostFree.tryAcquire();
 			waiterGui.DoLeaveCustomer();
+			
+			if(!onDuty) { 
+				leaveRestaurant(); 
+				onDuty = false;
+			}
 			return false;
 			//we have tried all our rules and found
 			//nothing to do. So return false to main loop of abstract agent
@@ -330,6 +335,19 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 
 /*   Actions   */
+
+	private void leaveRestaurant() {
+		waiterGui.DoLeaveRestaurant(); 
+		try {
+			hostFree.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		setInactive(); 
+		onDuty = true;
+		
+	}
 
 	private void seatCustomer(Menu m, myCustomer customer) {
 		
@@ -445,6 +463,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		print("cashier present?" + cashierAgent.name);
 		cashierAgent.msgHeresACheck(this, customer.orderChoice, customer.t.tableNumber);
 	}
 	
@@ -548,6 +567,12 @@ public class DavidWaiterRole extends Role implements Waiter {
 
 	public void setOnBreak(boolean onBreak) {
 		this.onBreak = onBreak;
+	}
+
+	public void msgGoOffDuty(double amount) {
+		addToCash(amount); 
+		onDuty = false; 
+		stateChanged();
 	}
 
 

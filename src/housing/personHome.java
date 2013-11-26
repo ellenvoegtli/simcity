@@ -25,6 +25,8 @@ public class personHome
 	enum type {apartment, house};
 	type homeType;
 	List <Appliance> Appliances = new ArrayList<Appliance>();
+	List <Appliance> AAppliances = new ArrayList<Appliance>();
+
 	List<String> needFood = new ArrayList<String>();
 	
 	public personHome(OccupantRole occ)
@@ -42,10 +44,15 @@ public class personHome
 		FoodSupply.put("chickenSoup", 5);
 		
 		
-	Appliances.add(new Appliance("stove" , true));
-	Appliances.add(new Appliance("fridge" , true));
-	Appliances.add(new Appliance("sink" , true));
-	Appliances.add(new Appliance("TV", false));
+	Appliances.add(new Appliance("stove" , true, false));
+	Appliances.add(new Appliance("fridge" , true, false));
+	Appliances.add(new Appliance("sink" , true, false));
+	Appliances.add(new Appliance("TV", false, false));
+	
+	AAppliances.add(new Appliance("stove" , true, true));
+	AAppliances.add(new Appliance("fridge" , true, true));
+	AAppliances.add(new Appliance("sink" , true, true));
+	AAppliances.add(new Appliance("TV", false, true));
 
 		
 	}
@@ -122,15 +129,20 @@ public class personHome
 		//DATA
 		
 			String appliance;
-			boolean working = true;
+			boolean working;
+			boolean apt;
 			int yPos;
 			int xPos;
 			
-			public Appliance (String nm, boolean wrk)
+			
+			public Appliance (String nm, boolean wrk, boolean apartment)
 			{
 				appliance = nm; 
 				working = wrk;
-				
+				apt = apartment;
+			
+			if(!apartment)
+			{	
 				if(nm.equals("stove"))
 				{
 					xPos = 200;
@@ -152,6 +164,33 @@ public class personHome
 					xPos = 70;
 					yPos = 80;
 				}
+			}
+			
+			if(apartment)
+			{
+				if(nm.equals("stove"))
+				{
+					xPos = 350;
+					yPos = 15;
+					
+				}
+				if(nm.equals("fridge"))
+				{
+					xPos = 450;
+					yPos = 15;
+				}
+				if(nm.equals("sink"))
+				{
+					xPos = 400;
+					yPos = 15;
+				}
+				if(nm.equals("TV"))
+				{
+					xPos = 65;
+					yPos = 10;
+				}
+				
+			}
 				
 			}
 			

@@ -33,7 +33,7 @@ public class BankPanel extends JPanel {
 	
 	//public PersonAgent p1 = new PersonAgent("bob1");
 	
-	public BankManagerRole bankmanager = new BankManagerRole("Saul");
+	public BankManagerRole bankmanager;
 	
 	private BankerRole banker;
 	//private BankTellerRole bankteller = new BankTellerRole("kim");
@@ -141,10 +141,9 @@ public class BankPanel extends JPanel {
         setLayout(new FlowLayout());
         group.setLayout(new FlowLayout());
      
-        
 
+       // bankmanager.startThread();
 
-        bankmanager.startThread();
         
         //banker.msgGoToWork();
         //banker.startThread();
@@ -209,6 +208,43 @@ public class BankPanel extends JPanel {
     			bankmanager.mbanker=new myBanker(banker);
     		}
     		
+    	if (r instanceof BankTellerRole){
+    		BankTellerRole btr = (BankTellerRole) r;
+    		for(BankTellerRole bt:banktellers){
+    			if(bt==btr){
+    				return;
+    			}
+    		}
+    		BankTellerGui btgui = new BankTellerGui(btr);
+    		btr.setGui(btgui);
+    		btr.setBankAccounts(mainaccounts);
+    		bankAnimationPanel.addGui(btgui);
+    		btr.setTellerNumber(banktellers.size());
+    		banktellers.add(btr);
+    		if(bankmanager!=null){
+    			bankmanager.msgTellerAdded(btr);
+    		}
+    		
+    		
+    	}
+    	if(r instanceof BankManagerRole){
+    		bankmanager = (BankManagerRole) r;
+    		bankmanager.setBankAccounts(mainaccounts);
+    		bankmanager.setBanker(banker);
+    		
+    		for(BankTellerRole bt:banktellers){
+    			bankmanager.msgTellerAdded(bt);
+    			
+    		}
+    		
+    		for(BankCustomerRole bc:bankcustomers){
+    			bc.setBankManager(bankmanager);
+    		}
+    		
+    		
+    		
+    		
+    	}
     		
     		
     	}

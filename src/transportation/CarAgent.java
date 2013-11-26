@@ -39,17 +39,19 @@ public class CarAgent extends Agent {
 
 		/** Scheduler **/ 
 			
-			boolean PickAndExecuteAnAction() { 
+			public boolean PickAndExecuteAnAction() { 
 				if(currentState == CarState.Occupied){ 
 					Travel(); 
+					return true;
 				}
+				return false;
 			}
 			
 		/** Actions **/ 
 			
 			public void Travel() { 
-				DoGoToDestination(DestinationX, DestinationY);  
-				atDestination.acquire(); 
+				//DoGoToDestination(DestinationX, DestinationY);  
+				//atDestination.acquire(); 
 				currentLocation = Destination;
 				
 				//Tell passengers that destination has been reached. 
@@ -61,7 +63,13 @@ public class CarAgent extends Agent {
 				stateChanged();
 			}
 
+		@Override
+		protected boolean pickAndExecuteAnAction() {
+			// TODO Auto-generated method stub
+			return false;
 		}
 
+}		
+
 		//Owner of car can't talk to car if its not at the same place as the owner. 
-}
+

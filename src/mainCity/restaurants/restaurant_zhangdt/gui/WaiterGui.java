@@ -86,6 +86,12 @@ public class WaiterGui implements Gui {
            agent.msgHostFree();
         }
         
+        //When waiter leaves 
+        if (xPos == xDestination && yPos == yDestination
+        		& (xDestination == -20) & (yDestination == -20)) {
+        	agent.msgHostFree();
+        }
+        
         //When the waiter reaches the customer's initial position
         if (xPos == xDestination && yPos == yDestination
         		& (xDestination == 60) & (yDestination == 60))
@@ -171,4 +177,9 @@ public class WaiterGui implements Gui {
     public int getYPos() {
         return yPos;
     }
+
+	public void DoLeaveRestaurant() {
+		xDestination = -20; 
+		yDestination = -20;
+	}
 }

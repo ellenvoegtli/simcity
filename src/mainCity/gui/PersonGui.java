@@ -33,15 +33,16 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
+		
 		xHome = agent.getHomePlace().getXLoc();
 		yHome = agent.getHomePlace().getYLoc();
 		
-		xDestination = xPos = xHome;
-		yDestination = yPos = yHome;;
+		//xDestination = xPos = xHome;
+		//yDestination = yPos = yHome;
 		
-		/*
+		
 		xDestination = xPos = (int) (Math.random() * 700);
-		yDestination = yPos = (int) (Math.random() * 500);*/
+		yDestination = yPos = (int) (Math.random() * 500);
 		
 		traveling  = false;
 		StringBuilder path = new StringBuilder("imgs/");
@@ -64,10 +65,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		corners.add(new Coordinate(655, 125));
 		corners.add(new Coordinate(655, 330));
 		
-		
-		
-		//xHome = agent.getHomePlace().getXLoc();
-		//yHome = agent.getHomePlace().getYLoc();
 	}
 
 	public void updatePosition() {
@@ -264,10 +261,11 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		PersonAgent.CityLocation destination = ContactList.stops.get(0).stopLocation;
 		
 		//goes through list of bus stops to find nearest stop
-		for(int i=1; i < ContactList.stops.size(); i++) { 
+		for(int i=0; i < ContactList.stops.size(); i++) { 
 			int tempdistance = Math.abs(xPos - ContactList.stops.get(i).xLocation) 
 								+ (Math.abs(yPos - ContactList.stops.get(i).yLocation)); 
-			if(tempdistance < distance){ 
+			if(tempdistance <= distance){  
+				distance = tempdistance;
 				destination = ContactList.stops.get(i).stopLocation;
 			}
 		}

@@ -75,7 +75,13 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	
 	
 	// Messages
-	
+
+
+	public void msgNotEnoughMoney(double amountOwed, double amountPaid) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void msgGoOffDuty(double d) {
 		addToCash(d);
 		onDuty = false;
@@ -256,6 +262,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	public void deductCash(double payroll) {
 		profits-=payroll;
 	}
+
 
 
 

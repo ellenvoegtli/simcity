@@ -67,6 +67,7 @@ public class CustomerGui implements Gui{
 			}
 			else if (command==Command.LeaveRestaurant) {
 				agent.msgAnimationFinishedLeaveRestaurant();
+				isHungry = false;
 			}
 			
 			command=Command.noCommand;
@@ -179,5 +180,17 @@ public class CustomerGui implements Gui{
 		xDestination = -40;
 		yDestination = -40;
 		command = Command.LeaveRestaurant;
+	}
+
+	public boolean goInside() {
+		if(agent.restaurantOpen()){ 
+			isHungry = true; 
+			agent.gotHungry(); 
+			setPresent(true); 
+			xDestination = 40; 
+			yDestination = 40; 
+			return true;
+		}
+		return false;
 	}
 }

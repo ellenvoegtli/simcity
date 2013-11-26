@@ -110,6 +110,7 @@ public class MarketCashierRole extends Role implements Cashier {
 		}
 		//NOW we can add the money they finally, for sure paid and are not taking back
 		availableMoney += b.amountMarketGets;
+		availableMoney = Math.round(availableMoney*100.0)/100.0;
 		bills.remove(b);
 	}
 	public void msgHereIsMoneyIOwe(Customer cust, double amount){
@@ -273,6 +274,9 @@ public class MarketCashierRole extends Role implements Cashier {
 		}
 		public String getRestaurant(){
 			return restaurantName;
+		}
+		public double getAmountCharged(){
+			return amountCharged;
 		}
 	}
 

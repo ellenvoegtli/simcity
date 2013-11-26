@@ -5,7 +5,7 @@ import housing.personHome.Appliance;
 import housing.personHome.type;
 import housing.gui.OccupantGui;
 import agent.Agent;
-
+import mainCity.gui.AnimationPanel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Timer;
@@ -58,21 +58,22 @@ public void msgAtDestination()
 }
 	
 	
-public OccupantRole(PersonAgent p, String personNm, boolean owner) 
+public OccupantRole(PersonAgent p, String personNm) 
 {
 	super(p);
 	this.name = personNm;
-	this.owner = owner;
-	
-	if(owner == false)
+	print("##############");
+
+	if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
 	{
+		owner = false;
 		rent = 850;
-		//what else needs to happen if he rents the house
 	}
-	if(owner == true)
+	if(AnimationPanel.houses.containsKey(p.getHomePlace()))
 	{
-		//what happens if he owns the house
+		owner = true;
 	}
+	
 	
 }
 
@@ -219,6 +220,7 @@ private void checkMaintenance()
 
 public void PayRent()
 {
+	print("pay the owner rent money");
 	//timer to run for a reasonable amount of time to make rent due, a "week?"
 	//bank.DirectDeposit(owner.id, rent);
 }
@@ -248,6 +250,7 @@ public void fixAppliance(String app)
 {
 	int xPos = 0;
 	int yPos = 0;
+		
 	for (Appliance appl : home.Appliances)
 	{
 		if(appl.appliance.equals(app))
@@ -282,7 +285,11 @@ public void fixAppliance(String app)
 
 public void wantsToEat(String mealChoice)
 {
-	gui.DoGoToFridge();
+	if(owner) gui.DoGoToFridge();
+	
+	if(!owner) gui.DoGoToFridgeA();
+	System.out.println("has reached the fridge&&&&&&&&&&&&");
+	
 	try {
 		destination.acquire();
 	} catch (InterruptedException e) {
@@ -310,7 +317,9 @@ public void restockKitchen()
 }
 public void cookAMeal()
 {
-	gui.DoGoToStove();
+	if(owner) gui.DoGoToStove();
+	
+	if(!owner) gui.DoGoToStoveA();
 	
 	try{
 	destination.acquire();
@@ -334,7 +343,9 @@ public void cookAMeal()
 
 public void EatFood()
 {
-	gui.DoGoToKitchenTable();
+	if (owner) gui.DoGoToKitchenTable();
+	if(!owner) gui.DoGoToKitchenTableA();
+	
 	try{
 	destination.acquire();
 } catch (InterruptedException e) {
@@ -354,7 +365,9 @@ public void EatFood()
 
 public void GoWashDishes()
 {
-	gui.DoGoToSink();
+	if (owner) gui.DoGoToSink();
+	if(!owner) gui.DoGoToSink();
+	
 	try{
 		destination.acquire();
 	} catch (InterruptedException e) {
@@ -373,7 +386,8 @@ public void GoWashDishes()
 }
 public void GoRest()
 {
-	gui.DoGoRest();
+	if(owner) gui.DoGoRest();
+	if(!owner) gui.DoGoRestA();
 }
 
 
