@@ -32,15 +32,16 @@ public class PersonGui implements Gui{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
+		
 		xHome = agent.getHomePlace().getXLoc();
 		yHome = agent.getHomePlace().getYLoc();
 		
-		xDestination = xPos = xHome;
-		yDestination = yPos = yHome;;
+		//xDestination = xPos = xHome;
+		//yDestination = yPos = yHome;
 		
-		/*
+		
 		xDestination = xPos = (int) (Math.random() * 700);
-		yDestination = yPos = (int) (Math.random() * 500);*/
+		yDestination = yPos = (int) (Math.random() * 500);
 		
 		traveling  = false;
 		StringBuilder path = new StringBuilder("imgs/");
@@ -63,10 +64,6 @@ public class PersonGui implements Gui{
 		corners.add(new Coordinate(655, 125));
 		corners.add(new Coordinate(655, 330));
 		
-		
-		
-		//xHome = agent.getHomePlace().getXLoc();
-		//yHome = agent.getHomePlace().getYLoc();
 	}
 
 	public void updatePosition() {
