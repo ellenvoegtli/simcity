@@ -33,7 +33,7 @@ import mainCity.market.*;
 import role.market.*;
 
 public class PersonAgent extends Agent {
-	private enum PersonState {normal, working, inBuilding, waiting, boardingBus}
+	private enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
 	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
 	
@@ -96,14 +96,15 @@ public class PersonAgent extends Agent {
 	//A message received from the GUI
 	public void msgAtDestination() {
 		traveling = false;
+		state = PersonState.normal;
 		isMoving.release();
 	}
 
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
-		traveling = false;
+		//traveling = false;
 		gui.DoGoOutside();
-		state = PersonState.normal;
+		state = PersonState.walkingFromBus;
 		stateChanged();
 	}
 	//A message for the landlord
@@ -375,13 +376,17 @@ public class PersonAgent extends Agent {
 			}
 		}
 		
-		if(state == PersonState.boardingBus) 
-		{
+		if(state == PersonState.boardingBus) {
 			boardBus();
+			return true;
+		}
+		
+		if(state == PersonState.walkingFromBus) {
+			travelToLocation(destination);
+			return true;
 		}
 
-		if(actions.isEmpty() && state == PersonState.normal && !traveling) 
-		{
+		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
 			output("My action list is empty. Going home");
 			actions.add(new Action(ActionType.home, 10));
 			return true;
@@ -684,11 +689,10 @@ public class PersonAgent extends Agent {
 	private void travelToLocation(CityLocation d) {
 		traveling = true;
 		this.destination = d;
-		output(name + " is going to " + d);
+		
+		boolean walk = false;//(60 > ((int) (Math.random() * 100)));
 
-		boolean walk = true;//(60 > ((int) (Math.random() * 100)));
-
-		if(walk) { //chose to walk
+		if(walk || state == PersonState.walkingFromBus) { //chose to walk
 			output(name + " is walking to " + d);
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
