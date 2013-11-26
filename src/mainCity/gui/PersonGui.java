@@ -258,7 +258,7 @@ public class PersonGui implements Gui{
 		for(int i=0; i < ContactList.stops.size(); i++) { 
 			int tempdistance = Math.abs(xPos - ContactList.stops.get(i).xLocation) 
 								+ (Math.abs(yPos - ContactList.stops.get(i).yLocation)); 
-			if(tempdistance <= distance){ 
+			if(tempdistance <= distance){  
 				distance = tempdistance;
 				destination = ContactList.stops.get(i).stopLocation;
 			}
