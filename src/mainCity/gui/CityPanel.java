@@ -72,7 +72,7 @@ public class CityPanel extends JPanel{
     	//String[] actions = {"work"}; 
     	//addPerson("waiter", 100, true, "marcusWaiter", 12, -1, actions);
     	//addPerson("host", 100, true, "marcusHost", 8, 11, actions);
-		//parseConfig();
+		parseConfig();
 
     	//String[] actions = {"hungry"}; 
     	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
@@ -111,6 +111,10 @@ public class CityPanel extends JPanel{
 		}
 	}
 	
+	public List<PersonAgent> getOccupants(){
+		return occupants;
+	}
+	
 	
 	private void parseConfig() {
 		try {
@@ -146,11 +150,14 @@ public class CityPanel extends JPanel{
     	PersonAgent person = new PersonAgent(name);
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);
+		
 		person.setHomePlace(renter);
 		System.out.println("selected house for person to live in");
 		PersonGui pg = new PersonGui(person, gui);
 		gui.getAnimationPanel().addPersonGui(pg);
 		person.setGui(pg);
+		
+		//gui.getListPanel().addPerson(name);
 		
 		if(actions != null) {
 			for(int i = 0; i < actions.length; ++i) {
