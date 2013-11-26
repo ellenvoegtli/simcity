@@ -46,6 +46,7 @@ public class DeliveryManTest extends TestCase {
         
 	}
 	
+		//=============================== NEXT TEST =========================================================================
 		public void testOneNormalBusinessScenario(){
 			gui.deliveryMan = deliveryMan;
 			//deliveryMan.deliveryGui = gui;
@@ -161,6 +162,9 @@ public class DeliveryManTest extends TestCase {
             
 		}
 		
+		
+		
+		//=============================== NEXT TEST =========================================================================
 		public void testTwoNormalBusinessScenario(){
 			gui.deliveryMan = deliveryMan;
 			
@@ -360,6 +364,9 @@ public class DeliveryManTest extends TestCase {
 			
 		}
 		
+		
+		
+		//=============================== NEXT TEST =========================================================================
 		public void testOneFlakeBusinessScenario(){
 			gui.deliveryMan = deliveryMan;
 			deliveryMan.deliveryGui = gui;

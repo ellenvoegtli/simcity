@@ -9,7 +9,7 @@ import mainCity.market.interfaces.*;
 
 public class MockGreeter extends Mock implements Greeter{
 	
-	MockGreeter(String name){
+	public MockGreeter(String name){
 		super(name);
 	}
 	
@@ -20,8 +20,9 @@ public class MockGreeter extends Mock implements Greeter{
 	public void addEmployee(Employee e){
 	}
 	
-	public void msgINeedInventory(MarketCustomerRole c, int x, int y){
-		
+	@Override
+	public void msgINeedInventory(Customer c, int x, int y){
+		log.add(new LoggedEvent("Received msgINeedInventory from " + c.getName() + "."));
 	}
 	public void msgINeedInventory(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer> inventoryNeeded){
 		

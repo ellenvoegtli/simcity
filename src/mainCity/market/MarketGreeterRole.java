@@ -77,7 +77,7 @@ public class MarketGreeterRole extends Role implements Greeter {
 	// Messages
 	
 	//from customers
-	public void msgINeedInventory(MarketCustomerRole c, int x, int y){
+	public void msgINeedInventory(Customer c, int x, int y){
 		log("Received msgINeedInventory from: " + c.getName());
         waitingCustomers.add(new MyWaitingCustomer(c, x, y));
 		stateChanged();
@@ -203,19 +203,19 @@ public class MarketGreeterRole extends Role implements Greeter {
 	}
 	
 	private class MyWaitingCustomer {
-		MarketCustomerRole c;
+		Customer c;
 		//boolean confirmedToWait;
 		
 		int waitingPosX;
 		int waitingPosY;
 
-		MyWaitingCustomer (MarketCustomerRole cust, int waitingX, int waitingY) {
+		MyWaitingCustomer (Customer cust, int waitingX, int waitingY) {
 			this.c = cust;
 			this.waitingPosX = waitingX;
 			this.waitingPosY = waitingY;
 		}
 		
-		MyWaitingCustomer(MarketCustomerRole cust){
+		MyWaitingCustomer(Customer cust){
 			c = cust;
 		}
 	}

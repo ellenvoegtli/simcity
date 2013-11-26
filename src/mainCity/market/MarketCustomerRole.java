@@ -40,11 +40,11 @@ public class MarketCustomerRole extends Role implements Customer {
 	Map<String, Integer> inventoryToOrder;
 	
 	Bill bill;
-	enum BillState {unpaid, paid};
+	public enum BillState {unpaid, paid};
 
 	public enum AgentState
 	{DoingNothing, WaitingInMarket, WaitingForEmployee, GoingToStation, Ordering, OrderProcessing, WaitingForOrder, GoingToCashier, Paying,
-		WaitingForChange, Leaving};
+		WaitingForChange, Leaving, waitingForRecalculation};
 	private AgentState state = AgentState.DoingNothing;//The start state
 	
 	public enum AgentEvent 
@@ -87,6 +87,10 @@ public class MarketCustomerRole extends Role implements Customer {
 	public void setCashier(MarketCashier c){
 		this.cashier = c;
 	}
+	
+	public void setEmployee(Employee e){
+		this.employee = e;
+	}
 
 	public String getCustomerName() {
 		return name;
@@ -94,6 +98,30 @@ public class MarketCustomerRole extends Role implements Customer {
 	
 	public double getMyCash(){
 		return myCash;
+	}
+	public double getCashOwed(){
+		return cashOwed;
+	}
+	public Bill getBill(){
+		return bill;
+	}
+	public AgentEvent getEvent(){
+		return event;
+	}
+	public AgentState getState(){
+		return state;
+	}
+	public int getStationX(){
+		return stationX;
+	}
+	public int getStationY(){
+		return stationY;
+	}
+	public Employee getEmployee(){
+		return employee;
+	}
+	public boolean getIOweMarket(){
+		return IOweMarket;
 	}
 
 
@@ -185,8 +213,8 @@ public class MarketCustomerRole extends Role implements Customer {
 	public void msgAnimationFinishedGoToStation(){
 		event = AgentEvent.atStation;
 		stateChanged();
-	}
-	*/
+	}*/
+	
 	public void msgAnimationFinishedGoToCashier(){
 		event = AgentEvent.atCashierAgent;
 		stateChanged();
@@ -229,11 +257,16 @@ public class MarketCustomerRole extends Role implements Customer {
 			return true;
 		}
 		if (state == AgentState.Paying && event == AgentEvent.gotNewBill){		//new, cheaper, recalculated bill OR non-negotiable bill
-			state = AgentState.Paying;
+			state = AgentState.WaitingForChange;
 			PayBill();	//verifies bill again
 			return true;
 		}
 		if (state == AgentState.Paying && event == AgentEvent.gotChange){
+			//state = AgentState.Leaving;		//not necessarily
+			LeaveMarket();	//verifies change first
+			return true;
+		}
+		if (state == AgentState.WaitingForChange && event == AgentEvent.gotChange){
 			//state = AgentState.Leaving;		//not necessarily
 			LeaveMarket();	//verifies change first
 			return true;
@@ -259,7 +292,6 @@ public class MarketCustomerRole extends Role implements Customer {
 	}
 	
 	private void PlaceOrder(){
-		//no gui to do here
         log("Placing order");
 		employee.msgHereIsMyOrder(this, inventoryToOrder, deliveryMethod);
 	}
@@ -318,6 +350,7 @@ public class MarketCustomerRole extends Role implements Customer {
 					log("I don't have enough money to pay full bill.");
 					cashier.msgHereIsPayment(Math.round(myCash*100.0)/100, this);
 					cashOwed = Math.round((bill.charge - myCash)*100.0)/100.0;
+					bill.amountPaid = myCash;
 					myCash = 0;
 					return;
 				}
@@ -338,6 +371,7 @@ public class MarketCustomerRole extends Role implements Customer {
 			customerGui.DoExitMarket();
 	        log("Leaving market.");
 	        state = AgentState.Leaving;
+	        bill = null;
 	        return;
 		}
 			
@@ -350,6 +384,7 @@ public class MarketCustomerRole extends Role implements Customer {
 			customerGui.DoExitMarket();
 	        log("Leaving market.");
 	        state = AgentState.Leaving;
+	        bill = null;
 		}
 		else if (bill.changeReceived > (bill.amountPaid - bill.charge)){
 	        log("More change than necessary. Take it and run.");
@@ -359,12 +394,20 @@ public class MarketCustomerRole extends Role implements Customer {
 			customerGui.DoExitMarket();
 	        log("Leaving market.");
 	        state = AgentState.Leaving;
+	        bill = null;
 		}
 		else if (bill.changeReceived < (bill.amountPaid - bill.charge)){
 	        log("Not enough change. Recalculate change.");
 	        
 	        //TELL CASHIER TO RECALCULATE CHANGE (just have cashier give him the amount of change he wants)
-	        state = AgentState.WaitingForChange;
+	        //state = AgentState.WaitingForChange;
+	        cashier.msgChangeVerified(this);
+
+			employee.msgDoneAndLeaving(this);
+			customerGui.DoExitMarket();
+	        log("Leaving market.");
+	        state = AgentState.Leaving;
+	        bill = null;
 		}
 	}
 	
@@ -391,7 +434,7 @@ public class MarketCustomerRole extends Role implements Customer {
 	}
 
 
-	public void setGui(CustomerGui g) {
+	public void setGui(CustomerGuiInterface g) {
 		customerGui = g;
 	}
 
@@ -413,7 +456,7 @@ public class MarketCustomerRole extends Role implements Customer {
 	}
 	
 	
-	private class Bill {
+	public class Bill {		//public only for testing purposes
 		boolean nonNegotiable = false;
 		Map<String, Integer> inventoryFulfilled = new TreeMap<String, Integer>();
 		double charge;
@@ -427,6 +470,22 @@ public class MarketCustomerRole extends Role implements Customer {
 			this.inventoryFulfilled = inventoryFulfilled; 
 			this.charge = charge;
 			this.s = BillState.unpaid;
+		}
+		
+		public double getAmountPaid(){
+			return amountPaid;
+		}
+		public double getCharge(){
+			return charge;
+		}
+		public double getChangeReceived(){
+			return changeReceived;
+		}
+		public double getAmountOwed(){
+			return amountOwed;
+		}
+		public BillState getState(){
+			return s;
 		}
 		
 	}
