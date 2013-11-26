@@ -4,6 +4,8 @@ package mainCity.restaurants.enaRestaurant;
 import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.MainCook;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
@@ -64,12 +66,18 @@ public class EnaCookRole extends Role implements MainCook {
 		this.stand = s;
 	}
 
+	//for alert log trace statements
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
+	}
+
 	// Messages
 
 	public void msgHereIsTheOrder(EnaWaiterRole w, String choice, Table table)
 	{
 		Orders.add(new Order(w,choice,table, OrderStatus.pending));
-		print("ORDER ADDED TO LIST OF TYPE:  " +choice); 
+		log("ORDER ADDED TO LIST OF TYPE:  " +choice); 
 		stateChanged();
 	}
 
@@ -82,10 +90,10 @@ public class EnaCookRole extends Role implements MainCook {
 			if(newInventory.get(f) != null)
 			{
 				Foods.get(f).setAmount(Foods.get(f).getAmount()+newInventory.get(f));
-				print("now has more" +f);
+				log("now has more" +f);
 			}
 		}
-		print("the cook has replenished its inventory");
+		log("the cook has replenished its inventory");
 		stateChanged();
 	}
 	
@@ -96,16 +104,16 @@ public class EnaCookRole extends Role implements MainCook {
 		for (String f : Foods.keySet())
 		{
 			Foods.get(f).setAmount(Foods.get(f).getAmount()+inventory.get(f));
-			print("now has more" +f);
+			log("now has more" +f);
 		}
 	
 			/*if(newInventory.get(f) != null)
 			{
 				Foods.get(f).setAmount(Foods.get(f).getAmount()+newInventory.get(f));
-				print("now has more" +f);
+				log("now has more" +f);
 			}
 		}*/
-		print("the cook has replenished its inventory");
+		log("the cook has replenished its inventory");
 		stateChanged();
 	}
 	
@@ -139,7 +147,7 @@ synchronized(Orders)
 			}
 			if (order.oStat == OrderStatus.cooking)
 			{
-				System.out.println("order status is LOOKING TO cooking");
+				log("order status is LOOKING TO cooking");
 				//DoCooking(order);
 				CookFood(order);
 				order.oStat = OrderStatus.waiting;
@@ -147,7 +155,7 @@ synchronized(Orders)
 			}
 			if(order.oStat == OrderStatus.cooked)
 			{
-				System.out.println("Let the waiter know the cook is finished cooking");
+				log("Let the waiter know the cook is finished cooking");
 				order.w.msgOrderReady(order.choice, order.table);
 				order.oStat = OrderStatus.orderDone;
 				
@@ -181,7 +189,7 @@ if(status == CookStatus.checkingStand)
 		Food f = Foods.get(o.choice);
 		if(f.amount == 0)
 		{
-			print("this option is out of stock, please select another option");
+			log("this option is out of stock, please select another option");
 			Orders.remove(o);
 			o.w.msgOutofFood(o.choice);
 			checkInventory();
@@ -189,7 +197,7 @@ if(status == CookStatus.checkingStand)
 		else 
 		{
 			cookGui.Cooking(o.choice);
-			System.out.println("food being cooked");
+			log("food being cooked");
 			timer.schedule(new TimerTask() 
 			{
 						public void run() 
@@ -211,7 +219,7 @@ if(status == CookStatus.checkingStand)
 
 	public void checkInventory()
 	{
-		print("The cook's inventory is being checked");
+		log("The cook's inventory is being checked");
 		Map<String, Integer> Stock = new HashMap<String, Integer>();
 		for(Food f: Foods.values())
 		{
@@ -248,7 +256,7 @@ if(status == CookStatus.checkingStand)
 			return;
 		}
 		
-		print("There's orders on the stand. Processing...");
+		log("There's orders on the stand. Processing...");
 		while(!stand.isEmpty()) {
 			OrderTicket temp = stand.remove();
 			Orders.add(new Order(temp.getWaiter(), temp.getChoice(), temp.getTable(), OrderStatus.pending));

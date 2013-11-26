@@ -3,6 +3,8 @@ package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
@@ -75,6 +77,14 @@ public class EnaHostRole extends Role {
 	{
 		OnBreak = true;
 	}
+	
+	
+	//for alert log trace statements
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
+	}
+
 	// Messages
 
 
@@ -83,7 +93,7 @@ public class EnaHostRole extends Role {
 		
 		waitingCustomers.add(cust);
 		waitingLine.add(cust);
-		System.out.println("customer added to waiting list......");
+		log("customer added to waiting list......");
 		stateChanged();
 	}
 	
@@ -95,13 +105,13 @@ public class EnaHostRole extends Role {
 	
 	public void msgWantToGoOnBreak()
 	{
-		print("Recieved message that the waiter wants to go on a break");
+		log("Recieved message that the waiter wants to go on a break");
 		OnBreak = true;
 		stateChanged();
 	}
 	public void msgOffBreak()
 	{
-		print("waiter is back from break");
+		log("waiter is back from break");
 		OnBreak = false;
 		stateChanged();
 	}
@@ -125,7 +135,7 @@ public class EnaHostRole extends Role {
 	 */
 	public boolean pickAndExecuteAnAction() 
 	{
-		print("host scheduler");
+		log("host scheduler");
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
@@ -147,7 +157,7 @@ public class EnaHostRole extends Role {
 		{
 			if(!CanGoOnBreak(waiter))
 			{
-				print("waiter cannot go on break, get back to work");
+				log("waiter cannot go on break, get back to work");
 				waiter.msgGetToWork();
 			}
 			if(OnBreak && CanGoOnBreak(waiter) && waiter.breakTime)
@@ -165,7 +175,7 @@ public class EnaHostRole extends Role {
 				{
 					if(!waiters.isEmpty())
 					{
-						print("there is an empty table and a customer waiting and an available waiter");
+						log("there is an empty table and a customer waiting and an available waiter");
 						int min = waiters.get(0).getMyCustomers().size();
 						int t;
 						EnaWaiterRole select = waiters.get(0);
@@ -207,7 +217,7 @@ public class EnaHostRole extends Role {
 
 	private void AssignWaiter(EnaCustomerRole c, Table t, EnaWaiterRole w)
 	{
-		System.out.println("Assgning waiter to the customer");
+		log("Assgning waiter to the customer");
 		c.setWaiter(w);
 		w.msgSeatCustomer(c, t);
 		t.setOccupant(c);
