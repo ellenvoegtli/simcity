@@ -11,7 +11,7 @@ import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.market.*;
 import role.Role;
-import mainCity.PersonAgent;
+import mainCity.Person;
 
 
  // Restaurant Cook Agent
@@ -35,7 +35,7 @@ public class EllenCashierRole extends Role implements Cashier {
 	EllenHostRole host;
 
 	
-	public EllenCashierRole(PersonAgent p, String name) {
+	public EllenCashierRole(Person p, String name) {
 		super(p);
 
 		this.name = name;

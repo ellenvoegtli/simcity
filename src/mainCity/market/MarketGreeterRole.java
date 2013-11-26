@@ -8,7 +8,7 @@ import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
 import role.market.*;
 import role.Role;
-import mainCity.PersonAgent;
+import mainCity.Person;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -38,7 +38,7 @@ public class MarketGreeterRole extends Role {
 	boolean cashierArrived = false;
 
 	
-	public MarketGreeterRole(PersonAgent p, String name) {
+	public MarketGreeterRole(Person p, String name) {
 		super(p);
 
 		this.name = name;

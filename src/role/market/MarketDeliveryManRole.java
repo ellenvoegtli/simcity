@@ -7,7 +7,7 @@ import mainCity.interfaces.*;
 import mainCity.market.*;
 import mainCity.market.gui.*;
 import role.Role;
-import mainCity.PersonAgent;
+import mainCity.Person;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -41,7 +41,7 @@ public class MarketDeliveryManRole extends Role{			//only handles one restaurant
 	
 	
 	//constructor
-	public MarketDeliveryManRole(PersonAgent p, String name) {
+	public MarketDeliveryManRole(Person p, String name) {
 		super(p);
 		this.name = name;
 		state = AgentState.doingNothing;

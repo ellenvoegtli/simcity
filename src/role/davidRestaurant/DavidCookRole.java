@@ -1,7 +1,7 @@
 package role.davidRestaurant;
 
 import agent.Agent;
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
@@ -87,7 +87,7 @@ public class DavidCookRole extends Role implements Cook{
 	private Semaphore atGrill = new Semaphore(0,true);
 	
 	//Constructor
-	public DavidCookRole(String name, PersonAgent p) { 
+	public DavidCookRole(String name, Person p) { 
 		super(p); 
 		
 		this.name = name; 

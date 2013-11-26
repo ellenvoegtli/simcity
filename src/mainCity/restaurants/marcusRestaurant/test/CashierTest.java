@@ -2,6 +2,7 @@ package mainCity.restaurants.marcusRestaurant.test;
 
 import role.marcusRestaurant.MarcusCashierRole;
 import role.marcusRestaurant.MarcusCashierRole.BillState;
+import mainCity.Person;
 import mainCity.PersonAgent;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.test.mock.*;
@@ -26,7 +27,7 @@ public class CashierTest extends TestCase {
 		super.setUp();
 		PersonAgent base = new PersonAgent("Cashier");
 		cashier = new MarcusCashierRole(base, base.getName());
-		base.addRole(PersonAgent.ActionType.work, cashier);
+		base.addRole(Person.ActionType.work, cashier);
 		
 		customer1 = new MockCustomer("mockcustomer1");		
 		customer2 = new MockCustomer("mockcustomer2");		

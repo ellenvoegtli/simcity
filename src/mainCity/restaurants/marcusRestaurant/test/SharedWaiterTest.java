@@ -1,6 +1,7 @@
 package mainCity.restaurants.marcusRestaurant.test;
 
 import role.marcusRestaurant.MarcusSharedWaiterRole;
+import mainCity.Person;
 import mainCity.PersonAgent;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.test.mock.*;
@@ -23,7 +24,7 @@ public class SharedWaiterTest extends TestCase {
 		super.setUp();
 		PersonAgent base = new PersonAgent("Waiter");
 		sharedWaiter = new MarcusSharedWaiterRole(base, base.getName());
-		base.addRole(PersonAgent.ActionType.work, sharedWaiter);
+		base.addRole(Person.ActionType.work, sharedWaiter);
 		sharedWaiter.setActive();
 		
 		customer1 = new MockCustomer("mockcustomer1");		

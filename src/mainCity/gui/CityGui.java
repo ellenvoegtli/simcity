@@ -3,6 +3,7 @@ package mainCity.gui;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 
+import mainCity.Person;
 import mainCity.PersonAgent;
 import mainCity.gui.AnimationPanel;
 //import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
@@ -492,7 +493,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		}
 		else if (e.getSource() == restaurantButton){
 			System.out.println("RESTAURANT BUTTON PRESSED");
-			PersonAgent p = (PersonAgent) currentPerson;
+			Person p = (Person) currentPerson;
 			p.msgGotHungry();
 			restaurantButton.setEnabled(false);
 			

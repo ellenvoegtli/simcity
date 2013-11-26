@@ -1,6 +1,6 @@
 package mainCity.restaurants.EllenRestaurant;
 
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
@@ -50,7 +50,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	protected boolean wantToGoOffBreak = false;
 	
 
-	public EllenWaiterRole(PersonAgent p, String name) {
+	public EllenWaiterRole(Person p, String name) {
 		super(p);
 		this.name = name;
 		

@@ -1,6 +1,6 @@
 package mainCity.restaurants.enaRestaurant;
 
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
 import role.Role;
 
@@ -44,7 +44,7 @@ public class EnaCustomerRole extends Role implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public EnaCustomerRole(PersonAgent p, String name)
+	public EnaCustomerRole(Person p, String name)
 	{
 		super(p);
 		this.name = name;

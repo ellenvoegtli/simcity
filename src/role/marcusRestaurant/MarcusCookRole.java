@@ -1,6 +1,6 @@
 package role.marcusRestaurant;
 
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
@@ -35,7 +35,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	private String order;
 	private int grill;
 
-	public MarcusCookRole(PersonAgent p, String n) {
+	public MarcusCookRole(Person p, String n) {
 		super(p);
 		this.name = n;
 		orders = Collections.synchronizedList(new ArrayList<Order>());
