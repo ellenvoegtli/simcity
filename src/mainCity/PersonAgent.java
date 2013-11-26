@@ -1,16 +1,9 @@
 package mainCity;
 import agent.Agent;
 import role.*;
-import role.davidRestaurant.DavidCashierRole;
-import role.davidRestaurant.DavidCookRole;
-import role.davidRestaurant.DavidCustomerRole;
-import role.davidRestaurant.DavidHostRole;
-import role.davidRestaurant.DavidWaiterRole;
-import role.jeffersonRestaurant.JeffersonCashierRole;
-import role.jeffersonRestaurant.JeffersonCookRole;
-import role.jeffersonRestaurant.JeffersonCustomerRole;
-import role.jeffersonRestaurant.JeffersonHostRole;
-import role.jeffersonRestaurant.JeffersonWaiterRole;
+
+import role.davidRestaurant.*;
+import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import housing.LandlordRole;
 import housing.OccupantRole;
@@ -22,16 +15,15 @@ import java.util.concurrent.Semaphore;
 import mainCity.bank.BankCustomerRole;
 import mainCity.bank.BankerRole;
 import mainCity.contactList.ContactList;
-import mainCity.gui.AnimationPanel;
-import mainCity.gui.Building;
-import mainCity.gui.PersonGui;
-import mainCity.gui.trace.AlertLog;
-import mainCity.gui.trace.AlertTag;
+import mainCity.gui.*;
+import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
+
 import mainCity.market.*;
 import role.market.*;
+import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
 	private enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
@@ -44,6 +36,7 @@ public class PersonAgent extends Agent {
 	private double accountnumber;
 	private boolean traveling;
 	private boolean onBreak;
+	private BusAgent currentBus; 
 	private Building homePlace;
 	private int time;
 	private Job job;
@@ -324,9 +317,7 @@ public class PersonAgent extends Agent {
 					Role bankCustomer = roles.get(ActionType.bankLoan);
 					((BankCustomerRole) bankCustomer).msgNeedLoan();
 				}
-				
-				
-				
+
 				if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
 					currentAction.state = ActionState.done;
 				}
@@ -394,7 +385,6 @@ public class PersonAgent extends Agent {
 		}
 		
 		return false;
-
 	}
 
 	
@@ -459,9 +449,6 @@ public class PersonAgent extends Agent {
 							ContactList.getInstance().getJeffersonRestaurant().handleRole(jh);
 							roles.put(action, jh);
 							break;
-							
-							
-						
 						//-----Marcus Restaurant Roles---//
 						case "marcusCook":
 							MarcusCookRole mco = new MarcusCookRole(this, name);
@@ -633,12 +620,15 @@ public class PersonAgent extends Agent {
 					break;
 					
 				case bankWithdraw:
-					if(roles.containsKey("bankDeposit")||roles.containsKey("bankLoan")){
-						break;
+				case bankDeposit:
+				case bankLoan:
+					if(roles.containsKey("bankDeposit") || roles.containsKey("bankLoan") || roles.containsKey("bankWithdraw")){
+						return;
 					}
 					BankCustomerRole bc = new BankCustomerRole(this, name);
 					ContactList.getInstance().getBank().handleRole(bc);
 					roles.put(action, bc);
+<<<<<<< HEAD
 					break;
 				
 				case bankDeposit:
@@ -658,6 +648,9 @@ public class PersonAgent extends Agent {
 					ContactList.getInstance().getBank().handleRole(bc2);
 					roles.put(action, bc2);
 					break;	
+=======
+					break;				
+>>>>>>> 0dc995527cf318edb1304c42f3cab092f7795beb
 				default:
 					break;
 			}
@@ -690,7 +683,7 @@ public class PersonAgent extends Agent {
 			case bankLoan: 
 				event = PersonEvent.needToBank;
 				break;
-			default://If can't find anything or if home. go home
+			default:
 				event = PersonEvent.goHome;
 				break;
 		}
@@ -702,10 +695,12 @@ public class PersonAgent extends Agent {
 		traveling = true;
 		this.destination = d;
 		
-		boolean walk = false;//(60 > ((int) (Math.random() * 100)));
+		boolean walk = (60 > ((int) (Math.random() * 100)));
 
 		if(walk || state == PersonState.walkingFromBus) { //chose to walk
 			output(name + " is walking to " + d);
+			currentBus.Passengers.remove(this);
+			currentBus = null; 
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
@@ -734,9 +729,6 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		
-		destination = CityLocation.restaurant_marcus;
-		/*
 		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -756,7 +748,6 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
-		*/
 
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
@@ -765,9 +756,6 @@ public class PersonAgent extends Agent {
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
-		
-		//currentAction.type = ActionType.home;
-		//handleAction(currentAction.type);
 		
 		boolean temp = true;
 		
@@ -862,6 +850,7 @@ public class PersonAgent extends Agent {
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+					currentBus = ContactList.stops.get(i).currentBus; 
 					ContactList.stops.get(i).LeavingBusStop(this);
 					gui.DoGoInside();
 					gui.DoGoToLocationOnBus(destination);	

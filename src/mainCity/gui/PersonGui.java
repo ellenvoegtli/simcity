@@ -238,7 +238,6 @@ public class PersonGui implements Gui{
 	}
 	
 	public void DoGoOutside() {
-		System.out.println(this + " now outside");
 		isVisible = true;
 	}
 	

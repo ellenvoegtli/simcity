@@ -2,16 +2,18 @@ package mainCity.restaurants.restaurant_zhangdt.gui;
 
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidMarketRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
+import role.davidRestaurant.*;
+
 
 import javax.swing.*;
 
 import role.Role;
+import role.davidRestaurant.DavidCashierRole;
+import role.davidRestaurant.DavidCookRole;
+import role.davidRestaurant.DavidCustomerRole;
+import role.davidRestaurant.DavidHostRole;
+import role.davidRestaurant.DavidMarketRole;
+import role.davidRestaurant.DavidWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;

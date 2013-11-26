@@ -1,9 +1,10 @@
 package mainCity.restaurants.restaurant_zhangdt.test;
 
-import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole.CashierState;
-import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole.CheckState;
-import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
+import role.davidRestaurant.DavidCashierRole;
+import role.davidRestaurant.DavidWaiterRole;
+import role.davidRestaurant.DavidCashierRole.CashierState;
+import role.davidRestaurant.DavidCashierRole.CheckState;
+import role.davidRestaurant.DavidCashierRole.*;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockCashier;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockCustomer;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.MockMarket;
@@ -37,7 +38,7 @@ public class CashierTest extends TestCase
 	 */
 	public void setUp() throws Exception{
 		super.setUp();		
-		cashier = new DavidCashierRole("cashier");		
+		cashier = new DavidCashierRole("cashier", null);		
 		customer = new MockCustomer("mockcustomer");
 		customer2 = new MockCustomer("mockcustomer2");	
 		waiter = new MockWaiter("mockwaiter");
