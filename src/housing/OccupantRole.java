@@ -5,7 +5,7 @@ import housing.personHome.Appliance;
 import housing.personHome.type;
 import housing.gui.OccupantGui;
 import agent.Agent;
-
+import mainCity.gui.AnimationPanel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Timer;
@@ -58,21 +58,21 @@ public void msgAtDestination()
 }
 	
 	
-public OccupantRole(PersonAgent p, String personNm, boolean owner) 
+public OccupantRole(PersonAgent p, String personNm) 
 {
 	super(p);
 	this.name = personNm;
-	this.owner = owner;
-	
-	if(owner == false)
+
+	if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
 	{
+		owner = false;
 		rent = 850;
-		//what else needs to happen if he rents the house
 	}
-	if(owner == true)
+	if(AnimationPanel.houses.containsKey(p.getHomePlace()))
 	{
-		//what happens if he owns the house
+		owner = true;
 	}
+	
 	
 }
 
@@ -219,6 +219,7 @@ private void checkMaintenance()
 
 public void PayRent()
 {
+	print("pay the owner rent money");
 	//timer to run for a reasonable amount of time to make rent due, a "week?"
 	//bank.DirectDeposit(owner.id, rent);
 }
@@ -248,6 +249,7 @@ public void fixAppliance(String app)
 {
 	int xPos = 0;
 	int yPos = 0;
+		
 	for (Appliance appl : home.Appliances)
 	{
 		if(appl.appliance.equals(app))

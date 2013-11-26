@@ -616,7 +616,7 @@ public class PersonAgent extends Agent {
 					roles.put(action, mcr);
 					break;
 				case home :
-					OccupantRole or = new OccupantRole(this, name, true);
+					OccupantRole or = new OccupantRole(this, name);
 					ContactList.getInstance().getHome().handleRoleGui(or);
 					roles.put(action, or);
 					break;

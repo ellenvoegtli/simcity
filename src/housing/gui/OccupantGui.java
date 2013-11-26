@@ -123,8 +123,8 @@ public class OccupantGui implements Gui
 		
 		public void DoGoToAppliance(int x, int y)
 		{
-			xDestination = 70;
-			yDestination = 100;
+			xDestination = x;
+			yDestination = y;
 		}
 		
 		public void DoGoToFridge()
@@ -167,7 +167,7 @@ public class OccupantGui implements Gui
 		public void DoLeave()
 		{
 			xDestination = -10;
-			yDestination = 180;
+			yDestination = 45;
 		}
 		
 		
