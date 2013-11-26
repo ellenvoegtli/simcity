@@ -218,11 +218,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		GroupLayout.SequentialGroup hGroup2 = layout2.createSequentialGroup();
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(personLabel).addComponent(blankLabel).
 	            addComponent(hungryLabel).addComponent(blankLabel).addComponent(workLabel)
-	            .addComponent(breakLabel)
 	            );
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(infoLabel).addComponent(blankLabel).
 	            addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB)
-	            .addComponent(breakButton)
 	            );
 		layout2.setHorizontalGroup(hGroup2);
 		
@@ -237,8 +235,6 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	            addComponent(blankLabel).addComponent(homeButton));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
 	            addComponent(workLabel).addComponent(workCB));
-		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
-	            addComponent(breakLabel).addComponent(breakButton));
 		layout2.setVerticalGroup(vGroup2);
 	   //====END GROUP LAYOUT 2=====
 		
