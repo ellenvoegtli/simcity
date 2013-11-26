@@ -243,7 +243,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		
 		//infoLabel.setText("");
 		subControlPanel2.setLayout(new GridBagLayout());
-		Dimension listDim = new Dimension((int) (WINDOWX * .15), (int) (WINDOWY * .2));
+		Dimension listDim = new Dimension((int) (WINDOWX * .15), (int) (WINDOWY * .5));
         personPanel.setPreferredSize(listDim);
         personPanel.setMinimumSize(listDim);
         personPanel.setMaximumSize(listDim);

@@ -1,46 +1,32 @@
 package mainCity;
 import agent.Agent;
 import role.*;
-import role.jeffersonRestaurant.JeffersonCashierRole;
-import role.jeffersonRestaurant.JeffersonCookRole;
-import role.jeffersonRestaurant.JeffersonCustomerRole;
-import role.jeffersonRestaurant.JeffersonHostRole;
-import role.jeffersonRestaurant.JeffersonWaiterRole;
+
+import role.davidRestaurant.*;
+import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import housing.LandlordRole;
 import housing.OccupantRole;
 
 import java.util.*;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import mainCity.bank.BankCustomerRole;
+import mainCity.bank.BankerRole;
 import mainCity.contactList.ContactList;
-import mainCity.gui.AnimationPanel;
-import mainCity.gui.Building;
-import mainCity.gui.PersonGui;
-import mainCity.gui.trace.AlertLog;
-import mainCity.gui.trace.AlertTag;
+import mainCity.gui.*;
+import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
-import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
+
 import mainCity.market.*;
 import role.market.*;
-
-/*
- * To Do for the personagent:
- * 	implement a way for roles to get added
- * 	handle the decision between market/restaurant since i use individual actions?
- * 	handle decision making for person (car/bus/walk) (which restaurant/market or restaurant)
- * 
- */
+import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
-	private enum PersonState {normal, working, inBuilding, waiting, boardingBus}
+	private enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
 	private enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
 	
@@ -50,6 +36,7 @@ public class PersonAgent extends Agent {
 	private double accountnumber;
 	private boolean traveling;
 	private boolean onBreak;
+	private BusAgent currentBus; 
 	private Building homePlace;
 	private int time;
 	private Job job;
@@ -57,8 +44,8 @@ public class PersonAgent extends Agent {
 	private PersonEvent event;
 	private CityLocation destination;
 	private Semaphore isMoving = new Semaphore(0, true);
-	private HashMap<ActionType, Role> roles;
-	private PriorityQueue<Action> actions;
+	private Map<ActionType, Role> roles;
+	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
 	
 	public PersonAgent(String n) {
@@ -72,8 +59,8 @@ public class PersonAgent extends Agent {
 		state = PersonState.normal;//maybe 'inBuilding' if we start everyone in home
 		event = PersonEvent.none;
 		destination = CityLocation.home;
-		roles = new HashMap<ActionType, Role>();
-		actions = new PriorityQueue<Action>(); 
+		roles = Collections.synchronizedMap(new HashMap<ActionType, Role>());
+		actions = new PriorityBlockingQueue<Action>();
 		currentAction = null;
 	}
 	
@@ -103,14 +90,15 @@ public class PersonAgent extends Agent {
 	//A message received from the GUI
 	public void msgAtDestination() {
 		traveling = false;
+		state = PersonState.normal;
 		isMoving.release();
 	}
 
 	//A message received from the transportation vehicle when arrived at destination
 	public void msgArrivedAtDestination() {
-		traveling = false;
+		//traveling = false;
 		gui.DoGoOutside();
-		state = PersonState.normal;
+		state = PersonState.walkingFromBus;
 		stateChanged();
 	}
 	//A message for the landlord
@@ -329,9 +317,7 @@ public class PersonAgent extends Agent {
 					Role bankCustomer = roles.get(ActionType.bankLoan);
 					((BankCustomerRole) bankCustomer).msgNeedLoan();
 				}
-				
-				
-				
+
 				if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
 					currentAction.state = ActionState.done;
 				}
@@ -382,20 +368,23 @@ public class PersonAgent extends Agent {
 			}
 		}
 		
-		if(state == PersonState.boardingBus) 
-		{
+		if(state == PersonState.boardingBus) {
 			boardBus();
+			return true;
+		}
+		
+		if(state == PersonState.walkingFromBus) {
+			travelToLocation(destination);
+			return true;
 		}
 
-		if(actions.isEmpty() && state == PersonState.normal && !traveling) 
-		{
+		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
 			output("My action list is empty. Going home");
 			actions.add(new Action(ActionType.home, 10));
 			return true;
 		}
 		
 		return false;
-
 	}
 
 	
@@ -410,7 +399,7 @@ public class PersonAgent extends Agent {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
 				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
 					output("Closing up shop");
-					((ManagerRole) r.getValue()).msgEndShift(job.shiftEnd-job.shiftBegin);
+					((ManagerRole) r.getValue()).msgEndShift();
 				}
 				
 			}
@@ -432,6 +421,13 @@ public class PersonAgent extends Agent {
 			switch(action) {
 				case work:
 					switch(job.occupation) {
+						//TODO add scenario for bank
+						case "banker":
+							BankerRole bk = new BankerRole(this, name);
+							ContactList.getInstance().getBank().handleRole(bk);
+							roles.put(action, bk);
+							break;
+						
 						//-----Jefferson Restaurant Roles---//
 						case "jeffersonCook":
 							JeffersonCookRole jc = new JeffersonCookRole(this, name);
@@ -453,9 +449,6 @@ public class PersonAgent extends Agent {
 							ContactList.getInstance().getJeffersonRestaurant().handleRole(jh);
 							roles.put(action, jh);
 							break;
-							
-							
-						
 						//-----Marcus Restaurant Roles---//
 						case "marcusCook":
 							MarcusCookRole mco = new MarcusCookRole(this, name);
@@ -627,12 +620,15 @@ public class PersonAgent extends Agent {
 					break;
 					
 				case bankWithdraw:
-					if(roles.containsKey("bankDeposit")||roles.containsKey("bankLoan")){
-						break;
+				case bankDeposit:
+				case bankLoan:
+					if(roles.containsKey("bankDeposit") || roles.containsKey("bankLoan") || roles.containsKey("bankWithdraw")){
+						return;
 					}
 					BankCustomerRole bc = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc);
+					ContactList.getInstance().getBank().handleRole(bc);
 					roles.put(action, bc);
+<<<<<<< HEAD
 					break;
 				
 				case bankDeposit:
@@ -640,7 +636,7 @@ public class PersonAgent extends Agent {
 						break;
 					}
 					BankCustomerRole bc1 = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc1);
+					ContactList.getInstance().getBank().handleRole(bc1);
 					roles.put(action, bc1);
 					break;
 				
@@ -649,9 +645,12 @@ public class PersonAgent extends Agent {
 						break;
 					}
 					BankCustomerRole bc2 = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRoleGui(bc2);
+					ContactList.getInstance().getBank().handleRole(bc2);
 					roles.put(action, bc2);
 					break;	
+=======
+					break;				
+>>>>>>> 0dc995527cf318edb1304c42f3cab092f7795beb
 				default:
 					break;
 			}
@@ -676,11 +675,15 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
+				event = PersonEvent.needToBank;
+				break;
 			case bankDeposit:
+				event = PersonEvent.needToBank;
+				break;
 			case bankLoan: 
 				event = PersonEvent.needToBank;
 				break;
-			default://If can't find anything or if home. go home
+			default:
 				event = PersonEvent.goHome;
 				break;
 		}
@@ -691,18 +694,20 @@ public class PersonAgent extends Agent {
 	private void travelToLocation(CityLocation d) {
 		traveling = true;
 		this.destination = d;
-		output(name + " is going to " + d);
+		
+		boolean walk = (60 > ((int) (Math.random() * 100)));
 
-		//Check for a way to travel: public transportation, car, or walking
-		boolean temp = false;
-
-		if(!temp) { //chose to walk
+		if(walk || state == PersonState.walkingFromBus) { //chose to walk
+			output(name + " is walking to " + d);
+			currentBus.Passengers.remove(this);
+			currentBus = null; 
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
 			return;
 		}
-		else if(temp) { //chose bus
-			gui.DoGoToStop(); // walk to the closest bus stop or subway station?
+		else if(!walk) { //chose bus
+			output(name + " is taking the bus to " + d);
+			gui.DoGoToStop();
 			waitForGui();
 
 			//add self to waiting list of BusStop once arrived
@@ -716,7 +721,7 @@ public class PersonAgent extends Agent {
 			//bus.myDestination(d); //send message to transportation object of where they want to go
 			//will receive an arrived at destination message when done
 		}
-		else if(temp) {//chose car
+		else if(walk) {//chose car
 			//DoGoToCar(); //walk to car
 			waitForGui();
 			//car.msgGoToPlace(d); //some message to tell the car where to go, will receive an arrived at destination message when done
@@ -724,7 +729,7 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		switch((int) (Math.random() * 4)) {
+		switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
 				break;
@@ -737,6 +742,9 @@ public class PersonAgent extends Agent {
 			case 3:
 				destination = CityLocation.restaurant_jefferson;
 				break;
+			case 4:
+				destination = CityLocation.restaurant_david; 
+				break;
 			default:
 				break;
 		}
@@ -748,9 +756,6 @@ public class PersonAgent extends Agent {
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
 		//Decide between restaurant or home
-		
-		//currentAction.type = ActionType.home;
-		//handleAction(currentAction.type);
 		
 		boolean temp = true;
 		
@@ -845,10 +850,10 @@ public class PersonAgent extends Agent {
 			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
 				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
 					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+					currentBus = ContactList.stops.get(i).currentBus; 
 					ContactList.stops.get(i).LeavingBusStop(this);
 					gui.DoGoInside();
-					gui.DoGoToLocationOnBus(destination);
-					
+					gui.DoGoToLocationOnBus(destination);	
 				}
 			}
 		}
@@ -863,7 +868,6 @@ public class PersonAgent extends Agent {
 		state = PersonState.normal;
 		gui.DoGoOutside();
 		stateChanged();
-		//possibly have the msgFinished...messages in here instead
 	}
 	
 	public void stateChanged() {

@@ -1,14 +1,14 @@
-package mainCity.restaurants.restaurant_zhangdt;
+package role.davidRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
+import role.davidRestaurant.DavidCustomerRole.AgentState;
 
 /**
  * Restaurant Host Agent

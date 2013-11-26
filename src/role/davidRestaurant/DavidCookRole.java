@@ -1,12 +1,8 @@
-package mainCity.restaurants.restaurant_zhangdt;
+package role.davidRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
-import mainCity.restaurants.restaurant_zhangdt.DavidMarketRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentEvent;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
-import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole.myCustomer;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cook;
@@ -16,6 +12,10 @@ import java.util.Map.Entry;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
+import role.davidRestaurant.DavidMarketRole;
+import role.davidRestaurant.DavidCustomerRole.AgentEvent;
+import role.davidRestaurant.DavidCustomerRole.AgentState;
+import role.davidRestaurant.DavidWaiterRole.myCustomer;
 
 public class DavidCookRole extends Role implements Cook{
 	
@@ -97,10 +97,10 @@ public class DavidCookRole extends Role implements Cook{
 		menu.add("Salad");
 		menu.add("Pizza");
 		
-		Inventory.put("Steak", new Food("Steak", 3, 5000));	//type, cookingTime, amount
-        Inventory.put("Chicken", new Food("Chicken", 3, 2500));
-        Inventory.put("Salad", new Food("Salad", 3, 1500));
-        Inventory.put("Pizza", new Food("Pizza", 3, 2000));
+		Inventory.put("Steak", new Food("Steak", 10, 5000));	//type, cookingTime, amount
+        Inventory.put("Chicken", new Food("Chicken", 10, 2500));
+        Inventory.put("Salad", new Food("Salad", 10, 1500));
+        Inventory.put("Pizza", new Food("Pizza", 10, 2000));
         
         print("Inventory Steak: " + Inventory.get("Steak").quantity);
 		print("Inventory Chicken: " + Inventory.get("Chicken").quantity);

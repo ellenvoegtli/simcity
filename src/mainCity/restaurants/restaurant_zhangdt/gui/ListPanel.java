@@ -1,9 +1,11 @@
 package mainCity.restaurants.restaurant_zhangdt.gui;
 
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
+import role.davidRestaurant.*;
 
 import javax.swing.*;
+
+import role.davidRestaurant.DavidCustomerRole;
+import role.davidRestaurant.DavidWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;

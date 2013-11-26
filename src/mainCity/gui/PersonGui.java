@@ -137,14 +137,12 @@ public class PersonGui implements Gui{
 			case home:
 				calculatePath(xHome, yHome);
 				break;
-		
 			default:
 				calculatePath(0, 0);
 				break;
 		}
 		
 		if(!path.isEmpty()) {
-			System.out.println("path not empty");
 			xDestination = path.peek().x;
 			yDestination = path.poll().y;
 		}
@@ -156,100 +154,83 @@ public class PersonGui implements Gui{
 		//Looking for stop that is the minimum distance.
 		PersonAgent.CityLocation destination = findNearestStop();
 		
-		System.out.println("Walking toward " + destination);
+		System.out.println("Walking toward " + destination + " bus stop");
 		
 		switch(destination) {
 			case restaurant_marcus:
 				calculatePath(105,155);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case restaurant_ellen:
 				calculatePath(105, 305);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case restaurant_david:
-				calculatePath(660, 230); 
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
+				calculatePath(660, 230);
 				break;
 			case restaurant_ena:
-				calculatePath(215, 55); 
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
+				calculatePath(215, 55);
 				break;
 			case restaurant_jefferson:
 				calculatePath(220, 405);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case market:
-				calculatePath(440, 55); 
-				xDestination = 455;
-				yDestination = 80;
+				calculatePath(440, 55);
 				break;
 			case bank:
 				calculatePath(105, 230);
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			case home:
 				calculatePath(320, 55); 
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 			default:
 				calculatePath(0, 0); 
-				xDestination = path.peek().x;
-				yDestination = path.poll().y;
 				break;
 		}
 
-		traveling = true;
+		if(!path.isEmpty()) {
+			xDestination = path.peek().x;
+			yDestination = path.poll().y;
+		}		
 	}
 	
 	public void DoGoToLocationOnBus(PersonAgent.CityLocation destination) { 
-		
 		switch(destination) {
 			case restaurant_marcus:
-				xPos = 105;
-				yPos = 180;
+				xDestination = xPos = 105;
+				yDestination = yPos = 155;
 				break;
 			case restaurant_ellen:
-				xPos = 105;
-				yPos = 280;
+				xDestination = xPos = 105;
+				yDestination = yPos = 305;
 				break;
 			case restaurant_ena:
-				xPos = 347;
-				yPos = 180;
+				xDestination = xPos = 215;
+				yDestination = yPos = 55;
 				break;
 			case restaurant_jefferson:
-				xPos =  347;
-				yPos = 280;
+				xDestination = xPos = 220;
+				yDestination = yPos = 405;
 				break;
 			case restaurant_david: 
-				xPos = 585; 
-				yPos = 230; 
+				xDestination = xPos = 660; 
+				yDestination = yPos = 230; 
 				break;
 			case market:
-				xPos = 415;
-				yPos = 215;
+				xDestination = xPos = 445;
+				yDestination = yPos = 55;
 				break;
 			case bank:
-				xPos = 175;
-				yPos = 230;
+				xDestination = xPos = 105;
+				yDestination = yPos = 230;
 				break;
 			case home:
-				xPos = xHome;
-				yPos = yHome;
+				xDestination = xPos = xHome;
+				yDestination = yPos = yHome;
 				break;
 			default:
-				xPos = 0;
-				yPos = 0;
+				xDestination = xPos = 0;
+				yDestination = yPos = 0;
 				break;
-		}
-
+		}		
 	}
 	
 	public void DoGoInside() {
@@ -273,7 +254,6 @@ public class PersonGui implements Gui{
 	}
 	
 	public CityLocation findNearestStop(){ 
-		
 		//starts off with first bus stop
 		//measures absolute value of difference in x and y between person's current location and bus stop's location
 		//sets destination to the stop

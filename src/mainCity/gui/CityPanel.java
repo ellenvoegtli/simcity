@@ -12,7 +12,7 @@ import role.market.MarketDeliveryManRole;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
 import mainCity.PersonAgent;
-import mainCity.bank.gui.BankGui;
+
 import mainCity.bank.gui.BankPanel;
 import mainCity.contactList.ContactList;
 import mainCity.market.*;
@@ -49,9 +49,9 @@ public class CityPanel extends JPanel{
     	//jeffersonRestaurant.setVisible(true);
  
 
-    	BankGui bank = new BankGui();
-    	ContactList.getInstance().setBank(bank.getBankPanel());
-    	bank.setVisible(true);
+    	//BankGui bank = new BankGui();
+    	//ContactList.getInstance().setBank(bank.getBankPanel());
+    	//bank.setVisible(true);
     	
     	//HomeGui home= new HomeGui();
     	//ContactList.getInstance().setHome(home.getHomePanel());
@@ -91,7 +91,7 @@ public class CityPanel extends JPanel{
 		 };
 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		 executor.scheduleAtFixedRate(cityClock, 0, 5, TimeUnit.SECONDS); //Timer goes off every 30 seconds
+		 executor.scheduleAtFixedRate(cityClock, 0, 3, TimeUnit.SECONDS); //Timer goes off every 30 seconds
 	}
 	
 	public void addDeliveryGui(MarketDeliveryManRole d){
@@ -115,7 +115,6 @@ public class CityPanel extends JPanel{
 		    String strLine;
 	
 		    while ((strLine = br.readLine()) != null)   {
-		    	System.out.println(strLine);
 		    	if(!strLine.startsWith("-")) {
 				   	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
 				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
@@ -133,7 +132,7 @@ public class CityPanel extends JPanel{
 		    in.close();
 		}
 		catch(Exception e) {
-			System.err.println("Error: " + e.getMessage());
+			//System.err.println("Error: " + e.getMessage());
 		}
 	}
 	

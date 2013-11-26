@@ -1,17 +1,17 @@
-package mainCity.restaurants.restaurant_zhangdt;
+package role.davidRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole.AgentState;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
-import mainCity.restaurants.restaurant_zhangdt.DavidCookRole.Order; 
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Waiter;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
-import mainCity.restaurants.restaurant_zhangdt.DavidHostRole.Table; 
+import role.davidRestaurant.DavidCookRole.Order;
+import role.davidRestaurant.DavidCustomerRole.AgentState;
+import role.davidRestaurant.DavidHostRole.Table;
 
 /**
  * Restaurant Waiter Agent
