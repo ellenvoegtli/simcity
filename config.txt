@@ -1,8 +1,8 @@
 -Marcus Restaurant
-Name:marcuswaiter;Cash:100;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:marcuscook;Cash:60;Renter:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work,restaurant
-Name:marcushost;Cash:82;Renter:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
-Name:marcuscashier;Cash:50;Renter:true;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
+-Name:marcuswaiter;Cash:100;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+-Name:marcuscook;Cash:60;Renter:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work,restaurant
+-Name:marcushost;Cash:82;Renter:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
+-Name:marcuscashier;Cash:50;Renter:true;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
 -Ellen Restaurant
 Name:PersonE;Cash:15;Renter:false;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant
 Name:PersonF;Cash:52;Renter:false;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:hungry,restaurant,work

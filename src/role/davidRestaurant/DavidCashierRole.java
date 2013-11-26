@@ -19,8 +19,6 @@ import role.davidRestaurant.DavidWaiterRole.myCustomer;
 import role.market.MarketDeliveryManRole;
 import agent.Agent;
 import mainCity.PersonAgent;
-import mainCity.restaurants.EllenRestaurant.EllenCashierRole.MarketBill;
-import mainCity.restaurants.EllenRestaurant.EllenCashierRole.MarketBillState;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cashier;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Market;
@@ -46,6 +44,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	public boolean PaidMarket = true;
 	public int MarketNumber;
 	List<Market> marketAgent = new ArrayList<Market>();
+	boolean onDuty;
 	
 	public EventLog log = new EventLog();
 	
@@ -53,6 +52,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	public DavidCashierRole(String name, PersonAgent p) { 
 		super(p); 
 		this.name = name; 
+		onDuty = true;
 	}
 	
 	public enum CheckState
@@ -82,7 +82,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	public List<Check> checkList = Collections.synchronizedList(new ArrayList<Check>());
 	public List<MarketBill> marketBills = new ArrayList<MarketBill>(); 
 	public double Payment;
-	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, done};
+	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, done, oweMoney};
 	
 	
 /*   Messages   */ 
@@ -121,7 +121,6 @@ public class DavidCashierRole extends Role implements Cashier {
 		stateChanged();
 	}
 	
-	@Override
 	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
 		// TODO Auto-generated method stub
 		print("Received msgHereIsChange");
@@ -138,6 +137,23 @@ public class DavidCashierRole extends Role implements Cashier {
 		b.amountChange = amount;
 		b.s = MarketBillState.receivedChange;
 		stateChanged();
+	}
+	
+	public void msgNotEnoughMoney(double amountOwed, double amountPaid) {
+		 log.add(new LoggedEvent("Received msgNotEnoughMoney: owe $" + amountOwed));
+		 MarketTab += amountOwed;
+		 MarketBill currentBill = null;
+		 synchronized(marketBills) { 
+			 for (MarketBill mb : marketBills) { 
+				 if(mb.amountPaid == amountPaid) { 
+					 currentBill = mb; 
+					 break;
+				 }
+			 }
+		 }
+		 currentBill.amountOwed = Math.round(amountOwed*100.0)/100.0; 
+		 currentBill.s = MarketBillState.oweMoney; 
+		 stateChanged();
 	}
 	
 	
@@ -159,9 +175,22 @@ public class DavidCashierRole extends Role implements Cashier {
 				}	
 			}
 		}
-		if(cashierState == CashierState.recievedMarketBill){ 
-			handleMarketBill(); 
-			return true;
+		
+		synchronized(marketBills) { 
+			for (MarketBill b : marketBills) { 
+				if (b.s == MarketBillState.computing){ 
+					handleMarketBill(b);
+					return true;
+				}
+				if (b.s == MarketBillState.receivedChange){ 
+					VerifyChange(b); 
+					return true;
+				}
+				if (b.s == MarketBillState.oweMoney){ 
+					AcknowledgeDebt(b); 
+					return true;
+				}
+			}
 		}
 		return false; 
 	}
@@ -198,11 +227,38 @@ public class DavidCashierRole extends Role implements Cashier {
 		}
 	}
 	
-	private void handleMarketBill() { 
-		print("Handling Market Bill for market " + MarketNumber);
+	private void handleMarketBill(MarketBill b) { 
+		print("Handling Market Bill for market ");
+		log.add(new LoggedEvent("Handling market bill"));
 		cashierState = CashierState.handledMarketBill;
-		marketAgent.get(MarketNumber).msgPaymentFromCashier(PaidMarket);
+		if(Money > b.billAmount){ 
+			Money -= b.billAmount; 
+			b.amountPaid = b.billAmount; 
+		}
+		else { 
+			b.amountPaid = Money; 
+		}
+		
+		b.deliveryMan.msgHereIsPayment(b.amountPaid,  "davidRestaurant");
+		b.s = MarketBillState.waitingForChange;
 		stateChanged();
+	}
+	
+	private void VerifyChange(MarketBill b) { 
+		log.add(new LoggedEvent("Verifying change")); 
+		if(b.amountChange == (b.amountPaid - b.billAmount)){ 
+			log.add(new LoggedEvent("Correct Change")); 
+			Money += b.amountChange; 
+			b.deliveryMan.msgChangeVerified("davidRestaurant"); 
+			b.s = MarketBillState.done; 
+			marketBills.remove(b);
+		}
+	}
+	
+	private void AcknowledgeDebt(MarketBill b) { 
+		log.add(new LoggedEvent("Acknowledged debt of: $" + b.amountOwed)); 
+		b.deliveryMan.msgIOweYou(b.amountOwed, "davidRestaurant"); 
+		marketBills.remove(b);
 	}
 	
 // utilities 
@@ -227,6 +283,7 @@ public class DavidCashierRole extends Role implements Cashier {
 		double billAmount;
 		double amountPaid;
 		double amountChange;
+		double amountOwed;
 		MarketBillState s;
 		
 		Map<String, Integer> itemsBought; 
@@ -259,6 +316,16 @@ public class DavidCashierRole extends Role implements Cashier {
 
 	public void setHost(DavidHostRole host) {
 		this.host = host;
+	}
+
+	public void msgGoOffDuty(double d) {
+		addToCash(d); 
+		onDuty = false;
+		stateChanged();
+	}
+
+	public void deductCash(double payroll) {
+		Money -= payroll;
 	}
 }
 

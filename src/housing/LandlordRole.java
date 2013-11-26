@@ -13,7 +13,7 @@ import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 import agent.Agent;
-import mainCity.Person;
+import mainCity.PersonAgent;
 import role.Role;
 
 
@@ -38,7 +38,7 @@ public class LandlordRole extends Role
 	
 	//MESSAGES
 	
-	public LandlordRole(Person p)
+	public LandlordRole(PersonAgent p)
 	{
 		super(p);
 		
@@ -85,7 +85,7 @@ public class LandlordRole extends Role
 			
 				for (String a : ToDo.get(occ))
 				{
-				  for (Appliance appl : home.AAppliances)
+				  for (Appliance appl : occ.getHome().AAppliances)
 				  {
 					  if(appl.appliance.equals(a))
 					  {

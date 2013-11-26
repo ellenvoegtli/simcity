@@ -36,5 +36,6 @@ public class MockCustomer extends Mock implements Customer {
     	public void msgHereIsBill(double amount){		//from cashier, who recalculated bill and now sends a lower one
     	}
     	public void msgHereIsFinalBill(double amount){
+    		log.add(new LoggedEvent("Received msgHereIsFinalBill from cashier. Amount = $"+ amount));
     	}
 }

@@ -284,7 +284,10 @@ public void fixAppliance(String app)
 
 public void wantsToEat(String mealChoice)
 {
-	gui.DoGoToFridge();
+	if(owner) gui.DoGoToFridge();
+	
+	if(!owner) gui.DoGoToFridgeA();
+	
 	try {
 		destination.acquire();
 	} catch (InterruptedException e) {
@@ -312,7 +315,9 @@ public void restockKitchen()
 }
 public void cookAMeal()
 {
-	gui.DoGoToStove();
+	if(owner) gui.DoGoToStove();
+	
+	if(!owner) gui.DoGoToStoveA();
 	
 	try{
 	destination.acquire();
@@ -336,7 +341,9 @@ public void cookAMeal()
 
 public void EatFood()
 {
-	gui.DoGoToKitchenTable();
+	if (owner) gui.DoGoToKitchenTable();
+	if(!owner) gui.DoGoToKitchenTableA();
+	
 	try{
 	destination.acquire();
 } catch (InterruptedException e) {
@@ -356,7 +363,9 @@ public void EatFood()
 
 public void GoWashDishes()
 {
-	gui.DoGoToSink();
+	if (owner) gui.DoGoToSink();
+	if(!owner) gui.DoGoToSink();
+	
 	try{
 		destination.acquire();
 	} catch (InterruptedException e) {
@@ -375,7 +384,8 @@ public void GoWashDishes()
 }
 public void GoRest()
 {
-	gui.DoGoRest();
+	if(owner) gui.DoGoRest();
+	if(!owner) gui.DoGoRestA();
 }
 
 
