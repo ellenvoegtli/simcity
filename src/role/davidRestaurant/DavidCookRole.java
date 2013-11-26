@@ -107,7 +107,7 @@ public class DavidCookRole extends Role implements Cook{
         print("Inventory Steak: " + Inventory.get("Steak").quantity);
 		print("Inventory Chicken: " + Inventory.get("Chicken").quantity);
 		print("Inventory Salad: " + Inventory.get("Salad").quantity);
-		print("Inventory Piza: " + Inventory.get("Pizza").quantity);
+		print("Inventory Pizza: " + Inventory.get("Pizza").quantity);
         
         foodAvailableAtMarket.put("Steak", 0);
         foodAvailableAtMarket.put("Chicken", 0);
