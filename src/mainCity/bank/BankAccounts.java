@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import mainCity.PersonAgent;
+import mainCity.Person;
 
 public class BankAccounts {
 
@@ -17,9 +17,9 @@ public class BankAccounts {
 	    double balance;
 	    double debt;
 	    double accountNumber;
-	    PersonAgent p;
+	    Person p;
 	    
-	    public BankAccount(String n, double a, PersonAgent pa, double newaccnum){
+	    public BankAccount(String n, double a, Person pa, double newaccnum){
 	    	name=n;
 	    	creditScore=830;
 	    	balance = a;
@@ -35,7 +35,7 @@ public class BankAccounts {
 		return accounts.size();
 		
 	}
-	public void addAccount(String cname, double amount, PersonAgent pa, double newaccnum){
+	public void addAccount(String cname, double amount, Person pa, double newaccnum){
 		accounts.add(new BankAccount(cname, amount, pa, newaccnum));
 		System.out.println("Account added");
 		

@@ -7,11 +7,11 @@ import mainCity.restaurants.EllenRestaurant.interfaces.*;
 
 import java.util.concurrent.*;
 
-import mainCity.PersonAgent;
+import mainCity.Person;
 
 
 public class EllenNormalWaiterRole extends EllenWaiterRole {	
-	public EllenNormalWaiterRole(PersonAgent p, String name){
+	public EllenNormalWaiterRole(Person p, String name){
 		super(p, name);
 	}
 	

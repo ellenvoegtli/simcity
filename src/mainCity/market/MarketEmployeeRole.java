@@ -9,7 +9,7 @@ import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
 import role.Role;
-import mainCity.PersonAgent;
+import mainCity.Person;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -51,7 +51,7 @@ public class MarketEmployeeRole extends Role implements Employee {
 
 		
 
-	public MarketEmployeeRole(PersonAgent p, String name) {
+	public MarketEmployeeRole(Person p, String name) {
 		super(p);
 		this.name = name;
 	}

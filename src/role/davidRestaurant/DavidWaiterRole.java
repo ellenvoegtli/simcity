@@ -1,7 +1,7 @@
 package role.davidRestaurant;
 
 import agent.Agent;
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Waiter;
 
@@ -71,7 +71,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	
 	public WaiterGui waiterGui = null;
 
-	public DavidWaiterRole(String name, PersonAgent p) {
+	public DavidWaiterRole(String name, Person p) {
 		super(p);
 		this.name = name;
 	}

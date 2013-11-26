@@ -1,6 +1,6 @@
 package mainCity.restaurants.EllenRestaurant;
 
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
@@ -55,7 +55,7 @@ public class EllenCustomerRole extends Role implements Customer{
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public EllenCustomerRole(PersonAgent p, String name){
+	public EllenCustomerRole(Person p, String name){
 		super(p);
 		this.name = name;
 		

@@ -1,5 +1,6 @@
 package mainCity.gui;
 
+import mainCity.Person;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.CityLocation;
 import mainCity.contactList.ContactList;
@@ -19,7 +20,7 @@ import javax.imageio.ImageIO;
 
 public class PersonGui implements Gui{
 	CityGui gui;
-	private PersonAgent agent = null;
+	private Person agent = null;
 	private int xPos, yPos;
 	private int xDestination, yDestination;
 	private int xHome, yHome;
@@ -32,7 +33,7 @@ public class PersonGui implements Gui{
 	private ArrayList<Coordinate> corners = new ArrayList<Coordinate>();
 	private LinkedList<Coordinate> path = new LinkedList<Coordinate>();
 	
-	public PersonGui(PersonAgent p, CityGui g) {
+	public PersonGui(Person p, CityGui g) {
 		agent = p;
 		this.gui = g;
 		xHome = agent.getHomePlace().getXLoc();

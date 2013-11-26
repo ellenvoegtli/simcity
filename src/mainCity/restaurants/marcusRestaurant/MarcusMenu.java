@@ -8,10 +8,10 @@ public class MarcusMenu {
 	public MarcusMenu() {
 		menu = new ArrayList<Food>();
 		
-		menu.add(new Food("Steak", 16));
-		menu.add(new Food("Chicken", 11));
-		menu.add(new Food("Salad", 6));
-		menu.add(new Food("Pizza", 9));
+		menu.add(new Food("Swiss", 9));
+		menu.add(new Food("American", 14));
+		menu.add(new Food("Cheddar", 6));
+		menu.add(new Food("Provolone", 12));
 	}
 	
 	public void outOf(String outOf) {

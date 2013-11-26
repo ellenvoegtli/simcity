@@ -1,7 +1,7 @@
 package role.davidRestaurant;
 
 import agent.Agent;
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 
 import java.util.*;
@@ -43,7 +43,7 @@ public class DavidHostRole extends Role {
 	DavidCookRole cook;
 
 	//Constructor
-	public DavidHostRole(String name, PersonAgent p) {
+	public DavidHostRole(String name, Person p) {
 		super(p);
 		waiterLoc = -1;
 		this.name = name;

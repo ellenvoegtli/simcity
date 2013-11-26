@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
 
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.gui.CustomerGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
@@ -63,7 +63,7 @@ public class JeffersonCustomerRole extends Role implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public JeffersonCustomerRole(PersonAgent p, String name){
+	public JeffersonCustomerRole(Person p, String name){
 		super(p);
 		this.name = name;
 		//this.money= 100;

@@ -5,7 +5,7 @@ import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import agent.Agent;
 import role.Role;
-import mainCity.PersonAgent;
+import mainCity.Person;
 
 import java.util.*;
 
@@ -24,7 +24,7 @@ public class EllenHostRole extends Role {
 	private Collection<MyWaiter> myWaiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 
 	
-	public EllenHostRole(PersonAgent p, String name) {
+	public EllenHostRole(Person p, String name) {
 		super(p);
 
 		this.name = name;	

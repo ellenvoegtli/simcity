@@ -6,7 +6,7 @@ import agent.Agent;
 import java.util.*;
 
 import role.Role;
-import mainCity.PersonAgent;
+import mainCity.Person;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.market.interfaces.*;
@@ -28,7 +28,7 @@ public class MarketCashierRole extends Role implements Cashier {
 	public enum BillState {computing, waitingForPayment, recomputingBill, calculatingChange, oweMoney, paid};
 	
 	//constructor
-	public MarketCashierRole(PersonAgent p, String name) {
+	public MarketCashierRole(Person p, String name) {
 		super(p);
 		this.name = name;
 
