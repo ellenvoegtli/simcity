@@ -1,8 +1,7 @@
 package mainCity.restaurants.jeffersonrestaurant.test.mock;
 
-import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonWaiterRole;
-
+import role.jeffersonRestaurant.JeffersonHostRole;
+import role.jeffersonRestaurant.JeffersonWaiterRole;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;

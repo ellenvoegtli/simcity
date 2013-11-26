@@ -1,8 +1,7 @@
 package mainCity.restaurants.jeffersonrestaurant.test;
 
+import role.jeffersonRestaurant.JeffersonCashierRole;
 import junit.framework.TestCase;
-
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCashierRole;
 import mainCity.restaurants.jeffersonrestaurant.JeffersonMarketRole;
 import mainCity.restaurants.jeffersonrestaurant.test.mock.MockCustomer;
 import mainCity.restaurants.jeffersonrestaurant.test.mock.MockMarket;

@@ -1,5 +1,6 @@
 package mainCity.bank;
 
+import role.Role;
 import mainCity.PersonAgent;
 import mainCity.bank.BankAccounts.BankAccount;
 import mainCity.bank.BankTellerRole.ClientState;
@@ -10,14 +11,16 @@ import mainCity.bank.gui.BankerGui;
 import agent.Agent;
 
 
-public class BankerRole extends Agent {
+public class BankerRole extends Role {
 	public enum BankerState{none, atWork, offWork }
 	BankerState bstate =BankerState.none;
 	BankAccounts ba;
 	String name;
 	myClient mc;
 	BankerGui bGui;
+	private PersonAgent p;
 	public enum ClientState{none,wantsLoan, wantsAccount,done}
+	private boolean onDuty;
 	
 	public class myClient{
 		PersonAgent p;
@@ -25,14 +28,16 @@ public class BankerRole extends Agent {
 	    String mcname;
 	    double accountnumber;
 	    double amount;
+	    
 	    ClientState cs=ClientState.none;
 	}
 	
 	
-	public BankerRole(String name){
-		super();
+	public BankerRole(PersonAgent p, String name){
+		super(p);
 		this.name=name;
 		Do("Bank Teller initiated");
+		onDuty=true;
 	}
 	public void setBankAccounts(BankAccounts singular){
 		this.ba=singular;
@@ -40,6 +45,12 @@ public class BankerRole extends Agent {
 	
 	
 //Messages
+	public void msgOffDuty(double d){
+		addToCash(d);
+		onDuty=false;
+		stateChanged();
+	}
+	
 	public void msgGoToWork(){
 		
 		System.out.println("Banker at station");
@@ -74,7 +85,7 @@ public class BankerRole extends Agent {
 	
 	
 	
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 		
 		if(bstate==BankerState.atWork){
 			bstate=BankerState.none;
@@ -104,7 +115,10 @@ public class BankerRole extends Agent {
 			
 		}
 		
-		
+		if(!onDuty && mc ==null){
+			doLeaveWork();
+			
+		}
 		
 		
 		

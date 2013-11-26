@@ -3,8 +3,8 @@ package mainCity.restaurants.jeffersonrestaurant.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCookRole;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonCustomerRole;
+import role.jeffersonRestaurant.JeffersonCookRole;
+import role.jeffersonRestaurant.JeffersonCustomerRole;
 
 public class CookGui implements Gui {
 	private int xPos;

@@ -20,6 +20,12 @@ Name:Jwaiter;Cash:100;Renter:true;Occupation:jeffersonWaiter;ShiftBegin:7;ShiftE
 Name:Jcook;Cash:100;Renter:false;Occupation:jeffersonCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:Jcashier;Cash:100;Renter:false;Occupation:jeffersonCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:Jhost;Cash:100;Renter:false;Occupation:jeffersonHost;ShiftBegin:7;ShiftEnd:19;Actions:work
+-David Restaurant 
+Name:DWaiter1;Cash:10;Renter:true;Occupation:davidWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:DWaiter2;Cash:100;Renter:false;Occupation:davidWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work,restaurant
+Name:DCook;Cash:60;Renter:false;Occupation:davidCook;ShiftBegin:7;ShiftEnd:19;Actions:work,restaurant
+Name:DHost;Cash:82;Renter:true;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
+Name:DCashier;Cash:50;Renter:true;Occupation:davidCashier;ShiftBegin:7;ShiftEnd:19;Actions:work,hungry,restaurant
 -Other
 Name:PersonK;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:market,hungry
 Name:Personl;Cash:480;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant

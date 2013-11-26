@@ -1,7 +1,8 @@
-package mainCity.restaurants.jeffersonrestaurant;
+package role.jeffersonRestaurant;
 
 import agent.Agent;
 //import sun.awt.windows.WWindowPeer;
+
 
 
 
@@ -9,10 +10,11 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 import role.Role;
+import role.jeffersonRestaurant.JeffersonHostRole;
+import role.jeffersonRestaurant.JeffersonHostRole.Table;
 import mainCity.PersonAgent;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole;
 //import mainCity.restaurants.jeffersonrestaurant.Menu;
-import mainCity.restaurants.jeffersonrestaurant.JeffersonHostRole.Table;
+import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
 import mainCity.restaurants.jeffersonrestaurant.gui.WaiterGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
