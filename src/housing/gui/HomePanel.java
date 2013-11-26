@@ -33,7 +33,7 @@ public class HomePanel extends JPanel
     private JPanel homeLabel = new JPanel();
     private JPanel group = new JPanel();
     private personHome house;
-    private HomeGui gui; //reference to main gui
+    //private HomeGui gui; //reference to main gui
     private OccupantRole occupant;
    private OccupantGui occupantGui; 
    private HomeAnimationPanel animation;
@@ -42,9 +42,9 @@ public class HomePanel extends JPanel
     {
        
     	this.animation = homeAnimationPanel;
-        setLayout(new GridLayout(1, 2, 20, 20));
-        initRestLabel();
-        add(homeLabel);
+       // setLayout(new GridLayout(1, 2, 20, 20));
+       // initRestLabel();
+        //add(homeLabel);
     }
 
     /**
@@ -71,7 +71,7 @@ public class HomePanel extends JPanel
     public void showInfo(String type, String name) 
     {
 
-    	if(type.equals("Occupant"))
+    	/*if(type.equals("Occupant"))
     	{
     		   gui.updateInfoPanel(name);
 
@@ -80,7 +80,7 @@ public class HomePanel extends JPanel
     	if(type.equals("Landlord"))
     	{
     		gui.updateInfoPanel(name);
-    	}
+    	}*/
       
     }
 
@@ -131,11 +131,11 @@ public class HomePanel extends JPanel
         	        	 house = new personHome(occupant);
 
         	occupant.setHouse(house);
-        	//occupant.setLandLord(landLord);
+        	occupant.setLandLord(landLord);
             house.setOccupant(occupant);
-    		occupantGui = new OccupantGui(occupant, gui); 	
+    		occupantGui = new OccupantGui(occupant); 	
     		occupant.setGui(occupantGui);
-    		occupantGui.setHungry();    
+    		//occupantGui.setHungry();    
     		animation.addGui(occupantGui);
     		System.out.println("Occupant has been returned home");
 

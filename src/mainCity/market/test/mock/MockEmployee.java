@@ -11,9 +11,12 @@ import mainCity.market.interfaces.*;
 
 
 public class MockEmployee extends Mock implements Employee {
+	public DeliveryMan deliveryMan;
+	
 	public MockEmployee(String name){
 		super(name);
 	}
+
 	
 	public void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory){
 		

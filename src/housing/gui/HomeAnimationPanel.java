@@ -17,8 +17,8 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 {
 	
 
-	   // private  int WINDOWX = 520;
-	   // private  int WINDOWY = 360;
+	   private  int WINDOWX = 520;
+	   private  int WINDOWY = 360;
 	    
 	    private int applianceWidth = 20;
 	    private int applianceHeight = 15;
@@ -36,7 +36,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    	super(cg);
 	    	this.ty = type;
 	    	ContactList.getInstance().setHome(home);
-	        setBorder(BorderFactory.createRaisedBevelBorder());
+	       // setBorder(BorderFactory.createRaisedBevelBorder());
 
 	    	
 	    	//**********************
@@ -123,7 +123,9 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		        g2.setColor(Color.darkGray);       
 		        g2.fillRect(65 ,10, 25, 10);
 	     }
-	        for(Gui gui : guis) {
+	        
+	     
+	     for(Gui gui : guis) {
 	            if (gui.isPresent()) {
 	                gui.updatePosition();
 	            }
@@ -138,10 +140,13 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 
 	    public void addGui(LandlordGui gui) 
 	    {
+	    	System.out.println("gui added to window???");
 	        guis.add(gui);
 	    }
 	    public void addGui(OccupantGui gui)
 	    {
+	    	System.out.println("gui added to window???");
+
 	    	guis.add(gui);
 	    }
 

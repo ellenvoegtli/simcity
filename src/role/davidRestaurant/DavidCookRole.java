@@ -3,6 +3,8 @@ package role.davidRestaurant;
 import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cook;
@@ -99,15 +101,15 @@ public class DavidCookRole extends Role implements Cook{
 		menu.add("Salad");
 		menu.add("Pizza");
 		
-		Inventory.put("Steak", new Food("Steak", 10, 5000));	//type, cookingTime, amount
-        Inventory.put("Chicken", new Food("Chicken", 10, 2500));
-        Inventory.put("Salad", new Food("Salad", 10, 1500));
-        Inventory.put("Pizza", new Food("Pizza", 10, 2000));
+		Inventory.put("Steak", new Food("Steak", 3, 5000));	//type, cookingTime, amount
+        Inventory.put("Chicken", new Food("Chicken", 3, 2500));
+        Inventory.put("Salad", new Food("Salad", 3, 1500));
+        Inventory.put("Pizza", new Food("Pizza", 3, 2000));
         
-        print("Inventory Steak: " + Inventory.get("Steak").quantity);
-		print("Inventory Chicken: " + Inventory.get("Chicken").quantity);
-		print("Inventory Salad: " + Inventory.get("Salad").quantity);
-		print("Inventory Piza: " + Inventory.get("Pizza").quantity);
+        log("Inventory Steak: " + Inventory.get("Steak").quantity);
+		log("Inventory Chicken: " + Inventory.get("Chicken").quantity);
+		log("Inventory Salad: " + Inventory.get("Salad").quantity);
+		log("Inventory Pizza: " + Inventory.get("Pizza").quantity);
         
         foodAvailableAtMarket.put("Steak", 0);
         foodAvailableAtMarket.put("Chicken", 0);
@@ -115,9 +117,14 @@ public class DavidCookRole extends Role implements Cook{
         foodAvailableAtMarket.put("Pizza", 0);
 	}
 	
+	public void log(String s) { 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this. getName(), s); 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_COOK, this.getName(), s);
+	}
+	
 /*   Messages   */ 
 	public void msgHereIsAnOrder (DavidWaiterRole w, String choice, int table) {
-		print("msgHereIsAnOrder Called");
+		log("msgHereIsAnOrder Called");
 		//gui.DoMoveToFridge();
 		Order newOrder = new Order(w, choice, table);
 		newOrder.os = OrderStatus.pending; 
@@ -126,17 +133,17 @@ public class DavidCookRole extends Role implements Cook{
 	}
 	
 	public void msgDoneCooking(Order o) {
-		print(o.Choice + " done cooking..."); 
+		log(o.Choice + " done cooking..."); 
 		o.os = OrderStatus.cooked; 
 		stateChanged();
 	}
 	
 	public void msgHereIsYourOrder (Map<String, Integer> inventoryFulfilled) {
-		print("msgHereIsYourOrder Called"); 
+		log("msgHereIsYourOrder Called"); 
 		for (Map.Entry<String, Integer> entry : inventoryFulfilled.entrySet()){
-			print("Had " + Inventory.get(entry.getKey()).quantity + " " + Inventory.get(entry.getKey()).Choice + "(s).");
+			log("Had " + Inventory.get(entry.getKey()).quantity + " " + Inventory.get(entry.getKey()).Choice + "(s).");
 			Inventory.get(entry.getKey()).quantity += entry.getValue();
-			print("Now have " + Inventory.get(entry.getKey()).quantity + " " + Inventory.get(entry.getKey()).Choice + "(s).");
+			log("Now have " + Inventory.get(entry.getKey()).quantity + " " + Inventory.get(entry.getKey()).Choice + "(s).");
 			Food f = Inventory.get(entry.getKey());
 			f.fstate = FoodStatus.delivered;
 		}
@@ -144,7 +151,7 @@ public class DavidCookRole extends Role implements Cook{
 	}
 	
 	public void msgMarketOutOfOrder() { 
-		print("msgMarketOutOfOrder"); 
+		log("msgMarketOutOfOrder"); 
 		if(MarketChoice == 0) {
 			MarketChoice = 1;
 		}
@@ -152,7 +159,7 @@ public class DavidCookRole extends Role implements Cook{
 			MarketChoice = 2;
 		}
 		else if(MarketChoice == 2) {
-			print("Markets all unavailable"); 
+			log("Markets all unavailable"); 
 			cstate = CookStatus.none;
 			stateChanged();
 		}
@@ -164,14 +171,14 @@ public class DavidCookRole extends Role implements Cook{
 	}
 	
 	public void msgMassOrderReady() {
-		print ("msgMassOrderReady recieved"); 
+		log ("msgMassOrderReady recieved"); 
 		cstate = CookStatus.massOrderReady;
 		stateChanged();
 	}
 	
 	public void msgFinishedMovingToGrill() { 
 		if(atGrill.availablePermits() < 1){
-			print ("msgFinishedMoving recieved"); 
+			log ("msgFinishedMoving recieved"); 
 			atGrill.release(); 
 			stateChanged();
 		}
@@ -201,12 +208,25 @@ public class DavidCookRole extends Role implements Cook{
 						return true;
 					}
 					if(currentOrder.os == OrderStatus.cooked){ 
-						print("Order is ready");
+						log("Order is ready");
 						OrderIsReady(currentOrder); 
 						return true;
 					}
 				}
 			}
+			
+		synchronized(menu){	
+			Map<String, Integer> inventoryNeeded = new TreeMap<String, Integer>(); 
+			for(String i : menu) { 
+				if(Inventory.get(i).fstate == FoodStatus.empty) { 
+					inventoryNeeded.put(i, Inventory.get(i).amountToOrder);
+				}
+			}
+			if(!inventoryNeeded.isEmpty()) { 
+				OrderFromMarket(inventoryNeeded); 
+				return true;
+			}
+		}
 			
 			return false; 
 		}
@@ -222,7 +242,7 @@ public class DavidCookRole extends Role implements Cook{
 		
 		for (String c : menu){
 			if (Inventory.get(c).quantity <= Inventory.get(c).low){
-				print("Adding " + Inventory.get(c).Choice + " to market order");
+				log("Adding " + Inventory.get(c).Choice + " to market order");
 				Inventory.get(c).amountToOrder = 10;
 				lowInventory.put(c, Inventory.get(c).amountToOrder);
 				//OrderFromMarket(inventory.get(c), inventory.get(c).amountToOrder, inventory.get(c).nextMarket);
@@ -237,21 +257,21 @@ public class DavidCookRole extends Role implements Cook{
 	}
 	
 	public void cookOrder(final Order o) { 
-		print("cookOrder called by " + o.Waiter.getName());
+		log("cookOrder called by " + o.Waiter.getName());
 		cooking = true;
 		Map<String, Integer> inventoryNeeded = new TreeMap<String, Integer>(); 
 		Food tempFood = Inventory.get(o.Choice);
 		
 		//quantity of food is low. Ordering 10 more
 		if(tempFood.quantity <= tempFood.low) {
-			print("checking food stats: " + tempFood.quantity + " " + tempFood.low);
+			log("checking food stats: " + tempFood.quantity + " " + tempFood.low);
 			inventoryNeeded.put(tempFood.Choice, 10); 
 			OrderFromMarket(inventoryNeeded);
 			
 		}
 		
 		if(tempFood.quantity == 0) {
-			print("Currently out of " + o.Choice);
+			log("Currently out of " + o.Choice);
 			o.Waiter.msgOutOfFood(o.Choice);
 			pendingOrders.remove(o);
 			cooking = false;
@@ -264,7 +284,7 @@ public class DavidCookRole extends Role implements Cook{
 			
 			cookTimer.schedule(new TimerTask() {
 				public void run() {
-					print("Done Cooking");
+					log("Done Cooking");
 					msgDoneCooking(o); 
 				    //gui.DoMoveToPlating();
 					cooking = false;
@@ -275,10 +295,20 @@ public class DavidCookRole extends Role implements Cook{
 			
 	}
 	
-	public void OrderFromMarket(Map<String, Integer> inventory){ 
-		ContactList.getInstance().marketGreeter.msgINeedInventory("DavidRestaurant", this, cashier, inventory); 
+	public void OrderFromMarket(Map<String, Integer> inventoryNeeded){ 
+		if (ContactList.getInstance().marketGreeter != null) {
+			ContactList.getInstance().marketGreeter.msgINeedInventory("DavidRestaurant", this, cashier, inventoryNeeded); 
+			for(Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()) { 
+				Inventory.get(entry.getKey()).fstate = FoodStatus.requested; 
+			}
+		}
+		else{ 
+			for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()) { 
+				Inventory.get(entry.getKey()).fstate = FoodStatus.empty; 
+			}
+		}
 	}
-
+ 
 	
 	public void OrderIsReady(Order o){ 
 		for(int i=0; i<o.Waiter.customerList.size(); i++) {
@@ -308,28 +338,28 @@ public class DavidCookRole extends Role implements Cook{
 	public void emptyInventory() {
 		for(int i=0; i<Inventory.size(); i++) {
 			Inventory.get(i).quantity = 0;
-			print("Setting the quantity of " + Inventory.get(i).Choice + " to " + Inventory.get(i).quantity);
+			log("Setting the quantity of " + Inventory.get(i).Choice + " to " + Inventory.get(i).quantity);
 		}
 	}
 	
 	public void emptySteak() {
 		Inventory.get(0).quantity = 0;
-		print("Setting the quantity of " + Inventory.get(0).Choice + " to " + Inventory.get(0).quantity);
+		log("Setting the quantity of " + Inventory.get(0).Choice + " to " + Inventory.get(0).quantity);
 	}
 	
 	public void emptyChicken() {
 		Inventory.get(1).quantity = 0;
-		print("Setting the quantity of " + Inventory.get(1).Choice + " to " + Inventory.get(1).quantity);
+		log("Setting the quantity of " + Inventory.get(1).Choice + " to " + Inventory.get(1).quantity);
 	}
 	
 	public void emptySalad() {
 		Inventory.get(2).quantity = 0;
-		print("Setting the quantity of " + Inventory.get(2).Choice + " to " + Inventory.get(2).quantity);
+		log("Setting the quantity of " + Inventory.get(2).Choice + " to " + Inventory.get(2).quantity);
 	}
 	
 	public void emptyPizza() {
 		Inventory.get(3).quantity = 0;
-		print("Setting the quantity of " + Inventory.get(3).Choice + " to " + Inventory.get(3).quantity);
+		log("Setting the quantity of " + Inventory.get(3).Choice + " to " + Inventory.get(3).quantity);
 	}
 	
 	public void ManualOrder() { 

@@ -1,6 +1,8 @@
 package role.davidRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.restaurant_zhangdt.gui.CustomerGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
 import agent.Agent;
@@ -80,16 +82,21 @@ public class DavidCustomerRole extends Role implements Customer {
 		return name;
 	}
 	
+	public void log(String s) { 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this. getName(), s); 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_CUSTOMER, this.getName(), s);
+	}
+	
 /*   Messages   */
 
 	public void gotHungry() {//from animation
-		print("I'm hungry. Going to restaurant with: $" + Money);
+		log("I'm hungry. Going to restaurant with: $" + Money);
 		event = AgentEvent.gotHungry;
 		stateChanged();
 	}
 
 	public void msgFollowWaiter(int tableNum, int tX, int tY) {
-		print("Received msgFollowHost");
+		log("Received msgFollowHost");
 		event = AgentEvent.followHost;
 		this.setTableNum(tableNum);
 		this.tableX = tX;
@@ -98,7 +105,7 @@ public class DavidCustomerRole extends Role implements Customer {
 	}
 	
 	public void msgWhatWouldYouLike() {
-		print("Received msgWhatWouldYoulLike"); 
+		log("Received msgWhatWouldYoulLike"); 
 		event = AgentEvent.ordering; 
 		stateChanged(); 
 	}
@@ -114,26 +121,26 @@ public class DavidCustomerRole extends Role implements Customer {
 	}
 	
 	public void msgHereIsYourFood() {
-		print("Received msgHereIsYourFood"); 
+		log("Received msgHereIsYourFood"); 
 		event = AgentEvent.GotOrder; 
 		stateChanged();
 	}
 
 	public void msgCheckIsRecieved(double price) { 
-		print("Recieved CheckIsReady"); 
+		log("Recieved CheckIsReady"); 
 		if(Debt == 0){
 			Debt = price;
 		} 
 		else{ 
 			Debt = Debt + price;
 		}
-		print("My debt is " + Debt);
+		log("My debt is " + Debt);
 		event = AgentEvent.GotCheck; 
 		stateChanged();
 	}
 	
 	public void msgHeresYourChange(double change) {
-		print("msgHeresYourChange recieved");
+		log("msgHeresYourChange recieved");
 		Change = change;
 		event = AgentEvent.GotChange; 
 		stateChanged();
@@ -225,13 +232,14 @@ public class DavidCustomerRole extends Role implements Customer {
 			
 			if (state == AgentState.ExitingRestaurant && event == AgentEvent.doneLeaving){
 				state = AgentState.DoingNothing;
-				//no action
+				super.setInactive();
 				return true;
 			}
 			
 			if (state == AgentState.OutOfFood){ 
 				state = AgentState.DoingNothing;
 				LeaveWithoutOrdering();
+				super.setInactive(); 
 			}
 			return false;
 		}
@@ -257,7 +265,7 @@ public class DavidCustomerRole extends Role implements Customer {
 		
 		if(morallyUpright == true){
 			if(Money > 15.99){
-				print("I can order anything.");
+				log("I can order anything.");
 				Random ChoiceGenerator = new Random(); 
 				int choice = ChoiceGenerator.nextInt(3); 
 				switch(choice) {
@@ -269,7 +277,7 @@ public class DavidCustomerRole extends Role implements Customer {
 			}
 			
 			else if(Money > 10.99 && Money < 15.99){
-				print("No money for steak");
+				log("No money for steak");
 				Random ChoiceGenerator = new Random(); 
 				int choice = ChoiceGenerator.nextInt(2); 
 				switch(choice) { 
@@ -280,7 +288,7 @@ public class DavidCustomerRole extends Role implements Customer {
 			}
 			
 			else if(Money > 8.99 && Money < 10.99){
-				print("No money for chicken or steak");
+				log("No money for chicken or steak");
 				Random ChoiceGenerator = new Random(); 
 				int choice = ChoiceGenerator.nextInt(1); 
 				switch(choice) { 
@@ -290,19 +298,19 @@ public class DavidCustomerRole extends Role implements Customer {
 			}
 			
 			else if(Money > 5.99 && Money < 8.99){ 
-				print("Only have money for salad");
+				log("Only have money for salad");
 				Order = choiceList.get(2);
 			}
 			
 			else { 
-				print("I can't afford anything"); 
+				log("I can't afford anything"); 
 				state = AgentState.OutOfFood;
 				Order = "nothing";
 			}
 		}
 		
 		else {
-			print("I'll order anything regardless of whether I can pay");
+			log("I'll order anything regardless of whether I can pay");
 			Random ChoiceGenerator = new Random(); 
 			int choice = ChoiceGenerator.nextInt(3); 
 			switch(choice) {
@@ -315,7 +323,7 @@ public class DavidCustomerRole extends Role implements Customer {
 			
 		timer1.schedule(new TimerTask() {
 			public void run() {
-				print("Done deciding. Ordering... " + Order);
+				log("Done deciding. Ordering... " + Order);
 				event = AgentEvent.decided;
 				customerGui.msgOrdered(Order);
 				stateChanged();
@@ -373,7 +381,7 @@ public class DavidCustomerRole extends Role implements Customer {
 				setOrder(choiceList.get(0)); 
 			}
 	
-			print("I'll have " + getOrder() + " instead");
+			log("I'll have " + getOrder() + " instead");
 			customerGui.msgOrdered(getOrder());
 			state = AgentState.ReadyToOrder;
 			event = AgentEvent.ordering;
@@ -394,7 +402,7 @@ public class DavidCustomerRole extends Role implements Customer {
 		//anonymous inner class that has the public method run() in it.
 		timer.schedule(new TimerTask() {
 			public void run() {
-				print("Done eating, " + Order);
+				log("Done eating, " + Order);
 				event = AgentEvent.doneEating;
 				customerGui.msgFinished();
 				stateChanged();
@@ -411,7 +419,7 @@ public class DavidCustomerRole extends Role implements Customer {
 	private void PayCashier(){ 
 		double Payment = 0;
 		if(Debt > Money){ 
-			print("I don't have enough money"); 
+			log("I don't have enough money"); 
 			Payment = 0; 
 		}
 		else {
@@ -445,7 +453,7 @@ public class DavidCustomerRole extends Role implements Customer {
 	private void ExitRestaurant() { 
 		Do("Exitting Restaurant"); 
 		Money += Change;
-		print("I currently have: $" + Money);
+		log("I currently have: $" + Money);
 		customerGui.DoExitRestaurant();
 	}
 	
@@ -507,11 +515,18 @@ public class DavidCustomerRole extends Role implements Customer {
 	
 	public void setMoney(double m){
 		Money = m;
-		print("Money set to " + Money);
+		log("Money set to " + Money);
 	}
 	
 	public void setMoral(){
 		morallyUpright = false;
+	}
+
+	public boolean restaurantOpen() {
+		if(host != null && host.isActive() && host.isOpen()){ 
+			return true;
+		}
+		return false;
 	}
 
 	

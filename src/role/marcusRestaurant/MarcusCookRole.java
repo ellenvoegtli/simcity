@@ -244,8 +244,11 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 					inventoryOrder.put(item.name, item.capacity-item.amount);
 				}
 			}
-
-			ContactList.getInstance().marketGreeter.msgINeedInventory("marcusRestaurant", this, cashier, inventoryOrder);
+			
+			if(ContactList.getInstance().marketGreeter != null) {	
+				ContactList.getInstance().marketGreeter.msgINeedInventory("marcusRestaurant", this, cashier, inventoryOrder);
+			}
+			
 			status = CookStatus.normal;
 		}
 	}

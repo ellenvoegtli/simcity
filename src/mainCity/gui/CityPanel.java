@@ -33,28 +33,6 @@ public class CityPanel extends JPanel{
 		clock = 4;
 		
 		ContactList.getInstance().setCity(this);
-		
-    	//MarketGui marketGui = new MarketGui();
-    	//ContactList.getInstance().setMarket(marketGui.getMarketPanel());
-    	//marketGui.setVisible(true);
-		
-		//DavidRestaurantGui davidRestGui = new DavidRestaurantGui(); 
-		//davidRestGui.setVisible(true);
-
-    	//JeffersonRestaurantGui jeffersonRestaurant = new JeffersonRestaurantGui();
-    	//ContactList.getInstance().setJeffersonRestaurant(jeffersonRestaurant.getJeffersonRestaurantPanel());
-
-    	//jeffersonRestaurant.setVisible(true);
- 
-
-    	//BankGui bank = new BankGui();
-    	//ContactList.getInstance().setBank(bank.getBankPanel());
-    	//bank.setVisible(true);
-    	
-    	//HomeGui home= new HomeGui();
-    	//ContactList.getInstance().setHome(home.getHomePanel());
-    	//home.setVisible(true);
-    	
 
     	//Hardcoding a bus
     	BusAgent bus = new BusAgent();
@@ -69,16 +47,7 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg1); 
     	bus1.startThread();
 
-    	//String[] actions = {"work"}; 
-    	//addPerson("waiter", 100, true, "marcusWaiter", 12, -1, actions);
-    	//addPerson("host", 100, true, "marcusHost", 8, 11, actions);
 		parseConfig();
-
-    	//String[] actions = {"hungry"}; 
-    	//addPerson("ena", 500, false, "customer", 7, 19, actions); 
-
-    	String[] actions = {"work"}; 
-    	//addPerson("David", 500, false, "davidWaiter", 7, 19, actions); 
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
@@ -89,7 +58,7 @@ public class CityPanel extends JPanel{
 		 };
 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		 executor.scheduleAtFixedRate(cityClock, 0, 3, TimeUnit.SECONDS); //Timer goes off every 30 seconds
+		 executor.scheduleAtFixedRate(cityClock, 0, 30, TimeUnit.SECONDS); //Timer goes off every 30 seconds
 	}
 	
 	public void addDeliveryGui(MarketDeliveryManRole d){
@@ -102,6 +71,10 @@ public class CityPanel extends JPanel{
 		for(PersonAgent p : occupants) {
 			p.updateClock(clock);
 		}
+	}
+	
+	public List<PersonAgent> getOccupants(){
+		return occupants;
 	}
 	
 	
@@ -139,11 +112,14 @@ public class CityPanel extends JPanel{
     	PersonAgent person = new PersonAgent(name);
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);
+		
 		person.setHomePlace(renter);
 		System.out.println("selected house for person to live in");
 		PersonGui pg = new PersonGui(person, gui);
 		gui.getAnimationPanel().addPersonGui(pg);
 		person.setGui(pg);
+		
+		gui.addPerson(person);
 		
 		if(actions != null) {
 			for(int i = 0; i < actions.length; ++i) {
