@@ -5,9 +5,7 @@ import mainCity.bank.gui.BankTellerGui;
 
 public interface BankTeller {
 
-	public abstract void setBankAccounts(BankAccounts ba);
 
-	public abstract void setTellerNumber(int tn);
 
 	//Messages
 	public abstract void msgGoOffDuty(double amount);
@@ -17,9 +15,5 @@ public interface BankTeller {
 
 	public abstract void msgIWantToWithdraw(BankCustomer b, double accnum,
 			int amount);
-
-	public abstract boolean pickAndExecuteAnAction();
-
-	public abstract void setGui(BankTellerGui gui);
 
 }
