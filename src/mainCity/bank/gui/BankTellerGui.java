@@ -22,7 +22,7 @@ public class BankTellerGui implements Gui {
     
     public static final int xHome = -20;
     public static final int yHome = 520;
-    public static final int xTeller0 = 145;
+    public static final int xTeller0 = 146;
     public static final int yTeller0 = 80;
     
     public static final int xTeller1 = 320;

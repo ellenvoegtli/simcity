@@ -375,7 +375,7 @@ public class PersonAgent extends Agent implements Person {
 		
 		if(state == PersonState.walkingFromBus) {
 			currentBus.Passengers.remove(this);
-			currentBus = null;
+			currentBus = null; 
 			travelToLocation(destination);
 			return true;
 		}
