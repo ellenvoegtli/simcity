@@ -21,6 +21,7 @@ public enum AlertTag {
         
         BUS_STOP,
         
+        BANK_BANKER,
         BANK_TELLER,
         BANK_CUSTOMER,
         BANK_MANAGER,

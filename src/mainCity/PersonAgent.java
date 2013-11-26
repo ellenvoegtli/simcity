@@ -16,6 +16,7 @@ import mainCity.bank.BankCustomerRole;
 import mainCity.bank.BankManagerRole;
 import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankerRole;
+import mainCity.bank.BankCustomerRole;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
@@ -989,6 +990,10 @@ public class PersonAgent extends Agent {
 	
 	public void setEvent(PersonEvent e) {
 		event = e;
+	}
+	
+	public void setDestination(CityLocation dest) {
+		destination = dest;
 	}
 	
 	public PersonState getState() {

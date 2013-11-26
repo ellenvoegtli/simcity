@@ -13,7 +13,7 @@ public interface Greeter {
 	public abstract void setDeliveryMan(DeliveryMan d);
 	public abstract void addEmployee(Employee e);
 	
-	public abstract void msgINeedInventory(MarketCustomerRole c, int x, int y);
+	public abstract void msgINeedInventory(Customer c, int x, int y);
 	public abstract void msgINeedInventory(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer> inventoryNeeded);
 	
 }

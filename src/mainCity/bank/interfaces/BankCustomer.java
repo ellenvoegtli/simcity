@@ -2,10 +2,14 @@ package mainCity.bank.interfaces;
 
 import mainCity.bank.BankManagerRole;
 import mainCity.bank.gui.BankCustomerGui;
-import mainCity.market.gui.CustomerGui;
 
 public interface BankCustomer {
 
+	public abstract void setBankManager(BankManagerRole bm);
+
+	public abstract void setBanker(Banker b);
+
+	public abstract void setBankTeller(BankTeller t);
 
 	//Messages
 	public abstract void msgBankClosed();
@@ -38,7 +42,25 @@ public interface BankCustomer {
 
 	public abstract void msgLoanDenied(double loanamount);
 
-	public abstract CustomerGui getGui();
-	
+	//Scheduler	
+	public abstract boolean pickAndExecuteAnAction();
+
+	public abstract int getAmount();
+
+	public abstract void setAmount(int amount);
+
+	public abstract double getMyaccountnumber();
+
+	public abstract void setMyaccountnumber(double myaccountnumber);
+
+	public abstract double getBankbalance();
+
+	public abstract void setBankbalance(double bankbalance);
+
+	public abstract void setGui(BankCustomerGui bcGui);
+
+	public abstract BankCustomerGui getGui();
+
+	public abstract boolean bankClosed();
+
 }
-	

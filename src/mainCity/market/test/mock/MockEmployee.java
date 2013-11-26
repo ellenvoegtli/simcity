@@ -25,7 +25,7 @@ public class MockEmployee extends Mock implements Employee {
 		
 	}
 	public void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory, String deliveryMethod){
-		
+		log.add(new LoggedEvent("Received msgHereIsMyOrder from " + c.getName()));
 	}
 	@Override
 	public void msgHereIsBill(Customer c, double amount){		//from cashier
@@ -40,8 +40,9 @@ public class MockEmployee extends Mock implements Employee {
 	public void msgOrderFulfilled(MyBusiness mb){		//from timer
 		
 	}
+	@Override
 	public void msgDoneAndLeaving(Customer c){
-		
+		log.add(new LoggedEvent("Received msgDoneAndLeaving from " + c.getName()));
 	}
 	
 }
