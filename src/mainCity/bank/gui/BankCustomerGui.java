@@ -162,5 +162,10 @@ public void doGoToTeller2(){
     public int getYPos() {
         return yPos;
     }
+
+	public boolean goInside() {
+		return bankcustomer.bankOpen();
+		
+	}
 }
 

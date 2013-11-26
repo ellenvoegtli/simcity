@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import role.Role;
+import mainCity.PersonAgent;
 import mainCity.bank.BankAccounts.BankAccount;
 import mainCity.interfaces.ManagerRole;
 import agent.Agent;
 
-public class BankManagerRole extends Agent implements ManagerRole {
+public class BankManagerRole extends Role implements ManagerRole {
 
 	String name;
+	PersonAgent p;
 	private BankAccounts ba;
-	public List <myTeller> tellers= new ArrayList<myTeller>();
+	public List <myTeller> tellers= Collections.synchronizedList(new ArrayList<myTeller>());
 	public myBanker mbanker;
 	public List <myBankCustomer>  teller_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
 	public List <myBankCustomer>  banker_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
@@ -23,7 +26,6 @@ public class BankManagerRole extends Agent implements ManagerRole {
 	    int tellernumber;
 	    BankCustomerRole bc;
 	    boolean Occupied;
-	    
 	    public int gettellernumber(){
 	    	return tellernumber;
 	    }
@@ -57,8 +59,9 @@ public class BankManagerRole extends Agent implements ManagerRole {
 		}
 	}
 	
-	public BankManagerRole(String name){
-		super();
+	public BankManagerRole(PersonAgent p, String name){
+		super(p);
+		this.p=p;
 		this.name=name;
 		onDuty=true;
 		Do("Bank Manager instantiated");
@@ -162,7 +165,7 @@ public class BankManagerRole extends Agent implements ManagerRole {
 //TODO handle scenarios where not enough employees	
 	
 
-	protected boolean pickAndExecuteAnAction() {
+	public boolean pickAndExecuteAnAction() {
 	
 		
 		for(myTeller mt:tellers){
@@ -223,7 +226,14 @@ public class BankManagerRole extends Agent implements ManagerRole {
 	}
 
 	public boolean closeBuilding() {
-		// TODO Auto-generated method stub
+		if(!teller_bankCustomers.isEmpty() || banker_bankCustomers.isEmpty()){
+			return false;
+		}
+		
+		
+		//TODO remove tellers/bankers from list
+		
+		
 		return false;
 	}
 

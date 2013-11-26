@@ -463,7 +463,7 @@ public void msgLoanDenied(double loanamount){
 		}
 
 	public boolean bankOpen() {
-		if(bm != null && bm.isActive && bm.isOpen()){
+		if(bm != null && bm.isActive() && bm.isOpen()){
 			return true;
 		}
 		return false;
