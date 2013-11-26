@@ -628,8 +628,7 @@ public class PersonAgent extends Agent {
 					BankCustomerRole bc = new BankCustomerRole(this, name);
 					ContactList.getInstance().getBank().handleRole(bc);
 					roles.put(action, bc);
-
-					break;				
+					break;
 
 				default:
 					break;
