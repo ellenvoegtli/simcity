@@ -123,7 +123,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		//moneyField.addKeyListener(this);
 		
 		
-		String[] occupationStrings = {"Rich", "jeffersonWaiter", 
+		String[] occupationStrings = {"rich", "jeffersonWaiter", 
 				"marcusWaiter", "marcusShareWaiter", "enaWaiter",
 				 "marketEmployee", "ellenWaiter", "davidWaiter"
 		};
