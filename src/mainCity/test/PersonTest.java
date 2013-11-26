@@ -32,7 +32,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, waiter);
-		assertEquals("MarcusNormalWaiterRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -84,7 +84,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, waiter);
-		assertEquals("MarcusSharedWaiterRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -136,7 +136,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, cashier);
-		assertEquals("MarcusCashierRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -188,7 +188,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, cook);
-		assertEquals("MarcusCookRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -240,7 +240,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, host);
-		assertEquals("MarcusHostRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -292,7 +292,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, waiter);
-		assertEquals("DavidNormalWaiterRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -344,7 +344,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, cashier);
-		assertEquals("DavidCashierRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -396,7 +396,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, cook);
-		assertEquals("DavidCookRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -448,7 +448,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, host);
-		assertEquals("DavidHostRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -500,7 +500,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, waiter);
-		assertEquals("JeffersonNormalWaiterRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -552,7 +552,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, cashier);
-		assertEquals("JeffersonCashierRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -604,7 +604,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, cook);
-		assertEquals("JeffersonCookRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -656,7 +656,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, host);
-		assertEquals("JeffersonHostRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -708,7 +708,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, waiter);
-		assertEquals("EllenNormalWaiterRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -760,7 +760,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, cashier);
-		assertEquals("EllenCashierRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -812,7 +812,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, cook);
-		assertEquals("EllenCookRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -864,7 +864,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, host);
-		assertEquals("EllenHostRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -916,7 +916,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, waiter);
-		assertEquals("EnaNormalWaiterRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -968,7 +968,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, cashier);
-		assertEquals("EnaCashierRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -1020,7 +1020,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, cook);
-		assertEquals("EnaCookRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -1072,7 +1072,7 @@ public class PersonTest extends TestCase {
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
 		person.addRole(ActionType.work, host);
-		assertEquals("EnaHostRole should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
 		
 		//Telling Person to go to work
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
@@ -1113,4 +1113,184 @@ public class PersonTest extends TestCase {
 		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
 		assertEquals("Person's current action should be home.", person.getCurrentAction().type, ActionType.home);		
 	}//End EnaHost
+	
+	public void testTwentyThreeDavidCustomer() {
+		DavidCustomerRole customer = null;
+		assertNull("DavidCustomerRole should be null. It isn't", customer);
+		
+		customer = new DavidCustomerRole(person.getName(), person);
+		assertEquals("DavidCustomerRole should have current person as holder. It's not", customer.getPerson(), person);
+		//Nothing right now
+		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
+		assertEquals("PersonAgent should have no roles in its list of roles. It doesn't", person.getRoles().size(), 0);
+		person.addRole(ActionType.restaurant, customer);
+		assertEquals("PersonAgent should have now have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		
+		//Telling Person to go to work
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
+		person.msgGoToRestaurant();
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+		assertNull("Person's current action should be null.", person.getCurrentAction());		
+		
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());	
+		assertEquals("Person's current action should be go to restaurant.", person.getCurrentAction().type, ActionType.restaurant);
+		
+		//Arriving at restaurant
+		person.setEvent(PersonEvent.arrivedAtRestaurant);
+		person.setDestination(CityLocation.restaurant_david);
+
+		customer.setActive();
+		assertFalse("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+
+		//Is David
+		assertTrue("Person's DavidCustomerRole should be active. It isn't", customer.isActive());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		
+		//Leaving
+		customer.setInactive();
+		
+		assertFalse("Person's DavidCustomerRole should be inactive. It isn't", customer.isActive());
+		assertEquals("Person's state should be normal. It isn't", PersonState.normal, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+
+		//Going home
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());	
+
+	}//End DavidCustomer
+
+	public void testTwentyFourJeffersonCustomer() {
+		JeffersonCustomerRole customer = null;
+		assertNull("JeffersonCustomerRole should be null. It isn't", customer);
+		
+		customer = new JeffersonCustomerRole(person, person.getName());
+		assertEquals("JeffersonCustomerRole should have current person as holder. It's not", customer.getPerson(), person);
+		//Nothing right now
+		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
+		assertEquals("PersonAgent should have no roles in its list of roles. It doesn't", person.getRoles().size(), 0);
+		person.addRole(ActionType.restaurant, customer);
+		assertEquals("PersonAgent should have now have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		
+		//Telling Person to go to work
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
+		person.msgGoToRestaurant();
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+		assertNull("Person's current action should be null.", person.getCurrentAction());		
+		
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());	
+		assertEquals("Person's current action should be go to restaurant.", person.getCurrentAction().type, ActionType.restaurant);
+		
+		//Arriving at restaurant
+		person.setEvent(PersonEvent.arrivedAtRestaurant);
+		person.setDestination(CityLocation.restaurant_jefferson);
+
+		customer.setActive();
+		assertFalse("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+
+		//Is Jefferson
+		assertTrue("Person's JeffersonCustomerRole should be active. It isn't", customer.isActive());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		
+		//Leaving
+		customer.setInactive();
+		
+		assertFalse("Person's JeffersonCustomerRole should be inactive. It isn't", customer.isActive());
+		assertEquals("Person's state should be normal. It isn't", PersonState.normal, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+
+		//Going home
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());	
+
+	}//End JeffersonCustomer
+
+	public void testTwentyFiveEnaCustomer() {
+		EnaCustomerRole customer = null;
+		assertNull("EnaCustomerRole should be null. It isn't", customer);
+		
+		customer = new EnaCustomerRole(person, person.getName());
+		assertEquals("EnaCustomerRole should have current person as holder. It's not", customer.getPerson(), person);
+		//Nothing right now
+		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
+		assertEquals("PersonAgent should have no roles in its list of roles. It doesn't", person.getRoles().size(), 0);
+		person.addRole(ActionType.restaurant, customer);
+		assertEquals("PersonAgent should have now have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		
+		//Telling Person to go to work
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
+		person.msgGoToRestaurant();
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+		assertNull("Person's current action should be null.", person.getCurrentAction());		
+		
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());	
+		assertEquals("Person's current action should be go to restaurant.", person.getCurrentAction().type, ActionType.restaurant);
+		
+		//Arriving at restaurant
+		person.setEvent(PersonEvent.arrivedAtRestaurant);
+		person.setDestination(CityLocation.restaurant_ena);
+
+		customer.setActive();
+		assertFalse("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+
+		//Is Ena
+		assertTrue("Person's EnaCustomerRole should be active. It isn't", customer.isActive());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		
+		//Leaving
+		customer.setInactive();
+		
+		assertFalse("Person's EnaCustomerRole should be inactive. It isn't", customer.isActive());
+		assertEquals("Person's state should be normal. It isn't", PersonState.normal, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+
+		//Going home
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());	
+
+	}//End EnaCustomer
+	
+	public void testTwentyFiveEllenCustomer() {
+		EllenCustomerRole customer = null;
+		assertNull("EllenCustomerRole should be null. It isn't", customer);
+		
+		customer = new EllenCustomerRole(person, person.getName());
+		assertEquals("EllenCustomerRole should have current person as holder. It's not", customer.getPerson(), person);
+		//Nothing right now
+		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
+		assertEquals("PersonAgent should have no roles in its list of roles. It doesn't", person.getRoles().size(), 0);
+		person.addRole(ActionType.restaurant, customer);
+		assertEquals("PersonAgent should have now have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		
+		//Telling Person to go to work
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
+		person.msgGoToRestaurant();
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+		assertNull("Person's current action should be null.", person.getCurrentAction());		
+		
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());	
+		assertEquals("Person's current action should be go to restaurant.", person.getCurrentAction().type, ActionType.restaurant);
+		
+		//Arriving at restaurant
+		person.setEvent(PersonEvent.arrivedAtRestaurant);
+		person.setDestination(CityLocation.restaurant_ellen);
+
+		customer.setActive();
+		assertFalse("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+
+		//Is Ellen
+		assertTrue("Person's EllenCustomerRole should be active. It isn't", customer.isActive());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		
+		//Leaving
+		customer.setInactive();
+		
+		assertFalse("Person's EllenCustomerRole should be inactive. It isn't", customer.isActive());
+		assertEquals("Person's state should be normal. It isn't", PersonState.normal, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+
+		//Going home
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());	
+
+	}//End EllenCustomer
 }
