@@ -1,12 +1,7 @@
 package mainCity;
 import agent.Agent;
 import role.*;
-import role.jeffersonRestaurant.JeffersonCashierRole;
-import role.jeffersonRestaurant.JeffersonCookRole;
-import role.jeffersonRestaurant.JeffersonCustomerRole;
-import role.jeffersonRestaurant.JeffersonHostRole;
-import role.jeffersonRestaurant.JeffersonWaiterRole;
-import role.marcusRestaurant.*;
+import role.jeffersonRestaurant.*;
 import housing.LandlordRole;
 import housing.OccupantRole;
 
@@ -24,11 +19,8 @@ import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
-import mainCity.restaurants.restaurant_zhangdt.DavidCashierRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCookRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidCustomerRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidHostRole;
-import mainCity.restaurants.restaurant_zhangdt.DavidWaiterRole;
+import role.davidRestaurant.*;
+import role.marcusRestaurant.*;
 import mainCity.market.*;
 import role.market.*;
 
