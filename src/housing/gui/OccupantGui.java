@@ -100,7 +100,7 @@ public class OccupantGui implements Gui
 	public void setHungry() {
 		isHungry = true;
 		person.gotHungry();
-		//setPresent(true);
+		setPresent(true);
 		xDestination = xPos;
 		yDestination = yPos;
 	}
@@ -148,7 +148,7 @@ public class OccupantGui implements Gui
 		
 		public void DoGoToStove()
 		{
-			//System.out.println("cooking at stove");
+			System.out.println("cooking at stove");
 			xDestination = 200;
 			yDestination = 40;
 			//command = Command.GoCook;
@@ -164,7 +164,7 @@ public class OccupantGui implements Gui
 		
 		public void DoGoToSink()
 		{
-			//System.out.println("doing dishes");
+			System.out.println("doing dishes");
 			xDestination = 250;
 			yDestination = 40;
 			command = Command.doneInKitchen;
@@ -178,7 +178,7 @@ public class OccupantGui implements Gui
 		
 		public void DoGoToKitchenTable() 
 		{
-			//System.out.println("going to table to eat");
+			System.out.println("going to table to eat");
 			xDestination = 250;
 			yDestination = 150;
 		}
@@ -191,6 +191,8 @@ public class OccupantGui implements Gui
 		
 		public void DoGoRest()
 		{
+			System.out.println("going to couch");
+
 			xDestination = 50;
 			yDestination = 200;
 		}
