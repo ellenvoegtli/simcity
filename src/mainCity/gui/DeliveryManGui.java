@@ -2,6 +2,8 @@ package mainCity.gui;
 
 
 import mainCity.market.*;
+import mainCity.market.interfaces.DeliveryMan;
+import mainCity.market.interfaces.DeliveryManGuiInterface;
 import mainCity.gui.*;
 
 import java.awt.*;
@@ -14,9 +16,9 @@ import javax.swing.JLabel;
 
 import role.market.MarketDeliveryManRole;
 
-public class DeliveryManGui implements Gui {
+public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
 
-    private MarketDeliveryManRole agent = null;
+    public DeliveryMan agent = null;
     CityGui gui;
     private boolean isPresent;
 
@@ -35,9 +37,9 @@ public class DeliveryManGui implements Gui {
 	private boolean isDeliveringFood = false;
 	
 
-    public DeliveryManGui(MarketDeliveryManRole agent) {
+    public DeliveryManGui(DeliveryMan agent) {
         this.agent = agent;
-        this.gui = gui;
+        //this.gui = gui;
         
         //initialize restaurant locations map -- NECESSARY? or will we have a "contact list" equivalent to get restaurant locations?
         restaurantX.put("EllenRestaurant", 105);
@@ -143,11 +145,6 @@ public class DeliveryManGui implements Gui {
     	xDestination = homeX;
     	yDestination = homeY;
     }
-    public void DoGoToCashier(){
-    	atDestination = false;
-    	xDestination = cashierX;
-    	yDestination = cashierY;
-    }
     public void DoDeliverOrder(String restaurantName){
     	xDestination = restaurantX.get(restaurantName);
     	yDestination = restaurantY.get(restaurantName);
@@ -158,12 +155,6 @@ public class DeliveryManGui implements Gui {
     	this.isDeliveringFood = isDeliveringFood;
     }
 
-    public void DoGoToStart(){
-    	atDestination = false;
-
-        xDestination = homeX;
-        yDestination = homeY;
-    }
 
     public int getXPos() {
         return xPos;

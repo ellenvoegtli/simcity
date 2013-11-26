@@ -8,8 +8,11 @@ import mainCity.interfaces.*;
 import mainCity.market.*;
 import mainCity.market.MarketCashierRole.BillState;
 import mainCity.market.gui.*;
-import mainCity.market.interfaces.Cashier;
+//import mainCity.market.interfaces.Cashier;
 import mainCity.market.interfaces.DeliveryMan;
+import mainCity.market.interfaces.DeliveryManGuiInterface;
+import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
+import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
 import role.Role;
 
 import java.util.*;
@@ -20,7 +23,7 @@ import java.util.concurrent.*;
 
 public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only handles one restaurant at a time right now
 	private String name;
-	public DeliveryManGui deliveryGui;
+	public DeliveryManGuiInterface deliveryGui;
 	Cashier cashier;
 	
 	private double availableMoney = 0;
@@ -49,9 +52,6 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		this.name = name;
 		state = AgentState.doingNothing;
 	}
-	public void setCashier(Cashier c){
-		cashier = c;
-	}
 	public List getBills(){
 		return bills;
 	}
@@ -65,6 +65,9 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	public AgentState getState(){
 		return state;
 	}
+	public void setState(AgentState s){
+		state = s;
+	}
 
 	// Messages
 	
@@ -72,7 +75,6 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		print("Received msgHereIsOrderForDelivery");
 
 		bills.add(new Bill(restaurantName, cook, cashier, billAmount, inventory));
-		//event = DeliveryEvent.deliveryRequested;
 		stateChanged();
 	}
 
@@ -116,6 +118,10 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 				break;
 			}
 		}
+		
+		availableMoney += b.amountMarketGets;
+		availableMoney = Math.round(availableMoney*100.0)/100.0;
+		
 		b.event = DeliveryEvent.acknowledgedDebt;
 		stateChanged();
 	}
@@ -259,11 +265,11 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	}
 
 	//utilities
-	public void setGui(DeliveryManGui gui) {
+	public void setGui(DeliveryManGuiInterface gui) {
 		deliveryGui = gui;
 	}
 
-	public DeliveryManGui getGui() {
+	public DeliveryManGuiInterface getGui() {
 		return deliveryGui;
 	}
 	
@@ -303,14 +309,23 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		public MainCook getCook(){
 			return cook;
 		}
+		public void setCook(Cook c){
+			cook = c;
+		}
 		public MainCashier getCashier(){
 			return cashier;
+		}
+		public void setCashier(Cashier c){
+			cashier = c;
 		}
 		public String getRestaurant(){
 			return restaurantName;
 		}
 		public DeliveryState getState(){
 			return s;
+		}
+		public void setState(DeliveryState state){
+			s = state;
 		}
 		public DeliveryEvent getEvent(){
 			return event;

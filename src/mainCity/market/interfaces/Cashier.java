@@ -2,6 +2,7 @@ package mainCity.market.interfaces;
 
 import java.util.Map;
 
+import mainCity.interfaces.MainCashier;
 import mainCity.market.MarketCustomerRole;
 import mainCity.market.MarketEmployeeRole;
 
