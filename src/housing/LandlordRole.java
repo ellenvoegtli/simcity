@@ -2,6 +2,8 @@ package housing;
 
 import housing.personHome.Appliance;
 import housing.personHome;
+import housing.HouseTest.HouseMock.EventLog;
+import housing.HouseTest.HouseMock.LoggedEvent;
 import housing.HouseTest.HouseMock.MockLandLordGui;
 import housing.Interfaces.LanLordGuiInterface;
 import housing.Interfaces.Occupant;
@@ -10,6 +12,7 @@ import housing.OccupantRole.fixState;
 import housing.gui.LandlordGui;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +24,7 @@ import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+//import mainCity.test.EventLog;
 import role.Role;
 
 
@@ -32,7 +36,12 @@ public class LandlordRole extends Role implements landLord
 	
 	//DATA
 	Timer timer = new Timer();
-
+	
+	
+//public List<String> needsWork = Collections.synchronizedList(new ArrayList<String>());
+//DO THID ******************
+	
+	
 	int id;
 	List<Property> properties = new ArrayList<Property>();
 	Map<Occupant, List<String>> ToDo = new HashMap<Occupant, List<String>>(); 
@@ -41,6 +50,8 @@ public class LandlordRole extends Role implements landLord
 	private List <String> fixJobs = new ArrayList<String>(); 
 	public List<Occupant> renters = new ArrayList<Occupant>();
 	private Occupant occupant;
+
+	 public EventLog log = new EventLog();
 
 	
 	
@@ -67,7 +78,7 @@ public class LandlordRole extends Role implements landLord
 	@Override
 	public void msgPleaseFix(Occupant occp, String appName)
 	{
-		
+		log.add(new LoggedEvent("message recieved to fix"));
 				getFixJobs().add(appName);
 				ToDo.put(occp, getFixJobs());
 		
@@ -101,6 +112,8 @@ public class LandlordRole extends Role implements landLord
 		for(Occupant occ : ToDo.keySet())
 		{
 			log("the landlord is going to renters home");
+			log.add(new LoggedEvent("going to the renters home"));
+
 			person.msgNeedToFix();
 			//gui.DoGoToRenterHome(occ.getHome());
 			int xPos = 0;
