@@ -115,6 +115,13 @@ public class LandlordGui implements Gui, LanLordGuiInterface {
 			yDestination = 40;
 		}
 
+
+		@Override
+		public void DoGoToAplliance(String app) {
+			// TODO Auto-generated method stub
+			
+		}
+
 	
 
 

@@ -6,7 +6,6 @@ import mainCity.contactList.ContactList;
 import mainCity.gui.CityCard;
 import mainCity.gui.CityGui;
 import mainCity.gui.CityView;
-import mainCity.restaurants.enaRestaurant.gui.EnaRestaurantPanel;
 
 	import java.awt.*;
 import java.awt.event.ActionEvent;
