@@ -1,5 +1,6 @@
 package mainCity.bank.test.mock;
 
+import mainCity.PersonAgent;
 import mainCity.bank.BankManagerRole;
 import mainCity.bank.gui.BankCustomerGui;
 import mainCity.bank.interfaces.BankCustomer;
@@ -11,6 +12,7 @@ public class MockCustomer extends Mock implements BankCustomer  {
 	public BankManager manager;
 	public Banker banker;
 	public BankTeller teller;
+	public PersonAgent p;
 	
 	
 	public MockCustomer(String name) {

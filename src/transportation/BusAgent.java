@@ -18,7 +18,7 @@ public class BusAgent extends Agent{
 			BusGui gui; 
 			Timer stopTimer = new Timer(); 
 		
-			public List<PersonAgent> Passengers = new ArrayList<PersonAgent>(); 
+			public List<PersonAgent> Passengers = Collections.synchronizedList(new ArrayList<PersonAgent>()); 
 			int capacity = 50; 
 			CityLocation currentLocation; 
 			CityLocation destination = CityLocation.restaurant_marcus;
@@ -86,9 +86,11 @@ public class BusAgent extends Agent{
 				
 				//Tell passengers that destination has been reached. 
 				if(Passengers.size() != 0){
-					for(int j=0; j<Passengers.size(); j++){ 
-						if(Passengers.get(j).getDestination() == currentLocation) {
-							Passengers.get(j).msgArrivedAtDestination();
+					synchronized(Passengers){
+						for(int j=0; j<Passengers.size(); j++){ 
+							if(Passengers.get(j).getDestination() == currentLocation) {
+								Passengers.get(j).msgArrivedAtDestination();
+							}
 						}
 					}
 					//remove passengers who left the bus from the passenger list. 

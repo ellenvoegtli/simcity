@@ -10,7 +10,7 @@ import mainCity.test.EventLog;
 
 public class BusStop {
 	//List of people waiting at the bus stop
-	public List<PersonAgent> waitingPeople = new ArrayList<PersonAgent>(); 
+	public List<PersonAgent> waitingPeople = Collections.synchronizedList(new ArrayList<PersonAgent>()); 
 	public CityLocation stopLocation; 
 	
 	public int xLocation, yLocation; 

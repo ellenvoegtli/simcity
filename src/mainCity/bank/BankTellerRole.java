@@ -19,19 +19,19 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	
 	PersonAgent p;
 	
-	BankAccounts ba;
+	public BankAccounts ba;
 	String name;
-	myClient mc;
+	public myClient mc;
 	private int tellernumber;
 	BankTellerGui btGui;
 	public enum ClientState{withdrawing, depositing, talking}
 	public boolean onDuty;
 	
 	public class myClient{
-	    BankCustomer bc;
-	    double accountnumber;
-	    double amount;
-	    ClientState cs;
+	    public BankCustomer bc;
+	    public double accountnumber;
+	    public double amount;
+	    public ClientState cs;
 	}
 
 	public BankTellerRole(PersonAgent p, String name){
@@ -170,6 +170,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 						b.balance+=mc.amount*.5;
 						b.creditScore+=5;
 						mc.bc.msgRequestComplete(mc.amount*-1, b.balance);
+						mc=null;
 						
 						return;
 					}
