@@ -2,13 +2,14 @@ package housing.gui;
 
 import housing.OccupantRole;
 import housing.personHome;
+import housing.Interfaces.LanLordGuiInterface;
 import housing.Interfaces.landLord;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.List;
 
-public class LandlordGui implements Gui {
+public class LandlordGui implements Gui, LanLordGuiInterface {
 
 	
 	public List<OccupantRole>  Renters;
@@ -112,6 +113,13 @@ public class LandlordGui implements Gui {
 		{
 			xDestination = -10;
 			yDestination = 40;
+		}
+
+
+		@Override
+		public void DoGoToAplliance(String app) {
+			// TODO Auto-generated method stub
+			
 		}
 
 	
