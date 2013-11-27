@@ -15,7 +15,7 @@ SimCity201 Project Repository for CS 201 students
 + Responsible for the housing and apartment set up within the city. Created  OccupantRole and LandLord Role to handle situations for people either renting or owning homes.
 + Responsible for gui for occupants and landlords within the homes as well as the layout of both houses and apartments through the home class 
 + Unit testing for both the occupant and landlord and their interactions within the homes
- + Implemented enaRestaurant into the city layout and integreted personAgent as well as the new city market to work within the original restaurant
+ + Implemented enaRestaurant into the city layout and integrated personAgent as well as the new city market to work within the original restaurant
 + added  tags throughout restaurant roles to be used along with the trace panels
 + added tags to occupantRole for trace panels
 
@@ -68,7 +68,7 @@ SimCity201 Project Repository for CS 201 students
 	+ In the package mainCity.test, you will find BusTest.java. Right click on the file, go to Run As -> JUnit Test
   
   + The Banks unit tests: 
-	+ In the package mainCity.bank.test, you will find BankManagerTest.java, BankTellerTest.java, BankerTest.java, and BankCustomerTest.java. Right click on the file, go to Run As -> JUnit Test.	
+	+ In the package mainCity.bank.test, you will find BankManagerTest.java, BankTellerTest.java, BankerTest.java, . Right click on the file, go to Run As -> JUnit Test.	
 
 ## THINGS WE KNOW DON'T WORK / GENERAL NOTES ABOUT OUR V1 SUBMISSION
   + Some of our PersonAgents who take on jobs in certain restaurants will not be able to properly go off-duty after they end their shift. We figured out a way to do this successfully, but it hasn't been implemented everywhere due to time constraints
@@ -77,4 +77,5 @@ SimCity201 Project Repository for CS 201 students
   + When adding Persons though the "Create" panel on the CityGui, they also will have an occupation and will prioritize that over their hunger.
   + We do not have waiter breaks implemented to where they can leave the restaurant and do other things.
   + Occasionally in our restaurant animation windows, our waiters seem to get stuck when they go to pick up another customer. We couldn't find any debugging issues with the thread being locked, and sometimes the animation would pick up again, indicating it wasn't actually a semaphore issue but an animation issue.
+  + Sometimes the above issue can be unstuck/fixed when the whole window is minimized not on top
   + Some restaurants have yet to implement shared data waiters. 
