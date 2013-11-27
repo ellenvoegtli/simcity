@@ -79,13 +79,15 @@ public class CityPanel extends JPanel{
 	
 	
 	private void parseConfig() {
+	    int counter = 0;
+
 		try {
 		    FileInputStream fstream = new FileInputStream("config.txt");
 		    DataInputStream in = new DataInputStream(fstream);
 		    BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		    String strLine;
-	
 		    while ((strLine = br.readLine()) != null)   {
+		    	System.out.println(strLine);
 		    	if(!strLine.startsWith("-")) {
 				   	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
 				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
@@ -95,7 +97,7 @@ public class CityPanel extends JPanel{
 				   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
 				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
 				    String[] actionList = actions.split(",");
-
+				    ++counter;
 				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    	}
 		    }
@@ -103,8 +105,9 @@ public class CityPanel extends JPanel{
 		    in.close();
 		}
 		catch(Exception e) {
-			//System.err.println("Error: " + e.getMessage());
+			System.err.println("Error: " + e.getMessage());
 		}
+		System.out.println(counter);
 	}
 	
 	public void addPerson(String name, double c, boolean renter, String occupation, int sb, int se, String[] actions) {

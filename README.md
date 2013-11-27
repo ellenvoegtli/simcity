@@ -15,7 +15,13 @@ SimCity201 Project Repository for CS 201 students
 
 
 #### Marcus : 
-
+  + Created the PersonAgent as well as the base Role from which every other role derived from
+    1. Created all person AI decisions, priority making, animation, interacting with buildings, and settings roles active
+  + Created an algorithm to keep people from walking over buildings
+  + Created parser and function to populate people into the city on program run
+  + Helped implement card layout and bringing individual restaurant GUI's into the city
+  + Implemented shared data waiter
+  + Implemented functions for roles/workers to go off duty (with wages) based on city clock time
 
 #### Jefferson : 
 	+ Responsible for the Bank as well as integration/functionality of jeffersonRestaurant

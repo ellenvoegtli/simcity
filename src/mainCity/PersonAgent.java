@@ -464,7 +464,7 @@ public class PersonAgent extends Agent {
 			actions.add(new Action(ActionType.bankWithdraw,3));
 			stateChanged();
 		}
-		if(cash > 200 && !actionExists(ActionType.bankDeposit)){
+		if(cash > 300 && !actionExists(ActionType.bankDeposit)){
 
 			actions.add(new Action(ActionType.bankDeposit,3));
 			stateChanged();
