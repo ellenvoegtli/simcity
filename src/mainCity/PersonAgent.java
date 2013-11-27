@@ -895,13 +895,15 @@ public class PersonAgent extends Agent {
 	private void boardBus() {
 		///message the bus
 		for(int i=0; i<ContactList.stops.size(); i++){ 
-			for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
-				if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
-					ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
-					currentBus = ContactList.stops.get(i).currentBus; 
-					ContactList.stops.get(i).LeavingBusStop(this);
-					gui.DoGoInside();
-					gui.DoGoToLocationOnBus(destination);	
+			synchronized(ContactList.stops.get(i).waitingPeople){
+				for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
+					if(this == ContactList.stops.get(i).waitingPeople.get(j)){ 
+						ContactList.stops.get(i).currentBus.msgIWantToGetOnBus(this);
+						currentBus = ContactList.stops.get(i).currentBus; 
+						ContactList.stops.get(i).LeavingBusStop(this);
+						gui.DoGoInside();
+						gui.DoGoToLocationOnBus(destination);	
+					}
 				}
 			}
 		}
