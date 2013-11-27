@@ -254,6 +254,7 @@ public class EllenCustomerRole extends Role implements Customer{
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
 			//no action
+			setInactive();
 			return true;
 		}
 		return false;
