@@ -1045,7 +1045,7 @@ public class PersonAgent extends Agent {
 	}
 
 	//Lower the priority level, the more "important" it is (it'll get done faster)
-	private enum ActionState {created, inProgress, done}
+	public enum ActionState {created, inProgress, done}
 	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
 	public class Action implements Comparable<Object> {
 		public ActionState state;
