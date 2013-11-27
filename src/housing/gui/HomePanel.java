@@ -11,8 +11,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
-import mainCity.restaurants.enaRestaurant.gui.EnaWaiterGui;
 import role.Role;
 import housing.LandlordRole;
 import housing.OccupantRole;
@@ -123,9 +121,9 @@ public class HomePanel extends JPanel
             house.setOccupant(occupant);
     		occupantGui = new OccupantGui(occupant, animation); 
     		System.out.println("new gui created");
+    		animation.addGui(occupantGui);
     		occupant.setGui(occupantGui);
     		System.out.println("gui set");
-    		animation.addGui(occupantGui);
     		occupantGui.setHungry();    
     		System.out.println("Occupant has been returned home");
 
