@@ -2,3 +2,50 @@ team24
 ======
 
 SimCity201 Project Repository for CS 201 students
+
+## WORK DONE
+
+#### Ellen :
+  + Responsible for the Market (and the integration/functionality of my own restaurant, EllenRestaurant)
+  + Market is integrated with each restaurant. All market roles have been unit tested (although I need to run more tests on EmployeeRole. There were specific issues with getting its other test scenarios to run)
+  + Market has scenarios for handling verification issues (of the amount a customer or business got charged, or the change they received), which have been tested in the unit tests
+  + Also responsible for: Market gui, setting up all Trace/AlertLog files (with given CP code) and CityGui trace panels, although not necessarily adding tags; setting up most of the CityGui Create/Control panel display and functionality
+
+#### Ena :
+
+
+#### Marcus : 
+
+
+#### Jefferson : 
+
+
+#### David :
+
+
+
+## HOW TO RUN OUR SYSTEM
+  + Using Eclipse : 
+  + To run our code, clone our reposity from github into a directory, then import the project into Eclipse:
+  + Click File -> New -> Other; Choose "Java Project from Existing Ant Buildfile"
+  + Click Browse, then find the directory of the repository you cloned; select its "build.xml" file
+  + Check the "Link to the buildfile in the file system" box; press Finish
+  + In the mainCity.gui package, select "CityGui.java" in the Package Explorer and click Run as a Java Application
+
+  + To run unit tests:
+  	+ Add JUnit to the build path
+  		+ Project -> Properties -> Java Build Path -> Libraries -> Add Library -> JUnit -> JUnit 4
+  + The Market unit tests: 
+  	+ In the package mainCity.market.test, you will find: GreeterTest.java, CashierTest.java, EmployeeTest.java, CustomerTest.java, and DeliveryTest.java. Open any of these and click run as a JUnit Test.
+
+
+  +
+
+
+## THINGS WE KNOW DON'T WORK / GENERAL NOTES ABOUT OUR V1 SUBMISSION
+  + Some of our PersonAgents who take on jobs in certain restaurants will not be able to properly go off-duty after they end their shift. We figured out a way to do this successfully, but it hasn't been implemented everywhere due to time constraints
+  + Not all of our trace panels (buildings) have been populated with their AlertTags, due to time constraints 
+  + An FYI: the way our hard-coded PersonAgents (from the configuration file) operate, their work duties are prioritized over their hunger, so even though you may tell them to get hungry, they won't act upon that until after their shift.
+  + When adding Persons though the "Create" panel on the CityGui, they also will have an occupation and will prioritize that over their hunger.
+  + We do not have waiter breaks implemented to where they can leave the restaurant and do other things.
+  + Occasionally in our restaurant animation windows, our waiters seem to get stuck when they go to pick up another customer. We couldn't find any debugging issues with the thread being locked, and sometimes the animation would pick up again, indicating it wasn't actually a semaphore issue but an animation issue.

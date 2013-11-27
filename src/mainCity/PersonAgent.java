@@ -257,7 +257,7 @@ public class PersonAgent extends Agent {
 					
 					roles.get(currentAction.type).setActive();
 				}
-
+								
 				if(currentAction != null && currentAction.type == ActionType.work) {
 					currentAction.state = ActionState.done;
 				}
@@ -681,13 +681,11 @@ public class PersonAgent extends Agent {
 					ContactList.getInstance().getHome().handleRoleGui(or);
 					roles.put(action, or);
 					break;
-
 				case maintenance:
 					LandlordRole lr = new LandlordRole(this);
 					ContactList.getInstance().getHome().handleRoleGui(lr);
 					roles.put(action, lr);
 					break;
-					
 				case bankWithdraw:
 				case bankDeposit:
 				case bankLoan:

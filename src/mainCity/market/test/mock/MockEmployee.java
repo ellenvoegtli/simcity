@@ -32,6 +32,12 @@ public class MockEmployee extends Mock implements Employee {
 	public void msgAtStation(){
 		
 	}
+	public void setHomeX(int x){
+		
+	}
+	public void setHomeY(int y){
+		
+	}
 	
 	@Override
 	public void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory){

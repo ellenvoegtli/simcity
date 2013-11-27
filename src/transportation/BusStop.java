@@ -5,6 +5,8 @@ import java.util.*;
 import transportation.gui.BusGui;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.CityLocation;
+import mainCity.test.LoggedEvent;
+import mainCity.test.EventLog;
 
 public class BusStop {
 	//List of people waiting at the bus stop
@@ -15,6 +17,8 @@ public class BusStop {
 	
 	public BusAgent currentBus;
 	
+	public EventLog log = new EventLog();
+	
 	public BusStop(int xLoc, int yLoc, CityLocation cl){ 
 		xLocation = xLoc; 
 		yLocation = yLoc; 
@@ -22,17 +26,19 @@ public class BusStop {
 	}
 	
 	public void ArrivedAtBusStop(PersonAgent p) { 
+		log.add(new LoggedEvent(p.getName() + "arrived at stop near " + stopLocation));
 		waitingPeople.add(p);
 		System.out.println(waitingPeople.get(0) + " has arrived at bus stop near " + stopLocation);
 	}
 	
 	public void LeavingBusStop(PersonAgent p) {
+		log.add(new LoggedEvent(p.getName() + "leaving stop near " + stopLocation));
 		waitingPeople.remove(p); 
 		System.out.println(p.getName() + "Leaving Bus Stop at " + stopLocation); 
 	}
 	
 	public void BusHasArrived(BusAgent b, int capacity) { 
-		
+		log.add(new LoggedEvent("Bus has arrived"));
 		currentBus = b;
 		System.out.println("Bus has arrived " + b);
 		

@@ -36,6 +36,7 @@ public class MarketEmployeeRole extends Role implements Employee {
 	private MarketMenu marketMenu = new MarketMenu();
 	
 	public EmployeeGuiInterface employeeGui = null;
+	private int homeX, homeY;
 	
 	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
 	public List<MyBusiness> myBusinesses = new ArrayList<MyBusiness>();
@@ -66,6 +67,12 @@ public class MarketEmployeeRole extends Role implements Employee {
 	}
 	public void setDeliveryMan(DeliveryMan d){
 		this.deliveryMan = d;
+	}
+	public void setHomeX(int x){
+		homeX = x;
+	}
+	public void setHomeY(int y){
+		homeY = y;
 	}
 	public Greeter getHost(){
 		return this.host;
@@ -316,8 +323,8 @@ public class MarketEmployeeRole extends Role implements Employee {
 			e.printStackTrace();
 		}
 		
-		mc.c.msgFollowMe(this, this.getGui().homeX, this.getGui().homeY - 17);	//****don't access these directly
-		employeeGui.DoGoToStation();		//sometimes doesn't go all the way to the station before going to the cashier...
+		mc.c.msgFollowMe(this, homeX, homeY - 17);
+		employeeGui.DoGoToStation();		//sometimes doesn't go all the way to the station before going to the cashier
 		try {
 			atStation.acquire();
 		} catch (InterruptedException e) {
