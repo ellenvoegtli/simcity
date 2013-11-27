@@ -14,7 +14,7 @@ public class OccupantGui implements Gui
 	private Occupant person;
 	private boolean isPresent = true;
 	private boolean isHungry = false;
-
+	private HomeAnimationPanel animation;
 	
 	//HomeGui gui;
 	
@@ -28,10 +28,10 @@ public class OccupantGui implements Gui
 	
 	
 	
-	public OccupantGui(Occupant occupant) 
+	public OccupantGui(Occupant occupant, HomeAnimationPanel h) 
 	{
-		System.out.println("^^^^^^^^^^^^^^^^^^");
-		person = occupant;
+		this.person = occupant;
+		this.animation = h;
 		xPos = 10;
 		yPos = 35;
 		xDestination = 40;
@@ -55,7 +55,8 @@ public class OccupantGui implements Gui
 		
 		if ((xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) || (xDestination == 70 && yDestination == 100) ||
 				(xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55)	)
-			{
+		{
+			System.out.println("at destination set to true!");
 					atDestination = true;
 			}
 
@@ -67,8 +68,8 @@ public class OccupantGui implements Gui
 				//gui.setCustomerEnabled(person);
 			}
 			command=Command.noCommand;
-			if (((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 50 && yDestination ==150) || (xDestination == 70 && yDestination == 100) ) 
-					|| (xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55) 
+			if ((((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 50 && yDestination ==150) || (xDestination == 70 && yDestination == 100) ) 
+					|| (xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55) )
 																																								&& atDestination == true)
 			{
 				atDestination = false;				
@@ -82,6 +83,8 @@ public class OccupantGui implements Gui
 	
 	public void draw(Graphics2D g) 
 	{
+		
+		System.err.println("painting");
 		g.setColor(Color.GREEN);
 		g.fillRect(xPos, yPos, 10, 10);
 		g.setColor(Color.BLACK);

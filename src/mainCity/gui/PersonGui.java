@@ -69,6 +69,10 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		
 	}
 
+	public PersonGui(PersonAgent p) {
+			this.agent = p;
+	}
+
 	public void updatePosition() {
 		if (xPos < xDestination)
 			xPos++;

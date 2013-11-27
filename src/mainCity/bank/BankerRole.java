@@ -18,22 +18,22 @@ import agent.Agent;
 public class BankerRole extends Role implements WorkerRole, Banker {
 	
 	
-	BankAccounts ba;
+	public BankAccounts ba;
 	String name;
-	myClient mc;
+	public myClient mc;
 	BankerGui bGui;
 	private PersonAgent p;
 	public enum ClientState{none,wantsLoan, wantsAccount,done}
 	private boolean onDuty;
 	
 	public class myClient{
-		PersonAgent p;
-	    BankCustomer bc;
+		public PersonAgent p;
+	    public BankCustomer bc;
 	    String mcname;
 	    double accountnumber;
 	    double amount;
 	    
-	    ClientState cs=ClientState.none;
+	    public ClientState cs=ClientState.none;
 	}
 	
 	
@@ -98,6 +98,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	public void msgIWantNewAccount(PersonAgent p, BankCustomer b, String name, double amnt){
 		log("Recieved msgIWantNewAccount from customer");
 		mc=new myClient();
+		mc.mcname=name;
 		mc.p=p;
 		mc.bc=b;
 		mc.amount=amnt;
