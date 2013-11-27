@@ -1,10 +1,13 @@
 package housing.HouseTest.HouseMock;
 
 import mainCity.market.test.mock.LoggedEvent;
+import housing.Interfaces.Occupant;
 import housing.Interfaces.OccupantGuiInterface;
 import housing.Interfaces.landLord;
 
 public class MockOccupantGui extends Mock implements OccupantGuiInterface{
+
+	public Occupant occupant;
 
 	//LandLord landLord;
 	public MockOccupantGui(String name) {
