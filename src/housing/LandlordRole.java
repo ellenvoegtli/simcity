@@ -2,6 +2,8 @@ package housing;
 
 import housing.personHome.Appliance;
 import housing.personHome;
+import housing.HouseTest.HouseMock.MockLandLordGui;
+import housing.Interfaces.LanLordGuiInterface;
 import housing.Interfaces.Occupant;
 import housing.Interfaces.landLord;
 import housing.OccupantRole.fixState;
@@ -33,12 +35,12 @@ public class LandlordRole extends Role implements landLord
 
 	int id;
 	List<Property> properties = new ArrayList<Property>();
-	Map<OccupantRole, List<String>> ToDo = new HashMap<OccupantRole, List<String>>(); 
-	LandlordGui gui;
+	Map<Occupant, List<String>> ToDo = new HashMap<Occupant, List<String>>(); 
+	LanLordGuiInterface gui;
 	private Semaphore atDest = new Semaphore(0,true);
 	private List <String> fixJobs = new ArrayList<String>(); 
-
-	//private OccupantRole occupant;
+	public List<Occupant> renters = new ArrayList<Occupant>();
+	private Occupant occupant;
 
 	
 	
@@ -47,8 +49,7 @@ public class LandlordRole extends Role implements landLord
 	 * @see housing.landLord#log(java.lang.String)
 	 */
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.OCCUPANT, this.getName(), s);
 	}
 
 	
@@ -64,18 +65,12 @@ public class LandlordRole extends Role implements landLord
 	 * @see housing.landLord#msgPleaseFix(housing.OccupantRole, java.lang.String)
 	 */
 	@Override
-	public void msgPleaseFix(OccupantRole occp, String appName)
+	public void msgPleaseFix(Occupant occp, String appName)
 	{
-		for(Property pr: properties)
-		{
-			if(pr.renter == occp )	
-				
-			{
-				fixJobs.add(appName);
-				ToDo.put(occp, fixJobs);
-			}
-
-		}
+		
+				getFixJobs().add(appName);
+				ToDo.put(occp, getFixJobs());
+		
 	}
 	//SCHEDULER
 	/* (non-Javadoc)
@@ -113,13 +108,13 @@ public class LandlordRole extends Role implements landLord
 			
 				for (String a : ToDo.get(occ))
 				{
-				  for (Appliance appl : occ.getHome().AAppliances)
+				  for (Appliance appl : occ.getHome().getAAList())
 				  {
 					  if(appl.appliance.equals(a))
 					  {
 						xPos = appl.getXPos();
 						yPos = appl.getYPos();
-						appl.working = true;
+						appl.setWorking(true);
 					
 					  }
 				   }
@@ -163,6 +158,12 @@ public class LandlordRole extends Role implements landLord
 	}
 	
 	
+	
+	public Map<Occupant, List<String>> getToDo()
+	{
+		return ToDo;
+	}
+	
 	public class Property
 	{
 		personHome house;
@@ -186,22 +187,31 @@ public class LandlordRole extends Role implements landLord
 	}
 
 
-	public void setGui(LandlordGui landLordGui) 
+	public void setGui(LanLordGuiInterface landlordGui) 
 	{
-			this.gui = landLordGui;		
+			this.gui = landlordGui;		
 	}
 
 
 	public void setRenter(Occupant occupant) 
 	{
-		//this.occupant = occupant;
-		//renters.add(occupant);
+		this.occupant = occupant;
+		renters.add( occupant);
 	}
 
 
-	@Override
-	public void setRenter(OccupantRole occupant) {
-		// TODO Auto-generated method stub
-		
+	public List <String> getFixJobs() {
+		return fixJobs;
 	}
+
+
+	public void setFixJobs(List <String> fixJobs) {
+		this.fixJobs = fixJobs;
+	}
+
+
+	
+
+
+
 }

@@ -8,6 +8,12 @@ import java.util.List;
 public interface Occupant {
 
 
+	//public personHome home;
+
+	//Object needsWork = null;
+
+	List<String> needsWork = null;
+
 	public abstract void msgAtDestination();
 
 	public abstract void gotHungry();
@@ -20,6 +26,8 @@ public interface Occupant {
 
 	public abstract void msgLeaveHome();
 
-	public abstract Object getHome();
+	public abstract personHome getHome();
+
+	
 
 }

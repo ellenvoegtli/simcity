@@ -1,5 +1,7 @@
 package housing.HouseTest.HouseMock;
 
+import mainCity.market.test.mock.EventLog;
+
 /**
  * This is the base class for all mocks.
  *
@@ -8,6 +10,7 @@ package housing.HouseTest.HouseMock;
  */
 public class Mock {
 	private String name;
+    public EventLog log = new EventLog();
 
 	public Mock(String name) {
 		this.name = name;

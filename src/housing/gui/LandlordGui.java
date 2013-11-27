@@ -13,7 +13,7 @@ public class LandlordGui implements Gui {
 	
 	public List<OccupantRole>  Renters;
 	private boolean isPresent = true;
-
+	HomeAnimationPanel animation;
 	
 	HomeGui gui;
 	landLord landlord;
@@ -26,9 +26,10 @@ public class LandlordGui implements Gui {
 	private Command command=Command.noCommand;
 	//private OccupantRole renter;
 	
-	public LandlordGui(landLord landLord) 
+	public LandlordGui(landLord landLord, HomeAnimationPanel h) 
 	{
 		this.landlord = landLord;
+		this.animation = h;
 		xPos = 400;
 		yPos = 300;
 		xDestination = 400;

@@ -4,6 +4,7 @@ package housing;
 //import housing.houseAgent.kitchenState;
 //import housing.houseAgent.type;
 
+import housing.Interfaces.Occupant;
 import housing.Interfaces.landLord;
 
 import java.util.ArrayList;
@@ -18,20 +19,15 @@ import java.util.Map;
  */
 public class personHome 
 {
-	OccupantRole occupant;
+	Occupant occupant;
 	landLord owner;
 	String cookingMeal;
 	Map<String, Integer> FoodSupply = new HashMap<String, Integer>();
-	enum kitchenState {pending, checkingSupplies, stocked, reStocked, cooking, done};
-	kitchenState kState = kitchenState.pending;
-	enum type {apartment, house};
-	type homeType;
 	public List <Appliance> Appliances = new ArrayList<Appliance>();
 	public List <Appliance> AAppliances = new ArrayList<Appliance>();
 
 	List<String> needFood = new ArrayList<String>();
-	
-	public personHome(OccupantRole occ)
+	public personHome(Occupant occ)
 	{
 		super();
 		//homeType = home;
@@ -83,7 +79,7 @@ public class personHome
 		for(Appliance a : Appliances )
 		{
 			if(a.appliance.equals(appln))
-			a.working = false;
+			a.setWorking(false);
 		}
 		
 	}
@@ -102,11 +98,14 @@ public class personHome
 			
 			needFood.add(meal);
 			occupant.msgNeedFood(needFood);
+			System.out.println("NEEDS TO GO TO MARKET TO BY FOOD");
 			
 		}
 		else
 		{
 			occupant.msgCookFood(meal);
+			System.out.println("HAS FOOD, WILL COOK A MEAL");
+
 			if(FoodSupply.containsKey(meal))
 			{
 				int amt = FoodSupply.get(meal);
@@ -121,7 +120,7 @@ public class personHome
 		
 		for (Appliance appl : Appliances)
 		{
-			if(appl.working == false)
+			if(appl.isWorking() == false)
 			{
 				synchronized(occupant.needsWork)
 				{occupant.needsWork.add(appl.appliance);}
@@ -145,10 +144,22 @@ public class personHome
 		}
 	}
 	
-	public void setOccupant(OccupantRole oc)
+	public void setOccupant(Occupant oc)
 	{
 		this.occupant = oc;
 	}
+	
+	
+	public List<Appliance> getAList()
+	{
+		return Appliances;
+	}
+	
+	public List<Appliance> getAAList()
+	{
+		return AAppliances;
+	}
+	
 
 //Inner class for the different appliances in the kitchen
 	
@@ -158,7 +169,7 @@ public class personHome
 		//DATA
 		
 			String appliance;
-			boolean working;
+			private boolean working;
 			boolean apt;
 			int yPos;
 			int xPos;
@@ -167,7 +178,7 @@ public class personHome
 			public Appliance (String nm, boolean wrk, boolean apartment)
 			{
 				appliance = nm; 
-				working = wrk;
+				setWorking(wrk);
 				apt = apartment;
 			
 			if(!apartment)
@@ -222,6 +233,10 @@ public class personHome
 			}
 				
 			}
+			public String getName()
+			{
+				return appliance;
+			}
 			
 			public int getXPos()
 			{
@@ -230,6 +245,12 @@ public class personHome
 			public int getYPos()
 			{
 				return yPos;
+			}
+			public boolean isWorking() {
+				return working;
+			}
+			public void setWorking(boolean working) {
+				this.working = working;
 			}
 			
 			
