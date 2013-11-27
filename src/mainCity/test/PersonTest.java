@@ -6,10 +6,11 @@ import junit.framework.*;
 import role.davidRestaurant.*;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
+import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 
-//TODO test with every type of agent, test priority queue, possible gui?, customers
+//TODO test with every type of agent, test priority queue, customers
 
 public class PersonTest extends TestCase {
 	PersonAgent person;
@@ -1293,4 +1294,160 @@ public class PersonTest extends TestCase {
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());	
 
 	}//End EllenCustomer
+	
+	public void testTwentySixMarketCashierWork() {
+		person.updateOccupation("marketCashier", -1, -1);
+		MarketCashierRole cashier = null;
+		assertNull("MarketCashierRole should be null. It isn't", cashier);
+		
+		cashier = new MarketCashierRole(person, person.getName());
+		assertEquals("MarketCashierRole should have current person as holder. It's not", cashier.getPerson(), person);
+		//Nothing right now
+		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
+		person.addRole(ActionType.work, cashier);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		
+		//Telling Person to go to work
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
+		person.msgGoToWork();
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+		assertNull("Person's current action should be null.", person.getCurrentAction());		
+		
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());		
+		assertEquals("Person's current action should be work.", person.getCurrentAction().type, ActionType.work);
+		
+		//Arriving at work
+		person.setEvent(PersonEvent.arrivedAtWork);
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertEquals("MockPersonGui should have 1 event log after the goInside call. Instead, the MockCustomer's event log reads: " + gui.getLog().toString(), 1, gui.getLog().size());
+
+		//Is Working
+		assertTrue("Person's MarketCashierRole should be active. It isn't", cashier.isActive());
+		assertEquals("Person's state should be working. It isn't", PersonState.working, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		
+		//Going off duty
+		cashier.setInactive();
+		
+		assertFalse("Person's MarketCashierRole should be inactive. It isn't", cashier.isActive());
+		assertEquals("Person's state should be normal. It isn't", PersonState.normal, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		
+		//Finished work
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertNull("Person's current action should be null. It wasn't", person.getCurrentAction());		
+
+		//Going home
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());	
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertEquals("Person's current action should be home.", person.getCurrentAction().type, ActionType.home);		
+	}//End marketCashier
+	
+	public void testTwentySevenMarketEmployeeWork() {
+		person.updateOccupation("marketEmployee", -1, -1);
+		MarketEmployeeRole employee = null;
+		assertNull("MarketEmployeeRole should be null. It isn't", employee);
+		
+		employee = new MarketEmployeeRole(person, person.getName());
+		assertEquals("MarketEmployeeRole should have current person as holder. It's not", employee.getPerson(), person);
+		//Nothing right now
+		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
+		person.addRole(ActionType.work, employee);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		
+		//Telling Person to go to work
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
+		person.msgGoToWork();
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+		assertNull("Person's current action should be null.", person.getCurrentAction());		
+		
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());		
+		assertEquals("Person's current action should be work.", person.getCurrentAction().type, ActionType.work);
+		
+		//Arriving at work
+		person.setEvent(PersonEvent.arrivedAtWork);
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertEquals("MockPersonGui should have 1 event log after the goInside call. Instead, the MockCustomer's event log reads: " + gui.getLog().toString(), 1, gui.getLog().size());
+
+		//Is Working
+		assertTrue("Person's MarketEmployeeRole should be active. It isn't", employee.isActive());
+		assertEquals("Person's state should be working. It isn't", PersonState.working, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		
+		//Going off duty
+		employee.setInactive();
+		
+		assertFalse("Person's MarketEmployeeRole should be inactive. It isn't", employee.isActive());
+		assertEquals("Person's state should be normal. It isn't", PersonState.normal, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		
+		//Finished work
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertNull("Person's current action should be null. It wasn't", person.getCurrentAction());		
+
+		//Going home
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());	
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertEquals("Person's current action should be home.", person.getCurrentAction().type, ActionType.home);		
+	}//End marketEmployee
+	
+	public void testTwentyEightMarketGreeterWork() {
+		person.updateOccupation("marketGreeter", -1, -1);
+		MarketGreeterRole greeter = null;
+		assertNull("MarketGreeterRole should be null. It isn't", greeter);
+		
+		greeter = new MarketGreeterRole(person, person.getName());
+		assertEquals("MarketGreeterRole should have current person as holder. It's not", greeter.getPerson(), person);
+		//Nothing right now
+		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
+		person.addRole(ActionType.work, greeter);
+		assertEquals("PersonAgent should have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		
+		//Telling Person to go to work
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
+		person.msgGoToWork();
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+		assertNull("Person's current action should be null.", person.getCurrentAction());		
+		
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());		
+		assertEquals("Person's current action should be work.", person.getCurrentAction().type, ActionType.work);
+		
+		//Arriving at work
+		person.setEvent(PersonEvent.arrivedAtWork);
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertEquals("MockPersonGui should have 1 event log after the goInside call. Instead, the MockCustomer's event log reads: " + gui.getLog().toString(), 1, gui.getLog().size());
+
+		//Is Working
+		assertTrue("Person's MarketGreeterRole should be active. It isn't", greeter.isActive());
+		assertEquals("Person's state should be working. It isn't", PersonState.working, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		
+		//Going off duty
+		greeter.setInactive();
+		
+		assertFalse("Person's MarketGreeterRole should be inactive. It isn't", greeter.isActive());
+		assertEquals("Person's state should be normal. It isn't", PersonState.normal, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		
+		//Finished work
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertNull("Person's current action should be null. It wasn't", person.getCurrentAction());		
+
+		//Going home
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());	
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertEquals("Person's current action should be home.", person.getCurrentAction().type, ActionType.home);		
+	}//End marketGreeter
 }

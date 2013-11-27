@@ -24,10 +24,13 @@ public class MockPersonGui extends Mock implements PersonGuiInterface{
 	}
 	
 	public void DoGoInside() {
+		System.out.println("Gui told to go inside by Person");
 		log.add(new LoggedEvent("Gui told to go inside by Person"));
 	}
 	
 	public void DoGoOutside() {
+		System.out.println("Leaving work");
+		log.add(new LoggedEvent("Gui told to go outside by Person"));
 	}
 
 	public CityLocation findNearestStop() {
