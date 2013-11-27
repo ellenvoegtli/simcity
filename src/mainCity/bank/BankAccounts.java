@@ -12,12 +12,12 @@ public class BankAccounts {
 	
 	public class BankAccount{
 		
-	    String name;
-	    int creditScore;
-	    double balance;
-	    double debt;
-	    double accountNumber;
-	    PersonAgent p;
+	    public String name;
+	    public int creditScore;
+	    public double balance;
+	    public double debt;
+	    public double accountNumber;
+	    public PersonAgent p;
 	    
 	    public BankAccount(String n, double a, PersonAgent pa, double newaccnum){
 	    	name=n;
