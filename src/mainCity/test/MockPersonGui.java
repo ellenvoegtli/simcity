@@ -29,7 +29,7 @@ public class MockPersonGui extends Mock implements PersonGuiInterface{
 	}
 	
 	public void DoGoOutside() {
-		System.out.println("Leaving work");
+		System.out.println("Leaving building and going outside");
 		log.add(new LoggedEvent("Gui told to go outside by Person"));
 	}
 
