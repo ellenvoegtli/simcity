@@ -12,15 +12,15 @@ public class MockPersonGui extends Mock implements PersonGuiInterface{
 
 
 	public void DoGoToLocation(PersonAgent.CityLocation destination) {
-		
+		log.add(new LoggedEvent("Gui told to go to " + destination));
 	}
 	
 	public void DoGoToStop() {
-			
+		log.add(new LoggedEvent("Gui told to go to bus stop"));
 	}
 	
 	public void DoGoToLocationOnBus(PersonAgent.CityLocation destination) { 
-			
+		log.add(new LoggedEvent("Gui told to go to bus stop next to " + destination));
 	}
 	
 	public void DoGoInside() {

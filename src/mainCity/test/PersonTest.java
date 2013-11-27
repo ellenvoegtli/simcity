@@ -1,5 +1,6 @@
 package mainCity.test;
 
+import housing.*;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.*;
 import junit.framework.*;
@@ -11,7 +12,6 @@ import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 
-//TODO test with every type of agent, test priority queue, customers
 
 public class PersonTest extends TestCase {
 	PersonAgent person;
@@ -1814,4 +1814,86 @@ public class PersonTest extends TestCase {
 		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());	
 		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
 	}//End BankCustomerWithdraw
+	
+	public void testThirtySixPersonHome() {
+		OccupantRole occupant = null;
+		assertNull("OccupantRole should be null. It isn't", occupant);
+		
+		occupant = new OccupantRole(person, person.getName());
+		assertEquals("OccupantRole should have current person as holder. It's not", occupant.getPerson(), person);
+		//Nothing right now
+		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
+		assertEquals("PersonAgent should have no roles in its list of roles. It doesn't", person.getRoles().size(), 0);
+		person.addRole(ActionType.home, occupant);
+		assertEquals("PersonAgent should have now have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		
+		//Telling Person to go home
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
+		person.msgGoHome();
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+		assertNull("Person's current action should be null.", person.getCurrentAction());		
+		
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());	
+		assertEquals("Person's current action should be going to home.", person.getCurrentAction().type, ActionType.home);
+		
+		//Arriving at market
+		person.setEvent(PersonEvent.arrivedAtHome);
+		person.setDestination(CityLocation.home);
+
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+
+		//Home
+		assertTrue("Person's OccupantRole should be active. It isn't", occupant.isActive());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		assertEquals("Person's currentAction should be done", person.getCurrentAction().state, ActionState.done);		
+		
+		//Leaving
+		occupant.setInactive();
+		
+		assertFalse("Person's OccupantRole should be inactive. It isn't", occupant.isActive());
+		assertEquals("Person's state should be normal. It isn't", PersonState.normal, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+	}//End OccupantRole
+	
+	public void testThirtySeventLandlordRole() {
+		LandlordRole landlord = null;
+		assertNull("LandlordRole should be null. It isn't", landlord);
+		
+		landlord = new LandlordRole(person);
+		assertEquals("LandlordRole should have current person as holder. It's not", landlord.getPerson(), person);
+		//Nothing right now
+		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
+		assertEquals("PersonAgent should have no roles in its list of roles. It doesn't", person.getRoles().size(), 0);
+		person.addRole(ActionType.home, landlord);
+		assertEquals("PersonAgent should have now have 1 role in its list of roles. It doesn't", person.getRoles().size(), 1);
+		
+		//Telling Person to go home
+		assertTrue("Person's action list should be empty. It isn't.", person.getActions().isEmpty());		
+		person.msgGoHome();
+		assertEquals("Person's action list should have 1 action in it. It doesn't.", person.getActions().size(), 1);		
+		assertNull("Person's current action should be null.", person.getCurrentAction());		
+		
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());	
+		assertEquals("Person's current action should be going to home.", person.getCurrentAction().type, ActionType.home);
+		
+		//Arriving at market
+		person.setEvent(PersonEvent.arrivedAtHome);
+		person.setDestination(CityLocation.home);
+
+		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
+
+		//Home
+		assertTrue("Person's LandlordRole should be active. It isn't", landlord.isActive());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+		assertEquals("Person's currentAction should be done", person.getCurrentAction().state, ActionState.done);		
+		
+		//Leaving
+		landlord.setInactive();
+		
+		assertFalse("Person's LandlordRole should be inactive. It isn't", landlord.isActive());
+		assertEquals("Person's state should be normal. It isn't", PersonState.normal, person.getState());
+		assertEquals("Person's role map should still have 1 role. It doesn't.", person.getRoles().size(), 1);		
+	}//End LandlordRole
 }
