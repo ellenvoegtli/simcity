@@ -196,7 +196,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 				status = CookStatus.lowFood;
 			}
 			
-			output("Cooking order: " + o.choice + " with " + f.amount + " left");
+			output("Cooking order: Grilled cheese with " + o.choice + " with " + f.amount + " left");
 			o.grill = (++grill) % 4;
 			cookGui.DoGoToGrill(o.grill);
 			timer.schedule(new CookTimer(o), foods.get(o.choice).cookTime);
