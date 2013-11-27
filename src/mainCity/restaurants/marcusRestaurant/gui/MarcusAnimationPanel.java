@@ -36,7 +36,7 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
         bufferSize = this.getSize();
         setLayout(null);
         
-    	Timer timer = new Timer(100, this );
+    	Timer timer = new Timer(20, this );
     	timer.start();
     }
 
@@ -69,7 +69,6 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
 
         for(Gui gui : guis) {
             if (gui.isPresent()) {
-                gui.updatePosition();
                 gui.updatePosition();
             }
         }
