@@ -43,6 +43,7 @@ public class BusTest extends TestCase{
 	public void testOnePersonOneBus(){ 
 		//Preconditions
 		assertEquals("Bus should have 0 passengers on it. It doesn't.", bus.Passengers.size(), 0); 
+		assertEquals("Person should have an empty event log. It doesn't.", person.log.size(), 0);
 		assertEquals("BusAgent should have an empty event log before Bus' DropOffAndLoadPassengers() is called. Instead the Bus' event log reads: "
 						+ bus.log.toString(), 0, bus.log.size());
 		
@@ -90,6 +91,9 @@ public class BusTest extends TestCase{
 	public void testTwoPeopleOneBus() { 
 		//Preconditions
 		assertEquals("Bus should have 0 passengers on it. It doesn't.", bus.Passengers.size(), 0); 
+
+		assertEquals("Person should have an empty event log. It doesn't", person.log.size(), 0);
+		assertEquals("Person2 should have an empty event log. It doesn't", person2.log.size(), 0);
 		assertEquals("BusAgent should have an empty event log before Bus' DropOffAndLoadPassengers() is called. Instead the Bus' event log reads: "
 						+ bus.log.toString(), 0, bus.log.size());
 		
@@ -150,7 +154,9 @@ public class BusTest extends TestCase{
 	public void testTwoPeopleTwoBuses() { 
 		//Preconditions
 		assertEquals("Bus should have 0 passengers on it. It doesn't.", bus.Passengers.size(), 0); 
-		
+
+		assertEquals("Person should have an empty event log. It doesn't", person.log.size(), 0);
+		assertEquals("Person2 should have an empty event log. It doesn't", person2.log.size(), 0);
 		assertEquals("Bus2 should have 0 passengers on it. It doesn't.", bus2.Passengers.size(), 0); 
 		
 		assertEquals("Bus should have an empty event log before Bus' DropOffAndLoadPassengers() is called. Instead Bus' event log reads: "
@@ -234,11 +240,74 @@ public class BusTest extends TestCase{
 	public void testBusStop() { 
 		//Preconditions
 		assertEquals("BusStop should have 0 waitingPeople. It doesn't.", busStop.waitingPeople.size(), 0); 
+		assertEquals("Person should have an empty event log. It doesn't", person.log.size(), 0);
 		assertEquals("BusStop should have an empty event log. Instead the Bus' event log reads: "
 						+ busStop.log.toString(), 0, busStop.log.size());
 		
 		busStop.ArrivedAtBusStop(person);
 		
 		assertEquals("BusStop should have 1 waitingPerson. It doesn't.", busStop.waitingPeople.size(), 1);
+		
+		assertTrue("After one person gets to the stop, the last logged event should be TestPerson arrived at stop near home. Instead it says " 
+						+ busStop.log.getLastLoggedEvent().toString(), busStop.log.containsString("TestPerson arrived at stop near home"));
+		
+		busStop.BusHasArrived(bus, 10); 
+		
+		assertEquals("Person log should have 1 event in it. It doesn't", person.log.size(), 1);
+		
+		assertTrue("The last logged event should be msgBusHasArrived received. It instead reads " 
+						+ person.log.getLastLoggedEvent().toString(), person.log.containsString("msgBusHasArrived received"));
+		
+		busStop.LeavingBusStop(person); 
+		
+		assertEquals("Bus Stop should have 0 people waiting. It doesn't", busStop.waitingPeople.size(), 0);
+		
+		assertTrue("After the person leaves the stop, the last logged event should be TestPerson leaving stop near home. instead it reads "
+						+ busStop.log.getLastLoggedEvent().toString(), busStop.log.containsString("TestPerson leaving stop near home"));
+	}
+	
+	public void testTwoPeopleAtBusStop() { 
+		//preconditions
+		assertEquals("BusStop should have 0 waitingPeople. It doesn't.", busStop.waitingPeople.size(), 0); 
+		assertEquals("Person should have an empty event log. It doesn't", person.log.size(), 0);
+		assertEquals("Person2 should have an empty event log. It doesn't", person2.log.size(), 0);
+		assertEquals("BusStop should have an empty event log. Instead the Bus' event log reads: "
+						+ busStop.log.toString(), 0, busStop.log.size());
+		
+		busStop.ArrivedAtBusStop(person);
+		busStop.ArrivedAtBusStop(person2);
+		
+		assertEquals("BusStop should have 2 waitingPerson. It doesn't.", busStop.waitingPeople.size(), 2);
+		
+		assertTrue("After two people gets to the stop, the last logged event should be TestPerson2 arrived at stop near home. Instead it says " 
+						+ busStop.log.getLastLoggedEvent().toString(), busStop.log.containsString("TestPerson2 arrived at stop near home"));
+		
+		assertEquals("busStop should have two events logged. It doesn't", busStop.log.size(), 2);
+		
+		busStop.BusHasArrived(bus, 10); 
+		
+		assertEquals("Person log should have 1 event in it. It doesn't", person.log.size(), 1);
+		
+		assertEquals("Person2 log should have 1 event in it. It doesn't", person2.log.size(), 1);
+		
+		assertTrue("The last logged event for person 1 should be msgBusHasArrived received. It instead reads " 
+						+ person.log.getLastLoggedEvent().toString(), person.log.containsString("msgBusHasArrived received"));
+		
+		assertTrue("The last logged event for person 2 should be msgBusHasArrived received. It instead reads " 
+						+ person2.log.getLastLoggedEvent().toString(), person2.log.containsString("msgBusHasArrived received"));
+		
+		busStop.LeavingBusStop(person);  
+		
+		assertEquals("Bus Stop should have 1 person waiting. It doesn't", busStop.waitingPeople.size(), 1);
+		
+		assertTrue("After the person leaves the stop, the last logged event should be TestPerson leaving stop near home. instead it reads "
+						+ busStop.log.getLastLoggedEvent().toString(), busStop.log.containsString("TestPerson leaving stop near home"));
+		
+		busStop.LeavingBusStop(person2);  
+		
+		assertEquals("Bus Stop should have 0 people waiting. It doesn't", busStop.waitingPeople.size(), 0);
+		
+		assertTrue("After the person2 leaves the stop, the last logged event should be TestPerson2 leaving stop near home. instead it reads "
+						+ busStop.log.getLastLoggedEvent().toString(), busStop.log.containsString("TestPerson2 leaving stop near home"));
 	}
 }

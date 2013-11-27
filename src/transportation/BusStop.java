@@ -26,13 +26,13 @@ public class BusStop {
 	}
 	
 	public void ArrivedAtBusStop(PersonAgent p) { 
-		log.add(new LoggedEvent(p.getName() + "arrived at stop near " + stopLocation));
+		log.add(new LoggedEvent(p.getName() + " arrived at stop near " + stopLocation));
 		waitingPeople.add(p);
 		System.out.println(waitingPeople.get(0) + " has arrived at bus stop near " + stopLocation);
 	}
 	
 	public void LeavingBusStop(PersonAgent p) {
-		log.add(new LoggedEvent(p.getName() + "leaving stop near " + stopLocation));
+		log.add(new LoggedEvent(p.getName() + " leaving stop near " + stopLocation));
 		waitingPeople.remove(p); 
 		System.out.println(p.getName() + "Leaving Bus Stop at " + stopLocation); 
 	}
