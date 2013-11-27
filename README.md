@@ -12,12 +12,12 @@ SimCity201 Project Repository for CS 201 students
   + Also responsible for: Market gui, setting up all Trace/AlertLog files (with given CP code) and CityGui trace panels, although not necessarily adding tags; setting up most of the CityGui Create/Control panel display and functionality
 
 #### Ena :
-	+ Responsible for the housing and apartment set up within the city. Created  OccupantRole and LandLord Role to handle situations for people either renting or owning homes.
-	+ Responsible for gui for occupants and landlords within the homes as well as the layout of both houses and apartments through the home class 
-	+ Unit testing for both the occupant and landlord and their interactions within the homes
-	+ Implemented enaRestaurant into the city layout and integreted personAgent as well as the new city market to work within the original restaurant
-	+ added  tags throughout restaurant roles to be used along with the trace panels
-	+ added tags to 
++ Responsible for the housing and apartment set up within the city. Created  OccupantRole and LandLord Role to handle situations for people either renting or owning homes.
++ Responsible for gui for occupants and landlords within the homes as well as the layout of both houses and apartments through the home class 
++ Unit testing for both the occupant and landlord and their interactions within the homes
+ + Implemented enaRestaurant into the city layout and integreted personAgent as well as the new city market to work within the original restaurant
++ added  tags throughout restaurant roles to be used along with the trace panels
++ added tags to occupantRole for trace panels
 
 
 #### Marcus : 
