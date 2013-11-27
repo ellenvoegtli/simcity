@@ -21,6 +21,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 
     //List of all guis that we need to animate in the city (Busses, Cars, People...etc) 
     //Will be Added in CityPanel analogous to RestaurantPanel
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 
     public AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
@@ -328,16 +329,18 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(415, 215, 20, 20); //doorway
         g2.fillRect(585, 230, 20, 20); //doorway
 
-        for(Gui gui : guis) {
-            if (gui.isPresent() ) {
-                gui.updatePosition();
-            }
-        }
-
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.draw(g2);
-            }
+        synchronized(guis){
+	        for(Gui gui : guis) {
+	            if (gui.isPresent() ) {
+	                gui.updatePosition();
+	            }
+	        }
+	
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.draw(g2);
+	            }
+	        }
         }
     }
     

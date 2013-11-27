@@ -220,7 +220,7 @@ public boolean pickAndExecuteAnAction()
 	
 	if(needsWork.isEmpty() && fState == fixState.nothing && eState != eatingState.hungry )
 	{
-		checkMaintenance();
+		//checkMaintenance();
 		return true;
 	}
 	if (eState == eatingState.hungry && sState == shoppingState.nothing) 

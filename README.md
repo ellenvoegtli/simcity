@@ -79,3 +79,5 @@ SimCity201 Project Repository for CS 201 students
   + Occasionally in our restaurant animation windows, our waiters seem to get stuck when they go to pick up another customer. We couldn't find any debugging issues with the thread being locked, and sometimes the animation would pick up again, indicating it wasn't actually a semaphore issue but an animation issue.
   + Sometimes the above issue can be unstuck/fixed when the whole window is minimized not on top
   + Some restaurants have yet to implement shared data waiters. 
+  + In the restaurant on the far right, if it ever gets stuck customers and 1 waiter, add a waiter and set his occupation as davidWaiter.
+  + House GUI doesn't work, but messages are all there.
