@@ -12,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
-import mainCity.restaurants.enaRestaurant.gui.EnaAnimationPanel;
 import mainCity.restaurants.enaRestaurant.gui.EnaWaiterGui;
 import role.Role;
 import housing.LandlordRole;
