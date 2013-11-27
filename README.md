@@ -21,7 +21,16 @@ SimCity201 Project Repository for CS 201 students
 
 
 #### David :
-
+  + Responsible for transportation 
+    1. Created Bus that picks people up and drops them off at their desired destination
+    1. Created road system, based on Crowley's demo code, on which only vehicles may travel (People can cross them, however)
+	1. Created system of bus stops at which people may wait for the bus and be picked up / dropped off. (Created algorithm in which people calculate the bus stop that is nearest to them)
+	1. Buses are fully unit tested
+  + Fully integrated own restaurant into the city
+  + Designed and implemented actual city's layout (animation panel)
+    1. Created Building class and designated locations for each different building.
+	1. Mapped out coordinates for roads, buildings, doorways, and bus stops
+  + Helped implement card layout based on code in the simcity demo.
 
 
 ## HOW TO RUN OUR SYSTEM
@@ -38,8 +47,8 @@ SimCity201 Project Repository for CS 201 students
   + The Market unit tests: 
   	+ In the package mainCity.market.test, you will find: GreeterTest.java, CashierTest.java, EmployeeTest.java, CustomerTest.java, and DeliveryTest.java. Open any of these and click run as a JUnit Test.
 
-
-  +
+  + The Bus unit tests: 
+	+ In the package mainCity.test, you will find BusTest.java. Right click on the file, go to Run As -> JUnit Test
 
 
 ## THINGS WE KNOW DON'T WORK / GENERAL NOTES ABOUT OUR V1 SUBMISSION
@@ -49,3 +58,4 @@ SimCity201 Project Repository for CS 201 students
   + When adding Persons though the "Create" panel on the CityGui, they also will have an occupation and will prioritize that over their hunger.
   + We do not have waiter breaks implemented to where they can leave the restaurant and do other things.
   + Occasionally in our restaurant animation windows, our waiters seem to get stuck when they go to pick up another customer. We couldn't find any debugging issues with the thread being locked, and sometimes the animation would pick up again, indicating it wasn't actually a semaphore issue but an animation issue.
+  + Some restaurants have yet to implement shared data waiters. 
