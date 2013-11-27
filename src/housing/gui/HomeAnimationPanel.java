@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
+
+
 public class HomeAnimationPanel extends CityCard implements ActionListener
 {
 	
@@ -28,8 +30,9 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    private Dimension bufferSize;
 	    private boolean ty;
 		private HomePanel home = new HomePanel(this);
-	    protected List<Gui> guis = new ArrayList<Gui>();
-	    
+	    protected List<OccupantGui> guisss = new ArrayList<OccupantGui>();
+	    protected List<LandlordGui> guis = new ArrayList<LandlordGui>();
+
 	    
 
 public HomeAnimationPanel(CityGui cg, boolean type) {
@@ -61,7 +64,26 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    {
 	        Graphics2D g2 = (Graphics2D)g;
 	        JLabel label;
-	        
+	        for(Gui gui : guisss)
+		     {
+            	System.out.println("=======$$$$$$$$$=========");
+
+		            if (gui.isPresent()) 
+		            {
+		                gui.updatePosition();
+		            }
+		       }
+
+		        for(Gui gui : guisss) 
+		        {
+	            	System.out.println("=======$$$$$$$$$=========");
+
+		            if (gui.isPresent())
+		            {
+		            	System.out.println("================");
+		                gui.draw(g2);
+		            }
+		        }
 	        
 	     if(ty)
 	     {
@@ -125,21 +147,49 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	     }
 	        
 	     
-	     for(Gui gui : guis)
-	     {
+	     for(Gui gui : guisss)
+	     {	
+	    	 System.out.println("=======$$$$$$$$$=========");
+
+	     
 	            if (gui.isPresent()) 
 	            {
 	                gui.updatePosition();
 	            }
 	       }
 
-	        for(Gui gui : guis) 
+	        for(Gui gui : guisss) 
 	        {
+            	System.out.println("=======$$$$$$$$$=========");
+
 	            if (gui.isPresent())
 	            {
+	            	System.out.println("================");
 	                gui.draw(g2);
 	            }
 	        }
+	        for(Gui gui : guis)
+		     {
+            	System.out.println("=======$$$$$$$$$=========");
+
+		            if (gui.isPresent()) 
+		            {
+		                gui.updatePosition();
+		            }
+		       }
+
+		        for(Gui gui : guis) 
+		        {
+	            	System.out.println("=======$$$$$$$$$=========");
+
+		            if (gui.isPresent())
+		            {
+		            	System.out.println("================");
+		                gui.draw(g2);
+		            }
+		        }
+		        
+		        repaint();
 	 }
 
 	    public void addGui(LandlordGui gui) 
@@ -151,7 +201,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    {
 	    	System.out.println("gui added to window???");
 
-	    	guis.add(gui);
+	    	guisss.add(gui);
 	    }
 
 		public HomePanel getHomeP() 

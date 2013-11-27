@@ -2,6 +2,7 @@
 package housing.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -134,12 +135,12 @@ public class HomeGui extends JFrame implements ActionListener{
             Occupant customer = (Occupant) person;
             stateCB.setText("Hungry?");
           //Should checkmark be there? 
-            stateCB.setSelected(customer.getGui().isHungry());
+            stateCB.setSelected(((OccupantRole) customer).getGui().isHungry());
           //Is customer hungry? Hack. Should ask customerGui
-            stateCB.setEnabled(!customer.getGui().isHungry());
+            stateCB.setEnabled(!((OccupantRole) customer).getGui().isHungry());
           // Hack. Should ask customerGui
             infoLabel.setText(
-               "<html><pre> Name: " + customer.getName() + " </pre></html>");
+               "<html><pre> Name: " + ((Component) customer).getName() + " </pre></html>");
         }
         infoPanel.validate();
      
@@ -156,7 +157,7 @@ public class HomeGui extends JFrame implements ActionListener{
             if (currentPerson instanceof OccupantRole) 
             {
                 Occupant c = (Occupant) currentPerson;
-                c.getGui().setHungry();
+                ((OccupantRole) c).getGui().setHungry();
                 stateCB.setEnabled(false);
             }
             

@@ -12,60 +12,71 @@ import mainCity.test.LoggedEvent;
 
 public class MockOccupant extends Mock implements Occupant
 {
+	public EventLog log = new EventLog();
+	public landLord landLord;
+	public personHome home;
+
 
 	public MockOccupant(String name) 
 	{
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void msgAtDestination() 
 	{
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("message recieved atDestination"));
 		
 	}
 
 	@Override
 	public void gotHungry() 
 	{
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("message recieved gotHungry"));
 		
 	}
 
 	@Override
 	public void msgFixed(String appName) 
 	{
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("message recieved Fixed"));
 		
 	}
 
 	@Override
 	public void msgNeedFood(List<String> buyFood) 
 	{
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("message recieved needFood"));
 		
 	}
 
 	@Override
 	public void msgCookFood(String foodCh) 
 	{
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("message recieved cookFood"));
 		
 	}
 
 	@Override
 	public void msgLeaveHome() 
 	{
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("message recieved leaveHome"));
 		
 	}
 
-	@Override
-	public Object getHome() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setHouse(personHome home2)
+	{
+		home = home2;
 	}
+
+	@Override
+	public personHome getHome() {
+		return home;
+	}
+
+	
+
+
 
 	
 }

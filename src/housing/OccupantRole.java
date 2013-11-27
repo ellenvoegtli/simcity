@@ -2,7 +2,6 @@ package housing;
 
 
 import housing.personHome.Appliance;
-import housing.personHome.type;
 import housing.Interfaces.Occupant;
 import housing.gui.OccupantGui;
 import agent.Agent;
@@ -31,7 +30,7 @@ public class OccupantRole extends Role implements Occupant
 	//private houseAgent house;
 	private personHome home;
 	public OccupantGui gui;
-	private boolean owner;
+	public boolean owner;
 	//private boolean checking = true;
 	private String meal = "pasta";
 	private String name;
@@ -122,7 +121,7 @@ public void gotHungry()
 	stateChanged();
 }
 
-/*public void applianceBroke()
+public void applianceBroke()
 {
 	log("user set appliance to broken");
 	String appln = "sink";
@@ -142,14 +141,14 @@ public void gotHungry()
 	}
 	needsWork.add(appln);
 	
-}*/
+}
 
-/*public void msgNeedsMaintenance(String appName)
+public void msgNeedsMaintenance(String appName)
 {
 	needsWork.add(appName);
 	fState = fixState.fixing;
 	stateChanged();
-}*/
+}
 
 /* (non-Javadoc)
  * @see housing.Occupant#msgFixed(java.lang.String)
@@ -339,7 +338,7 @@ public void fixAppliance(String app)
 		{
 			xPos = appl.getXPos();
 			yPos = appl.getYPos();
-			appl.working = true;
+			appl.setWorking(true);
 			
 		}
 		
@@ -381,7 +380,7 @@ public void wantsToEat(String mealChoice)
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
-	
+	print("LOOKING IN FRIDGE FOR FOOD");
 	home.checkSupplies("pasta");
 		
 }

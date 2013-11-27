@@ -28,6 +28,8 @@ public class HomePanel extends JPanel
 
     private housing.Interfaces.landLord landLord;
     private LandlordGui landLordGui;
+    private Vector<OccupantRole> renting = new Vector<
+    		OccupantRole>();
 
 
     private JPanel homeLabel = new JPanel();
@@ -105,20 +107,27 @@ public class HomePanel extends JPanel
    
     public void handleRoleGui(Role r) 
     {
+    	
     	if(r instanceof OccupantRole) 
     	{
+
         	occupant = (OccupantRole) r;
-        	        	 house = new personHome(occupant);
+        	house = new personHome(occupant);
 
         	occupant.setHouse(house);
-        	occupant.setLandLord(landLord);
+        	if(!occupant.owner)
+        	{
+        		renting.add(occupant); 
+        		occupant.setLandLord(landLord);
+
+        	}
             house.setOccupant(occupant);
-    		occupantGui = new OccupantGui(occupant); 
+    		occupantGui = new OccupantGui(occupant, animation); 
     		System.out.println("new gui created");
     		occupant.setGui(occupantGui);
     		System.out.println("gui set");
-    		occupantGui.setHungry();    
     		animation.addGui(occupantGui);
+    		occupantGui.setHungry();    
     		System.out.println("Occupant has been returned home");
 
     		
@@ -126,11 +135,15 @@ public class HomePanel extends JPanel
     	if( r instanceof LandlordRole)
     	{
     		landLord = (housing.Interfaces.landLord) r;
-    		landLord.setRenter(occupant);
-        	occupant.setLandLord(landLord);
+    		
+    		for(OccupantRole oc : renting) 
+        	{
+        		((LandlordRole) landLord).setRenter(oc);
+        	    oc.setLandLord(landLord);
 
-    		landLordGui = new LandlordGui(landLord);
-    		landLord.setGui(landLordGui);
+        	}
+    		landLordGui = new LandlordGui(landLord, animation);
+    		((LandlordRole) landLord).setGui(landLordGui);
     		animation.addGui(landLordGui);
     	}
     
