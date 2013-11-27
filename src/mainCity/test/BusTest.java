@@ -231,10 +231,14 @@ public class BusTest extends TestCase{
 		
 	}
 	
-	public void busStopTest() { 
+	public void testBusStop() { 
 		//Preconditions
 		assertEquals("BusStop should have 0 waitingPeople. It doesn't.", busStop.waitingPeople.size(), 0); 
 		assertEquals("BusStop should have an empty event log. Instead the Bus' event log reads: "
 						+ busStop.log.toString(), 0, busStop.log.size());
+		
+		busStop.ArrivedAtBusStop(person);
+		
+		assertEquals("BusStop should have 1 waitingPerson. It doesn't.", busStop.waitingPeople.size(), 1);
 	}
 }
