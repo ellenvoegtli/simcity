@@ -83,4 +83,24 @@ public class MockOccupantGui extends Mock implements OccupantGuiInterface{
 		
 	}
 
+	@Override
+	public void DoGoToAppliance(int xPos, int yPos) {
+		log.add(new LoggedEvent("Gui told to DoGoToAppliance by agent."));
+
+	}
+
+	@Override
+	public boolean isHungry() {
+		log.add(new LoggedEvent("Gui told to isHungry by agent."));
+
+		return false;
+	}
+
+	@Override
+	public void setHungry() {
+		log.add(new LoggedEvent("Gui told to setHungry by agent."));
+
+		
+	}
+
 }

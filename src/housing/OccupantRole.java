@@ -3,6 +3,7 @@ package housing;
 
 import housing.personHome.Appliance;
 import housing.Interfaces.Occupant;
+import housing.Interfaces.OccupantGuiInterface;
 import housing.gui.OccupantGui;
 import agent.Agent;
 import mainCity.gui.AnimationPanel;
@@ -29,8 +30,9 @@ public class OccupantRole extends Role implements Occupant
 	private housing.Interfaces.landLord landLord;
 	//private houseAgent house;
 	private personHome home;
-	public OccupantGui gui;
+	public OccupantGuiInterface gui;
 	public boolean owner;
+	public PersonAgent person;
 	//private boolean checking = true;
 	private String meal = "pasta";
 	private String name;
@@ -94,6 +96,13 @@ public OccupantRole(PersonAgent p, String personNm)
 		owner = true;
 	}
 	
+	
+}
+
+
+public OccupantRole(PersonAgent p) {
+	super(p);
+	this.person =p;
 	
 }
 
@@ -530,7 +539,7 @@ public void setLandLord(housing.Interfaces.landLord land)
  * @see housing.Occupant#setGui(housing.gui.OccupantGui)
  */
 
-public void setGui(OccupantGui occupantGui) 
+public void setGui(OccupantGuiInterface occupantGui) 
 {
 	this.gui = occupantGui;	
 }
@@ -538,7 +547,7 @@ public void setGui(OccupantGui occupantGui)
 /* (non-Javadoc)
  * @see housing.Occupant#getGui()
  */
-public OccupantGui getGui() {
+public OccupantGuiInterface getGui() {
 	return gui;
 }
 

@@ -1,13 +1,14 @@
 package housing.gui;
 
 import housing.Interfaces.Occupant;
+import housing.Interfaces.OccupantGuiInterface;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 
 
-public class OccupantGui implements Gui
+public class OccupantGui implements Gui, OccupantGuiInterface
 {
 
 	
@@ -210,6 +211,13 @@ public class OccupantGui implements Gui
 		{
 			xDestination = -10;
 			yDestination = 45;
+		}
+
+
+		@Override
+		public void DoGoToAplliance(String app) 
+		{
+			
 		}
 		
 		
