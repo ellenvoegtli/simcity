@@ -36,9 +36,9 @@ SimCity201 Project Repository for CS 201 students
 ## HOW TO RUN OUR SYSTEM
   + Using Eclipse : 
   + To run our code, clone our reposity from github into a directory, then import the project into Eclipse:
-  + Click File -> New -> Other; Choose "Java Project from Existing Ant Buildfile"
-  + Click Browse, then find the directory of the repository you cloned; select its "build.xml" file
-  + Check the "Link to the buildfile in the file system" box; press Finish
+  + Click File -> New -> Other; Under the Java folder, pick "Java Project"
+  + Uncheck "Use Default Location" and browse for the location of the cloned repository on your computer.
+  + Press finish and the project should be loaded up in Eclipse.
   + In the mainCity.gui package, select "CityGui.java" in the Package Explorer and click Run as a Java Application
 
   + To run unit tests:
