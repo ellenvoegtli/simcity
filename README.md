@@ -18,11 +18,11 @@ SimCity201 Project Repository for CS 201 students
 
 
 #### Jefferson : 
-	+Responsible for the Bank as well as integration/functionality of jeffersonRestaurant
-	+Scenarios are in place for handling no existing account when requesting transactions, paying back loans, and criteria for approval of loans
-	+Establishment can be "closed" and turn away customers if not all essential employees are present (manager, teller, banker)
-	+Defined Person rules for depositing and withdrawing (cash thresholds)
-	+Visually upgraded external buildings drawn in MainCity
+	+ Responsible for the Bank as well as integration/functionality of jeffersonRestaurant
+	+ Scenarios are in place for handling no existing account when requesting transactions, paying back loans, and criteria for approval of loans
+	+ Establishment can be "closed" and turn away customers if not all essential employees are present (manager, teller, banker)
+	+ Defined Person rules for depositing and withdrawing (cash thresholds)
+	+ Visually upgraded external buildings drawn in MainCity
 
 
 #### David :
