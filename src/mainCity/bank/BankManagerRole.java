@@ -30,8 +30,8 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	public static class myTeller{
 	    BankTeller t;
 	    int tellernumber;
-	    BankCustomer bc;
-	    boolean Occupied;
+	    public BankCustomer bc;
+	    public boolean Occupied;
 	    public int gettellernumber(){
 	    	return tellernumber;
 	    }
@@ -59,7 +59,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	}
 	
 	public static class myBankCustomer{
-		BankCustomer bc;
+		public BankCustomer bc;
 		public myBankCustomer(BankCustomer bc){
 			this.bc=bc;
 		}
@@ -207,6 +207,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	            mt.bc=null;
 	            mt.Occupied=false;
 	            stateChanged();
+	            return;
 	        }   
 	    }   
 
@@ -247,7 +248,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 		}
 		
 		
-		if(!mbanker.Occupied && !banker_bankCustomers.isEmpty()){
+		if(mbanker!=null &&!mbanker.Occupied && !banker_bankCustomers.isEmpty()){
 			assignBanker(mbanker);
 			return true;
 		}
