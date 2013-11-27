@@ -34,15 +34,17 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		agent = p;
 		this.gui = g;
 		
-		xHome = agent.getHomePlace().getXLoc();
-		yHome = agent.getHomePlace().getYLoc();
+		try {
+			xHome = agent.getHomePlace().getXLoc();
+			yHome = agent.getHomePlace().getYLoc();
+		}
+		catch(Exception e) {
+			xHome = 710;
+			yHome = 400;
+		}
 		
-		//xDestination = xPos = xHome;
-		//yDestination = yPos = yHome;
-		
-		
-		xDestination = xPos = (int) (Math.random() * 700);
-		yDestination = yPos = (int) (Math.random() * 500);
+		xDestination = xPos = 750;
+		yDestination = yPos = 80;
 		
 		traveling  = false;
 		StringBuilder path = new StringBuilder("imgs/");

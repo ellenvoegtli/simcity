@@ -12,12 +12,29 @@ SimCity201 Project Repository for CS 201 students
   + Also responsible for: Market gui, setting up all Trace/AlertLog files (with given CP code) and CityGui trace panels, although not necessarily adding tags; setting up most of the CityGui Create/Control panel display and functionality
 
 #### Ena :
++ Responsible for the housing and apartment set up within the city. Created  OccupantRole and LandLord Role to handle situations for people either renting or owning homes.
++ Responsible for gui for occupants and landlords within the homes as well as the layout of both houses and apartments through the home class 
++ Unit testing for both the occupant and landlord and their interactions within the homes
+ + Implemented enaRestaurant into the city layout and integreted personAgent as well as the new city market to work within the original restaurant
++ added  tags throughout restaurant roles to be used along with the trace panels
++ added tags to occupantRole for trace panels
 
 
 #### Marcus : 
-
+  + Created the PersonAgent as well as the base Role from which every other role derived from
+    1. Created all person AI decisions, priority making, animation, interacting with buildings, and settings roles active
+  + Created an algorithm to keep people from walking over buildings
+  + Created parser and function to populate people into the city on program run
+  + Helped implement card layout and bringing individual restaurant GUI's into the city
+  + Implemented shared data waiter
+  + Implemented functions for roles/workers to go off duty (with wages) based on city clock time
 
 #### Jefferson : 
+  + Responsible for the Bank as well as integration/functionality of jeffersonRestaurant
+  + Scenarios are in place for handling no existing account when requesting transactions, paying back loans, and criteria for approval of loans
+  + Establishment can be "closed" and turn away customers if not all essential employees are present (manager, teller, banker)
+  + Defined Person rules for depositing and withdrawing (cash thresholds)
+  + Visually upgraded external buildings drawn in MainCity
 
 
 #### David :
@@ -35,10 +52,10 @@ SimCity201 Project Repository for CS 201 students
 
 ## HOW TO RUN OUR SYSTEM
   + Using Eclipse : 
-  + To run our code, clone our reposity from github into a directory, then import the project into Eclipse:
-  + Click File -> New -> Other; Choose "Java Project from Existing Ant Buildfile"
-  + Click Browse, then find the directory of the repository you cloned; select its "build.xml" file
-  + Check the "Link to the buildfile in the file system" box; press Finish
+  + To run our code, clone our repository from github into a directory, then import the project into Eclipse:
+  + Click File -> New -> Other; Under the Java folder, pick "Java Project"
+  + Uncheck "Use Default Location" and browse for the location of the cloned repository on your computer.
+  + Press finish and the project should be loaded up in Eclipse.
   + In the mainCity.gui package, select "CityGui.java" in the Package Explorer and click Run as a Java Application
 
   + To run unit tests:
@@ -49,7 +66,9 @@ SimCity201 Project Repository for CS 201 students
 
   + The Bus unit tests: 
 	+ In the package mainCity.test, you will find BusTest.java. Right click on the file, go to Run As -> JUnit Test
-
+  
+  + The Banks unit tests: 
+	+ In the package mainCity.bank.test, you will find BankManagerTest.java, BankTellerTest.java, BankerTest.java, and BankCustomerTest.java. Right click on the file, go to Run As -> JUnit Test.	
 
 ## THINGS WE KNOW DON'T WORK / GENERAL NOTES ABOUT OUR V1 SUBMISSION
   + Some of our PersonAgents who take on jobs in certain restaurants will not be able to properly go off-duty after they end their shift. We figured out a way to do this successfully, but it hasn't been implemented everywhere due to time constraints
