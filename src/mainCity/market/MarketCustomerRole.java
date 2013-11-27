@@ -463,7 +463,6 @@ public class MarketCustomerRole extends Role implements Customer {
 		double amountPaid;
 		double amountOwed;
 		double changeReceived;
-		String owedTo;
 		BillState s;
 		
 		Bill(Map<String, Integer> inventoryFulfilled, double charge){
