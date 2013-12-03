@@ -101,7 +101,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	}
 
 	public void log(String s) { 
-		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this. getName(), s); 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this.getName(), s); 
 		AlertLog.getInstance().logMessage(AlertTag.DAVID_WAITER, this.getName(), s);
 	}
 	

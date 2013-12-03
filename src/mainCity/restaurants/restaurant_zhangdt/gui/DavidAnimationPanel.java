@@ -88,6 +88,14 @@ public class DavidAnimationPanel extends CityCard implements ActionListener {
             }
         }
     }
+    
+    public void backgroundUpdate() { 
+    	for (Gui gui : guis) { 
+    		if (gui.isPresent()) { 
+    			gui.updatePosition(); 
+    		}
+    	}
+    }
 
     public void addGui(CustomerGui gui) {
         guis.add(gui);
