@@ -7,9 +7,13 @@ import mainCity.market.interfaces.DeliveryManGuiInterface;
 import mainCity.gui.*;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -35,6 +39,7 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
 	
 	private boolean atDestination = true;
 	private boolean isDeliveringFood = false;
+	private BufferedImage myImg = null;
 	
 
     public DeliveryManGui(DeliveryMan agent) {
@@ -56,6 +61,14 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
         
         restaurantX.put("jeffersonrestaurant", 347);
         restaurantY.put("jeffersonrestaurant", 280);
+        
+        
+        StringBuilder path = new StringBuilder("imgs/");
+		try {
+			myImg = ImageIO.read(new File(path.toString() + "deliveryman.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
     }
 
@@ -116,7 +129,8 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     
     public void draw(Graphics2D g) {
         g.setColor(Color.BLUE);
-        g.fillRect(xPos, yPos, waiterWidth, waiterHeight);
+        //g.fillRect(xPos, yPos, waiterWidth, waiterHeight);
+        g.drawImage(myImg, xPos,yPos, null);
         
         if (isDeliveringFood){
         	g.setColor(Color.BLACK);
