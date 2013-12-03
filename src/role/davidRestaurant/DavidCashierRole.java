@@ -87,7 +87,7 @@ public class DavidCashierRole extends Role implements Cashier {
 	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, done, oweMoney};
 	
 	public void log(String s) { 
-		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this. getName(), s); 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this.getName(), s); 
 		AlertLog.getInstance().logMessage(AlertTag.DAVID_CASHIER, this.getName(), s);
 	}
 	
@@ -267,7 +267,11 @@ public class DavidCashierRole extends Role implements Cashier {
 		marketBills.remove(b);
 	}
 	
-// utilities 
+// utilities
+	
+	public String getName() { 
+		return name;
+	}
 	
 	public void setCook(DavidCookRole c) {
 		cookAgent = c;
