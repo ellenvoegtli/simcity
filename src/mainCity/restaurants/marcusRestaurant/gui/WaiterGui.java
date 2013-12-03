@@ -73,7 +73,7 @@ public class WaiterGui implements Gui {
         g.setColor(Color.MAGENTA);
         g.fillRect(xPos, yPos, w, h);
         
-        if(hasFood) {
+        if(hasFood && order != null) {
         	g.drawString(order, xPos, yPos);
         }        
     }
