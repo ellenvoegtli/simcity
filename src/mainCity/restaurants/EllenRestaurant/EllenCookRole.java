@@ -53,15 +53,15 @@ public class EllenCookRole extends Role implements Cook{
 		isCheckingStand = false;
 		
 		//initialize inventory map
-        inventory.put("steak", new Food("steak", 5000, 8));	//type, cookingTime, amount
+        inventory.put("pasta", new Food("pasta", 5000, 8));	//type, cookingTime, amount
         inventory.put("pizza", new Food("pizza", 2500, 8));
-        inventory.put("pasta", new Food("pasta", 1000, 8));
-        inventory.put("Soup", new Food("Soup", 2000, 0));
+        inventory.put("meatballs", new Food("meatballs", 1000, 8));
+        inventory.put("bread", new Food("bread", 2000, 0));
         
-        foodAtAvailableMarket.put("steak", 0);
-        foodAtAvailableMarket.put("pizza", 0);
         foodAtAvailableMarket.put("pasta", 0);
-        foodAtAvailableMarket.put("Soup", 0);
+        foodAtAvailableMarket.put("pizza", 0);
+        foodAtAvailableMarket.put("meatballs", 0);
+        foodAtAvailableMarket.put("bread", 0);
 	}
 	/*
 	public void addMarket(EllenMarketRole m){	//hack
@@ -307,6 +307,7 @@ public class EllenCookRole extends Role implements Cook{
 		}
 		timer.schedule(new TimerTask() {
 			public void run() {
+				log("Cooking...");
 				msgFoodDone(o);
 			}
 		}, inventory.get(o.choice).cookingTime);

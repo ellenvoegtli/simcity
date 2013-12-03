@@ -56,17 +56,17 @@ public class KitchenGui implements Gui {
     	if (!orderGuis.isEmpty()){
 	        for (Order o : orderGuis){
 	            
-	        	if (o.choice == "steak"){
-	        		g.drawString("STK", o.posX, o.posY);
-	        	}
-	        	else if (o.choice == "pasta"){
-	        		g.drawString("PST", o.posX, o.posY); 
+	        	if (o.choice == "pasta"){
+	        		g.drawString("PSTA", o.posX, o.posY);
 	        	}
 	        	else if (o.choice == "pizza"){
-	        		g.drawString("PZA", o.posX, o.posY); 
+	        		g.drawString("PIZZA", o.posX, o.posY); 
 	        	}
-	        	else if (o.choice == "soup"){
-	        		g.drawString("SP", o.posX, o.posY);
+	        	else if (o.choice == "meatballs"){
+	        		g.drawString("MTBLS", o.posX, o.posY); 
+	        	}
+	        	else if (o.choice == "bread"){
+	        		g.drawString("BREAD", o.posX, o.posY);
 	        	}
 	        }
     	}
