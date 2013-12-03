@@ -201,7 +201,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	 */
 	@Override
 	public void msgImLeaving(BankCustomer bc){
-		Do("recieved message ImLeaving");
+		log("recieved message ImLeaving");
 	    for (myTeller mt: tellers){
 	        if( mt.bc==bc){                                                  
 	            mt.bc=null;
@@ -276,7 +276,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 			System.out.println("false");
 			return false;
 		}
-		System.out.println("true");
+		log("Open = true");
 		return true;
 		
 	}
