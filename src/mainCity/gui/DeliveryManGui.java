@@ -7,9 +7,13 @@ import mainCity.market.interfaces.DeliveryManGuiInterface;
 import mainCity.gui.*;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -29,6 +33,7 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     public int homeX = 415, homeY = 215;
     public int exitMarketX = 530, exitMarketY = 350/2;
     private int cashierX = 20, cashierY = 250;
+    private BufferedImage truckImg = null;
 
 	Map<String, Integer> restaurantX = new TreeMap<String, Integer>();
 	Map<String, Integer> restaurantY = new TreeMap<String, Integer>();
@@ -38,6 +43,13 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
 	
 
     public DeliveryManGui(DeliveryMan agent) {
+    	StringBuilder path = new StringBuilder("imgs/");
+		try {
+			truckImg = ImageIO.read(new File(path.toString() + "truck.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
         this.agent = agent;
         //this.gui = gui;
         
@@ -115,9 +127,10 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     }
     
     public void draw(Graphics2D g) {
-        g.setColor(Color.BLUE);
-        g.fillRect(xPos, yPos, waiterWidth, waiterHeight);
-        
+        //g.setColor(Color.BLUE);
+        //g.fillRect(xPos, yPos, waiterWidth, waiterHeight);
+        g.drawImage(truckImg,xPos,yPos,null);
+    	
         if (isDeliveringFood){
         	g.setColor(Color.BLACK);
         }
