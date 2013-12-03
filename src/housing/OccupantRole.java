@@ -40,12 +40,12 @@ public class OccupantRole extends Role implements Occupant
 	
 	private Semaphore destination = new Semaphore(0,true);
 	
-	enum eatingState {hungry, cooking, eating, washing, nothing};
-	eatingState eState = eatingState.nothing;
-	enum fixState{fixing, fixed, nothing};
-	fixState fState = fixState.nothing;
-	enum shoppingState {needMarket, shopping, reStocking, nothing};
-	shoppingState sState = shoppingState.nothing;
+	public enum eatingState {hungry, cooking, eating, washing, nothing};
+	public eatingState eState = eatingState.nothing;
+	public enum fixState{fixing, fixed, nothing};
+	public fixState fState = fixState.nothing;
+	public enum shoppingState {needMarket, shopping, reStocking, nothing};
+	public shoppingState sState = shoppingState.nothing;
 	
 	
 	public List<String> needsWork = Collections.synchronizedList(new ArrayList<String>());
@@ -149,6 +149,8 @@ public void applianceBroke()
 		break;
 	}
 	needsWork.add(appln);
+	fState = fixState.fixing;
+	stateChanged();
 	
 }
 

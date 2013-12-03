@@ -603,7 +603,7 @@ public void msgLoanDenied(double loanamount){
 		if(bm != null && bm.isActive() && bm.isOpen()){
 			return false;
 		}
-		System.out.println("customer checked and bank is closed");
+		log("customer checked and bank is closed");
 		return true;
 	}
 
