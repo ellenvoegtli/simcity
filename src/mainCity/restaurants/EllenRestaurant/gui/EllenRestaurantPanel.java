@@ -35,6 +35,8 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     private RevolvingStand revolvingStand = new RevolvingStand();
     private final int WINDOWX = 550;
     private final int WINDOWY = 350;
+    private int waiterX = 550/3;
+    private int waiterY = 30;
         
     private Vector<EllenCustomerRole> customers = new Vector<EllenCustomerRole>();
     private Vector<EllenWaiterRole> waiters = new Vector<EllenWaiterRole>();
@@ -156,10 +158,7 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     	
     	if(r instanceof EllenCookRole) {
     		cook = (EllenCookRole) r;
-    		//cookGui = new CookGui(cook, gui);
             cook.setStand(revolvingStand);
-    		//gui.animationPanel.addGui(cookGui);
-            //cook.setGui(cookGui);
             cook.setCashier(cashier);
             cook.setMenu(new EllenMenu());
             
@@ -201,13 +200,16 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
     			a.setStand(stand);
     		}*/
-    		WaiterGui g = new WaiterGui(w, animation);
+    		WaiterGui g = new WaiterGui(w, animation, waiterX + 30, waiterY);
     		//set the home positions based on position in waiter list
+    		/*
     		int i = 0;
     		for (EllenWaiterRole wait : waiters){
     			if (wait.equals(w)) g.setHomePosition((WINDOWX + i*70)/3, 30); 
     			else i++;
-    		}
+    		}*/
+    		
+    		
     		animation.addGui(g);
             if(host != null) host.addWaiter(w);
     		w.setHost(host);

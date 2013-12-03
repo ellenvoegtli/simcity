@@ -48,9 +48,11 @@ public class WaiterGui implements Gui {
 	State s;
 	enum State {wantsBreak, onBreak, offBreak};
 
-    public WaiterGui(EllenWaiterRole agent, EllenAnimationPanel animation) {
+    public WaiterGui(EllenWaiterRole agent, EllenAnimationPanel animation, int x, int y) {
         this.agent = agent;
         this.animation = animation;
+        this.homeX = x;
+        this.homeY = y;
         
         //initialize table locations map
         tableX.put(1, 200);
@@ -67,10 +69,6 @@ public class WaiterGui implements Gui {
 
     }
     
-    public void setHomePosition(int x, int y){
-    	this.homeX = x;
-    	this.homeY = y;
-    }
 
     public void updatePosition() {
         if (xPos < xDestination)
@@ -129,17 +127,17 @@ public class WaiterGui implements Gui {
         if (isDeliveringFood){
         	g.setColor(Color.BLACK);
         	
-        	if (customerChoice == "steak"){
-        		g.drawString("STK", xPos + 20, yPos + 10); //"carrying" the food behind him
-        	}
-        	else if (customerChoice == "pasta"){
-        		g.drawString("PST", xPos + 20, yPos + 10); //"carrying" the food behind him
+        	if (customerChoice == "pasta"){
+        		g.drawString("PSTA", xPos + 20, yPos + 10); //"carrying" the food behind him
         	}
         	else if (customerChoice == "pizza"){
-        		g.drawString("PZA", xPos + 20, yPos + 10); //"carrying" the food behind him
+        		g.drawString("PIZZA", xPos + 20, yPos + 10); //"carrying" the food behind him
         	}
-        	else if (customerChoice == "soup"){
-        		g.drawString("SP", xPos + 20, yPos + 10); //"carrying" the food behind him
+        	else if (customerChoice == "meatballs"){
+        		g.drawString("MTBLS", xPos + 20, yPos + 10); //"carrying" the food behind him
+        	}
+        	else if (customerChoice == "bread"){
+        		g.drawString("BREAD", xPos + 20, yPos + 10); //"carrying" the food behind him
         	}
         }
         

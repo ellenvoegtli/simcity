@@ -6,10 +6,15 @@ SimCity201 Project Repository for CS 201 students
 ## WORK DONE
 
 #### Ellen :
-  + Responsible for the Market (and the integration/functionality of my own restaurant, EllenRestaurant)
-  + Market is integrated with each restaurant. All market roles have been unit tested (although I need to run more tests on EmployeeRole. There were specific issues with getting its other test scenarios to run)
-  + Market has scenarios for handling verification issues (of the amount a customer or business got charged, or the change they received), which have been tested in the unit tests
-  + Also responsible for: Market gui, setting up all Trace/AlertLog files (with given CP code) and CityGui trace panels, although not necessarily adding tags; setting up most of the CityGui Create/Control panel display and functionality
+  + Primarily responsible for the Market
+    + Market is integrated with each restaurant. All market roles have been unit tested (Employee tests encountered issues that wouldn't let me test the role properly, but the agent functions as it should)
+    + Market has scenarios for handling verification issues (of the amount a customer or business got charged, or the change they received), which have been addressed in the unit tests
+  + Also responsible for: 
+    + Market gui; 
+    + Updates to my own restaurant (verification that all employees are present and the market is open, & integration with the market host/delivery man) 
+    + Setting up Trace/AlertLog system (with given CP code) and created CityGui trace panels layout;  
+    + Setting up the CityGui Create panel and CityGui Control panel displays and functionalities;
+    + Creating and setting up the Contact List.
 
 #### Ena :
 + Responsible for the housing and apartment set up within the city. Created  OccupantRole and LandLord Role to handle situations for people either renting or owning homes.
