@@ -33,6 +33,7 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     public int homeX = 415, homeY = 215;
     public int exitMarketX = 530, exitMarketY = 350/2;
     private int cashierX = 20, cashierY = 250;
+    private BufferedImage truckImg = null;
 
 	Map<String, Integer> restaurantX = new TreeMap<String, Integer>();
 	Map<String, Integer> restaurantY = new TreeMap<String, Integer>();
@@ -43,6 +44,13 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
 	
 
     public DeliveryManGui(DeliveryMan agent) {
+    	StringBuilder path = new StringBuilder("imgs/");
+		try {
+			truckImg = ImageIO.read(new File(path.toString() + "truck.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	
         this.agent = agent;
         //this.gui = gui;
         
@@ -63,12 +71,6 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
         restaurantY.put("jeffersonrestaurant", 280);
         
         
-        StringBuilder path = new StringBuilder("imgs/");
-		try {
-			myImg = ImageIO.read(new File(path.toString() + "deliveryman.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
     }
 
@@ -128,10 +130,10 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     }
     
     public void draw(Graphics2D g) {
-        g.setColor(Color.BLUE);
+        //g.setColor(Color.BLUE);
         //g.fillRect(xPos, yPos, waiterWidth, waiterHeight);
-        g.drawImage(myImg, xPos,yPos, null);
-        
+        g.drawImage(truckImg,xPos,yPos,null);
+    	
         if (isDeliveringFood){
         	g.setColor(Color.BLACK);
         }

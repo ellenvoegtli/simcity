@@ -6,6 +6,7 @@ import mainCity.contactList.ContactList;
 import mainCity.gui.CityCard;
 import mainCity.gui.CityGui;
 
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +40,13 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
     	timer.start();
     }
 
+    public void backgroundUpdate() {
+    	for(Gui guit : guis) {
+            if (guit.isPresent()) {
+                guit.updatePosition();
+            }
+        }
+    }
 	public void actionPerformed(ActionEvent e) {
 		repaint();  //Will have paintComponent called
 	}
@@ -87,6 +95,8 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
             }
         }
     }
+    
+    
 
     public void addGui(CustomerGui gui) {
         guis.add(gui);

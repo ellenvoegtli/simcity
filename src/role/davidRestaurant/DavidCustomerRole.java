@@ -83,7 +83,7 @@ public class DavidCustomerRole extends Role implements Customer {
 	}
 	
 	public void log(String s) { 
-		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this. getName(), s); 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this.getName(), s); 
 		AlertLog.getInstance().logMessage(AlertTag.DAVID_CUSTOMER, this.getName(), s);
 	}
 	

@@ -118,7 +118,7 @@ public class DavidCookRole extends Role implements Cook{
 	}
 	
 	public void log(String s) { 
-		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this. getName(), s); 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this.getName(), s); 
 		AlertLog.getInstance().logMessage(AlertTag.DAVID_COOK, this.getName(), s);
 	}
 	
@@ -322,6 +322,10 @@ public class DavidCookRole extends Role implements Cook{
 	}
 	
 // utilities 
+	
+	public String getName() { 
+		return name; 
+	}
 	
 	public void setGui(CookGui RG) {
 		gui = RG;
