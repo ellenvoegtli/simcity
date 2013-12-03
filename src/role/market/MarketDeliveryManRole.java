@@ -4,6 +4,8 @@ import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.DeliveryManGui;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
 import mainCity.market.*;
 import mainCity.market.MarketCashierRole.BillState;
@@ -72,10 +74,15 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		state = s;
 	}
 
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET_DELIVERYMAN, this.getName(), s);
+	}
+	
 	// Messages
 	
 	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){
-		print("Received msgHereIsOrderForDelivery");
+		log("Received msgHereIsOrderForDelivery");
 
 		bills.add(new Bill(restaurantName, cook, cashier, billAmount, inventory));
 		stateChanged();
@@ -83,7 +90,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 
 	
 	public void msgHereIsPayment(double amount, String restaurantName){		//sent by any restaurant's cashier
-		print("Received msgHereIsPayment: got $" + amount);
+		log("Received msgHereIsPayment: got $" + amount);
 		Bill b = null;
 		for (Bill thisB : bills){	//to find the myCustomer with this specific Customer within myCustomers list
 			if (thisB.restaurantName.equalsIgnoreCase(restaurantName)){
@@ -97,7 +104,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		stateChanged();
 	}
 	public void msgChangeVerified(String name){
-		print("Received msgChangeVerified");
+		log("Received msgChangeVerified");
 		Bill b = null;
 		for (Bill thisB : bills){	//to find the myCustomer with this specific Customer within myCustomers list
 			if (thisB.restaurantName.equalsIgnoreCase(name)){
@@ -113,7 +120,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	}
 	
 	public void msgIOweYou(double amount, String name){
-		print("Received msgIOweYou from " + name + " for $" + amount);
+		log("Received msgIOweYou from " + name + " for $" + amount);
 		Bill b = null;
 		for (Bill thisB : bills){	//to find the myCustomer with this specific Customer within myCustomers list
 			if (thisB.restaurantName.equalsIgnoreCase(name)){
@@ -133,12 +140,12 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	
 	
 	public void msgAtHome(){		//from gui
-		print("msgAtHome called");
+		log("msgAtHome called");
 		atHome.release();
 		stateChanged();
 	}
 	public void msgAtDestination(){
-		print("msgAtDestination called");
+		log("msgAtDestination called");
 		atDestination.release();
 		stateChanged();
 	}
@@ -185,7 +192,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 
 	// Actions
 	public void DeliverOrder(Bill b){
-		print("Traveling to delivery location: " + b.restaurantName);
+		log("Traveling to delivery location: " + b.restaurantName);
 		
 		//gui call for truck to travel to restaurant
 		deliveryGui.DoDeliverOrder(b.restaurantName);
@@ -234,7 +241,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	
 	
 	public void CalculateChange(Bill b){
-		print("Calculating change");
+		log("Calculating change");
 
 		double dollars = 0;
 		if (b.amountPaid >= b.amountCharged){
@@ -254,7 +261,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	}
 	
 	public void ReturnToMarket(Bill b){
-		print("Returning to market");
+		log("Returning to market");
 		bills.remove(b);
 		deliveryGui.DoGoToHomePosition();
 		try {
