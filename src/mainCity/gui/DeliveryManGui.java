@@ -54,8 +54,8 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
         restaurantX.put("davidRestaurant", 585);
         restaurantY.put("davidRestaurant", 230);
         
-        restaurantX.put("jeffersonRestaurant", 347);
-        restaurantY.put("jeffersonRestaurant", 280);
+        restaurantX.put("jeffersonrestaurant", 347);
+        restaurantY.put("jeffersonrestaurant", 280);
 
     }
 
@@ -96,8 +96,8 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
         	atDestination = true;
         }
         else if (xPos == xDestination && yPos == yDestination
-        		&& (xDestination == restaurantX.get("jeffersonRestaurant")) 
-        		&& (yDestination == restaurantY.get("jeffersonRestaurant")) && !atDestination) {
+        		&& (xDestination == restaurantX.get("jeffersonrestaurant")) 
+        		&& (yDestination == restaurantY.get("jeffersonrestaurant")) && !atDestination) {
         	agent.msgAtDestination();
         	atDestination = true;
         }
