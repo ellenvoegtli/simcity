@@ -97,7 +97,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 	}
 	
 	public void log(String s) { 
-		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this. getName(), s); 
+		AlertLog.getInstance().logMessage(AlertTag.DAVID_RESTAURANT, this.getName(), s); 
 		AlertLog.getInstance().logMessage(AlertTag.DAVID_HOST, this.getName(), s);
 	}
 	

@@ -17,23 +17,23 @@ public class EllenMenu {
 	public List<String> menuItems
 	= Collections.synchronizedList(new ArrayList<String>());
 	
-	Map<String, Integer> prices 
-	= new TreeMap<String, Integer>();
+	Map<String, Double> prices 
+	= new TreeMap<String, Double>();
 
 
 	public EllenMenu(){
-		menuItems.add("steak");
 		menuItems.add("pasta");
 		menuItems.add("pizza");
-		menuItems.add("Soup");
+		menuItems.add("meatballs");
+		menuItems.add("bread");
 		
-		prices.put("steak", 30);	//type, $$price
-        prices.put("pizza", 10);
-        prices.put("pasta", 20);
-        prices.put("Soup", 5);
+		prices.put("pasta", 30.00);	//type, $$price
+        prices.put("pizza", 12.99);
+        prices.put("meatballs", 9.99);
+        prices.put("bread", 5.00);
 	}
 	
-	public int getPrice(String choice){
+	public double getPrice(String choice){
 		return (prices.get(choice));
 	}
 	
