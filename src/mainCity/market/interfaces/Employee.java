@@ -20,6 +20,7 @@ public interface Employee {
 	public abstract void msgAtWaitingRoom();
 	public abstract void msgAtDeliveryMan();
 	public abstract void msgAtStation();
+	public abstract void msgDoneLeaving();
 	
     public abstract void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory);
 	public abstract void msgAssignedToCustomer(Customer c, int waitPosX, int waitPosY);

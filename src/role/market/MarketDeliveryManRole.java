@@ -28,15 +28,10 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	public DeliveryManGuiInterface deliveryGui;
 	MarketCashier cashier;
 	
-	private double availableMoney = 0;
+	private double cash = 0;
 	Timer timer = new Timer();
-	//private Bill b;
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
 	private List<MarketEmployeeRole> employees = Collections.synchronizedList(new ArrayList<MarketEmployeeRole>());
-	/*private DeliveryState s = DeliveryState.doingNothing;
-	enum DeliveryState {doingNothing, enRoute, waitingForPayment, calculatingChange, goingBackToMarket, done};
-	private DeliveryEvent event;
-	enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, owedMoney, arrivedAtMarket};*/
 	public AgentState state;
 	public enum AgentState {doingNothing, makingDelivery};
 	
@@ -46,6 +41,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	
 	private Semaphore atHome = new Semaphore(0, true);
 	private Semaphore atDestination = new Semaphore(0, true);
+	private boolean onDuty;
 	
 	
 	//constructor
@@ -53,12 +49,13 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		super(p);
 		this.name = name;
 		state = AgentState.doingNothing;
+		onDuty = true;
 	}
 	public List getBills(){
 		return bills;
 	}
-	public double getAvailableMoney(){
-		return availableMoney;
+	public double getCash(){
+		return cash;
 	}
 
 	public String getName() {
@@ -92,13 +89,12 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	public void msgHereIsPayment(double amount, String restaurantName){		//sent by any restaurant's cashier
 		log("Received msgHereIsPayment: got $" + amount);
 		Bill b = null;
-		for (Bill thisB : bills){	//to find the myCustomer with this specific Customer within myCustomers list
+		for (Bill thisB : bills){
 			if (thisB.restaurantName.equalsIgnoreCase(restaurantName)){
 				b = thisB;
 				break;
 			}
 		}
-		
 		b.amountPaid = amount;
 		b.event = DeliveryEvent.receivedPayment;
 		stateChanged();
@@ -106,15 +102,14 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	public void msgChangeVerified(String name){
 		log("Received msgChangeVerified");
 		Bill b = null;
-		for (Bill thisB : bills){	//to find the myCustomer with this specific Customer within myCustomers list
+		for (Bill thisB : bills){	
 			if (thisB.restaurantName.equalsIgnoreCase(name)){
 				b = thisB;
 				break;
 			}
 		}
-		availableMoney += b.amountMarketGets;
-		availableMoney = Math.round(availableMoney*100.0)/100.0;
-		
+		cash += b.amountMarketGets;
+		cash = Math.round(cash*100.0)/100.0;
 		b.event = DeliveryEvent.changeVerified;
 		stateChanged();
 	}
@@ -122,21 +117,17 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	public void msgIOweYou(double amount, String name){
 		log("Received msgIOweYou from " + name + " for $" + amount);
 		Bill b = null;
-		for (Bill thisB : bills){	//to find the myCustomer with this specific Customer within myCustomers list
+		for (Bill thisB : bills){	
 			if (thisB.restaurantName.equalsIgnoreCase(name)){
 				b = thisB;
 				break;
 			}
 		}
-		
-		availableMoney += b.amountMarketGets;
-		availableMoney = Math.round(availableMoney*100.0)/100.0;
-		
+		cash += b.amountMarketGets;
+		cash = Math.round(cash*100.0)/100.0;
 		b.event = DeliveryEvent.acknowledgedDebt;
 		stateChanged();
 	}
-	
-	
 	
 	
 	public void msgAtHome(){		//from gui
@@ -147,6 +138,12 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	public void msgAtDestination(){
 		log("msgAtDestination called");
 		atDestination.release();
+		stateChanged();
+	}
+	
+	public void msgGoOffDuty(double amount){
+		addToCash(amount);
+		onDuty = false;
 		stateChanged();
 	}
 	
@@ -181,12 +178,15 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 				return true;
 			}
 		}
+		
+		if (bills.isEmpty() && !onDuty){
+			deliveryGui.DoGoToHomePosition();
+			super.setInactive();
+			onDuty = true;
+		}
 
 
 		return false;
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
 	}
 	
 
@@ -194,7 +194,6 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	public void DeliverOrder(Bill b){
 		log("Traveling to delivery location: " + b.restaurantName);
 		
-		//gui call for truck to travel to restaurant
 		deliveryGui.DoDeliverOrder(b.restaurantName);
 		try {
 			atDestination.acquire();
@@ -202,8 +201,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
 		//gui will then message appropriate deliveryMan when it arrives
 		if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
 			b.cook = ContactList.getInstance().ellenCook;
@@ -272,6 +270,10 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		}
 		state = AgentState.doingNothing;
 		
+		if(!onDuty){
+			super.setInactive();
+			onDuty = true;
+		}
 	}
 
 	//utilities

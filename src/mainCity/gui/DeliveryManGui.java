@@ -1,10 +1,10 @@
 package mainCity.gui;
 
 
-import mainCity.market.*;
 import mainCity.market.interfaces.DeliveryMan;
 import mainCity.market.interfaces.DeliveryManGuiInterface;
 import mainCity.gui.*;
+import role.market.MarketDeliveryManRole;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,11 +14,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-
-import role.market.MarketDeliveryManRole;
 
 public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
 
@@ -31,8 +26,6 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     static final int waiterWidth = 20;
     static final int waiterHeight = 20;
     public int homeX = 395, homeY = 200;
-    public int exitMarketX = 530, exitMarketY = 350/2;
-    private int cashierX = 20, cashierY = 250;
     private BufferedImage truckImg = null;
 
 	Map<String, Integer> restaurantX = new TreeMap<String, Integer>();
@@ -52,9 +45,7 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
 		}
     	
         this.agent = agent;
-        //this.gui = gui;
         
-        //initialize restaurant locations map -- NECESSARY? or will we have a "contact list" equivalent to get restaurant locations?
         restaurantX.put("EllenRestaurant", 105);
     	restaurantY.put("EllenRestaurant", 280);
          
@@ -69,9 +60,6 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
         
         restaurantX.put("jeffersonrestaurant", 347);
         restaurantY.put("jeffersonrestaurant", 280);
-        
-        
-
     }
 
     public void updatePosition() {
@@ -116,13 +104,6 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
         	agent.msgAtDestination();
         	atDestination = true;
         }
-
-        /*
-        else if ((xPos == xDestination && yPos == yDestination) && (xPos == cashierX && yPos == cashierY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
-    		agent.msgAtCashier();
-    		atDestination = true;
-        }
-        */
         else if ((xPos == xDestination && yPos == yDestination) && (xPos == homeX && yPos == homeY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
     		agent.msgAtHome();
     		atDestination = true;
@@ -130,14 +111,7 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     }
     
     public void draw(Graphics2D g) {
-        //g.setColor(Color.BLUE);
-        //g.fillRect(xPos, yPos, waiterWidth, waiterHeight);
         g.drawImage(truckImg,xPos,yPos,null);
-    	
-        if (isDeliveringFood){
-        	g.setColor(Color.BLACK);
-        }
-        
     }
 
 
@@ -165,10 +139,6 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     	xDestination = restaurantX.get(restaurantName);
     	yDestination = restaurantY.get(restaurantName);
     	atDestination = false;
-    }
-
-    public void setIsDeliveringFood(boolean isDeliveringFood){	//for food text label
-    	this.isDeliveringFood = isDeliveringFood;
     }
 
 

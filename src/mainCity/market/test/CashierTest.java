@@ -42,7 +42,7 @@ public class CashierTest extends TestCase {
 			
 			//check preconditions
             assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
-            assertEquals("Cashier should have 0 available money but does not.", cashier.getAvailableMoney(), 0.0);
+            assertEquals("Cashier should have 0 available money but does not.", cashier.getCash(), 0.0);
             Map<String, Integer>inventory = new TreeMap<String, Integer>();
             inventory.put("steak", 1);		//cost of steak = 15.99
             inventory.put("soup", 2);		//cost of soup = 5.00
@@ -103,7 +103,7 @@ public class CashierTest extends TestCase {
             
             
             //postconditions 5/preconditions 6
-            assertEquals("Cashier should have available money = $25.99 but does not.", cashier.getAvailableMoney(), 25.99);
+            assertEquals("Cashier should have available money = $25.99 but does not.", cashier.getCash(), 25.99);
             
             
             //step 6
@@ -125,7 +125,7 @@ public class CashierTest extends TestCase {
 			
 			//check preconditions
             assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
-            assertEquals("Cashier should have 0 available money but does not.", cashier.getAvailableMoney(), 0.0);
+            assertEquals("Cashier should have 0 available money but does not.", cashier.getCash(), 0.0);
             Map<String, Integer>inventory = new TreeMap<String, Integer>();
             inventory.put("steak", 1);		//cost of steak = 15.99
             inventory.put("soup", 2);		//cost of soup = 5.00
@@ -168,7 +168,7 @@ public class CashierTest extends TestCase {
 			
 			//check preconditions
             assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
-            assertEquals("Cashier should have 0 available money but does not.", cashier.getAvailableMoney(), 0.0);
+            assertEquals("Cashier should have 0 available money but does not.", cashier.getCash(), 0.0);
             Map<String, Integer>inventory1 = new TreeMap<String, Integer>();
             inventory1.put("steak", 1);		//cost of steak = 15.99
             inventory1.put("soup", 2);		//cost of soup = 5.00
@@ -279,7 +279,7 @@ public class CashierTest extends TestCase {
             
             
             //postconditions 6/preconditions 7
-            assertEquals("Cashier should have available money = $25.99 but does not.", cashier.getAvailableMoney(), 25.99);
+            assertEquals("Cashier should have available money = $25.99 but does not.", cashier.getCash(), 25.99);
             assertFalse("Cashier's scheduler should have returned false (no actions to do), but didn't.", 
                     cashier.pickAndExecuteAnAction());
             assertEquals("Cashier should have 1 bill but does not.", cashier.getBills().size(), 1);
@@ -289,7 +289,7 @@ public class CashierTest extends TestCase {
             cashier.msgChangeVerified(customer2);
             
             //postconditions 7
-            assertEquals("Cashier should have available money = $60.99 but does not.", cashier.getAvailableMoney(), 60.99);
+            assertEquals("Cashier should have available money = $60.99 but does not.", cashier.getCash(), 60.99);
             assertFalse("Cashier's scheduler should have returned false (no actions left to do), but didn't.", 
                     cashier.pickAndExecuteAnAction());
             assertEquals("Cashier should have 0 bills but does not.", cashier.getBills().size(), 0);
@@ -301,7 +301,7 @@ public class CashierTest extends TestCase {
 			
 			//check preconditions
             assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
-            assertEquals("Cashier should have 0 available money but does not.", cashier.getAvailableMoney(), 0.0);
+            assertEquals("Cashier should have 0 available money but does not.", cashier.getCash(), 0.0);
             Map<String, Integer>inventory1 = new TreeMap<String, Integer>();
             inventory1.put("steak", 1);		//cost of steak = 15.99
             inventory1.put("soup", 2);		//cost of soup = 5.00
@@ -365,7 +365,7 @@ public class CashierTest extends TestCase {
 
 			//check preconditions
             assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
-            assertEquals("Cashier should have 0 available money but does not.", cashier.getAvailableMoney(), 0.0);
+            assertEquals("Cashier should have 0 available money but does not.", cashier.getCash(), 0.0);
             Map<String, Integer>inventory1 = new TreeMap<String, Integer>();
             inventory1.put("pizza", 1);		//cost of pizza = 8.99
             inventory1.put("pasta", 2);		//cost of pasta = 20.00
@@ -454,7 +454,7 @@ public class CashierTest extends TestCase {
             cashier.msgChangeVerified(customer1);
             
             //postconditions 5/preconditions 6
-            assertEquals("Cashier should have available money = $25.99 but does not.", cashier.getAvailableMoney(), 25.99);
+            assertEquals("Cashier should have available money = $25.99 but does not.", cashier.getCash(), 25.99);
             
             
             //step 6
@@ -533,7 +533,7 @@ public class CashierTest extends TestCase {
             cashier.msgChangeVerified(flake);
 
             //postconditions 5/preconditions 6
-            assertEquals("Cashier should have available money = $20 but does not.", cashier.getAvailableMoney(), 20.0);
+            assertEquals("Cashier should have available money = $20 but does not.", cashier.getCash(), 20.0);
             
             
             //step 6
@@ -562,7 +562,7 @@ public class CashierTest extends TestCase {
 			
 			//check preconditions
             assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
-            assertEquals("Cashier should have 0 available money but does not.", cashier.getAvailableMoney(), 0.0);
+            assertEquals("Cashier should have 0 available money but does not.", cashier.getCash(), 0.0);
             Map<String, Integer>inventory = new TreeMap<String, Integer>();
             inventory.put("steak", 1);		//cost of steak = 15.99
             inventory.put("soup", 2);		//cost of soup = 5.00
@@ -656,7 +656,7 @@ public class CashierTest extends TestCase {
             cashier.msgChangeVerified(customer1);
             
             //postconditions 5/preconditions 6
-            assertEquals("Cashier should have available money = $25.99 but does not.", cashier.getAvailableMoney(), 25.99);
+            assertEquals("Cashier should have available money = $25.99 but does not.", cashier.getCash(), 25.99);
             assertEquals("Cashier should have 0 bills but does not.", cashier.getBills().size(), 0);
             assertFalse("Cashier's scheduler should have returned false (no actions left to do), but didn't.", 
                     cashier.pickAndExecuteAnAction());

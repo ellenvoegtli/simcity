@@ -7,8 +7,9 @@ import mainCity.market.MarketCustomerRole;
 import mainCity.market.MarketEmployeeRole;
 
 
-public interface MarketCashier {
+public interface MarketCashier{
 	public abstract void setGreeter(Greeter g);
+	public abstract void deductCash(double sub);
 	
 	public abstract void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e);
 	public abstract void msgComputeBill(Map<String, Integer> inventory, String name, Employee e);

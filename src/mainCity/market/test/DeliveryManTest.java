@@ -54,7 +54,7 @@ public class DeliveryManTest extends TestCase {
 			
 			//preconditions
 			assertEquals("Delivery man should have 0 bills in it. It doesn't.", deliveryMan.getBills().size(), 0);
-            assertEquals("Delivery man should have 0 available money but does not.", deliveryMan.getAvailableMoney(), 0.0);
+            assertEquals("Delivery man should have 0 available money but does not.", deliveryMan.getCash(), 0.0);
             assertTrue("Delivery man should be in state == doingNothing. He isn't.",
             		deliveryMan.getState() == AgentState.doingNothing);
             Map<String, Integer>inventory = new TreeMap<String, Integer>();
@@ -139,7 +139,7 @@ public class DeliveryManTest extends TestCase {
             deliveryMan.msgChangeVerified("ellenRestaurant");
             
             //postconditions 6/preconditions 7
-            assertEquals("Delivery man should have $25.99 available money but does not.", deliveryMan.getAvailableMoney(), 25.99);
+            assertEquals("Delivery man should have $25.99 available money but does not.", deliveryMan.getCash(), 25.99);
             assertTrue("Delivery man should contain a check with event == changeVerified. It doesn't.",
             		deliveryMan.bills.get(0).getEvent() == DeliveryEvent.changeVerified);
             
@@ -171,7 +171,7 @@ public class DeliveryManTest extends TestCase {
 			
 			//preconditions
 			assertEquals("Delivery man should have 0 bills in it. It doesn't.", deliveryMan.getBills().size(), 0);
-            assertEquals("Delivery man should have 0 available money but does not.", deliveryMan.getAvailableMoney(), 0.0);
+            assertEquals("Delivery man should have 0 available money but does not.", deliveryMan.getCash(), 0.0);
             assertTrue("Delivery man should be in state == doingNothing. He isn't.",
             		deliveryMan.getState() == AgentState.doingNothing);
             Map<String, Integer>inventory = new TreeMap<String, Integer>();
@@ -271,7 +271,7 @@ public class DeliveryManTest extends TestCase {
             deliveryMan.msgChangeVerified("ellenRestaurant");
             
             //postconditions 6/preconditions 7
-            assertEquals("Delivery man should have $25.99 available money but does not.", deliveryMan.getAvailableMoney(), 25.99);
+            assertEquals("Delivery man should have $25.99 available money but does not.", deliveryMan.getCash(), 25.99);
             assertTrue("Delivery man should contain a check with event == changeVerified. It doesn't.",
             		deliveryMan.bills.get(0).getEvent() == DeliveryEvent.changeVerified);
             
@@ -344,7 +344,7 @@ public class DeliveryManTest extends TestCase {
             deliveryMan.msgChangeVerified("enaRestaurant");
             
             //postconditions 6/preconditions 7
-            assertEquals("Delivery man should have $74.98 available money but does not.", deliveryMan.getAvailableMoney(), 74.98);
+            assertEquals("Delivery man should have $74.98 available money but does not.", deliveryMan.getCash(), 74.98);
             assertTrue("Delivery man should contain a check with event == changeVerified. It doesn't.",
             		deliveryMan.bills.get(0).getEvent() == DeliveryEvent.changeVerified);
             
@@ -374,7 +374,7 @@ public class DeliveryManTest extends TestCase {
 
 			//preconditions
 			assertEquals("Delivery man should have 0 bills in it. It doesn't.", deliveryMan.getBills().size(), 0);
-            assertEquals("Delivery man should have 0 available money but does not.", deliveryMan.getAvailableMoney(), 0.0);
+            assertEquals("Delivery man should have 0 available money but does not.", deliveryMan.getCash(), 0.0);
             assertTrue("Delivery man should be in state == doingNothing. He isn't.",
             		deliveryMan.getState() == AgentState.doingNothing);
             Map<String, Integer>inventory = new TreeMap<String, Integer>();
@@ -461,7 +461,7 @@ public class DeliveryManTest extends TestCase {
             deliveryMan.msgIOweYou(15.99, "ellenRestaurant");
             
             //postconditions 6/preconditions 7
-            assertEquals("Delivery man should have $10 available money but does not.", deliveryMan.getAvailableMoney(), 10.0);
+            assertEquals("Delivery man should have $10 available money but does not.", deliveryMan.getCash(), 10.0);
             assertTrue("Delivery man should contain a check with event == acknowledgedDebt. It doesn't.",
             		deliveryMan.bills.get(0).getEvent() == DeliveryEvent.acknowledgedDebt);
             
