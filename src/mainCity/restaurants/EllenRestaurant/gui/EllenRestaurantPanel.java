@@ -197,7 +197,7 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
         	System.out.println("Setting EllenNormalWaiterRole: " + w.getName());
         	/*
     		if(r.getName().contains("share")) {
-    			MarcusSharedWaiterRole a = (MarcusSharedWaiterRole) r;
+    			EllenSharedWaiterRole a = (EllenSharedWaiterRole) r;
     			a.setStand(stand);
     		}*/
     		WaiterGui g = new WaiterGui(w, animation, waiterX + 30, waiterY);

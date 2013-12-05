@@ -22,6 +22,9 @@ public class MockEmployeeGui extends Mock implements EmployeeGuiInterface {
     public void DoGoToDeliveryMan(){
     	
     }
+    public void DoLeaveMarket(){
+    	
+    }
     @Override
     public void DoPickUpWaitingCustomer(int x, int y){
     	log.add(new LoggedEvent("Gui told to DoPickUpWaitingCustomer by agent."));

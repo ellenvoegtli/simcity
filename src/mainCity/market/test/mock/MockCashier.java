@@ -17,7 +17,8 @@ public class MockCashier extends Mock implements MarketCashier {
     }
     
     public void setGreeter(Greeter g){
-    	
+    }
+    public void deductCash(double sub){
     }
     
 	public void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e){

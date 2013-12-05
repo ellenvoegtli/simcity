@@ -1,32 +1,16 @@
 package mainCity.market;
 
-import agent.Agent;
 import mainCity.PersonAgent;
-//import restaurant.gui.CustomerGui;
-import mainCity.market.gui.*;
 import mainCity.market.interfaces.*;
-import mainCity.market.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
 import role.Role;
-import role.market.MarketDeliveryManRole.AgentState;
-
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
-
-/**
- * Restaurant Host Agent
- */
-//We only have 2 types of agents in this prototype. A customer and an agent that
-//does all the rest. Rather than calling the other agent a waiter, we called him
-//the HostAgent. A Host is the manager of a restaurant who sees that all
-//is proceeded as he wishes.
-public class MarketEmployeeRole extends Role implements Employee {
+public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	private String name;
 	Timer timer = new Timer();
 	
@@ -50,12 +34,16 @@ public class MarketEmployeeRole extends Role implements Employee {
 	private Semaphore atCashier = new Semaphore(0, true);
 	private Semaphore atWaitingRoom = new Semaphore(0, true);
 	private Semaphore atDeliveryMan = new Semaphore(0, true);
+	private Semaphore doneLeaving = new Semaphore(0, true);
+	
+	private boolean onDuty;
 
 		
 
 	public MarketEmployeeRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
+		onDuty = true;
 	}
 	
 	public void setHost(Greeter host){
@@ -80,18 +68,13 @@ public class MarketEmployeeRole extends Role implements Employee {
 	public WaiterState getState(){
 		return wState;
 	}
-
-	public String getMaitreDName() {
-		return name;
-	}
-
 	public String getName() {
 		return name;
 	}
-	public Collection getMyCustomers() {
+	public Collection<MyCustomer> getMyCustomers() {
 		return myCustomers;
 	}
-	public Collection getMyBusinesses(){
+	public Collection<MyBusiness> getMyBusinesses(){
 		return myBusinesses;
 	}
 
@@ -127,8 +110,7 @@ public class MarketEmployeeRole extends Role implements Employee {
 			}
 		}
 		log("Received msgHereIsMyOrder");
-		//copy over list
-		mc.inventoryOrdered = new TreeMap<String, Integer>(inventory);
+		mc.inventoryOrdered = new TreeMap<String, Integer>(inventory); 	//copy over list
 		mc.s = CustomerState.ordered;
 		stateChanged();
 	}
@@ -210,26 +192,25 @@ public class MarketEmployeeRole extends Role implements Employee {
 		atDeliveryMan.release();
 		stateChanged();
 	}
+	public void msgDoneLeaving(){
+		log("Done leaving restaurant");
+		doneLeaving.release();
+		stateChanged();
+	}
+	
+	public void msgGoOffDuty(double amount){
+		addToCash(amount);
+		onDuty = false;
+		stateChanged();
+	}
 	
 	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		/*
-		Always check to see if the waiter is at the "checkpoint" position ("doingNothing")
-		before carrying out the next action.
-		In the case of a waiting customer, the waiter can either be at the start position ("inactive")
-		or at the checkpoint position ("doingNothing").
-		
-		Note: have to loop through myCustomers for each condition because otherwise, the first
-		customer in the list will be picked before the rest each time. (1 for loop with all the 
-		conditions would check each of the states for the first myCustomer before even looking 
-		at the rest of the myCustomers.)
-		 */
 		
 		try {
-			
 			for (MyCustomer mc : myCustomers){
 				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing){
 					GreetCustomer(mc);
@@ -237,7 +218,6 @@ public class MarketEmployeeRole extends Role implements Employee {
 					return true;
 				}
 			}
-			
 			//business check
 			for (MyBusiness mb : myBusinesses) {
 				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing){
@@ -286,8 +266,6 @@ public class MarketEmployeeRole extends Role implements Employee {
 					return true;
 				}
 			}
-			
-
 			for (MyCustomer mc : myCustomers) {
 				if (mc.s == CustomerState.leaving){
 					RemoveCustomer(mc);
@@ -295,18 +273,18 @@ public class MarketEmployeeRole extends Role implements Employee {
 				}
 			}
 
-			//else, if none of these loops or statements were entered, go to home position
 			wState = WaiterState.doingNothing;
 			
 		}catch(ConcurrentModificationException e){
 			return false;
 		}
 		
-		return false;
+		if(!onDuty){
+			leaveRestaurant();
+			onDuty = true;
+		}
 		
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
+		return false;
 	}
 
 	// Actions
@@ -345,9 +323,7 @@ public class MarketEmployeeRole extends Role implements Employee {
 				mc.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - marketMenu.getStock(entry.getKey())));
 			}
 		}
-		
 		mc.s = CustomerState.waitingForBill;
-		
 		SendBillToCashier(mc);
 	}
 	
@@ -357,17 +333,14 @@ public class MarketEmployeeRole extends Role implements Employee {
 		try {
 			atCashier.acquire();
 		} catch(InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		cashier.msgComputeBill(mc.inventoryFulfilled, mc.c, this);
 	}
 	
 	private void FulfillOrder(final MyCustomer mc){
 		log("Fulfilling order for: " + mc.c.getName());
 		employeeGui.DoFulfillOrder();
-		//gui semaphore (timer for now) to gather items from stock room
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -382,10 +355,8 @@ public class MarketEmployeeRole extends Role implements Employee {
 		try {
 			atStation.acquire();
 		} catch(InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		mc.c.msgHereIsYourOrder(mc.inventoryFulfilled, mc.billAmount);
 		mc.s = CustomerState.gotOrderAndBill;
 	}
@@ -408,7 +379,6 @@ public class MarketEmployeeRole extends Role implements Employee {
 				mb.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - marketMenu.getStock(entry.getKey())));
 			}
 		}
-		
 		SendBillToCashier(mb);
 	}
 	
@@ -443,7 +413,6 @@ public class MarketEmployeeRole extends Role implements Employee {
 		try {
 			atDeliveryMan.acquire();
 		} catch(InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		deliveryMan.msgHereIsOrderForDelivery(mb.restaurantName, mb.cook, mb.cashier, mb.inventoryFulfilled, mb.billAmount);
@@ -452,6 +421,17 @@ public class MarketEmployeeRole extends Role implements Employee {
 		
 		log("Removing customer: " + mb.restaurantName);
 		myBusinesses.remove(mb);
+	}
+	
+	private void leaveRestaurant(){
+		employeeGui.DoLeaveMarket();
+		try {
+			doneLeaving.acquire();
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		setInactive();
+		onDuty = true;
 	}
 
 	

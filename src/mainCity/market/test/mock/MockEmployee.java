@@ -32,6 +32,9 @@ public class MockEmployee extends Mock implements Employee {
 	public void msgAtStation(){
 		
 	}
+	public void msgDoneLeaving(){
+		
+	}
 	public void setHomeX(int x){
 		
 	}

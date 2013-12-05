@@ -1,34 +1,33 @@
-
 package mainCity.market;
-import java.util.*;
 
+import java.util.*;
 import role.Role;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.WorkerRole;
 import mainCity.market.interfaces.*;
 
 
 
- // Restaurant Cook Agent
-
-public class MarketCashierRole extends Role implements MarketCashier {	
+public class MarketCashierRole extends Role implements MarketCashier, WorkerRole {	
 	private String name;
 	Greeter greeter;
-	private double availableMoney = 0;		//we don't actually need to start with any money (don't need to buy anything)
+	private double cash = 0;
 	Timer timer = new Timer();
 	private MarketMenu marketMenu = new MarketMenu();
 	
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());	//from waiters
-	private List<Employee> employees = Collections.synchronizedList(new ArrayList<Employee>());
-		
 	public enum BillState {computing, waitingForPayment, recomputingBill, calculatingChange, oweMoney, paid};
+	private List<Employee> employees = Collections.synchronizedList(new ArrayList<Employee>());
+	
+	private boolean onDuty;
 	
 	//constructor
 	public MarketCashierRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
-
+		onDuty = true;
 	}
 	public void addWaiter(Employee w){	//hack
 		employees.add(w);
@@ -39,18 +38,23 @@ public class MarketCashierRole extends Role implements MarketCashier {
 	public String getName() {
 		return name;
 	}
-	public List getBills(){
+	public List<Bill> getBills(){
 		return bills;
 	}
-	public double getAvailableMoney(){
-		return availableMoney;
+	public double getCash(){
+		return cash;
+	}
+	public void deductCash(double sub){
+		cash -= sub;
+		cash = Math.round(cash*100.0)/100.0;
 	}
 
-	//for alert log trace statements
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.MARKET_CASHIER, this.getName(), s);
 	}
+	
+	
 	
 	// Messages
 	
@@ -60,8 +64,7 @@ public class MarketCashierRole extends Role implements MarketCashier {
 		bills.add(new Bill(inventory, name, BillState.computing, e));
 		stateChanged();
 	}
-	
-	
+
 	//customer
 	public void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e){
 		bills.add(new Bill(inventory, c, BillState.computing, e));
@@ -109,15 +112,20 @@ public class MarketCashierRole extends Role implements MarketCashier {
 			}
 		}
 		//NOW we can add the money they finally, for sure paid and are not taking back
-		availableMoney += b.amountMarketGets;
-		availableMoney = Math.round(availableMoney*100.0)/100.0;
+		cash += b.amountMarketGets;
+		cash = Math.round(cash*100.0)/100.0;
 		bills.remove(b);
 	}
 	public void msgHereIsMoneyIOwe(Customer cust, double amount){
 		log("Received msgHereIsMoneyIOwe from " + cust.getName() + ": $" + amount);
-		availableMoney += amount;
+		cash += amount;
 	}
 	
+	public void msgGoOffDuty(double amount){
+		addToCash(amount);
+		onDuty = false;
+		stateChanged();
+	}
 
 	
 	
@@ -150,12 +158,14 @@ public class MarketCashierRole extends Role implements MarketCashier {
 				}
 			}
 		}
+		
+		if(!bills.isEmpty() && !onDuty){
+			setInactive();
+			onDuty = true;
+		}
 
 
 		return false;
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
 	}
 	
 
