@@ -1,9 +1,10 @@
-package mainCity.test;
+package mainCity.test.Mock;
 
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.CityLocation;
 import mainCity.interfaces.PersonGuiInterface;
-import mainCity.test.Mock;
+import mainCity.test.LoggedEvent;
+import mainCity.test.Mock.Mock;
 
 //Possibly log then release then call the method to release the appropriate semaphore here?
 

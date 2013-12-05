@@ -1,4 +1,6 @@
-package mainCity.test;
+package mainCity.test.Mock;
+
+import mainCity.test.EventLog;
 
 public class Mock {
 	public String name;

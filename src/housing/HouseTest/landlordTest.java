@@ -9,7 +9,7 @@ import mainCity.restaurants.enaRestaurant.EnaCashierRole;
 import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
 import mainCity.restaurants.enaRestaurant.test.mock.MockMarket;
 import mainCity.restaurants.enaRestaurant.test.mock.MockWaiter;
-import mainCity.test.MockPersonGui;
+import mainCity.test.Mock.MockPersonGui;
 import housing.LandlordRole;
 import housing.personHome;
 import housing.HouseTest.HouseMock.MockLandLordGui;

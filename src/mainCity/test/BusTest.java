@@ -8,6 +8,7 @@ import transportation.gui.BusGui;
 import mainCity.contactList.ContactList;
 import mainCity.gui.CityGui;
 import mainCity.gui.PersonGui;
+import mainCity.test.Mock.MockPersonGui;
 
 public class BusTest extends TestCase{
 	BusAgent bus; 

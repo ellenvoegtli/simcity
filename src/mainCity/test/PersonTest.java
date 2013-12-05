@@ -11,6 +11,7 @@ import mainCity.bank.*;
 import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
+import mainCity.test.Mock.MockPersonGui;
 
 
 public class PersonTest extends TestCase {
