@@ -5,7 +5,6 @@ import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.WorkerRole;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
-import mainCity.restaurants.marcusRestaurant.gui.WaiterGui;
 import mainCity.restaurants.marcusRestaurant.MarcusMenu;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 
@@ -15,7 +14,7 @@ import java.util.concurrent.Semaphore;
 import role.Role;
 
 public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRole {
-	public WaiterGui waiterGui = null;
+	public WaiterGuiInterface waiterGui = null;
 
 	static final int NTABLES = 3;//a global for the number of tables.
 
@@ -402,11 +401,11 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		}
 	}
 	
-	public void setGui(WaiterGui gui) {
+	public void setGui(WaiterGuiInterface gui) {
 		waiterGui = gui;
 	}
 
-	public WaiterGui getGui() {
+	public WaiterGuiInterface getGui() {
 		return waiterGui;
 	}
 	

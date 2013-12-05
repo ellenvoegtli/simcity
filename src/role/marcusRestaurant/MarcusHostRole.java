@@ -74,6 +74,10 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		cook = c;
 	}
 	
+	public MarcusCookRole getCook() {
+		return cook;
+	}
+	
 	public void addWaiter(Waiter w) {
 		waitersList.add(new MyWaiter(w));
 		stateChanged();

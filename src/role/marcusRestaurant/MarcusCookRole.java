@@ -46,10 +46,10 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 		foods = Collections.synchronizedMap(new HashMap<String, Food>());
 		
 		synchronized(foods) {
-			foods.put("Swiss", new Food("Swiss", 7500, 15, 7, 20));//Name, CookTime, Quantity, Threshold, Capacity
-			foods.put("American", new Food("American", 5500, 15, 4, 20));
-			foods.put("Cheddar", new Food("Cheddar", 3500, 13, 5, 20));
-			foods.put("Provolone", new Food("Provolone", 6000, 11, 5, 20));
+			foods.put("Swiss", new Food("Swiss", 7500, 7, 7, 20));//Name, CookTime, Quantity, Threshold, Capacity
+			foods.put("American", new Food("American", 5500, 4, 4, 20));
+			foods.put("Cheddar", new Food("Cheddar", 3500, 5, 5, 20));
+			foods.put("Provolone", new Food("Provolone", 6000, 5, 5, 20));
 		}
 		
 		tracker = 0;

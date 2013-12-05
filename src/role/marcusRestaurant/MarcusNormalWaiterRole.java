@@ -13,7 +13,13 @@ public class MarcusNormalWaiterRole extends MarcusWaiterRole {
 		waitForGui();
 		
 		c.state = CustomerState.waitingForFood;
-		cook.msgHereIsAnOrder(this, c.choice, c.table);
+		try {
+			cook.msgHereIsAnOrder(this, c.choice, c.table);
+		}
+		catch(Exception e) {
+			cook = host.getCook();
+			cook.msgHereIsAnOrder(this, c.choice, c.table);
+		}
 		waiterGui.DoGoHome();
 	}
 }

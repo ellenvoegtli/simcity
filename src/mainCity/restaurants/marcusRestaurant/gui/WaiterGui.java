@@ -2,9 +2,10 @@ package mainCity.restaurants.marcusRestaurant.gui;
 
 import java.awt.*;
 
+import mainCity.restaurants.marcusRestaurant.interfaces.WaiterGuiInterface;
 import role.marcusRestaurant.MarcusWaiterRole;
 
-public class WaiterGui implements Gui {
+public class WaiterGui implements Gui, WaiterGuiInterface {
 
     private MarcusWaiterRole agent = null;
 
@@ -82,18 +83,21 @@ public class WaiterGui implements Gui {
         return true;
     }
 
-    public void DoGoToTable(int tableNumber) {
+    @Override
+	public void DoGoToTable(int tableNumber) {
     	atTableNumber = tableNumber-1;
         xDestination = xTable + w + 100 * (tableNumber-1);
         yDestination = yTable - h;
     }
 
-    public void DoGoToCook() {
+    @Override
+	public void DoGoToCook() {
     	xDestination = cookX;
     	yDestination = cookY;
     }
     
-    public void DoDeliverFood(String c) {
+    @Override
+	public void DoDeliverFood(String c) {
 		DoGoToCook();
 		
 		switch(c) {
@@ -114,18 +118,21 @@ public class WaiterGui implements Gui {
 		deliveringFood = true;
     }
     
-    public void DoGoHome() {
+    @Override
+	public void DoGoHome() {
     	xDestination = homeX;
         yDestination = homeY;
     }
     
-    public void DoLeaveRestaunt() {
+    @Override
+	public void DoLeaveRestaunt() {
     	xDestination = 460;
     	yDestination = -20;
     	gettingCustomer = true; //recycling old code
     }
     
-    public void DoPickUpCustomer(int x, int y) {
+    @Override
+	public void DoPickUpCustomer(int x, int y) {
     	xDestination = x;
     	yDestination = y;
     	gettingCustomer = true;

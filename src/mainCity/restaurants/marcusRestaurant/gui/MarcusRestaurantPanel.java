@@ -157,6 +157,7 @@ public class MarcusRestaurantPanel extends JPanel {
             cook.setCashier(cashier);
             
             if(host != null) host.setCook(cook);
+            
             for(MarcusWaiterRole w : waiters) {
     			w.setCook(cook);
     		}
