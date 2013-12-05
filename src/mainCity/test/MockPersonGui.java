@@ -5,6 +5,8 @@ import mainCity.PersonAgent.CityLocation;
 import mainCity.interfaces.PersonGuiInterface;
 import mainCity.test.Mock;
 
+//Possibly log then release then call the method to release the appropriate semaphore here?
+
 public class MockPersonGui extends Mock implements PersonGuiInterface{
 	public MockPersonGui(String name) {
 		super(name);

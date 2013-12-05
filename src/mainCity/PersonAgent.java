@@ -4,19 +4,14 @@ import role.*;
 import role.davidRestaurant.*;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
-import housing.LandlordRole;
-import housing.OccupantRole;
+import housing.*;
 import housing.Interfaces.Occupant;
 
 import java.util.*;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
-import mainCity.bank.BankCustomerRole;
-import mainCity.bank.BankManagerRole;
-import mainCity.bank.BankTellerRole;
-import mainCity.bank.BankerRole;
-import mainCity.bank.BankCustomerRole;
+import mainCity.bank.*;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
@@ -41,7 +36,6 @@ public class PersonAgent extends Agent {
 	private double cash;
 	private double accountnumber;
 	private boolean traveling;
-	private boolean onBreak;
 	private BusAgent currentBus; 
 	private Building homePlace;
 	private int time;
@@ -61,7 +55,6 @@ public class PersonAgent extends Agent {
 		
 		name = n;
 		traveling = false;
-		onBreak = false;
 		job = new Job();
 		cash = 100.0;
 		state = PersonState.normal;//maybe 'inBuilding' if we start everyone in home
@@ -249,14 +242,8 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtWork) {
 				output("Arrived at work!");
 				
-				if(onBreak) {
-					onBreak = false;
-				}
-				else {
-					handleRole(currentAction.type);
-					
-					roles.get(currentAction.type).setActive();
-				}
+				handleRole(currentAction.type);
+				roles.get(currentAction.type).setActive();
 								
 				if(currentAction != null && currentAction.type == ActionType.work) {
 					currentAction.state = ActionState.done;

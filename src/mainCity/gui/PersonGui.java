@@ -66,7 +66,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		corners.add(new Coordinate(585, 330));
 		corners.add(new Coordinate(655, 125));
 		corners.add(new Coordinate(655, 330));
-		
 	}
 
 	public PersonGui(PersonAgent p) {
