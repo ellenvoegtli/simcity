@@ -5,9 +5,12 @@ import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.WorkerRole;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cook;
+import mainCity.restaurants.restaurant_zhangdt.sharedData.OrderTicket;
+import mainCity.restaurants.restaurant_zhangdt.sharedData.RevolvingStand;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -19,7 +22,7 @@ import role.davidRestaurant.DavidCustomerRole.AgentEvent;
 import role.davidRestaurant.DavidCustomerRole.AgentState;
 import role.davidRestaurant.DavidWaiterRole.myCustomer;
 
-public class DavidCookRole extends Role implements Cook{
+public class DavidCookRole extends Role implements Cook, WorkerRole{
 	
 /*   Data   */ 
 	
@@ -29,7 +32,7 @@ public class DavidCookRole extends Role implements Cook{
 	boolean onDuty;
 	
 	enum CookStatus
-	{none, Opening, sendingOrder, Checked, massOrderReady, recievedOrder, NoFood, ordering} 
+	{none, Opening, sendingOrder, Checked, massOrderReady, recievedOrder, NoFood, checkingStand, ordering} 
 	CookStatus cstate = CookStatus.Opening; 
 	
 	enum OrderStatus 
@@ -53,7 +56,7 @@ public class DavidCookRole extends Role implements Cook{
 		}
 	}
 	
-	//List<Food> Inventory = new ArrayList<Food>(); 
+	private RevolvingStand stand;
 	Map<String, Food> Inventory = new TreeMap<String, Food>(); 
 	Map<String, Integer> foodAvailableAtMarket = new TreeMap<String, Integer>(); 
 	
@@ -190,7 +193,10 @@ public class DavidCookRole extends Role implements Cook{
 		stateChanged();
 	}
 	
-
+	public void msgCheckStand() { 
+		cstate = CookStatus.checkingStand; 
+		stateChanged();
+	}
 	
 /*   Scheduler   */ 
 	
@@ -198,6 +204,11 @@ public class DavidCookRole extends Role implements Cook{
 		try{	
 			if(cstate == CookStatus.Opening){
 				CheckInventory();
+				return true;
+			}
+			
+			if(cstate == CookStatus.checkingStand){ 
+				checkStand(); 
 				return true;
 			}
 			
@@ -254,6 +265,21 @@ public class DavidCookRole extends Role implements Cook{
 		
 		cstate = CookStatus.Checked; 
 		stateChanged();
+	}
+	
+	private void checkStand() { 
+		cstate = CookStatus.none; 
+		
+		if(stand.isEmpty()) { 
+			return;
+		}
+		
+		print("There are orders on the stand..."); 
+		while(!stand.isEmpty()) { 
+			OrderTicket tempTicket = stand.remove();
+			pendingOrders.add(new Order(tempTicket.getWaiter(), tempTicket.getChoice(), tempTicket.getTable().tableNumber)); 
+			stateChanged();
+		}
 	}
 	
 	public void cookOrder(final Order o) { 
@@ -322,6 +348,9 @@ public class DavidCookRole extends Role implements Cook{
 	}
 	
 // utilities 
+	public void setStand(RevolvingStand s) { 
+		this.stand = s;
+	}
 	
 	public String getName() { 
 		return name; 

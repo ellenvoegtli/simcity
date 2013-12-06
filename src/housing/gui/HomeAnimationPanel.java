@@ -1,5 +1,6 @@
 package housing.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import mainCity.contactList.ContactList;
@@ -10,6 +11,9 @@ import mainCity.gui.CityView;
 	import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -30,6 +34,15 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 		private HomePanel home = new HomePanel(this);
 		
 		
+	    private BufferedImage sinkImg = null;
+	    private BufferedImage stoveImg = null;
+	    private BufferedImage fridgeImg = null;
+	    private BufferedImage tableImg = null;
+	    private BufferedImage couchImg = null;
+	    private BufferedImage tvImg = null;
+	    private BufferedImage bedImg = null;
+	    private BufferedImage booksImg = null;
+	    
 	    private List<Gui> guis = new ArrayList<Gui>();
 
     
@@ -39,6 +52,20 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    	this.ty = type;
 	    	//guis = new ArrayList<Gui>();
 	    	ContactList.getInstance().setHome(home);
+	    	StringBuilder path = new StringBuilder("imgs/");
+			try {
+				sinkImg = ImageIO.read(new File(path.toString() + "sink.png"));
+				stoveImg = ImageIO.read(new File(path.toString() + "stove.png"));
+				fridgeImg = ImageIO.read(new File(path.toString() + "fridge.png"));
+				tableImg = ImageIO.read(new File(path.toString() + "table.png"));
+				couchImg = ImageIO.read(new File(path.toString()+ "couch.png"));
+				tvImg = ImageIO.read(new File(path.toString()+ "tv.png"));
+				bedImg = ImageIO.read(new File(path.toString()+ "bed.png"));
+				booksImg = ImageIO.read(new File(path.toString()+ "books.png"));
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 	       // setBorder(BorderFactory.createRaisedBevelBorder());
 	    	System.out.println("ANIMATION PANEL CREATED");
 	    	
@@ -83,27 +110,45 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	        //Here is the table
 	        g2.setColor(Color.BLACK);       
 	        
-	        g2.fillRect(200 ,25, applianceWidth, applianceHeight);
-	        g2.drawString("stove", 200, 20);
+	        //g2.fillRect(200 ,25, applianceWidth, applianceHeight);
+	        g2.drawString("stove", 200, 15);
 	        
-	        g2.fillRect(250, 25, applianceWidth, applianceHeight);//200 and 250 need to be table params
-	        g2.drawString("sink", 250, 20);
+	        //g2.fillRect(250, 25, applianceWidth, applianceHeight);//200 and 250 need to be table params
+	        g2.drawString("sink", 250, 15);
 
 	        
-	        g2.fillRect(300,  25,  applianceWidth,  applianceHeight);
-	        g2.drawString("fridge", 300, 20);
+	        //g2.fillRect(300,  25,  applianceWidth,  applianceHeight);
+	        g2.drawString("fridge", 300, 15);
 	        
+	        //Upgraded Gui
+	        g.drawImage(sinkImg,250,20,null);
+	        g.drawImage(stoveImg,200,20,null);
+	        g.drawImage(fridgeImg,303,20,null);
+	        ///////
 	        g2.setColor(Color.ORANGE);       
 
-	        g2.fillRect(250, 150, tableWidth, tableHeight);//200 and 250 need to be table params
+	        //g2.fillRect(250, 150, tableWidth, tableHeight);//200 and 250 need to be table params
+	        g.drawImage(tableImg,250,150,null);
 	        
 	        g2.setColor(Color.lightGray);       
-	        g2.fillRect(50 ,200, 50, 20);
+	        //g2.fillRect(50 ,200, 50, 20);
+	        g.drawImage(couchImg, 50,200,null);
 	        
 	        g2.setColor(Color.darkGray);       
-	        g2.fillRect(70 ,80, 25, 15);
+
+	        //g2.fillRect(70 ,80, 25, 15);
+	        g.drawImage(tvImg, 70,80,null);
+	        
+	        g.drawImage(bedImg,400,200,null);
+	        g.drawImage(booksImg,430,200,null);
+	        
+	        
+	     }
+
+	        
+
 	     
-	    }
+	
 	     
 	     if (!ty)
 	     {
