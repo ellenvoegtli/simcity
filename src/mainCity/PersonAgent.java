@@ -585,10 +585,16 @@ public class PersonAgent extends Agent {
 						
 						//-----David Restaurant Roles---//
 						case "davidWaiter": 
-							DavidWaiterRole dw = new DavidWaiterRole(name, this); 
+							DavidWaiterRole dw = new DavidNormalWaiterRole(name, this); 
 							ContactList.getInstance().getDavidRestaurant().handleRole(dw); 
 							roles.put(action, dw); 
 							break; 
+							
+						case "davidSharedWaiter": 
+							DavidWaiterRole dsw = new DavidSharedDataWaiterRole(name, this); 
+							ContactList.getInstance().getDavidRestaurant().handleRole(dsw); 
+							roles.put(action, dsw); 
+							break;
 						
 						case "davidCook": 
 							DavidCookRole dc = new DavidCookRole(name, this); 
