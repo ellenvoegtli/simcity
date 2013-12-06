@@ -22,7 +22,6 @@ public class EllenCashierRole extends Role implements Cashier {
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());	//from waiters
 	private List<Waiter> waiters = Collections.synchronizedList(new ArrayList<Waiter>());
 	public List<MarketBill> marketBills = Collections.synchronizedList(new ArrayList<MarketBill>());
-	Map<String, Integer> prices = new TreeMap<String, Integer>();
 	
 	public enum CheckState {newCheck, computing, waitingForPayment, calculatingChange, done};
 	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, oweMoney, done};	//is this ok???
