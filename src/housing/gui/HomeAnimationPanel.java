@@ -18,9 +18,8 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 {
 	
 
-	   private  int WINDOWX = 520;
-	   private  int WINDOWY = 360;
-	    
+	    private  int WINDOWX = 520;
+	    private  int WINDOWY = 360;
 	    private int applianceWidth = 20;
 	    private int applianceHeight = 15;
 	    private int tableWidth = 30;
@@ -29,6 +28,8 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    private Dimension bufferSize;
 	    private boolean ty;
 		private HomePanel home = new HomePanel(this);
+		
+		
 	    private List<Gui> guis = new ArrayList<Gui>();
 
     
