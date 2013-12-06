@@ -26,6 +26,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	private boolean isPresent = false;
 	private boolean isVisible = true;
 	private boolean traveling;
+	private boolean inCar = false;
 	private BufferedImage personImg = null;
 	private ArrayList<Coordinate> corners = new ArrayList<Coordinate>();
 	private LinkedList<Coordinate> path = new LinkedList<Coordinate>();
