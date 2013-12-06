@@ -12,7 +12,7 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 {
 
 	
-	private Occupant person;
+	private Occupant person = null;
 	private boolean isPresent = true;
 	private boolean isHungry = false;
 	private HomeAnimationPanel animation;
@@ -31,19 +31,22 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 	
 	public OccupantGui(Occupant occupant, HomeAnimationPanel h) 
 	{
+		System.out.println("NEW OCCUPANT GUI CONDTRUCTOR OCCUPANT CREATED");
 		this.person = occupant;
 		this.animation = h;
 		xPos = 10;
 		yPos = 35;
 		xDestination = 40;
 		yDestination = 35;
-		setPresent(true);
+		//setPresent(true);
 		//this.gui = gui;
 	}
 
 	
 	public void updatePosition() 
 	{
+		
+		System.out.println("Is present true?" +this.isPresent());
 		if (xPos < xDestination)
 			xPos++;
 		else if (xPos > xDestination)

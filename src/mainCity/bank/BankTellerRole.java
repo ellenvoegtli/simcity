@@ -38,7 +38,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		super(p);
 		this.p=p;
 		this.name=name;
-		Do("Bank Teller initiated");
+		log("Bank Teller initiated");
 		onDuty=true;
 	}
 	
