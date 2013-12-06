@@ -366,8 +366,11 @@ public class EllenCookRole extends Role implements Cook{
 		}
 		
 		while(!stand.isEmpty()){
+			log("Picking up order");
 			OrderTicket t = stand.remove();
-			orders.add(new Order(t.getChoice(), t.getTable(), t.getWaiter()));
+			Order o = new Order(t.getChoice(), t.getTable(), t.getWaiter());
+			o.s = OrderState.pending;
+			orders.add(o);
 			stateChanged();
 		}
 			
