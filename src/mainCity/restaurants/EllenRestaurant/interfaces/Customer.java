@@ -28,20 +28,20 @@ public interface Customer {
          *
          * Sent by the cashier prompting the customer's money after the customer has approached the cashier.
          */
-		public abstract void msgHereIsCheck(int amount);
+		public abstract void msgHereIsCheck(double amount);
 
         /**
          * @param total change (if any) due to the customer
          *
          * Sent by the cashier to end the transaction between him and the customer. total will be >= 0 .
          */
-		public abstract void msgHereIsChange(int cashChange);
+		public abstract void msgHereIsChange(double cashChange);
 
 
         /**
          * @param remaining_cost how much money is owed
          * Sent by the cashier if the customer does not pay enough for the bill (in lieu of sending {@link #HereIsYourChange(double)}
          */
-		public abstract void msgNotEnoughCash(int cashOwed);
+		public abstract void msgNotEnoughCash(double cashOwed);
 
 }

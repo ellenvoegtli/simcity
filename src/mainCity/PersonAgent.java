@@ -7,6 +7,7 @@ import role.ellenRestaurant.EllenCookRole;
 import role.ellenRestaurant.EllenCustomerRole;
 import role.ellenRestaurant.EllenHostRole;
 import role.ellenRestaurant.EllenNormalWaiterRole;
+import role.ellenRestaurant.EllenSharedDataWaiterRole;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import housing.*;
@@ -560,6 +561,11 @@ public class PersonAgent extends Agent {
 							EllenNormalWaiterRole el = new EllenNormalWaiterRole(this, name);
 							ContactList.getInstance().getEllenRestaurant().handleRole(el);
 							roles.put(action, el);
+							break;
+						case "ellenShareWaiter":
+							EllenSharedDataWaiterRole esdw = new EllenSharedDataWaiterRole(this, name);
+							ContactList.getInstance().getEllenRestaurant().handleRole(esdw);
+							roles.put(action, esdw);
 							break;
 						case "ellenCook":
 							EllenCookRole elco = new EllenCookRole(this, name);

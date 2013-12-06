@@ -226,7 +226,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgIWantMyCheck from: " + cust.getName());
 		
 		MyCustomer mc = null;
-		for (MyCustomer thisMC : myCustomers){ //to find the myCustomer with this specific Customer within myCustomers list
+		for (MyCustomer thisMC : myCustomers){
 			if (thisMC.c.equals(cust)){
 				mc = thisMC;
 				break;
@@ -238,12 +238,12 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	
 	
 	//Cashier message
-	public void msgHereIsCheck(int amount, Customer cust){
+	public void msgHereIsCheck(double amount, Customer cust){
 		//print("Received msgHereIsCheck");
 		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgHereIsCheck");
 		
 		MyCustomer mc = null;
-		for (MyCustomer thisMC : myCustomers){ //to find the myCustomer with this specific Customer within myCustomers list
+		for (MyCustomer thisMC : myCustomers){
 			if (thisMC.c.equals(cust)){
 				mc = thisMC;
 				break;
@@ -537,7 +537,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		Customer c;
 		int table;
 		String choice;
-		int checkAmount;
+		double checkAmount;
 		
 		int waitingAreaX;
 		int waitingAreaY;

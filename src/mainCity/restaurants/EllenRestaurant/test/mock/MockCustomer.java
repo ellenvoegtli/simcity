@@ -46,7 +46,7 @@ public class MockCustomer extends Mock implements Customer {
         
 
         @Override
-        public void msgHereIsCheck(int amount) {
+        public void msgHereIsCheck(double amount) {
                 log.add(new LoggedEvent("Received HereIsCheck from waiter. Amount = "+ amount));
 
                 /*
@@ -59,7 +59,7 @@ public class MockCustomer extends Mock implements Customer {
                 if (this.getName().toLowerCase().contains("rich")){
                         //test the non-normative scenario where the customer overpays if their name contains the string "rich"
                         //cashier.msgHereIsPayment(this, Math.ceil(amount));
-                	cashier.msgHereIsPayment(amount, (int) Math.ceil(amount), this);
+                	cashier.msgHereIsPayment(amount, (double) Math.ceil(amount), this);
 
                 }else{
                         //test the normative scenario
@@ -68,12 +68,12 @@ public class MockCustomer extends Mock implements Customer {
         }
 
         @Override
-        public void msgHereIsChange(int cashChange) {
+        public void msgHereIsChange(double cashChange) {
                 log.add(new LoggedEvent("Received HereIsChange from cashier. Change = $"+ cashChange));
         }
 
         @Override
-        public void msgNotEnoughCash(int cashOwed) {
+        public void msgNotEnoughCash(double cashOwed) {
                 log.add(new LoggedEvent("Received NotEnoughCash from cashier. Debt = $"+ cashOwed));
         }
 

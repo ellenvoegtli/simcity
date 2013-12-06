@@ -14,15 +14,18 @@ public class EllenNormalWaiterRole extends EllenWaiterRole {
 		super(p, name);
 	}
 	
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ELLEN_WAITER, this.getName(), s);
+	}
+	
 	protected void sendOrderToCook(MyCustomer mc){
-		//print("Going to send order to cook");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Going to send order to cook");
+		log("Going to send order to cook");
 
 		waiterGui.DoGoToCook();
 		try {
 			atCook.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

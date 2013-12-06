@@ -2,8 +2,10 @@
 package role.ellenRestaurant;
 
 import java.util.*;
+
 import role.market.*;
 import mainCity.PersonAgent;
+import mainCity.restaurants.EllenRestaurant.EllenMenu;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.gui.trace.*;
 import role.Role;
@@ -15,6 +17,7 @@ public class EllenCashierRole extends Role implements Cashier {
 	private String name;
 	private double cash = 500;		//modify
 	Timer timer = new Timer();
+	private EllenMenu menu = new EllenMenu();
 	
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());	//from waiters
 	private List<Waiter> waiters = Collections.synchronizedList(new ArrayList<Waiter>());
@@ -77,7 +80,7 @@ public class EllenCashierRole extends Role implements Cashier {
 		log(", received msgComputeBill for " + cust.getName() + ", order: " + choice);
 		stateChanged();
 	}
-	public void msgHereIsPayment(int checkAmount, int cashAmount, Customer cust){
+	public void msgHereIsPayment(double checkAmount, double cashAmount, Customer cust){
 		log("Received msgHereIsPayment: got $" + cashAmount + " for check: $" + checkAmount);
 				
 		Check c = null;
@@ -200,7 +203,8 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	public void ComputeBill(final Check c){
 		log("Computing bill");
-		c.w.msgHereIsCheck(prices.get(c.choice), c.cust);
+		//c.w.msgHereIsCheck(prices.get(c.choice), c.cust);
+		c.w.msgHereIsCheck(menu.getPrice(c.choice), c.cust);
 		c.s = CheckState.waitingForPayment;
 	}
 	
@@ -264,24 +268,21 @@ public class EllenCashierRole extends Role implements Cashier {
 		Waiter w;
 		String choice;
 		CheckState s;
-		
-		int cashAmount;
-		
-		
+		double cashAmount;
+
 		Check(String choice, Customer cust, Waiter w){
 			this.choice = choice;
 			this.cust = cust;			
 			this.w = w;
 			this.s = CheckState.newCheck;
 		}	
-		
 		public Customer getCustomer(){
 			return cust;
 		}
 		public CheckState getState(){
 			return s;
 		}
-		public int getAmount(){
+		public double getAmount(){
 			return cashAmount;
 		}
 		public Waiter getWaiter(){

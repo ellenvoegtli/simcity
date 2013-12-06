@@ -163,6 +163,7 @@ public class EllenCookRole extends Role implements Cook{
 	}
 	
 	public void msgCheckStand() {		//from RestaurantPanel
+		log("Told to check stand");
 		if(!isCheckingStand) {
 			isCheckingStand = true;
 			stateChanged();
@@ -356,17 +357,18 @@ public class EllenCookRole extends Role implements Cook{
 	}
 	
 	private void checkRevolvingStand(){
-		//print("Checking revolving stand");
+		log("Checking revolving stand");
 		isCheckingStand = false;
 		
 		if(stand.isEmpty()){
-			//print("No orders to pick up.");
+			log("No orders to pick up.");
 			return;
 		}
 		
 		while(!stand.isEmpty()){
 			OrderTicket t = stand.remove();
 			orders.add(new Order(t.getChoice(), t.getTable(), t.getWaiter()));
+			stateChanged();
 		}
 			
 	}

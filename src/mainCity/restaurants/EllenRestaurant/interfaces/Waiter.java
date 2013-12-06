@@ -32,6 +32,6 @@ public interface Waiter {
 	
 	public abstract void msgIWantMyCheck(Customer cust, String choice);
 	
-	public abstract void msgHereIsCheck(int amount, Customer cust);
+	public abstract void msgHereIsCheck(double amount, Customer cust);
 
 }
