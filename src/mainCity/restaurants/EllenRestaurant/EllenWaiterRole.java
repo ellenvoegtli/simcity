@@ -39,6 +39,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	protected Semaphore atTable = new Semaphore(0,true);
 	protected Semaphore atCook = new Semaphore(0, true);
 	protected Semaphore atStart = new Semaphore(0, true);
+	protected Semaphore doneLeaving = new Semaphore(0, true);
 
 	
 	protected WaiterState wState;
@@ -48,11 +49,13 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	
 	protected boolean wantToGoOnBreak = false;
 	protected boolean wantToGoOffBreak = false;
+	private boolean onDuty;
 	
 
 	public EllenWaiterRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
+		onDuty = true;
 		
 		myCustomers = new ArrayList<MyCustomer>();
 	}
@@ -96,6 +99,11 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
     		onBreak = false;
     	
     	return onBreak;
+    }
+    public void msgGoOffDuty(double amount){
+    	addToCash(amount);
+    	onDuty = false;
+    	stateChanged();
     }
     
     
@@ -266,6 +274,10 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		atStart.release();// = true;
 		stateChanged();
 	}
+	public void msgDoneLeaving(){
+		doneLeaving.release();
+		stateChanged();
+	}
 	
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
@@ -363,11 +375,13 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 			return false;
 		}
 		
+		if (myCustomers.isEmpty() && !onDuty){
+			leaveRestaurant();
+			onDuty = true;
+		}
+		
 		return false;
 		
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
 	}
 
 	// Actions
@@ -494,6 +508,17 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		//print("Removing: " + mc.getCustomer().getName());
 		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Removing: " + mc.getCustomer().getName());
 		myCustomers.remove(mc);
+	}
+	
+	public void leaveRestaurant(){
+		waiterGui.DoLeaveRestaurant();
+		try {
+			doneLeaving.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		setInactive();
+		onDuty = true;
 	}
 
 	

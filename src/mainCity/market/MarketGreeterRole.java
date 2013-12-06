@@ -72,6 +72,7 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 		return false;
 	}
 	public void msgEndShift(){
+		print("msgEndShift called");
 		onDuty = false;
 		stateChanged();
 	}

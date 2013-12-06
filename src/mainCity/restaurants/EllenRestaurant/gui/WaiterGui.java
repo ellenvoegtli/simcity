@@ -23,6 +23,7 @@ public class WaiterGui implements Gui {
 
     private int xPos = -20, yPos = -20;//default waiter position
     private int xDestination = -20, yDestination = -20;//default start position
+    private int exitX = -20, exitY = -20;
 
     static final int waiterWidth = 20;
     static final int waiterHeight = 20;
@@ -116,6 +117,10 @@ public class WaiterGui implements Gui {
         }
         else if ((xPos == xDestination && yPos == yDestination) && (xPos == waitingRoomX && yPos == waitingRoomY) && !atDestination){
         	agent.msgAtStart();
+        	atDestination = true;
+        }
+        else if ((xPos == xDestination && yPos == yDestination) && (xPos == exitX && yPos == exitY) && !atDestination){
+        	agent.msgDoneLeaving();
         	atDestination = true;
         }
     }
@@ -259,6 +264,12 @@ public class WaiterGui implements Gui {
     	
     	xDestination = waitingRoomX;
     	yDestination = waitingRoomY;
+    }
+    
+    public void DoLeaveRestaurant(){
+    	atDestination = false;
+    	xDestination = exitX;
+    	yDestination = exitY;
     }
 
     public int getXPos() {

@@ -1,16 +1,11 @@
 
 package mainCity.restaurants.EllenRestaurant;
 
-import agent.Agent;
-
 import java.util.*;
-
-import role.market.MarketDeliveryManRole;
+import role.market.*;
 import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
-import mainCity.gui.trace.AlertLog;
-import mainCity.gui.trace.AlertTag;
-import mainCity.market.*;
+import mainCity.gui.trace.*;
 import role.Role;
 
 
@@ -18,28 +13,25 @@ import role.Role;
 
 public class EllenCashierRole extends Role implements Cashier {	
 	private String name;
-	private double availableMoney = 500;		//modify
+	private double cash = 500;		//modify
 	Timer timer = new Timer();
 	
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());	//from waiters
 	private List<Waiter> waiters = Collections.synchronizedList(new ArrayList<Waiter>());
 	public List<MarketBill> marketBills = Collections.synchronizedList(new ArrayList<MarketBill>());
-	
 	Map<String, Integer> prices = new TreeMap<String, Integer>();
 	
 	public enum CheckState {newCheck, computing, waitingForPayment, calculatingChange, done};
 	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, oweMoney, done};	//is this ok???
 	
-	
-	boolean opened = true;
-	EllenHostRole host;
+	private boolean onDuty;
+	private EllenHostRole host;
 
 	
 	public EllenCashierRole(PersonAgent p, String name) {
 		super(p);
-
 		this.name = name;
-		
+		onDuty = true;
 
 		//initialize prices map -- or should this be from menu?? // ALSO IMPLEMENTED IN MENU
         prices.put("steak", 30);	//type, cookingTime, amount
@@ -55,14 +47,18 @@ public class EllenCashierRole extends Role implements Cashier {
 	public String getName() {
 		return name;
 	}
-	public List getChecks(){
+	public List<Check> getChecks(){
 		return checks;
 	}
-	public List getMarketBills(){
+	public List<MarketBill> getMarketBills(){
 		return marketBills;
 	}
 	public void setHost(EllenHostRole h){
 		host = h;
+	}
+	
+	public void deductCash(double amount){
+		cash -= amount;
 	}
 	
 	//for alert log trace statements
@@ -136,6 +132,12 @@ public class EllenCashierRole extends Role implements Cashier {
 		stateChanged();
 	}
 	
+	public void msgGoOffDuty(double amount){
+		addToCash(amount);
+		onDuty = false;
+		stateChanged();
+	}
+	
 
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
@@ -185,11 +187,12 @@ public class EllenCashierRole extends Role implements Cashier {
 			}
 		}
 		
+		if (checks.isEmpty() && marketBills.isEmpty() && !onDuty){
+			setInactive();
+			onDuty = true;
+		}
 
 		return false;
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
 	}
 	
 
@@ -203,7 +206,6 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	public void CalculateChange(Check c){
 		log("Calculating change");
-		//check to make sure payment is large enough
 		if (c.cashAmount >= prices.get(c.choice)){
 			c.cust.msgHereIsChange((c.cashAmount - prices.get(c.choice)));
 			checks.remove(c);
@@ -212,17 +214,22 @@ public class EllenCashierRole extends Role implements Cashier {
 			c.cust.msgNotEnoughCash((prices.get(c.choice) - c.cashAmount));
 			checks.remove(c);
 		}
+		
+		if (!onDuty){
+			setInactive();
+			onDuty = true;
+		}
 	}
 	
 	public void PayMarketBill(MarketBill b){
 		log("Paying market bill");
 
-		if(availableMoney >= b.billAmount){
-			availableMoney -= b.billAmount;
+		if(cash >= b.billAmount){
+			cash -= b.billAmount;
 			b.amountPaid = b.billAmount;
 		}
 		else {
-			b.amountPaid = availableMoney;
+			b.amountPaid = cash;
 		}
 		
 		//new method call
@@ -236,7 +243,7 @@ public class EllenCashierRole extends Role implements Cashier {
 		if (b.amountChange == (b.amountPaid - b.billAmount)){
 			//correct change
 			log("Equal. Change verified.");
-			availableMoney += b.amountChange;
+			cash += b.amountChange;
 			b.deliveryMan.msgChangeVerified("ellenRestaurant");
 			b.s = MarketBillState.done;		//unnecessary
 			marketBills.remove(b);

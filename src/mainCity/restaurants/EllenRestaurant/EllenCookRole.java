@@ -34,7 +34,6 @@ public class EllenCookRole extends Role implements Cook{
 	
 	private Collection<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
 	//private List<EllenMarketRole> markets = Collections.synchronizedList(new ArrayList<EllenMarketRole>());
-	
 	private Map<String, Food> inventory = new TreeMap<String, Food>();	//what the cook has available
 	private Map<String, Integer> foodAtAvailableMarket = new TreeMap<String, Integer>();
 		
@@ -42,7 +41,8 @@ public class EllenCookRole extends Role implements Cook{
 	enum FoodState {none, depleted, requested, delivered, tryAgain};
 	
 	private boolean isCheckingStand;
-	boolean opened = true;
+	private boolean opened = true;
+	private boolean onDuty;
 	
 
 	public EllenCookRole(PersonAgent p, String name/*, int steakAmount, int pizzaAmount, int pastaAmount, int soupAmount*/) {
@@ -51,6 +51,7 @@ public class EllenCookRole extends Role implements Cook{
 		this.name = name;
 		opened = true;
 		isCheckingStand = false;
+		onDuty = true;
 		
 		//initialize inventory map
         inventory.put("pasta", new Food("pasta", 5000, 8));	//type, cookingTime, amount
@@ -68,31 +69,21 @@ public class EllenCookRole extends Role implements Cook{
 		markets.add(m);
 	}
 	*/
-	
 	public void setCashier(EllenCashierRole c){
 		this.cashier = c;
 	}
-	
 	public void setMenu(EllenMenu m){
 		this.menu = m;
 	}
-	
 	public void setStand(RevolvingStand s){
 		stand = s;
 	}
-	
 	public void setOpened(boolean o){
 		opened = o;
 	}
-
-	public String getMaitreDName() {
-		return name;
-	}
-
 	public String getName() {
 		return name;
 	}
-	
 	public void setKitchenGui(KitchenGui gui){
 		kitchenGui = gui;
 	}
@@ -180,6 +171,12 @@ public class EllenCookRole extends Role implements Cook{
 		}
 	}
 	
+	public void msgGoOffDuty(double amount){
+		addToCash(amount);
+		onDuty = false;
+		stateChanged();
+	}
+	
 
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
@@ -236,6 +233,11 @@ public class EllenCookRole extends Role implements Cook{
 		if (isCheckingStand){
 			checkRevolvingStand();
 			return true;
+		}
+		
+		if (orders.isEmpty() && !onDuty){
+			setInactive();
+			onDuty = true;
 		}
 		
 		//include in SimCity?
@@ -328,6 +330,11 @@ public class EllenCookRole extends Role implements Cook{
 		}
 		o.waiter.msgOrderDoneCooking(o.choice, o.table);
 		o.s = OrderState.finished;
+		
+		if (!onDuty){
+			setInactive();
+			onDuty = true;
+		}
 	}
 	
 	public void OrderFoodThatIsLow(){

@@ -3,8 +3,8 @@ package mainCity.restaurants.EllenRestaurant;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
-import agent.Agent;
 import role.Role;
 
 import java.util.*;
@@ -13,7 +13,7 @@ import java.util.*;
  * Restaurant Host Agent
  */
 
-public class EllenHostRole extends Role {
+public class EllenHostRole extends Role implements ManagerRole {
 	private String name;
 	static final int NTABLES = 4;//a global for the number of tables.
 	EllenCookRole cook;
@@ -22,6 +22,8 @@ public class EllenHostRole extends Role {
 	public Collection<MyWaitingCustomer> waitingCustomers = Collections.synchronizedList(new ArrayList<MyWaitingCustomer>());
 	public Collection<Table> tables;	
 	private Collection<MyWaiter> myWaiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
+	
+	private boolean onDuty;
 
 	
 	public EllenHostRole(PersonAgent p, String name) {
@@ -32,6 +34,7 @@ public class EllenHostRole extends Role {
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			tables.add(new Table(ix));//how you add to a collections
 		}
+		onDuty = true;
 	}
 
 	public String getMaitreDName() {
@@ -50,20 +53,29 @@ public class EllenHostRole extends Role {
 	}
 
 
-	public Collection getWaitingCustomers(){
+	public Collection<MyWaitingCustomer> getWaitingCustomers(){
 		return waitingCustomers;
 	}
 
-	public Collection getTables() {
+	public Collection<Table> getTables() {
 		return tables;
+	}
+	
+	public void msgEndShift(){
+		onDuty = false;
+		stateChanged();
+	}
+	
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ELLEN_HOST, this.getName(), s);
 	}
 
 	
 	// Messages
 
 	public void msgIWantFood(EllenCustomerRole cust, int waitingX, int waitingY) {	//from customer
-		//print("Received msg IWantFood");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg IWantFood");
+		log("Received msg IWantFood");
 		waitingCustomers.add(new MyWaitingCustomer(cust, waitingX, waitingY));
 		stateChanged();
 	}
@@ -80,8 +92,7 @@ public class EllenHostRole extends Role {
 		}
 
 		mwc.confirmedToWait = true;
-		//print("Received msg IWillStay from " + cust.getName());
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg IWillStay from " + cust.getName());
+		log("Received msg IWillStay from " + cust.getName());
 		stateChanged();
 	}
 	
@@ -95,10 +106,8 @@ public class EllenHostRole extends Role {
 				}
 			}
 		}
-
 		mwc.confirmedToWait = true;
-		//print("Received msg IAmLeaving from " + cust.getName());
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg IAmLeaving from " + cust.getName());
+		log("Received msg IAmLeaving from " + cust.getName());
 		waitingCustomers.remove(mwc);
 	}
 	
@@ -112,11 +121,8 @@ public class EllenHostRole extends Role {
 				}
 			}
 		}
-		
 		mw.wantsBreak = true;
-		
-		//print("Received msg IWantToGoOnBreak");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg IWantToGoOnBreak");
+		log("Received msg IWantToGoOnBreak");
 		stateChanged();
 	}
 	
@@ -133,24 +139,20 @@ public class EllenHostRole extends Role {
 		
 		mw.onBreak = false;
 		
-		//print("Received msgIWantToComeBack");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgIWantToComeBack");
+		log("Received msgIWantToComeBack");
 		stateChanged();
 	}
 	
 	public void msgTableFree(int tablenum){		//from waiter
-		//print("Received msgTableFree");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgTableFree");
+		log("Received msgTableFree");
 		synchronized(tables){
 			for (Table table: tables){
 				if (table.tableNumber == tablenum){
 					table.isOccupied = false;
 					stateChanged();
 				}
-					
 			}
 		}
-	
 	}
 	
 	
@@ -221,6 +223,11 @@ public class EllenHostRole extends Role {
 				} //end of for loop
 		}//end of synch
 		
+		
+		if (!onDuty){
+			closeBuilding();
+		}
+		
 
 		return false;
 		//we have tried all our rules and found
@@ -231,8 +238,7 @@ public class EllenHostRole extends Role {
 	// Actions
 
 	private void assignCustomerToWaiter(MyWaitingCustomer cust, Table table, Waiter w) {
-		//print("Assigning " + cust.c.getName() + " to " + w.getName() + " at table " + table.tableNumber);
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Assigning " + cust.c.getName() + " to " + w.getName() + " at table " + table.tableNumber);
+		log("Assigning " + cust.c.getName() + " to " + w.getName() + " at table " + table.tableNumber);
 		
 		w.msgPleaseSeatCustomer(cust.c, cust.waitingPosX, cust.waitingPosY, table.tableNumber);
 		waitingCustomers.remove(cust);
@@ -264,16 +270,42 @@ public class EllenHostRole extends Role {
 		cust.msgRestaurantFull();
 	}
 	
-	//utilities
-/*
-	public void setGui(HostGui gui) {
-		hostGui = gui;
+	public boolean closeBuilding(){
+		if(!waitingCustomers.isEmpty()) return false;
+		
+		for(Table t : tables) {
+			if(t.isOccupied) {
+				return false;
+			}
+		}
+		
+		double payroll = 0;
+		for(MyWaiter w : myWaiters) {
+			EllenWaiterRole temp = ((EllenWaiterRole) w.w);
+			double amount = temp.getShiftDuration()*4.75;
+			temp.msgGoOffDuty(amount);
+			payroll += amount;
+		}
+		
+		if(cashier != null) {
+			payroll += cashier.getShiftDuration()*6.0;
+			cashier.msgGoOffDuty(cashier.getShiftDuration()*6.0);
+		}
+		if(cook != null){
+			payroll += cashier.getShiftDuration()*7.50;
+			cook.msgGoOffDuty(cook.getShiftDuration()*7.50);
+		}
+		
+		addToCash(getShiftDuration()*9.50);
+		payroll += getShiftDuration()*9.50;		
+		
+		cashier.deductCash(payroll);
+		setInactive();
+		onDuty = true;
+		return true;
 	}
+	
 
-	public HostGui getGui() {
-		return hostGui;
-	}
-*/
 	public boolean isOpen() {
 		stateChanged();
 		return (cook != null && cook.isActive()) && (cashier != null && cashier.isActive());
