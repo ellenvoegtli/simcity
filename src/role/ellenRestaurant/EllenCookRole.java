@@ -22,7 +22,8 @@ import role.Role;
 
 public class EllenCookRole extends Role implements Cook{
 	static final int NTABLES = 3;//a global for the number of tables.
-
+	static final int WINDOWX = 500, WINDOWY = 370;
+	
 	private String name;
 	private RevolvingStand stand;
 	private EllenMenu menu;
@@ -299,7 +300,7 @@ public class EllenCookRole extends Role implements Cook{
 		synchronized(orders){
 			for (Order ord : orders){
 				if (ord.equals(o)){
-					kitchenGui.DoGrilling(o.choice, o.table, 550-30, 350/2-60 + i*20);
+					kitchenGui.DoGrilling(o.choice, o.table, WINDOWX-30, WINDOWY/2-60 + i*20);
 					break;
 				}
 				else
@@ -320,7 +321,7 @@ public class EllenCookRole extends Role implements Cook{
 		synchronized(orders){
 			for (Order ord : orders){
 				if (ord.equals(o)){
-					kitchenGui.DoPlating(o.choice, o.table, 550-90, 350/2-60 + i*20);
+					kitchenGui.DoPlating(o.choice, o.table, WINDOWX - 90, WINDOWY/2-60 + i*20);
 					break;
 				}
 				else
