@@ -9,6 +9,8 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+import role.ellenRestaurant.EllenCustomerRole;
+
 public class CustomerGui implements Gui{
     private final int WINDOWX = 500;
     private final int WINDOWY = 370;

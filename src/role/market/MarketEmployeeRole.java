@@ -1,11 +1,13 @@
-package mainCity.market;
+package role.market;
 
 import mainCity.PersonAgent;
+import mainCity.market.MarketMenu;
 import mainCity.market.interfaces.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
 import role.Role;
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 

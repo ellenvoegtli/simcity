@@ -1,4 +1,4 @@
-package mainCity.market;
+package role.market;
 
 import mainCity.PersonAgent;
 import mainCity.market.interfaces.*;

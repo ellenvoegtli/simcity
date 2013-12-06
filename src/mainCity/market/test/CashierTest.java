@@ -2,13 +2,14 @@ package mainCity.market.test;
 
 import java.util.*;
 
+import role.ellenRestaurant.EllenCashierRole.CheckState;
+import role.market.MarketCashierRole;
+import role.market.MarketCashierRole.BillState;
 import junit.framework.*;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
 import mainCity.market.*;
-import mainCity.market.MarketCashierRole.BillState;
 import mainCity.market.test.mock.*;
-import mainCity.restaurants.EllenRestaurant.EllenCashierRole.CheckState;
 
 
 public class CashierTest extends TestCase {

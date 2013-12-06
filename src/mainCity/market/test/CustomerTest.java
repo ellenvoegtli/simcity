@@ -3,12 +3,12 @@ package mainCity.market.test;
 import java.util.Map;
 import java.util.TreeMap;
 
-import mainCity.market.MarketCustomerRole.AgentState;
+import role.market.MarketCustomerRole;
+import role.market.MarketCustomerRole.AgentEvent;
+import role.market.MarketCustomerRole.AgentState;
+import role.market.MarketCustomerRole.BillState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
-import mainCity.market.MarketCustomerRole.BillState;
-import mainCity.market.MarketCustomerRole;
-import mainCity.market.MarketCustomerRole.AgentEvent;
 import mainCity.market.gui.CustomerGui;
 import mainCity.market.test.mock.MockCashier;
 import mainCity.market.test.mock.MockCustomerGui;

@@ -2,9 +2,9 @@ package mainCity.market.test.mock;
 
 import java.util.Map;
 
+import role.market.MarketCustomerRole;
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
-import mainCity.market.MarketCustomerRole;
 import mainCity.market.interfaces.*;
 
 public class MockGreeter extends Mock implements Greeter{

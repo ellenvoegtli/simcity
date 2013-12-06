@@ -3,6 +3,12 @@ package mainCity.restaurants.EllenRestaurant.gui;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
 import role.Role;
+import role.ellenRestaurant.EllenCashierRole;
+import role.ellenRestaurant.EllenCookRole;
+import role.ellenRestaurant.EllenCustomerRole;
+import role.ellenRestaurant.EllenHostRole;
+import role.ellenRestaurant.EllenNormalWaiterRole;
+import role.ellenRestaurant.EllenWaiterRole;
 
 import javax.swing.*;
 
@@ -20,14 +26,7 @@ import mainCity.contactList.*;
  */
 public class EllenRestaurantPanel extends JPanel implements ActionListener{
 	private EllenAnimationPanel animation;
-    //Host and cook
-    //private EllenHostRole host = new EllenHostRole("EllenRestaurant Host");
-    //private EllenCashierRole cashier = new EllenCashierRole("EllenRestaurant Cashier");
-    
-    /*				steak	|	pizza	|	pasta	|	soup
-     * Cook: 		8			8			8			8
-     */
-    //private EllenCookRole cook = new EllenCookRole("EllenRestaurant Cook", 8, 8, 0, 0);
+
 	private EllenHostRole host;
 	private EllenCashierRole cashier;
 	private EllenCookRole cook;
@@ -54,7 +53,6 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
         
         setLayout(new GridLayout(1, 2, 0, 0));
 
-        //initRestLabel();
         add(restLabel);
 
         cookInventoryPanel.setLayout(new GridLayout(1, 2, 5, 5));
@@ -109,34 +107,7 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
         }
     }
 
-    /**
-     * Sets up the restaurant label that includes the menu,
-     * and host and cook information
-     *//*
-    private void initRestLabel() {
-        JLabel label = new JLabel();
-        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
-        restLabel.setLayout(new BorderLayout());
-        label.setText(
-                "<html><h3><u>Tonight's Staff</u></h3><table>"
-                + "<tr><td>host:</td><td>" + host.getName() + "</td></tr></table>"
-                + "<tr><td>cook:</td><td>" + cook.getName() + "</td></tr></table>"
-                + "<h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Pizza</td><td>$10.99</td></tr><tr><td>Pasta</td><td>$5.99</td></tr><tr><td>Soup</td><td>$8.99</td></tr></table><br></html>");
 
-        restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-        restLabel.add(label, BorderLayout.CENTER);
-        //restLabel.add(new JLabel("               "), BorderLayout.EAST);
-        //restLabel.add(new JLabel("               "), BorderLayout.WEST);
-        restLabel.add(new JLabel("            "), BorderLayout.WEST);
-    }
-*/
-
-    /**
-     * Adds a customer or waiter to the appropriate list
-     *
-     * @param type indicates whether the person is a customer or waiter (later)
-     * @param name name of person
-     */
     public void handleRole(Role r){
     	if(r instanceof EllenCashierRole) {
     		cashier = (EllenCashierRole) r;
@@ -200,16 +171,8 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     			EllenSharedWaiterRole a = (EllenSharedWaiterRole) r;
     			a.setStand(stand);
     		}*/
-    		WaiterGui g = new WaiterGui(w, animation, waiterX + 30, waiterY);
-    		//set the home positions based on position in waiter list
-    		/*
-    		int i = 0;
-    		for (EllenWaiterRole wait : waiters){
-    			if (wait.equals(w)) g.setHomePosition((WINDOWX + i*70)/3, 30); 
-    			else i++;
-    		}*/
-    		
-    		
+        	waiterX += 30;
+    		WaiterGui g = new WaiterGui(w, animation, waiterX, waiterY);
     		animation.addGui(g);
             if(host != null) host.addWaiter(w);
     		w.setHost(host);

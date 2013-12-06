@@ -1,10 +1,11 @@
 package mainCity.restaurants.EllenRestaurant.test;
 
+import role.ellenRestaurant.EllenCashierRole;
+import role.ellenRestaurant.EllenCashierRole.Check;
+import role.ellenRestaurant.EllenCashierRole.CheckState;
+import role.ellenRestaurant.EllenCashierRole.MarketBillState;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.test.mock.*;
-import mainCity.restaurants.EllenRestaurant.EllenCashierRole.Check;
-import mainCity.restaurants.EllenRestaurant.EllenCashierRole.CheckState;
-import mainCity.restaurants.EllenRestaurant.EllenCashierRole.MarketBillState;
 import junit.framework.*;
 
 /**

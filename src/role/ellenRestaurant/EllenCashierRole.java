@@ -1,5 +1,5 @@
 
-package mainCity.restaurants.EllenRestaurant;
+package role.ellenRestaurant;
 
 import java.util.*;
 import role.market.*;

@@ -1,4 +1,4 @@
-package mainCity.restaurants.EllenRestaurant;
+package role.ellenRestaurant;
 import java.util.concurrent.Semaphore;
 
 import mainCity.PersonAgent;

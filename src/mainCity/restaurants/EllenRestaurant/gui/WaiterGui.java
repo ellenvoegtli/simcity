@@ -11,6 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
+import role.ellenRestaurant.EllenWaiterRole;
+
 public class WaiterGui implements Gui {
 
     private final int WINDOWX = 500;

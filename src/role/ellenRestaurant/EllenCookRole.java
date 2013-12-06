@@ -1,5 +1,5 @@
 
-package mainCity.restaurants.EllenRestaurant;
+package role.ellenRestaurant;
 
 import agent.Agent;
 
@@ -88,31 +88,29 @@ public class EllenCookRole extends Role implements Cook{
 		kitchenGui = gui;
 	}
 	
+	
 	//for alert log trace statements
-		public void log(String s){
-	        AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), s);
-	        AlertLog.getInstance().logMessage(AlertTag.ELLEN_COOK, this.getName(), s);
-		}
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ELLEN_COOK, this.getName(), s);
+	}
+	
 	
 	// Messages
-	
-	public void depleteInventory(String choice){		//from restaurantPanel
+	public void depleteInventory(String choice){
 		log("Deplete inventory message received");
-
 		Food f = inventory.get(choice);
 		f.amount = 0;
 		f.s = FoodState.depleted;
 		f.amountToOrder = f.capacity;
-		
 		stateChanged();
 	}
 	
 	public void msgHereIsOrder(String choice, int table, EllenWaiterRole w){
+		log(w.getName() + ", received msgHereIsOrder: " + choice);
 		Order o = new Order(choice, table, w);
 		orders.add(o);
 		o.s = OrderState.pending;
-		
-		log(w.getName() + ", received msgHereIsOrder: " + choice);
 		stateChanged();
 	}
 
@@ -136,7 +134,7 @@ public class EllenCookRole extends Role implements Cook{
 			f.s = FoodState.delivered;
 		}
 		
-		stateChanged();		//necessary?
+		stateChanged();	
 	}
 	
 	public void msgCantFulfill(String choice, int amountStillNeeded){

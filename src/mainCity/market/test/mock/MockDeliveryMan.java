@@ -2,9 +2,9 @@ package mainCity.market.test.mock;
 
 import java.util.Map;
 
+import role.market.MarketCashierRole;
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
-import mainCity.market.MarketCashierRole;
 import mainCity.market.interfaces.*;
 
 public class MockDeliveryMan extends Mock implements DeliveryMan {

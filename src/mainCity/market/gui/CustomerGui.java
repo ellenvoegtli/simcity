@@ -1,7 +1,5 @@
 package mainCity.market.gui;
 
-import mainCity.market.MarketCustomerRole;
-import mainCity.market.MarketGreeterRole;
 import mainCity.market.interfaces.Customer;
 import mainCity.market.interfaces.CustomerGuiInterface;
 
@@ -11,6 +9,9 @@ import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import role.market.MarketCustomerRole;
+import role.market.MarketGreeterRole;
 
 
 public class CustomerGui implements Gui, CustomerGuiInterface{

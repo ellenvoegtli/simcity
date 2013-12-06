@@ -1,8 +1,9 @@
-package mainCity.market;
+package role.market;
 
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.market.MarketMenu;
 import mainCity.market.interfaces.*;
 import role.Role;
 

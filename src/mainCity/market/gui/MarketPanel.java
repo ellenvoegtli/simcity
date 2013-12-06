@@ -5,11 +5,16 @@ import mainCity.contactList.*;
 import mainCity.market.interfaces.*;
 
 import javax.swing.*;
+
 import java.awt.event.*;
 import java.util.Vector;
 
 import role.Role;
+import role.market.MarketCashierRole;
+import role.market.MarketCustomerRole;
 import role.market.MarketDeliveryManRole;
+import role.market.MarketEmployeeRole;
+import role.market.MarketGreeterRole;
 
 /**
  * Panel in frame that contains all the restaurant information,

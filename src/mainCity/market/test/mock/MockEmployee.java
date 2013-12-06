@@ -2,13 +2,12 @@ package mainCity.market.test.mock;
 
 import java.util.Map;
 
+import role.market.MarketEmployeeRole.MyBusiness;
+import role.market.MarketEmployeeRole.MyCustomer;
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
 import mainCity.market.*;
-import mainCity.market.MarketEmployeeRole.MyBusiness;
-import mainCity.market.MarketEmployeeRole.MyCustomer;
 import mainCity.market.interfaces.*;
-import mainCity.market.interfaces.MarketCashier;
 
 
 public class MockEmployee extends Mock implements Employee {

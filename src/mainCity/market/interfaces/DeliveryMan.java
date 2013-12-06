@@ -2,9 +2,9 @@ package mainCity.market.interfaces;
 
 import java.util.Map;
 
+import role.market.MarketCashierRole;
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
-import mainCity.market.MarketCashierRole;
 
 
 public interface DeliveryMan {	

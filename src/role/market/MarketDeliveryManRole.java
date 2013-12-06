@@ -8,7 +8,6 @@ import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
 import mainCity.market.*;
-import mainCity.market.MarketCashierRole.BillState;
 import mainCity.market.gui.*;
 import mainCity.market.interfaces.MarketCashier;
 import mainCity.market.interfaces.DeliveryMan;
@@ -16,6 +15,7 @@ import mainCity.market.interfaces.DeliveryManGuiInterface;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
 import role.Role;
+import role.market.MarketCashierRole.BillState;
 
 import java.util.*;
 import java.util.concurrent.*;

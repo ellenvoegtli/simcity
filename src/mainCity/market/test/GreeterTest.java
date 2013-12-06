@@ -3,11 +3,11 @@ package mainCity.market.test;
 import java.util.Map;
 import java.util.TreeMap;
 
+import role.market.MarketEmployeeRole;
+import role.market.MarketGreeterRole;
+import role.market.MarketEmployeeRole.CustomerState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
-import mainCity.market.MarketEmployeeRole;
-import mainCity.market.MarketGreeterRole;
-import mainCity.market.MarketEmployeeRole.CustomerState;
 import mainCity.market.test.mock.MockCustomer;
 import mainCity.market.test.mock.MockEmployee;
 import mainCity.market.test.mock.MockEmployeeGui;
