@@ -27,8 +27,15 @@ import java.math.*;
 
 public class CityGui extends JFrame implements ActionListener, KeyListener{	
 	private AnimationPanel animationPanel = new AnimationPanel(); 
-
 	private CityView view = new CityView(this);
+	
+	private Vector<PersonAgent> people = new Vector<PersonAgent>();
+	private ListPanel personPanel = new ListPanel(this);
+	private CityPanel cityPanel = new CityPanel(this);
+	private JPanel mainPanel = new JPanel();
+	private JPanel leftPanel = new JPanel();
+	private JPanel detailedPanel = new JPanel();
+	
 	private TracePanel tracePanel1;
 	private TracePanel tracePanel2;
 	private TracePanel tracePanel3;
@@ -37,16 +44,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private TracePanel tracePanel6;
 	private TracePanel tracePanel7;
 	private TracePanel tracePanel8;
-	
-	private Vector<PersonAgent> people = new Vector<PersonAgent>();
-	private ListPanel personPanel = new ListPanel(this);
-	private CityPanel cityPanel = new CityPanel(this);
-	
-	private JPanel mainPanel = new JPanel();
-	private JPanel leftPanel = new JPanel();
-	private JPanel detailedPanel = new JPanel();
 
-	//====Control panel components====
+	//=================Create panel components=========================
 	private JPanel controlPanel = new JPanel();
 	
 	private JPanel subControlPanel1 = new JPanel();
@@ -65,7 +64,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel carMenuLabel = new JLabel("Car or no car? : ");
 	private JComboBox carMenu;
 	
-	
+	//=================Control panel components========================
 	private JPanel subControlPanel2 = new JPanel();
 	
 	private JLabel personLabel = new JLabel("Selected person: ");
@@ -73,7 +72,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JPanel infoPanel = new JPanel();
 	private GroupLayout layout2 = new GroupLayout(infoPanel);
 	private JLabel hungryLabel = new JLabel("Hungry?");
-	private JButton restaurantButton = new JButton("Eat at restaurant");
+	private JLabel restLabel = new JLabel("Eat at restaurant: ");
+	private JComboBox restaurantMenu; 
+	private JButton restaurantButton = new JButton("Go");
+	
+	private JLabel orLabel = new JLabel("OR: ");
 	private JButton homeButton = new JButton("Eat at home");
 	
 	private JLabel workLabel = new JLabel("Go to work?");
@@ -84,9 +87,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	//private JButton depositButton = new JButton("Deposit");
 	//private JButton loanButton = new JButton("Request a loan");
 	//private JButton withdrawButton = new JButton("Withdraw");
-	private JTextField depositField = new JTextField(100);
-	private JTextField withrawField = new JTextField(100);
-	private JTextField loanField = new JTextField(100);
+	//private JTextField depositField = new JTextField(100);
+	//private JTextField withrawField = new JTextField(100);
+	//private JTextField loanField = new JTextField(100);
 	
 	private JLabel blankLabel = new JLabel(" ");
 	private JButton addPersonButton = new JButton("Create person");
@@ -162,7 +165,16 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		carMenu.setSelectedIndex(0);
 		carMenu.addActionListener(this);
 		
-		Dimension depositDim = new Dimension(150, 30);
+		String[] restStrings = {"Random", "David's Restaurant", "Ellen's Restaurant", "Ena's Restaurant", "Jefferson's Restaurant", "Marcus's Restaurant"};
+		restaurantMenu = new JComboBox(restStrings);
+		Dimension restDim = new Dimension(150, 30);
+		restaurantMenu.setPreferredSize(restDim);
+		restaurantMenu.setMinimumSize(restDim);
+		restaurantMenu.setMaximumSize(restDim);
+		restaurantMenu.setSelectedIndex(0);
+		restaurantMenu.addActionListener(this);
+		
+		/*Dimension depositDim = new Dimension(150, 30);
 		depositField.setPreferredSize(depositDim);
 		depositField.setMinimumSize(depositDim);
 		depositField.setMaximumSize(depositDim);
@@ -175,10 +187,10 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		Dimension loanDim = new Dimension(150, 30);
 		loanField.setPreferredSize(loanDim);
 		loanField.setMinimumSize(loanDim);
-		loanField.setMaximumSize(loanDim);
+		loanField.setMaximumSize(loanDim);*/
 		
 		
-		//===GROUP LAYOUT 1 FOR CONTROL PANEL====
+		//==================GROUP LAYOUT 1 FOR **CREATE** PANEL===============================
 		subControlPanel1.setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
@@ -210,17 +222,17 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		JTabbedPane tabbedPane2 = new JTabbedPane();
 		tabbedPane2.addTab("Create", subControlPanel1);
 		
-		//===GROUP LAYOUT 2 FOR CONTROL PANEL====
+		//=======================GROUP LAYOUT 2 FOR **CONTROL** PANEL===============================
 		infoPanel.setLayout(layout2);
 		layout2.setAutoCreateGaps(true);
 		layout2.setAutoCreateContainerGaps(true);
 		
 		GroupLayout.SequentialGroup hGroup2 = layout2.createSequentialGroup();
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(personLabel).addComponent(blankLabel).
-	            addComponent(hungryLabel).addComponent(blankLabel).addComponent(workLabel)
+	            addComponent(restLabel).addComponent(blankLabel).addComponent(orLabel).addComponent(workLabel)
 	            );
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(infoLabel).addComponent(blankLabel).
-	            addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB)
+	            addComponent(restaurantMenu).addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB)
 	            );
 		layout2.setHorizontalGroup(hGroup2);
 		
@@ -230,9 +242,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
 	            addComponent(blankLabel).addComponent(blankLabel));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
-	            addComponent(hungryLabel).addComponent(restaurantButton));
+	            addComponent(restLabel).addComponent(restaurantMenu));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
-	            addComponent(blankLabel).addComponent(homeButton));
+	            addComponent(blankLabel).addComponent(restaurantButton));
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(orLabel).addComponent(homeButton));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
 	            addComponent(workLabel).addComponent(workCB));
 		layout2.setVerticalGroup(vGroup2);
@@ -457,10 +471,14 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         infoLabel.setText(p.getName());
         infoLabel.setVisible(true);
         
-        restaurantButton.setEnabled(!p.isHungryForRestaurant() || !p.isHungryForHome());
-        homeButton.setEnabled(!p.isHungryForHome() || !p.isHungryForRestaurant());
+        //restaurantButton.setEnabled(!p.isHungryForRestaurant() || !p.isHungryForHome());
+        //homeButton.setEnabled(!p.isHungryForHome() || !p.isHungryForRestaurant());
+        restaurantButton.setEnabled(!p.isHungryForRestaurant());
+        homeButton.setEnabled(!p.isHungryForHome());
         workCB.setEnabled(!p.isGoingOrAtWork());
         
+        if (restaurantButton.isEnabled())
+        	restaurantMenu.setSelectedIndex(0);
         
         
         infoPanel.validate();
@@ -510,13 +528,18 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			shiftMenu.setSelectedIndex(0);
 			housingMenu.setSelectedIndex(0);
 			carMenu.setSelectedIndex(0);
+			restaurantMenu.setSelectedIndex(0);
 
 			cityPanel.addPerson(name, money, renter, occupation, sb, se, actions);
 		}
 		else if (e.getSource() == restaurantButton){
 			System.out.println("RESTAURANT BUTTON PRESSED");
 			PersonAgent p = (PersonAgent) currentPerson;
-			p.msgGoToRestaurant();
+			
+			if (restaurantMenu.getSelectedItem().toString().equalsIgnoreCase("random"))
+				p.msgGoToRestaurant();
+			else
+				p.msgGoToRestaurant(restaurantMenu.getSelectedItem().toString());
 			restaurantButton.setEnabled(false);
 			homeButton.setEnabled(false);
 		}

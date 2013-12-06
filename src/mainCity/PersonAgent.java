@@ -54,6 +54,8 @@ public class PersonAgent extends Agent {
 	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
 	
+	private String restaurantHack;
+	
 	public EventLog log = new EventLog(); 
 	
 	public PersonAgent(String n) {
@@ -151,10 +153,20 @@ public class PersonAgent extends Agent {
 		}
 	}
 	
-	//A message received from the HomeAgent or GUI (possibly?) to go to a restaurant
+	//A message received from the HomeAgent or GUI to go to a restaurant
 	public void msgGoToRestaurant() {
 		if(!actionExists(ActionType.restaurant)) {
 			//output(name + " will go to restaurant");
+			actions.add(new Action(ActionType.restaurant, 4));
+			stateChanged();
+		}
+	}
+	
+	//A message received from the GUI to go to a specific restaurant (hack)
+	public void msgGoToRestaurant(String name) {
+		if(!actionExists(ActionType.restaurant)) {
+			//output(name + " will go to restaurant");
+			restaurantHack = name;
 			actions.add(new Action(ActionType.restaurant, 4));
 			stateChanged();
 		}
@@ -720,6 +732,10 @@ public class PersonAgent extends Agent {
 			case restaurant:
 				event = PersonEvent.chooseRestaurant;
 				break;
+			//======= restaurant hacks from gui ========
+			//case restaurant_ellen:
+				//event = PersonEvent.
+				
 			case bankWithdraw:
 				event = PersonEvent.needToBank;
 				break;
@@ -773,7 +789,24 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		
+		if (restaurantHack != null){
+			if (restaurantHack.contains("Ellen"))
+				destination = CityLocation.restaurant_ellen;
+			else if (restaurantHack.contains("Ena"))
+				destination = CityLocation.restaurant_ena;
+			else if (restaurantHack.contains("Marcus"))
+				destination = CityLocation.restaurant_marcus;
+			else if (restaurantHack.contains("Jefferson"))
+				destination = CityLocation.restaurant_jefferson;
+			else if (restaurantHack.contains("David"))
+				destination = CityLocation.restaurant_david;
+			
+			restaurantHack = null;
+			
+			event = PersonEvent.decidedRestaurant;
+			handleRole(currentAction.type);
+			return;
+		}
 
 		switch((int) (Math.random() * 5)) {
 			case 0:
@@ -795,7 +828,6 @@ public class PersonAgent extends Agent {
 				break;
 		}
 		
-
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
@@ -1043,7 +1075,9 @@ public class PersonAgent extends Agent {
 
 	//Lower the priority level, the more "important" it is (it'll get done faster)
 	public enum ActionState {created, inProgress, done}
-	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, restaurant, market, bankWithdraw, bankDeposit, bankLoan, home}
+	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, 
+		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
+		market, bankWithdraw, bankDeposit, bankLoan, home}
 	public class Action implements Comparable<Object> {
 		public ActionState state;
 		public ActionType type;
