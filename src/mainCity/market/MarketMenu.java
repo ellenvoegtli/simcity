@@ -35,10 +35,10 @@ public class MarketMenu {
 		menuItems.add("steak");
 		
 		//Marcus Restaurant (Cheese)
-		menuItems.add("Swiss");
-		menuItems.add("American");
-		menuItems.add("Cheddar");
-		menuItems.add("Provolone");
+		menuItems.add("swiss");
+		menuItems.add("american");
+		menuItems.add("cheddar");
+		menuItems.add("provolone");
 		
 		//Jefferson Restaurant (All-American)
 		menuItems.add("chicken");
@@ -75,6 +75,10 @@ public class MarketMenu {
         prices.put("burger", 6.00);
         prices.put("fries", 0.50);
         
+        prices.put("swiss", 5.99);
+        prices.put("american", 6.99);
+        prices.put("cheddar", 7.99);
+        prices.put("provolone", 4.99);
         
         
         
@@ -96,6 +100,11 @@ public class MarketMenu {
         stockAmounts.put("chickenNuggets", 30);
         stockAmounts.put("burger", 20);
         stockAmounts.put("fries", 40);
+        
+        stockAmounts.put("swiss", 20);
+        stockAmounts.put("american", 20);
+        stockAmounts.put("cheddar", 20);
+        stockAmounts.put("provolone", 20);
        
 	}
 	

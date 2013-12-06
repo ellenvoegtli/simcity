@@ -119,6 +119,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
 		output("Received change of $" + amount);
 		cash += amount;
+		deliveryPerson.msgChangeVerified("marcusRestaurant");
 		stateChanged();
 	}
 
