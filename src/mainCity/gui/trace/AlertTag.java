@@ -18,7 +18,7 @@ public enum AlertTag {
         PERSON,
         
         OCCUPANT,
-        
+        LANDLORD,
         BUS_STOP,
         
         BANK_BANKER,
