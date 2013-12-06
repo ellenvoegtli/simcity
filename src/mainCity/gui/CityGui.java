@@ -45,16 +45,16 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private TracePanel tracePanel7;
 	private TracePanel tracePanel8;
 
-	//=================Create panel components=========================
-	private JPanel controlPanel = new JPanel();
 	
+	private JPanel controlPanel = new JPanel();
+	//=================Create panel components=========================
 	private JPanel subControlPanel1 = new JPanel();
+	
 	private GroupLayout layout = new GroupLayout(subControlPanel1);
 	private JLabel nameFieldLabel = new JLabel("Enter name: ");
 	private JTextField nameField = new JTextField(100);
 	private JLabel moneyFieldLabel = new JLabel("Enter starting $: ");
 	private JTextField moneyField = new JTextField(100);
-	
 	private JLabel occupationMenuLabel = new JLabel("Choose occupation: ");
 	private JComboBox occupationMenu;
 	private JLabel shiftMenuLabel = new JLabel("Choose shift: ");
@@ -75,10 +75,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel restLabel = new JLabel("Eat at restaurant: ");
 	private JComboBox restaurantMenu; 
 	private JButton restaurantButton = new JButton("Go");
-	
 	private JLabel orLabel = new JLabel("OR: ");
 	private JButton homeButton = new JButton("Eat at home");
-	
 	private JLabel workLabel = new JLabel("Go to work?");
 	private JCheckBox workCB = new JCheckBox();
 	
@@ -91,21 +89,32 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	//private JTextField withrawField = new JTextField(100);
 	//private JTextField loanField = new JTextField(100);
 	
+	//=================Scenario Hack panel components========================
+	private JPanel subControlPanel3 = new JPanel();
+	private GroupLayout layout3 = new GroupLayout(subControlPanel3);
+	private JLabel scenario1Label = new JLabel("Scenario 1: ");
+	private JButton scenario1Button = new JButton("Run");
+	private JLabel scenario2Label = new JLabel("Scenario 2: ");
+	private JButton scenario2Button = new JButton("Run");
+	private JLabel scenario3Label = new JLabel("Scenario 3: ");
+	private JButton scenario3Button = new JButton("Run");
+	private JLabel scenario4Label = new JLabel("Scenario 4: ");
+	private JButton scenario4Button = new JButton("Run");
+	private JLabel scenario5Label = new JLabel("Scenario 5: ");
+	private JButton scenario5Button = new JButton("Run");
+	
+	
 	private JLabel blankLabel = new JLabel(" ");
 	private JButton addPersonButton = new JButton("Create person");
 	
 	private Object currentPerson;
 	//private JPanel infoPanel;		//add to subControlPanel2
-	
-	//private ListPanel personPanel;
 
 	
 	public CityGui() { 
 		int WINDOWX = 1300; 
 		int WINDOWY = 600;
 		
-		//personPanel = new ListPanel(this);
-
 		animationPanel.setGui(this);
 
 		setBounds(50, 50, WINDOWX, WINDOWY+150);
@@ -190,7 +199,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		loanField.setMaximumSize(loanDim);*/
 		
 		
-		//==================GROUP LAYOUT 1 FOR **CREATE** PANEL===============================
+		//==================GROUP LAYOUT 1 FOR **CREATE** PANEL====================================
 		subControlPanel1.setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
@@ -218,9 +227,14 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		vGroup.addGroup(layout.createParallelGroup(Alignment.BASELINE).
 				addComponent(addPersonButton).addComponent(blankLabel));
 		layout.setVerticalGroup(vGroup);
-		//====END GROUP LAYOUT 1=====
-		JTabbedPane tabbedPane2 = new JTabbedPane();
-		tabbedPane2.addTab("Create", subControlPanel1);
+		//==================END GROUP LAYOUT 1=====================================================
+		JTabbedPane controlTabbedPane = new JTabbedPane();
+		controlTabbedPane.addTab("Create", subControlPanel1);
+		
+		occupationMenu.addActionListener(this);
+		housingMenu.addActionListener(this);
+		addPersonButton.addActionListener(this);
+		//=======================END SUBCONTROLPANEL1===============================================
 		
 		//=======================GROUP LAYOUT 2 FOR **CONTROL** PANEL===============================
 		infoPanel.setLayout(layout2);
@@ -250,7 +264,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
 	            addComponent(workLabel).addComponent(workCB));
 		layout2.setVerticalGroup(vGroup2);
-	   //====END GROUP LAYOUT 2=====
+	   //=======================END GROUP LAYOUT 2===================================================
 		
 		restaurantButton.addActionListener(this);
 		homeButton.addActionListener(this);
@@ -266,12 +280,51 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		subControlPanel2.add(personPanel);
 		infoLabel.setVisible(false);
 		subControlPanel2.add(infoPanel);
-		tabbedPane2.addTab("Controls", subControlPanel2);
-		controlPanel.add(tabbedPane2);
+		controlTabbedPane.addTab("Controls", subControlPanel2);
+		//=================== END SUBCONTROLPANEL2 =================================================
 		
-		occupationMenu.addActionListener(this);
-		housingMenu.addActionListener(this);
-		addPersonButton.addActionListener(this);
+		
+		//==================GROUP LAYOUT 3 FOR **SCENARIO** PANEL====================================
+		subControlPanel3.setLayout(layout3);
+		layout3.setAutoCreateGaps(true);
+		layout3.setAutoCreateContainerGaps(true);
+		
+		GroupLayout.SequentialGroup hGroup3 = layout3.createSequentialGroup();
+		hGroup3.addGroup(layout3.createParallelGroup().
+	            addComponent(scenario1Label).addComponent(scenario2Label).addComponent(scenario3Label).
+	            addComponent(scenario4Label).addComponent(scenario5Label)
+	            );
+		hGroup3.addGroup(layout3.createParallelGroup().
+	            addComponent(scenario1Button).addComponent(scenario2Button).addComponent(scenario3Button).
+	            addComponent(scenario4Button).addComponent(scenario5Button)
+	            );
+		layout3.setHorizontalGroup(hGroup3);
+		
+		GroupLayout.SequentialGroup vGroup3 = layout3.createSequentialGroup();
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+	            addComponent(scenario1Label).addComponent(scenario1Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+	            addComponent(scenario2Label).addComponent(scenario2Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+	            addComponent(scenario3Label).addComponent(scenario3Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+	            addComponent(scenario4Label).addComponent(scenario4Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario5Label).addComponent(scenario5Button));
+		layout3.setVerticalGroup(vGroup3);
+		//==================END GROUP LAYOUT 3=====================================================
+		controlTabbedPane.addTab("Scenarios", subControlPanel3);
+		
+		scenario1Button.addActionListener(this);
+		scenario2Button.addActionListener(this);
+		scenario3Button.addActionListener(this);
+		scenario4Button.addActionListener(this);
+		scenario5Button.addActionListener(this);
+		
+		
+		//=================== END SUBCONTROLPANEL2 =================================================
+		
+		controlPanel.add(controlTabbedPane);
 		
 
 		//---MAIN PANEL BEGIN---//
@@ -471,8 +524,6 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         infoLabel.setText(p.getName());
         infoLabel.setVisible(true);
         
-        //restaurantButton.setEnabled(!p.isHungryForRestaurant() || !p.isHungryForHome());
-        //homeButton.setEnabled(!p.isHungryForHome() || !p.isHungryForRestaurant());
         restaurantButton.setEnabled(!p.isHungryForRestaurant());
         homeButton.setEnabled(!p.isHungryForHome());
         workCB.setEnabled(!p.isGoingOrAtWork());
@@ -566,6 +617,27 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	        		
 	        }*/
 		}
+		else if (e.getSource() == scenario1Button){
+			System.out.println("SCENARIO1 BUTTON PRESSED");
+			//load a certain config file
+		}
+		else if (e.getSource() == scenario2Button){
+			System.out.println("SCENARIO2 BUTTON PRESSED");
+			//load a certain config file
+		}
+		else if (e.getSource() == scenario3Button){
+			System.out.println("SCENARIO3 BUTTON PRESSED");
+			//load a certain config file
+		}
+		else if (e.getSource() == scenario4Button){
+			System.out.println("SCENARIO4 BUTTON PRESSED");
+			//load a certain config file
+		}
+		else if (e.getSource() == scenario5Button){
+			System.out.println("SCENARIO5 BUTTON PRESSED");
+			//load a certain config file
+		}
+		
 
 	}
 	
