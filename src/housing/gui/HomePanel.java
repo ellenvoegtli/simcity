@@ -1,9 +1,12 @@
 package housing.gui;
 
+import housing.LandlordRole;
+import housing.OccupantRole;
+import housing.personHome;
+import housing.Interfaces.landLord;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -11,29 +14,26 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import role.Role;
-import housing.LandlordRole;
-import housing.OccupantRole;
-import housing.personHome;
-import housing.gui.OccupantGui;
-import housing.gui.LandlordGui;
+
 
 
 public class HomePanel extends JPanel
 {
 	   
 
-    private housing.Interfaces.landLord landLord;
+    private landLord landLord;
     private LandlordGui landLordGui;
-    private Vector<OccupantRole> renting = new Vector<
-    		OccupantRole>();
+    private Vector<OccupantRole> renting = new Vector<OccupantRole>();
 
 
     private JPanel homeLabel = new JPanel();
     private JPanel group = new JPanel();
     private personHome house;
     //private HomeGui gui; //reference to main gui
-    private OccupantRole occupant;
+   private OccupantRole occupant;
    private OccupantGui occupantGui; 
    private HomeAnimationPanel animation;
 
@@ -41,35 +41,27 @@ public class HomePanel extends JPanel
     {
        
     	this.animation = homeAnimationPanel;
-       // setLayout(new GridLayout(1, 2, 20, 20));
-       // initRestLabel();
-        //add(homeLabel);
-    }
+    	house = new personHome(occupant);
 
-    /**
-     * Sets up the home label that includes the menu,
-     * and host and cook information
-     */
-    private void initRestLabel() {
-        JLabel label = new JLabel();
-        homeLabel.setLayout(new BoxLayout((Container)homeLabel, BoxLayout.Y_AXIS));
-        /*label.setText(
-                "<html><h3><u>House's Belongs To: </u></h3><table><tr><td>occupant:</td><td>" + occupant.getName());*/
+    	
+    	//ContactList.getInstance().setHome(this);
+    	
 
-        homeLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-        homeLabel.add(label, BorderLayout.CENTER);
-        homeLabel.add(new JLabel("               "), BorderLayout.EAST);
-        homeLabel.add(new JLabel("               "), BorderLayout.WEST);
-    }
+    	
+    	
+    	PersonAgent base5 = new PersonAgent("occupant");
+		occupant = new OccupantRole(base5, base5.getName());
+		base5.addRole(PersonAgent.ActionType.homeAndEat, occupant);
+		occupant.setActive();
+		
+		
+		//occupantGui = new OccupantGui(occupant, animation); 
+		//animation.addGui(occupantGui);
 
-
-    /**
-     * Adds a customer or waiter to the appropriate list
-     *
-     * @param type indicates whether the person is a customer or waiter (later)
-     * @param name name of person
-     */
+		
     
+    }
+ 
     public void createHunger(String occ)
     {
     		if(occ.equals(occupant.getName()))
@@ -89,12 +81,8 @@ public class HomePanel extends JPanel
     		OccupantRole c = new OccupantRole(name);	
     		
 			c.setHouse(house);
-    		//customers.add(c);
-    			//int posX = 22 * customers.size();
     		OccupantGui g = new OccupantGui(c, gui);
     		gui.animationPanel.addGui(g);// dw
-    		//c.setHost(host);
-    		//c.setCashier(cashier);
     		c.setGui(g);
     		c.startThread();
 
@@ -121,7 +109,11 @@ public class HomePanel extends JPanel
             house.setOccupant(occupant);
     		occupantGui = new OccupantGui(occupant, animation); 
     		System.out.println("new gui created");
+    		System.out.println("HOME PANEL SIZE" +animation.getGuis().size());
     		animation.addGui(occupantGui);
+    		animation.addGui(occupantGui);
+
+    		System.out.println("HOME PANEL SIZE AFTER" +animation.getGuis().size());
     		occupant.setGui(occupantGui);
     		System.out.println("gui set");
     		occupantGui.setHungry();    
