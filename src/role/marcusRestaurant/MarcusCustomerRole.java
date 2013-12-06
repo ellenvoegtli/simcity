@@ -6,7 +6,6 @@ import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.marcusRestaurant.gui.CustomerGui;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import mainCity.restaurants.marcusRestaurant.MarcusMenu;
-import agent.Agent;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -279,12 +278,14 @@ public class MarcusCustomerRole extends Role implements Customer {
 	private void makeSelection() {
 		String choice = null;
 		++orderCount;
-		
-		//Chooses from menu based on how much money they have
-		for(int i = 0; i < menu.getMenu().size(); ++i) {
-			if(cash > menu.getMenu().get(i).price || name.equals("THIEF")) {
-				choice = menu.getMenu().get(i).food;
-				break;
+
+		boolean deciding = true;
+		while(deciding) {
+			int c = (int)(Math.random()*menu.getMenu().size());
+			
+			if(cash > menu.getMenu().get(c).price || name.equals("THIEF")) {
+				choice = menu.getMenu().get(c).food;
+				deciding = false;
 			}
 		}
 		

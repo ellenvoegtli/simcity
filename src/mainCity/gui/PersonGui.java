@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 
 public class PersonGui implements Gui, PersonGuiInterface{
 	CityGui gui;
+	private String name;
 	private PersonAgent agent = null;
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -34,6 +35,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
+		name = agent.getName();
 		
 		try {
 			xHome = agent.getHomePlace().getXLoc();
@@ -101,6 +103,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			g.setColor(Color.ORANGE);
 			g.drawImage(personImg, xPos,yPos, null);
 			//g.fillRect(xPos, yPos, w, h);
+        	g.drawString(name, xPos, yPos);
 		}
 	}
 

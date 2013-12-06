@@ -10,7 +10,6 @@ import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import java.util.*;
 
 import role.Role;
-import role.marcusRestaurant.MarcusCustomerRole.AgentEvent;
 import role.market.MarketDeliveryManRole;
 
 public class MarcusCashierRole extends Role implements Cashier, WorkerRole {

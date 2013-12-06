@@ -46,7 +46,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		return name;
 	}
 
-	public List getWaitingCustomers() {
+	public List<MyCustomer> getWaitingCustomers() {
 		return customers;
 	}
 
