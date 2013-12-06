@@ -35,13 +35,6 @@ public class EllenCashierRole extends Role implements Cashier {
 		super(p);
 		this.name = name;
 		onDuty = true;
-
-		//initialize prices map -- or should this be from menu?? // ALSO IMPLEMENTED IN MENU
-        prices.put("steak", 30);	//type, cookingTime, amount
-        prices.put("pizza", 10);
-        prices.put("pasta", 20);
-        prices.put("soup", 5);
-
 	}
 
 	public void addWaiter(Waiter w){	//hack
@@ -210,12 +203,12 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	public void CalculateChange(Check c){
 		log("Calculating change");
-		if (c.cashAmount >= prices.get(c.choice)){
-			c.cust.msgHereIsChange((c.cashAmount - prices.get(c.choice)));
+		if(c.cashAmount >= menu.getPrice(c.choice)){
+			c.cust.msgHereIsChange(c.cashAmount - menu.getPrice(c.choice));
 			checks.remove(c);
 		}
 		else {
-			c.cust.msgNotEnoughCash((prices.get(c.choice) - c.cashAmount));
+			c.cust.msgNotEnoughCash(menu.getPrice(c.choice) - c.cashAmount);
 			checks.remove(c);
 		}
 		
