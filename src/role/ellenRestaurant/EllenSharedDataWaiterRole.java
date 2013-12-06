@@ -11,32 +11,32 @@ public class EllenSharedDataWaiterRole extends EllenWaiterRole {
 	
 	public EllenSharedDataWaiterRole(PersonAgent p, String name) {
 		super(p, name);
-		//print("Created a shared data waiter");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Created a shared data waiter");
+		log("Created a shared data waiter");
 	}
 	
 	public void setStand(RevolvingStand s) {
 		this.stand = s;
 	}
+	
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ELLEN_WAITER, this.getName(), s);
+	}
 
 	protected void sendOrderToCook(MyCustomer mc) {
-		//print("Writing down order onto order ticket..");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Writing down order onto order ticket..");
+		log("Writing down order onto order ticket..");
 		OrderTicket order = new OrderTicket(this, mc.choice, mc.table);
 		
 		waiterGui.DoGoToCook();
 		try {
 			atCook.acquire();
-			//atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		
 		if(!stand.isFull()) {
-			//print("Posting order to the board...");
-			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Posting order to the board..");
+			log("Posting order to the board...");
 			stand.insert(order);
 		}
 		else {

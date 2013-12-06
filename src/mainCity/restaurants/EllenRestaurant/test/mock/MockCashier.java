@@ -27,6 +27,6 @@ public class MockCashier extends Mock implements Cashier {
 	//from old restaurant tests
 	public void msgComputeBill(String choice, Customer cust, Waiter w){
 	}
-	public void msgHereIsPayment(int checkAmount, int cashAmount, Customer cust){
+	public void msgHereIsPayment(double checkAmount, double cashAmount, Customer cust){
 	}
 }

@@ -2,8 +2,8 @@ package mainCity.restaurants.restaurant_zhangdt.gui;
 
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.restaurant_zhangdt.gui.CookGui;
+import mainCity.restaurants.restaurant_zhangdt.sharedData.RevolvingStand;
 import role.davidRestaurant.*;
-
 
 import javax.swing.*;
 
@@ -32,7 +32,7 @@ public class DavidRestaurantPanel extends JPanel implements ActionListener{
     
     private Vector<DavidCustomerRole> customers = new Vector<DavidCustomerRole>();
     private Vector<DavidWaiterRole> waiters = new Vector<DavidWaiterRole>();
-    //private RevolvingStand stand = new RevolvingStand();
+    private RevolvingStand stand = new RevolvingStand();
     
     private DavidCashierRole cashier;
     private DavidCookRole cook;

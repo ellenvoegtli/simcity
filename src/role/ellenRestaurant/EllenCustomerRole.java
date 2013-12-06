@@ -33,9 +33,9 @@ public class EllenCustomerRole extends Role implements Customer{
 	private int waitingAreaY;
 	
 	private String choice;
-	private int checkAmount;
-	private int myCash;
-	private int cashOwed = 0;
+	private double checkAmount;
+	private double myCash;
+	private double cashOwed = 0;
 
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
@@ -86,7 +86,7 @@ public class EllenCustomerRole extends Role implements Customer{
 		return name;
 	}
 	
-	public int getMyCash(){
+	public double getMyCash(){
 		return myCash;
 	}
 	// Messages
@@ -136,7 +136,7 @@ public class EllenCustomerRole extends Role implements Customer{
 	}
 
 	
-	public void msgHereIsCheck(int amount){		//from waiter
+	public void msgHereIsCheck(double amount){		//from waiter
 		//print("Received msg HereIsCheck: $" + amount);
 		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg HereIsCheck: $" + amount);
 		checkAmount = amount;
@@ -144,7 +144,7 @@ public class EllenCustomerRole extends Role implements Customer{
 		stateChanged();
 	}
 	
-	public void msgHereIsChange(int cashChange){		//from CashierAgent
+	public void msgHereIsChange(double cashChange){		//from CashierAgent
 		//print("Received msg HereIsChange: $" + cashChange);
 		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg HereIsChange: $" + cashChange);
 		myCash = cashChange;
@@ -152,7 +152,7 @@ public class EllenCustomerRole extends Role implements Customer{
 		stateChanged();
 	}
 	
-	public void msgNotEnoughCash(int cashOwed){
+	public void msgNotEnoughCash(double cashOwed){
 		//print("Received msg NotEnoughCash: I owe $" + cashOwed);
 		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msg NotEnoughCash: I owe $" + cashOwed);
 		this.cashOwed += cashOwed;

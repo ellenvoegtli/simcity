@@ -34,7 +34,8 @@ public class HomeGui extends JFrame implements ActionListener{
      * 2) the infoPanel about the clicked Customer (created just below)
      */    
     //private HomePanel homePanel = new HomePanel(this);
-    private Agent agent = null;
+    
+	private Agent agent = null;
     private JPanel ProjectPanel = new JPanel();
     
     /* infoPanel holds information about the clicked customer, if there is one*/
@@ -86,7 +87,7 @@ public class HomeGui extends JFrame implements ActionListener{
 
         infoPanel.setLayout(new GridLayout());
         
-       infoLabel = new JLabel(); 
+       infoLabel = new JLabel();
        infoLabel.setText("<html><pre><i>Click to cook</i></pre></html>");
        infoPanel.add(infoLabel);
        infoPanel.add(stateCB);
@@ -196,7 +197,6 @@ public class HomeGui extends JFrame implements ActionListener{
         gui.setResizable(false);
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-	
 	
 
 }

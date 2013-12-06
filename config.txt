@@ -18,7 +18,7 @@ Name:ellencook;Cash:100;Renter:true;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:1
 Name:ellencashier;Cash:100;Renter:false;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:ellenhost;Cash:100;Renter:false;Occupation:ellenHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:ellenwaiter1;Cash:100;Renter:false;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:ellenwaiter2;Cash:100;Renter:false;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:ellenwaiter2;Cash:100;Renter:false;Occupation:ellenShareWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Ena Restaurant
 Name:enacashier;Cash:100;Renter:false;Occupation:enaCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:enacook;Cash:100;Renter:true;Occupation:enaCook;ShiftBegin:7;ShiftEnd:19;Actions:work

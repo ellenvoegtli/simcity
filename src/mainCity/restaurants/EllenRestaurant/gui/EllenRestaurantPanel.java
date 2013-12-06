@@ -3,15 +3,10 @@ package mainCity.restaurants.EllenRestaurant.gui;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
 import role.Role;
-import role.ellenRestaurant.EllenCashierRole;
-import role.ellenRestaurant.EllenCookRole;
-import role.ellenRestaurant.EllenCustomerRole;
-import role.ellenRestaurant.EllenHostRole;
-import role.ellenRestaurant.EllenNormalWaiterRole;
-import role.ellenRestaurant.EllenWaiterRole;
+import role.ellenRestaurant.*;
+import mainCity.contactList.*;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -19,11 +14,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import mainCity.contactList.*;
-/**
- * Panel in frame that contains all the restaurant information,
- * including host, cook, waiters, and customers.
- */
+
+
 public class EllenRestaurantPanel extends JPanel implements ActionListener{
 	private EllenAnimationPanel animation;
 
@@ -164,13 +156,11 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     	}
     	
     	if(r instanceof EllenWaiterRole) {
-        	EllenNormalWaiterRole w = (EllenNormalWaiterRole) r;
-        	System.out.println("Setting EllenNormalWaiterRole: " + w.getName());
-        	/*
-    		if(r.getName().contains("share")) {
-    			EllenSharedWaiterRole a = (EllenSharedWaiterRole) r;
-    			a.setStand(stand);
-    		}*/
+        	if (r instanceof EllenSharedDataWaiterRole){
+        		((EllenSharedDataWaiterRole) r).setStand(revolvingStand);
+        	}
+        	EllenWaiterRole w = (EllenWaiterRole) r;
+        	
         	waiterX += 30;
     		WaiterGui g = new WaiterGui(w, animation, waiterX, waiterY);
     		animation.addGui(g);

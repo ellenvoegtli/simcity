@@ -59,14 +59,12 @@ public class OccupantRole extends Role implements Occupant
 	 */
 	
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.OCCUPANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.LANDLORD, this.getName(), s);
 	}
 
 
-/* (non-Javadoc)
- * @see housing.Occupant#msgAtDestination()
- */
+
 @Override
 public void msgAtDestination()
 {
@@ -99,7 +97,6 @@ public OccupantRole(PersonAgent p, String personNm)
 	
 }
 
-
 public OccupantRole(PersonAgent p) {
 	super(p);
 	this.person =p;
@@ -107,9 +104,6 @@ public OccupantRole(PersonAgent p) {
 }
 
 
-/* (non-Javadoc)
- * @see housing.Occupant#getName()
- */
 @Override
 public String getName()
 {
@@ -119,9 +113,7 @@ public String getName()
 	
 //MESSAGES
 	
-/* (non-Javadoc)
- * @see housing.Occupant#gotHungry()
- */
+
 @Override
 public void gotHungry()
 {
@@ -284,7 +276,7 @@ public boolean pickAndExecuteAnAction()
 		return true;
 	}
 	if(!person.getRoles().isEmpty()) {//makes the person leave the home if there's something else to do
-		setInactive();
+		//setInactive();
 		return true;
 	}
 	

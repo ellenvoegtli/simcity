@@ -19,7 +19,7 @@ public interface Cashier extends MainCashier {
 	
 	//from old restaurant tests
 	public abstract void msgComputeBill(String choice, Customer cust, Waiter w);
-	public abstract void msgHereIsPayment(int checkAmount, int cashAmount, Customer cust);
+	public abstract void msgHereIsPayment(double checkAmount, double cashAmount, Customer cust);
 
 	
 }

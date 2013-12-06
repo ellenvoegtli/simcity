@@ -21,6 +21,7 @@ import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.WorkerRole;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cashier;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Market;
@@ -28,7 +29,7 @@ import mainCity.restaurants.restaurant_zhangdt.interfaces.Waiter;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.EventLog;
 import mainCity.restaurants.restaurant_zhangdt.test.mock.LoggedEvent;
 
-public class DavidCashierRole extends Role implements Cashier {
+public class DavidCashierRole extends Role implements Cashier, WorkerRole {
 /*   Data   */ 
 	
 	//Name

@@ -4,6 +4,7 @@ import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.WorkerRole;
 import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Waiter;
 
@@ -19,7 +20,7 @@ import role.davidRestaurant.DavidHostRole.Table;
  * Restaurant Waiter Agent
  */
 
-public class DavidWaiterRole extends Role implements Waiter {
+public abstract class DavidWaiterRole extends Role implements Waiter, WorkerRole {
 
 /*   Data   */	
 
@@ -51,7 +52,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 	List<Order> orderList = new ArrayList<Order>();
 	
 	private DavidHostRole hAgent; 
-	private DavidCookRole cookAgent; 
+	protected DavidCookRole cookAgent; 
 	private DavidCashierRole cashierAgent;
 	
 	private String name;
@@ -67,8 +68,8 @@ public class DavidWaiterRole extends Role implements Waiter {
 	private double bill;
 	
 	private Semaphore atTable = new Semaphore(0,true);
-	private Semaphore hostFree = new Semaphore(0, true); 
-	private Semaphore atCook = new Semaphore(0, true); 
+	protected Semaphore hostFree = new Semaphore(0, true); 
+	protected Semaphore atCook = new Semaphore(0, true); 
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore WaiterFree = new Semaphore(0, true);
 	
@@ -416,18 +417,7 @@ public class DavidWaiterRole extends Role implements Waiter {
 		customer.custState = CustomerStates.Ordering; 
 	}
 	
-	private void HeresAnOrder(myCustomer customer){
-		customer.custState = CustomerStates.WaitingForOrder; 
-		hostFree.tryAcquire();
-		waiterGui.DoMoveToCook();
-		try {
-			atCook.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		cookAgent.msgHereIsAnOrder(this, customer.orderChoice, customer.t.tableNumber);
-	}
+	protected abstract void HeresAnOrder(myCustomer customer);
 	
 	private void HereIsYourFood(myCustomer customer){ 
 		hostFree.tryAcquire();
