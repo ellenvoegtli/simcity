@@ -30,7 +30,7 @@ import mainCity.bank.interfaces.BankManager;
 import mainCity.gui.CityPanel;
 import transportation.BusStop;
 import housing.gui.HomePanel;
-import role.market.*;
+import role.market1.*;
 import mainCity.market.gui.*;
 import mainCity.market.interfaces.Greeter;
 import mainCity.market.interfaces.DeliveryMan;
@@ -79,9 +79,9 @@ public class ContactList {
 	
 	
 	
-	public MarketGreeterRole marketGreeter;
-	public MarketCashierRole marketCashier;
-	public MarketDeliveryManRole marketDeliveryMan;
+	public Market1GreeterRole marketGreeter;
+	public Market1CashierRole marketCashier;
+	public Market1DeliveryManRole marketDeliveryMan;
 	
 	//List<MainCook> cooks = new ArrayList<MainCook>();		//will this work with different subclasses?
 	
@@ -163,13 +163,13 @@ public class ContactList {
 		return bank;
 	}
 	//Market********
-	public void setMarketGreeter(MarketGreeterRole g){
+	public void setMarketGreeter(Market1GreeterRole g){
 		marketGreeter = g;
 	}
-	public void setMarketCashier(MarketCashierRole c){
+	public void setMarketCashier(Market1CashierRole c){
 		marketCashier = c;
 	}
-	public void setMarketDeliveryMan(MarketDeliveryManRole d){
+	public void setMarketDeliveryMan(Market1DeliveryManRole d){
 		marketDeliveryMan = d;
 	}
 	public void setMarket(MarketPanel m){

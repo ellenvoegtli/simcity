@@ -29,7 +29,7 @@ import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.EventLog;
 import mainCity.test.LoggedEvent;
 import mainCity.market.*;
-import role.market.*;
+import role.market1.*;
 import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
@@ -276,7 +276,7 @@ public class PersonAgent extends Agent {
 				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
-				if (!((MarketCustomerRole) customer).getGui().goInside()){
+				if (!((Market1CustomerRole) customer).getGui().goInside()){
 					//System.out.println("Waiting for restaurant to open");
 					return true;
 				}
@@ -628,22 +628,22 @@ public class PersonAgent extends Agent {
 						
 						//-----Market Roles---//
 						case "marketEmployee":
-							MarketEmployeeRole mem = new MarketEmployeeRole(this, name);
+							Market1EmployeeRole mem = new Market1EmployeeRole(this, name);
 							ContactList.getInstance().getMarket().handleRole(mem);
 							roles.put(action, mem);
 							break;
 						case "marketGreeter":
-							MarketGreeterRole mgr = new MarketGreeterRole(this, name);
+							Market1GreeterRole mgr = new Market1GreeterRole(this, name);
 							ContactList.getInstance().getMarket().handleRole(mgr);
 							roles.put(action, mgr);
 							break;
 						case "marketCashier":
-							MarketCashierRole mcsh = new MarketCashierRole(this, name);
+							Market1CashierRole mcsh = new Market1CashierRole(this, name);
 							ContactList.getInstance().getMarket().handleRole(mcsh);
 							roles.put(action, mcsh);
 							break;
 						case "marketDeliveryMan":
-							MarketDeliveryManRole mdm = new MarketDeliveryManRole(this, name);
+							Market1DeliveryManRole mdm = new Market1DeliveryManRole(this, name);
 							ContactList.getInstance().getMarket().handleRole(mdm);
 							roles.put(action, mdm);
 							break;
@@ -685,7 +685,7 @@ public class PersonAgent extends Agent {
 					}
 					break;
 				case market :
-					MarketCustomerRole mcr = new MarketCustomerRole(this, name);
+					Market1CustomerRole mcr = new Market1CustomerRole(this, name);
 					ContactList.getInstance().getMarket().handleRole(mcr);
 					roles.put(action, mcr);
 					break;

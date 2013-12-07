@@ -3,8 +3,8 @@ package mainCity.market.test;
 import java.util.*;
 
 import role.ellenRestaurant.EllenCashierRole.CheckState;
-import role.market.MarketCashierRole;
-import role.market.MarketCashierRole.BillState;
+import role.market1.Market1CashierRole;
+import role.market1.Market1CashierRole.BillState;
 import junit.framework.*;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
@@ -13,7 +13,7 @@ import mainCity.market.test.mock.*;
 
 
 public class CashierTest extends TestCase {
-	MarketCashierRole cashier;
+	Market1CashierRole cashier;
 	MockEmployee employee;
 	MockCustomer customer1;
 	MockCustomer customer2;
@@ -25,7 +25,7 @@ public class CashierTest extends TestCase {
         super.setUp();
         
         PersonAgent c = new PersonAgent("Cashier");
-        cashier = new MarketCashierRole(c, c.getName());
+        cashier = new Market1CashierRole(c, c.getName());
         c.addRole(ActionType.work, cashier);
         
         customer1 = new MockCustomer("MockCustomer1"); 

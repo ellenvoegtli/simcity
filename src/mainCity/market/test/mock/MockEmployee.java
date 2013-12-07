@@ -2,8 +2,8 @@ package mainCity.market.test.mock;
 
 import java.util.Map;
 
-import role.market.MarketEmployeeRole.MyBusiness;
-import role.market.MarketEmployeeRole.MyCustomer;
+import role.market1.Market1EmployeeRole.MyBusiness;
+import role.market1.Market1EmployeeRole.MyCustomer;
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
 import mainCity.market.*;

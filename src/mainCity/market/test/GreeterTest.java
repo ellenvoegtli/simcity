@@ -3,9 +3,9 @@ package mainCity.market.test;
 import java.util.Map;
 import java.util.TreeMap;
 
-import role.market.MarketEmployeeRole;
-import role.market.MarketGreeterRole;
-import role.market.MarketEmployeeRole.CustomerState;
+import role.market1.Market1EmployeeRole;
+import role.market1.Market1GreeterRole;
+import role.market1.Market1EmployeeRole.CustomerState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
 import mainCity.market.test.mock.MockCustomer;
@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 import mainCity.restaurants.EllenRestaurant.test.mock.*;
 
 public class GreeterTest extends TestCase {
-	MarketGreeterRole greeter;
+	Market1GreeterRole greeter;
 	MockEmployee employee1;
 	MockEmployee employee2;
 	MockCustomer customer1;
@@ -28,7 +28,7 @@ public class GreeterTest extends TestCase {
         super.setUp();
         
         PersonAgent d = new PersonAgent("Greeter");
-        greeter = new MarketGreeterRole(d, d.getName());
+        greeter = new Market1GreeterRole(d, d.getName());
         d.addRole(ActionType.work, greeter);
 
         customer1 = new MockCustomer("MockCustomer1");

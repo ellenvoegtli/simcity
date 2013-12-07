@@ -1,4 +1,4 @@
-package role.market;
+package role.market1;
 
 import agent.Agent;
 import mainCity.PersonAgent;
@@ -15,7 +15,7 @@ import mainCity.market.interfaces.DeliveryManGuiInterface;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
 import role.Role;
-import role.market.MarketCashierRole.BillState;
+import role.market1.Market1CashierRole.BillState;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -23,7 +23,7 @@ import java.util.concurrent.*;
 
  // Restaurant Cook Agent
 
-public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only handles one restaurant at a time right now
+public class Market1DeliveryManRole extends Role implements DeliveryMan{			//only handles one restaurant at a time right now
 	private String name;
 	public DeliveryManGuiInterface deliveryGui;
 	MarketCashier cashier;
@@ -31,7 +31,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	private double cash = 0;
 	Timer timer = new Timer();
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
-	private List<MarketEmployeeRole> employees = Collections.synchronizedList(new ArrayList<MarketEmployeeRole>());
+	private List<Market1EmployeeRole> employees = Collections.synchronizedList(new ArrayList<Market1EmployeeRole>());
 	public AgentState state;
 	public enum AgentState {doingNothing, makingDelivery};
 	
@@ -45,7 +45,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	
 	
 	//constructor
-	public MarketDeliveryManRole(PersonAgent p, String name) {
+	public Market1DeliveryManRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		state = AgentState.doingNothing;

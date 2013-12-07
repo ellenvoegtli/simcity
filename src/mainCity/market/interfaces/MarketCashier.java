@@ -2,8 +2,8 @@ package mainCity.market.interfaces;
 
 import java.util.Map;
 
-import role.market.MarketCustomerRole;
-import role.market.MarketEmployeeRole;
+import role.market1.Market1CustomerRole;
+import role.market1.Market1EmployeeRole;
 import mainCity.interfaces.MainCashier;
 
 

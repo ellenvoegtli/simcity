@@ -2,7 +2,7 @@ package mainCity.restaurants.EllenRestaurant.interfaces;
 
 import java.util.Map;
 
-import role.market.MarketDeliveryManRole;
+import role.market1.Market1DeliveryManRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.interfaces.*;
 
@@ -10,9 +10,9 @@ import mainCity.interfaces.*;
 //(and eventually market)
 public interface Cashier extends MainCashier {
 	
-	public abstract void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, MarketDeliveryManRole d);
+	public abstract void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, Market1DeliveryManRole d);
 	
-	public abstract void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson);
+	public abstract void msgHereIsChange(double amount, Market1DeliveryManRole deliveryPerson);
 	
 	public abstract void msgNotEnoughMoney(double amountOwed, double amountPaid);
 	

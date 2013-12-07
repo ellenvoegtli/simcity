@@ -1,4 +1,4 @@
-package role.market;
+package role.market1;
 
 import mainCity.PersonAgent;
 import mainCity.market.MarketMenu;
@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 
-public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
+public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private String name;
 	Timer timer = new Timer();
 	
@@ -42,7 +42,7 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 
 		
 
-	public MarketEmployeeRole(PersonAgent p, String name) {
+	public Market1EmployeeRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		onDuty = true;

@@ -1,4 +1,4 @@
-package role.market;
+package role.market1;
 
 import mainCity.PersonAgent;
 import mainCity.market.interfaces.*;
@@ -8,7 +8,7 @@ import role.Role;
 import java.util.*;
 
 
-public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
+public class Market1GreeterRole extends Role implements Greeter, ManagerRole {
 	private String name;
 	MarketCashier cashier;
 	DeliveryMan deliveryMan;
@@ -24,7 +24,7 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 	private boolean onDuty;
 
 	
-	public MarketGreeterRole(PersonAgent p, String name) {
+	public Market1GreeterRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		onDuty = true;
@@ -65,8 +65,8 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 		cashierArrived = x;
 	}
 	public boolean isOpen() {
-		if (cashier instanceof MarketCashierRole){
-			MarketCashierRole c = (MarketCashierRole) cashier;
+		if (cashier instanceof Market1CashierRole){
+			Market1CashierRole c = (Market1CashierRole) cashier;
 			return (/*deliveryMan != null && deliveryMan.isActive()) &&*/ (c != null && c.isActive()));
 		}
 		return false;
@@ -161,14 +161,14 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 		
 		double payroll = 0;
 		for(Employee e : myEmployees) {
-			MarketEmployeeRole temp = ((MarketEmployeeRole) e);
+			Market1EmployeeRole temp = ((Market1EmployeeRole) e);
 			double amount = temp.getShiftDuration()*4.75;
 			temp.msgGoOffDuty(amount);
 			payroll += amount;
 		}
 		
 		if(cashier != null) {
-			MarketCashierRole c = (MarketCashierRole) cashier;
+			Market1CashierRole c = (Market1CashierRole) cashier;
 			payroll += c.getShiftDuration()*6.0;
 			c.msgGoOffDuty(c.getShiftDuration()*6.0);
 		}
