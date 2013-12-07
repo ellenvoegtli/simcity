@@ -24,7 +24,7 @@ public class MarketPanel extends JPanel implements ActionListener{
 	private MarketAnimationPanel animation;
 	private Greeter host;
 	private MarketCashier cashier;
-	private DeliveryMan deliveryMan;
+	private DeliveryMan1 deliveryMan;
         
     private Vector<Market1CustomerRole> customers = new Vector<Market1CustomerRole>();
     private Vector<Market1EmployeeRole> employees = new Vector<Market1EmployeeRole>();
@@ -66,7 +66,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     	}
     	
     	if(r instanceof Market1DeliveryManRole) {
-    		deliveryMan = (DeliveryMan) r;
+    		deliveryMan = (Market1DeliveryManRole) r;
     		ContactList.getInstance().getCity().addDeliveryGui((Market1DeliveryManRole) deliveryMan);
             deliveryMan.setCashier(cashier);
             

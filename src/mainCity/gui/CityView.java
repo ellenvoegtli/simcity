@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import mainCity.bank.gui.BankAnimationPanel;
 import mainCity.bank.gui.BankPanel;
 import mainCity.market1.gui.MarketAnimationPanel;
+import mainCity.market2.gui.Market2AnimationPanel;
 import mainCity.restaurants.EllenRestaurant.gui.EllenAnimationPanel;
 import mainCity.restaurants.enaRestaurant.gui.EnaAnimationPanel;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonAnimationPanel;
@@ -51,6 +52,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		}
 		cards.put("bank", new CityCard(city, Color.green));
 		cards.put("market", new MarketAnimationPanel(city));
+		cards.put("market2", new Market2AnimationPanel(city));
 		
 		cards.put("marcusRestaurant", new MarcusAnimationPanel(city));
 		cards.put("EllenRestaurant", new EllenAnimationPanel(city));

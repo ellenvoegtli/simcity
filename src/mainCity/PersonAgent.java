@@ -30,12 +30,14 @@ import mainCity.test.EventLog;
 import mainCity.test.LoggedEvent;
 import mainCity.market1.*;
 import role.market1.*;
+import mainCity.market2.*;
+import role.market2.*;
 import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
-	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
-	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market}
+	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
+	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market, market2}
 	
 	private PersonGuiInterface gui;
 	private String name;
@@ -178,6 +180,11 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 	
+	public void msgGoToMarket2(){
+		actions.add(new Action(ActionType.market2, 3));
+		stateChanged();
+	}
+	
 	public void msgGoHome() {
 		actions.add(new Action(ActionType.home, 3));
 		stateChanged();
@@ -290,6 +297,25 @@ public class PersonAgent extends Agent {
 				state = PersonState.inBuilding;
 				return true;
 			}
+			
+			if(event == PersonEvent.arrivedAtMarket2) {
+				//output("Arrived at market!");
+				handleRole(currentAction.type);
+				Role customer = roles.get(currentAction.type);
+				if (!((Market2CustomerRole) customer).getGui().goInside()){
+					//System.out.println("Waiting for restaurant to open");
+					return true;
+				}
+				//check home agent to get a list of what they need?
+				customer.setActive();
+				
+				if(currentAction != null && currentAction.type == ActionType.restaurant) {
+					currentAction.state = ActionState.done;
+				}
+				gui.DoGoInside();
+				state = PersonState.inBuilding;
+				return true;
+			}
 
 			
 			if(event == PersonEvent.arrivedAtRestaurant) {
@@ -386,6 +412,11 @@ public class PersonAgent extends Agent {
 
 			if(event == PersonEvent.needMarket) {
 				goToMarket();
+				return true;
+			}
+			
+			if(event == PersonEvent.needMarket2) {
+				goToMarket2();
 				return true;
 			}
 
@@ -647,6 +678,28 @@ public class PersonAgent extends Agent {
 							ContactList.getInstance().getMarket().handleRole(mdm);
 							roles.put(action, mdm);
 							break;
+							
+						//-----Market 2 Roles ---//
+						case "market2Employee":
+							Market2EmployeeRole mem2 = new Market2EmployeeRole(this, name);
+							ContactList.getInstance().getMarket2().handleRole(mem2);
+							roles.put(action, mem2);
+							break;
+						case "market2Greeter":
+							Market2GreeterRole mgr2 = new Market2GreeterRole(this, name);
+							ContactList.getInstance().getMarket2().handleRole(mgr2);
+							roles.put(action, mgr2);
+							break;
+						case "market2Cashier":
+							Market2CashierRole mcsh2 = new Market2CashierRole(this, name);
+							ContactList.getInstance().getMarket2().handleRole(mcsh2);
+							roles.put(action, mcsh2);
+							break;
+						case "market2DeliveryMan":
+							Market2DeliveryManRole mdm2 = new Market2DeliveryManRole(this, name);
+							ContactList.getInstance().getMarket2().handleRole(mdm2);
+							roles.put(action, mdm2);
+							break;
 					
 						default:
 							break;
@@ -688,6 +741,11 @@ public class PersonAgent extends Agent {
 					Market1CustomerRole mcr = new Market1CustomerRole(this, name);
 					ContactList.getInstance().getMarket().handleRole(mcr);
 					roles.put(action, mcr);
+					break;
+				case market2 : 
+					Market2CustomerRole mcr2 = new Market2CustomerRole(this, name);
+					ContactList.getInstance().getMarket2().handleRole(mcr2);
+					roles.put(action, mcr2);
 					break;
 				case home :
 				case homeAndEat : 
@@ -734,6 +792,9 @@ public class PersonAgent extends Agent {
 				break;
 			case market:
 				event = PersonEvent.needMarket;
+				break;
+			case market2:
+				event = PersonEvent.needMarket2;
 				break;
 			case restaurant:
 				event = PersonEvent.chooseRestaurant;
@@ -902,9 +963,16 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToMarket() {
-		output("Going to the market");
+		output("Going to market 1");
 		travelToLocation(CityLocation.market);
 		event = PersonEvent.arrivedAtMarket;
+		stateChanged();
+	}
+	
+	private void goToMarket2() {
+		output("Going to market 2");
+		travelToLocation(CityLocation.market2);
+		event = PersonEvent.arrivedAtMarket2;
 		stateChanged();
 	}
 
@@ -1083,7 +1151,7 @@ public class PersonAgent extends Agent {
 	public enum ActionState {created, inProgress, done}
 	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, 
 		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
-		market, bankWithdraw, bankDeposit, bankLoan, home}
+		market, market2, bankWithdraw, bankDeposit, bankLoan, home}
 	public class Action implements Comparable<Object> {
 		public ActionState state;
 		public ActionType type;

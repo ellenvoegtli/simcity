@@ -1,11 +1,11 @@
 package mainCity.market1.test.mock;
 
-import mainCity.market1.interfaces.DeliveryMan;
+import mainCity.market1.interfaces.DeliveryMan1;
 import mainCity.market1.interfaces.DeliveryManGuiInterface;
 
 
 public class MockDeliveryManGui extends Mock implements DeliveryManGuiInterface {
-	public DeliveryMan deliveryMan;
+	public DeliveryMan1 deliveryMan;
 	
 	public MockDeliveryManGui(String name){
 		super(name);

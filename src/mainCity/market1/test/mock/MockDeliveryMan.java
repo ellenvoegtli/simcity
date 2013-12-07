@@ -7,7 +7,7 @@ import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
 import mainCity.market1.interfaces.*;
 
-public class MockDeliveryMan extends Mock implements DeliveryMan {
+public class MockDeliveryMan extends Mock implements DeliveryMan1 {
 	MockDeliveryMan(String name){
 		super(name);
 	}

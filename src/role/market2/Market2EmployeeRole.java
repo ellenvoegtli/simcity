@@ -1,9 +1,9 @@
-package role.market1;
+package role.market2;
 
 import mainCity.PersonAgent;
-import mainCity.market1.Market1Menu;
-import mainCity.market1.Market1Menu.Item;
-import mainCity.market1.interfaces.*;
+import mainCity.market2.Market2Menu;
+import mainCity.market2.Market2Menu.Item;
+import mainCity.market2.interfaces.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
@@ -13,14 +13,14 @@ import java.util.*;
 import java.util.concurrent.Semaphore;
 
 
-public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
+public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	private String name;
 	Timer timer = new Timer();
 	
-	private Greeter host;
+	private Greeter greeter;
 	private MarketCashier cashier;
-	private DeliveryMan1 deliveryMan;
-	private Market1Menu marketMenu = new Market1Menu();
+	private DeliveryMan2 deliveryMan;
+	private Market2Menu marketMenu = new Market2Menu();
 	
 	public EmployeeGuiInterface employeeGui = null;
 	private int homeX, homeY;
@@ -43,20 +43,20 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 
 		
 
-	public Market1EmployeeRole(PersonAgent p, String name) {
+	public Market2EmployeeRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		onDuty = true;
 	}
 	
-	public void setHost(Greeter host){
-		this.host = host;
+	public void setGreeter(Greeter greeter){
+		this.greeter = greeter;
 	}
 	
 	public void setCashier(MarketCashier cashier){
 		this.cashier = cashier;
 	}
-	public void setDeliveryMan(DeliveryMan1 d){
+	public void setDeliveryMan(DeliveryMan2 d){
 		this.deliveryMan = d;
 	}
 	public void setHomeX(int x){
@@ -65,8 +65,8 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	public void setHomeY(int y){
 		homeY = y;
 	}
-	public Greeter getHost(){
-		return this.host;
+	public Greeter getgreeter(){
+		return this.greeter;
 	}
 	public WaiterState getState(){
 		return wState;

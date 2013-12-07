@@ -10,12 +10,13 @@ import mainCity.interfaces.*;
 //(and eventually market)
 public interface Cashier extends MainCashier {
 	
+	/*
 	public abstract void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, Market1DeliveryManRole d);
 	
 	public abstract void msgHereIsChange(double amount, Market1DeliveryManRole deliveryPerson);
 	
 	public abstract void msgNotEnoughMoney(double amountOwed, double amountPaid);
-	
+	*/
 	
 	//from old restaurant tests
 	public abstract void msgComputeBill(String choice, Customer cust, Waiter w);

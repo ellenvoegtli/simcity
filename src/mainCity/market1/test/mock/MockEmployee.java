@@ -11,7 +11,7 @@ import mainCity.market1.interfaces.*;
 
 
 public class MockEmployee extends Mock implements Employee {
-	public DeliveryMan deliveryMan;
+	public DeliveryMan1 deliveryMan;
 	public MarketCashier cashier;
 	
 	public MockEmployee(String name){

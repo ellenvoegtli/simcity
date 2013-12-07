@@ -3,6 +3,7 @@ package mainCity.restaurants.EllenRestaurant.test.mock;
 import java.util.Map;
 
 import role.market1.Market1DeliveryManRole;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 
 public class MockCashier extends Mock implements Cashier {
@@ -12,10 +13,11 @@ public class MockCashier extends Mock implements Cashier {
 	}
 	
 	@Override
-	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, Market1DeliveryManRole d){
+	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, DeliveryMan d){
 		log.add(new LoggedEvent("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount + "."));
 	}
-	public void msgHereIsChange(double amount, Market1DeliveryManRole d){
+	
+	public void msgHereIsChange(double amount, DeliveryMan d){
 		log.add(new LoggedEvent("Received msgHereIsChange from " + d.getName() + " for $" + amount + "."));
 	}
 	public void msgNotEnoughMoney(double amountOwed, double amountPaid){

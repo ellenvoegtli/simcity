@@ -2,13 +2,13 @@ package mainCity.restaurants.EllenRestaurant.test.mock;
 
 import java.util.Map;
 
-import mainCity.market1.interfaces.DeliveryMan;
+import mainCity.market1.interfaces.DeliveryMan1;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
 
 
 
 public class MockCook extends Mock implements Cook {
-	public DeliveryMan deliveryMan;
+	public DeliveryMan1 deliveryMan;
 	
 	public MockCook(String name){
 		super(name);

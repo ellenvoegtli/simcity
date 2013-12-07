@@ -1,21 +1,17 @@
-package role.market1;
+package role.market2;
 
-import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
-import mainCity.gui.DeliveryManGui1;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
-import mainCity.market1.*;
-import mainCity.market1.gui.*;
-import mainCity.market1.interfaces.DeliveryMan1;
-import mainCity.market1.interfaces.DeliveryManGuiInterface;
-import mainCity.market1.interfaces.MarketCashier;
+
+import mainCity.market2.interfaces.DeliveryManGuiInterface;
+import mainCity.market2.interfaces.MarketCashier;
+import mainCity.market2.interfaces.DeliveryMan2;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
 import role.Role;
-import role.market1.Market1CashierRole.BillState;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -23,7 +19,7 @@ import java.util.concurrent.*;
 
  // Restaurant Cook Agent
 
-public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//only handles one restaurant at a time right now
+public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//only handles one restaurant at a time right now
 	private String name;
 	public DeliveryManGuiInterface deliveryGui;
 	MarketCashier cashier;
@@ -31,7 +27,6 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	private double cash = 0;
 	Timer timer = new Timer();
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());
-	private List<Market1EmployeeRole> employees = Collections.synchronizedList(new ArrayList<Market1EmployeeRole>());
 	public AgentState state;
 	public enum AgentState {doingNothing, makingDelivery};
 	
@@ -45,13 +40,13 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	
 	
 	//constructor
-	public Market1DeliveryManRole(PersonAgent p, String name) {
+	public Market2DeliveryManRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		state = AgentState.doingNothing;
 		onDuty = true;
 	}
-	public List getBills(){
+	public List<Bill> getBills(){
 		return bills;
 	}
 	public double getCash(){

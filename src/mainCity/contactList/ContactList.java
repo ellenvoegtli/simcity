@@ -32,11 +32,13 @@ import housing.gui.HomePanel;
 import role.market1.*;
 import mainCity.market1.*;
 import mainCity.market1.gui.*;
-import mainCity.market1.interfaces.DeliveryMan;
+import mainCity.market1.interfaces.DeliveryMan1;
 import mainCity.market1.interfaces.Employee;
 import mainCity.market1.interfaces.Greeter;
+import mainCity.market2.gui.Market2Panel;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
+import role.market2.*;
 
 import java.util.*;
 
@@ -83,6 +85,10 @@ public class ContactList {
 	public Market1CashierRole marketCashier;
 	public Market1DeliveryManRole marketDeliveryMan;
 	
+	public Market2GreeterRole market2Greeter;
+	public Market2CashierRole market2Cashier;
+	public Market2DeliveryManRole market2DeliveryMan;
+	
 	//List<MainCook> cooks = new ArrayList<MainCook>();		//will this work with different subclasses?
 	
 	//all of the restaurants' cooks
@@ -118,6 +124,7 @@ public class ContactList {
 	DavidRestaurantPanel davidRestaurant; 
 	BankPanel bank;
 	MarketPanel market;
+	Market2Panel market2;
 	
 	CityPanel city;
 	
@@ -177,6 +184,24 @@ public class ContactList {
 	}
 	public MarketPanel getMarket(){
 		return market;
+	}
+	
+
+	//***MARKET 2 - added===============
+	public void setMarket2Greeter(Market2GreeterRole g){
+		market2Greeter = g;
+	}
+	public void setMarket2Cashier(Market2CashierRole c){
+		market2Cashier = c;
+	}
+	public void setMarket2DeliveryMan(Market2DeliveryManRole d){
+		market2DeliveryMan = d;
+	}
+	public void setMarket2(Market2Panel m){
+		market2 = m;
+	}
+	public Market2Panel getMarket2(){
+		return market2;
 	}
 	
 	//Ellen's Restaurant******

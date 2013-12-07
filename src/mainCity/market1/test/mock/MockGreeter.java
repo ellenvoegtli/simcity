@@ -15,7 +15,7 @@ public class MockGreeter extends Mock implements Greeter{
 	
 	public void setCashier(MarketCashier c){
 	}
-	public void setDeliveryMan(DeliveryMan d){
+	public void setDeliveryMan(DeliveryMan1 d){
 	}
 	public void addEmployee(Employee e){
 	}

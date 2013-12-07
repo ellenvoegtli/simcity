@@ -1,4 +1,4 @@
-package mainCity.market1.interfaces;
+package mainCity.market2.interfaces;
 
 import java.util.Map;
 
@@ -10,7 +10,7 @@ import mainCity.interfaces.MainCook;
 
 public interface Greeter {
 	public abstract void setCashier(MarketCashier c);
-	public abstract void setDeliveryMan(DeliveryMan1 d);
+	public abstract void setDeliveryMan(DeliveryMan2 d);
 	public abstract void addEmployee(Employee e);
 	
 	public abstract void msgINeedInventory(Customer c, int x, int y);

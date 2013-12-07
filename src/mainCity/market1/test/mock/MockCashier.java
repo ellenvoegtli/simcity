@@ -7,7 +7,7 @@ import mainCity.market1.*;
 import mainCity.market1.interfaces.*;
 
 public class MockCashier extends Mock implements MarketCashier {
-	public DeliveryMan deliveryMan;
+	public DeliveryMan1 deliveryMan;
     public Employee employee;
     public Greeter greeter;
 

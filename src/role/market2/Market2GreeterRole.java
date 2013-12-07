@@ -1,7 +1,7 @@
-package role.market1;
+package role.market2;
 
 import mainCity.PersonAgent;
-import mainCity.market1.interfaces.*;
+import mainCity.market2.interfaces.*;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.*;
 import role.Role;
@@ -9,10 +9,10 @@ import role.Role;
 import java.util.*;
 
 
-public class Market1GreeterRole extends Role implements Greeter, ManagerRole {
+public class Market2GreeterRole extends Role implements Greeter, ManagerRole {
 	private String name;
 	MarketCashier cashier;
-	DeliveryMan1 deliveryMan;
+	DeliveryMan2 deliveryMan;
 	static final int NTABLES = 8;
 	
 	public List<MyWaitingCustomer> waitingCustomers  = Collections.synchronizedList(new ArrayList<MyWaitingCustomer>());
@@ -25,7 +25,7 @@ public class Market1GreeterRole extends Role implements Greeter, ManagerRole {
 	private boolean onDuty;
 
 	
-	public Market1GreeterRole(PersonAgent p, String name) {
+	public Market2GreeterRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		onDuty = true;
@@ -44,7 +44,7 @@ public class Market1GreeterRole extends Role implements Greeter, ManagerRole {
 		cashier = c;
 		cashierArrived = true;
 	}
-	public void setDeliveryMan(DeliveryMan1 d){
+	public void setDeliveryMan(DeliveryMan2 d){
 		deliveryMan = d;
 	}
 	public String getMaitreDName() {
@@ -66,8 +66,8 @@ public class Market1GreeterRole extends Role implements Greeter, ManagerRole {
 		cashierArrived = x;
 	}
 	public boolean isOpen() {
-		if (cashier instanceof Market1CashierRole){
-			Market1CashierRole c = (Market1CashierRole) cashier;
+		if (cashier instanceof Market2CashierRole){
+			Market2CashierRole c = (Market2CashierRole) cashier;
 			return (/*deliveryMan != null && deliveryMan.isActive()) &&*/ (c != null && c.isActive()));
 		}
 		return false;
@@ -162,14 +162,14 @@ public class Market1GreeterRole extends Role implements Greeter, ManagerRole {
 		
 		double payroll = 0;
 		for(Employee e : myEmployees) {
-			Market1EmployeeRole temp = ((Market1EmployeeRole) e);
+			Market2EmployeeRole temp = ((Market2EmployeeRole) e);
 			double amount = temp.getShiftDuration()*4.75;
 			temp.msgGoOffDuty(amount);
 			payroll += amount;
 		}
 		
 		if(cashier != null) {
-			Market1CashierRole c = (Market1CashierRole) cashier;
+			Market2CashierRole c = (Market2CashierRole) cashier;
 			payroll += c.getShiftDuration()*6.0;
 			c.msgGoOffDuty(c.getShiftDuration()*6.0);
 		}

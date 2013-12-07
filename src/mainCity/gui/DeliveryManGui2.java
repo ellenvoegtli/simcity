@@ -1,12 +1,6 @@
 package mainCity.gui;
 
-
-import mainCity.market1.interfaces.DeliveryMan;
-import mainCity.market1.interfaces.DeliveryManGuiInterface;
-import mainCity.gui.*;
-import role.market1.Market1DeliveryManRole;
-
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,9 +9,12 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
+import mainCity.market2.gui.*;
+import mainCity.market2.interfaces.*;
 
-    public DeliveryMan agent = null;
+public class DeliveryManGui2 implements Gui, DeliveryManGuiInterface {
+	
+	public DeliveryMan2 agent = null;
     CityGui gui;
     private boolean isPresent;
 
@@ -36,7 +33,7 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
 	private BufferedImage myImg = null;
 	
 
-    public DeliveryManGui(DeliveryMan agent) {
+    public DeliveryManGui2(DeliveryMan2 agent) {
     	StringBuilder path = new StringBuilder("imgs/");
 		try {
 			truckImg = ImageIO.read(new File(path.toString() + "truck.png"));
@@ -149,4 +146,5 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     public int getYPos() {
         return yPos;
     }
+	
 }
