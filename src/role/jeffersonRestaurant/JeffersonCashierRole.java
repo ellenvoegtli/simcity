@@ -5,7 +5,7 @@ import java.util.*;
 import role.Role;
 import role.jeffersonRestaurant.JeffersonWaiterRole;
 import role.jeffersonRestaurant.JeffersonCookRole.Order;
-import role.market.MarketDeliveryManRole;
+import role.market1.Market1DeliveryManRole;
 import mainCity.PersonAgent;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
@@ -33,10 +33,10 @@ public class JeffersonCashierRole extends Role implements Cashier{
 		public double amount;
 		public boolean needverify;
 		Map<String, Integer> inventory;
-		MarketDeliveryManRole deliveryPerson;
+		Market1DeliveryManRole deliveryPerson;
 		
 		
-		public Bill(double a,  Map<String,Integer> inven,MarketDeliveryManRole dp ){
+		public Bill(double a,  Map<String,Integer> inven,Market1DeliveryManRole dp ){
 			paid=false;
 			needverify=false;
 			amount=a;
@@ -90,7 +90,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	
 
 	public void msgHereIsMarketBill(Map<String, Integer> inventory,
-			double billAmount, MarketDeliveryManRole deliveryPerson) {
+			double billAmount, Market1DeliveryManRole deliveryPerson) {
 			bills.add(new Bill(billAmount, inventory, deliveryPerson));
 			stateChanged();
 		
@@ -99,7 +99,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 
 
 	public void msgHereIsChange(double amount,
-			MarketDeliveryManRole deliveryPerson) {
+			Market1DeliveryManRole deliveryPerson) {
 			profits +=amount;
 			for(Bill b:bills){
 				if(b.amount==amount){

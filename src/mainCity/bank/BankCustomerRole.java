@@ -10,7 +10,7 @@ import mainCity.bank.interfaces.BankTeller;
 import mainCity.bank.interfaces.Banker;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
-import mainCity.market.gui.CustomerGui;
+import mainCity.market1.gui.CustomerGui;
 
 
 public class BankCustomerRole extends Role implements BankCustomer {

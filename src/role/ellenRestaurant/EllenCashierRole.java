@@ -3,11 +3,12 @@ package role.ellenRestaurant;
 
 import java.util.*;
 
-import role.market.*;
+import role.market1.*;
 import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.EllenMenu;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.gui.trace.*;
+import mainCity.interfaces.DeliveryMan;
 import role.Role;
 
 
@@ -91,12 +92,20 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	
 	//market delivery man messages
-	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, MarketDeliveryManRole d){
+	/*public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, Market1DeliveryManRole d){
+		log("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
+		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
+		stateChanged();
+	}*/
+	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, DeliveryMan d){
 		log("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
 		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
 		stateChanged();
 	}
-	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson){
+	
+	
+	
+	public void msgHereIsChange(double amount, DeliveryMan deliveryPerson){
 		log("Received msgHereIsChange: $" + amount);
 		MarketBill b = null;
 		synchronized(marketBills){
@@ -282,7 +291,8 @@ public class EllenCashierRole extends Role implements Cashier {
 		}
 	}
 	public class MarketBill {
-		MarketDeliveryManRole deliveryMan;
+		//Market1DeliveryManRole deliveryMan;
+		DeliveryMan deliveryMan;
 		double billAmount;
 		double amountPaid;
 		double amountChange;
@@ -290,7 +300,7 @@ public class EllenCashierRole extends Role implements Cashier {
 		MarketBillState s;
 		Map<String, Integer> itemsBought; 
 		
-		MarketBill(MarketDeliveryManRole d, double amount, Map<String, Integer> inventory, MarketBillState s){
+		MarketBill(/*Market1DeliveryManRole d,*/ DeliveryMan d, double amount, Map<String, Integer> inventory, MarketBillState s){
 			deliveryMan = d;
 			billAmount = amount;
 			itemsBought = new TreeMap<String, Integer>(inventory);

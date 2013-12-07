@@ -136,6 +136,9 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			case market:
 				calculatePath(415, 215);
 				break;
+			case market2:
+				calculatePath(670, 140);
+				break;
 			case bank:
 				calculatePath(175, 230);
 				break;

@@ -10,7 +10,7 @@ import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import java.util.*;
 
 import role.Role;
-import role.market.MarketDeliveryManRole;
+import role.market1.Market1DeliveryManRole;
 
 public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	private String name;
@@ -106,7 +106,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	}
 */
 
-	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, MarketDeliveryManRole deliveryPerson) {
+	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, Market1DeliveryManRole deliveryPerson) {
 		output("Received a food bill of $" + billAmount + " from market");
 		marketBills.add(new MarketBill(inventory, billAmount, deliveryPerson));
 		stateChanged();
@@ -116,7 +116,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		output("I paid $" + amountPaid + " to the delivery man. I still owe $" + amountOwed);
 	}
 	
-	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
+	public void msgHereIsChange(double amount, Market1DeliveryManRole deliveryPerson) {
 		output("Received change of $" + amount);
 		cash += amount;
 		deliveryPerson.msgChangeVerified("marcusRestaurant");
@@ -209,10 +209,10 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	
 	public class MarketBill {
 		Map<String, Integer> inventory;
-		MarketDeliveryManRole deliveryPerson;
+		Market1DeliveryManRole deliveryPerson;
 		double bill;
 		
-		MarketBill(Map<String, Integer> i, double amount, MarketDeliveryManRole p) {
+		MarketBill(Map<String, Integer> i, double amount, Market1DeliveryManRole p) {
 			inventory = i;
 			bill = amount;
 			deliveryPerson = p;
