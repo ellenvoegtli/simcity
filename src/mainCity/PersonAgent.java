@@ -280,11 +280,9 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((Market1CustomerRole) customer).getGui().goInside()){
-					//System.out.println("Waiting for restaurant to open");
 					return true;
 				}
 				//check home agent to get a list of what they need?
