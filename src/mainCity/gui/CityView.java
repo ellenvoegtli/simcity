@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 import mainCity.bank.gui.BankAnimationPanel;
 import mainCity.bank.gui.BankPanel;
-import mainCity.market.gui.MarketAnimationPanel;
+import mainCity.market1.gui.MarketAnimationPanel;
 import mainCity.restaurants.EllenRestaurant.gui.EllenAnimationPanel;
 import mainCity.restaurants.enaRestaurant.gui.EnaAnimationPanel;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonAnimationPanel;

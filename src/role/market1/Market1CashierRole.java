@@ -7,8 +7,9 @@ import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.WorkerRole;
-import mainCity.market.MarketMenu;
-import mainCity.market.interfaces.*;
+import mainCity.market1.Market1Menu;
+import mainCity.market1.Market1Menu.Item;
+import mainCity.market1.interfaces.*;
 
 
 
@@ -17,7 +18,7 @@ public class Market1CashierRole extends Role implements MarketCashier, WorkerRol
 	Greeter greeter;
 	private double cash = 0;
 	Timer timer = new Timer();
-	private MarketMenu marketMenu = new MarketMenu();
+	private Market1Menu marketMenu = new Market1Menu();
 	
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());	//from waiters
 	public enum BillState {computing, waitingForPayment, recomputingBill, calculatingChange, oweMoney, paid};
@@ -179,7 +180,11 @@ public class Market1CashierRole extends Role implements MarketCashier, WorkerRol
 		log("Computing bill");
 		double dollars = 0;
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-			dollars += marketMenu.getPrice(entry.getKey()) * entry.getValue();
+			//dollars += marketMenu.getPrice(entry.getKey()) * entry.getValue();
+			for (Item i : marketMenu.menuItems){
+				if (i.getItem().equalsIgnoreCase(entry.getKey()))
+					dollars += i.getPrice() * entry.getValue();
+			}
 		}
 		b.amountCharged = Math.round(dollars * 100.0)/100.0;
 		
@@ -218,7 +223,11 @@ public class Market1CashierRole extends Role implements MarketCashier, WorkerRol
 		log("Recomputing bill");
 		double dollars = 0;
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-			dollars += marketMenu.getPrice(entry.getKey()) * entry.getValue();
+			//dollars += marketMenu.getPrice(entry.getKey()) * entry.getValue();
+			for (Item i : marketMenu.menuItems){
+				if (i.getItem().equalsIgnoreCase(entry.getKey()))
+					dollars += i.getPrice() * entry.getValue();
+			}
 		}
 		b.newAmountCharged = Math.round(dollars * 100.0)/100.0;
 		

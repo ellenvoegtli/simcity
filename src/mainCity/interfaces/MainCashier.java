@@ -2,7 +2,7 @@ package mainCity.interfaces;
 import java.util.Map;
 
 import role.market1.Market1DeliveryManRole;
-import mainCity.market.*;
+import mainCity.market1.*;
 
 public interface MainCashier {
 	public abstract void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, Market1DeliveryManRole deliveryPerson);

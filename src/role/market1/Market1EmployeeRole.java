@@ -1,8 +1,9 @@
 package role.market1;
 
 import mainCity.PersonAgent;
-import mainCity.market.MarketMenu;
-import mainCity.market.interfaces.*;
+import mainCity.market1.Market1Menu;
+import mainCity.market1.Market1Menu.Item;
+import mainCity.market1.interfaces.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
@@ -19,7 +20,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private Greeter host;
 	private MarketCashier cashier;
 	private DeliveryMan deliveryMan;
-	private MarketMenu marketMenu = new MarketMenu();
+	private Market1Menu marketMenu = new Market1Menu();
 	
 	public EmployeeGuiInterface employeeGui = null;
 	private int homeX, homeY;
@@ -318,11 +319,19 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private void ProcessOrder(MyCustomer mc){
 		log("Processing order for " + mc.c.getName());
 		for (Map.Entry<String, Integer> entry : mc.inventoryOrdered.entrySet()){
-			if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
+			/*if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
 				mc.inventoryFulfilled.put(entry.getKey(), entry.getValue());
 			}
 			else {
 				mc.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - marketMenu.getStock(entry.getKey())));
+			}*/
+			for (Item i : marketMenu.menuItems){
+				if (i.getItem().equalsIgnoreCase(entry.getKey())){
+					if (entry.getValue() <= i.getStock())
+						mc.inventoryFulfilled.put(entry.getKey(), entry.getValue());
+					else 
+						mc.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - i.getStock()));
+				}
 			}
 		}
 		mc.s = CustomerState.waitingForBill;
@@ -374,11 +383,19 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private void ProcessOrder(MyBusiness mb){
 		log("Processing order for " + mb.restaurantName);
 		for (Map.Entry<String, Integer> entry : mb.inventoryOrdered.entrySet()){
-			if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
+			/*if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
 				mb.inventoryFulfilled.put(entry.getKey(), entry.getValue());
 			}
 			else {		//take everything the market has left
 				mb.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - marketMenu.getStock(entry.getKey())));
+			}*/
+			for (Item i : marketMenu.menuItems){
+				if (i.getItem().equalsIgnoreCase(entry.getKey())){
+					if (entry.getValue() <= i.getStock())
+						mb.inventoryFulfilled.put(entry.getKey(), entry.getValue());
+					else 
+						mb.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - i.getStock()));
+				}
 			}
 		}
 		SendBillToCashier(mb);

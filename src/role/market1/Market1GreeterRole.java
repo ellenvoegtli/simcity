@@ -1,10 +1,11 @@
 package role.market1;
 
 import mainCity.PersonAgent;
-import mainCity.market.interfaces.*;
+import mainCity.market1.interfaces.*;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.*;
 import role.Role;
+
 import java.util.*;
 
 

@@ -28,7 +28,7 @@ import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.EventLog;
 import mainCity.test.LoggedEvent;
-import mainCity.market.*;
+import mainCity.market1.*;
 import role.market1.*;
 import transportation.BusAgent;
 

@@ -6,7 +6,7 @@ import agent.Agent;
 import java.util.*;
 
 import mainCity.PersonAgent;
-import mainCity.market.*;
+import mainCity.market1.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;

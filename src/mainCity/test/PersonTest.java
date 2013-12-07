@@ -18,7 +18,7 @@ import role.market1.Market1CustomerRole;
 import role.market1.Market1EmployeeRole;
 import role.market1.Market1GreeterRole;
 import mainCity.bank.*;
-import mainCity.market.*;
+import mainCity.market1.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.Mock.MockPersonGui;

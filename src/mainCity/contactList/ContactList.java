@@ -1,7 +1,6 @@
 package mainCity.contactList;
 
 import mainCity.PersonAgent;
-import mainCity.market.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.enaRestaurant.*;
@@ -31,10 +30,11 @@ import mainCity.gui.CityPanel;
 import transportation.BusStop;
 import housing.gui.HomePanel;
 import role.market1.*;
-import mainCity.market.gui.*;
-import mainCity.market.interfaces.Greeter;
-import mainCity.market.interfaces.DeliveryMan;
-import mainCity.market.interfaces.Employee;
+import mainCity.market1.*;
+import mainCity.market1.gui.*;
+import mainCity.market1.interfaces.DeliveryMan;
+import mainCity.market1.interfaces.Employee;
+import mainCity.market1.interfaces.Greeter;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
 

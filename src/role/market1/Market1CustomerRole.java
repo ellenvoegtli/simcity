@@ -3,15 +3,15 @@ package role.market1;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
-import mainCity.market.MarketMenu;
-import mainCity.market.interfaces.*;
 import role.Role;
 
 //import market.interfaces.*;
 
 import agent.Agent;
-import mainCity.market.gui.*;
-import mainCity.market.interfaces.Customer;
+import mainCity.market1.Market1Menu;
+import mainCity.market1.Market1Menu.Item;
+import mainCity.market1.gui.*;
+import mainCity.market1.interfaces.*;
 
 import java.util.*;
 import java.util.List;
@@ -30,7 +30,7 @@ public class Market1CustomerRole extends Role implements Customer {
 	private Greeter host;
 	private Employee employee;
 	private MarketCashier cashier;
-	private MarketMenu marketMenu = new MarketMenu();
+	private Market1Menu marketMenu = new Market1Menu();
 	
 	private int stationX;
 	private int stationY;
@@ -336,7 +336,11 @@ public class Market1CustomerRole extends Role implements Customer {
 			double expected = 0;
 
 			for (Map.Entry<String, Integer> entry : bill.inventoryFulfilled.entrySet()){
-				expected += marketMenu.getPrice(entry.getKey())*entry.getValue();	//price of each item * # that was fulfilled
+				//expected += marketMenu.getPrice(entry.getKey())*entry.getValue();	//price of each item * # that was fulfilled
+				for (Item i : marketMenu.menuItems){
+					if (i.getItem().equalsIgnoreCase(entry.getKey()))
+						expected += i.getPrice() * entry.getValue();
+				}
 			}
 			if (expected >= bill.charge){		//if the verification of bill charge succeeds, or they don't charge us enough (we don't care, take it!)
 				if (myCash >= bill.charge){
