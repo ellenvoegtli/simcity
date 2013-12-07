@@ -14,7 +14,7 @@ import role.market1.Market1DeliveryManRole;
 
 public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	private String name;
-	private MarcusHostRole host;
+	private Host host;
 	public List<Bill> bills;
 	public List<MarketBill> marketBills;
 	private Map<String, Integer> prices;
@@ -51,7 +51,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		cash = c;
 	}
 	
-	public void setHost(MarcusHostRole h) {
+	public void setHost(Host h) {
 		host = h;
 	}
 	

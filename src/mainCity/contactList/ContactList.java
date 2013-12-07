@@ -8,6 +8,7 @@ import mainCity.restaurants.enaRestaurant.gui.EnaRestaurantPanel;
 import mainCity.restaurants.jeffersonrestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
+import mainCity.restaurants.marcusRestaurant.interfaces.Host;
 import role.davidRestaurant.DavidCashierRole;
 import role.davidRestaurant.DavidCookRole;
 import role.davidRestaurant.DavidHostRole;
@@ -106,7 +107,7 @@ public class ContactList {
 	
 	//all of the restaurants' hosts
 	public EllenHostRole ellenHost;
-	public MarcusHostRole marcusHost;
+	public Host marcusHost;
 	public EnaHostRole enaHost;
 	public JeffersonHostRole jeffersonHost;
 	public DavidHostRole davidHost;
@@ -222,11 +223,11 @@ public class ContactList {
 	}
 	
 	//Marcus's Restaurant******
-	public void setMarcusHost(MarcusHostRole h){
+	public void setMarcusHost(Host h){
 		marcusHost = h;
 	}
 	
-	public MarcusHostRole getMarcusHost() {
+	public Host getMarcusHost() {
 		return marcusHost;
 	}
 	
