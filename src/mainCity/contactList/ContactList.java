@@ -29,6 +29,7 @@ import mainCity.bank.gui.BankPanel;
 import mainCity.bank.interfaces.BankManager;
 import mainCity.gui.CityPanel;
 import transportation.BusStop;
+import housing.OccupantRole;
 import housing.gui.HomePanel;
 import role.market1.*;
 import mainCity.market1.*;
@@ -78,7 +79,6 @@ public class ContactList {
 		return contactList;
 	}
 	
-	HomePanel home;
 	
 	
 	
@@ -144,15 +144,56 @@ public class ContactList {
 	}
 	
 	// Home *****
+	HomePanel homeP;
+	public OccupantRole oR;
 	
+	public List<OccupantRole> OccInstances = new ArrayList<OccupantRole> ();
+	public Map<OccupantRole, HomePanel> LivingPlaces = new HashMap<OccupantRole,HomePanel>();
+	public List<HomePanel> homeInstances = new ArrayList<HomePanel> ();
+
 	public void setHome(HomePanel hp)
 	{
-		home = hp;
+		homeP = hp;
+		homeInstances.add(hp);
+		System.out.println("_______________============______________");
+
+		System.out.println("_______________" +homeInstances.size() +"______________");
+
 	}
 	
+	public void setOccInstance(OccupantRole oR)
+	{
+		System.out.println("_______________" +homeInstances.size() +"______________");
+		 OccInstances.add(oR);
+		 HomePanel home = null;
+	  if(homeInstances.size() != 0)
+	  {
+		 if (oR.owner)
+		 {
+			  home = homeInstances.get(OccInstances.size()-1);
+		 }
+		 
+		/* else if(!oR.owner)
+		 {
+			  home = homeInstances.get(OccInstances.size()+7);
+
+		 }*/
+	  }
+		 LivingPlaces.put(oR, home);
+	}
+	
+	
+	
+	
+	public HomePanel getHome(OccupantRole oR)
+	{
+		return LivingPlaces.get(oR);
+	}
+	
+
 	public HomePanel getHome()
 	{
-		return home;
+		return homeP;
 	}
 	
 	//Bank*******
