@@ -44,6 +44,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private TracePanel tracePanel6;
 	private TracePanel tracePanel7;
 	private TracePanel tracePanel8;
+	private TracePanel tracePanel9;
 
 	
 	private JPanel controlPanel = new JPanel();
@@ -365,24 +366,41 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel2 = new TracePanel();
         tracePanel2.setPreferredSize(new Dimension((int) (WINDOWY * .4), (int) (WINDOWY * .25)));
-        tracePanel2.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel2.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel2.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel2.hideAlertsWithLevel(AlertLevel.ERROR);          
+        tracePanel2.hideAlertsWithLevel(AlertLevel.INFO);             
+        tracePanel2.showAlertsWithLevel(AlertLevel.MESSAGE);      
         tracePanel2.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel2.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel2.hideAlertsWithTag(AlertTag.PERSON);   
         tracePanel2.showAlertsWithTag(AlertTag.MARKET);
         tracePanel2.hideAlertsWithTag(AlertTag.BANK);        
         
         AlertLog.getInstance().addAlertListener(tracePanel2);
         tabbedPane.addTab("MARKET", tracePanel2);
         
+        
+        tracePanel9 = new TracePanel();
+        tracePanel9.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
+        tracePanel9.hideAlertsWithLevel(AlertLevel.ERROR);          
+        tracePanel9.hideAlertsWithLevel(AlertLevel.INFO);             
+        tracePanel9.showAlertsWithLevel(AlertLevel.MESSAGE);         
+        tracePanel9.hideAlertsWithLevel(AlertLevel.DEBUG);
+        tracePanel9.hideAlertsWithTag(AlertTag.PERSON);   
+        tracePanel9.hideAlertsWithTag(AlertTag.MARKET);
+        tracePanel9.hideAlertsWithTag(AlertTag.BANK);
+        tracePanel9.showAlertsWithTag(AlertTag.MARKET2);
+        
+        AlertLog.getInstance().addAlertListener(tracePanel9);
+        tabbedPane.addTab("MARKET2", tracePanel9);
+        
+        
+        
         tracePanel3 = new TracePanel();
         tracePanel3.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel3.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel3.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel3.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel3.hideAlertsWithLevel(AlertLevel.ERROR);       
+        tracePanel3.hideAlertsWithLevel(AlertLevel.INFO);              
+        tracePanel3.showAlertsWithLevel(AlertLevel.MESSAGE);           
         tracePanel3.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel3.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel3.hideAlertsWithTag(AlertTag.PERSON);  
         tracePanel3.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel3.showAlertsWithTag(AlertTag.BANK);
         
@@ -392,11 +410,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel4 = new TracePanel();
         tracePanel4.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel4.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel4.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel4.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel4.hideAlertsWithLevel(AlertLevel.ERROR);         
+        tracePanel4.hideAlertsWithLevel(AlertLevel.INFO);             
+        tracePanel4.showAlertsWithLevel(AlertLevel.MESSAGE);    
         tracePanel4.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel4.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel4.hideAlertsWithTag(AlertTag.PERSON);   
         tracePanel4.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel4.hideAlertsWithTag(AlertTag.BANK);
         tracePanel4.showAlertsWithTag(AlertTag.ELLEN_RESTAURANT);
@@ -408,11 +426,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel5 = new TracePanel();
         tracePanel5.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel5.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel5.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel5.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel5.hideAlertsWithLevel(AlertLevel.ERROR);         
+        tracePanel5.hideAlertsWithLevel(AlertLevel.INFO);         
+        tracePanel5.showAlertsWithLevel(AlertLevel.MESSAGE);        
         tracePanel5.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel5.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel5.hideAlertsWithTag(AlertTag.PERSON);     
         tracePanel5.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel5.hideAlertsWithTag(AlertTag.BANK);
         tracePanel5.showAlertsWithTag(AlertTag.MARCUS_RESTAURANT);
@@ -423,11 +441,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel6 = new TracePanel();
         tracePanel6.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel6.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel6.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel6.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel6.hideAlertsWithLevel(AlertLevel.ERROR);           
+        tracePanel6.hideAlertsWithLevel(AlertLevel.INFO);               
+        tracePanel6.showAlertsWithLevel(AlertLevel.MESSAGE);              
         tracePanel6.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel6.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel6.hideAlertsWithTag(AlertTag.PERSON);   	
         tracePanel6.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel6.hideAlertsWithTag(AlertTag.BANK);
         tracePanel6.showAlertsWithTag(AlertTag.ENA_RESTAURANT);
@@ -438,11 +456,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel7 = new TracePanel();
         tracePanel7.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel7.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel7.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel7.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel7.hideAlertsWithLevel(AlertLevel.ERROR);            
+        tracePanel7.hideAlertsWithLevel(AlertLevel.INFO);               
+        tracePanel7.showAlertsWithLevel(AlertLevel.MESSAGE);         
         tracePanel7.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel7.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel7.hideAlertsWithTag(AlertTag.PERSON);    
         tracePanel7.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel7.hideAlertsWithTag(AlertTag.BANK);
         tracePanel7.showAlertsWithTag(AlertTag.DAVID_RESTAURANT);
@@ -453,11 +471,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel8 = new TracePanel();
         tracePanel8.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel8.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel8.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel8.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel8.hideAlertsWithLevel(AlertLevel.ERROR);               
+        tracePanel8.hideAlertsWithLevel(AlertLevel.INFO); 
+        tracePanel8.showAlertsWithLevel(AlertLevel.MESSAGE); 
         tracePanel8.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel8.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel8.hideAlertsWithTag(AlertTag.PERSON);   
         tracePanel8.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel8.hideAlertsWithTag(AlertTag.BANK);
         tracePanel8.showAlertsWithTag(AlertTag.JEFFERSON_RESTAURANT);
@@ -465,6 +483,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         AlertLog.getInstance().addAlertListener(tracePanel8);
         tabbedPane.addTab("JEFFERSON RESTAURANT", tracePanel8);
 
+        
+        
+
+        
+        
+        
+        
+        
+        
         mainPanel.add(tabbedPane, BorderLayout.SOUTH); 
         
         
