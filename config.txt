@@ -1,3 +1,4 @@
+- Scenario: Normative scenario (all employees working, a lot of rich people wandering around)
 -Bank
 Name:bankteller;Cash:100;Renter:true;Occupation:bankTeller;ShiftBegin:6;ShiftEnd:22;Actions:work
 Name:bankmanager;Cash:100;Renter:true;Occupation:bankManager;ShiftBegin:6;ShiftEnd:22;Actions:work

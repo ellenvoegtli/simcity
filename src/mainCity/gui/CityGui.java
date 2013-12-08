@@ -93,15 +93,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	//=================Scenario Hack panel components========================
 	private JPanel subControlPanel3 = new JPanel();
 	private GroupLayout layout3 = new GroupLayout(subControlPanel3);
-	private JLabel scenario1Label = new JLabel("Scenario 1: ");
+	private JLabel scenario1Label = new JLabel("Scenario 1: Normative scenario ");
 	private JButton scenario1Button = new JButton("Run");
-	private JLabel scenario2Label = new JLabel("Scenario 2: ");
+	private JLabel scenario2Label = new JLabel("Scenario 2: Bank robbery");
 	private JButton scenario2Button = new JButton("Run");
-	private JLabel scenario3Label = new JLabel("Scenario 3: ");
+	private JLabel scenario3Label = new JLabel("Scenario 3: Vehicle accident");
 	private JButton scenario3Button = new JButton("Run");
-	private JLabel scenario4Label = new JLabel("Scenario 4: ");
+	private JLabel scenario4Label = new JLabel("Scenario 4: Vehicle hits person");
 	private JButton scenario4Button = new JButton("Run");
-	private JLabel scenario5Label = new JLabel("Scenario 5: ");
+	private JLabel scenario5Label = new JLabel("Scenario 5: Weekend");
 	private JButton scenario5Button = new JButton("Run");
 	
 	
