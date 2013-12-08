@@ -256,7 +256,6 @@ public class PersonAgent extends Agent {
 				}
 				
 				output("Arrived at home!");
-				
 				handleRole(currentAction.type);
 				
 				synchronized(roles) {
@@ -282,7 +281,6 @@ public class PersonAgent extends Agent {
 
 			if(event == PersonEvent.arrivedAtWork) {
 				output("Arrived at work!");
-				
 				handleRole(currentAction.type);
 				
 				synchronized(roles) {
@@ -293,31 +291,16 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
-			if(event == PersonEvent.arrivedAtMarket) {
+			if(event == PersonEvent.arrivedAtMarket || event == PersonEvent.arrivedAtMarket2) {
 				handleRole(currentAction.type);
 				
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
-					if (!((Market1CustomerRole) customer).getGui().goInside()){
+					if (event == PersonEvent.arrivedAtMarket && !((Market1CustomerRole) customer).getGui().goInside()) {
 						return true;
 					}
-					
-					//check home agent to get a list of what they need?
-					customer.setActive();
-				}
-				
-				enterBuilding();
-				return true;
-			}
-			
-			if(event == PersonEvent.arrivedAtMarket2) {
-				handleRole(currentAction.type);
-				
-				synchronized(roles) {
-					Role customer = roles.get(currentAction.type);
-					
-					if (!((Market2CustomerRole) customer).getGui().goInside()){
+					else if (event == PersonEvent.arrivedAtMarket2 && !((Market2CustomerRole) customer).getGui().goInside()){
 						return true;
 					}
 					
