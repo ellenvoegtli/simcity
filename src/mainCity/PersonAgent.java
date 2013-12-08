@@ -748,11 +748,12 @@ public class PersonAgent extends Agent {
 					roles.put(action, mcr2);
 					break;
 				case home :
+					
 				case homeAndEat : 
 					if (actions.contains(ActionType.home) || actions.contains(ActionType.homeAndEat))
 						return;
 					OccupantRole or = new OccupantRole(this, name);
-					ContactList.getInstance().getHome().handleRoleGui(or);
+					ContactList.getInstance().getHome(or).handleRoleGui(or);
 					roles.put(action, or);
 					break;
 				case maintenance:
