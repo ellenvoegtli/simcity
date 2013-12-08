@@ -179,14 +179,18 @@ public class CityPanel extends JPanel{
 	}
 	
 	private void resetCity() {
+		clock = 4;
+		day = 1;
+		
 		gui.getAnimationPanel().getPersonGuiList().clear();
+
+		for(Map.Entry<String, CityCard> entry : gui.getView().getCards().entrySet()) {
+			entry.getValue().clearPeople();
+		}
+		
 		for(PersonAgent p : occupants) {
 			p.stopThread();
 			p.getRoles().clear();
-		}
-		
-		for(Map.Entry<String, CityCard> entry : gui.getView().getCards().entrySet()) {
-			entry.getValue().clearPeople();
 		}
 		
 		occupants.clear();
