@@ -399,12 +399,9 @@ public class PersonAgent extends Agent {
 						roles.get(ActionType.bankRob).setActive();
 						Role bankRobber = roles.get(ActionType.bankRob);
 						((BankRobberRole) bankRobber).msgWantToRobBank();
-						}
-					if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
-						currentAction.state = ActionState.done;
-
+					}
 				}
-			}	
+				
 				enterBuilding();
 				return true;
 			}
