@@ -42,17 +42,18 @@ public class HomePanel extends JPanel
        
     	this.animation = homeAnimationPanel;
     	house = new personHome(occupant);
+    	
 
     	
     	//ContactList.getInstance().setHome(this);
     	
 
-    	
+    	/*
     	PersonAgent base5 = new PersonAgent("occupant");
 		occupant = new OccupantRole(base5, base5.getName());
 		base5.addRole(PersonAgent.ActionType.homeAndEat, occupant);
 		occupant.setActive();
-	
+	*/
 		
 		//occupantGui = new OccupantGui(occupant, animation); 
 		//animation.addGui(occupantGui);

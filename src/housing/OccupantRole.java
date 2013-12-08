@@ -4,8 +4,10 @@ package housing;
 import housing.personHome.Appliance;
 import housing.Interfaces.Occupant;
 import housing.Interfaces.OccupantGuiInterface;
+import housing.gui.HomePanel;
 import housing.gui.OccupantGui;
 import agent.Agent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.AnimationPanel;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
@@ -50,7 +52,6 @@ public class OccupantRole extends Role implements Occupant
 	
 	public List<String> needsWork = Collections.synchronizedList(new ArrayList<String>());
 	public List<String> needFd = new ArrayList<String>();
-
 	
 	
 	//for alert log trace statements
@@ -85,6 +86,7 @@ public OccupantRole(PersonAgent p, String personNm)
 	super(p);
 	this.name = personNm;
 
+
 	if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
 	{
 		owner = false;
@@ -95,7 +97,8 @@ public OccupantRole(PersonAgent p, String personNm)
 		owner = true;
 	}
 	
-	
+	ContactList.getInstance().setOccInstance(this);
+
 }
 
 public OccupantRole(PersonAgent p) {

@@ -1,5 +1,7 @@
 package housing.Interfaces;
 
+import housing.gui.HomeAnimationPanel;
+
 public interface OccupantGuiInterface {
 	
 	public abstract void DoGoToAplliance(String app);

@@ -20,8 +20,8 @@ public class EmployeeGui implements Gui, EmployeeGuiInterface {
     static final int waiterHeight = 20;
     static final int stockRoomWidth = 25, stockRoomHeight = 50;
 
-    private int xPos = -20, yPos = -20;//default waiter position
-    private int xDestination = -20, yDestination = -20;//default start position
+    private int xPos = -20, yPos = -20;
+    private int xDestination = -20, yDestination = -20;
     private final int exitX = -20;
     private final int exitY = -20;
     static final int deliveryWidth = 25, deliveryHeight = 50;
@@ -37,7 +37,6 @@ public class EmployeeGui implements Gui, EmployeeGuiInterface {
 	
 	private boolean atDestination = true;
 	private boolean isDeliveringFood = false;
-	private String customerChoice;
 	
 	State s;
 	enum State {wantsBreak, onBreak, offBreak};
@@ -71,6 +70,10 @@ public class EmployeeGui implements Gui, EmployeeGuiInterface {
     	agent.setHomeX(x);
     	this.homeY = y;
     	agent.setHomeY(y);
+    	
+    	atDestination = false;
+    	xDestination = homeX;
+    	yDestination = homeY;
     }
 
     public void updatePosition() {
@@ -114,24 +117,6 @@ public class EmployeeGui implements Gui, EmployeeGuiInterface {
     public void draw(Graphics2D g) {
         g.setColor(Color.BLUE);
         g.fillRect(xPos, yPos, waiterWidth, waiterHeight);
-        
-        if (isDeliveringFood){
-        	g.setColor(Color.BLACK);
-        	
-        	if (customerChoice == "steak"){
-        		g.drawString("STK", xPos + 20, yPos + 10); //"carrying" the food behind him
-        	}
-        	else if (customerChoice == "pasta"){
-        		g.drawString("PST", xPos + 20, yPos + 10); //"carrying" the food behind him
-        	}
-        	else if (customerChoice == "pizza"){
-        		g.drawString("PZA", xPos + 20, yPos + 10); //"carrying" the food behind him
-        	}
-        	else if (customerChoice == "soup"){
-        		g.drawString("SP", xPos + 20, yPos + 10); //"carrying" the food behind him
-        	}
-        }
-        
     }
 
 
