@@ -184,6 +184,9 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			case market:
 				calculatePath(440, 55);
 				break;
+			case market2:
+				calculatePath(670, 140);
+				break;
 			case bank:
 				calculatePath(105, 230);
 				break;
@@ -227,6 +230,10 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			case market:
 				xDestination = xPos = 445;
 				yDestination = yPos = 55;
+				break;
+			case market2:
+				xDestination = xPos = 670;
+				yDestination = yPos = 140;
 				break;
 			case bank:
 				xDestination = xPos = 105;

@@ -179,11 +179,11 @@ public class PersonAgent extends Agent {
 		actions.add(new Action(ActionType.market, 3));
 		stateChanged();
 	}
-	
+	/*
 	public void msgGoToMarket2(){
 		actions.add(new Action(ActionType.market2, 3));
 		stateChanged();
-	}
+	}*/
 	
 	public void msgGoHome() {
 		actions.add(new Action(ActionType.home, 3));
@@ -415,10 +415,10 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 			
-			if(event == PersonEvent.needMarket2) {
+			/*if(event == PersonEvent.needMarket2) {
 				goToMarket2();
 				return true;
-			}
+			}*/
 
 			if(event == PersonEvent.gotFood || event == PersonEvent.goHome) {
 				goHome();
@@ -793,9 +793,9 @@ public class PersonAgent extends Agent {
 			case market:
 				event = PersonEvent.needMarket;
 				break;
-			case market2:
+			/*case market2:
 				event = PersonEvent.needMarket2;
-				break;
+				break;*/
 			case restaurant:
 				event = PersonEvent.chooseRestaurant;
 				break;
@@ -927,7 +927,10 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToWork() {
-		if(job.occupation.contains("market")) {
+		if(job.occupation.contains("market2")) {
+			destination = CityLocation.market2;
+		}
+		else if(job.occupation.contains("market")) {
 			destination = CityLocation.market;
 		}
 		else if(job.occupation.contains("bank")) {
@@ -963,18 +966,44 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToMarket() {
-		output("Going to market 1");
-		travelToLocation(CityLocation.market);
+		//output("Going to market");
+		
+		switch((int) (Math.random() * 2)) {
+		case 0:
+			output("Going to market 2");
+			travelToLocation(CityLocation.market2);
+			currentAction.type = ActionType.market2;
+			event = PersonEvent.arrivedAtMarket2;
+			stateChanged();
+			break;
+			/*output("Going to market 1");
+			travelToLocation(CityLocation.market);
+			currentAction.type = ActionType.market;
+			event = PersonEvent.arrivedAtMarket;
+			stateChanged();
+			break;*/
+		case 1:
+			output("Going to market 2");
+			travelToLocation(CityLocation.market2);
+			currentAction.type = ActionType.market2;
+			event = PersonEvent.arrivedAtMarket2;
+			stateChanged();
+			break;
+		default:
+				break;
+		}
+		
+		/*travelToLocation(destination);
 		event = PersonEvent.arrivedAtMarket;
-		stateChanged();
+		stateChanged();*/
 	}
 	
-	private void goToMarket2() {
+	/*private void goToMarket2() {
 		output("Going to market 2");
 		travelToLocation(CityLocation.market2);
 		event = PersonEvent.arrivedAtMarket2;
 		stateChanged();
-	}
+	}*/
 
 	private void goHome()  {
 		output("Going home");
