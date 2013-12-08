@@ -30,7 +30,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	public enum AgentState {doingNothing, makingDelivery};
 	
 	public enum DeliveryState {newBill, enRoute, waitingToRedeliver, waitingForPayment, calculatingChange, oweMoney, waitingForVerification, goingBackToMarket, done};
-	public enum DeliveryEvent {none, checkRedeliveryOn, checkRedeliveryOff, deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, acknowledgedDebt, arrivedAtMarket};
+	public enum DeliveryEvent {checkRedeliveryOn, checkRedeliveryOff, deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, acknowledgedDebt, arrivedAtMarket};
 	
 	
 	private Semaphore atHome = new Semaphore(0, true);
@@ -123,11 +123,12 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		stateChanged();
 	}
 	
-	public void msgCheckRedelivery(){
+	public void msgCheckForRedeliveries(){
 		log("Checking for bills that need redelivery");
 		for (Bill b : bills){
 			if (b.s == DeliveryState.waitingToRedeliver){
 				b.event = DeliveryEvent.checkRedeliveryOn;
+				stateChanged();
 				return;
 			}
 		}
@@ -215,8 +216,16 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			e.printStackTrace();
 		}
 
-		if (!restaurantOpen(b))
+		if (!restaurantOpen(b)){
+			deliveryGui.DoGoToHomePosition();
+			try {
+				atHome.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			b.s = DeliveryState.waitingToRedeliver;
 			return;
+		}
 		else {
 			//delivery man will then message appropriate cashier and cook
 			if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
@@ -309,35 +318,30 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			if (ContactList.getInstance().ellenHost !=null)
 				if (ContactList.getInstance().ellenHost.isOpen())
 					return true;
-			b.s = DeliveryState.waitingToRedeliver;
 			return false;
 		}
 		else if (b.restaurantName.equalsIgnoreCase("enarestaurant")){
 			if (ContactList.getInstance().enaHost !=null)
 				if (ContactList.getInstance().enaHost.isOpen())
 					return true;
-			b.s = DeliveryState.waitingToRedeliver;
 			return false;
 		}
 		else if (b.restaurantName.equalsIgnoreCase("marcusrestaurant")){
 			if (ContactList.getInstance().marcusHost != null)
 				if (ContactList.getInstance().marcusHost.isOpen())
 					return true;
-			b.s = DeliveryState.waitingToRedeliver;
 			return false;
 		}
 		else if (b.restaurantName.equalsIgnoreCase("davidrestaurant")){
 			if (ContactList.getInstance().davidHost != null)
 				if(ContactList.getInstance().davidHost.isOpen())
 					return true;
-			b.s = DeliveryState.waitingToRedeliver;
 			return false;
 		}
 		else if (name.equalsIgnoreCase("jeffersonrestaurant")){
 			if (ContactList.getInstance().jeffersonHost != null)
 				if (ContactList.getInstance().jeffersonHost.isOpen())
 					return true;
-			b.s = DeliveryState.waitingToRedeliver;
 			return false;
 		}
 		

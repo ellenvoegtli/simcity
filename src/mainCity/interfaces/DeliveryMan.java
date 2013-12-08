@@ -13,4 +13,6 @@ public interface DeliveryMan {
 	public abstract void msgChangeVerified(String name);
 	public abstract void msgIOweYou(double amount, String name);
 	
+	public abstract boolean isActive();
+	public abstract void msgCheckForRedeliveries();
 }

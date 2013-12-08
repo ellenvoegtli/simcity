@@ -20,7 +20,7 @@ Name:marcushost;Cash:100;Renter:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd
 Name:marcuscashier;Cash:100;Renter:true;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:marcuswaiter;Cash:100;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Ellen Restaurant
--Name:ellencook;Cash:100;Renter:true;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:ellencook;Cash:100;Renter:true;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Name:ellencashier;Cash:100;Renter:false;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Name:ellenhost;Cash:100;Renter:false;Occupation:ellenHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Name:ellenwaiter1;Cash:100;Renter:false;Occupation:ellenShareWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
