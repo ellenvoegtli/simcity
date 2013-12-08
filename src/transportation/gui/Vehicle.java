@@ -8,6 +8,10 @@ public class Vehicle extends Rectangle2D.Double {
 	public boolean atBusStop;
 	public int counter;
 	
+	public enum Direction 
+	{Up, Down, Left, Right}; 
+	public Direction myDirection; 
+	
 	public Vehicle( int x, int y, int width, int height ) {
 		super( x, y, width, height );
 		atBusStop = false;
@@ -30,5 +34,9 @@ public class Vehicle extends Rectangle2D.Double {
 	
 	public void go() { 
 		atBusStop = false;
+	}
+	
+	public void setDirection(Direction d) { 
+		myDirection = d; 
 	}
 }

@@ -8,6 +8,7 @@ import mainCity.contactList.ContactList;
 import role.Role;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
+import transportation.gui.Intersection;
 import transportation.gui.Lane;
 import transportation.gui.Vehicle;
 import mainCity.gui.*;
@@ -59,6 +60,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     
     //Road Data
     ArrayList<Lane> lanes;
+    ArrayList<Intersection> intersections; 
+    
     private final int RoadWidth = 50; 
     
     //Setting up data for stop sign image
@@ -94,44 +97,80 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        
         //Instantiating roads
         lanes = new ArrayList<Lane>();
+        intersections = new ArrayList<Intersection>();
         
-        //Creating Lanes (int xo, int yo, int w, int h, int xv, int yv, boolean ish, Color lc, Color sc)
-        Lane l = new Lane( 0, 75, 651, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 0, 100, 780, (RoadWidth/2), 5, 0, true, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 0, 350, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 0, 375, 125, (RoadWidth/2), 5, 0, true, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 125, 375, 780, (RoadWidth/2), 5, 0, true, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 125, 125, (RoadWidth/2), 226, 0, 5, false, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 150, 125, (RoadWidth/2), 226, 0, -5, false, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 365, 125, (RoadWidth/2), 226, 0, 5, false, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 390, 125, (RoadWidth/2), 226, 0, -5, false, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 605, 125, (RoadWidth/2), 226, 0, 5, false, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 630, 125, (RoadWidth/2), 226, 0, -5, false, Color.gray, Color.white );
-        lanes.add(l);
-        l = new Lane( 651, 75, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
-        lanes.add(l);
+//Creating Lanes (int xo, int yo, int w, int h, int xv, int yv, boolean ish, Color lc, Color sc)
         
-        //Intersections
-        l = new Lane( 125, 75, RoadWidth, RoadWidth, 5, 0, true, Color.gray, Color.white) ;
-        lanes.add(l);
-        l = new Lane( 125, 350, RoadWidth, RoadWidth, 5, 0, true, Color.gray, Color.white) ;
-        lanes.add(l);
-        l = new Lane( 605, 350, RoadWidth, RoadWidth, 5, 0, true, Color.gray, Color.white) ;
-        lanes.add(l);
-        l = new Lane( 605, 75, RoadWidth, RoadWidth, 5, 0, true, Color.gray, Color.white) ;
-        lanes.add(l);
+      //top road left
+        Lane l = new Lane( 0, 75, 125, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );  
+        lanes.add(l); //0
+        l = new Lane (176, 75, 429, (RoadWidth/2), -5, 0, true, Color.gray, Color.white ); 
+        lanes.add(l); //1
+        l = new Lane( 656, 75, 125, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
+        lanes.add(l); //2
+        
+      //top road right
+        l = new Lane( 0, 100, 125, (RoadWidth/2), 5, 0, true, Color.gray, Color.white ); 
+        lanes.add(l); //3
+        l = new Lane( 176, 100, 429, (RoadWidth/2), 5, 0, true, Color.gray, Color.white ); 
+        lanes.add(l); //4
+        l = new Lane( 656, 100, 125, (RoadWidth/2), 5, 0, true, Color.gray, Color.white ); 
+        lanes.add(l); //5
+        
+      //bot road right
+        l = new Lane( 0, 350, 125, (RoadWidth/2), -5, 0, true, Color.gray, Color.white ); 
+        lanes.add(l); //6
+        l = new Lane( 176, 350, 429, (RoadWidth/2), -5, 0, true, Color.gray, Color.white ); 
+        lanes.add(l); //7
+        l = new Lane( 656, 350, 125, (RoadWidth/2), -5, 0, true, Color.gray, Color.white ); 
+        lanes.add(l); //8
+        
+      //bot road left  
+        l = new Lane( 0, 375, 125, (RoadWidth/2), 5, 0, true, Color.gray, Color.white ); 
+        lanes.add(l); //9
+        l = new Lane( 176, 375, 429, (RoadWidth/2), 5, 0, true, Color.gray, Color.white ); 
+        lanes.add(l); //10
+        l = new Lane( 656, 375, 125, (RoadWidth/2), 5, 0, true, Color.gray, Color.white ); 
+        lanes.add(l); //11
+        
+      //left vertical road
+        l = new Lane( 125, 126, (RoadWidth/2), 224, 0, 5, false, Color.gray, Color.white );
+        lanes.add(l); //12
+        l = new Lane( 150, 126, (RoadWidth/2), 224, 0, -5, false, Color.gray, Color.white );
+        lanes.add(l); //13
+        
+      //center vertical road
+        l = new Lane( 365, 126, (RoadWidth/2), 224, 0, 5, false, Color.gray, Color.white );
+        lanes.add(l); //14
+        l = new Lane( 390, 126, (RoadWidth/2), 224, 0, -5, false, Color.gray, Color.white );
+        lanes.add(l); //15
+        
+      //right vertical road
+        l = new Lane( 605, 126, (RoadWidth/2), 224, 0, 5, false, Color.gray, Color.white );
+        lanes.add(l); //16
+        l = new Lane( 630, 126, (RoadWidth/2), 224, 0, -5, false, Color.gray, Color.white );
+        lanes.add(l); //17
+        
+//Intersections 
+        
+      //top left
+        Intersection in = new Intersection( 125, 75, RoadWidth, RoadWidth, 5, 5, true, Color.gray, Color.white) ;
+        intersections.add(in);
+      
+      //bot left
+        in = new Intersection( 125, 350, RoadWidth, RoadWidth, 5, 5, true, Color.gray, Color.white) ;
+        intersections.add(in);
+      
+      //bot right
+        in = new Intersection( 605, 350, RoadWidth, RoadWidth, 5, 5, true, Color.gray, Color.white) ;
+        intersections.add(in);
+      
+      //top right
+        in = new Intersection( 605, 75, RoadWidth, RoadWidth, 5, 5, true, Color.gray, Color.white) ;
+        intersections.add(in);
         
         //drawing top houses
         for(int i=0; i<7; i++){
@@ -201,30 +240,52 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 		count++; 
 		
 		if(Buses.size() != 0){
+			
+			//Creating first bus
 			if(onlyOnce == true){
 				onlyOnce = false;
-				//for(int y=0; y<Buses.size(); y++){
-					lanes.get(1).addVehicle(Buses.get(0));
-				//}
+				lanes.get(1).addVehicle(Buses.get(0));
 			}
-
-					for(int i=0; i<ContactList.stops.size(); i++){
-						for(int s=0; s<Buses.size(); s++){
-							if( ( Buses.get(s).getX() > (ContactList.stops.get(i).xLocation-5) ) && ( (Buses.get(s).getX()) < (ContactList.stops.get(i).xLocation+5) ) 
-									&& (Buses.get(s).getY() > ContactList.stops.get(i).yLocation - 5) && (Buses.get(s).getY() < ContactList.stops.get(i).yLocation + 5) ) {
-								Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
-								
-							}
-						}
+			
+			//Creating second bus 
+			if(count % 150 == 0 && dontReset == false){ 
+				dontReset = true;		
+				if(lanes.size() != 0){
+					synchronized(lanes.get(3).vehicles){
+						lanes.get(3).addVehicle(Buses.get(1));
 					}
+				}
+			}
+			
+			System.out.println("Bus 1 X: " + Buses.get(0).getX() + ", Bus 1 Y: " + Buses.get(0).getY()); 
+
+			for(int i=0; i<ContactList.stops.size(); i++){
+				for(int s=0; s<Buses.size(); s++){
+					if( ( Buses.get(s).getX() > (ContactList.stops.get(i).xLocation-5) ) 
+						&& ( Buses.get(s).getX() < (ContactList.stops.get(i).xLocation+5) ) 
+							&& ( Buses.get(s).getY() > ContactList.stops.get(i).yLocation - 5) 
+								&& (Buses.get(s).getY() < ContactList.stops.get(i).yLocation + 5) ) {
+						
+						Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
+					}
+				}
+			}
 				
 			
 			for(int t=0; t<Buses.size(); t++){
-				if(Buses.get(t).getX() == 130 && Buses.get(t).getY() == 105){ 
-					lanes.get(1).vehicles.remove(Buses.get(t)); 
-					lanes.get(5).addVehicle(Buses.get(t));
+				
+				if(Buses.get(t).getX() == 105 && Buses.get(t).getY() == 105){  
+					//lanes.get(3).redLight();
+					lanes.get(3).vehicles.remove(Buses.get(t)); 
+					intersections.get(0).addVehicle(Buses.get(t));
+					
 				}
 				
+				if(Buses.get(t).getX() == 179 && Buses.get(t).getY() == 80){  
+					//lanes.get(1).redLight();
+					lanes.get(1).vehicles.remove(Buses.get(t)); 
+					intersections.get(0).addVehicle(Buses.get(t));
+				}
 				
 				if(Buses.get(t).getX() == 130 && Buses.get(t).getY() == 335){ 
 					lanes.get(5).vehicles.remove(Buses.get(t));
@@ -246,13 +307,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				}
 				
 			}	
+			
 		}
 		
-		if(count % 150 == 0 && dontReset == false){ 
-			dontReset = true;			
-			if(lanes.size() != 0)
-				lanes.get(1).addVehicle(Buses.get(1));
-		}
+
 		
 		if(gui != null) {
 			for(Map.Entry<String, CityCard> r : gui.getView().getCards().entrySet()) {
@@ -295,7 +353,13 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.setColor(getBackground());
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
 
-   //Draw city objects here (where we drew tables before)    
+   //Draw city objects here (where we drew tables before)  
+        
+      //drawing intersections 
+        for ( int j=0; j<intersections.size(); j++) { 
+        	Intersection in = intersections.get(j); 
+        	in.draw(g2);
+        }
         
         //drawing lanes
         for ( int i=0; i<lanes.size(); i++ ) {
@@ -324,9 +388,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(476, 55, 20, 20);
         g2.fillRect(586, 55, 20, 20);
         g2.fillRect(696, 55, 20, 20); //house7
-        
-        
-       
+
         
         //Location of doorways
         g2.fillRect(49, 400, 20, 20);  //house1
@@ -338,15 +400,14 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(709, 400, 20, 20); //house7
        
         
-        g2.fillRect(105, 180, 20, 20); //doorway
-        g2.fillRect(105, 280, 20, 20); //doorway
-        g2.fillRect(175, 230, 20, 20); //doorway
-        g2.fillRect(347, 180, 20, 20); //doorway
-        g2.fillRect(347, 280, 20, 20); //doorway
-        g2.fillRect(415, 215, 20, 20); //doorway
-        g2.fillRect(585, 230, 20, 20); //doorway
-        
-        g2.fillRect(655, 155, 22, 20);//market2 
+        g2.fillRect(105, 180, 20, 20); //rest1 doorway
+        g2.fillRect(105, 280, 20, 20); //rest2 doorway
+        g2.fillRect(175, 230, 20, 20); //bank doorway
+        g2.fillRect(347, 180, 20, 20); //rest3 doorway
+        g2.fillRect(347, 280, 20, 20); //rest4 doorway
+        g2.fillRect(415, 215, 20, 20); //market doorway
+        g2.fillRect(585, 230, 20, 20); //rest5 doorway
+        g2.fillRect(655, 155, 22, 20);//market2 doorway
 
         synchronized(guis){
 	        for(Gui gui : guis) {
