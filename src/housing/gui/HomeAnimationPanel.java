@@ -41,6 +41,7 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    private BufferedImage tvImg = null;
 	    private BufferedImage bedImg = null;
 	    private BufferedImage booksImg = null;
+	    private BufferedImage computerImg = null;
 	    
 	    private List<Gui> guis = new ArrayList<Gui>();
 
@@ -61,6 +62,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 				tvImg = ImageIO.read(new File(path.toString()+ "tv.png"));
 				bedImg = ImageIO.read(new File(path.toString()+ "bed.png"));
 				booksImg = ImageIO.read(new File(path.toString()+ "books.png"));
+				computerImg = ImageIO.read(new File(path.toString()+ "computer.png"));
 				
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -140,7 +142,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	        
 	        g.drawImage(bedImg,400,200,null);
 	        g.drawImage(booksImg,430,200,null);
-	        
+	        g.drawImage(computerImg,415,100,null);
 	        
 	     }
 
