@@ -73,7 +73,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	// Messages
 	
 	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){
-		log("Received msgHereIsOrderForDelivery");
+		log("Received msgHereIsOrderForDelivery for " + restaurantName);
 
 		bills.add(new Bill(restaurantName, cook, cashier, billAmount, inventory));
 		stateChanged();
@@ -128,10 +128,9 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		for (Bill b : bills){
 			if (b.s == DeliveryState.waitingToRedeliver){
 				b.event = DeliveryEvent.checkRedeliveryOn;
-				stateChanged();
-				return;
 			}
 		}
+		stateChanged();
 	}
 	
 	
@@ -160,13 +159,36 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		
 		for(Bill b: bills){
 			if (b.s == DeliveryState.newBill && b.event == DeliveryEvent.deliveryRequested && state == AgentState.doingNothing){
+				log("SCHEDULER: NEW BILL, DELIVERY REQUESTED! :" + b.restaurantName);
 				DeliverOrder(b);
 				state = AgentState.makingDelivery;
 				return true;
 			}
 		}
+		
+		for(Bill b: bills){
+			if (b.s == DeliveryState.waitingForPayment && b.event == DeliveryEvent.receivedPayment && state == AgentState.makingDelivery){
+				CalculateChange(b);
+				return true;
+			}
+		}
+		for(Bill b: bills){
+			if (b.s == DeliveryState.waitingForVerification && b.event == DeliveryEvent.changeVerified && state == AgentState.makingDelivery){
+				ReturnToMarket(b);
+				return true;
+			}
+		}
+		for(Bill b: bills){
+			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt && state == AgentState.makingDelivery){
+				ReturnToMarket(b);
+				return true;
+			}
+		}
+		
+		
 		for (Bill b: bills){
-			if (b.s == DeliveryState.waitingToRedeliver && b.event == DeliveryEvent.checkRedeliveryOn){
+			if (b.s == DeliveryState.waitingToRedeliver && b.event == DeliveryEvent.checkRedeliveryOn && state == AgentState.doingNothing){
+				log("RE-delivering order...");
 				DeliverOrder(b);
 				state = AgentState.makingDelivery;
 				b.event = DeliveryEvent.checkRedeliveryOff;
@@ -174,24 +196,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			}
 		}
 		
-		for(Bill b: bills){
-			if (b.s == DeliveryState.waitingForPayment && b.event == DeliveryEvent.receivedPayment){
-				CalculateChange(b);
-				return true;
-			}
-		}
-		for(Bill b: bills){
-			if (b.s == DeliveryState.waitingForVerification && b.event == DeliveryEvent.changeVerified){
-				ReturnToMarket(b);
-				return true;
-			}
-		}
-		for(Bill b: bills){
-			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt){
-				ReturnToMarket(b);
-				return true;
-			}
-		}
+		state = AgentState.doingNothing;
 		
 		if (bills.isEmpty() && !onDuty){
 			deliveryGui.DoGoToHomePosition();
@@ -212,7 +217,6 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -326,7 +330,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		}
 		else if (b.restaurantName.equalsIgnoreCase("enarestaurant")){
 			if (ContactList.getInstance().enaHost !=null)
-				if (ContactList.getInstance().enaHost.isOpen()){
+				if (ContactList.getInstance().enaHost.isItOpen()){
 					log("Ena's host says restaurant is OPEN!");
 					return true;
 				}
@@ -351,7 +355,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			log("David's restaurant is CLOSED.");
 			return false;
 		}
-		else if (name.equalsIgnoreCase("jeffersonrestaurant")){
+		else if (b.restaurantName.equalsIgnoreCase("jeffersonrestaurant")){
 			if (ContactList.getInstance().jeffersonHost != null)
 				if (ContactList.getInstance().jeffersonHost.isOpen()){
 					log("Jefferson's host says restaurant is OPEN!");
@@ -361,6 +365,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			return false;
 		}
 		
+		log("DIDN'T FIND A RESTAURANT! :o");
 		return false;	//last resort if something is wrong
 	}
 	

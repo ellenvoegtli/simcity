@@ -83,7 +83,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	public String getName() {
 		return name;
 	}
-	public Collection getMyCustomers() {
+	public Collection<MyCustomer> getMyCustomers() {
 		return myCustomers;
 	}
 
