@@ -56,10 +56,11 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
         bufferSize = this.getSize();
         ContactList.getInstance().setJeffersonRestaurant(JRestPanel);
  
-    	Timer timer = new Timer(30, this );
+    	Timer timer = new Timer(40, this );
     	timer.start();
     }
 
+    /*
     public void backgroundUpdate() {
     	synchronized(guis){
 	    	for(Gui guit : guis) {
@@ -69,6 +70,7 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
 	        }
     	}
     }
+    */
 	public void actionPerformed(ActionEvent e) {
 		repaint();  //Will have paintComponent called
 	}

@@ -1009,7 +1009,6 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToMarket() {
-		//output("Going to market");
 		
 		switch((int) (Math.random() * 2)) {
 		case 0:

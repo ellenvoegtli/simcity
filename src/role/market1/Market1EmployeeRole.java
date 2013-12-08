@@ -176,8 +176,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 
 
 	public void msgAtStation() {
-		//print("msgAtStation called");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "msgAtStation called");
+		log("msgAtStation called");
 		atStation.release();// = true;
 		stateChanged();
 	}
@@ -203,6 +202,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	}
 	
 	public void msgGoOffDuty(double amount){
+		log("msgGoOffDuty called");
 		addToCash(amount);
 		onDuty = false;
 		stateChanged();
@@ -217,9 +217,9 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 		try {
 			for (MyCustomer mc : myCustomers){
 				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing && !customer){
-					GreetCustomer(mc);
 					wState = WaiterState.busy;
 					customer = true;
+					GreetCustomer(mc);
 					return true;
 				}
 			}
@@ -248,6 +248,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 			for (MyCustomer mc : myCustomers) {
 				if (mc.s == CustomerState.leaving){
 					RemoveCustomer(mc);
+					wState = WaiterState.doingNothing;
 					customer = false;
 					return true;
 				}
@@ -256,9 +257,10 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 			
 			//business check
 			for (MyBusiness mb : myBusinesses) {
-				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing){
+				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing && !customer){
 					ProcessOrder(mb);		//determine what we can fulfill, have cashier compute bill
 					wState = WaiterState.busy;
+					customer = true;
 					return true;
 				}
 			}
@@ -395,7 +397,6 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	private void SendBillToCashier(MyBusiness mb){
 		log("Sending bill to cashier");
-		//gui to go to cashier
 		employeeGui.DoGoToCashier();
 		try {
 			atCashier.acquire();

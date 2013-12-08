@@ -446,14 +446,15 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 		}
 		//print ("TEST");
 		
+
+
+		waiterGui.DoLeaveCustomer();
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
 			
 			e.printStackTrace();
 		}
-
-		waiterGui.DoLeaveCustomer();
 	}
 	
 	private void goToTakeOrder(WaiterCust cust){
