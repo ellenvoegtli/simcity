@@ -51,8 +51,9 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 public HomeAnimationPanel(CityGui cg, boolean type) {
 	    	super(cg);
 	    	this.ty = type;
-	    	//guis = new ArrayList<Gui>();
+	    	
 	    	ContactList.getInstance().setHome(home);
+	    	
 	    	StringBuilder path = new StringBuilder("imgs/");
 			try {
 				sinkImg = ImageIO.read(new File(path.toString() + "sink.png"));
@@ -235,6 +236,10 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 
 		public void setGuis(List<Gui> guis) {
 			this.guis = guis;
+		}
+
+		public void setHomeP(HomePanel home) {
+			this.home = home;
 		}
 	
 	}

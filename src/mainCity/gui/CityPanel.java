@@ -27,11 +27,13 @@ import mainCity.restaurants.enaRestaurant.gui.*;
 public class CityPanel extends JPanel{
 	private CityGui gui; 
 	private int clock;
+	private int day;
 	private List<PersonAgent> occupants = new ArrayList<PersonAgent>();
 		
 	public CityPanel(CityGui gui) {
 		this.gui = gui;
 		clock = 4;
+		day = 1;//Will be 0-6 for each day, 0 = Sunday...6 = Saturday
 		
 		ContactList.getInstance().setCity(this);
 
@@ -54,6 +56,33 @@ public class CityPanel extends JPanel{
 		Runnable cityClock = new Runnable() {
 			 public void run() {
 				 clock = (clock+1) % 24;
+				 if(clock == 0) {
+					 day = (day+1) % 6;
+					 
+					 switch(day) {
+						case 0:
+						 	System.out.println("It is now Sunday");
+							break;
+						case 1:
+						 	System.out.println("It is now Monday");			 
+							break;
+						case 2:
+							System.out.println("It is now Tuesday");
+							break;
+						case 3:
+							System.out.println("It is now Wednesday");
+							break;
+						case 4:
+							System.out.println("It is now Thursday");
+							break;
+						case 5:
+							System.out.println("It is now Friday");
+							break;
+						case 6:
+							System.out.println("It is now Saturday");
+							break;
+					 }
+				 }
 				 updateCity();
 			 }
 		 };
@@ -76,7 +105,7 @@ public class CityPanel extends JPanel{
 	
 	private void updateCity() {
 		for(PersonAgent p : occupants) {
-			p.updateClock(clock);
+			p.updateClock(clock, day);
 		}
 	}
 	

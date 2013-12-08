@@ -81,7 +81,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		else if (xPos > xDestination)
 			xPos--;
 
-		if (yPos < yDestination)
+		else if (yPos < yDestination)
 			yPos++;
 		else if (yPos > yDestination)
 			yPos--;
@@ -116,10 +116,9 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	}
 	
 	public void DoGoToLocationOnCar(PersonAgent.CityLocation destination) { 
-		if(yPos < )
+		//if(yPos < )
 	}
 
-	@Override
 	public void DoGoToLocation(PersonAgent.CityLocation destination) {
 		switch(destination) {
 			case restaurant_marcus:
@@ -160,7 +159,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		}
 	}
 	
-	@Override
 	public void DoGoToStop() {
 		System.out.println("Gui is told to go to nearest bus stop");
 		
@@ -208,7 +206,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		}		
 	}
 	
-	@Override
 	public void DoGoToLocationOnBus(PersonAgent.CityLocation destination) { 
 		switch(destination) {
 			case restaurant_marcus:
@@ -254,12 +251,10 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		}		
 	}
 	
-	@Override
 	public void DoGoInside() {
 		isVisible = false;
 	}
 	
-	@Override
 	public void DoGoOutside() {
 		isVisible = true;
 	}
@@ -322,7 +317,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			if(getDistance(pathNext, destination) > getDistance(node2, destination)) {
 				pathNext = node2;
 			}
-			if(getDistance(pathNext, destination) > getDistance(node3, destination)) {
+			else if(getDistance(pathNext, destination) > getDistance(node3, destination)) {
 				pathNext = node3;
 			}
 			

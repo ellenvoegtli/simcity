@@ -32,6 +32,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	public WaiterState wState;
 	public enum WaiterState {doingNothing, busy};
+	public boolean customer = false;
 	
 	private Semaphore atStation = new Semaphore(0,true);
 	private Semaphore atCashier = new Semaphore(0, true);
@@ -215,17 +216,19 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 		
 		try {
 			for (MyCustomer mc : myCustomers){
-				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing){
+				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing && !customer){
 					GreetCustomer(mc);
 					wState = WaiterState.busy;
+					customer = true;
 					return true;
 				}
 			}
 			//business check
 			for (MyBusiness mb : myBusinesses) {
-				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing){
+				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing && !customer){
 					ProcessOrder(mb);		//determine what we can fulfill, have cashier compute bill
 					wState = WaiterState.busy;
+					customer = true;
 					return true;
 				}
 			}
@@ -258,6 +261,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 				if (mb.s == BusinessState.doneFulfillingOrder && wState == WaiterState.doingNothing){
 					DeliverOrder(mb);
 					wState = WaiterState.busy;
+					customer = false;
 					return true;
 				}
 			}
@@ -266,6 +270,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 				if (mc.s == CustomerState.doneFulfillingOrder && wState == WaiterState.doingNothing){
 					DeliverOrder(mc);
 					wState = WaiterState.busy;
+					customer = false;
 					return true;
 				}
 			}
@@ -438,7 +443,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 		mb.s = BusinessState.sentForDelivery;	//unnecessary
 		employeeGui.DoGoToStation();
 		
-		log("Removing customer: " + mb.restaurantName);
+		log("Removing business: " + mb.restaurantName);
 		myBusinesses.remove(mb);
 	}
 	

@@ -47,6 +47,7 @@ public class PersonAgent extends Agent {
 	private BusAgent currentBus; 
 	private Building homePlace;
 	private int time;
+	private int day;
 	private Job job;
 	private PersonState state;
 	private PersonEvent event;
@@ -285,7 +286,7 @@ public class PersonAgent extends Agent {
 				//check home agent to get a list of what they need?
 				customer.setActive();
 				
-				if(currentAction != null && currentAction.type == ActionType.restaurant) {
+				if(currentAction != null && currentAction.type == ActionType.market) {
 					currentAction.state = ActionState.done;
 				}
 				gui.DoGoInside();
@@ -302,7 +303,7 @@ public class PersonAgent extends Agent {
 				//check home agent to get a list of what they need?
 				customer.setActive();
 				
-				if(currentAction != null && currentAction.type == ActionType.restaurant) {
+				if(currentAction != null && currentAction.type == ActionType.market2) {
 					currentAction.state = ActionState.done;
 				}
 				gui.DoGoInside();
@@ -463,7 +464,7 @@ public class PersonAgent extends Agent {
 	//----------Actions----------//
 	private void checkSelf() {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
-		if(time == job.shiftBegin && state != PersonState.working && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
+		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
 			actions.add(new Action(ActionType.work, 1));
 			stateChanged();
 		}
@@ -476,7 +477,6 @@ public class PersonAgent extends Agent {
 		if(time == job.shiftEnd && state == PersonState.working) {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
 				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
-					output("Closing up shop");
 					((ManagerRole) r.getValue()).msgEndShift();
 				}
 				
@@ -735,11 +735,12 @@ public class PersonAgent extends Agent {
 					roles.put(action, mcr2);
 					break;
 				case home :
+					
 				case homeAndEat : 
 					if (actions.contains(ActionType.home) || actions.contains(ActionType.homeAndEat))
 						return;
 					OccupantRole or = new OccupantRole(this, name);
-					ContactList.getInstance().getHome().handleRoleGui(or);
+					ContactList.getInstance().getHome(or).handleRoleGui(or);
 					roles.put(action, or);
 					break;
 				case maintenance:
@@ -812,7 +813,8 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 		
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-
+		walk = true;
+		
 		if(walk || state == PersonState.walkingFromBus) { //chose to walk
 			output(name + " is walking to " + d);
 			gui.DoGoToLocation(d); //call gui
@@ -957,18 +959,12 @@ public class PersonAgent extends Agent {
 		
 		switch((int) (Math.random() * 2)) {
 		case 0:
-			output("Going to market 2");
-			travelToLocation(CityLocation.market2);
-			currentAction.type = ActionType.market2;
-			event = PersonEvent.arrivedAtMarket2;
-			stateChanged();
-			break;
-			/*output("Going to market 1");
+			output("Going to market 1");
 			travelToLocation(CityLocation.market);
 			currentAction.type = ActionType.market;
 			event = PersonEvent.arrivedAtMarket;
 			stateChanged();
-			break;*/
+			break;
 		case 1:
 			output("Going to market 2");
 			travelToLocation(CityLocation.market2);
@@ -980,17 +976,7 @@ public class PersonAgent extends Agent {
 				break;
 		}
 		
-		/*travelToLocation(destination);
-		event = PersonEvent.arrivedAtMarket;
-		stateChanged();*/
 	}
-	
-	/*private void goToMarket2() {
-		output("Going to market 2");
-		travelToLocation(CityLocation.market2);
-		event = PersonEvent.arrivedAtMarket2;
-		stateChanged();
-	}*/
 
 	private void goHome()  {
 		output("Going home");
@@ -1044,8 +1030,9 @@ public class PersonAgent extends Agent {
 		super.stateChanged();
 	}
 
-	public void updateClock(int newTime) {
+	public void updateClock(int newTime, int currentDay) {
 		this.time = newTime;
+		this.day = currentDay;
 		checkSelf();
 	}
 	

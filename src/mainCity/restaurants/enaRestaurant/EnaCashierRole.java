@@ -10,6 +10,7 @@ import role.market1.Market1DeliveryManRole;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
@@ -354,6 +355,23 @@ public boolean pickAndExecuteAnAction()
 	public void msgNotEnoughMoney(double amountOwed, double amountPaid) 
 	{
 			
+	}
+
+
+
+	@Override
+	public void msgHereIsChange(double amount, DeliveryMan deliveryPerson) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public void msgHereIsMarketBill(Map<String, Integer> inventory,
+			double billAmount, DeliveryMan deliveryPerson) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
