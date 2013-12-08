@@ -380,12 +380,20 @@ public class PersonAgent extends Agent {
 			}
 		
 			if(event == PersonEvent.arrivedAtBank) {
+				System.out.println("arrived at bank");
 				//set appropriate role and initial state for different actions
 				handleRole(currentAction.type);
 
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
-					if (!((BankCustomer) customer).getGui().goInside()){
+					
+					if (customer instanceof BankRobberRole && !((BankRobberRole) customer).getGui().goInside()){
+						System.out.println("bank robber checked closed");
+						currentAction.state = ActionState.done;
+						return true;
+					}
+					
+					if (customer instanceof BankCustomer && !((BankCustomer) customer).getGui().goInside()){
 						currentAction.state = ActionState.done;
 						return true;
 					}
@@ -806,6 +814,14 @@ public class PersonAgent extends Agent {
 						ContactList.getInstance().getBank().handleRole(bc);
 						roles.put(action, bc);
 						break;
+					case bankRob:
+						if(roles.containsKey("bankRob")){
+							return;
+						}
+						BankRobberRole br = new BankRobberRole(this, name);
+						ContactList.getInstance().getBank().handleRole(br);
+						roles.put(action, br);
+						break;
 					default:
 						break;
 				}
@@ -936,6 +952,7 @@ public class PersonAgent extends Agent {
 			default:
 				break;
 		}
+		
 		
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
