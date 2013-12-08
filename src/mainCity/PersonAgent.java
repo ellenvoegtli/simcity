@@ -958,18 +958,12 @@ public class PersonAgent extends Agent {
 		
 		switch((int) (Math.random() * 2)) {
 		case 0:
-			output("Going to market 2");
-			travelToLocation(CityLocation.market2);
-			currentAction.type = ActionType.market2;
-			event = PersonEvent.arrivedAtMarket2;
-			stateChanged();
-			break;
-			/*output("Going to market 1");
+			output("Going to market 1");
 			travelToLocation(CityLocation.market);
 			currentAction.type = ActionType.market;
 			event = PersonEvent.arrivedAtMarket;
 			stateChanged();
-			break;*/
+			break;
 		case 1:
 			output("Going to market 2");
 			travelToLocation(CityLocation.market2);
@@ -981,17 +975,7 @@ public class PersonAgent extends Agent {
 				break;
 		}
 		
-		/*travelToLocation(destination);
-		event = PersonEvent.arrivedAtMarket;
-		stateChanged();*/
 	}
-	
-	/*private void goToMarket2() {
-		output("Going to market 2");
-		travelToLocation(CityLocation.market2);
-		event = PersonEvent.arrivedAtMarket2;
-		stateChanged();
-	}*/
 
 	private void goHome()  {
 		output("Going home");
@@ -1036,7 +1020,6 @@ public class PersonAgent extends Agent {
 	}
 	
 	public void roleInactive() {
-		System.out.println("======================= ROLE INACTIVE ============================");
 		state = PersonState.normal;
 		gui.DoGoOutside();
 		stateChanged();
