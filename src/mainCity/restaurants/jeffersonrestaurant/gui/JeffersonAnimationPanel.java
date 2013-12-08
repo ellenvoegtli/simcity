@@ -27,6 +27,8 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
     static final int width = 50;
     static final int height = 50;
     private BufferedImage resttableImg = null;
+    private BufferedImage bigstoveImg = null;
+    private BufferedImage platingImg = null;
     
     private JeffersonRestaurantPanel JRestPanel = new JeffersonRestaurantPanel(this);
     
@@ -40,6 +42,8 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
         StringBuilder path = new StringBuilder("imgs/");
         try {
 			resttableImg = ImageIO.read(new File(path.toString() + "resttable.png"));
+			bigstoveImg = ImageIO.read(new File(path.toString() + "bigstove.png"));
+			platingImg = ImageIO.read(new File(path.toString() + "plating.png"));
 		
 		} catch (IOException e) {
 			
@@ -90,11 +94,14 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
         
         g2.setColor(Color.cyan);
         
-        g2.fillRect(240, 200,30,30);
+        
+        g.drawImage(platingImg,240, 200,null);
+        //g2.fillRect(240, 200,30,30);
         g2.drawString("Plating", 240, 200);
         
         g2.setColor(Color.BLUE);
-        g2.fillRect(400, 200,30,30);
+        //g2.fillRect(400, 200,30,30);
+        g.drawImage(bigstoveImg,400, 200,null);
         g2.drawString("Cooking", 400, 200);
         
 

@@ -114,6 +114,10 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	public void setPresent(boolean p) {
 		isPresent = p;
 	}
+	
+	public void DoGoToLocationOnCar(PersonAgent.CityLocation destination) { 
+		if(yPos < )
+	}
 
 	@Override
 	public void DoGoToLocation(PersonAgent.CityLocation destination) {
