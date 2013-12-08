@@ -19,6 +19,8 @@ import role.jeffersonRestaurant.JeffersonWaiterRole.Table;
 import role.market1.Market1GreeterRole;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cook;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Market;
@@ -134,7 +136,7 @@ public class JeffersonCookRole extends Role implements Cook{
 
 	
 	public void msghereIsAnOrder (int table, String Choice, Waiter w){
-		print("cook recieved order");
+		log("cook recieved order");
 		orders.add(new Order (table,Choice, w));
 		stateChanged();
 		
@@ -147,7 +149,7 @@ public class JeffersonCookRole extends Role implements Cook{
 	}
 	
 	public void msgCannotFulfill(String i, Integer q){
-		Do("Restock of " + i + " not fulfilled");
+		log("Restock of " + i + " not fulfilled");
 		//move on to next market somehow
 		switch (i) {
 		case "steak":
@@ -181,7 +183,7 @@ public class JeffersonCookRole extends Role implements Cook{
 	}
 	
 	public void msgRestockFulfilled(String i, Integer q){
-		Do("Restock of " + i + " completely fulfilled");
+		log("Restock of " + i + " completely fulfilled");
 		int updated = inventory.get(i) + q;
 		inventory.put(i, updated);
 		synchronized (orders) {
@@ -196,7 +198,7 @@ public class JeffersonCookRole extends Role implements Cook{
 	}
 	
 	public void msgPartialFulfill(String i, Integer q){
-		Do("Restock of " + i + " partially fulfilled");
+		log("Restock of " + i + " partially fulfilled");
 		int updated = inventory.get(i) + q;
 		inventory.put(i, updated);
 		switch (i) {
@@ -240,7 +242,7 @@ public class JeffersonCookRole extends Role implements Cook{
 			  
 			  inventory.put(key, inventory.get(key)+value);
 			  
-			  System.out.println(key + " => " + value + "added to cook inventory");
+			  log(key + " => " + value + "added to cook inventory");
 			}
 		synchronized(orders){
 			for(Order o:orders){
@@ -315,7 +317,7 @@ public class JeffersonCookRole extends Role implements Cook{
 		
 		
 		if(revolvingstand.isEmpty()) {
-			print("No orders here...");
+			log("No orders here...");
 			return;
 		}
 
@@ -330,17 +332,17 @@ public class JeffersonCookRole extends Role implements Cook{
 		String order=o.Choice;
 		
 		if(inventory.get(order)==0){
-			System.out.println("Out of " + order);
+			log("Out of " + order);
 			o.s=OrderState.marketOrdering;
 			//o.w.msgOutOfChoice(o.tableNumber);
-			Do("ordering stock");
+			log("ordering stock");
 			orderStock(o, 2);
 			return;
 		}
 		
 		
 		
-		Do("Cooking");
+		log("Cooking");
 		//set order state to cooking
 		//use timer stuffs
 		//set status = done
@@ -372,7 +374,7 @@ public class JeffersonCookRole extends Role implements Cook{
 	}
 	
 	private void orderStock(Order o, int i) {
-		Do("ordering stock");
+		log("ordering stock");
 		
 		marketOrder = new TreeMap<String, Integer>();
 		
@@ -447,6 +449,10 @@ public class JeffersonCookRole extends Role implements Cook{
 	*/	
 	}
 
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.JEFFERSON_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.JEFFERSON_COOK, this.getName(), s);
+	}
 
 
 	private void makeOrderDone(Order o){

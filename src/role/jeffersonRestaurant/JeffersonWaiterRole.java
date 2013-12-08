@@ -9,6 +9,7 @@ import agent.Agent;
 
 
 
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -16,6 +17,8 @@ import role.Role;
 import role.jeffersonRestaurant.JeffersonHostRole;
 import role.jeffersonRestaurant.JeffersonHostRole.Table;
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 //import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
@@ -125,7 +128,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 	
 	public void msgSeatAtTable(Customer c, int table) {
 		CustomerList.add(new WaiterCust(c, table));
-		//System.out.println("waiter added new customer");
+		log("waiter added new customer");
 		stateChanged();
 	}
 	public void msgHereIsMyChoice(Customer cust, String choice){
@@ -271,7 +274,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 	public boolean pickAndExecuteAnAction() {
 		
 		if(CustomerList.isEmpty()&& canBreak){
-			Do("going on break");
+			log("going on break");
 			canBreak=false;
 			onBreak=true;
 			return true;
@@ -303,7 +306,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 			for(WaiterCust waitercust:CustomerList){
 				if(waitercust.state == waiterCustState.readyToOrder){
 					waitercust.state = waiterCustState.waitingForWaiter;
-					//print("going to take order");
+					log("going to take order");
 					goToTakeOrder(waitercust);
 					return true;
 				}
@@ -394,19 +397,23 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 
 	// Actions
 
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.JEFFERSON_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.JEFFERSON_WAITER, this.getName(), s);
+	}
 	private void tellCustomerOutOfStock(WaiterCust cust){
 		cust.c.msgNotAvailable();
 		
 	}
 	
 	private void askHostForBreak(){
-		Do("Asking host for break");
+		log("Asking host for break");
 		host.msgWantToGoOnBreak(this);
 	}
 
 	private void seatCustomer(Customer customer, int table) {
 		
-		print("msged cust to sit");
+		log("msged cust to sit");
 		customer.msgSitAtTable(table, new Menu(),this);
 		
 		try {
@@ -465,7 +472,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 			e.printStackTrace();
 		}
 				cust.c.msgWhatWouldYouLike();
-				print("asked cust what he liked");
+				log("asked cust what he liked");
 
 		//print ("TEST");
 	
@@ -504,7 +511,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 	}
 	
 	private void deliverOrder(WaiterCust cust){
-		print("delivering order to cust");
+		log("delivering order to cust");
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
@@ -519,7 +526,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 			e.printStackTrace();
 		}
 		cook.msgOrderTaken(cust.table);
-		Do("Delivering food to table" + cust.table);
+		log("Delivering food to table" + cust.table);
 		waiterGui.DoDeliverOrder(cust.table);
 		try {
 			atTable.acquire();
@@ -539,7 +546,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 	}
 	
 	private void tellCashier(WaiterCust w){
-		Do("waiter asking cashier for check");
+		log("waiter asking cashier for check");
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
@@ -572,7 +579,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 	
 	
 	private void giveCheckToCust(WaiterCust w){
-		Do("giving check to customer");
+		log("giving check to customer");
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
@@ -605,13 +612,13 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 		host.msgFinishingShift(this);
 	}
 	private void deliverPayment(WaiterCust w){
-		Do("giving money to cashier");
+		log("giving money to cashier");
 		cashier.msgHereisPayment(w.table, this, w.moneyPaid);
 		
 	}
 	
 	private void clearCustomer(WaiterCust w){
-		print("cleaning up customer");
+		log("cleaning up customer");
 		host.msgTableIsFree(w.table);
 		CustomerList.remove(w);
 	}

@@ -8,6 +8,8 @@ import role.jeffersonRestaurant.JeffersonCookRole.Order;
 import role.market1.Market1DeliveryManRole;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.DeliveryMan;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
@@ -95,6 +97,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 
 	public void msgHereIsMarketBill(Map<String, Integer> inventory,
 			double billAmount, DeliveryMan deliveryPerson) {
+			log("recieved market bill");
 			bills.add(new Bill(billAmount, inventory, deliveryPerson));
 			stateChanged();
 		
@@ -132,7 +135,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 				if(c.tableNumber==table){
 					c.paid=true;
 					profits=profits+moneyPaid;
-					Do("Customer payment recieved");
+					log("Customer payment recieved");
 					stateChanged();	
 				}	
 			}
@@ -206,10 +209,14 @@ public class JeffersonCashierRole extends Role implements Cashier{
 
 	//Actions
 	
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.JEFFERSON_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.JEFFERSON_CASHIER, this.getName(), s);
+	}
 	private void acquireFunds(){
 		ContactList.getInstance().getBank().directWithdraw("jeffersonrestaurant", 500);
 		profits+=500;
-		System.out.println("withdrawing money from bank for restaurant");
+		log("withdrawing money from bank for restaurant");
 	}
 
 	private void DoLeaveRestaurant() {
@@ -225,7 +232,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	}
 	
 	private void completePayment(Check c) {
-		Do("Payment process cleared");
+		log("Payment process cleared");
 		c.w.msgPaymentComplete(c.tableNumber);
 		
 	}
@@ -235,7 +242,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 		timer.schedule(new TimerTask() {
 			
 			public void run() {
-				print("Done processing check for table " + c.tableNumber);
+				log("Done processing check for table " + c.tableNumber);
 				c.w.msgCheckPrinted(c.tableNumber);
 				
 			}
@@ -244,10 +251,10 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	}
 	
 	private void payMarket (Bill b){
-		Do("Paying Market");
+		log("Paying Market");
 		profits=profits-b.amount;
 		if (profits<0){
-			Do("Profits are in the negative");
+			log("Profits are in the negative");
 		}
 		
 		//b.m.msgHereIsMonies(b.amount);
