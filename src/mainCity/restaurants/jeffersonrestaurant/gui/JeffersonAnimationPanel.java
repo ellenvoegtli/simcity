@@ -56,7 +56,7 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
         bufferSize = this.getSize();
         ContactList.getInstance().setJeffersonRestaurant(JRestPanel);
  
-    	Timer timer = new Timer(40, this );
+    	Timer timer = new Timer(30, this );
     	timer.start();
     }
 
