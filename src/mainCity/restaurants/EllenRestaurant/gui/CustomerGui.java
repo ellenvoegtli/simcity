@@ -106,31 +106,31 @@ public class CustomerGui implements Gui{
 		
 		g.setColor(Color.BLACK);	//draw the appropriate string under the appropriate table
 		if (orderedFood){
-			if (myChoice == "steak"){
+			if (myChoice == "pasta"){
         		g.drawString("STK" + "?", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
         	}
-        	else if (myChoice == "pasta"){
+        	else if (myChoice == "pizza"){
         		g.drawString("PST" + "?", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
         	}
-        	else if (myChoice == "pizza"){
+        	else if (myChoice == "meatballs"){
         		g.drawString("PZA" + "?", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
         	}
-        	else if (myChoice == "soup"){
+        	else if (myChoice == "bread"){
         		g.drawString("SP" + "?", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
         	}
 		}
 		else if (gotFood){
-			if (myChoice == "steak"){
-        		g.drawString("STK", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
-        	}
-        	else if (myChoice == "pasta"){
-        		g.drawString("PST", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
+			if (myChoice == "pasta"){
+        		g.drawString("PSTA", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
         	}
         	else if (myChoice == "pizza"){
-        		g.drawString("PZA", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
+        		g.drawString("PIZZA", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
         	}
-        	else if (myChoice == "soup"){
-        		g.drawString("SP", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
+        	else if (myChoice == "meatballs"){
+        		g.drawString("MTBLS", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
+        	}
+        	else if (myChoice == "bread"){
+        		g.drawString("BREAD", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
         	}
 		}
 	}
