@@ -19,13 +19,17 @@ import agent.Agent;
 public class BankManagerRole extends Role implements ManagerRole, BankManager {
 
 	String name;
-	PersonAgent p;
-	private BankAccounts ba;
+	PersonAgent person;
+	private BankAccounts baccounts;
 	public List <myTeller> tellers= Collections.synchronizedList(new ArrayList<myTeller>());
 	public myBanker mbanker;
 	public List <myBankCustomer>  teller_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
 	public List <myBankCustomer>  banker_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
 	public boolean onDuty;
+	
+	
+	BankRobberRole robber=null;
+	double robberdemand =0;
 
 	public static class myTeller{
 	    BankTeller t;
@@ -67,7 +71,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	
 	public BankManagerRole(PersonAgent p, String name){
 		super(p);
-		this.p=p;
+		this.person=p;
 		this.name=name;
 		onDuty=true;
 		log("Bank Manager instantiated");
@@ -109,9 +113,14 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 		*/
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgTellerAdded(mainCity.bank.BankTellerRole)
-	 */
+	
+	public void msgGiveMeTheMoney(BankRobberRole bankRobber, double amount) {
+		robber=bankRobber;
+		robberdemand = amount;
+		
+		stateChanged();
+		
+	}
 	@Override
 	public void msgTellerAdded(BankTeller bt){
 		tellers.add(new myTeller(bt,tellers.size()));
@@ -122,8 +131,8 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	 */
 	@Override
 	public void msgDirectDeposit(double accountNumber, int amount){
-		synchronized (ba.accounts) {
-			for(BankAccount account:ba.accounts){
+		synchronized (baccounts.accounts) {
+			for(BankAccount account:baccounts.accounts){
 				if(account.accountNumber == accountNumber){
 					account.balance+=amount;
 					log("Direct deposit performed. $" + amount + " was deposited for " + account.name +" with new balance of $" + account.balance);
@@ -257,6 +266,11 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 			closeBuilding();
 			
 		}
+		//If robber exists
+		if(robber!=null){
+			payRobber();
+			
+		}
 		
 			
 		
@@ -265,6 +279,15 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 
 	
 //Actions
+	
+	private void payRobber(){
+		robber.msgOkayDontHurtMe(robberdemand);
+		robber=null;
+		//Detract from FDIC insurance fund
+		//Bank is insured up to 250,000 
+		baccounts.FDICfund-=robberdemand;
+	}
+	
 	
 	/* (non-Javadoc)
 	 * @see mainCity.bank.BankManager#isOpen()
@@ -302,7 +325,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	 */
 	@Override
 	public void setBankAccounts(BankAccounts accounts){
-		ba= accounts;
+		baccounts= accounts;
 	}
 
 	/* (non-Javadoc)
@@ -320,6 +343,10 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 		
 		return false;
 	}
+
+
+
+
 
 	
 	

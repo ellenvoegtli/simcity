@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
     private JeffersonRestaurantPanel JRestPanel = new JeffersonRestaurantPanel(this);
     
 
-    private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
 
     public JeffersonAnimationPanel(CityGui gui) {
     	super(gui);
@@ -59,11 +60,13 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
     }
 
     public void backgroundUpdate() {
-    	for(Gui guit : guis) {
-            if (guit.isPresent()) {
-                guit.updatePosition();
-            }
-        }
+    	synchronized(guis){
+	    	for(Gui guit : guis) {
+	            if (guit.isPresent()) {
+	                guit.updatePosition();
+	            }
+	        }
+    	}
     }
 	public void actionPerformed(ActionEvent e) {
 		repaint();  //Will have paintComponent called
@@ -104,18 +107,20 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
         g.drawImage(bigstoveImg,400, 200,null);
         g2.drawString("Cooking", 400, 200);
         
-
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.updatePosition();
-            }
+        synchronized(guis){
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.updatePosition();
+	            }
+	        }
         }
-
-        for(Gui gui : guis) {
-            if (gui.isPresent()) {
-                gui.draw(g2);
-            }
-        }
+        synchronized(guis){
+	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.draw(g2);
+	            }
+	        }
+        } 
     }
     
     

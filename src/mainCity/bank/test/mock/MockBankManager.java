@@ -1,6 +1,7 @@
 package mainCity.bank.test.mock;
 
 import mainCity.bank.BankAccounts;
+import mainCity.bank.BankRobberRole;
 import mainCity.bank.BankerRole;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.bank.interfaces.BankManager;
@@ -108,6 +109,12 @@ public class MockBankManager extends Mock implements BankManager{
 	public boolean closeBuilding() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void msgGiveMeTheMoney(BankRobberRole bankRobberRole, double d) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

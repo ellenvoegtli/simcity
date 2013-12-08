@@ -31,6 +31,7 @@ public class BankAnimationPanel extends CityCard implements ActionListener {
     
     private BufferedImage teller_areaImg = null;
     private BufferedImage banker_areaImg = null;
+    private BufferedImage bankmanagerdeskImg = null;
 
     public List<Gui> guis = new ArrayList<Gui>();
 
@@ -47,6 +48,7 @@ public class BankAnimationPanel extends CityCard implements ActionListener {
 	    try {
 			teller_areaImg = ImageIO.read(new File(path.toString() + "teller_area.png"));
 			banker_areaImg = ImageIO.read(new File(path.toString() + "banker_area.png"));
+			bankmanagerdeskImg = ImageIO.read(new File(path.toString() + "bankmanagerdesk.png"));
 		} catch (IOException e) {
 			
 			e.printStackTrace();
@@ -89,6 +91,8 @@ public class BankAnimationPanel extends CityCard implements ActionListener {
         g2.setColor(Color.orange);
         g2.fillRect( 0, 350, 100, 150 );
         
+        //Draw bank manager desk
+        g.drawImage(bankmanagerdeskImg,0, 280,null);
        
         
 
@@ -103,6 +107,9 @@ public class BankAnimationPanel extends CityCard implements ActionListener {
                 gui.draw(g2);
             }
         }
+    }
+    public void addGui(BankRobberGui gui){
+    	guis.add(gui);
     }
     
     public void addGui(BankCustomerGui gui){

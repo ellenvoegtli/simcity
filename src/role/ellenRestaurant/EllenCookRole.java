@@ -1,20 +1,16 @@
 
 package role.ellenRestaurant;
 
-import agent.Agent;
 
 import java.util.*;
 
 import mainCity.PersonAgent;
-import mainCity.market1.*;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
-//import mainCity.role.marcusRestaurant.MarcusCookRole.CookStatus;
-import mainCity.interfaces.*;
 import mainCity.contactList.*;
 import role.Role;
 

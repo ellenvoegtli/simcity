@@ -50,7 +50,7 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg1); 
     	bus1.startThread();
 
-		parseConfig();
+		//parseConfig("config.txt");
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
@@ -114,11 +114,11 @@ public class CityPanel extends JPanel{
 	}
 	
 	
-	private void parseConfig() {
+	public void parseConfig(String filename) {
 	    int counter = 0;
 
 		try {
-		    FileInputStream fstream = new FileInputStream("config.txt");
+		    FileInputStream fstream = new FileInputStream(filename);
 		    DataInputStream in = new DataInputStream(fstream);
 		    BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		    String strLine;
@@ -177,6 +177,10 @@ public class CityPanel extends JPanel{
 						break;
 					case "bank":
 						person.msgGoToBank("deposit");
+						break;
+					case "rob":
+						person.msgGoToBank("rob");
+						break;
 				}
 			}
 		}

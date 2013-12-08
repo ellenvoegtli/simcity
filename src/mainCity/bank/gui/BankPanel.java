@@ -9,6 +9,7 @@ import mainCity.PersonAgent;
 import mainCity.bank.BankAccounts;
 import mainCity.bank.BankCustomerRole;
 import mainCity.bank.BankManagerRole;
+import mainCity.bank.BankRobberRole;
 import mainCity.bank.BankTellerRole;
 import mainCity.bank.BankManagerRole.myBanker;
 import mainCity.bank.BankManagerRole.myTeller;
@@ -30,6 +31,7 @@ public class BankPanel extends JPanel {
 	private BankAnimationPanel bankAnimationPanel;
 	private Vector <BankCustomerRole> bankcustomers = new Vector <BankCustomerRole>();
 	private Vector <BankTellerRole> banktellers = new Vector <BankTellerRole>();
+	private Vector <BankRobberRole> bankrobbers = new Vector <BankRobberRole>();
 	
 	
 	
@@ -197,6 +199,24 @@ public class BankPanel extends JPanel {
             b.setBankbalance(((BankCustomer) r).getBankbalance());
     		
     	}
+    	if(r instanceof BankRobberRole){
+    		BankRobberRole br = (BankRobberRole) r;
+    		
+    		for (BankRobberRole current: bankrobbers){
+    			if( current==br){
+    				return;
+    			}
+    		}
+    		
+    		bankrobbers.add(br);
+    		BankRobberGui brGui = new BankRobberGui(br);
+    		br.setGui(brGui);
+    		bankAnimationPanel.addGui(brGui);
+    		br.setBankManager(bankmanager);
+    		
+            
+    		
+    	}
     	
     	
     	
@@ -245,9 +265,7 @@ public class BankPanel extends JPanel {
     		
     		for(BankCustomer bc:bankcustomers){
     			bc.setBankManager(bankmanager);
-    		}
-    		
-    			
+    		}	
     		
     	}
     		

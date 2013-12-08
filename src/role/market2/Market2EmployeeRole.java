@@ -88,8 +88,8 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
     
 	//for alert log trace statements
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_EMPLOYEE, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2_EMPLOYEE, this.getName(), s);
 	}
     
 	// Messages
