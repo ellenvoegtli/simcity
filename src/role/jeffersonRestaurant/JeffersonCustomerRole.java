@@ -442,8 +442,9 @@ public class JeffersonCustomerRole extends Role implements Customer {
 	}
 
 	public boolean restaurantOpen() {
-		if(host != null && host.isActive() && host.isOpen())
+		if(host != null && host.isActive() && host.isOpen()){
 			return true;
+		}
 		return false;
 	}
 

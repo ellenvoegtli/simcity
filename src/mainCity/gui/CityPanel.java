@@ -177,6 +177,10 @@ public class CityPanel extends JPanel{
 						break;
 					case "bank":
 						person.msgGoToBank("deposit");
+						break;
+					case "rob":
+						person.msgGoToBank("rob");
+						break;
 				}
 			}
 		}

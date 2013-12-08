@@ -25,6 +25,7 @@ public enum AlertTag {
         BANK_TELLER,
         BANK_CUSTOMER,
         BANK_MANAGER,
+        BANK_ROBBER,
         BANK,
                 
         MARKET_CUSTOMER,

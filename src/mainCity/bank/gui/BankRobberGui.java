@@ -22,15 +22,10 @@ public class BankRobberGui implements Gui {
     
     public static final int xHome = -20;
     public static final int yHome = 520;
-    public static final int xTeller0 = 150;
-    public static final int yTeller0 = 120;
-    public static final int xBanker=390;
-    public static final int yBanker=320;
-    public static final int xWaiting=50;
-    public static final int yWaiting=400;
-    
-    public static final int xTeller1 = 300;
-    public static final int yTeller1 = 120;
+    public static final int xBankmanager=20;
+    public static final int yBankmanager=280;
+
+
     
     
     public static final int width = 20;
@@ -68,6 +63,11 @@ public class BankRobberGui implements Gui {
             //yPos--;
         	yPos=yPos-2;
        
+        if(xPos== xDestination && yPos == yDestination && xDestination ==xBankmanager && yDestination == yBankmanager && traveling==true ){
+        	traveling=false;
+        	bankrobber.msgAtBankManager();
+        	
+        }
         
         if(xPos == xHome && yPos == yHome && traveling==true ){
         	traveling=false;
@@ -93,43 +93,18 @@ public class BankRobberGui implements Gui {
         return true;
     }
 
-    public void doGoToWaitingArea() {
-        	System.out.println("going to waiting");
-        	xDestination = xWaiting;
-        	yDestination = yWaiting;
-        	traveling=true;
-        
-       }
-    
-    public void doGoToTeller1(){
-    	
-    	xDestination = xTeller0;
-    	yDestination = yTeller0;
-    	traveling=true;
-    }
-    	
-public void doGoToTeller2(){
-    	
-    	xDestination = xTeller1;
-    	yDestination = yTeller1;
-    	traveling=true;
-    }
- public void doGoToBanker(){
-    	
-    	xDestination = xBanker;
-    	yDestination = yBanker;
-    	traveling=true;
-    }
+
  
     public void DoLeaveBank(){
-    	
     	xDestination = -20;
     	yDestination = 520;
     	traveling=true;
     	
     }
     public void doGoToBankManager() {
-		// TODO Auto-generated method stub
+    	xDestination = xBankmanager;
+    	yDestination = yBankmanager;
+    	traveling=true;
 		
 	}
     public boolean atStart()
@@ -149,6 +124,7 @@ public void doGoToTeller2(){
 	public boolean goInside() {
 		
 		if(bankrobber.bankClosed()){
+			System.out.println("Bank is closed.");
 			return false;
 		}
 		return true;

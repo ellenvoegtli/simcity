@@ -200,6 +200,8 @@ public class PersonAgent extends Agent {
 		case "loan":
 			actions.add(new Action(ActionType.bankLoan, 2));
 			break;
+		case "rob":
+			actions.add(new Action(ActionType.bankRob, 5));
 		}
 
 		stateChanged();
@@ -365,11 +367,23 @@ public class PersonAgent extends Agent {
 				//set appropriate role and initial state for different actions
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
-				if (!((BankCustomer) customer).getGui().goInside()){
-					//System.out.println("bank closed");
-					currentAction.state=ActionState.done;
-					return true;
+				
+				if(customer instanceof BankCustomer){
+					if (!((BankCustomer) customer).getGui().goInside()){
+						//System.out.println("bank closed");
+						currentAction.state=ActionState.done;
+						return true;
+					}
 				}
+				
+				if(customer instanceof BankRobberRole){
+					if (!((BankRobberRole) customer).getGui().goInside()){
+						//System.out.println("bank closed");
+						currentAction.state=ActionState.done;
+						return true;
+					}
+				}
+					
 				if(roles.containsKey(ActionType.bankWithdraw)){
 					roles.get(ActionType.bankWithdraw).setActive();
 					Role bankCustomer = roles.get(ActionType.bankWithdraw);
@@ -385,6 +399,11 @@ public class PersonAgent extends Agent {
 					Role bankCustomer = roles.get(ActionType.bankLoan);
 					((BankCustomer) bankCustomer).msgNeedLoan();
 				}
+				else if(roles.containsKey(ActionType.bankRob)){
+					roles.get(ActionType.bankRob).setActive();
+					Role bankRobber = roles.get(ActionType.bankRob);
+					((BankRobberRole) bankRobber).msgWantToRobBank();
+					}
 
 				if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
 					currentAction.state = ActionState.done;
@@ -758,6 +777,15 @@ public class PersonAgent extends Agent {
 					ContactList.getInstance().getBank().handleRole(bc);
 					roles.put(action, bc);
 					break;
+				case bankRob:
+					if(roles.containsKey("bankRobber")){
+						return;
+					}
+					BankRobberRole br = new BankRobberRole(this, name);
+					ContactList.getInstance().getBank().handleRole(br);
+					roles.put(action, br);
+					break;
+					
 				default:
 					break;
 			}
@@ -798,6 +826,9 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.needToBank;
 				break;
 			case bankLoan: 
+				event = PersonEvent.needToBank;
+				break;
+			case bankRob:
 				event = PersonEvent.needToBank;
 				break;
 			default:
@@ -1154,7 +1185,7 @@ public class PersonAgent extends Agent {
 	public enum ActionState {created, inProgress, done}
 	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, 
 		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
-		market, market2, bankWithdraw, bankDeposit, bankLoan, home}
+		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, home}
 	public class Action implements Comparable<Object> {
 		public ActionState state;
 		public ActionType type;
