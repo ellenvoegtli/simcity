@@ -92,18 +92,31 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	
 	//=================Scenario Hack panel components========================
 	private JPanel subControlPanel3 = new JPanel();
-	private GroupLayout layout3 = new GroupLayout(subControlPanel3);
-	private JLabel scenario1Label = new JLabel("Scenario 1: Normative scenario ");
-	private JButton scenario1Button = new JButton("Run");
-	private JLabel scenario2Label = new JLabel("Scenario 2: Bank robbery");
-	private JButton scenario2Button = new JButton("Run");
-	private JLabel scenario3Label = new JLabel("Scenario 3: Vehicle accident");
-	private JButton scenario3Button = new JButton("Run");
-	private JLabel scenario4Label = new JLabel("Scenario 4: Vehicle hits person");
-	private JButton scenario4Button = new JButton("Run");
-	private JLabel scenario5Label = new JLabel("Scenario 5: Weekend");
-	private JButton scenario5Button = new JButton("Run");
+	public JScrollPane scenarioPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	
+	private GroupLayout layout3 = new GroupLayout(subControlPanel3);
+	private JLabel scenario1Label = new JLabel("Scenario 1: Norm: All employees/many rich");
+	private JButton scenario1Button = new JButton("Run");
+	private JLabel scenario2Label = new JLabel("Scenario 2: Norm: All employees/1 rich");
+	private JButton scenario2Button = new JButton("Run");
+	private JLabel scenario3Label = new JLabel("Scenario 3: Norm: All employees/3 rich");
+	private JButton scenario3Button = new JButton("Run");
+	private JLabel scenario4Label = new JLabel("Scenario 4: Norm: Market/restaurant deliveries");
+	private JButton scenario4Button = new JButton("Run");
+	private JLabel scenario5Label = new JLabel("Scenario 5: Non-norm: Workplaces closing");
+	private JButton scenario5Button = new JButton("Run");
+	private JLabel scenario6Label = new JLabel("Scenario 6: Non-norm: Market delivery fails");
+	private JButton scenario6Button = new JButton("Run");
+	
+	
+	private JLabel scenario7Label = new JLabel("Scenario 5: Vehicle accident");
+	private JButton scenario7Button = new JButton("Run");
+	private JLabel scenario8Label = new JLabel("Scenario 6: Vehicle hits person");
+	private JButton scenario8Button = new JButton("Run");
+	private JLabel scenario9Label = new JLabel("Scenario 7: Weekend");
+	private JButton scenario9Button = new JButton("Run");
+	private JLabel scenario10Label = new JLabel("Scenario 8: Changing shifts");
+	private JButton scenario10Button = new JButton("Run");
 	
 	private JLabel blankLabel = new JLabel(" ");
 	private JButton addPersonButton = new JButton("Create person");
@@ -298,11 +311,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		GroupLayout.SequentialGroup hGroup3 = layout3.createSequentialGroup();
 		hGroup3.addGroup(layout3.createParallelGroup().
 	            addComponent(scenario1Label).addComponent(scenario2Label).addComponent(scenario3Label).
-	            addComponent(scenario4Label).addComponent(scenario5Label)
+	            addComponent(scenario4Label).addComponent(scenario5Label).addComponent(scenario6Label).
+	            addComponent(scenario7Label).addComponent(scenario8Label).addComponent(scenario9Label).
+	            addComponent(scenario10Label)
 	            );
 		hGroup3.addGroup(layout3.createParallelGroup().
 	            addComponent(scenario1Button).addComponent(scenario2Button).addComponent(scenario3Button).
-	            addComponent(scenario4Button).addComponent(scenario5Button)
+	            addComponent(scenario4Button).addComponent(scenario5Button).addComponent(scenario6Button).
+	            addComponent(scenario7Button).addComponent(scenario8Button).addComponent(scenario9Button).
+	            addComponent(scenario10Button)
 	            );
 		layout3.setHorizontalGroup(hGroup3);
 		
@@ -317,15 +334,33 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	            addComponent(scenario4Label).addComponent(scenario4Button));
 		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
 				addComponent(scenario5Label).addComponent(scenario5Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario6Label).addComponent(scenario6Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario7Label).addComponent(scenario7Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario8Label).addComponent(scenario8Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario9Label).addComponent(scenario9Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario10Label).addComponent(scenario10Button));
 		layout3.setVerticalGroup(vGroup3);
 		//==================END GROUP LAYOUT 3=====================================================
-		controlTabbedPane.addTab("Scenarios", subControlPanel3);
+		
+		scenarioPane.setViewportView(subControlPanel3);
+		//controlTabbedPane.addTab("Scenarios", subControlPanel3);
+		controlTabbedPane.addTab("Scenarios", scenarioPane);
 		
 		scenario1Button.addActionListener(this);
 		scenario2Button.addActionListener(this);
 		scenario3Button.addActionListener(this);
 		scenario4Button.addActionListener(this);
 		scenario5Button.addActionListener(this);
+		scenario6Button.addActionListener(this);
+		scenario7Button.addActionListener(this);
+		scenario8Button.addActionListener(this);
+		scenario9Button.addActionListener(this);
+		scenario10Button.addActionListener(this);
 		
 		
 		//=================== END SUBCONTROLPANEL2 =================================================

@@ -73,7 +73,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	// Messages
 	
 	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){
-		log("Received msgHereIsOrderForDelivery");
+		log("Received msgHereIsOrderForDelivery for " + restaurantName);
 
 		bills.add(new Bill(restaurantName, cook, cashier, billAmount, inventory));
 		stateChanged();
@@ -160,6 +160,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		
 		for(Bill b: bills){
 			if (b.s == DeliveryState.newBill && b.event == DeliveryEvent.deliveryRequested && state == AgentState.doingNothing){
+				log("SCHEDULER: NEW BILL, DELIVERY REQUESTED! :" + b.restaurantName);
 				DeliverOrder(b);
 				state = AgentState.makingDelivery;
 				return true;
@@ -351,7 +352,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			log("David's restaurant is CLOSED.");
 			return false;
 		}
-		else if (name.equalsIgnoreCase("jeffersonrestaurant")){
+		else if (b.restaurantName.equalsIgnoreCase("jeffersonrestaurant")){
 			if (ContactList.getInstance().jeffersonHost != null)
 				if (ContactList.getInstance().jeffersonHost.isOpen()){
 					log("Jefferson's host says restaurant is OPEN!");
@@ -361,6 +362,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			return false;
 		}
 		
+		log("DIDN'T FIND A RESTAURANT! :o");
 		return false;	//last resort if something is wrong
 	}
 	
