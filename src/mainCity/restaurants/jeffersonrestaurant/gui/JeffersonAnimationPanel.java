@@ -35,6 +35,7 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
     
 
     private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+    private List<Gui> personGuis = Collections.synchronizedList(new ArrayList<Gui>());
 
     public JeffersonAnimationPanel(CityGui gui) {
     	super(gui);
@@ -107,8 +108,8 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
         g.drawImage(bigstoveImg,400, 200,null);
         g2.drawString("Cooking", 400, 200);
         
-        synchronized(guis){
-	        for(Gui gui : guis) {
+        synchronized(personGuis){
+	        for(Gui gui : personGuis) {
 	            if (gui.isPresent()) {
 	                gui.updatePosition();
 	            }
@@ -121,19 +122,31 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
 	            }
 	        }
         } 
+        
+        synchronized(personGuis){
+	        for(Gui gui : personGuis) {
+	            if (gui.isPresent()) {
+	                gui.draw(g2);
+	            }
+	        }
+        } 
     }
     
     
 
     public void addGui(CustomerGui gui) {
-        guis.add(gui);
+    	personGuis.add(gui);
     }
 
     public void addGui(WaiterGui gui) {
-        guis.add(gui);
+    	personGuis.add(gui);
     }
     public void addGui(CookGui gui) {
-        guis.add(gui);
+    	personGuis.add(gui);
     }
     
+    @Override
+    public void clearPeople() {
+    	personGuis.clear();
+    }
 }

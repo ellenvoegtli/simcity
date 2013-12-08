@@ -532,7 +532,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		}, 200);
          
 	}
-	
+
 	public void showInfo(String name) {
 		for (int i = 0; i < people.size(); i++) {
                 PersonAgent temp = people.get(i);

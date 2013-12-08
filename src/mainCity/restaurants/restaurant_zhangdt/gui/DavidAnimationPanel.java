@@ -34,6 +34,7 @@ public class DavidAnimationPanel extends CityCard implements ActionListener {
     private Dimension bufferSize;
 
     private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> personGuis = new ArrayList<Gui>();
 
     public DavidAnimationPanel(CityGui gui) {
     	super(gui);
@@ -76,7 +77,7 @@ public class DavidAnimationPanel extends CityCard implements ActionListener {
         g2.fillRect(0, 150, 20, 20);
 
 
-        for(Gui gui : guis) {
+        for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -87,10 +88,16 @@ public class DavidAnimationPanel extends CityCard implements ActionListener {
                 gui.draw(g2);
             }
         }
+        
+        for(Gui gui : personGuis) {
+            if (gui.isPresent()) {
+                gui.draw(g2);
+            }
+        }
     }
     
     public void backgroundUpdate() { 
-    	for (Gui gui : guis) { 
+    	for (Gui gui : personGuis) { 
     		if (gui.isPresent()) { 
     			gui.updatePosition(); 
     		}
@@ -98,16 +105,19 @@ public class DavidAnimationPanel extends CityCard implements ActionListener {
     }
 
     public void addGui(CustomerGui gui) {
-        guis.add(gui);
+    	personGuis.add(gui);
     }
 
     public void addGui(WaiterGui gui) {
-        guis.add(gui);
+    	personGuis.add(gui);
     }
     
     public void addGui(CookGui gui) { 
-    	guis.add(gui);
+    	personGuis.add(gui);
     }
     
- 
+    @Override
+    public void clearPeople() {
+    	personGuis.clear();
+    }
 }

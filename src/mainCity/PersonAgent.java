@@ -72,6 +72,10 @@ public class PersonAgent extends Agent {
 		this.gui = g;
 	}
 	
+	public PersonGuiInterface getGui() {
+		return gui;
+	}
+	
 	public CityLocation getDestination() { 
 		return destination;
 	}
@@ -1105,6 +1109,11 @@ public class PersonAgent extends Agent {
 	
 	public void setCash(double d) {
 		this.cash = d;
+	}
+	
+	public void stopThread() {
+		isMoving.release();
+		super.stopThread();
 	}
 
 	private void waitForGui() {

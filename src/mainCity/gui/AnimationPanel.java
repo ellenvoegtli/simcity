@@ -77,6 +77,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     //List of all guis that we need to animate in the city (Busses, Cars, People...etc) 
     //Will be Added in CityPanel analogous to RestaurantPanel
     private List<Gui> guis = Collections.synchronizedList(new ArrayList<Gui>());
+    private List<Gui> personGuis = Collections.synchronizedList(new ArrayList<Gui>());
 
     public AnimationPanel() {
     	setSize(WINDOWX, WINDOWY);
@@ -355,8 +356,20 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 	                gui.updatePosition();
 	            }
 	        }
+	        
+	        for(Gui gui : personGuis) { 
+	        	if (gui.isPresent() ) {
+	                gui.updatePosition();
+	            }
+	        }
 	
 	        for(Gui gui : guis) {
+	            if (gui.isPresent()) {
+	                gui.draw(g2);
+	            }
+	        }
+	        
+	        for(Gui gui : personGuis) {
 	            if (gui.isPresent()) {
 	                gui.draw(g2);
 	            }
@@ -385,7 +398,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     }
 
     public void addPersonGui(PersonGui gui) {
-        guis.add(gui);
+        personGuis.add(gui);
     }
     
     public void addBuildingGui(Building gui) { 
@@ -413,6 +426,14 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     public static List<Integer> getApts()
     {
     	return Apt;
+    }
+    
+    public List<Gui> getGuiList() {
+    	return guis;
+    }
+    
+    public List<Gui> getPersonGuiList() {
+    	return personGuis;
     }
     
 //Unused.
