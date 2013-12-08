@@ -119,7 +119,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		//if(yPos < )
 	}
 
-	@Override
 	public void DoGoToLocation(PersonAgent.CityLocation destination) {
 		switch(destination) {
 			case restaurant_marcus:
@@ -160,7 +159,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		}
 	}
 	
-	@Override
 	public void DoGoToStop() {
 		System.out.println("Gui is told to go to nearest bus stop");
 		
@@ -208,7 +206,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		}		
 	}
 	
-	@Override
 	public void DoGoToLocationOnBus(PersonAgent.CityLocation destination) { 
 		switch(destination) {
 			case restaurant_marcus:
@@ -254,12 +251,10 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		}		
 	}
 	
-	@Override
 	public void DoGoInside() {
 		isVisible = false;
 	}
 	
-	@Override
 	public void DoGoOutside() {
 		isVisible = true;
 	}
