@@ -356,11 +356,12 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			return false;
 		}
 		else if (b.restaurantName.equalsIgnoreCase("jeffersonrestaurant")){
-			if (ContactList.getInstance().jeffersonHost != null)
+			if (ContactList.getInstance().jeffersonHost != null){
 				if (ContactList.getInstance().jeffersonHost.isOpen()){
 					log("Jefferson's host says restaurant is OPEN!");
 					return true;
 				}
+			}	
 			log("Jefferson's restaurant is CLOSED.");
 			return false;
 		}

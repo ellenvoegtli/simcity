@@ -298,6 +298,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     		
     		host.setCook(cook);
     		host.setCashier(cashier);
+    		ContactList.getInstance().setJeffersonHost(host);
     		
     	}
     	

@@ -12,15 +12,20 @@ import mainCity.bank.BankCustomerRole;
 import mainCity.bank.BankManagerRole;
 import mainCity.bank.BankRobberRole;
 import mainCity.bank.BankTellerRole;
+import mainCity.bank.BankManagerRole.myBankCustomer;
 import mainCity.bank.BankManagerRole.myBanker;
 import mainCity.bank.BankManagerRole.myTeller;
 import mainCity.bank.BankerRole;
 import mainCity.bank.gui.*;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.bank.interfaces.BankTeller;
+import mainCity.contactList.ContactList;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -30,9 +35,9 @@ import java.util.Vector;
 public class BankPanel extends JPanel {
 	
 	private BankAnimationPanel bankAnimationPanel;
-	private Vector <BankCustomerRole> bankcustomers = new Vector <BankCustomerRole>();
-	private Vector <BankTellerRole> banktellers = new Vector <BankTellerRole>();
-	private Vector <BankRobberRole> bankrobbers = new Vector <BankRobberRole>();
+	private List <BankCustomerRole>  bankcustomers = Collections.synchronizedList(new ArrayList<BankCustomerRole>());
+	private List <BankTellerRole> banktellers = Collections.synchronizedList(new ArrayList <BankTellerRole>());
+	private List <BankRobberRole> bankrobbers = Collections.synchronizedList(new ArrayList <BankRobberRole>());
 	
 	
 	
@@ -73,7 +78,7 @@ public class BankPanel extends JPanel {
         mainaccounts.addBusinessAccount("jeffersonrestaurant", 2000);
         mainaccounts.addBusinessAccount("marcusrestaurant", 2000);
         
-        
+        ContactList.getInstance().setBank(this);
         
         
         //hack creating a new account with 100 monies
@@ -215,12 +220,13 @@ public class BankPanel extends JPanel {
     	if(r instanceof BankCustomerRole){
     		BankCustomerRole b = (BankCustomerRole) r;
     		
-    		for (BankCustomer bc: bankcustomers){
-    			if( bc==b){
-    				return;
-    			}
+    		synchronized(bankcustomers){
+	    		for (BankCustomer bc: bankcustomers){
+	    			if( bc==b){
+	    				return;
+	    			}
+	    		}
     		}
-    		
     		bankcustomers.add(b);
     		BankCustomerGui bcGui = new BankCustomerGui(b);
     		b.setGui(bcGui);
@@ -234,12 +240,13 @@ public class BankPanel extends JPanel {
     	if(r instanceof BankRobberRole){
     		BankRobberRole br = (BankRobberRole) r;
     		
-    		for (BankRobberRole current: bankrobbers){
-    			if( current==br){
-    				return;
-    			}
+    		synchronized(bankrobbers){
+	    		for (BankRobberRole current: bankrobbers){
+	    			if( current==br){
+	    				return;
+	    			}
+	    		}
     		}
-    		
     		bankrobbers.add(br);
     		BankRobberGui brGui = new BankRobberGui(br);
     		br.setGui(brGui);
@@ -267,10 +274,13 @@ public class BankPanel extends JPanel {
     	if (r instanceof BankTellerRole){
     		//System.out.println("in bankpanel teller handlerole");
     		BankTellerRole btr = (BankTellerRole) r;
-    		for(BankTeller bt:banktellers){
-    			if(bt==btr){
-    				return;
-    			}
+    		
+    		synchronized(banktellers){
+	    		for(BankTeller bt:banktellers){
+	    			if(bt==btr){
+	    				return;
+	    			}
+	    		}
     		}
     		BankTellerGui btgui = new BankTellerGui(btr);
     		//System.out.println("teller gui instantiated");
@@ -298,7 +308,7 @@ public class BankPanel extends JPanel {
     		for(BankCustomer bc:bankcustomers){
     			bc.setBankManager(bankmanager);
     		}	
-    		
+    		ContactList.getInstance().setBankManager(bankmanager);
     	}
     		
     		
