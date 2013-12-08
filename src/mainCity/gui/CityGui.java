@@ -655,7 +655,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		}
 		else if (e.getSource() == scenario2Button){
 			System.out.println("SCENARIO2 BUTTON PRESSED");
-			//load a certain config file
+			cityPanel.parseConfig("config2.txt");
 		}
 		else if (e.getSource() == scenario3Button){
 			System.out.println("SCENARIO3 BUTTON PRESSED");
