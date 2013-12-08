@@ -9,6 +9,7 @@ import mainCity.PersonAgent;
 public class BankAccounts {
 
 	public List<BankAccount> accounts = Collections.synchronizedList(new ArrayList<BankAccount>());
+	public double FDICfund = 250000;
 	
 	public class BankAccount{
 		
