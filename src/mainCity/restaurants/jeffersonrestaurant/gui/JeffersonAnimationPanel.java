@@ -1,15 +1,18 @@
 package mainCity.restaurants.jeffersonrestaurant.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import mainCity.contactList.ContactList;
 import mainCity.gui.CityCard;
 import mainCity.gui.CityGui;
 
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,6 +26,8 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
     static final int  Y = 300;
     static final int width = 50;
     static final int height = 50;
+    private BufferedImage resttableImg = null;
+    
     private JeffersonRestaurantPanel JRestPanel = new JeffersonRestaurantPanel(this);
     
 
@@ -32,6 +37,15 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
     	super(gui);
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
+        StringBuilder path = new StringBuilder("imgs/");
+        try {
+			resttableImg = ImageIO.read(new File(path.toString() + "resttable.png"));
+		
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+        
         
         bufferSize = this.getSize();
         ContactList.getInstance().setJeffersonRestaurant(JRestPanel);
@@ -60,12 +74,13 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
 
         //Here is the table
         g2.setColor(Color.ORANGE);
-        g2.fillRect(X, Y, width, height);//200 and 250 need to be table params
+        //g2.fillRect(X, Y, width, height);//200 and 250 need to be table params
+        g.drawImage(resttableImg,X, Y,null);
         
-        g2.fillRect(X+100, Y, width, height);//200 and 250 need to be table params
-       
-        g2.fillRect(X+200, Y, width, height);//200 and 250 need to be table params
-        
+        //g2.fillRect(X+100, Y, width, height);//200 and 250 need to be table params
+        g.drawImage(resttableImg,X+100, Y,null);
+        //g2.fillRect(X+200, Y, width, height);//200 and 250 need to be table params
+        g.drawImage(resttableImg,X+200, Y,null);
         //Draw customer waiting area
         
         g2.fillRect( 0, 0, 2*width, 3*width );

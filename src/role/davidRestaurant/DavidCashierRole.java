@@ -16,11 +16,12 @@ import role.davidRestaurant.DavidCookRole.Order;
 import role.davidRestaurant.DavidCookRole.OrderStatus;
 import role.davidRestaurant.DavidCustomerRole.AgentEvent;
 import role.davidRestaurant.DavidWaiterRole.myCustomer;
-import role.market.MarketDeliveryManRole;
+import role.market1.Market1DeliveryManRole;
 import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.interfaces.WorkerRole;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cashier;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
@@ -122,14 +123,13 @@ public class DavidCashierRole extends Role implements Cashier, WorkerRole {
 		stateChanged();
 	}
 	
-	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, MarketDeliveryManRole d){
+	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, DeliveryMan d){
 		log("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
 		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
 		stateChanged();
 	}
 	
-	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson) {
-		// TODO Auto-generated method stub
+	public void msgHereIsChange(double amount, DeliveryMan deliveryPerson) {
 		log("Received msgHereIsChange");
 		MarketBill b = null;
 		synchronized(marketBills){
@@ -289,7 +289,7 @@ public class DavidCashierRole extends Role implements Cashier, WorkerRole {
 	public class MarketBill {
 		Market m;
 		//String deliveryPerson;
-		MarketDeliveryManRole deliveryMan;
+		DeliveryMan deliveryMan;
 		int checkAmount;	//irrelevant for new implementation; kept to keep tests compiling
 		double billAmount;
 		double amountPaid;
@@ -306,7 +306,7 @@ public class DavidCashierRole extends Role implements Cashier, WorkerRole {
 			s = st;
 		}
 
-		MarketBill(MarketDeliveryManRole d, double amount, Map<String, Integer> inventory, MarketBillState s){
+		MarketBill(DeliveryMan d, double amount, Map<String, Integer> inventory, MarketBillState s){
 			deliveryMan = d;
 			billAmount = amount;
 			itemsBought = new TreeMap<String, Integer>(inventory);

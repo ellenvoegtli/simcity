@@ -1,6 +1,7 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
 import mainCity.contactList.ContactList;
+import mainCity.restaurants.marcusRestaurant.interfaces.Host;
 import mainCity.restaurants.marcusRestaurant.sharedData.RevolvingStand;
 
 import javax.swing.*;
@@ -121,7 +122,7 @@ public class MarcusRestaurantPanel extends JPanel {
     	}
     }
     
-    public MarcusHostRole getHost() {
+    public Host getHost() {
     	return host;
     }
     

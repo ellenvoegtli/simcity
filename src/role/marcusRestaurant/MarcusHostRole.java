@@ -19,7 +19,7 @@ import role.Role;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class MarcusHostRole extends Role implements ManagerRole {
+public class MarcusHostRole extends Role implements ManagerRole, Host {
 	static final int NTABLES = 4;//a global for the number of tables.
 	private MarcusCookRole cook;
 	private MarcusCashierRole cashier;
@@ -84,6 +84,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 	}
 	
 	// Messages	
+	@Override
 	public void msgIWantToEat(Customer cust) {
 		output(cust + " wants to eat at Marcus' Grilled Cheese Restaurant");
 		waitingCustomers.add(cust);
@@ -91,12 +92,14 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		stateChanged();
 	}
 
+	@Override
 	public void msgIWillWait(Customer c) {
 		output(c + " decided to wait");
 		waitingCustomers.add(c);
 		stateChanged();
 	}
 	
+	@Override
 	public void msgTableIsClear(MarcusTable t) {
 		output(t + " is now clear");
 		t.setUnoccupied();
@@ -104,6 +107,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		stateChanged();
 	}
 
+	@Override
 	public void msgWantToGoOnBreak(Waiter w) {
 		output(w + " just requested to go on break");
 		synchronized(waitersList) {
@@ -117,6 +121,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		}
 	}
 	
+	@Override
 	public void msgBackOnDuty(Waiter w) {
 		output(w + " is now back on duty");
 		synchronized(waitersList) {
@@ -130,6 +135,7 @@ public class MarcusHostRole extends Role implements ManagerRole {
 		}
 	}
 	
+	@Override
 	public void msgEndShift() {
 		onDuty = false;
 		stateChanged();

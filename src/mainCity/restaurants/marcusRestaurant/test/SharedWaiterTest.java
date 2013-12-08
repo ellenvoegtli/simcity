@@ -14,6 +14,9 @@ public class SharedWaiterTest extends TestCase {
 	
     RevolvingStand stand = new RevolvingStand();
 	
+    MockHost host;
+    MockCashier cashier;
+    
 	MockCustomer customer1;
 	MockCustomer customer2;
 	
@@ -36,6 +39,11 @@ public class SharedWaiterTest extends TestCase {
 		waiterGui.setWaiter(sharedWaiter);
 		
 		sharedWaiter.setStand(stand);
+		
+		host = new MockHost("Host");
+		cashier = new MockCashier("cashier");
+		sharedWaiter.setHost(host);
+		sharedWaiter.setCashier(cashier);
 		
 		customer1 = new MockCustomer("mockcustomer1");		
 		customer2 = new MockCustomer("mockcustomer2");		
@@ -74,194 +82,104 @@ public class SharedWaiterTest extends TestCase {
 		assertTrue("Waiter's scheduler should have returned true (it's picking up the order from the cook's post), but didn't.", sharedWaiter.pickAndExecuteAnAction());
 		assertTrue("Customer1's log should have been 'Received my order of Swiss', it instead read: " + customer1.getLog().getLastLoggedEvent().toString(), customer1.getLog().containsString("Received my order of Swiss"));
 		
+		sharedWaiter.msgReadyForCheck(customer1);
+		assertTrue("Waiter's scheduler should have returned true (it's picking up the check from the cashier), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Cashier's log should have been 'Received message from waiter to computer bill', it instead read: " + cashier.getLog().getLastLoggedEvent().toString(), cashier.getLog().containsString("Received message from waiter to compute bill for table 1"));
+
 		sharedWaiter.msgHereIsCheck(16.00, table1.getTableNumber());
 		assertTrue("Waiter's scheduler should have returned true (it's picking up the check from the cashier), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Customer1's log should have been 'Received the check', it instead read: " + customer1.getLog().getLastLoggedEvent().toString(), customer1.getLog().containsString("Received the check"));
 
 		sharedWaiter.msgLeavingTable(customer1);
+		assertTrue("Waiter's scheduler should have returned true (it's telling host the table is clear), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Host's log should have been '1 is now clear', it instead read: " + host.getLog().getLastLoggedEvent().toString(), host.getLog().containsString("1 is now clear"));
+
+		assertEquals("Waiter's customer list is now empty", 0, sharedWaiter.getCustomerCount());
+		
 		System.out.println("End Normative Scenario");
 	}//end one normal customer scenario
 	
-	/*
-	public void testTwoTwoNormalCustomerScenario() {
-		System.out.println("Beginning Two Customer Normal Scenario");
-
-		customer1.cashier = cashier;
-		customer2.cashier = cashier;
+	public void testTwoNormalCustomerScenario() {
+		System.out.println("Beginning Two Normal Customer Scenario");
+		
+		assertEquals("Waiter should have no customers in its list. It doesn't.", 0, sharedWaiter.getCustomerCount());
+		assertEquals("MockCustomer1 should have an empty event log before the Waiters scheduler is called. Instead, the MockCustomer's event log reads: " + customer1.getLog().toString(), 0, customer1.getLog().size());
+		customer1.waiter = sharedWaiter;
+		sharedWaiter.msgSeatAtTable(customer1, table1);
 		table1.setOccupant(customer1);
+		
+		assertEquals("Waiter should have one customer in its list. It doesn't.", sharedWaiter.getCustomerCount(), 1);
+		
+		assertEquals("Waiter should have one customer in its list. It doesn't.", 1, sharedWaiter.getCustomerCount());
+		assertEquals("MockCustomer2 should have an empty event log before the Waiters scheduler is called. Instead, the MockCustomer's event log reads: " + customer2.getLog().toString(), 0, customer2.getLog().size());
+		customer2.waiter = sharedWaiter;
+		sharedWaiter.msgSeatAtTable(customer2, table2);
 		table2.setOccupant(customer2);
+		
+		assertEquals("Waiter should have two customers in its list. It doesn't.", sharedWaiter.getCustomerCount(), 2);
+		
+		sharedWaiter.msgImReadyToOrder(customer1);
+		assertTrue("Waiter's scheduler should have returned true (there's a pending customer waiting to order), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("WaiterGui's log should have been 'Going to table' to take an order, it instead read: " + waiterGui.getLog().getLastLoggedEvent().toString(), waiterGui.getLog().containsString("Going to table"));
+		sharedWaiter.msgHereIsMyChoice(customer1, "Swiss");
+		
+		assertTrue("The order stand should be empty. It isn't", stand.isEmpty());
+		assertTrue("Waiter's scheduler should have returned true (there's an order to take to the stand), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("WaiterGui's log should have been 'Going to stand to post order', it instead read: " + waiterGui.getLog().getLastLoggedEvent().toString(), waiterGui.getLog().containsString("Going to stand to post order"));
+		assertFalse("The order stand should now have 1 order in it. It doesn't", stand.isEmpty());
+		
+		sharedWaiter.msgImReadyToOrder(customer2);
+		assertTrue("Waiter's scheduler should have returned true (there's a pending customer waiting to order), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("WaiterGui's log should have been 'Going to table' to take an order, it instead read: " + waiterGui.getLog().getLastLoggedEvent().toString(), waiterGui.getLog().containsString("Going to table"));
+		sharedWaiter.msgHereIsMyChoice(customer2, "American");
+		
+		assertFalse("The order stand should not be empty. It is", stand.isEmpty());
+		assertTrue("Waiter's scheduler should have returned true (there's an order to take to the stand), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("WaiterGui's log should have been 'Going to stand to post order', it instead read: " + waiterGui.getLog().getLastLoggedEvent().toString(), waiterGui.getLog().containsString("Going to stand to post order"));
+		assertFalse("The order stand should now have 2 orders in it. It doesn't", stand.isEmpty());
+		
+		assertEquals("The stand's order should be swiss. It wasn't", stand.remove().getChoice(), "Swiss");
+		assertFalse("The order stand should have one order still in it. It isn't", stand.isEmpty());
 
-		assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills(), 0);		
+		sharedWaiter.msgOrderIsReady(table1.getTableNumber(), "Swiss");		
+		assertTrue("Waiter's scheduler should have returned true (it's picking up the order from the cook's post), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Customer2's log should have been 'Received my order of Swiss', it instead read: " + customer1.getLog().getLastLoggedEvent().toString(), customer1.getLog().containsString("Received my order of Swiss"));
+		
+		assertEquals("The stand's order should be american. It wasn't", stand.remove().getChoice(), "American");
+		assertTrue("The order stand should now be empty. It isn't", stand.isEmpty());
 
-		cashier.msgComputeBill(waiter, "Steak", table1);
-		cashier.msgComputeBill(waiter, "Chicken", table2);
+		sharedWaiter.msgOrderIsReady(table2.getTableNumber(), "American");		
+		assertTrue("Waiter's scheduler should have returned true (it's picking up the order from the cook's post), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Customer2's log should have been 'Received my order of American', it instead read: " + customer2.getLog().getLastLoggedEvent().toString(), customer2.getLog().containsString("Received my order of American"));
 		
-		assertEquals("MockWaiter should have an empty event log before the Cashier's scheduler is called. Instead, the MockWaiter's event log reads: " + waiter.getLog().toString(), 0, waiter.getLog().size());
-		assertEquals("Cashier should have 2 bills in it. It doesn't.", cashier.getBills(), 2);
-		
-		assertTrue("Cashier's scheduler should have returned true (needs to process bill1), but didn't.", 
-				cashier.pickAndExecuteAnAction());
-		assertTrue("Cashier's scheduler should have returned true (needs to process bill2), but didn't.", 
-				cashier.pickAndExecuteAnAction());
-		
-		cashier.msgHereIsPayment(customer1, 20, 1);
-		cashier.msgHereIsPayment(customer2, 30, 2);
+		sharedWaiter.msgReadyForCheck(customer1);
+		assertTrue("Waiter's scheduler should have returned true (it's picking up the check from the cashier), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Cashier's log should have been 'Received message from waiter to computer bill', it instead read: " + cashier.getLog().getLastLoggedEvent().toString(), cashier.getLog().containsString("Received message from waiter to compute bill for table 1"));
 
-		assertTrue("The first bill should contain a bill with state == paying. It doesn't.",
-				cashier.bills.get(0).state == BillState.paying);
-		assertTrue("CashierBill should contain a bill of price = $16. It contains something else instead: $" 
-				+ cashier.bills.get(0).bill, cashier.bills.get(0).bill == 16);
-		
-		assertTrue("The second bill should contain a bill with state == paying. It doesn't.",
-				cashier.bills.get(1).state == BillState.paying);
-		assertTrue("CashierBill should contain a bill of price = $11. It contains something else instead: $" 
-				+ cashier.bills.get(1).bill, cashier.bills.get(1).bill == 11);
-		
-		assertTrue("Cashier's scheduler should have returned true (needs to react to customer 1's ReadyToPay), but didn't.", 
-				cashier.pickAndExecuteAnAction());
-		assertTrue("Cashier's scheduler should have returned true (needs to react to customer 2's ReadyToPay), but didn't.", 
-				cashier.pickAndExecuteAnAction());
-		
-		assertTrue("MockCustomer1 should have logged an event for receiving \"Change\" with the correct balance, but his last event logged reads instead: " 
-				+ customer1.getLog().getLastLoggedEvent().toString(), customer1.getLog().containsString("Received change from cashier. Change = 4"));
-		assertTrue("MockCustomer2 should have logged an event for receiving \"Change\" with the correct balance, but his last event logged reads instead: " 
-				+ customer2.getLog().getLastLoggedEvent().toString(), customer2.getLog().containsString("Received change from cashier. Change = 19"));
-		
-		System.out.println("End Two Person Normal Scenario");
-	}
-	
-	//Test if customer cannot afford to pay the bill scenario
-	public void testThreeCannotPayScenario() {
-		System.out.println("Beginning One Cannot Pay Customer Scenario");
+		sharedWaiter.msgHereIsCheck(16.00, table1.getTableNumber());
+		assertTrue("Waiter's scheduler should have returned true (it's picking up the check from the cashier), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Customer1's log should have been 'Received the check', it instead read: " + customer1.getLog().getLastLoggedEvent().toString(), customer1.getLog().containsString("Received the check"));
 
-		customer1.cashier = cashier;
-		
-		table1.setOccupant(customer1);
-		assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills(), 0);		
-		cashier.msgComputeBill(waiter, "Steak", table1);//send the message from a waiter
-		assertEquals("MockWaiter should have an empty event log before the Cashier's scheduler is called. Instead, the MockWaiter's event log reads: "
-						+ waiter.getLog().toString(), 0, waiter.getLog().size());
-		assertEquals("Cashier should have 1 bill in it. It doesn't.", cashier.getBills(), 1);
-		assertTrue("Cashier's scheduler should have returned true (no actions to do on a bill from a waiter), but didn't.", cashier.pickAndExecuteAnAction());
-		assertEquals(
-				"MockWaiter should have 1 event log after the Cashier's scheduler is called for the first time (receiving the bill). Instead, the MockWaiter's event log reads: "
-						+ waiter.getLog().toString(), 1, waiter.getLog().size());
-		assertEquals(
-				"MockCustomer should have 1 event log after the setup (getting the bill). Instead, the MockCustomer's event log reads: "
-						+ waiter.getLog().toString(), 1, waiter.getLog().size());
+		sharedWaiter.msgLeavingTable(customer1);
+		assertTrue("Waiter's scheduler should have returned true (it's telling host the table is clear), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Host's log should have been '1 is now clear', it instead read: " + host.getLog().getLastLoggedEvent().toString(), host.getLog().containsString("1 is now clear"));
 
-		cashier.msgHereIsPayment(customer1, 3, 1); //sending not enough money for food payment, how does cashier react?
+		assertEquals("Waiter's customer list should now be 1", 1, sharedWaiter.getCustomerCount());
+		
+		sharedWaiter.msgReadyForCheck(customer2);
+		assertTrue("Waiter's scheduler should have returned true (it's picking up the check from the cashier), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Cashier's log should have been 'Received message from waiter to computer bill', it instead read: " + cashier.getLog().getLastLoggedEvent().toString(), cashier.getLog().containsString("Received message from waiter to compute bill for table 1"));
 
-		//check postconditions for step 2 / preconditions for step 3
-		assertTrue("The bill should contain a bill with state == paying. It doesn't.",
-				cashier.bills.get(0).state == BillState.paying);
+		sharedWaiter.msgHereIsCheck(16.00, table2.getTableNumber());
+		assertTrue("Waiter's scheduler should have returned true (it's picking up the check from the cashier), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Customer1's log should have been 'Received the check', it instead read: " + customer2.getLog().getLastLoggedEvent().toString(), customer2.getLog().containsString("Received the check"));
 
-		assertTrue("CashierBill should contain a bill of price = $16. It contains something else instead: $" 
-				+ cashier.bills.get(0).bill, cashier.bills.get(0).bill == 16);
-		
-		assertTrue("CashierBill should contain a bill with the right customer in it. It doesn't.", 
-					cashier.bills.get(0).customer == customer1);
-		
-		assertTrue("Cashier's scheduler should have returned true (needs to react to customer's ReadyToPay), but didn't.", 
-				cashier.pickAndExecuteAnAction());
+		sharedWaiter.msgLeavingTable(customer2);
+		assertTrue("Waiter's scheduler should have returned true (it's telling host the table is clear), but didn't.", sharedWaiter.pickAndExecuteAnAction());
+		assertTrue("Host's log should have been '1 is now clear', it instead read: " + host.getLog().getLastLoggedEvent().toString(), host.getLog().containsString("1 is now clear"));
 
-		//Post payment
-		assertTrue("MockCustomer should have received a message from cashier about paying debt next time " 
-				+ customer1.getLog().getLastLoggedEvent().toString(), customer1.getLog().containsString("Have a debt to cashier. Debt = -13"));
-	
-		assertFalse("Cashier's scheduler should have returned false since it is done, but didn't.", 
-					cashier.pickAndExecuteAnAction());
-		System.out.println("End of Cannot Pay Scenatio");
-	}
-	
-	public void testFourPayingDebtScenario() {
-		System.out.println("Beginning One Paying Debt Customer Scenario");
-
-		customer1.cashier = cashier;	
+		assertEquals("Waiter's customer list should now be empty", 0, sharedWaiter.getCustomerCount());
 		
-		assertNotNull("Customer is not supposed to be null, it is" + customer1);
-		assertNotNull("Cashier is not supposed to be null, it is" + cashier);
-		cashier.setCash(20);
-
-		assertEquals("Cashier should have $20, instead he has " + cashier.getCash(), 20.0, cashier.getCash());
-		
-		cashier.msgPayingMyDebt(customer1, 10.0);
-		
-		assertEquals("Cashier should have $30 now, instead he has " + cashier.getCash(), 30.0, cashier.getCash());
-
-		System.out.println("End paying debt scenario");
-	}*/
-	/*
-	public void testFiveOneMarketBillScenario() {
-		System.out.println("Beginning One Normal Market Scenario");
-		market1.cashier = cashier;
-		
-		assertNotNull("Market is not supposed to be null, it is" + market1);
-		assertNotNull("Cashier is not supposed to be null, it is" + cashier);
-		
-		market1.cash = 40;
-		assertEquals("Market should have $40, instead it has " + market1.cash, 40, market1.cash);
-		
-		cashier.setCash(100);
-		assertEquals("Cashier should have $100, instead he has " + cashier.getCash(), 100, cashier.getCash());
-
-		assertEquals("Cashier should have no food bills. It doesn't.", cashier.getMarketBills().size(), 0);
-		//cashier.msgHereIsFoodBill(market1, 30);
-		assertEquals("Cashier should have 1 food bill. It doesn't.", cashier.getMarketBills().size(), 1);
-		
-		assertTrue("Cashier's scheduler should have returned true (needs to react to market's bill), but didn't.", cashier.pickAndExecuteAnAction());
-		
-		assertTrue("MockMarket should have a message from cashier about receiving payment. It doesn't: " 
-				+ market1.getLog().getLastLoggedEvent().toString(), market1.getLog().containsString("Just received $30"));
-		
-		assertEquals("Market should have $70, instead it has " + market1.cash, 70, market1.cash);
-		assertEquals("Cashier should have $70, instead he has " + cashier.getCash(), 70, cashier.getCash());
-		
-		assertFalse("Cashier's scheduler should have returned false since it is done, but didn't.", 
-				cashier.pickAndExecuteAnAction());
-		
-		System.out.println("End One Market Billing Scenario");
-	}
-	
-	public void testSixTwoMarketBillScenario() {
-		System.out.println("Beginning Two Normal Market Scenario");
-
-		market1.cashier = cashier;
-		market2.cashier = cashier;
-		
-		assertNotNull("Market1 is not supposed to be null, it is" + market1);
-		assertNotNull("Market2 is not supposed to be null, it is" + market2);
-		assertNotNull("Cashier is not supposed to be null, it is" + cashier);
-		
-		market1.cash = 40;
-		market2.cash = 60;
-		cashier.setCash(130);
-
-		assertEquals("Market1 should have $40, instead it has " + market1.cash, 40, market1.cash);
-		assertEquals("Market2 should have $60, instead it has " + market2.cash, 60, market2.cash);
-		assertEquals("Cashier should have $130, instead he has " + cashier.getCash(), 130, cashier.getCash());
-
-		assertEquals("Cashier should have no food bills. It doesn't.", cashier.getMarketBills().size(), 0);
-		//cashier.msgHereIsFoodBill(market1, 40);
-		//cashier.msgHereIsFoodBill(market2, 80);
-
-		assertEquals("Cashier should have 2 food bills. It doesn't.", cashier.getMarketBills().size(), 2);
-		assertTrue("Cashier's scheduler should have returned true (needs to react to market's bill), but didn't.", cashier.pickAndExecuteAnAction());
-		assertEquals("Cashier should have $90, instead he has " + cashier.getCash(), 90, cashier.getCash());
-		assertTrue("Cashier's scheduler should have returned true (needs to react to market's bill), but didn't.", cashier.pickAndExecuteAnAction());
-
-		assertTrue("MockMarket should have a message from cashier about receiving payment. It doesn't: " 
-				+ market1.getLog().getLastLoggedEvent().toString(), market1.getLog().containsString("Just received $40"));
-		assertTrue("MockMarket should have a message from cashier about receiving payment. It doesn't: " 
-				+ market2.getLog().getLastLoggedEvent().toString(), market2.getLog().containsString("Just received $80"));
-		
-		assertEquals("Market should have $80, instead it has " + market1.cash, 80, market1.cash);
-		assertEquals("Market should have $140, instead it has " + market2.cash, 140, market2.cash);
-		assertEquals("Cashier should have $10, instead he has " + cashier.getCash(), 10, cashier.getCash());
-		
-		assertFalse("Cashier's scheduler should have returned false since it is done, but didn't.", 
-				cashier.pickAndExecuteAnAction());
-		
-		System.out.println("End Two Market Billing Scenario");
-	}
-	*/
+		System.out.println("End Two Normative Scenario");
+	}//end two normal customer scenario
 }

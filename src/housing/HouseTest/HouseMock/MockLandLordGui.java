@@ -1,7 +1,7 @@
 package housing.HouseTest.HouseMock;
 
-import mainCity.market.test.mock.EventLog;
-import mainCity.market.test.mock.LoggedEvent;
+import mainCity.market1.test.mock.EventLog;
+import mainCity.market1.test.mock.LoggedEvent;
 import housing.Interfaces.LanLordGuiInterface;
 import housing.Interfaces.landLord;
 

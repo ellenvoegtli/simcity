@@ -17,6 +17,7 @@ import javax.imageio.ImageIO;
 
 public class PersonGui implements Gui, PersonGuiInterface{
 	CityGui gui;
+	private String name;
 	private PersonAgent agent = null;
 	private int xPos, yPos;
 	private int xDestination, yDestination;
@@ -26,6 +27,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	private boolean isPresent = false;
 	private boolean isVisible = true;
 	private boolean traveling;
+	private boolean inCar = false;
 	private BufferedImage personImg = null;
 	private ArrayList<Coordinate> corners = new ArrayList<Coordinate>();
 	private LinkedList<Coordinate> path = new LinkedList<Coordinate>();
@@ -33,6 +35,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
 		this.gui = g;
+		name = agent.getName();
 		
 		try {
 			xHome = agent.getHomePlace().getXLoc();
@@ -100,6 +103,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			g.setColor(Color.ORANGE);
 			g.drawImage(personImg, xPos,yPos, null);
 			//g.fillRect(xPos, yPos, w, h);
+        	g.drawString(name, xPos, yPos);
 		}
 	}
 
@@ -109,6 +113,10 @@ public class PersonGui implements Gui, PersonGuiInterface{
 
 	public void setPresent(boolean p) {
 		isPresent = p;
+	}
+	
+	public void DoGoToLocationOnCar(PersonAgent.CityLocation destination) { 
+		if(yPos < )
 	}
 
 	@Override
@@ -131,6 +139,9 @@ public class PersonGui implements Gui, PersonGuiInterface{
 				break;
 			case market:
 				calculatePath(415, 215);
+				break;
+			case market2:
+				calculatePath(670, 140);
 				break;
 			case bank:
 				calculatePath(175, 230);
