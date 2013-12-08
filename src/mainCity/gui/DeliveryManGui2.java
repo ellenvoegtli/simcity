@@ -18,8 +18,8 @@ public class DeliveryManGui2 implements Gui, DeliveryManGuiInterface {
     CityGui gui;
     private boolean isPresent;
 
-    private int xPos = 395, yPos = 200;//default delivery position
-    private int xDestination = 395, yDestination = 200;//default start position
+    private int xPos = 635, yPos = 135;//default delivery position
+    private int xDestination = 635, yDestination = 135;//default start position
     static final int waiterWidth = 20;
     static final int waiterHeight = 20;
     public int homeX = 395, homeY = 200;

@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.MouseInfo;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -122,6 +123,16 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         l = new Lane( 651, 75, 780, (RoadWidth/2), -5, 0, true, Color.gray, Color.white );
         lanes.add(l);
         
+        //Intersections
+        l = new Lane( 125, 75, RoadWidth, RoadWidth, 5, 0, true, Color.gray, Color.white) ;
+        lanes.add(l);
+        l = new Lane( 125, 350, RoadWidth, RoadWidth, 5, 0, true, Color.gray, Color.white) ;
+        lanes.add(l);
+        l = new Lane( 605, 350, RoadWidth, RoadWidth, 5, 0, true, Color.gray, Color.white) ;
+        lanes.add(l);
+        l = new Lane( 605, 75, RoadWidth, RoadWidth, 5, 0, true, Color.gray, Color.white) ;
+        lanes.add(l);
+        
         //drawing top houses
         for(int i=0; i<7; i++){
 	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "house" +i );
@@ -172,6 +183,9 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         building = new Building ( 520, 200, "restaurant_right.png", "davidRestaurant");
         buildings.add(building); 
         addBuildingGui(building);
+        
+       
+        
         
         
         javax.swing.Timer t = new javax.swing.Timer( 25, this );
@@ -236,7 +250,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 		
 		if(count % 150 == 0 && dontReset == false){ 
 			dontReset = true;			
-			if(!lanes.isEmpty())
+
+			if(lanes.size() != 0)
 				lanes.get(1).addVehicle(Buses.get(1));
 		}
 		
@@ -322,8 +337,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(489, 400, 20, 20);
         g2.fillRect(599, 400, 20, 20);
         g2.fillRect(709, 400, 20, 20); //house7
-        
-        
        
         
         g2.fillRect(105, 180, 20, 20); //doorway
@@ -361,6 +374,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     			gui.getView().setView(b.ID);
     		}
     	}
+    	
+    	System.out.println("X coordinate: " + MouseInfo.getPointerInfo().getLocation().x + ", Y coordinate: " + MouseInfo.getPointerInfo().getLocation().y);
     }
    
     
