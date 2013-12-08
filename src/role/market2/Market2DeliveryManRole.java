@@ -66,8 +66,8 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 	}
 
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_DELIVERYMAN, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2_DELIVERYMAN, this.getName(), s);
 	}
 	
 	// Messages

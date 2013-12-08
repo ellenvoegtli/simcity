@@ -35,7 +35,15 @@ public enum AlertTag {
         MARKET_DELIVERYMAN,
         MARKET,
         
-        //RESTAURANT,
+        MARKET2_CUSTOMER,
+        MARKET2_EMPLOYEE,
+        MARKET2_CASHIER,
+        MARKET2_GREETER,
+        MARKET2_DELIVERYMAN,
+        MARKET2,
+        
+        
+        //RESTAURANTS
         
         ELLEN_RESTAURANT,
         ELLEN_HOST,

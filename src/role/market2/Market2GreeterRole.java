@@ -80,8 +80,8 @@ public class Market2GreeterRole extends Role implements Greeter, ManagerRole {
 
 	//for alert log trace statements
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_GREETER, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2_GREETER, this.getName(), s);
 	}
 	
 	// Messages
