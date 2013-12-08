@@ -55,9 +55,7 @@ public class PersonAgent extends Agent {
 	private Map<ActionType, Role> roles;
 	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
-	
 	private String restaurantHack;
-	
 	public EventLog log = new EventLog(); 
 	
 	public PersonAgent(String n) {
@@ -132,7 +130,6 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 	
-	
 	public void msgBusHasArrived() {
 		//print("msgBusHasArrived received");
 		log.add(new LoggedEvent("msgBusHasArrived received"));
@@ -179,11 +176,11 @@ public class PersonAgent extends Agent {
 		actions.add(new Action(ActionType.market, 3));
 		stateChanged();
 	}
-	
+	/*
 	public void msgGoToMarket2(){
 		actions.add(new Action(ActionType.market2, 3));
 		stateChanged();
-	}
+	}*/
 	
 	public void msgGoHome() {
 		actions.add(new Action(ActionType.home, 3));
@@ -280,17 +277,15 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((Market1CustomerRole) customer).getGui().goInside()){
-					//System.out.println("Waiting for restaurant to open");
 					return true;
 				}
 				//check home agent to get a list of what they need?
 				customer.setActive();
 				
-				if(currentAction != null && currentAction.type == ActionType.restaurant) {
+				if(currentAction != null && currentAction.type == ActionType.market) {
 					currentAction.state = ActionState.done;
 				}
 				gui.DoGoInside();
@@ -299,17 +294,15 @@ public class PersonAgent extends Agent {
 			}
 			
 			if(event == PersonEvent.arrivedAtMarket2) {
-				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((Market2CustomerRole) customer).getGui().goInside()){
-					//System.out.println("Waiting for restaurant to open");
 					return true;
 				}
 				//check home agent to get a list of what they need?
 				customer.setActive();
 				
-				if(currentAction != null && currentAction.type == ActionType.restaurant) {
+				if(currentAction != null && currentAction.type == ActionType.market2) {
 					currentAction.state = ActionState.done;
 				}
 				gui.DoGoInside();
@@ -325,9 +318,6 @@ public class PersonAgent extends Agent {
 				
 				if(customer instanceof MarcusCustomerRole) {
 					if(!((MarcusCustomerRole) customer).getGui().goInside()) {
-						//If restaurant is closed go try another --should cycle a lot now since only 1 restaurant;
-						//output("Restaurant closed...trying another");
-						//may also need to check if cook and cashier are at restaurant.
 						chooseRestaurant();
 						return true;
 					}
@@ -337,7 +327,6 @@ public class PersonAgent extends Agent {
 						chooseRestaurant();
 						return true;
 					}
-					//((EllenCustomerRole) customer).gotHungry();
 				}
 				else if(customer instanceof EnaCustomerRole)
 				{
@@ -348,7 +337,6 @@ public class PersonAgent extends Agent {
 					}
 				}
 				else if(customer instanceof JeffersonCustomerRole){
-					//((JeffersonCustomerRole) customer).gotHungry();
 					if(!((JeffersonCustomerRole) customer).getGui().goInside()){
 						chooseRestaurant();
 						return true;
@@ -415,10 +403,10 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 			
-			if(event == PersonEvent.needMarket2) {
+			/*if(event == PersonEvent.needMarket2) {
 				goToMarket2();
 				return true;
-			}
+			}*/
 
 			if(event == PersonEvent.gotFood || event == PersonEvent.goHome) {
 				goHome();
@@ -465,7 +453,6 @@ public class PersonAgent extends Agent {
 		}
 
 		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
-			output("My action list is empty. Going home");
 			actions.add(new Action(ActionType.home, 10));
 			return true;
 		}
@@ -794,9 +781,9 @@ public class PersonAgent extends Agent {
 			case market:
 				event = PersonEvent.needMarket;
 				break;
-			case market2:
+			/*case market2:
 				event = PersonEvent.needMarket2;
-				break;
+				break;*/
 			case restaurant:
 				event = PersonEvent.chooseRestaurant;
 				break;
@@ -826,7 +813,8 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 		
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-
+		walk = true;
+		
 		if(walk || state == PersonState.walkingFromBus) { //chose to walk
 			output(name + " is walking to " + d);
 			gui.DoGoToLocation(d); //call gui
@@ -928,7 +916,10 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToWork() {
-		if(job.occupation.contains("market")) {
+		if(job.occupation.contains("market2")) {
+			destination = CityLocation.market2;
+		}
+		else if(job.occupation.contains("market")) {
 			destination = CityLocation.market;
 		}
 		else if(job.occupation.contains("bank")) {
@@ -964,17 +955,27 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToMarket() {
-		output("Going to market 1");
-		travelToLocation(CityLocation.market);
-		event = PersonEvent.arrivedAtMarket;
-		stateChanged();
-	}
-	
-	private void goToMarket2() {
-		output("Going to market 2");
-		travelToLocation(CityLocation.market2);
-		event = PersonEvent.arrivedAtMarket2;
-		stateChanged();
+		//output("Going to market");
+		
+		switch((int) (Math.random() * 2)) {
+		case 0:
+			output("Going to market 1");
+			travelToLocation(CityLocation.market);
+			currentAction.type = ActionType.market;
+			event = PersonEvent.arrivedAtMarket;
+			stateChanged();
+			break;
+		case 1:
+			output("Going to market 2");
+			travelToLocation(CityLocation.market2);
+			currentAction.type = ActionType.market2;
+			event = PersonEvent.arrivedAtMarket2;
+			stateChanged();
+			break;
+		default:
+				break;
+		}
+		
 	}
 
 	private void goHome()  {

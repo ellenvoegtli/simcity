@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
+import mainCity.contactList.ContactList;
 import mainCity.gui.*;
 
 
@@ -40,7 +41,7 @@ public class Market2AnimationPanel extends CityCard implements ActionListener {
 
     public Market2AnimationPanel(CityGui gui) {
     	super(gui);
-    	//ContactList.getInstance().setMarket(market);
+    	ContactList.getInstance().setMarket2(market);
     	
     	stationX.put(1, 150);	//station 1
     	stationY.put(1, 50);

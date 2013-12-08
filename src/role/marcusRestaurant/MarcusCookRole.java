@@ -19,7 +19,7 @@ import role.Role;
  */
 
 public class MarcusCookRole extends Role implements Cook, WorkerRole {
-	private CookGui cookGui;
+	private CookGuiInterface cookGui;
 	private String name;
 	//private List<Market> markets;
 	private MarcusCashierRole cashier;
@@ -57,7 +57,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 		grill = 0;
 	}
 
-	public void setGui(CookGui g) {
+	public void setGui(CookGuiInterface g) {
 		cookGui = g;
 		cookGui.setPresent(true);
 	}
@@ -274,11 +274,11 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	}
 	
 	public enum OrderStatus {pending, cooking, cooked};
-	class Order {
+	public class Order {
 		Waiter waiter;
 		String choice;
 		int table;
-		OrderStatus status;
+		public OrderStatus status;
 		int grill;
 
 		Order(Waiter w, String c, int t) {

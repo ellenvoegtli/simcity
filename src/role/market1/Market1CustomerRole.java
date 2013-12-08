@@ -274,7 +274,7 @@ public class Market1CustomerRole extends Role implements Customer {
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
-			//no action
+			super.setInactive();
 			return true;
 		}
 		return false;

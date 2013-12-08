@@ -3,6 +3,7 @@ package role.marcusRestaurant;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.interfaces.WorkerRole;
 import mainCity.restaurants.marcusRestaurant.MarcusTable;
 import mainCity.restaurants.marcusRestaurant.interfaces.*;
@@ -106,7 +107,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	}
 */
 
-	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, Market1DeliveryManRole deliveryPerson) {
+	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, DeliveryMan deliveryPerson) {
 		output("Received a food bill of $" + billAmount + " from market");
 		marketBills.add(new MarketBill(inventory, billAmount, deliveryPerson));
 		stateChanged();
@@ -116,7 +117,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		output("I paid $" + amountPaid + " to the delivery man. I still owe $" + amountOwed);
 	}
 	
-	public void msgHereIsChange(double amount, Market1DeliveryManRole deliveryPerson) {
+	public void msgHereIsChange(double amount, DeliveryMan deliveryPerson) {
 		output("Received change of $" + amount);
 		cash += amount;
 		deliveryPerson.msgChangeVerified("marcusRestaurant");
@@ -209,10 +210,10 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	
 	public class MarketBill {
 		Map<String, Integer> inventory;
-		Market1DeliveryManRole deliveryPerson;
+		DeliveryMan deliveryPerson;
 		double bill;
 		
-		MarketBill(Map<String, Integer> i, double amount, Market1DeliveryManRole p) {
+		MarketBill(Map<String, Integer> i, double amount, DeliveryMan p) {
 			inventory = i;
 			bill = amount;
 			deliveryPerson = p;
