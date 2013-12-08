@@ -26,6 +26,7 @@ public class EnaAnimationPanel extends CityCard implements ActionListener {
 
 
     private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> personGuis = new ArrayList<Gui>();
 
     public EnaAnimationPanel(CityGui gui) {
     	super(gui);
@@ -65,7 +66,7 @@ public class EnaAnimationPanel extends CityCard implements ActionListener {
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(375, 290, 35, 105);
         
-        for(Gui gui : guis) {
+        for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -76,11 +77,17 @@ public class EnaAnimationPanel extends CityCard implements ActionListener {
                 gui.draw(g2);
             }
         }
+
+        for(Gui gui : personGuis) {
+            if (gui.isPresent()) {
+                gui.draw(g2);
+            }
+        }
     }
     
     public void backgroundUpdate()
     {
-    	for (Gui gui : guis)
+    	for (Gui gui : personGuis)
     	{
     		if (gui.isPresent())
     		{
@@ -91,19 +98,24 @@ public class EnaAnimationPanel extends CityCard implements ActionListener {
 
     public void addGui(EnaCustomerGui gui) 
     {
-        guis.add(gui);
+    	personGuis.add(gui);
     }
 public void addGui(EnaWaiterGui gui)
 {
-	guis.add(gui);
+	personGuis.add(gui);
 }
     public void addGui(EnaHostGui gui) 
     {
-        guis.add(gui);
+    	personGuis.add(gui);
     }
     public void addGui(EnaCookGui gui)
     {
-    	guis.add(gui);
+    	personGuis.add(gui);
+    }
+    @Override
+    public void clearPeople()
+    {
+    	personGuis.clear();
     }
 }
 

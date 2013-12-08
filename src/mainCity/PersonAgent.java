@@ -72,6 +72,10 @@ public class PersonAgent extends Agent {
 		this.gui = g;
 	}
 	
+	public PersonGuiInterface getGui() {
+		return gui;
+	}
+	
 	public CityLocation getDestination() { 
 		return destination;
 	}
@@ -260,7 +264,6 @@ public class PersonAgent extends Agent {
 				}
 				
 				output("Arrived at home!");
-				
 				handleRole(currentAction.type);
 				
 				synchronized(roles) {
@@ -286,9 +289,8 @@ public class PersonAgent extends Agent {
 
 			if(event == PersonEvent.arrivedAtWork) {
 				output("Arrived at work!");
-				
 				handleRole(currentAction.type);
-				
+				System.out.println("heeeree");
 				synchronized(roles) {
 					roles.get(currentAction.type).setActive();
 				}
@@ -297,31 +299,16 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
-			if(event == PersonEvent.arrivedAtMarket) {
+			if(event == PersonEvent.arrivedAtMarket || event == PersonEvent.arrivedAtMarket2) {
 				handleRole(currentAction.type);
 				
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
-					if (!((Market1CustomerRole) customer).getGui().goInside()){
+					if (event == PersonEvent.arrivedAtMarket && !((Market1CustomerRole) customer).getGui().goInside()) {
 						return true;
 					}
-					
-					//check home agent to get a list of what they need?
-					customer.setActive();
-				}
-				
-				enterBuilding();
-				return true;
-			}
-			
-			if(event == PersonEvent.arrivedAtMarket2) {
-				handleRole(currentAction.type);
-				
-				synchronized(roles) {
-					Role customer = roles.get(currentAction.type);
-					
-					if (!((Market2CustomerRole) customer).getGui().goInside()){
+					else if (event == PersonEvent.arrivedAtMarket2 && !((Market2CustomerRole) customer).getGui().goInside()){
 						return true;
 					}
 					
@@ -416,12 +403,9 @@ public class PersonAgent extends Agent {
 						roles.get(ActionType.bankRob).setActive();
 						Role bankRobber = roles.get(ActionType.bankRob);
 						((BankRobberRole) bankRobber).msgWantToRobBank();
-						}
-					if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
-						currentAction.state = ActionState.done;
-
+					}
 				}
-			}	
+				
 				enterBuilding();
 				return true;
 			}
@@ -510,7 +494,7 @@ public class PersonAgent extends Agent {
 	
 	private void checkSelf() {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
-		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
+		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && currentAction.type != ActionType.work && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
 			synchronized(actions) {
 				actions.add(new Action(ActionType.work, 1));
 				stateChanged();
@@ -1124,6 +1108,11 @@ public class PersonAgent extends Agent {
 	
 	public void setCash(double d) {
 		this.cash = d;
+	}
+	
+	public void stopThread() {
+		isMoving.release();
+		super.stopThread();
 	}
 
 	private void waitForGui() {
