@@ -2,9 +2,10 @@ package mainCity.restaurants.marcusRestaurant.gui;
 
 import java.awt.*;
 
+import mainCity.restaurants.marcusRestaurant.interfaces.CookGuiInterface;
 import role.marcusRestaurant.MarcusCookRole;
 
-public class CookGui implements Gui{
+public class CookGui implements Gui, CookGuiInterface{
 	private MarcusCookRole agent = null;
 	private boolean isPresent = false;
 
@@ -32,10 +33,12 @@ public class CookGui implements Gui{
 		}
 	}
 
+	@Override
 	public void DoGoToCounter() {
 		xDestination = 235;
 	}
 	
+	@Override
 	public void DoGoToGrill(int grill) {
 		xDestination = 148 + 20*grill;
 		
@@ -55,6 +58,7 @@ public class CookGui implements Gui{
 		}
 	}
 	
+	@Override
 	public void DoClearGrill(int grill) {
 		switch(grill) {
 		case 1:
@@ -74,6 +78,7 @@ public class CookGui implements Gui{
 		cooking = (grill1 || grill2 || grill3 || grill4);
 	}
 	
+	@Override
 	public void DoLeaveRestaurant() {
 		onDuty = false;
 	}

@@ -250,6 +250,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 		
 		if(count % 150 == 0 && dontReset == false){ 
 			dontReset = true;			
+
 			if(lanes.size() != 0)
 				lanes.get(1).addVehicle(Buses.get(1));
 		}

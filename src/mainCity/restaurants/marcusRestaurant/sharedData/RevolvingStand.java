@@ -28,7 +28,7 @@ public class RevolvingStand extends Object {
         insert_item(order);
         count++;
         if(count == 1) {
-            System.out.println("\tNot Empty, notify");
+            //System.out.println("\tNot Empty, notify");
             notify();                               // Not empty, notify a 
                                                     // waiting consumer
         }

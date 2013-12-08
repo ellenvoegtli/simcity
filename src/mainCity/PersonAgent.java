@@ -55,9 +55,7 @@ public class PersonAgent extends Agent {
 	private Map<ActionType, Role> roles;
 	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
-	
 	private String restaurantHack;
-	
 	public EventLog log = new EventLog(); 
 	
 	public PersonAgent(String n) {
@@ -131,7 +129,6 @@ public class PersonAgent extends Agent {
 		actions.add(new Action(ActionType.maintenance, 1));
 		stateChanged();
 	}
-	
 	
 	public void msgBusHasArrived() {
 		//print("msgBusHasArrived received");
@@ -280,11 +277,9 @@ public class PersonAgent extends Agent {
 			}
 
 			if(event == PersonEvent.arrivedAtMarket) {
-				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((Market1CustomerRole) customer).getGui().goInside()){
-					//System.out.println("Waiting for restaurant to open");
 					return true;
 				}
 				//check home agent to get a list of what they need?
@@ -299,11 +294,9 @@ public class PersonAgent extends Agent {
 			}
 			
 			if(event == PersonEvent.arrivedAtMarket2) {
-				//output("Arrived at market!");
 				handleRole(currentAction.type);
 				Role customer = roles.get(currentAction.type);
 				if (!((Market2CustomerRole) customer).getGui().goInside()){
-					//System.out.println("Waiting for restaurant to open");
 					return true;
 				}
 				//check home agent to get a list of what they need?
@@ -325,9 +318,6 @@ public class PersonAgent extends Agent {
 				
 				if(customer instanceof MarcusCustomerRole) {
 					if(!((MarcusCustomerRole) customer).getGui().goInside()) {
-						//If restaurant is closed go try another --should cycle a lot now since only 1 restaurant;
-						//output("Restaurant closed...trying another");
-						//may also need to check if cook and cashier are at restaurant.
 						chooseRestaurant();
 						return true;
 					}
@@ -337,7 +327,6 @@ public class PersonAgent extends Agent {
 						chooseRestaurant();
 						return true;
 					}
-					//((EllenCustomerRole) customer).gotHungry();
 				}
 				else if(customer instanceof EnaCustomerRole)
 				{
@@ -348,7 +337,6 @@ public class PersonAgent extends Agent {
 					}
 				}
 				else if(customer instanceof JeffersonCustomerRole){
-					//((JeffersonCustomerRole) customer).gotHungry();
 					if(!((JeffersonCustomerRole) customer).getGui().goInside()){
 						chooseRestaurant();
 						return true;
@@ -465,7 +453,6 @@ public class PersonAgent extends Agent {
 		}
 
 		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
-			output("My action list is empty. Going home");
 			actions.add(new Action(ActionType.home, 10));
 			return true;
 		}
