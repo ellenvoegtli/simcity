@@ -116,7 +116,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	}
 	
 	public void DoGoToLocationOnCar(PersonAgent.CityLocation destination) { 
-		if(yPos < )
+		//if(yPos < )
 	}
 
 	@Override

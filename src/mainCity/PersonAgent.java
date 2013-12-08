@@ -290,7 +290,7 @@ public class PersonAgent extends Agent {
 				//check home agent to get a list of what they need?
 				customer.setActive();
 				
-				if(currentAction != null && currentAction.type == ActionType.restaurant) {
+				if(currentAction != null && currentAction.type == ActionType.market) {
 					currentAction.state = ActionState.done;
 				}
 				gui.DoGoInside();
@@ -309,7 +309,7 @@ public class PersonAgent extends Agent {
 				//check home agent to get a list of what they need?
 				customer.setActive();
 				
-				if(currentAction != null && currentAction.type == ActionType.restaurant) {
+				if(currentAction != null && currentAction.type == ActionType.market2) {
 					currentAction.state = ActionState.done;
 				}
 				gui.DoGoInside();
@@ -825,7 +825,8 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 		
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-
+		walk = true;
+		
 		if(walk || state == PersonState.walkingFromBus) { //chose to walk
 			output(name + " is walking to " + d);
 			gui.DoGoToLocation(d); //call gui
@@ -1048,6 +1049,7 @@ public class PersonAgent extends Agent {
 	}
 	
 	public void roleInactive() {
+		System.out.println("======================= ROLE INACTIVE ============================");
 		state = PersonState.normal;
 		gui.DoGoOutside();
 		stateChanged();

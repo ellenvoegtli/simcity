@@ -26,6 +26,7 @@ public abstract class Role extends Agent{
 	}
 
 	public void setInactive() {
+		System.out.println("============== ROLE: SET INACTIVE ================");
 		isActive = false;
 		this.person.roleInactive();
 	}
