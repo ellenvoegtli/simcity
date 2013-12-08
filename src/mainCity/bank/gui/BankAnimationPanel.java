@@ -34,6 +34,7 @@ public class BankAnimationPanel extends CityCard implements ActionListener {
     private BufferedImage bankmanagerdeskImg = null;
 
     public List<Gui> guis = new ArrayList<Gui>();
+    public List<Gui> personGuis = new ArrayList<Gui>();
 
     public BankAnimationPanel(CityGui gui) {
     	super(gui);
@@ -96,7 +97,7 @@ public class BankAnimationPanel extends CityCard implements ActionListener {
        
         
 
-        for(Gui gui : guis) {
+        for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -107,24 +108,34 @@ public class BankAnimationPanel extends CityCard implements ActionListener {
                 gui.draw(g2);
             }
         }
+        for(Gui gui : personGuis) {
+            if (gui.isPresent()) {
+                gui.draw(g2);
+            }
+        }
     }
     public void addGui(BankRobberGui gui){
-    	guis.add(gui);
+    	personGuis.add(gui);
     }
     
     public void addGui(BankCustomerGui gui){
-    	guis.add(gui);
+    	personGuis.add(gui);
     }
 
     public void addGui(BankTellerGui gui){
     	//System.out.println("addGui");
-    	guis.add(gui);
+    	personGuis.add(gui);
     }
 
 	public void addGui(BankerGui bGui) {
-		guis.add(bGui);
+		personGuis.add(bGui);
 		
 		
 	}
+	
+    @Override
+    public void clearPeople() {
+    	personGuis.clear();
+    }
     
 }

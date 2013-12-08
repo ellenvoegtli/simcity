@@ -40,6 +40,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private Semaphore doneLeaving = new Semaphore(0, true);
 	
 	private boolean onDuty;
+	private boolean customer = false;
 
 		
 
@@ -175,8 +176,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 
 
 	public void msgAtStation() {
-		//print("msgAtStation called");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "msgAtStation called");
+		log("msgAtStation called");
 		atStation.release();// = true;
 		stateChanged();
 	}
@@ -202,6 +202,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	}
 	
 	public void msgGoOffDuty(double amount){
+		log("msgGoOffDuty called");
 		addToCash(amount);
 		onDuty = false;
 		stateChanged();
@@ -215,9 +216,10 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 		
 		try {
 			for (MyCustomer mc : myCustomers){
-				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing){
-					GreetCustomer(mc);
+				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing && !customer){
 					wState = WaiterState.busy;
+					customer = true;
+					GreetCustomer(mc);
 					return true;
 				}
 			}
@@ -246,6 +248,8 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 			for (MyCustomer mc : myCustomers) {
 				if (mc.s == CustomerState.leaving){
 					RemoveCustomer(mc);
+					wState = WaiterState.doingNothing;
+					customer = false;
 					return true;
 				}
 			}
@@ -253,9 +257,10 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 			
 			//business check
 			for (MyBusiness mb : myBusinesses) {
-				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing){
+				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing && !customer){
 					ProcessOrder(mb);		//determine what we can fulfill, have cashier compute bill
 					wState = WaiterState.busy;
+					customer = true;
 					return true;
 				}
 			}
@@ -273,6 +278,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 				if (mb.s == BusinessState.doneFulfillingOrder && wState == WaiterState.doingNothing){
 					DeliverOrder(mb);
 					wState = WaiterState.busy;
+					customer = false;
 					return true;
 				}
 			}
@@ -391,7 +397,6 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	private void SendBillToCashier(MyBusiness mb){
 		log("Sending bill to cashier");
-		//gui to go to cashier
 		employeeGui.DoGoToCashier();
 		try {
 			atCashier.acquire();

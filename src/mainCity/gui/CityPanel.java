@@ -1,7 +1,5 @@
 package mainCity.gui;
 
-import housing.gui.HomeGui;
-
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -13,16 +11,7 @@ import role.market2.Market2DeliveryManRole;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
 import mainCity.PersonAgent;
-import mainCity.bank.gui.BankPanel;
 import mainCity.contactList.ContactList;
-import mainCity.market1.*;
-import mainCity.market1.gui.*;
-import mainCity.restaurants.marcusRestaurant.gui.*;
-import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
-//import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
-//import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
-import mainCity.restaurants.enaRestaurant.*;
-import mainCity.restaurants.enaRestaurant.gui.*;
 
 public class CityPanel extends JPanel{
 	private CityGui gui; 
@@ -88,7 +77,7 @@ public class CityPanel extends JPanel{
 		 };
 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		 executor.scheduleAtFixedRate(cityClock, 0, 15, TimeUnit.SECONDS); //Timer goes off every 30 seconds
+		 executor.scheduleAtFixedRate(cityClock, 0, 15, TimeUnit.SECONDS); //Timer goes off every 15 seconds
 	}
 	
 	public void addDeliveryGui(Market1DeliveryManRole d){
@@ -115,8 +104,10 @@ public class CityPanel extends JPanel{
 	
 	
 	public void parseConfig(String filename) {
-	    int counter = 0;
-
+		if(!occupants.isEmpty()) {
+			resetCity();
+		}
+		
 		try {
 		    FileInputStream fstream = new FileInputStream(filename);
 		    DataInputStream in = new DataInputStream(fstream);
@@ -133,7 +124,6 @@ public class CityPanel extends JPanel{
 				   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
 				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
 				    String[] actionList = actions.split(",");
-				    ++counter;
 				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    	}
 		    }
@@ -141,9 +131,8 @@ public class CityPanel extends JPanel{
 		    in.close();
 		}
 		catch(Exception e) {
-			System.err.println("Error: " + e.getMessage());
+			//System.err.println("Error: " + e.getMessage());
 		}
-		System.out.println(counter);
 	}
 	
 	public void addPerson(String name, double c, boolean renter, String occupation, int sb, int se, String[] actions) {
@@ -187,5 +176,19 @@ public class CityPanel extends JPanel{
 		
     	occupants.add(person);
     	person.startThread();
+	}
+	
+	private void resetCity() {
+		gui.getAnimationPanel().getPersonGuiList().clear();
+		for(PersonAgent p : occupants) {
+			p.stopThread();
+			p.getRoles().clear();
+		}
+		
+		for(Map.Entry<String, CityCard> entry : gui.getView().getCards().entrySet()) {
+			entry.getValue().clearPeople();
+		}
+		
+		occupants.clear();
 	}
 }

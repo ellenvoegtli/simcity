@@ -11,6 +11,10 @@ import mainCity.market2.interfaces.DeliveryMan2;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
 import role.Role;
+import role.market1.Market1DeliveryManRole.AgentState;
+import role.market1.Market1DeliveryManRole.Bill;
+import role.market1.Market1DeliveryManRole.DeliveryEvent;
+import role.market1.Market1DeliveryManRole.DeliveryState;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -162,6 +166,7 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		
 		for(Bill b: bills){
 			if (b.s == DeliveryState.newBill && b.event == DeliveryEvent.deliveryRequested && state == AgentState.doingNothing){
+				log("NEW BILL, DELIVERY REQUESTED! :" + b.restaurantName);
 				DeliverOrder(b);
 				state = AgentState.makingDelivery;
 				return true;
@@ -176,15 +181,28 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		for(Bill b: bills){
 			if (b.s == DeliveryState.waitingForVerification && b.event == DeliveryEvent.changeVerified){
 				ReturnToMarket(b);
+				state = AgentState.doingNothing;
 				return true;
 			}
 		}
 		for(Bill b: bills){
 			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt){
 				ReturnToMarket(b);
+				state = AgentState.doingNothing;
 				return true;
 			}
 		}
+		
+		for (Bill b: bills){
+			if (b.s == DeliveryState.waitingToRedeliver && b.event == DeliveryEvent.checkRedeliveryOn && state == AgentState.doingNothing){
+				log("RE-delivering order...");
+				DeliverOrder(b);
+				state = AgentState.makingDelivery;
+				b.event = DeliveryEvent.checkRedeliveryOff;
+				return true;
+			}
+		}
+		
 		
 		if (bills.isEmpty() && !onDuty){
 			deliveryGui.DoGoToHomePosition();
@@ -205,7 +223,6 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -285,7 +302,6 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		state = AgentState.doingNothing;
@@ -319,7 +335,7 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		}
 		else if (b.restaurantName.equalsIgnoreCase("enarestaurant")){
 			if (ContactList.getInstance().enaHost !=null)
-				if (ContactList.getInstance().enaHost.isOpen()){
+				if (ContactList.getInstance().enaHost.isItOpen()){
 					log("Ena's host says restaurant is OPEN!");
 					return true;
 				}
@@ -344,7 +360,7 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 			log("David's restaurant is CLOSED.");
 			return false;
 		}
-		else if (name.equalsIgnoreCase("jeffersonrestaurant")){
+		else if (b.restaurantName.equalsIgnoreCase("jeffersonrestaurant")){
 			if (ContactList.getInstance().jeffersonHost != null)
 				if (ContactList.getInstance().jeffersonHost.isOpen()){
 					log("Jefferson's host says restaurant is OPEN!");

@@ -145,10 +145,6 @@ public class MarcusHostRole extends Role implements ManagerRole, Host {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		if(!checkWaiters()) {
-			return false;
-		}
-		
 		if(restaurantFull() && newCustomer && !waitingCustomers.isEmpty()) {//If the restaurant is full, we get the customer in the back of the queue 
 			waitingCustomers.get(0).msgWantToWait();
 			waitingCustomers.remove(waitingCustomers.get(0));
@@ -158,11 +154,13 @@ public class MarcusHostRole extends Role implements ManagerRole, Host {
 		
 		synchronized(tables) {
 			for (MarcusTable table : tables) {
-				if (!table.isOccupied()) {
-					if (!waitingCustomers.isEmpty() && !waitersList.isEmpty()) {
-						seatCustomer(waitingCustomers.get(waitingCustomers.size()-1), table);//the action
-						return true;//return true to the abstract agent to reinvoke the scheduler.
+				if (!table.isOccupied() && !waitingCustomers.isEmpty() && !waitersList.isEmpty()) {
+					if(!checkWaiters()) {
+						return false;
 					}
+
+					seatCustomer(waitingCustomers.get(waitingCustomers.size()-1), table);//the action
+					return true;//return true to the abstract agent to reinvoke the scheduler.
 				}
 			}
 		}
@@ -295,14 +293,16 @@ public class MarcusHostRole extends Role implements ManagerRole, Host {
 			cashier.msgGoOffDuty(cashier.getShiftDuration()*6.0);
 		}
 		if(cook != null){
-			payroll += cashier.getShiftDuration()*7.50;
+			payroll += cook.getShiftDuration()*7.50;
 			cook.msgGoOffDuty(cook.getShiftDuration()*7.50);
 		}
 		
 		addToCash(getShiftDuration()*9.50);
 		payroll += getShiftDuration()*9.50;		
 		
-		cashier.deductCash(payroll);
+		if(cashier != null)
+			cashier.deductCash(payroll);
+		
 		setInactive();
 		onDuty = true;
 		return true;

@@ -26,6 +26,7 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
     private Dimension bufferSize;
 
     private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> personGuis = new ArrayList<Gui>();
 
     public MarcusAnimationPanel(CityGui gui) {
     	super(gui);
@@ -67,7 +68,7 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
 	        kitchen.fillRect(170 + 20*i, 1, 15, 15);
 	    }
 
-        for(Gui gui : guis) {
+        for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -78,10 +79,16 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
 	            gui.draw(g2);
 	        }
 	    }
+	    
+	    for(Gui gui : personGuis) {
+            if (gui.isPresent()) {
+	            gui.draw(g2);
+            }
+        }
     }
 
     public void backgroundUpdate() {
-    	for(Gui gui : guis) {
+    	for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -89,14 +96,19 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
     }
     
     public void addGui(CustomerGui gui) {
-        guis.add(gui);
+        personGuis.add(gui);
     }
 
     public void addGui(WaiterGui gui) {
-        guis.add(gui);
+        personGuis.add(gui);
     }
     
     public void addGui(CookGui gui) {
-    	guis.add(gui);
+    	personGuis.add(gui);
+    }
+    
+    @Override
+    public void clearPeople() {
+    	personGuis.clear();
     }
 }
