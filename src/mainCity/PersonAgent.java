@@ -47,6 +47,7 @@ public class PersonAgent extends Agent {
 	private BusAgent currentBus; 
 	private Building homePlace;
 	private int time;
+	private int day;
 	private Job job;
 	private PersonState state;
 	private PersonEvent event;
@@ -463,7 +464,7 @@ public class PersonAgent extends Agent {
 	//----------Actions----------//
 	private void checkSelf() {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
-		if(time == job.shiftBegin && state != PersonState.working && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
+		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
 			actions.add(new Action(ActionType.work, 1));
 			stateChanged();
 		}
@@ -476,7 +477,6 @@ public class PersonAgent extends Agent {
 		if(time == job.shiftEnd && state == PersonState.working) {
 			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
 				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
-					output("Closing up shop");
 					((ManagerRole) r.getValue()).msgEndShift();
 				}
 				
@@ -1029,8 +1029,9 @@ public class PersonAgent extends Agent {
 		super.stateChanged();
 	}
 
-	public void updateClock(int newTime) {
+	public void updateClock(int newTime, int currentDay) {
 		this.time = newTime;
+		this.day = currentDay;
 		checkSelf();
 	}
 	
