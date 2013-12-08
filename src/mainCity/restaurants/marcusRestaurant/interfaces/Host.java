@@ -17,4 +17,6 @@ public interface Host {
 	public abstract void msgBackOnDuty(Waiter w);
 
 	public abstract MarcusCookRole getCook();
+	
+	public abstract boolean isOpen();
 }
