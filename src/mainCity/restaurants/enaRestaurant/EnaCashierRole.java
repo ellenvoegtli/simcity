@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import role.Role;
-import role.market.MarketDeliveryManRole;
+import role.market1.Market1DeliveryManRole;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
@@ -73,7 +73,7 @@ public class EnaCashierRole extends Role implements Cashier{
 			Tabs.add(new Tab(choice, c, payStatus.pending));
 			stateChanged();
 		}
-		public void msgHereIsMarketBill(Map<String,Integer> order, double bill, MarketDeliveryManRole name)
+		public void msgHereIsMarketBill(Map<String,Integer> order, double bill, Market1DeliveryManRole name)
 		{
 			log.add(new LoggedEvent("recieved message to pay the market"));
 			log("Received msgHereIsMarketBill");
@@ -83,7 +83,7 @@ public class EnaCashierRole extends Role implements Cashier{
 			
 		}//0000000000000000000 CHANGE ALL CODE AFTER THE MSGRESTOCKBILL IS CALLED 000000000000000000000000000000
 		
-		public void msgHereIsChange(double amount, MarketDeliveryManRole name)
+		public void msgHereIsChange(double amount, Market1DeliveryManRole name)
 		{
 			log("Received msgHereIsChange");
 
@@ -272,7 +272,7 @@ public boolean pickAndExecuteAnAction()
 		public Market ma;
 		public double checks;
 		public marketPay mState;
-		public MarketDeliveryManRole deliveryMan;
+		public Market1DeliveryManRole deliveryMan;
 		
 		public MarketTab(Market mrk, double ch, marketPay mSt)
 		{
@@ -281,7 +281,7 @@ public boolean pickAndExecuteAnAction()
 			mState = mSt;
 		}
 		
-		public MarketTab(MarketDeliveryManRole name, double ch, marketPay mSt)
+		public MarketTab(Market1DeliveryManRole name, double ch, marketPay mSt)
 		{
 			deliveryMan = name;
 			checks = ch;

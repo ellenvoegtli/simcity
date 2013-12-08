@@ -22,7 +22,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	protected Semaphore isMovingSem = new Semaphore(0, true);
 	protected boolean onBreak, onDuty, requested, tired;
 	protected String name;
-	protected MarcusHostRole host;
+	protected Host host;
 	protected MarcusCookRole cook;
 	protected Cashier cashier;
 	protected MarcusMenu waiterMenu;
@@ -46,7 +46,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		return name;
 	}
 
-	public List getWaitingCustomers() {
+	public List<MyCustomer> getWaitingCustomers() {
 		return customers;
 	}
 
@@ -54,7 +54,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		return customers.size();
 	}
 	
-	public void setHost(MarcusHostRole h) {
+	public void setHost(Host h) {
 		this.host = h;
 	}
 	

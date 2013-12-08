@@ -7,6 +7,7 @@ import role.ellenRestaurant.*;
 import mainCity.contactList.*;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
@@ -54,10 +55,15 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
         cookInventoryPanel.add(pizzaBtn);
         //add(cookInventoryPanel);
                 
-      //Thread to tell cook to check every so often
-        Runnable standChecker = new Runnable() {
+        //Thread to tell cook to check every so often
+		 Runnable standChecker = new Runnable() {
 			 public void run() {
-				cook.msgCheckStand();
+				try {
+					if(cook.isActive())
+						cook.msgCheckStand();
+				}
+				catch(NullPointerException e) {
+				}
 			 }
 		 };
 		 

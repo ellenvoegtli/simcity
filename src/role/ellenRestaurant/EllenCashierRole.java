@@ -3,11 +3,12 @@ package role.ellenRestaurant;
 
 import java.util.*;
 
-import role.market.*;
+import role.market1.*;
 import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.EllenMenu;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 import mainCity.gui.trace.*;
+import mainCity.interfaces.DeliveryMan;
 import role.Role;
 
 
@@ -22,7 +23,6 @@ public class EllenCashierRole extends Role implements Cashier {
 	public List<Check> checks = Collections.synchronizedList(new ArrayList<Check>());	//from waiters
 	private List<Waiter> waiters = Collections.synchronizedList(new ArrayList<Waiter>());
 	public List<MarketBill> marketBills = Collections.synchronizedList(new ArrayList<MarketBill>());
-	Map<String, Integer> prices = new TreeMap<String, Integer>();
 	
 	public enum CheckState {newCheck, computing, waitingForPayment, calculatingChange, done};
 	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, oweMoney, done};	//is this ok???
@@ -35,13 +35,6 @@ public class EllenCashierRole extends Role implements Cashier {
 		super(p);
 		this.name = name;
 		onDuty = true;
-
-		//initialize prices map -- or should this be from menu?? // ALSO IMPLEMENTED IN MENU
-        prices.put("steak", 30);	//type, cookingTime, amount
-        prices.put("pizza", 10);
-        prices.put("pasta", 20);
-        prices.put("soup", 5);
-
 	}
 
 	public void addWaiter(Waiter w){	//hack
@@ -99,12 +92,20 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	
 	//market delivery man messages
-	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, MarketDeliveryManRole d){
+	/*public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, Market1DeliveryManRole d){
+		log("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
+		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
+		stateChanged();
+	}*/
+	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, DeliveryMan d){
 		log("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
 		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
 		stateChanged();
 	}
-	public void msgHereIsChange(double amount, MarketDeliveryManRole deliveryPerson){
+	
+	
+	
+	public void msgHereIsChange(double amount, DeliveryMan deliveryPerson){
 		log("Received msgHereIsChange: $" + amount);
 		MarketBill b = null;
 		synchronized(marketBills){
@@ -210,12 +211,12 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	public void CalculateChange(Check c){
 		log("Calculating change");
-		if (c.cashAmount >= prices.get(c.choice)){
-			c.cust.msgHereIsChange((c.cashAmount - prices.get(c.choice)));
+		if(c.cashAmount >= menu.getPrice(c.choice)){
+			c.cust.msgHereIsChange(c.cashAmount - menu.getPrice(c.choice));
 			checks.remove(c);
 		}
 		else {
-			c.cust.msgNotEnoughCash((prices.get(c.choice) - c.cashAmount));
+			c.cust.msgNotEnoughCash(menu.getPrice(c.choice) - c.cashAmount);
 			checks.remove(c);
 		}
 		
@@ -290,7 +291,8 @@ public class EllenCashierRole extends Role implements Cashier {
 		}
 	}
 	public class MarketBill {
-		MarketDeliveryManRole deliveryMan;
+		//Market1DeliveryManRole deliveryMan;
+		DeliveryMan deliveryMan;
 		double billAmount;
 		double amountPaid;
 		double amountChange;
@@ -298,7 +300,7 @@ public class EllenCashierRole extends Role implements Cashier {
 		MarketBillState s;
 		Map<String, Integer> itemsBought; 
 		
-		MarketBill(MarketDeliveryManRole d, double amount, Map<String, Integer> inventory, MarketBillState s){
+		MarketBill(/*Market1DeliveryManRole d,*/ DeliveryMan d, double amount, Map<String, Integer> inventory, MarketBillState s){
 			deliveryMan = d;
 			billAmount = amount;
 			itemsBought = new TreeMap<String, Integer>(inventory);

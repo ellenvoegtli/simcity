@@ -16,7 +16,7 @@ import java.util.TreeMap;
 import role.Role;
 import role.jeffersonRestaurant.JeffersonCustomerRole.*;
 import role.jeffersonRestaurant.JeffersonWaiterRole.Table;
-import role.market.MarketGreeterRole;
+import role.market1.Market1GreeterRole;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;

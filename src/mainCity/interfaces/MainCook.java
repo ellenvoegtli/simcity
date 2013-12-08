@@ -1,6 +1,7 @@
 package mainCity.interfaces;
 import java.util.Map;
-import mainCity.market.*;
+
+import mainCity.market1.*;
 
 public interface MainCook 
 {
