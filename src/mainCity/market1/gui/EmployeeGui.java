@@ -38,6 +38,7 @@ public class EmployeeGui implements Gui, EmployeeGuiInterface {
 	private boolean atDestination = true;
 	private boolean isDeliveringFood = false;
 	private String customerChoice;
+	private boolean start = true;
 	
 	State s;
 	enum State {wantsBreak, onBreak, offBreak};
@@ -72,7 +73,7 @@ public class EmployeeGui implements Gui, EmployeeGuiInterface {
     	this.homeY = y;
     	agent.setHomeY(y);
     	
-    	atDestination = false;
+    	start = false;
     	xDestination = homeX;
     	yDestination = homeY;
     }
@@ -88,6 +89,10 @@ public class EmployeeGui implements Gui, EmployeeGuiInterface {
         else if (yPos > yDestination)
             yPos--;
 
+        if ((xPos == xDestination && yPos == yDestination) && (xDestination == homeX && yDestination == homeY) && !start){	
+    		start = true;
+        }
+        
         
         if ((xPos == xDestination && yPos == yDestination) && (xPos == cashierX && yPos == cashierY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
     		agent.msgAtCashier();
@@ -105,7 +110,7 @@ public class EmployeeGui implements Gui, EmployeeGuiInterface {
     		agent.msgAtDeliveryMan();
     		atDestination = true;
         }
-        else if ((xPos == xDestination && yPos == yDestination) && (xPos == homeX && yPos == homeY) && !atDestination){		//at checkpoint, "doingNothing" position (on-screen)
+        else if ((xPos == xDestination && yPos == yDestination) && (xPos == homeX && yPos == homeY) && !atDestination && start){		//at checkpoint, "doingNothing" position (on-screen)
     		agent.msgAtStation();
     		atDestination = true;
         }
