@@ -12,7 +12,6 @@ import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
 import role.Role;
 
-
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -67,8 +66,8 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 	}
 
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_DELIVERYMAN, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2_DELIVERYMAN, this.getName(), s);
 	}
 	
 	// Messages
@@ -309,33 +308,49 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 	
 	public boolean restaurantOpen(Bill b){
 		if (b.restaurantName.equalsIgnoreCase("ellenrestaurant")){
-			if (ContactList.getInstance().ellenHost !=null)
-				if (ContactList.getInstance().ellenHost.isOpen())
+			if (ContactList.getInstance().ellenHost !=null){
+				if (ContactList.getInstance().ellenHost.isOpen()){
+					log("Ellen's host says restaurant is OPEN!");
 					return true;
+				}
+			}
+			log("Ellen's restaurant is CLOSED.");
 			return false;
 		}
 		else if (b.restaurantName.equalsIgnoreCase("enarestaurant")){
 			if (ContactList.getInstance().enaHost !=null)
-				if (ContactList.getInstance().enaHost.isOpen())
+				if (ContactList.getInstance().enaHost.isOpen()){
+					log("Ena's host says restaurant is OPEN!");
 					return true;
+				}
+			log("Ena's restaurant is CLOSED.");
 			return false;
 		}
 		else if (b.restaurantName.equalsIgnoreCase("marcusrestaurant")){
 			if (ContactList.getInstance().marcusHost != null)
-				if (ContactList.getInstance().marcusHost.isOpen())
+				if (ContactList.getInstance().marcusHost.isOpen()){
+					log("Marcus' host says restaurant is OPEN!");
 					return true;
+				}
+			log("Marcus' restaurant is CLOSED.");
 			return false;
 		}
 		else if (b.restaurantName.equalsIgnoreCase("davidrestaurant")){
 			if (ContactList.getInstance().davidHost != null)
-				if(ContactList.getInstance().davidHost.isOpen())
+				if(ContactList.getInstance().davidHost.isOpen()){
+					log("David's host says restaurant is OPEN!");
 					return true;
+				}
+			log("David's restaurant is CLOSED.");
 			return false;
 		}
 		else if (name.equalsIgnoreCase("jeffersonrestaurant")){
 			if (ContactList.getInstance().jeffersonHost != null)
-				if (ContactList.getInstance().jeffersonHost.isOpen())
+				if (ContactList.getInstance().jeffersonHost.isOpen()){
+					log("Jefferson's host says restaurant is OPEN!");
 					return true;
+				}
+			log("Jefferson's restaurant is CLOSED.");
 			return false;
 		}
 		

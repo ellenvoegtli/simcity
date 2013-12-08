@@ -53,8 +53,8 @@ public class Market2CashierRole extends Role implements MarketCashier, WorkerRol
 	}
 
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_CASHIER, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2_CASHIER, this.getName(), s);
 	}
 	
 	

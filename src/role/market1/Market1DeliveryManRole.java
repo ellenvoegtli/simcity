@@ -315,33 +315,49 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	
 	public boolean restaurantOpen(Bill b){
 		if (b.restaurantName.equalsIgnoreCase("ellenrestaurant")){
-			if (ContactList.getInstance().ellenHost !=null)
-				if (ContactList.getInstance().ellenHost.isOpen())
+			if (ContactList.getInstance().ellenHost !=null){
+				if (ContactList.getInstance().ellenHost.isOpen()){
+					log("Ellen's host says restaurant is OPEN!");
 					return true;
+				}
+			}
+			log("Ellen's restaurant is CLOSED.");
 			return false;
 		}
 		else if (b.restaurantName.equalsIgnoreCase("enarestaurant")){
 			if (ContactList.getInstance().enaHost !=null)
-				if (ContactList.getInstance().enaHost.isOpen())
+				if (ContactList.getInstance().enaHost.isOpen()){
+					log("Ena's host says restaurant is OPEN!");
 					return true;
+				}
+			log("Ena's restaurant is CLOSED.");
 			return false;
 		}
 		else if (b.restaurantName.equalsIgnoreCase("marcusrestaurant")){
 			if (ContactList.getInstance().marcusHost != null)
-				if (ContactList.getInstance().marcusHost.isOpen())
+				if (ContactList.getInstance().marcusHost.isOpen()){
+					log("Marcus' host says restaurant is OPEN!");
 					return true;
+				}
+			log("Marcus' restaurant is CLOSED.");
 			return false;
 		}
 		else if (b.restaurantName.equalsIgnoreCase("davidrestaurant")){
 			if (ContactList.getInstance().davidHost != null)
-				if(ContactList.getInstance().davidHost.isOpen())
+				if(ContactList.getInstance().davidHost.isOpen()){
+					log("David's host says restaurant is OPEN!");
 					return true;
+				}
+			log("David's restaurant is CLOSED.");
 			return false;
 		}
 		else if (name.equalsIgnoreCase("jeffersonrestaurant")){
 			if (ContactList.getInstance().jeffersonHost != null)
-				if (ContactList.getInstance().jeffersonHost.isOpen())
+				if (ContactList.getInstance().jeffersonHost.isOpen()){
+					log("Jefferson's host says restaurant is OPEN!");
 					return true;
+				}
+			log("Jefferson's restaurant is CLOSED.");
 			return false;
 		}
 		
