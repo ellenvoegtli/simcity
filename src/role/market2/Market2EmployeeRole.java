@@ -175,8 +175,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 
 
 	public void msgAtStation() {
-		//print("msgAtStation called");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "msgAtStation called");
+		log("msgAtStation called");
 		atStation.release();// = true;
 		stateChanged();
 	}
@@ -306,7 +305,6 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 		try {
 			atWaitingRoom.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -315,7 +313,6 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 		try {
 			atStation.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		mc.c.msgMayITakeYourOrder(this);
@@ -325,12 +322,6 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	private void ProcessOrder(MyCustomer mc){
 		log("Processing order for " + mc.c.getName());
 		for (Map.Entry<String, Integer> entry : mc.inventoryOrdered.entrySet()){
-			/*if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
-				mc.inventoryFulfilled.put(entry.getKey(), entry.getValue());
-			}
-			else {
-				mc.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - marketMenu.getStock(entry.getKey())));
-			}*/
 			for (Item i : marketMenu.menuItems){
 				if (i.getItem().equalsIgnoreCase(entry.getKey())){
 					if (entry.getValue() <= i.getStock())
@@ -389,12 +380,6 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	private void ProcessOrder(MyBusiness mb){
 		log("Processing order for " + mb.restaurantName);
 		for (Map.Entry<String, Integer> entry : mb.inventoryOrdered.entrySet()){
-			/*if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
-				mb.inventoryFulfilled.put(entry.getKey(), entry.getValue());
-			}
-			else {		//take everything the market has left
-				mb.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - marketMenu.getStock(entry.getKey())));
-			}*/
 			for (Item i : marketMenu.menuItems){
 				if (i.getItem().equalsIgnoreCase(entry.getKey())){
 					if (entry.getValue() <= i.getStock())
@@ -409,12 +394,10 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	private void SendBillToCashier(MyBusiness mb){
 		log("Sending bill to cashier");
-		//gui to go to cashier
 		employeeGui.DoGoToCashier();
 		try {
 			atCashier.acquire();
 		} catch(InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		cashier.msgComputeBill(mb.inventoryFulfilled, mb.restaurantName, this);

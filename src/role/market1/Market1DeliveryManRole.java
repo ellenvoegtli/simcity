@@ -81,7 +81,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 
 	
 	public void msgHereIsPayment(double amount, String restaurantName){		//sent by any restaurant's cashier
-		log("Received msgHereIsPayment: got $" + amount);
+		log("Received msgHereIsPayment from: " + restaurantName + ", got: $" + amount);
 		Bill b = null;
 		for (Bill thisB : bills){
 			if (thisB.restaurantName.equalsIgnoreCase(restaurantName)){
@@ -94,7 +94,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		stateChanged();
 	}
 	public void msgChangeVerified(String name){
-		log("Received msgChangeVerified");
+		log("Received msgChangeVerified from: " + name);
 		Bill b = null;
 		for (Bill thisB : bills){	
 			if (thisB.restaurantName.equalsIgnoreCase(name)){
@@ -159,7 +159,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		
 		for(Bill b: bills){
 			if (b.s == DeliveryState.newBill && b.event == DeliveryEvent.deliveryRequested && state == AgentState.doingNothing){
-				log("SCHEDULER: NEW BILL, DELIVERY REQUESTED! :" + b.restaurantName);
+				log("NEW BILL, DELIVERY REQUESTED! :" + b.restaurantName);
 				DeliverOrder(b);
 				state = AgentState.makingDelivery;
 				return true;
@@ -167,20 +167,22 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		}
 		
 		for(Bill b: bills){
-			if (b.s == DeliveryState.waitingForPayment && b.event == DeliveryEvent.receivedPayment && state == AgentState.makingDelivery){
+			if (b.s == DeliveryState.waitingForPayment && b.event == DeliveryEvent.receivedPayment){
 				CalculateChange(b);
 				return true;
 			}
 		}
 		for(Bill b: bills){
-			if (b.s == DeliveryState.waitingForVerification && b.event == DeliveryEvent.changeVerified && state == AgentState.makingDelivery){
+			if (b.s == DeliveryState.waitingForVerification && b.event == DeliveryEvent.changeVerified){
 				ReturnToMarket(b);
+				state = AgentState.doingNothing;
 				return true;
 			}
 		}
 		for(Bill b: bills){
-			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt && state == AgentState.makingDelivery){
+			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt){
 				ReturnToMarket(b);
+				state = AgentState.doingNothing;
 				return true;
 			}
 		}
@@ -297,10 +299,8 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		state = AgentState.doingNothing;
 		
 		if(!onDuty){
 			super.setInactive();
