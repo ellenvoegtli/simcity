@@ -7,6 +7,7 @@ import role.jeffersonRestaurant.JeffersonWaiterRole;
 import role.jeffersonRestaurant.JeffersonCookRole.Order;
 import role.market1.Market1DeliveryManRole;
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.interfaces.DeliveryMan;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Cashier;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
@@ -85,6 +86,8 @@ public class JeffersonCashierRole extends Role implements Cashier{
 
 	public void msgGoOffDuty(double d) {
 		addToCash(d);
+		ContactList.getInstance().getBank().directDeposit("jeffersonrestaurant", profits*.5);
+		profits = profits*.5;
 		onDuty = false;
 		stateChanged();
 	}
@@ -145,6 +148,12 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	/* Scheduler */
 	public boolean pickAndExecuteAnAction() {
 		
+		if(profits<=0){
+			acquireFunds();
+			return true;
+			
+		}
+		
 		synchronized(bills){
 			for(Bill b:bills){
 				if(!b.paid){
@@ -196,6 +205,12 @@ public class JeffersonCashierRole extends Role implements Cashier{
 
 
 	//Actions
+	
+	private void acquireFunds(){
+		ContactList.getInstance().getBank().directWithdraw("jeffersonrestaurant", 500);
+		profits+=500;
+		System.out.println("withdrawing money from bank for restaurant");
+	}
 
 	private void DoLeaveRestaurant() {
 		setInactive();
