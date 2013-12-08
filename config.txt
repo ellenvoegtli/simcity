@@ -1,3 +1,4 @@
+- Scenario: Normative scenario (all employees working, many rich people)
 -Bank
 Name:bankteller;Cash:100;Renter:true;Occupation:bankTeller;ShiftBegin:6;ShiftEnd:22;Actions:work
 Name:bankmanager;Cash:100;Renter:true;Occupation:bankManager;ShiftBegin:6;ShiftEnd:22;Actions:work
@@ -23,7 +24,7 @@ Name:marcuswaiter;Cash:100;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;Shif
 Name:ellencook;Cash:100;Renter:true;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:ellencashier;Cash:100;Renter:false;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:ellenhost;Cash:100;Renter:false;Occupation:ellenHost;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:ellenwaiter1;Cash:100;Renter:false;Occupation:ellenShareWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:ellensharewaiter1;Cash:100;Renter:false;Occupation:ellenShareWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:ellenwaiter2;Cash:100;Renter:false;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Ena Restaurant
 Name:enacashier;Cash:100;Renter:false;Occupation:enaCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
