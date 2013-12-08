@@ -188,6 +188,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		
 		for (Bill b: bills){
 			if (b.s == DeliveryState.waitingToRedeliver && b.event == DeliveryEvent.checkRedeliveryOn && state == AgentState.doingNothing){
+				log("RE-delivering order...");
 				DeliverOrder(b);
 				state = AgentState.makingDelivery;
 				b.event = DeliveryEvent.checkRedeliveryOff;
@@ -216,7 +217,6 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

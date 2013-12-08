@@ -32,7 +32,6 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	public WaiterState wState;
 	public enum WaiterState {doingNothing, busy};
-	public boolean customer = false;
 	
 	private Semaphore atStation = new Semaphore(0,true);
 	private Semaphore atCashier = new Semaphore(0, true);
@@ -41,7 +40,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	private Semaphore doneLeaving = new Semaphore(0, true);
 	
 	private boolean onDuty;
-
+	public boolean customer = false;
 		
 
 	public Market2EmployeeRole(PersonAgent p, String name) {
@@ -223,6 +222,37 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 					return true;
 				}
 			}
+			for (MyCustomer mc : myCustomers) {
+				if (mc.s == CustomerState.ordered && wState == WaiterState.doingNothing){
+					ProcessOrder(mc);
+					wState = WaiterState.busy;
+					return true;
+				}
+			}
+			for (MyCustomer mc : myCustomers){
+				if (mc.s == CustomerState.gotCheckFromCashier && wState == WaiterState.doingNothing){
+					FulfillOrder(mc);
+					wState = WaiterState.busy;
+					return true;
+				}
+			}
+			for (MyCustomer mc : myCustomers) {
+				//fulfilling order always takes longer than cashier computing bill
+				if (mc.s == CustomerState.doneFulfillingOrder && wState == WaiterState.doingNothing){
+					DeliverOrder(mc);
+					wState = WaiterState.busy;
+					return true;
+				}
+			}
+			for (MyCustomer mc : myCustomers) {
+				if (mc.s == CustomerState.leaving){
+					RemoveCustomer(mc);
+					customer = false;
+					return true;
+				}
+			}
+			
+			
 			//business check
 			for (MyBusiness mb : myBusinesses) {
 				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing && !customer){
@@ -232,25 +262,10 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 					return true;
 				}
 			}
-			for (MyCustomer mc : myCustomers) {
-				if (mc.s == CustomerState.ordered && wState == WaiterState.doingNothing){
-					ProcessOrder(mc);
-					wState = WaiterState.busy;
-					return true;
-				}
-			}
-			
 			//business check
 			for (MyBusiness mb : myBusinesses) {
 				if (mb.s == BusinessState.gotCheckFromCashier && wState == WaiterState.doingNothing){
 					FulfillOrder(mb);
-					wState = WaiterState.busy;
-					return true;
-				}
-			}
-			for (MyCustomer mc : myCustomers){
-				if (mc.s == CustomerState.gotCheckFromCashier && wState == WaiterState.doingNothing){
-					FulfillOrder(mc);
 					wState = WaiterState.busy;
 					return true;
 				}
@@ -265,21 +280,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 					return true;
 				}
 			}
-			for (MyCustomer mc : myCustomers) {
-				//fulfilling order always takes longer than cashier computing bill
-				if (mc.s == CustomerState.doneFulfillingOrder && wState == WaiterState.doingNothing){
-					DeliverOrder(mc);
-					wState = WaiterState.busy;
-					customer = false;
-					return true;
-				}
-			}
-			for (MyCustomer mc : myCustomers) {
-				if (mc.s == CustomerState.leaving){
-					RemoveCustomer(mc);
-					return true;
-				}
-			}
+			
 
 			wState = WaiterState.doingNothing;
 			

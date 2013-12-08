@@ -40,6 +40,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private Semaphore doneLeaving = new Semaphore(0, true);
 	
 	private boolean onDuty;
+	private boolean customer = false;
 
 		
 
@@ -215,9 +216,10 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 		
 		try {
 			for (MyCustomer mc : myCustomers){
-				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing){
+				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing && !customer){
 					GreetCustomer(mc);
 					wState = WaiterState.busy;
+					customer = true;
 					return true;
 				}
 			}
@@ -246,6 +248,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 			for (MyCustomer mc : myCustomers) {
 				if (mc.s == CustomerState.leaving){
 					RemoveCustomer(mc);
+					customer = false;
 					return true;
 				}
 			}
@@ -273,6 +276,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 				if (mb.s == BusinessState.doneFulfillingOrder && wState == WaiterState.doingNothing){
 					DeliverOrder(mb);
 					wState = WaiterState.busy;
+					customer = false;
 					return true;
 				}
 			}
