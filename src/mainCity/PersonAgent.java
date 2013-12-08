@@ -276,12 +276,7 @@ public class PersonAgent extends Agent {
 						roles.get(currentAction.type).setActive();
 				}
 				
-				if(currentAction != null && (currentAction.type == ActionType.market || currentAction.type == ActionType.home)) {
-					currentAction.state = ActionState.done;
-				}
-				
-				gui.DoGoInside();
-				state = PersonState.inBuilding;
+				enterBuilding();
 				return true;
 			}
 
@@ -294,12 +289,7 @@ public class PersonAgent extends Agent {
 					roles.get(currentAction.type).setActive();
 				}
 				
-				if(currentAction != null && currentAction.type == ActionType.work) {
-					currentAction.state = ActionState.done;
-				}
-				
-				gui.DoGoInside();
-				state = PersonState.working;
+				enterBuilding();
 				return true;
 			}
 
@@ -317,12 +307,7 @@ public class PersonAgent extends Agent {
 					customer.setActive();
 				}
 				
-				if(currentAction != null && currentAction.type == ActionType.market) {
-					currentAction.state = ActionState.done;
-				}
-				
-				gui.DoGoInside();
-				state = PersonState.inBuilding;
+				enterBuilding();
 				return true;
 			}
 			
@@ -340,12 +325,7 @@ public class PersonAgent extends Agent {
 					customer.setActive();
 				}
 				
-				if(currentAction != null && currentAction.type == ActionType.market2) {
-					currentAction.state = ActionState.done;
-				}
-				
-				gui.DoGoInside();
-				state = PersonState.inBuilding;
+				enterBuilding();
 				return true;
 			}
 			
@@ -391,12 +371,7 @@ public class PersonAgent extends Agent {
 				customer.setActive();
 				}
 
-				if(currentAction != null && currentAction.type == ActionType.restaurant) {
-					currentAction.state = ActionState.done;
-				}
-				
-				gui.DoGoInside();
-				state = PersonState.inBuilding;
+				enterBuilding();
 				return true;
 			}
 		
@@ -427,12 +402,7 @@ public class PersonAgent extends Agent {
 					}
 				}
 				
-				if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
-					currentAction.state = ActionState.done;
-				}
-				
-				gui.DoGoInside();
-				state = PersonState.inBuilding;
+				enterBuilding();
 				return true;
 			}
 
@@ -506,6 +476,18 @@ public class PersonAgent extends Agent {
 	}
 	
 	//----------Actions----------//
+	private void enterBuilding() {
+		if(currentAction != null) {
+			currentAction.state = ActionState.done;
+		}
+		
+		gui.DoGoInside();
+		state = PersonState.inBuilding;
+
+		if(currentAction.type == ActionType.work)
+			state = PersonState.working;
+	}
+	
 	private void checkSelf() {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
 		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
