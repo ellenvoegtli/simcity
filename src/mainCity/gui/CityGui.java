@@ -92,7 +92,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	
 	//=================Scenario Hack panel components========================
 	private JPanel subControlPanel3 = new JPanel();
-	public JScrollPane scenarioPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	//public JScrollPane scenarioPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	
 	
 	private GroupLayout layout3 = new GroupLayout(subControlPanel3);
 	private JLabel scenario1Label = new JLabel("Scenario 1: Norm: All employees/many rich");
@@ -346,8 +347,10 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 				addComponent(scenario10Label).addComponent(scenario10Button));
 		layout3.setVerticalGroup(vGroup3);
 		//==================END GROUP LAYOUT 3=====================================================
-		
-		scenarioPane.setViewportView(subControlPanel3);
+		JScrollPane scenarioPane = new JScrollPane(subControlPanel3);
+		subControlPanel3.setAutoscrolls(true);
+		scenarioPane.setPreferredSize(new Dimension((int) (WINDOWX * .35), (int) (WINDOWY * .4)));
+		//scenarioPane.setViewportView(subControlPanel3);
 		//controlTabbedPane.addTab("Scenarios", subControlPanel3);
 		controlTabbedPane.addTab("Scenarios", scenarioPane);
 		
