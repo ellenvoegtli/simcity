@@ -55,9 +55,7 @@ public class PersonAgent extends Agent {
 	private Map<ActionType, Role> roles;
 	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
-	
 	private String restaurantHack;
-	
 	public EventLog log = new EventLog(); 
 	
 	public PersonAgent(String n) {
@@ -131,7 +129,6 @@ public class PersonAgent extends Agent {
 		actions.add(new Action(ActionType.maintenance, 1));
 		stateChanged();
 	}
-	
 	
 	public void msgBusHasArrived() {
 		//print("msgBusHasArrived received");
