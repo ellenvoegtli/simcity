@@ -473,7 +473,7 @@ public class PersonAgent extends Agent {
 	
 	private void checkSelf() {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
-		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
+		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && currentAction.type != ActionType.work && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
 			synchronized(actions) {
 				actions.add(new Action(ActionType.work, 1));
 				stateChanged();
