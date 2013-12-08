@@ -77,6 +77,17 @@ public class EnaAnimationPanel extends CityCard implements ActionListener {
             }
         }
     }
+    
+    public void backgroundUpdate()
+    {
+    	for (Gui gui : guis)
+    	{
+    		if (gui.isPresent())
+    		{
+    			gui.updatePosition();
+    		}
+    	}
+    }
 
     public void addGui(EnaCustomerGui gui) 
     {

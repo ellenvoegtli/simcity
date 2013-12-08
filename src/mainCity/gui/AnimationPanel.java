@@ -184,6 +184,9 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         buildings.add(building); 
         addBuildingGui(building);
         
+       
+        
+        
         
         javax.swing.Timer t = new javax.swing.Timer( 25, this );
 		t.start();

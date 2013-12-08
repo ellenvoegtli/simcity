@@ -48,12 +48,11 @@ public class HomePanel extends JPanel
     	
 
     	
-    	
     	PersonAgent base5 = new PersonAgent("occupant");
 		occupant = new OccupantRole(base5, base5.getName());
 		base5.addRole(PersonAgent.ActionType.homeAndEat, occupant);
 		occupant.setActive();
-		
+	
 		
 		//occupantGui = new OccupantGui(occupant, animation); 
 		//animation.addGui(occupantGui);
@@ -108,16 +107,12 @@ public class HomePanel extends JPanel
         	}
             house.setOccupant(occupant);
     		occupantGui = new OccupantGui(occupant, animation); 
-    		System.out.println("new gui created");
     		System.out.println("HOME PANEL SIZE" +animation.getGuis().size());
     		animation.addGui(occupantGui);
-    		animation.addGui(occupantGui);
-
     		System.out.println("HOME PANEL SIZE AFTER" +animation.getGuis().size());
     		occupant.setGui(occupantGui);
-    		System.out.println("gui set");
+    		
     		occupantGui.setHungry();    
-    		System.out.println("Occupant has been returned home");
 
     		
     	}
