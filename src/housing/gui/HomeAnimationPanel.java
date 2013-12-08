@@ -79,7 +79,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	        
 	        bufferSize = this.getSize();
 	 
-	    	Timer timer = new Timer(2,this);
+	    	Timer timer = new Timer(9,this);
 	    	timer.start();
 	    }
 
@@ -93,12 +93,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	        Graphics2D g2 = (Graphics2D)g;
 	        //JLabel label;
 	        
-		     if(guis.size() != 0)
-
-		       {
-			    	System.out.println("gui list size in update position " +getGuis().size());
-
-		       }
+		 
 	        
 	    if(ty)
 	     
@@ -179,17 +174,10 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		        g2.fillRect(65 ,10, 25, 10);
 	     }
 	       
-	     if(guis.size() != 0)
-
-	       {
-		    	System.out.println("-----------------------gui list size in update position------------------- " +getGuis().size());
-
-	       }
+	   
 
 	        for(Gui gui : guis)
 		     {
-            	System.out.println("=======$$$$$$$$$=========");
-
 		            if (gui.isPresent()) 
 		            {
 		                gui.updatePosition();
@@ -198,23 +186,18 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 
 		        for(Gui gui : guis) 
 		        {
-	            	System.out.println("=======$$$$$$$$$=========");
-
 		            if (gui.isPresent())
 		            {
-		            	System.out.println("================");
 		                gui.draw(g2);
 		            }
 		        }
 		        
             
 		        
-		       repaint();
 	 }
 	    
 	    public void backgroundUpdate()
 	    {
-	    	//System.out.println("gui list in backgroundUpdate function call ********************" +getGuis().size());
 
 	    	for (Gui gui : getGuis())
 	    	{
@@ -229,7 +212,6 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    {
 	    	System.out.println("gui added to window???");
 	        guis.add(gui);
-	        //setGuis(guis);
 	    }
 	    public void addGui(OccupantGui gui)
 	    {
@@ -237,9 +219,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    	System.out.println("gui added to window???");
 	    	System.out.println("gui list size " +getGuis().size());
 	    	guis.add(gui);
-	    	//setGuis(guis);
 	    	System.out.println("gui list size after addition" +getGuis().size());
-	    	repaint();
 	    }
 
 		public HomePanel getHomeP() 

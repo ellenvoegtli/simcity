@@ -68,6 +68,7 @@ public class OccupantRole extends Role implements Occupant
 @Override
 public void msgAtDestination()
 {
+	print("RELEASING SEMAPHORE------------");
 	destination.release();
 	stateChanged();
 	
@@ -212,11 +213,12 @@ public boolean pickAndExecuteAnAction()
 		return true;
 	}*/
 	
-	if(needsWork.isEmpty() && fState == fixState.nothing && eState != eatingState.hungry )
+	if(needsWork.isEmpty() && fState == fixState.nothing && eState == eatingState.nothing )
 	{
 		//checkMaintenance();
 		return true;
 	}
+	
 	if (eState == eatingState.hungry && sState == shoppingState.nothing) 
 	{
 		wantsToEat(meal);
@@ -249,12 +251,15 @@ public boolean pickAndExecuteAnAction()
 	}
 	if (eState == eatingState.cooking)
 	{
+		print("******************");
 		cookAMeal();
 		return true;
 	}
 	
 	if(eState == eatingState.eating)
 	{
+		print("----------------------");
+
 		EatFood();
 		return true;
 	}
@@ -326,9 +331,7 @@ public void serviceAppliance()
 	fState = fixState.fixed;
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#fixAppliance(java.lang.String)
- */
+
 
 public void fixAppliance(String app)
 {
@@ -367,30 +370,30 @@ public void fixAppliance(String app)
 	
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#wantsToEat(java.lang.String)
- */
+
 
 public void wantsToEat(String mealChoice)
 {
+	log("has reached the fridge");
+	print("LOOKING IN FRIDGE?????");
 	if(owner) gui.DoGoToFridge();
 	
-	if(!owner) gui.DoGoToFridgeA();
-	log("has reached the fridge");
+	//else if(!owner) gui.DoGoToFridgeA();
+	
 	
 	try {
 		destination.acquire();
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
+	
+	
 	print("LOOKING IN FRIDGE FOR FOOD");
 	home.checkSupplies("pasta");
 		
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#goToStore()
- */
+
 
 public void goToStore()
 {
@@ -402,18 +405,14 @@ public void goToStore()
 	sState = shoppingState.shopping;
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#restockKitchen()
- */
+
 
 public void restockKitchen()
 {
 	home.GroceryListDone();	
 	sState = shoppingState.reStocking;
 }
-/* (non-Javadoc)
- * @see housing.Occupant#cookAMeal()
- */
+
 
 public void cookAMeal()
 {
@@ -436,14 +435,11 @@ public void cookAMeal()
 			
 		}
 	},
-	3000);
+	1000);
 	
 	
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#EatFood()
- */
 
 public void EatFood()
 {
@@ -467,9 +463,7 @@ public void EatFood()
 	//timer to eat food
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#GoWashDishes()
- */
+
 
 public void GoWashDishes()
 {
@@ -492,9 +486,6 @@ public void GoWashDishes()
 	},
 	1000);
 }
-/* (non-Javadoc)
- * @see housing.Occupant#GoRest()
- */
 
 public void GoRest()
 {
@@ -502,45 +493,30 @@ public void GoRest()
 	if(!owner) gui.DoGoRestA();
 }
 
-
-/* (non-Javadoc)
- * @see housing.Occupant#getHome()
- */
-
 public personHome getHome() {
 	return home;
 }
 
 
-/* (non-Javadoc)
- * @see housing.Occupant#setHouse(housing.personHome)
- */
 
 public void setHouse(personHome house) {
 	this.home = house;
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#setLandLord(housing.LandlordRole)
- */
+
 
 public void setLandLord(housing.Interfaces.landLord land)
 {
 	this.landLord = land;
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#setGui(housing.gui.OccupantGui)
- */
 
 public void setGui(OccupantGuiInterface occupantGui) 
 {
 	this.gui = occupantGui;	
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#getGui()
- */
+
 public OccupantGuiInterface getGui() {
 	return gui;
 }

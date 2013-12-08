@@ -136,16 +136,16 @@ public class EnaRestaurantPanel extends JPanel
 
         
 
-        setLayout(new GridLayout(1, 2, 20, 20));
-        group.setLayout(new GridLayout(2, 1, 10, 10));
+       // setLayout(new GridLayout(1, 2, 20, 20));
+        //group.setLayout(new GridLayout(2, 1, 10, 10));
 
-        group.add(waiterPanel);
+        //group.add(waiterPanel);
         
-        group.add(customerPanel);
+        //group.add(customerPanel);
 
-        initRestLabel();
-        add(restLabel);
-        add(group);
+        //initRestLabel();
+        //add(restLabel);
+        //add(group);
     }
 
     /**
