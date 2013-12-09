@@ -137,8 +137,6 @@ public class WaiterGui implements Gui, WaiterGuiInterface {
     }
     
     public void draw(Graphics2D g) {
-        //g.setColor(Color.BLUE);
-        //g.fillRect(xPos, yPos, waiterWidth, waiterHeight);
     	g.drawImage(waiterImg, xPos, yPos, null);
         
         if (isDeliveringFood){

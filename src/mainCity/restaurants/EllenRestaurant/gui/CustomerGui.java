@@ -54,7 +54,7 @@ public class CustomerGui implements Gui{
     private BufferedImage customerImg = null;
 	
 
-	public CustomerGui(EllenCustomerRole c, EllenAnimationPanel a){ //HostAgent m) {
+	public CustomerGui(EllenCustomerRole c, EllenAnimationPanel a){
 		animation = a;
 		
 		StringBuilder path = new StringBuilder("imgs/");
@@ -84,7 +84,6 @@ public class CustomerGui implements Gui{
 		yPos = -40;
 		xDestination = -40;
 		yDestination = -40;
-		//maitreD = m;
 	}
 
 	public void updatePosition() {
@@ -159,7 +158,7 @@ public class CustomerGui implements Gui{
 	public boolean isPresent() {
 		return isPresent;
 	}
-	//public void setHungry() {
+
 	public boolean goInside(){
 		if (agent.restaurantOpen()){
 			isHungry = true;
@@ -169,6 +168,7 @@ public class CustomerGui implements Gui{
 		}
 		return false;
 	}
+	
 	public boolean isHungry() {
 		return isHungry;
 	}
