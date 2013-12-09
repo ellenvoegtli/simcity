@@ -388,20 +388,13 @@ public class PersonAgent extends Agent {
 			}
 		
 			if(event == PersonEvent.arrivedAtBank) {
-				System.out.println("arrived at bank");
-				//set appropriate role and initial state for different actions
+				output("Arrived at bank");
 				handleRole(currentAction.type);
 
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
-					if (customer instanceof BankRobberRole && !((BankRobberRole) customer).getGui().goInside()){
-						System.out.println("bank robber checked closed");
-						currentAction.state = ActionState.done;
-						return true;
-					}
-					
-					if (customer instanceof BankCustomer && !((BankCustomer) customer).getGui().goInside()){
+					if ((customer instanceof BankRobberRole && !((BankRobberRole) customer).getGui().goInside()) || (customer instanceof BankCustomer && !((BankCustomer) customer).getGui().goInside())){
 						currentAction.state = ActionState.done;
 						return true;
 					}
@@ -514,7 +507,6 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void checkSelf() {
-		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
 		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && currentAction.type != ActionType.work && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
 			synchronized(actions) {
 				actions.add(new Action(ActionType.work, 1));
