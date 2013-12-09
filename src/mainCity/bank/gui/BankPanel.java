@@ -78,7 +78,7 @@ public class BankPanel extends JPanel {
         mainaccounts.addBusinessAccount("jeffersonrestaurant", 2000);
         mainaccounts.addBusinessAccount("marcusrestaurant", 2000);
         
-        ContactList.getInstance().setBank(this);
+        //ContactList.getInstance().setBank(this);
         
         
         //hack creating a new account with 100 monies
