@@ -83,6 +83,10 @@ public class CookGui implements Gui, CookGuiInterface{
 		onDuty = false;
 	}
 	
+	public void guiAppear() {
+		onDuty = true;
+	}
+	
 	public void draw(Graphics2D g) {
 		if(onDuty) {
 			g.setColor(Color.RED);

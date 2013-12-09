@@ -27,6 +27,8 @@ public interface Occupant {
 	public abstract void msgLeaveHome();
 
 	public abstract personHome getHome();
+	
+	public abstract void applianceBroke();
 
 	
 

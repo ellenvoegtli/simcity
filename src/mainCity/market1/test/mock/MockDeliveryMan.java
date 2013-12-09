@@ -15,6 +15,9 @@ public class MockDeliveryMan extends Mock implements DeliveryMan1 {
 	public void setCashier(MarketCashier c){
 		
 	}
+	public boolean isActive(){
+		return true;
+	}
 	
 	@Override
 	public void msgAtHome(){
@@ -22,6 +25,10 @@ public class MockDeliveryMan extends Mock implements DeliveryMan1 {
 	}
 	public void msgAtDestination(){
 		log.add(new LoggedEvent("Received msgAtDestination"));
+	}
+	
+	public void msgCheckForRedeliveries(){
+		
 	}
 	
 	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){

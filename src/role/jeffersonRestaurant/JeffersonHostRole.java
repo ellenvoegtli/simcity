@@ -302,6 +302,9 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 		
 		public boolean isOpen() {
 			//TODO removed check for empty waiter list, make sure waiters are assign customers on entry/return
+			if (cook != null && cook.isActive() && cashier != null && cashier.isActive() && !waiters.isEmpty()){
+				log("yes is open");
+			}
 			return (cook != null && cook.isActive()) && (cashier != null && cashier.isActive());
 		}
 		

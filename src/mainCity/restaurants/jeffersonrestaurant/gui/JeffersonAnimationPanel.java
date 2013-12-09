@@ -60,6 +60,7 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
     	timer.start();
     }
 
+    /*
     public void backgroundUpdate() {
     	synchronized(guis){
 	    	for(Gui guit : guis) {
@@ -69,6 +70,7 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
 	        }
     	}
     }
+    */
 	public void actionPerformed(ActionEvent e) {
 		repaint();  //Will have paintComponent called
 	}

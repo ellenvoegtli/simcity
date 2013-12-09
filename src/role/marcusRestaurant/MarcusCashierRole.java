@@ -153,6 +153,11 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 			}
 		}
 		
+		if(bills.isEmpty() && !onDuty) {
+			setInactive();
+			onDuty = true;
+		}
+		
 		return false;
 	}
 
@@ -187,10 +192,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		b.customer.msgHereIsChange((b.receivedAmount - b.bill));
 		bills.remove(b);
 		
-		if(!onDuty) {
-			setInactive();
-			onDuty = true;
-		}
+		stateChanged();
 	}
 	
 	private void computeBill(Bill b) {
