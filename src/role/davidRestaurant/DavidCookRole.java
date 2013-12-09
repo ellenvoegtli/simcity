@@ -323,7 +323,7 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	
 	public void OrderFromMarket(Map<String, Integer> inventoryNeeded){ 
 		if (ContactList.getInstance().marketGreeter != null) {
-			ContactList.getInstance().marketGreeter.msgINeedInventory("davidRestaurant", this, cashier, inventoryNeeded); 
+			ContactList.getInstance().marketGreeter.msgINeedInventory("davidRestaurant", inventoryNeeded); 
 			for(Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()) { 
 				Inventory.get(entry.getKey()).fstate = FoodStatus.requested; 
 			}
