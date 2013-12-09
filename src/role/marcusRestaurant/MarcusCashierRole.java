@@ -65,7 +65,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	
 	public void deductCash(double min) {
 		cash -= min;
-		
+		output("Depositing $" + cash + " from bank");
 		ContactList.getInstance().getBank().directDeposit("marcusrestaurant", cash);
 		cash = 0;
 	}
@@ -127,7 +127,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	 */
 	public boolean pickAndExecuteAnAction() {
 		if(entered) {
-			output("Withdrawing daily amount of money from bank");
+			output("Withdrawing $1200 from bank");
 			ContactList.getInstance().getBank().directWithdraw("marcusrestaurant", 1200);
 			cash = 1200;
 			entered = false;
