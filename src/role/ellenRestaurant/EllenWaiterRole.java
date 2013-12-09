@@ -26,12 +26,12 @@ import javax.swing.JLabel;
 public abstract class EllenWaiterRole extends Role implements Waiter {
 	protected String name;
 	
-	protected EllenHostRole host;
-	protected EllenCookRole cook;
-	protected EllenCashierRole cashier;
-	public WaiterGui waiterGui = null;
+	protected Host host;
+	protected Cook cook;
+	protected Cashier cashier;
+	public WaiterGuiInterface waiterGui = null;
 	
-	protected Collection<MyCustomer> myCustomers;
+	public List<MyCustomer> myCustomers;	//public only for testing purposes
 	enum CustomerState {waiting, seated, readyToOrder, deciding, askedToOrder, hasOrdered, 
 							needToReorder, orderReady, waitingForFood,
 							gotFood, waitingForCheck, paying, leavingRestaurant};
@@ -42,8 +42,8 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	protected Semaphore doneLeaving = new Semaphore(0, true);
 
 	
-	protected WaiterState wState;
-	enum WaiterState {doingNothing, busy};
+	public WaiterState wState;
+	public enum WaiterState {doingNothing, busy};
 	protected BreakState bState;
 	enum BreakState {wantToGoOnBreak, acceptedToGoOnBreak, onBreak, offBreak};
 	
@@ -60,24 +60,24 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		myCustomers = new ArrayList<MyCustomer>();
 	}
 	
-	public void setCook(EllenCookRole cook) {
+	public void setCook(Cook cook) {
 		this.cook = cook;
 	}
 	
-	public void setHost(EllenHostRole host){
+	public void setHost(Host host){
 		this.host = host;
 	}
 	
-	public void setCashier(EllenCashierRole cashier){
+	public void setCashier(Cashier cashier){
 		this.cashier = cashier;
 	}
 	
-	public EllenHostRole getHost(){
+	public Host getHost(){
 		return this.host;
 	}
 
-	public String getMaitreDName() {
-		return name;
+	public void setState(WaiterState s){
+		wState = s;
 	}
 
 	public String getName() {
@@ -132,7 +132,6 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 			}
 		}
 		log("Received msgReadyToOrder from: " + mc.c.getName());
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgReadyToOrder from: " + mc.c.getName());
 		mc.s = CustomerState.readyToOrder;
 		stateChanged();
 	}
@@ -289,7 +288,6 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		conditions would check each of the states for the first myCustomer before even looking 
 		at the rest of the myCustomers.)
 		 */
-		
 		try {
 			if (wantToGoOnBreak){
 				host.msgIWantBreak(this);
@@ -324,12 +322,13 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 					return true;
 				}
 			}
-			for (MyCustomer mc : myCustomers) {
+			/*for (MyCustomer mc : myCustomers) {
 				if (mc.s == CustomerState.waitingForFood && wState == WaiterState.doingNothing){
+					log("waiting for food");
 					//no action - waiting
 					return true;
 				}
-			}
+			}*/
 			for (MyCustomer mc : myCustomers) {
 				if (mc.s == CustomerState.orderReady && wState == WaiterState.doingNothing){
 					deliverFood(mc);
@@ -496,16 +495,16 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	
 	//utilities
 
-	public void setGui(WaiterGui gui) {
+	public void setGui(WaiterGuiInterface gui) {
 		waiterGui = gui;
 	}
 
-	public WaiterGui getGui() {
+	public WaiterGuiInterface getGui() {
 		return waiterGui;
 	}
 	
 	
-	protected class MyCustomer {
+	public class MyCustomer {
 		Customer c;
 		int table;
 		String choice;
@@ -527,6 +526,9 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		
 		public Customer getCustomer(){
 			return this.c;
+		}
+		public void setTable(int t){
+			table = t;
 		}
 	}
 	

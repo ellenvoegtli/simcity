@@ -19,4 +19,10 @@ public class MockCook extends Mock implements Cook {
 	public void msgHereIsYourOrder(Map<String, Integer>inventoryFulfilled){
 		log.add(new LoggedEvent("Received msgHereIsYourOrder from delivery man."));
 	}
+
+
+	@Override
+	public void pickingUpFood(int table) {
+		log.add(new LoggedEvent("Received pickingUpFood for table " + table)); 
+	}
 }

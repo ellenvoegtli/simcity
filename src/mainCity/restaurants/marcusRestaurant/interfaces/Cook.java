@@ -8,4 +8,5 @@ public interface Cook extends MainCook{
 	//public abstract void msgOrderFulfillment(String choice, int q);
 
 	public abstract void msgCheckStand();
+	
 }

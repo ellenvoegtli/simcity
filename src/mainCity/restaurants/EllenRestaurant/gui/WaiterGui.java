@@ -1,19 +1,14 @@
 package mainCity.restaurants.EllenRestaurant.gui;
 
 
-import mainCity.restaurants.EllenRestaurant.*;
-
 import java.awt.*;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-
+import mainCity.restaurants.EllenRestaurant.interfaces.WaiterGuiInterface;
 import role.ellenRestaurant.EllenWaiterRole;
 
-public class WaiterGui implements Gui {
+public class WaiterGui implements Gui, WaiterGuiInterface {
 
     private final int WINDOWX = 500;
     private final int WINDOWY = 370;
