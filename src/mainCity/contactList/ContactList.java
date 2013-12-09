@@ -143,15 +143,11 @@ public class ContactList {
 		return city;
 	}
 	
-	// Home *****
+	// Home *****   \\
+	
 	HomePanel homeP;
-	public OccupantRole oR;
-	public PersonAgent pA;
 	public boolean rent;
-	//public List<Integer> OccInstances = new ArrayList<Integer> ();
 
-	public List<OccupantRole> OccInstances = new ArrayList<OccupantRole> ();
-	public List<OccupantRole> RenterInstances = new ArrayList<OccupantRole> ();
 	public List<PersonAgent> peopleList = new ArrayList<PersonAgent>();
 	public List<PersonAgent> RenterList = new ArrayList<PersonAgent>();
 
@@ -162,19 +158,15 @@ public class ContactList {
 	{
 		homeP = hp;
 		homeInstances.add(hp);
-		  System.out.println("home list size---------------------------------------   " +homeInstances.size());
-
 	}
 	
 	
 	public void setPersonInstance(PersonAgent p, boolean renter)
 	{
-		pA = p;
 		rent = renter;
 		if(renter == false)
 		{
 			peopleList.add(p);
-			//OccInstances.add(1);
 		}
 		if(renter == true)
 		{
@@ -188,52 +180,16 @@ public class ContactList {
 			 {
 				  home = homeInstances.get(peopleList.size()-1);
 					 LivingPlaces.put(p, home);
-
 			 }
 			 
 			else //if(!oR.owner)
 			 {
 				  home = homeInstances.get(6+RenterList.size());
-				 // System.out.println("renter list size" +RenterInstances.size());
 					 LivingPlaces.put(p, home);
-
 			 }
 		  }
 		
 	}
-/*	public void setOccInstance(OccupantRole oR)
-	{
-
-		if(oR.owner)
-		{
-			 OccInstances.add(oR);
-
-		}
-		else //if(!oR.owner)
-		{
-			 RenterInstances.add(oR);
-		}
-		 HomePanel home = null;
-		  if(homeInstances.size() != 0)
-		  {
-			 if (oR.owner)
-			 {
-				  home = homeInstances.get(OccInstances.size()-1);
-					 LivingPlaces.put(oR, home);
-
-			 }
-			 
-			else //if(!oR.owner)
-			 {
-				  home = homeInstances.get(6+RenterInstances.size());
-				  System.out.println("renter list size" +RenterInstances.size());
-					 LivingPlaces.put(oR, home);
-
-			 }
-		  }
-		
-		
-	}*/
 	
 	public HomePanel getHome(OccupantRole oR)
 	{
@@ -245,6 +201,8 @@ public class ContactList {
 	{
 		return homeP;
 	}
+	
+	
 	
 	//Bank*******
 	public void setBankManager(BankManager m){
