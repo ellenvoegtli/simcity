@@ -701,7 +701,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		}
 		else if (e.getSource() == scenario1Button){
 			System.out.println("SCENARIO1 BUTTON PRESSED");
-			personPanel.getPersonList().clear();
+			personPanel.resetPanel();
 			cityPanel.parseConfig("config.txt");
 			
 			Timer timer = new Timer();
@@ -715,7 +715,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		}
 		else if (e.getSource() == scenario2Button){
 			System.out.println("SCENARIO2 BUTTON PRESSED");
-			personPanel.getPersonList().clear();
+			personPanel.resetPanel();
 			cityPanel.parseConfig("config2.txt");
 		}
 		else if (e.getSource() == scenario3Button){
