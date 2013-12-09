@@ -128,8 +128,14 @@ public class MarketCustomerRole extends Role implements Customer {
 
 	//for alert log trace statements
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_CUSTOMER, this.getName(), s);
+		if(name.toLowerCase().contains("market2")){
+			AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET2_CUSTOMER, this.getName(), s);
+		}
+		else{
+			AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET_CUSTOMER, this.getName(), s);
+		}
 	}
 	
 	

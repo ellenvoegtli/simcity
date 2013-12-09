@@ -61,8 +61,14 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		state = s;
 	}
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_DELIVERYMAN, this.getName(), s);
+		if (name.toLowerCase().contains("market2")){
+			AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET2_DELIVERYMAN, this.getName(), s);
+		}
+		else {
+			AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET_DELIVERYMAN, this.getName(), s);
+		}
 	}
 	
 	// Messages

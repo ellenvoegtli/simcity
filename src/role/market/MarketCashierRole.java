@@ -52,8 +52,14 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 		cash = Math.round(cash*100.0)/100.0;
 	}
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_CASHIER, this.getName(), s);
+		if (name.toLowerCase().contains("market2")){
+			AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET2_CASHIER, this.getName(), s);
+		}
+		else {
+			AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
+	        AlertLog.getInstance().logMessage(AlertTag.MARKET_CASHIER, this.getName(), s);
+		}
 	}
 	
 	
