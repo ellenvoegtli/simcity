@@ -124,6 +124,7 @@ public class ContactList {
 	EnaRestaurantPanel enaRestaurant;
 	DavidRestaurantPanel davidRestaurant; 
 	BankPanel bank;
+	BankPanel bank2;
 	MarketPanel market;
 	Market2Panel market2;
 	
@@ -258,8 +259,14 @@ public class ContactList {
 	public void setBank(BankPanel b){
 		bank=b;
 	}
+	public void setBank2(BankPanel b){
+		bank2=b;
+	}
 	public BankPanel getBank(){
 		return bank;
+	}
+	public BankPanel getBank2(){
+		return bank2;
 	}
 	//Market********
 	public void setMarketGreeter(Market1GreeterRole g){

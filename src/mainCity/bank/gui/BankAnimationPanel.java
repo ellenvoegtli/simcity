@@ -133,6 +133,9 @@ public class BankAnimationPanel extends CityCard implements ActionListener {
 		
 	}
 	
+	public BankPanel getBankPanel(){
+		return bankPanel;
+	}
     @Override
     public void clearPeople() {
     	personGuis.clear();

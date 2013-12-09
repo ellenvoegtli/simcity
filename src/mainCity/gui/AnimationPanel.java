@@ -169,6 +169,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         buildings.add(building); 
         addBuildingGui(building);
         
+        building = new Building ( 670, 250, "bank.png", "bank2");
+        buildings.add(building); 
+        addBuildingGui(building);
+        
         building = new Building ( 275, 150, "restaurant_right.png", "enarestaurant");
         buildings.add(building); 
         addBuildingGui(building);
