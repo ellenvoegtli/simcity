@@ -10,27 +10,29 @@ public class MarketMenu {
 	public List<Item> menuItems;
 
 
-	public MarketMenu(){
+	public MarketMenu(int pasta, int pizza, int mtbls, int bread, int lamb, int lchops, int pchops,
+			int steak, int swiss, int american, int cheddar, int prov, int chicken, int salad, int soup,
+			int nuggets, int burger, int fries){
 		
 		menuItems = Collections.synchronizedList(new ArrayList<Item>());
 		
 		//Ellen Restaurant
-		menuItems.add(new Item("pasta", 5, 20.00));
-		menuItems.add(new Item("pizza", 5, 8.99));
-		menuItems.add(new Item("meatballs", 5, 5.00));
-		menuItems.add(new Item("bread", 5, 3.00));
+		menuItems.add(new Item("pasta", pasta, 20.00));
+		menuItems.add(new Item("pizza", pizza, 8.99));
+		menuItems.add(new Item("meatballs", mtbls, 5.00));
+		menuItems.add(new Item("bread", bread, 3.00));
 		
 		//Ena Restaurant
-		menuItems.add(new Item("lamb", 5, 5.99));
-		menuItems.add(new Item("lambchops", 5, 8.99));
-		menuItems.add(new Item("porkchops", 5, 10.99));
-		menuItems.add(new Item("steak", 5, 15.99));
+		menuItems.add(new Item("lamb", lamb, 5.99));
+		menuItems.add(new Item("lambchops", lchops, 8.99));
+		menuItems.add(new Item("porkchops", pchops, 10.99));
+		menuItems.add(new Item("steak", steak, 15.99));
 		
 		//Marcus Restaurant
-		menuItems.add(new Item("swiss", 20, 5.99));
-		menuItems.add(new Item("american", 20, 6.99));
-		menuItems.add(new Item("cheddar", 20, 7.99));
-		menuItems.add(new Item("provolone", 20, 4.99));
+		menuItems.add(new Item("swiss", swiss, 5.99));
+		menuItems.add(new Item("american", american, 6.99));
+		menuItems.add(new Item("cheddar", cheddar, 7.99));
+		menuItems.add(new Item("provolone", prov, 4.99));
 		
 		//Jefferson Restaurant
 		menuItems.add(new Item("chicken", 20, 10.99));

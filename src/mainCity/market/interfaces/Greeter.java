@@ -1,12 +1,7 @@
 package mainCity.market.interfaces;
 
 import java.util.Map;
-
-import role.market.MarketCustomerRole;
-import role.market.MarketDeliveryManRole;
 import mainCity.interfaces.DeliveryMan;
-import mainCity.interfaces.MainCashier;
-import mainCity.interfaces.MainCook;
 
 
 public interface Greeter {
