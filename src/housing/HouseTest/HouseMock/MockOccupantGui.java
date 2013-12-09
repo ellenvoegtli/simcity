@@ -14,11 +14,7 @@ public class MockOccupantGui extends Mock implements OccupantGuiInterface{
 		super(name);
 	}
 
-	@Override
-	public void DoGoToAplliance(String app) {
-		log.add(new LoggedEvent("Gui told to DoGoToAppliance by agent."));
-		
-	}
+
 
 	@Override
 	public void DoGoToFridge() {

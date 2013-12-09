@@ -57,7 +57,7 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		if(!this.atEndPoint())
 		{
 			if (((xDestination != -10 && yDestination != 45) || (xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) || (xDestination == 70 && yDestination == 100) ||
-				(xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55)) && atDestination == false)
+				(xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55))) //&& atDestination == false)
 			{
 					atDestination = true;
 					System.out.println("======");
@@ -65,7 +65,15 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			}
 		}
 
-		if (this.atEndPoint()) 
+		if (xPos == xDestination && yPos == yDestination && atDestination == true)
+		{
+			atDestination = false;	
+			System.out.println("******Destination reached*******");
+			person.msgAtDestination();
+		}
+			
+		/*if (this.atEndPoint()) 
+		else if (this.atEndPoint()) 
 		{
 			
 			if((xDestination == -10 && yDestination == 45) && atDestination == true)
@@ -74,25 +82,25 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 				System.out.println("******Destination reached*******");
 				person.msgAtDestination();
 			}
-			if((xDestination == 250 && yDestination == 150) && atDestination == true)
+			else if((xDestination == 250 && yDestination == 150) && atDestination == true)
 			{
 				atDestination = false;	
 				System.out.println("******Destination reached*******");
 				person.msgAtDestination();
 			}
 			
-			if ((((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 70 && yDestination == 100) ) 
+			else if ((((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 70 && yDestination == 100) ) 
 					|| (xDestination == 350 && yDestination == 30) || (xDestination == 450 && yDestination == 30) || (xDestination == 400 && yDestination == 30) || (xDestination == 415 && yDestination == 63) || (xDestination == 50 && yDestination == 55) )
 																																								&& atDestination == true)
 			{
 				atDestination = false;	
 				System.out.println("******Destination reached*******");
 				person.msgAtDestination();
-			}
+			}*/
 			
 		}
 		
-	}
+
 
 	
 	public void draw(Graphics2D g) 
@@ -139,7 +147,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 	    	return xPos == xDestination && yPos == yDestination;
 	    }
 
-		
 		public void DoGoToAppliance(int x, int y)
 		{
 			xDestination = x;
@@ -172,8 +179,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			yDestination = 30;
 		}
 		
-		
-		
 		public void DoGoToSink()
 		{
 			System.out.println("doing dishes");
@@ -189,12 +194,9 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		
 		public void DoGoToKitchenTable() 
 		{
-			
 			xDestination = 250;
 			yDestination = 150;
-			
 			System.out.println("going to table to eat");
-
 		}
 		
 		public void DoGoToKitchenTableA()
@@ -205,7 +207,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		
 		public void DoGoRest()
 		{
-			//System.out.println("going to couch");
 			xDestination = 50;
 			yDestination = 200;
 		}
@@ -222,9 +223,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			yDestination = 45;
 		}
 
-
 	
-		
-		
 
 }
