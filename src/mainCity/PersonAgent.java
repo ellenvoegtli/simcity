@@ -163,7 +163,7 @@ public class PersonAgent extends Agent {
 	public void msgGotHungryForHome() {
 		if(!actions.contains(ActionType.homeAndEat)) {
 			synchronized(actions) {
-				actions.add(new Action(ActionType.homeAndEat, 5));
+				actions.add(new Action(ActionType.homeAndEat, 3));
 				stateChanged();
 			}
 		}
