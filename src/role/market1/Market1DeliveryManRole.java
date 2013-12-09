@@ -72,7 +72,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	
 	// Messages
 	
-	public void msgHereIsOrderForDelivery(String restaurantName, /*MainCook cook, MainCashier cashier,*/ Map<String, Integer>inventory, double billAmount){
+	public void msgHereIsOrderForDelivery(String restaurantName, Map<String, Integer>inventory, double billAmount){
 		log("Received msgHereIsOrderForDelivery for " + restaurantName);
 		bills.add(new Bill(restaurantName, billAmount, inventory));
 		stateChanged();

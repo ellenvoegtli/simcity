@@ -92,9 +92,9 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	}
     
 	// Messages
-    public void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory){
+    public void msgAssignedToBusiness(String restaurantName, Map<String, Integer>inventory){
     	log("Received msgAssignedToBusiness");
-    	myBusinesses.add(new MyBusiness(restaurantName, cook, cashier, inventory, BusinessState.ordered));
+    	myBusinesses.add(new MyBusiness(restaurantName, inventory, BusinessState.ordered));
     	stateChanged();
     }
    
@@ -423,7 +423,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 		} catch(InterruptedException e) {
 			e.printStackTrace();
 		}
-		deliveryMan.msgHereIsOrderForDelivery(mb.restaurantName, mb.cook, mb.cashier, mb.inventoryFulfilled, mb.billAmount);
+		deliveryMan.msgHereIsOrderForDelivery(mb.restaurantName, mb.inventoryFulfilled, mb.billAmount);
 		mb.s = BusinessState.sentForDelivery;	//unnecessary
 		employeeGui.DoGoToStation();
 		
@@ -490,16 +490,12 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 		String restaurantName;
 		double billAmount;
 		BusinessState s;
-		MainCook cook;
-		MainCashier cashier;
 		
 		Map<String, Integer> inventoryOrdered;
 		Map<String, Integer> inventoryFulfilled = new TreeMap<String, Integer>();
 		
-		MyBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, BusinessState s){
+		MyBusiness(String restaurantName, Map<String, Integer>inventory, BusinessState s){
 			this.restaurantName = restaurantName;
-			this.cook = cook;
-			this.cashier = cashier;
 			inventoryOrdered = new TreeMap<String, Integer>(inventory);
 			this.s = s;
 		}
