@@ -31,7 +31,7 @@ public class OccupantRole extends Role implements Occupant
 	
 //DATA
 	Timer timer = new Timer();
-	private housing.Interfaces.landLord landLord;
+	private LandlordRole landLord;
 	//private houseAgent house;
 	private personHome home;
 	public OccupantGuiInterface gui;
@@ -41,6 +41,8 @@ public class OccupantRole extends Role implements Occupant
 	private String meal = "pasta";
 	private String name;
 	private int rent;
+	
+	//private List<Occupant>
 	
 	private Semaphore destination = new Semaphore(0,true);
 	
@@ -57,9 +59,6 @@ public class OccupantRole extends Role implements Occupant
 	
 	
 	//for alert log trace statements
-	/* (non-Javadoc)
-	 * @see housing.Occupant#log(java.lang.String)
-	 */
 	
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.OCCUPANT, this.getName(), s);
@@ -74,7 +73,6 @@ public void msgAtDestination()
 	print("RELEASING SEMAPHORE------------");
 	destination.release();
 	stateChanged();
-	
 }
 	
 @Override
@@ -109,12 +107,13 @@ public OccupantRole(PersonAgent p, String personNm)
 		if(homer.getBuild().equals(p.getHomePlace()))
 		{
 			owner = true;
+			landLord = new LandlordRole(p);
 			//break;
 		}
 	}
 	
 	
-	ContactList.getInstance().setOccInstance(this);
+	//ContactList.getInstance().setOccInstance(this);
 
 }
 
@@ -173,9 +172,6 @@ public void msgNeedsMaintenance(String appName)
 	stateChanged();
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#msgFixed(java.lang.String)
- */
 @Override
 public void msgFixed(String appName)
 {
@@ -184,9 +180,7 @@ public void msgFixed(String appName)
 	stateChanged();
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#msgNeedFood(java.util.List)
- */
+
 @Override
 public void msgNeedFood(List<String> buyFood)
 {
@@ -199,9 +193,6 @@ public void msgNeedFood(List<String> buyFood)
 }
 
 
-/* (non-Javadoc)
- * @see housing.Occupant#msgCookFood(java.lang.String)
- */
 @Override
 public void msgCookFood(String foodCh)
 {
@@ -234,7 +225,13 @@ public boolean pickAndExecuteAnAction()
 	
 	if(needsWork.isEmpty() && fState == fixState.nothing && eState == eatingState.nothing )
 	{
-		//checkMaintenance();
+		checkMaintenance();
+		//return true;
+	}
+	if(!needsWork.isEmpty() && (eState == eatingState.hungry || eState == eatingState.nothing) )
+	{
+		log("needs to fix appliance");
+		serviceAppliance();	
 		return true;
 	}
 	
@@ -249,12 +246,7 @@ public boolean pickAndExecuteAnAction()
 		goToStore();
 		return true;
 	}
-	if(!needsWork.isEmpty() && eState == eatingState.cooking)
-	{
-		log("needs to fix appliance");
-		serviceAppliance();	
-		return true;
-	}
+	
 
 	
 	if (sState == shoppingState.shopping)
@@ -298,7 +290,7 @@ public boolean pickAndExecuteAnAction()
 	if(owner == false)
 	{
 		PayRent();
-		return true;
+		//return true;
 	}
 	if(!person.getRoles().isEmpty()) {//makes the person leave the home if there's something else to do
 		setInactive();
@@ -316,9 +308,7 @@ private void checkMaintenance()
 		home.CheckAppliances();
 }
 
-/* (non-Javadoc)
- * @see housing.Occupant#PayRent()
- */
+
 
 public void PayRent()
 {
@@ -326,9 +316,7 @@ public void PayRent()
 	//timer to run for a reasonable amount of time to make rent due, a "week?"
 	//bank.DirectDeposit(owner.id, rent);
 }
-/* (non-Javadoc)
- * @see housing.Occupant#serviceAppliance()
- */
+
 
 public void serviceAppliance()
 {
@@ -428,14 +416,11 @@ public void goToStore()
 	
 }
 
-
-
 public void restockKitchen()
 {
 	home.GroceryListDone();	
 	sState = shoppingState.reStocking;
 }
-
 
 public void cookAMeal()
 {
@@ -525,14 +510,13 @@ public personHome getHome() {
 }
 
 
-
 public void setHouse(personHome house) {
 	this.home = house;
 }
 
 
 
-public void setLandLord(housing.Interfaces.landLord land)
+public void setLandLord(LandlordRole land)
 {
 	this.landLord = land;
 }
