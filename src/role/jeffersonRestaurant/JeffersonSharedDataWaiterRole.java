@@ -6,7 +6,7 @@ import mainCity.restaurants.jeffersonrestaurant.sharedData.RevolvingStand;
 
 
 public class JeffersonSharedDataWaiterRole extends JeffersonWaiterRole {
-	private RevolvingStand stand;
+	public RevolvingStand stand;
 	
 	public JeffersonSharedDataWaiterRole(PersonAgent p, String name) {
 		super(p, name);
