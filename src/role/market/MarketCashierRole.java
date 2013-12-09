@@ -21,9 +21,9 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	private Market1Menu marketMenu = new Market1Menu();
 	
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());	//from waiters
-	public enum BillState {computing, waitingForPayment, recomputingBill, calculatingChange, oweMoney, paid};
 	private List<Employee> employees = Collections.synchronizedList(new ArrayList<Employee>());
 	
+	public enum BillState {computing, waitingForPayment, recomputingBill, calculatingChange, oweMoney, paid};
 	private boolean onDuty;
 	
 	//constructor
@@ -49,7 +49,7 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	}
 	public void deductCash(double sub){
 		cash -= sub;
-		cash = Math.round(cash*100.0)/100.0;
+		cash = Math.round(cash*100.00)/100.00;
 	}
 	public void log(String s){
 		if (name.toLowerCase().contains("market2")){
@@ -121,14 +121,13 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 		}
 		//NOW we can add the money they finally, for sure paid and are not taking back
 		cash += b.amountMarketGets;
-		cash = Math.round(cash*100.0)/100.0;
+		cash = Math.round(cash*100.00)/100.00;
 		bills.remove(b);
 	}
 	public void msgHereIsMoneyIOwe(Customer cust, double amount){
 		log("Received msgHereIsMoneyIOwe from " + cust.getName() + ": $" + amount);
 		cash += amount;
 	}
-	
 	public void msgGoOffDuty(double amount){
 		addToCash(amount);
 		onDuty = false;
@@ -141,7 +140,6 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	 
 	public boolean pickAndExecuteAnAction() {
 		
-		//Customer checks
 		synchronized(bills){
 			for (Bill b: bills) {
 				if (b.s == BillState.calculatingChange){
@@ -185,13 +183,13 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 		log("Computing bill");
 		double dollars = 0;
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-			//dollars += marketMenu.getPrice(entry.getKey()) * entry.getValue();
 			for (Item i : marketMenu.menuItems){
-				if (i.getItem().equalsIgnoreCase(entry.getKey()))
+				if (i.getItem().equalsIgnoreCase(entry.getKey())){
 					dollars += i.getPrice() * entry.getValue();
+				}
 			}
 		}
-		b.amountCharged = Math.round(dollars * 100.0)/100.0;
+		b.amountCharged = Math.round(dollars * 100.00)/100.00;
 		
 		if (b.c == null){
 			b.e.msgHereIsBill(b.restaurantName, b.amountCharged);
@@ -209,14 +207,14 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 		double dollars = 0;
 		//check to make sure payment is large enough
 		if (b.amountPaid >= b.amountCharged){
-			dollars = Math.round((b.amountPaid - b.amountCharged)*100.0)/100.0;
+			dollars = Math.round((b.amountPaid - b.amountCharged)*100.00)/100.00;
 			b.c.msgHereIsYourChange(dollars, b.amountCharged);
 			
-			b.amountMarketGets = Math.round(b.amountCharged *100.0)/100.0;
+			b.amountMarketGets = Math.round(b.amountCharged *100.00)/100.00;
 			b.s = BillState.paid;
 		}
 		else {		//if they didn't pay enough
-			b.amountOwed = Math.round((b.amountCharged - b.amountPaid)*100.0)/100.0;		//mostly for testing purposes
+			b.amountOwed = Math.round((b.amountCharged - b.amountPaid)*100.00)/100.00;		//mostly for testing purposes
 			b.amountMarketGets = b.amountPaid;
 			
 			b.c.msgNotEnoughCash(b.amountOwed);
@@ -228,13 +226,12 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 		log("Recomputing bill");
 		double dollars = 0;
 		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-			//dollars += marketMenu.getPrice(entry.getKey()) * entry.getValue();
 			for (Item i : marketMenu.menuItems){
 				if (i.getItem().equalsIgnoreCase(entry.getKey()))
 					dollars += i.getPrice() * entry.getValue();
 			}
 		}
-		b.newAmountCharged = Math.round(dollars * 100.0)/100.0;
+		b.newAmountCharged = Math.round(dollars * 100.00)/100.00;
 		
 		if (b.newAmountCharged < b.amountCharged){	//if they over-billed the first time, fix the bill to be correct
 			b.amountCharged = b.newAmountCharged;

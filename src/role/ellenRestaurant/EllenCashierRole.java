@@ -131,7 +131,7 @@ public class EllenCashierRole extends Role implements Cashier {
 				}
 			}
 		}
-		b.amountOwed = Math.round(amountOwed*100.0)/100.0;
+		b.amountOwed = Math.round(amountOwed*100.00)/100.00;
 		b.s = MarketBillState.oweMoney;
 		stateChanged();
 	}

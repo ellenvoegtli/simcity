@@ -69,6 +69,10 @@ public class Market1Menu {
 		public double getPrice(){
 			return price;
 		}
+		
+		public void deductStock(int s){
+			stockAmount -= s;
+		}
 	}
 	
 }
