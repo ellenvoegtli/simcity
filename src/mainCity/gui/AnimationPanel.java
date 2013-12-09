@@ -408,14 +408,14 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     public void addBuildingGui(Building gui) { 
     	guis.add(gui);
     }
-    
+ 
 
     public void addMarketDeliveryGui(DeliveryManGui1 gui){
-    	guis.add(gui);
+    	personGuis.add(gui);
     }
     
     public void addMarket2DeliveryGui(DeliveryManGui2 gui){
-    	guis.add(gui);
+    	personGuis.add(gui);
     }
         
     public static List<HomeObject> getHouses()
