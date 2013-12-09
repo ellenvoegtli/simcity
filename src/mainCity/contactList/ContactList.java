@@ -22,6 +22,7 @@ import mainCity.bank.gui.BankPanel;
 import mainCity.bank.interfaces.BankManager;
 import mainCity.gui.CityPanel;
 import transportation.BusStop;
+import housing.LandlordRole;
 import housing.OccupantRole;
 import housing.gui.HomePanel;
 import role.market1.*;
@@ -130,6 +131,8 @@ public class ContactList {
 
 	public List<PersonAgent> peopleList = new ArrayList<PersonAgent>();
 	public List<PersonAgent> RenterList = new ArrayList<PersonAgent>();
+	public List<LandlordRole> LandLordList = new ArrayList<LandlordRole>();
+
 
 	public Map<PersonAgent, HomePanel> LivingPlaces = new HashMap<PersonAgent,HomePanel>();
 	public List<HomePanel> homeInstances = new ArrayList<HomePanel> ();
@@ -139,7 +142,6 @@ public class ContactList {
 		homeP = hp;
 		homeInstances.add(hp);
 	}
-	
 	
 	public void setPersonInstance(PersonAgent p, boolean renter)
 	{
@@ -166,6 +168,7 @@ public class ContactList {
 			 {
 				  home = homeInstances.get(6+RenterList.size());
 					 LivingPlaces.put(p, home);
+					 
 			 }
 		  }
 		
@@ -176,6 +179,16 @@ public class ContactList {
 		return LivingPlaces.get(oR.person);
 	}
 	
+	public void setLandLordInstance(LandlordRole lLR)
+	{
+		LandLordList.add(lLR);
+		
+	}
+	
+	public List<LandlordRole> getLandLords()
+	{
+		return LandLordList;
+	}
 
 	public HomePanel getHome()
 	{
