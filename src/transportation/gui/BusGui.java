@@ -20,7 +20,7 @@ public class BusGui extends Vehicle {
 	private int xDestination, yDestination;
 	
 	public BusGui(int x, int y, int w, int h, BusAgent b){ 
-		super(x, y, w, h);
+		super(x, y, w, h, true);
 		xLocation = x; 
 		yLocation = y; 
 		width = w; 

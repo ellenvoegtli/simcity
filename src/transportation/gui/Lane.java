@@ -2,6 +2,7 @@ package transportation.gui;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
+import java.util.List;
 
 
 public class Lane {
@@ -18,7 +19,7 @@ public class Lane {
 	boolean startAtOrigin;
 	Color laneColor;
 	Color sideColor;
-	public ArrayList<Vehicle> vehicles;
+	public List<Vehicle> vehicles;
 	
 	public Lane(int xo, int yo, int w, int h, int xv, int yv, boolean ish, Color lc, Color sc ) {
 		redLight = false;
@@ -45,7 +46,7 @@ public class Lane {
 			sides.add( new Line2D.Double( xOrigin+width, yOrigin, xOrigin+width, yOrigin+height ) );
 		}
 		
-		vehicles = new ArrayList<Vehicle>();
+		vehicles = Collections.synchronizedList(new ArrayList<Vehicle>());
 	}
 	
 	public void addVehicle( Vehicle v ) {
@@ -63,7 +64,34 @@ public class Lane {
 			}
 		}
 		
-		vehicles.add( v );
+		boolean dontAdd = true;
+		
+		while(dontAdd){
+			if(xVelocity == 5) {
+				if(vehicles.get(vehicles.size()-1).getX() == xOrigin+25) {
+					vehicles.add( v );
+					dontAdd = false;
+				}
+			}
+			else if(xVelocity == -5) {
+				if(vehicles.get(vehicles.size()-1).getX() == (xOrigin + width - v.getWidth())-20) {
+					vehicles.add( v );
+					dontAdd = false;
+				}
+			}
+			else if(yVelocity == 5) {
+				if(vehicles.get(vehicles.size()-1).getY() == yOrigin+25) {
+					vehicles.add( v );
+					dontAdd = false;
+				}
+			}
+			else if(yVelocity == -5) {
+				if(vehicles.get(vehicles.size()-1).getY() == (yOrigin + height - v.getHeight())-20) {
+					vehicles.add( v );
+					dontAdd = false;
+				}
+			}
+		}
 	}
 	
 	public void draw( Graphics2D g2 ) {
@@ -84,6 +112,7 @@ public class Lane {
 			double x = v.getX();
 			double y = v.getY();
 
+			
 			//Remove the vehicle from the list if it is at the end of the lane
 			if ( isHorizontal ) {
 				//End of lane is xOrigin + width - vehicle width
@@ -102,6 +131,7 @@ public class Lane {
 					vehicles.remove(i);
 				}
 			}
+			
 		}
 		
 		for ( int i=0; i<vehicles.size(); i++ ) {

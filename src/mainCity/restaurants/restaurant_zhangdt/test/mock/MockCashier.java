@@ -2,7 +2,7 @@ package mainCity.restaurants.restaurant_zhangdt.test.mock;
 
 import java.util.Map;
 
-import role.market.MarketDeliveryManRole;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cashier;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Customer;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Waiter;
@@ -26,15 +26,13 @@ public class MockCashier extends Mock implements Cashier{
 	}
 
 	@Override
-	public void msgHereIsMarketBill(Map<String, Integer> inventory,
-			double billAmount, MarketDeliveryManRole deliveryPerson) {
+	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, DeliveryMan deliveryPerson) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received Market Bill of $" + billAmount));
 	}
 
 	@Override
-	public void msgHereIsChange(double amount,
-			MarketDeliveryManRole deliveryPerson) {
+	public void msgHereIsChange(double amount, DeliveryMan deliveryPerson) {
 		// TODO Auto-generated method stub
 		log.add(new LoggedEvent("Received Change From Market. Change = $"+ amount));
 

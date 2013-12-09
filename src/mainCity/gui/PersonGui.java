@@ -15,22 +15,31 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-public class PersonGui implements Gui, PersonGuiInterface{
+import transportation.gui.CarGui;
+import transportation.gui.Vehicle;
+
+public class PersonGui implements Gui, PersonGuiInterface {
 	CityGui gui;
+	AnimationPanel animation; 
 	private String name;
 	private PersonAgent agent = null;
 	private int xPos, yPos;
 	private int xDestination, yDestination;
+	Coordinate destination; 
 	private int xHome, yHome;
 	private static final int w = 20;
 	private static final int h = 20;
 	private boolean isPresent = false;
 	private boolean isVisible = true;
 	private boolean traveling;
+	private boolean CarFinished = false;
 	private boolean inCar = false;
 	private BufferedImage personImg = null;
 	private ArrayList<Coordinate> corners = new ArrayList<Coordinate>();
 	private LinkedList<Coordinate> path = new LinkedList<Coordinate>();
+	private ArrayList<Coordinate> roads = new ArrayList<Coordinate>(); 
+	
+	public CarGui myCar; 
 	
 	public PersonGui(PersonAgent p, CityGui g) {
 		agent = p;
@@ -48,6 +57,8 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		
 		xDestination = xPos = 750;
 		yDestination = yPos = 80;
+		
+		myCar = new CarGui(p, 750, 80, 16, 16);
 		
 		traveling  = false;
 		StringBuilder path = new StringBuilder("imgs/");
@@ -69,6 +80,11 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		corners.add(new Coordinate(585, 330));
 		corners.add(new Coordinate(655, 125));
 		corners.add(new Coordinate(655, 330));
+		
+		roads.add(new Coordinate( 589, 80));
+		roads.add(new Coordinate( 130, 126));
+		roads.add(new Coordinate( 181, 380));
+		roads.add(new Coordinate( 635, 350));
 	}
 
 	public PersonGui(PersonAgent p) {
@@ -76,18 +92,34 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	}
 
 	public void updatePosition() {
-		if (xPos < xDestination)
-			xPos++;
-		else if (xPos > xDestination)
-			xPos--;
-
-		else if (yPos < yDestination)
-			yPos++;
-		else if (yPos > yDestination)
-			yPos--;
 		
-		if(xPos == xDestination && yPos == yDestination && traveling) {
+		if(inCar){
+			if (xPos < xDestination)
+				xPos+=5;
+			else if (xPos > xDestination)
+				xPos-=5;
+	
+			else if (yPos < yDestination)
+				yPos+=5;
+			else if (yPos > yDestination)
+				yPos-=5;
+		}
+			
+		else{
+			if (xPos < xDestination)
+				xPos++;
+			else if (xPos > xDestination)
+				xPos--;
+	
+			else if (yPos < yDestination)
+				yPos++;
+			else if (yPos > yDestination)
+				yPos--;
+		}
+		
+		if(xPos == xDestination && yPos == yDestination && traveling && (inCar!=true) ) {
 			if(path.isEmpty()) {
+				System.out.println("Destination Reached");
 				traveling = false;
 				agent.msgAtDestination();
 				return;
@@ -100,6 +132,19 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	
 	public void draw(Graphics2D g) {
 		if(isVisible) {
+			/*
+			if(!inCar){
+				g.setColor(Color.ORANGE);
+				g.drawImage(personImg, xPos,yPos, null);
+				//g.fillRect(xPos, yPos, w, h);
+	        	g.drawString(name, xPos, yPos);
+			}
+			else if(inCar){ 
+				g.setColor(Color.RED);
+				g.fillRect(xPos, yPos, w, h);
+			}
+			*/
+			
 			g.setColor(Color.ORANGE);
 			g.drawImage(personImg, xPos,yPos, null);
 			//g.fillRect(xPos, yPos, w, h);
@@ -115,9 +160,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		isPresent = p;
 	}
 	
-	public void DoGoToLocationOnCar(PersonAgent.CityLocation destination) { 
-		//if(yPos < )
-	}
 
 	public void DoGoToLocation(PersonAgent.CityLocation destination) {
 		switch(destination) {
@@ -160,6 +202,86 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			xDestination = path.peek().x;
 			yDestination = path.poll().y;
 		}
+	}
+
+	public void DoGetOnRoad() { 
+		System.out.println("Gui is told to go to nearest road");
+		destination = findNearestRoad();
+		calculatePath(destination.x, destination.y); 
+		if(!path.isEmpty()) {
+			xDestination = destination.x; 
+			yDestination = destination.y;
+		}
+	}
+	
+	public void AddCarToLane() { 
+		if(xPos == 589 && yPos == 80) {
+			if(animation.lanes.get(1).vehicles.isEmpty()){
+				animation.Cars.add(myCar);
+				animation.lanes.get(1).addVehicle(myCar);
+			}
+		}
+		
+		else if(xPos == 130 && yPos == 126) { 
+			animation.Cars.add(myCar);
+			animation.lanes.get(12).addVehicle(myCar);
+		}
+	
+		else if(xPos == 181 && yPos == 380) { 
+			animation.Cars.add(myCar);
+			animation.lanes.get(10).addVehicle(myCar);
+		}
+
+		else if(xPos == 635 && yPos == 350) { 
+			animation.Cars.add(myCar);
+			animation.lanes.get(17).addVehicle(myCar);
+		}
+	}
+	
+	public void DoGoToLocationOnCar(PersonAgent.CityLocation destination) { 
+		
+		switch(destination) {
+			case restaurant_marcus:
+				xDestination = xPos = 105;
+				yDestination = yPos = 155;
+				break;
+			case restaurant_ellen:
+				xDestination = xPos = 105;
+				yDestination = yPos = 305;
+				break;
+			case restaurant_ena:
+				xDestination = xPos = 215;
+				yDestination = yPos = 55;
+				break;
+			case restaurant_jefferson:
+				xDestination = xPos = 220;
+				yDestination = yPos = 405;
+				break;
+			case restaurant_david: 
+				xDestination = xPos = 615; 
+				yDestination = yPos = 230; 
+				break;
+			case market:
+				xDestination = xPos = 445;
+				yDestination = yPos = 55;
+				break;
+			case market2:
+				xDestination = xPos = 670;
+				yDestination = yPos = 140;
+				break;
+			case bank:
+				xDestination = xPos = 105;
+				yDestination = yPos = 230;
+				break;
+			case home:
+				xDestination = xPos = xHome;
+				yDestination = yPos = yHome;
+				break;
+			default:
+				xDestination = xPos = 0;
+				yDestination = yPos = 0;
+				break;
+		}	
 	}
 	
 	public void DoGoToStop() {
@@ -296,6 +418,21 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		return destination;
 	}
 	
+	public Coordinate findNearestRoad() { 
+		Coordinate destination = new Coordinate(0,0); 
+		int distance = Math.abs(xPos - roads.get(0).x) + Math.abs(yPos - roads.get(0).y);
+		destination = roads.get(0); 
+		
+		for(int i=0; i<roads.size(); i++) { 
+			int tempdistance = Math.abs(xPos - roads.get(i).x) + Math.abs(yPos - roads.get(i).y);
+			if(tempdistance <= distance){ 
+				distance = tempdistance; 
+				destination = roads.get(i);
+			}
+		}
+		return destination;
+	}
+	
 	private void calculatePath(int destX, int destY) {
 		Coordinate current = new Coordinate(xPos, yPos);
 		Coordinate destination = new Coordinate(destX, destY);
@@ -347,5 +484,21 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			this.x = x;
 			this.y = y;
 		}
+	}
+	
+	public void getInCar(){ 
+		inCar = true; 
+	}
+	
+	public void getOutOfCar() { 
+		inCar = false;
+	}
+	
+	public void setAnimationPanel(AnimationPanel a) { 
+		animation = a;
+	}
+	
+	public void setCarFinished(boolean b) { 
+		CarFinished = b;
 	}
 }

@@ -16,5 +16,16 @@ public interface PersonGuiInterface {
 
 	public abstract void DoGoOutside();
 
-	public abstract CityLocation findNearestStop();	
+	public abstract CityLocation findNearestStop();
+
+	public abstract void getInCar();
+	
+	public abstract void getOutOfCar();
+
+	public abstract void DoGetOnRoad();
+
+	public abstract void DoGoToLocationOnCar(CityLocation d);
+
+	public abstract void AddCarToLane();
+
 }
