@@ -278,6 +278,14 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 		}
 	}
 	
+	public void depleteInventory(){
+		for (Map.Entry<String, Food> entry : foods.entrySet()){
+			entry.getValue().amount = 0;
+		}
+
+		status = CookStatus.lowFood;
+	}
+	
 	public String toString() {
 		return "Cook " + name;
 	}
