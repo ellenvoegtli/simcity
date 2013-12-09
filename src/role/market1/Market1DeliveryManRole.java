@@ -72,10 +72,9 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	
 	// Messages
 	
-	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){
+	public void msgHereIsOrderForDelivery(String restaurantName, /*MainCook cook, MainCashier cashier,*/ Map<String, Integer>inventory, double billAmount){
 		log("Received msgHereIsOrderForDelivery for " + restaurantName);
-
-		bills.add(new Bill(restaurantName, cook, cashier, billAmount, inventory));
+		bills.add(new Bill(restaurantName, billAmount, inventory));
 		stateChanged();
 	}
 
@@ -221,6 +220,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
 
 		if (!restaurantOpen(b)){
 			deliveryGui.DoGoToHomePosition();
@@ -234,37 +234,37 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		}
 		else {
 			//delivery man will then message appropriate cashier and cook
-			//if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
-				//b.cook = ContactList.getInstance().ellenCook;
-				//b.cashier = ContactList.getInstance().ellenCashier;
+			//we have to assign these values here because they might have filled the role between requesting inventory and now
+			if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
+				b.cook = ContactList.getInstance().ellenCook;
+				b.cashier = ContactList.getInstance().ellenCashier;
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-			/*}
+			}
 			else if (b.restaurantName.equalsIgnoreCase("enaRestaurant")){
-				//b.cook = ContactList.getInstance().enaCook;
-				//b.cashier = ContactList.getInstance().enaCashier;
+				b.cook = ContactList.getInstance().enaCook;
+				b.cashier = ContactList.getInstance().enaCashier;
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			else if (b.restaurantName.equalsIgnoreCase("marcusRestaurant")){
-				//b.cook = ContactList.getInstance().marcusCook;
-				//b.cashier = ContactList.getInstance().marcusCashier;
+				b.cook = ContactList.getInstance().marcusCook;
+				b.cashier = ContactList.getInstance().marcusCashier;
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			else if (b.restaurantName.equalsIgnoreCase("jeffersonRestaurant")){
-				//b.cook = ContactList.getInstance().jeffersonCook;
-				//b.cashier = ContactList.getInstance().jeffersonCashier;
+				b.cook = ContactList.getInstance().jeffersonCook;
+				b.cashier = ContactList.getInstance().jeffersonCashier;
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			else if (b.restaurantName.equalsIgnoreCase("davidRestaurant")){
-				//b.cook = ContactList.getInstance().davidCook;
-				//b.cashier = ContactList.getInstance().davidCashier;
+				b.cook = ContactList.getInstance().davidCook;
+				b.cashier = ContactList.getInstance().davidCashier;
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-			}*/
-			
+			}
 			
 			b.s = DeliveryState.waitingForPayment;
 		}
@@ -386,9 +386,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		MainCook cook;
 		MainCashier cashier;
 
-		Bill(String name, MainCook cook, MainCashier cashier, double billAmount, Map<String, Integer> inventory){
-			this.cook = cook;
-			this.cashier = cashier;
+		Bill(String name, double billAmount, Map<String, Integer> inventory){
 			amountCharged = billAmount;
 			restaurantName = name;
 			itemsBought = new TreeMap<String, Integer>(inventory);

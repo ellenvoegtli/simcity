@@ -23,8 +23,8 @@ public class DeliveryManTest extends TestCase {
 	MockEmployee employee;
 	MockCashier ellenCashier;	//from ellen's restaurant
 	MockCook ellenCook;			//from ellen's restaurant
-	MockOtherCashier otherCashier;
-	MockOtherCook otherCook;
+	MockOtherCashier otherCashier;	//to simulate cashier from marcus' restaurant
+	MockOtherCook otherCook;		//to simulate cook from marcus' restaurant
 	
 	
 	public void setUp() throws Exception{
@@ -40,8 +40,8 @@ public class DeliveryManTest extends TestCase {
         employee = new MockEmployee("MockEmployee");
         ellenCashier = new MockCashier("MockCashier");
         ellenCook = new MockCook("MockCook");
-        otherCashier = new MockOtherCashier("EnaCashier");
-        otherCook = new MockOtherCook("EnaCook");
+        otherCashier = new MockOtherCashier("MarcusCashier");
+        otherCook = new MockOtherCook("MarcusCook");
         
         
 	}
@@ -371,7 +371,7 @@ public class DeliveryManTest extends TestCase {
             
             
             //step 1
-            deliveryMan.msgHereIsOrderForDelivery("ellenRestaurant", ellenCook, ellenCashier, inventory, 25.99);
+            deliveryMan.msgHereIsOrderForDelivery("mockEllenRestaurant", ellenCook, ellenCashier, inventory, 25.99);
             
             //postconditions 1/preconditions 2
             assertEquals("MockCashier should have an empty event log before the Cashier's scheduler is called. Instead, the MockEmployee's event log reads: "
@@ -388,19 +388,15 @@ public class DeliveryManTest extends TestCase {
             assertTrue("Delivery man should contain a check with the correct ellenCashier. It doesn't.",
                     deliveryMan.bills.get(0).getCashier() == ellenCashier);
             assertTrue("Delivery man should contain a check with the right restaurant in it. It doesn't.", 
-            		deliveryMan.bills.get(0).getRestaurant().equalsIgnoreCase("ellenRestaurant"));
+            		deliveryMan.bills.get(0).getRestaurant().equalsIgnoreCase("mockEllenRestaurant"));
             assertTrue("Delivery man should contain a check with the correct amountCharged. It doesn't.",
                     deliveryMan.bills.get(0).getAmountCharged() == 25.99);
+
+            //step 2
+            deliveryMan.msgAtDestination();
+            assertTrue("Delivery man's scheduler should have returned true (needs to react), but didn't.",
+            		deliveryMan.pickAndExecuteAnAction());
             
-            deliveryMan.bills.get(0).setCashier(ellenCashier);
-            deliveryMan.bills.get(0).setCook(ellenCook);
-            
-            
-            //step 2 - we have to manually run through "DeliverOrder" (the ContactList won't allow for interfaces, so we can't run through the scenario fully)
-            deliveryMan.bills.get(0).getCook().msgHereIsYourOrder(inventory);
-            deliveryMan.bills.get(0).getCashier().msgHereIsMarketBill(inventory, deliveryMan.bills.get(0).getAmountCharged(), deliveryMan);
-            deliveryMan.bills.get(0).setState(DeliveryState.waitingForPayment);
-            deliveryMan.setState(AgentState.makingDelivery);
             
             
             //postconditions 2/preconditions 3
@@ -418,7 +414,7 @@ public class DeliveryManTest extends TestCase {
             
             
             //step 4
-            deliveryMan.msgHereIsPayment(10, "ellenRestaurant");		//less than bill charge
+            deliveryMan.msgHereIsPayment(10, "mockEllenRestaurant");		//less than bill charge
             
             //postconditions 4/preconditions 5
             assertTrue("Delivery man should contain a check with the correct amountPaid. It doesn't.",
@@ -446,7 +442,7 @@ public class DeliveryManTest extends TestCase {
             
             
             //step 6
-            deliveryMan.msgIOweYou(15.99, "ellenRestaurant");
+            deliveryMan.msgIOweYou(15.99, "mockEllenRestaurant");
             
             //postconditions 6/preconditions 7
             assertEquals("Delivery man should have $10 available money but does not.", deliveryMan.getCash(), 10.0);

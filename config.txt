@@ -4,11 +4,11 @@
 -Name:bankmanager;Cash:100;Renter:true;Occupation:bankManager;ShiftBegin:6;ShiftEnd:22;Actions:work
 -Name:banker;Cash:100;Renter:true;Occupation:banker;ShiftBegin:6;ShiftEnd:22;Actions:work
 -Market
--Name:marketgreeter;Cash:100;Renter:true;Occupation:marketGreeter;ShiftBegin:6;ShiftEnd:22;Actions:work
--Name:marketcashier;Cash:100;Renter:true;Occupation:marketCashier;ShiftBegin:6;ShiftEnd:22;Actions:work
--Name:marketemployee1;Cash:100;Renter:true;Occupation:marketEmployee;ShiftBegin:6;ShiftEnd:22;Actions:work
--Name:marketemployee2;Cash:100;Renter:true;Occupation:marketEmployee;ShiftBegin:6;ShiftEnd:22;Actions:work
--Name:marketdeliveryman;Cash:100;Renter:true;Occupation:marketDeliveryMan;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:marketgreeter;Cash:100;Renter:true;Occupation:marketGreeter;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:marketcashier;Cash:100;Renter:true;Occupation:marketCashier;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:marketemployee1;Cash:100;Renter:true;Occupation:marketEmployee;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:marketemployee2;Cash:100;Renter:true;Occupation:marketEmployee;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:marketdeliveryman;Cash:100;Renter:true;Occupation:marketDeliveryMan;ShiftBegin:6;ShiftEnd:22;Actions:work
 -Market2
 -Name:market2greeter;Cash:100;Renter:true;Occupation:market2Greeter;ShiftBegin:6;ShiftEnd:22;Actions:work
 -Name:market2cashier;Cash:100;Renter:true;Occupation:market2Cashier;ShiftBegin:6;ShiftEnd:22;Actions:work

@@ -260,7 +260,7 @@ public class EllenCookRole extends Role implements Cook{
 	// Actions
 	public void OrderFromMarket(Map<String, Integer>inventoryNeeded){
 		if (ContactList.getInstance().marketGreeter != null) {
-			ContactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", this, cashier, inventoryNeeded);
+			ContactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", inventoryNeeded);
 			for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
 				inventory.get(entry.getKey()).s = FoodState.requested;
 			}
