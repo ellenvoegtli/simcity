@@ -114,6 +114,7 @@ public class CityPanel extends JPanel{
 		    		//Timer timer = new Timer();
 		            //timer.schedule(new CreationDelay(strLine), 500*staggerIndex);
 		            //++staggerIndex;
+		            
 		    		String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
 				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
 				   	String renter = strLine.substring(strLine.indexOf("Renter")+7, strLine.indexOf("Occupation")-1);

@@ -322,9 +322,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.drawImage(stopSign, 215 , 55, null); 
         g2.drawImage(stopSign, 105, 230, null);
         g2.drawImage(stopSign, 440, 55, null);
-        
       
-        
+        /*
         g2.setColor(Color.LIGHT_GRAY);
         //Location of doorways 
         g2.fillRect(36, 55, 20, 20);  //house1 
@@ -335,9 +334,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(586, 55, 20, 20);
         g2.fillRect(696, 55, 20, 20); //house7
         
-        
-       
-        
         //Location of doorways
         g2.fillRect(49, 400, 20, 20);  //house1
         g2.fillRect(159, 400, 20, 20);
@@ -346,7 +342,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(489, 400, 20, 20);
         g2.fillRect(599, 400, 20, 20);
         g2.fillRect(709, 400, 20, 20); //house7
-       
         
         g2.fillRect(105, 180, 20, 20); //doorway
         g2.fillRect(105, 280, 20, 20); //doorway
@@ -355,9 +350,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(347, 280, 20, 20); //doorway
         g2.fillRect(415, 215, 20, 20); //doorway
         g2.fillRect(585, 230, 20, 20); //doorway
-        
         g2.fillRect(655, 155, 22, 20);//market2 
-
+         */
         synchronized(guis){	
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {
