@@ -142,16 +142,20 @@ public class CityPanel extends JPanel{
 		person.setCash(c);
 		
 		person.setHomePlace(renter);
-		System.out.println("selected house for person to live in");
+		System.out.println("selected house for person: " + person.getName() + " to live in");
 		PersonGui pg = new PersonGui(person, gui);
 		gui.getAnimationPanel().addPersonGui(pg);
 		person.setGui(pg);
 		
 		gui.addPerson(person);
 		
+		
 		if(actions != null) {
 			for(int i = 0; i < actions.length; ++i) {
 				switch(actions[i]) {
+					case "home":
+						person.msgGoHome();
+						break;
 					case "work":
 						if(!occupation.equals("rich")) person.msgGoToWork();
 						break;
