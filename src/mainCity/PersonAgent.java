@@ -29,7 +29,7 @@ import role.market2.*;
 import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
-	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
+	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus, walkingFromCar}
 	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market, market2}
 	
@@ -129,6 +129,14 @@ public class PersonAgent extends Agent {
 		state = PersonState.walkingFromBus;
 		stateChanged();
 	}
+	
+	//A message received from car when arrived at destination 
+	public void msgArrivedAtDestinationInCar() { 
+		log.add(new LoggedEvent("msgArrivedAtDestinationInCar received")); 
+		state = PersonState.walkingFromCar; 
+		stateChanged();
+	}
+	
 	//A message for the landlord	
 	public void msgNeedToFix() {
 		synchronized(actions) {
@@ -478,6 +486,11 @@ public class PersonAgent extends Agent {
 			currentBus.Passengers.remove(this);
 			currentBus = null; 
 			travelToLocation(destination);
+			return true;
+		}
+		
+		if(state == PersonState.walkingFromCar){ 
+			travelToLocation(destination); 
 			return true;
 		}
 		
@@ -881,7 +894,7 @@ public class PersonAgent extends Agent {
 		boolean walk = (70 > ((int) (Math.random() * 100)));
 		walk = true;
 		
-		if(walk || state == PersonState.walkingFromBus) { //chose to walk
+		if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
 			output(name + " is walking to " + d);
 			gui.DoGoToLocation(d); //call gui
 			waitForGui();
@@ -904,7 +917,7 @@ public class PersonAgent extends Agent {
 			//will receive an arrived at destination message when done
 		}
 		else if(walk) {//chose car
-			//DoGoToCar(); //walk to car
+			//DoGoToLocationOnCar(d); //walk to car
 			waitForGui();
 			//car.msgGoToPlace(d); //some message to tell the car where to go, will receive an arrived at destination message when done
 		}

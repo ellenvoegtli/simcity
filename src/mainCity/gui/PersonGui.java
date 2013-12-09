@@ -96,6 +96,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			xDestination = path.peek().x;
 			yDestination = path.poll().y;
 		}
+	
 	}
 	
 	public void draw(Graphics2D g) {
