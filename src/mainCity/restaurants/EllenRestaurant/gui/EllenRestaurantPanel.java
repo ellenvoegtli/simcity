@@ -95,14 +95,6 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
         		waiter.restart();
         	}
         }
-        else if (e.getSource() == soupBtn){
-        	System.out.println("DEPLETE SOUP BUTTON PRESSED.");
-        	cook.depleteInventory("soup");
-        }
-        else if (e.getSource() == pizzaBtn){
-        	System.out.println("DEPLETE PIZZA BUTTON PRESSED.");
-        	cook.depleteInventory("pizza");
-        }
     }
 
 

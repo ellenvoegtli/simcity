@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.AnimationPanel;
 import mainCity.PersonAgent.ActionType;
 import mainCity.gui.trace.*;
@@ -105,6 +106,21 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel scenario10Label = new JLabel("Scenario 8: Non-norm: Changing shifts");
 	private JButton scenario10Button = new JButton("Run");
 	
+	
+	//=================Restaurant Inventory Hack panel components========================
+		private JPanel subControlPanel4 = new JPanel();	
+		
+		private GroupLayout layout4 = new GroupLayout(subControlPanel4);
+		private JLabel ellenRestLabel = new JLabel("Ellen's Restaurant: ");
+		private JButton ellenRestButton = new JButton("Deplete all");
+		private JLabel davidRestLabel = new JLabel("David's Restaurant: ");
+		private JButton davidRestButton = new JButton("Deplete all");
+		private JLabel enaRestLabel = new JLabel("Ena's Restaurant: ");
+		private JButton enaRestButton = new JButton("Deplete all");
+		private JLabel marcusRestLabel = new JLabel("Marcus' Restaurant: ");
+		private JButton marcusRestButton = new JButton("Deplete all");
+		private JLabel jeffersonRestLabel = new JLabel("Jefferson's Restaurant: ");
+		private JButton jeffersonRestButton = new JButton("Deplete all");
 	
 	private Object currentPerson;
 
@@ -341,6 +357,47 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		
 		
 		//=================== END SUBCONTROLPANEL2 =================================================
+		
+		
+		//==================GROUP LAYOUT 4 FOR **INVENTORY** PANEL====================================
+		subControlPanel4.setLayout(layout4);
+		layout4.setAutoCreateGaps(true);
+		layout4.setAutoCreateContainerGaps(true);
+		
+		GroupLayout.SequentialGroup hGroup4 = layout4.createSequentialGroup();
+		hGroup4.addGroup(layout4.createParallelGroup().
+	            addComponent(davidRestLabel).addComponent(ellenRestLabel).addComponent(enaRestLabel).
+	            addComponent(marcusRestLabel).addComponent(jeffersonRestLabel)
+	            );
+		hGroup4.addGroup(layout4.createParallelGroup().
+	            addComponent(davidRestButton).addComponent(ellenRestButton).addComponent(enaRestButton).
+	            addComponent(marcusRestButton).addComponent(jeffersonRestButton)
+	            );
+		layout4.setHorizontalGroup(hGroup4);
+		
+		GroupLayout.SequentialGroup vGroup4 = layout4.createSequentialGroup();
+		vGroup4.addGroup(layout4.createParallelGroup(Alignment.BASELINE).
+	            addComponent(davidRestLabel).addComponent(davidRestButton));
+		vGroup4.addGroup(layout4.createParallelGroup(Alignment.BASELINE).
+	            addComponent(ellenRestLabel).addComponent(ellenRestButton));
+		vGroup4.addGroup(layout4.createParallelGroup(Alignment.BASELINE).
+	            addComponent(enaRestLabel).addComponent(enaRestButton));
+		vGroup4.addGroup(layout4.createParallelGroup(Alignment.BASELINE).
+	            addComponent(marcusRestLabel).addComponent(marcusRestButton));
+		vGroup4.addGroup(layout4.createParallelGroup(Alignment.BASELINE).
+				addComponent(jeffersonRestLabel).addComponent(jeffersonRestButton));
+		layout4.setVerticalGroup(vGroup4);
+		//==================END GROUP LAYOUT 4=====================================================
+		subControlPanel4.setPreferredSize(new Dimension((int) (WINDOWX * .35), (int) (WINDOWY * .4)));
+		controlTabbedPane.addTab("Inventories", subControlPanel4);
+		
+		davidRestButton.addActionListener(this);
+		ellenRestButton.addActionListener(this);
+		enaRestButton.addActionListener(this);
+		marcusRestButton.addActionListener(this);
+		jeffersonRestButton.addActionListener(this);
+
+		
 		
 		controlPanel.add(controlTabbedPane);
 		
@@ -622,6 +679,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 
 			cityPanel.addPerson(name, money, renter, occupation, sb, se, actions);
 		}
+		
+		//===================== CONTROL PANEL BUTTONS ========================================
 		else if (e.getSource() == restaurantButton){
 			System.out.println("RESTAURANT BUTTON PRESSED");
 			PersonAgent p = (PersonAgent) currentPerson;
@@ -668,6 +727,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			p.msgGoToMarket();
 			marketButton.setEnabled(false);
 		}
+		
+		//======================= SCENARIO BUTTONS =========================================
 		else if (e.getSource() == scenario1Button){
 			System.out.println("SCENARIO1 BUTTON PRESSED");
 			personPanel.resetPanel();
@@ -691,14 +752,32 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			System.out.println("SCENARIO4 BUTTON PRESSED");
 			personPanel.resetPanel();
 			cityPanel.parseConfig("config4.txt");
-			//load a certain config file
 		}
 		else if (e.getSource() == scenario5Button){
 			System.out.println("SCENARIO5 BUTTON PRESSED");
-			//load a certain config file
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config5.txt");
 		}
 		
+		//================== INVENTORY PANEL BUTTONS ======================================
+		else if (e.getSource() == davidRestButton){
+			ContactList.getInstance().davidCook.emptyInventory();
+		}
+		else if (e.getSource() == ellenRestButton){
+			ContactList.getInstance().ellenCook.depleteInventory();
+		}
+		else if (e.getSource() == enaRestButton){
+			ContactList.getInstance().enaCook.depleteInventory();
+		}
+		else if (e.getSource() == marcusRestButton){
+			//ContactList.getInstance().marcusCook.
+		}
+		else if (e.getSource() == jeffersonRestButton){
+			ContactList.getInstance().jeffersonCook.depleteInventory();
+		}
 
+		
+		
 	}
 	
 	
