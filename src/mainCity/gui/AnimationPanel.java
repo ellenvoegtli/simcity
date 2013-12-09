@@ -4,17 +4,13 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import mainCity.contactList.ContactList;
-import transportation.gui.BusGui;
-import transportation.gui.CarGui;
-import transportation.gui.Intersection;
-import transportation.gui.Lane;
+import transportation.gui.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.MouseInfo;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

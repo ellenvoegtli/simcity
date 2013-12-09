@@ -15,8 +15,7 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-import transportation.gui.CarGui;
-import transportation.gui.Vehicle;
+import transportation.gui.*;
 
 public class PersonGui implements Gui, PersonGuiInterface {
 	CityGui gui;
