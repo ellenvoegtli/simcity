@@ -1,6 +1,7 @@
 package role.marcusRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.DeliveryMan;
@@ -21,7 +22,8 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	private Map<String, Integer> prices;
 	private double cash;
 	private boolean onDuty;
-
+	private boolean entered;
+	
 	public MarcusCashierRole(PersonAgent p, String n) {
 		super(p);
 		this.name = n;
@@ -29,6 +31,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		marketBills =  Collections.synchronizedList(new ArrayList<MarketBill>());
 		prices = Collections.synchronizedMap(new HashMap<String, Integer>());
 		onDuty = true;
+		entered = true;
 		
 		synchronized(prices) {
 			prices.put("Swiss", 9);
@@ -37,7 +40,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 			prices.put("Provolone", 12);
 		}
 		
-		cash = 1675;
+		//cash = 1675;
 	}
 
 	public int getBills() {
@@ -62,6 +65,9 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	
 	public void deductCash(double min) {
 		cash -= min;
+		
+		ContactList.getInstance().getBank().directDeposit("marcusrestaurant", cash);
+		cash = 0;
 	}
 	
 	// Messages
@@ -98,14 +104,6 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		onDuty = false;
 		stateChanged();
 	}
-	
-/*
-	public void msgHereIsFoodBill(Market m, int amount) {
-		output("Received a food bill of $" + amount + " from market");
-		marketBills.add(new MarketBill(m, amount));
-		stateChanged();
-	}
-*/
 
 	public void msgHereIsMarketBill(Map<String, Integer> inventory, double billAmount, DeliveryMan deliveryPerson) {
 		output("Received a food bill of $" + billAmount + " from market");
@@ -128,6 +126,13 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(entered) {
+			output("Withdrawing daily amount of money from bank");
+			ContactList.getInstance().getBank().directWithdraw("marcusrestaurant", 1200);
+			cash = 1200;
+			entered = false;
+		}
+		
 		synchronized(marketBills) {
 			if(!marketBills.isEmpty()) {
 				payMarket(marketBills.get(0));
@@ -156,6 +161,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		if(bills.isEmpty() && !onDuty) {
 			setInactive();
 			onDuty = true;
+			entered = true;
 		}
 		
 		return false;

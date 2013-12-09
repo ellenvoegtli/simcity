@@ -909,10 +909,9 @@ public class PersonAgent extends Agent {
 	private void travelToLocation(CityLocation d) {
 		traveling = true;
 		this.destination = d;
-		
 
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-		walk = false;
+		walk = true;
 		boolean car = true;
 
 		
