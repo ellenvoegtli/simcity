@@ -29,6 +29,8 @@ public class MarketPanel extends JPanel implements ActionListener{
 	private Greeter host;
 	private MarketCashier cashier;
 	private DeliveryMan deliveryMan;
+	private MarketMenu menu1 = new MarketMenu(5, 5, 5, 5, 5, 5, 5, 5, 5, 20, 20, 20, 20, 20, 20, 20, 20, 20);
+	private MarketMenu menu2 = new MarketMenu(20, 20, 20, 20, 20, 20, 20, 20, 20, 5, 5, 5, 5, 5, 5, 5, 5, 5);
         
     private Vector<MarketCustomerRole> customers = new Vector<MarketCustomerRole>();
     private Vector<MarketEmployeeRole> employees = new Vector<MarketEmployeeRole>();
@@ -67,6 +69,10 @@ public class MarketPanel extends JPanel implements ActionListener{
     	if(r instanceof MarketCashierRole) {
     		cashier = (MarketCashierRole) r;
     		System.out.println("setting cashier");
+    		if (r.getName().toLowerCase().contains("market2"))
+    			cashier.setMenu(menu2);
+    		else
+    			cashier.setMenu(menu1);
     		
     		for(MarketEmployeeRole e : employees) {
     			e.setCashier(cashier);
@@ -127,6 +133,11 @@ public class MarketPanel extends JPanel implements ActionListener{
     		e.setGui(g);
     		employees.add(e);
     		
+    		if (e.getName().toLowerCase().contains("market2"))
+    			e.setMenu(menu2);
+    		else
+    			e.setMenu(menu1);
+    		
     		int i = 0;
     		int x = 0, y = 0;
     		for (MarketEmployeeRole em : employees){
@@ -145,11 +156,16 @@ public class MarketPanel extends JPanel implements ActionListener{
     				i++;
     		}
     		
-    		if (host != null) /*host.addEmployee(e, x, y);*/ host.addEmployee(e);
+    		if (host != null)
+    			host.addEmployee(e);
     	}
     	
     	if(r instanceof MarketCustomerRole) {
     		MarketCustomerRole c = (MarketCustomerRole) r;
+    		if (c.getName().toLowerCase().contains("market2"))
+    			c.setMenu(menu2);
+    		else
+    			c.setMenu(menu1);
 	    	
     		for(MarketCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
 	    		if (cust == c) return;
