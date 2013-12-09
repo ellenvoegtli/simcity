@@ -4,6 +4,7 @@ import java.util.Map;
 
 import mainCity.interfaces.DeliveryMan;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
+import mainCity.restaurants.EllenRestaurant.interfaces.Waiter;
 
 
 
@@ -24,5 +25,9 @@ public class MockCook extends Mock implements Cook {
 	@Override
 	public void pickingUpFood(int table) {
 		log.add(new LoggedEvent("Received pickingUpFood for table " + table)); 
+	}
+	
+	public void msgHereIsOrder(String s, int i, Waiter w){
+		
 	}
 }

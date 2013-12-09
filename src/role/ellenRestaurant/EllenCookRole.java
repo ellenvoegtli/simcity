@@ -23,7 +23,7 @@ public class EllenCookRole extends Role implements Cook{
 	private String name;
 	private RevolvingStand stand;
 	private EllenMenu menu;
-	private EllenCashierRole cashier;
+	private Cashier cashier;
 	private KitchenGui kitchenGui = null;
 	boolean notAdded = true;
 	boolean greeterNull = true;
@@ -66,7 +66,7 @@ public class EllenCookRole extends Role implements Cook{
 		markets.add(m);
 	}
 	*/
-	public void setCashier(EllenCashierRole c){
+	public void setCashier(Cashier c){
 		this.cashier = c;
 	}
 	public void setMenu(EllenMenu m){
@@ -101,7 +101,7 @@ public class EllenCookRole extends Role implements Cook{
 		stateChanged();
 	}
 	
-	public void msgHereIsOrder(String choice, int table, EllenWaiterRole w){
+	public void msgHereIsOrder(String choice, int table, Waiter w){
 		log(w.getName() + ", received msgHereIsOrder: " + choice);
 		Order o = new Order(choice, table, w);
 		orders.add(o);
