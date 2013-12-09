@@ -30,7 +30,6 @@ public class EllenCookRole extends Role implements Cook{
 	Timer timer = new Timer();
 	
 	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
-	//private List<EllenMarketRole> markets = Collections.synchronizedList(new ArrayList<EllenMarketRole>());
 	private Map<String, Food> inventory = new TreeMap<String, Food>();	//what the cook has available
 	private Map<String, Integer> foodAtAvailableMarket = new TreeMap<String, Integer>();
 		
@@ -61,11 +60,7 @@ public class EllenCookRole extends Role implements Cook{
         foodAtAvailableMarket.put("meatballs", 0);
         foodAtAvailableMarket.put("bread", 0);
 	}
-	/*
-	public void addMarket(EllenMarketRole m){	//hack
-		markets.add(m);
-	}
-	*/
+
 	public void setCashier(Cashier c){
 		this.cashier = c;
 	}
@@ -237,18 +232,6 @@ public class EllenCookRole extends Role implements Cook{
 			setInactive();
 			onDuty = true;
 		}
-		
-		//include in SimCity?
-		/*
-		synchronized(menu.menuItems){
-			for (String i : menu.menuItems){
-				if (inventory.get(i).s == FoodState.tryAgain){
-					//OrderFromMarket(inventory.get(i), inventory.get(i).amountToOrder, inventory.get(i).nextMarket);
-					return true;
-				}
-			}
-		}
-		*/
 		
 		
 

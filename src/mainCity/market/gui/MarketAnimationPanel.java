@@ -105,17 +105,6 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
 
         Color purple = new Color(147, 112, 219);
         //Here are the stations
-        /*
-        g2.setColor(purple);
-        g2.fillRect(stationX.get(1), stationY.get(1), stationWidth, stationHeight);
-        g2.fillRect(stationX.get(2), stationY.get(2), stationWidth, stationHeight);
-        g2.fillRect(stationX.get(3), stationY.get(3), stationWidth, stationHeight);
-        g2.fillRect(stationX.get(4), stationY.get(4), stationWidth, stationHeight);
-        g2.fillRect(stationX.get(5), stationY.get(5), stationWidth, stationHeight);
-        g2.fillRect(stationX.get(6), stationY.get(6), stationWidth, stationHeight);
-        g2.fillRect(stationX.get(7), stationY.get(7), stationWidth, stationHeight);
-        g2.fillRect(stationX.get(8), stationY.get(8), stationWidth, stationHeight);
-        */
         
         g.drawImage(shelvesImg,stationX.get(1), stationY.get(1),null);
         g.drawImage(shelvesImg,stationX.get(2), stationY.get(2),null);

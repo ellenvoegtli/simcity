@@ -30,22 +30,16 @@ public class KitchenGui implements Gui, KitchenGuiInterface {
 
 
     public KitchenGui(EllenAnimationPanel a) {
-        //this.agent = agent;
         this.animation = a;
-
     }
     
     public boolean isPresent() {
         return true;
     }
-    
     public void setPresent(boolean p){
     	isPresent = p;
     }
-
-
     public void updatePosition() {
-
     }
     
     public void draw(Graphics2D g) {
@@ -53,6 +47,10 @@ public class KitchenGui implements Gui, KitchenGuiInterface {
                 
     	if (!orderGuis.isEmpty()){
 	        for (Order o : orderGuis){
+	        	if (o.s == OrderState.cooking)
+	        		g.setColor(Color.ORANGE);
+	        	else if (o.s == OrderState.finished)
+	        		g.setColor(Color.BLACK);
 	            
 	        	if (o.choice == "pasta"){
 	        		g.drawString("PSTA", o.posX, o.posY);
@@ -100,17 +98,16 @@ public class KitchenGui implements Gui, KitchenGuiInterface {
 		orderGuis.remove(o);
     }
    
+    
     public int getXPos() {
         return xPos;
     }
-
     public int getYPos() {
         return yPos;
     }
     
 
     private class Order {
-		//WaiterAgent waiter;
 		String choice;
 		int table;
 		OrderState s;
@@ -123,8 +120,6 @@ public class KitchenGui implements Gui, KitchenGuiInterface {
 			posY = y;
 			s = OrderState.cooking;
 			this.table = table;
-			
 		}
-		
 	}
 }

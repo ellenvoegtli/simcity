@@ -3,9 +3,13 @@ package mainCity.restaurants.EllenRestaurant.gui;
 import mainCity.restaurants.EllenRestaurant.*;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -31,8 +35,8 @@ public class CustomerGui implements Gui{
 
 	static final int customerWidth = 20;
 	static final int customerHeight = 20;
-	static final int exitLocationX = -40;
-	static final int exitLocationY = -40;
+	static final int exitLocationX = 0;
+	static final int exitLocationY = -30;
     private final int cookX = WINDOWX + 20;
     private final int cookY = WINDOWY/2;
     private final int cashierX = 10;
@@ -47,10 +51,20 @@ public class CustomerGui implements Gui{
 	private int myTable;
 	private boolean atDestination = false;
 	
+    private BufferedImage customerImg = null;
+	
 
 	public CustomerGui(EllenCustomerRole c, EllenAnimationPanel a){ //HostAgent m) {
 		animation = a;
 		
+		StringBuilder path = new StringBuilder("imgs/");
+        try {
+			customerImg = ImageIO.read(new File(path.toString() + "mario.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
+        		
 		//initialize table locations map
         tableX.put(1, 200);
         tableY.put(1, 150);
@@ -101,8 +115,7 @@ public class CustomerGui implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(xPos, yPos, customerWidth, customerHeight);
+		g.drawImage(customerImg, xPos, yPos, null);
 		
 		g.setColor(Color.BLACK);	//draw the appropriate string under the appropriate table
 		if (orderedFood){
