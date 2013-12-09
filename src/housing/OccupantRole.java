@@ -128,8 +128,6 @@ public void gotHungry()
 
 public void applianceBroke()
 {
-	log("user set appliance to broken********************");
-	System.out.println("user set appliance to broken********************");
 	String appln = "sink";
 	switch((int) (Math.random() * 4)) {
 	case 0:

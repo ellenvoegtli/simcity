@@ -681,6 +681,10 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			PersonAgent p = (PersonAgent) currentPerson;
 			for (PersonAgent pers : cityPanel.getOccupants()){
 	        	if (pers.equals(p)){
+	        		/*
+	        		 * New algorithm: loop through the list of homes (personHome), see if the occupant's person agent pointer
+	        		 * equals the person agent here. then message personHome.applianceBroke
+	        		 */
 	        		System.out.println("I FOUND THE PERSON!!");
 	        		OccupantRole o = (OccupantRole) p.getRoles().get(ActionType.home);
 	        		if (o !=null){
@@ -697,6 +701,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		}
 		else if (e.getSource() == scenario1Button){
 			System.out.println("SCENARIO1 BUTTON PRESSED");
+			personPanel.getPersonList().clear();
 			cityPanel.parseConfig("config.txt");
 			
 			Timer timer = new Timer();
@@ -710,6 +715,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		}
 		else if (e.getSource() == scenario2Button){
 			System.out.println("SCENARIO2 BUTTON PRESSED");
+			personPanel.getPersonList().clear();
 			cityPanel.parseConfig("config2.txt");
 		}
 		else if (e.getSource() == scenario3Button){

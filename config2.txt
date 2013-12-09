@@ -45,9 +45,9 @@ Name:richpersonA;Cash:80;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;
 Name:richpersonB;Cash:250;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:market,restaurant
 Name:richpersonC;Cash:170;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market
 Name:richpersonD;Cash:250;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:hungry
--Name:richpersonE;Cash:20;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market
--Name:richpersonF;Cash:270;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,bank
--Name:richpersonG;Cash:190;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market
+Name:richpersonE;Cash:20;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market
+Name:richpersonF;Cash:270;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,bank
+Name:richpersonG;Cash:190;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market
 -Name:richpersonH;Cash:290;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,hungry
 -Name:richpersonI;Cash:290;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,hungry
 -Name:richpersonJ;Cash:290;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,hungry

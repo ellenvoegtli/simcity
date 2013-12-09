@@ -41,7 +41,10 @@ public class ListPanel extends JPanel implements ActionListener {
      * Method from the ActionListener interface.
      * Handles the event of the add button being pressed
      */
-
+    
+    public List<JButton> getPersonList(){
+    	return personList;
+    }
     
     
     public void actionPerformed(ActionEvent e) {
