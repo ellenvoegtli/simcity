@@ -261,17 +261,55 @@ public class EllenCookRole extends Role implements Cook{
 
 	// Actions
 	public void OrderFromMarket(Map<String, Integer>inventoryNeeded){
-		if (ContactList.getInstance().marketGreeter != null) {
-			ContactList.getInstance().marketGreeter.msgINeedInventory("EllenRestaurant", inventoryNeeded);
-			for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
-				inventory.get(entry.getKey()).s = FoodState.requested;
+		switch((int) (Math.random() * 2)){
+		case 0:
+			if (ContactList.getInstance().getMarket().getGreeter() == null){
+				if (ContactList.getInstance().getMarket2().getGreeter() != null){
+					ContactList.getInstance().getMarket2().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
+					for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+						inventory.get(entry.getKey()).s = FoodState.requested;
+					}
+				}
+				else {
+					for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+						inventory.get(entry.getKey()).s = FoodState.depleted;
+					}
+				}
 			}
-		}
-		else {
-			for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
-				inventory.get(entry.getKey()).s = FoodState.depleted;
+			else {
+				ContactList.getInstance().getMarket().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
+				for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+					inventory.get(entry.getKey()).s = FoodState.requested;
+				}
 			}
+			break;
+			
+		case 1:
+			if (ContactList.getInstance().getMarket2().getGreeter() == null){
+				if (ContactList.getInstance().getMarket().getGreeter() != null){
+					ContactList.getInstance().getMarket().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
+					for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+						inventory.get(entry.getKey()).s = FoodState.requested;
+					}
+				}
+				else {
+					for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+						inventory.get(entry.getKey()).s = FoodState.depleted;
+					}
+				}
+			}
+			else {
+				ContactList.getInstance().getMarket2().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
+				for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+					inventory.get(entry.getKey()).s = FoodState.requested;
+				}
+			}
+			break;
+		default:
+				break;
+			
 		}
+		
 			
 	}
 	
