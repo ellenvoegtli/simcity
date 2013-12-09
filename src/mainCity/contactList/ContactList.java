@@ -26,7 +26,7 @@ import housing.LandlordRole;
 import housing.OccupantRole;
 import housing.gui.HomePanel;
 import role.market.*;
-import mainCity.market1.gui.*;
+import mainCity.market.gui.*;
 
 import java.util.*;
 

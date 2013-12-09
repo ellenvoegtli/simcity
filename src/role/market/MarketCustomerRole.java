@@ -8,10 +8,10 @@ import role.Role;
 //import market.interfaces.*;
 
 import agent.Agent;
-import mainCity.market1.Market1Menu;
-import mainCity.market1.Market1Menu.Item;
-import mainCity.market1.gui.*;
-import mainCity.market1.interfaces.*;
+import mainCity.market.MarketMenu;
+import mainCity.market.MarketMenu.Item;
+import mainCity.market.gui.*;
+import mainCity.market.interfaces.*;
 
 import java.util.*;
 import java.util.List;
@@ -30,7 +30,7 @@ public class MarketCustomerRole extends Role implements Customer {
 	private Greeter host;
 	private Employee employee;
 	private MarketCashier cashier;
-	private Market1Menu marketMenu = new Market1Menu();
+	private MarketMenu marketMenu = new MarketMenu();
 	
 	private int stationX;
 	private int stationY;

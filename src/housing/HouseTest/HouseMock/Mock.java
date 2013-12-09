@@ -1,6 +1,6 @@
 package housing.HouseTest.HouseMock;
 
-import mainCity.market1.test.mock.EventLog;
+import mainCity.market.test.mock.EventLog;
 
 /**
  * This is the base class for all mocks.

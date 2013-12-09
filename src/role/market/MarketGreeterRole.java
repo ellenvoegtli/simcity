@@ -1,7 +1,7 @@
 package role.market;
 
 import mainCity.PersonAgent;
-import mainCity.market1.interfaces.*;
+import mainCity.market.interfaces.*;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.*;
 import role.Role;

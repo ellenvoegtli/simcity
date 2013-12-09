@@ -1,9 +1,9 @@
 package role.market;
 
 import mainCity.PersonAgent;
-import mainCity.market1.Market1Menu;
-import mainCity.market1.Market1Menu.Item;
-import mainCity.market1.interfaces.*;
+import mainCity.market.MarketMenu;
+import mainCity.market.MarketMenu.Item;
+import mainCity.market.interfaces.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
@@ -20,7 +20,7 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	private Greeter host;
 	private MarketCashier cashier;
 	private DeliveryMan deliveryMan;
-	private Market1Menu marketMenu = new Market1Menu();
+	private MarketMenu marketMenu = new MarketMenu();
 	
 	public EmployeeGuiInterface employeeGui = null;
 	private int homeX, homeY;
@@ -332,10 +332,18 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		for (Map.Entry<String, Integer> entry : mc.inventoryOrdered.entrySet()){
 			for (Item i : marketMenu.menuItems){
 				if (i.getItem().equalsIgnoreCase(entry.getKey())){
-					if (entry.getValue() <= i.getStock())
+					if (entry.getValue() <= i.getStock()){
 						mc.inventoryFulfilled.put(entry.getKey(), entry.getValue());
-					else 
-						mc.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - i.getStock()));
+						log("Market had: " + i.getStock() + " " + i.getItem() + "(s).");
+						i.deductStock(entry.getValue());
+						log("Market now has: " + i.getStock() + " " + i.getItem() + "(s).");
+					}
+					else{
+						mc.inventoryFulfilled.put(entry.getKey(), i.getStock());
+						log("Market had: " + i.getStock() + " " + i.getItem() + "(s).");
+						i.deductStock(i.getStock());
+						log("Market now has: " + i.getStock() + " " + i.getItem() + "(s).");
+					}
 				}
 			}
 		}
