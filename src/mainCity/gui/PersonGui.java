@@ -134,13 +134,13 @@ public class PersonGui implements Gui, PersonGuiInterface{
 				calculatePath(347, 280);
 				break;
 			case restaurant_david: 
-				calculatePath(585, 230);
+				calculatePath(588, 230);
 				break;
 			case market:
 				calculatePath(415, 215);
 				break;
 			case market2:
-				calculatePath(670, 140);
+				calculatePath(665, 153);
 				break;
 			case bank:
 				calculatePath(175, 230);
