@@ -105,14 +105,17 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
     	onDuty = false;
     	stateChanged();
     }
+    public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.ELLEN_WAITER, this.getName(), s);
+	}
     
     
 	// Messages
    
 	public void msgPleaseSeatCustomer(Customer cust, int waitPosX, int waitPosY, int table){
-		//print("Received msgPleaseSeatCustomer");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgPleaseSeatCustomer");
-
+		log("Received msgPleaseSeatCustomer");
+		
 		MyCustomer mc = new MyCustomer(cust, table, CustomerState.waiting);
 		mc.setWaitingPosition(waitPosX, waitPosY);
 		
@@ -128,7 +131,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 				break;
 			}
 		}
-		//print("Received msgReadyToOrder from: " + mc.c.getName());
+		log("Received msgReadyToOrder from: " + mc.c.getName());
 		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgReadyToOrder from: " + mc.c.getName());
 		mc.s = CustomerState.readyToOrder;
 		stateChanged();
@@ -142,8 +145,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 				break;
 			}
 		}
-		//print("Received msgHereIsChoice");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgHereIsChoice");
+		log("Received msgHereIsChoice");
 		mc.choice = choice;
 		mc.s = CustomerState.hasOrdered;
 		stateChanged();
@@ -157,8 +159,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 				break;
 			}
 		}
-		//print("Received msgOrderDoneCooking()");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgOrderDoneCooking");
+		log("Received msgOrderDoneCooking()");
 		mc.s = CustomerState.orderReady;
 		stateChanged();
 	}
@@ -171,8 +172,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 				break;
 			}
 		}
-		//print("Received msgOutOfFood()");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgOutOfFood");
+		log("Received msgOutOfFood()");
 		mc.s = CustomerState.needToReorder;	//set back to original
 		stateChanged();
 	}
@@ -185,8 +185,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 				break;
 			}
 		}
-		//print("Received msgDoneAndLeaving from: " + mc.getCustomer().getName());
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgDoneAndLeaving from: " + mc.getCustomer().getName());
+		log("Received msgDoneAndLeaving from: " + mc.getCustomer().getName());
 		mc.s = CustomerState.leavingRestaurant;
 		stateChanged();
 	}
@@ -207,14 +206,12 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	
 	public void msgBreakRequestResponse(boolean isOK){
 		if (isOK){
-			//print("Break request accepted");
-			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Break request accepted");
+			log("Break request accepted");
 			bState = BreakState.acceptedToGoOnBreak;
 			stateChanged();
 		}
 		else {
-			//print("Break request denied");
-			AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Break request denied");
+			log("Break request denied");
 			bState = BreakState.offBreak;
 			this.getGui().GoOffBreak();
 			stateChanged();
@@ -222,8 +219,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	}
 	//Check messages
 	public void msgIWantMyCheck(Customer cust, String choice){
-		//print("Received msgIWantMyCheck from: " + cust.getName());
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgIWantMyCheck from: " + cust.getName());
+		log("Received msgIWantMyCheck from: " + cust.getName());
 		
 		MyCustomer mc = null;
 		for (MyCustomer thisMC : myCustomers){
@@ -239,8 +235,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	
 	//Cashier message
 	public void msgHereIsCheck(double amount, Customer cust){
-		//print("Received msgHereIsCheck");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Received msgHereIsCheck");
+		log("Received msgHereIsCheck");
 		
 		MyCustomer mc = null;
 		for (MyCustomer thisMC : myCustomers){
@@ -392,7 +387,6 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		try {
 			atStart.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -400,9 +394,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		DoSeatCustomer(mc.c, mc.table); //animation
 		try {
 			atTable.acquire();
-			//atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -411,9 +403,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	
 	// The animation DoXYZ() routines
 	public void DoSeatCustomer(Customer customer, int table) {
-		//print("Seating " + customer + " at " + table);
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Seating " + customer + " at " + table);
-		
+		log("Seating " + customer + " at " + table);		
 		waiterGui.DoGoToTable(table);
 	}
 	
@@ -421,9 +411,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		waiterGui.DoGoToTable(mc.table);
 		try {
 			atTable.acquire();
-			//atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -435,9 +423,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		waiterGui.DoGoToTable(mc.table);
 		try {
 			atTable.acquire();
-			//atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -451,37 +437,27 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 
 	
 	public void deliverFood(MyCustomer mc){
-		//print("Going to pick up finished order");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Going to pick up finished order");
+		log("Going to pick up finished order");
 		
 		waiterGui.DoGoToCook();
 		try {
 			atCook.acquire();
-			//atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		cook.pickingUpFood(mc.table);
-		//print("Going to deliver food");
-		//print("Telling cashier to compute bill");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Going to deliver food");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Telling cashier to compute bill");
+		log("Going to deliver food");
+		log("Telling cashier to compute bill");
 		
 		cashier.msgComputeBill(mc.choice, mc.c, this);
-		
 		waiterGui.DoDeliverFood(mc.table, mc.choice);	//sends destination & details for waiter's food text label to waiter
 		try {
 			atTable.acquire();
-			//atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//print("Food delivered");
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Food delivered");
-		
+		log("Food delivered");		
 		mc.c.msgHereIsYourFood(mc.choice);
 		mc.s = CustomerState.gotFood;
 		waiterGui.setIsDeliveringFood(false);	//lets animation remove food text label from waiter
@@ -491,9 +467,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		waiterGui.DoGoToTable(mc.table);
 		try {
 			atTable.acquire();
-			//atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -502,11 +476,9 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	}
 	
 	public void notifyHost(MyCustomer mc){
-		//print("Notifying host of free table: " + mc.table);
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Notifying host of free table: " + mc.table);
+		log("Notifying host of free table: " + mc.table);
 		host.msgTableFree(mc.table);
-		//print("Removing: " + mc.getCustomer().getName());
-		AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), "Removing: " + mc.getCustomer().getName());
+		log("Removing: " + mc.getCustomer().getName());
 		myCustomers.remove(mc);
 	}
 	
@@ -538,10 +510,8 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		int table;
 		String choice;
 		double checkAmount;
-		
 		int waitingAreaX;
 		int waitingAreaY;
-		
 		CustomerState s;
 		
 		MyCustomer(Customer c, int table, CustomerState s){

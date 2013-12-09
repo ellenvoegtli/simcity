@@ -84,8 +84,6 @@ public class EllenCookRole extends Role implements Cook{
 	public void setKitchenGui(KitchenGui gui){
 		kitchenGui = gui;
 	}
-	
-	
 	//for alert log trace statements
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), s);
