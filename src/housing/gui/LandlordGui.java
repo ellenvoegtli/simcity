@@ -51,14 +51,19 @@ public class LandlordGui implements Gui, LanLordGuiInterface {
 		else if (yPos > yDestination)
 			yPos--;
 		
-		if((xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55)	)
+		if((xDestination == -10 && yDestination == 40) || (xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55)	)
 			{
 					atDestination = true;
 			}
 
 		if (this.atEndPoint()) 
 		{
-			command=Command.noCommand;
+
+			if(xDestination != -10 && yDestination != 40 && atDestination == true)
+				{
+					atDestination = false;				
+					landlord.msgAtDestination();
+				}
 			if ((xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55)	&& atDestination == true)
 			{
 				atDestination = false;				
