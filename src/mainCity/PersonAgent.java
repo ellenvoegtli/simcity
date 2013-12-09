@@ -294,7 +294,7 @@ public class PersonAgent extends Agent {
 				synchronized(roles) {
 					roles.get(currentAction.type).setActive();
 				}
-				
+
 				enterBuilding();
 				return true;
 			}
@@ -488,8 +488,9 @@ public class PersonAgent extends Agent {
 		gui.DoGoInside();
 		state = PersonState.inBuilding;
 
-		if(currentAction.type == ActionType.work)
+		if(currentAction.type == ActionType.work) {
 			state = PersonState.working;
+		}
 	}
 	
 	private void checkSelf() {
