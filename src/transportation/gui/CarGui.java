@@ -16,7 +16,7 @@ public class CarGui extends Vehicle {
 	private int width;
 	private int height; 
 	private int xDestination, yDestination;
-	PersonAgent owner; 
+	public PersonAgent owner; 
 	
 	public CarGui(PersonAgent p, int x, int y, int w, int h){ 
 		super(x, y, w, h, false);

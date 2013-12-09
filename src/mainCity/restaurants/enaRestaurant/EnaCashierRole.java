@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import role.Role;
-import role.market1.Market1DeliveryManRole;
+import role.market.MarketDeliveryManRole;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
@@ -74,22 +74,24 @@ public class EnaCashierRole extends Role implements Cashier{
 			Tabs.add(new Tab(choice, c, payStatus.pending));
 			stateChanged();
 		}
-		public void msgHereIsMarketBill(Map<String,Integer> order, double bill, Market1DeliveryManRole name)
+		public void msgHereIsMarketBill(Map<String,Integer> order, double bill, DeliveryMan deliveryPerson)
 		{
 			log.add(new LoggedEvent("recieved message to pay the market"));
 			log("Received msgHereIsMarketBill");
 
-			marketChecks.add(new MarketTab(name, bill, marketPay.pending));
+			marketChecks.add(new MarketTab(deliveryPerson, bill, marketPay.pending));
 			stateChanged();
 			
 		}//0000000000000000000 CHANGE ALL CODE AFTER THE MSGRESTOCKBILL IS CALLED 000000000000000000000000000000
 		
-		public void msgHereIsChange(double amount, Market1DeliveryManRole name)
+		
+		public void msgHereIsChange(double amount, DeliveryMan deliveryPerson) 
 		{
 			log("Received msgHereIsChange");
 
 			setRestCash(getRestCash() + amount);
 			stateChanged();
+			deliveryPerson.msgChangeVerified("enaRestaurant");
 		}
 		
 		private double getRestCash() 
@@ -273,7 +275,7 @@ public boolean pickAndExecuteAnAction()
 		public Market ma;
 		public double checks;
 		public marketPay mState;
-		public Market1DeliveryManRole deliveryMan;
+		public DeliveryMan deliveryMan;
 		
 		public MarketTab(Market mrk, double ch, marketPay mSt)
 		{
@@ -282,7 +284,7 @@ public boolean pickAndExecuteAnAction()
 			mState = mSt;
 		}
 		
-		public MarketTab(Market1DeliveryManRole name, double ch, marketPay mSt)
+		public MarketTab(DeliveryMan name, double ch, marketPay mSt)
 		{
 			deliveryMan = name;
 			checks = ch;
@@ -359,20 +361,10 @@ public boolean pickAndExecuteAnAction()
 
 
 
-	@Override
-	public void msgHereIsChange(double amount, DeliveryMan deliveryPerson) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 
-	@Override
-	public void msgHereIsMarketBill(Map<String, Integer> inventory,
-			double billAmount, DeliveryMan deliveryPerson) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 
 	

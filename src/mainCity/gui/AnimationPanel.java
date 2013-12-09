@@ -282,7 +282,27 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				}
 			}
 			
-			
+			for(int i=0; i<ContactList.stops.size(); i++){
+				for(int s=0; s<Cars.size(); s++){
+					if( ( Cars.get(s).getX() > (ContactList.stops.get(i).xLocation-5) ) 
+						&& ( Cars.get(s).getX() < (ContactList.stops.get(i).xLocation+5) ) 
+							&& ( Cars.get(s).getY() > ContactList.stops.get(i).yLocation - 5) 
+								&& (Cars.get(s).getY() < ContactList.stops.get(i).yLocation + 5) ) {
+						
+						if(ContactList.stops.get(i).stopLocation == Cars.get(s).owner.getDestination()) {
+							Cars.get(s).owner.msgArrivedAtDestinationInCar();
+							for(int g=0; g<lanes.size(); g++) { 
+								for(int v=0; v<lanes.get(g).vehicles.size(); v++) { 
+									if(lanes.get(g).vehicles.get(v) == Cars.get(s)) {
+										lanes.get(g).vehicles.remove(Cars.get(s));
+										Cars.remove(Cars.get(s));
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 				
 			
 			for(int t=0; t<Buses.size(); t++){
@@ -546,13 +566,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     }
  
 
-    public void addMarketDeliveryGui(DeliveryManGui1 gui){
+    public void addMarketDeliveryGui(DeliveryManGui gui){
     	personGuis.add(gui);
     }
     
-    public void addMarket2DeliveryGui(DeliveryManGui2 gui){
-    	personGuis.add(gui);
-    }
         
     public static List<HomeObject> getHouses()
     {

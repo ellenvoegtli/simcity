@@ -128,18 +128,6 @@ public class PersonGui implements Gui, PersonGuiInterface {
 			xDestination = path.peek().x;
 			yDestination = path.poll().y;
 		}
-		
-		if(xPos == xDestination && yPos == yDestination && inCar && CarFinished) {
-			if(path.isEmpty()) {
-				System.out.println("Destination Reached in Car");
-				traveling = false;
-				agent.msgArrivedAtDestinationInCar();
-				return;
-			}
-			
-			xDestination = path.peek().x;
-			yDestination = path.poll().y;
-		}
 	}
 	
 	public void draw(Graphics2D g) {
@@ -268,7 +256,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				yDestination = yPos = 405;
 				break;
 			case restaurant_david: 
-				xDestination = xPos = 660; 
+				xDestination = xPos = 615; 
 				yDestination = yPos = 230; 
 				break;
 			case market:

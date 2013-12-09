@@ -1,11 +1,9 @@
 package mainCity.contactList;
 
 import mainCity.PersonAgent;
-import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.restaurants.enaRestaurant.gui.EnaRestaurantPanel;
-import mainCity.restaurants.jeffersonrestaurant.*;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusRestaurantPanel;
 import mainCity.restaurants.marcusRestaurant.interfaces.Host;
@@ -16,31 +14,19 @@ import role.jeffersonRestaurant.JeffersonCashierRole;
 import role.jeffersonRestaurant.JeffersonCookRole;
 import role.jeffersonRestaurant.JeffersonHostRole;
 import role.marcusRestaurant.*;
-import mainCity.restaurants.restaurant_zhangdt.*;
 import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
-import role.davidRestaurant.*;
 import role.ellenRestaurant.EllenCashierRole;
 import role.ellenRestaurant.EllenCookRole;
 import role.ellenRestaurant.EllenHostRole;
-import role.jeffersonRestaurant.*;
-import role.marcusRestaurant.*;
-import mainCity.bank.*;
 import mainCity.bank.gui.BankPanel;
 import mainCity.bank.interfaces.BankManager;
 import mainCity.gui.CityPanel;
 import transportation.BusStop;
+import housing.LandlordRole;
 import housing.OccupantRole;
 import housing.gui.HomePanel;
-import role.market1.*;
-import mainCity.market1.*;
-import mainCity.market1.gui.*;
-import mainCity.market1.interfaces.DeliveryMan1;
-import mainCity.market1.interfaces.Employee;
-import mainCity.market1.interfaces.Greeter;
-import mainCity.market2.gui.Market2Panel;
-import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
-import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
-import role.market2.*;
+import role.market.*;
+import mainCity.market.gui.*;
 
 import java.util.*;
 
@@ -82,16 +68,10 @@ public class ContactList {
 	
 	
 	
-	public Market1GreeterRole marketGreeter;
-	public Market1CashierRole marketCashier;
-	public Market1DeliveryManRole marketDeliveryMan;
-	
-	public Market2GreeterRole market2Greeter;
-	public Market2CashierRole market2Cashier;
-	public Market2DeliveryManRole market2DeliveryMan;
-	
-	//List<MainCook> cooks = new ArrayList<MainCook>();		//will this work with different subclasses?
-	
+	public MarketGreeterRole marketGreeter;
+	public MarketCashierRole marketCashier;
+	public MarketDeliveryManRole marketDeliveryMan;
+		
 	//all of the restaurants' cooks
 	public EllenCookRole ellenCook;
 	public EnaCookRole enaCook;
@@ -151,6 +131,8 @@ public class ContactList {
 
 	public List<PersonAgent> peopleList = new ArrayList<PersonAgent>();
 	public List<PersonAgent> RenterList = new ArrayList<PersonAgent>();
+	public List<LandlordRole> LandLordList = new ArrayList<LandlordRole>();
+
 
 	public Map<PersonAgent, HomePanel> LivingPlaces = new HashMap<PersonAgent,HomePanel>();
 	public List<HomePanel> homeInstances = new ArrayList<HomePanel> ();
@@ -160,7 +142,6 @@ public class ContactList {
 		homeP = hp;
 		homeInstances.add(hp);
 	}
-	
 	
 	public void setPersonInstance(PersonAgent p, boolean renter)
 	{
@@ -187,6 +168,7 @@ public class ContactList {
 			 {
 				  home = homeInstances.get(6+RenterList.size());
 					 LivingPlaces.put(p, home);
+					 
 			 }
 		  }
 		
@@ -197,6 +179,16 @@ public class ContactList {
 		return LivingPlaces.get(oR.person);
 	}
 	
+	public void setLandLordInstance(LandlordRole lLR)
+	{
+		LandLordList.add(lLR);
+		
+	}
+	
+	public List<LandlordRole> getLandLords()
+	{
+		return LandLordList;
+	}
 
 	public HomePanel getHome()
 	{
@@ -228,13 +220,13 @@ public class ContactList {
 	}
 	
 	//Market********
-	public void setMarketGreeter(Market1GreeterRole g){
+	public void setMarketGreeter(MarketGreeterRole g){
 		marketGreeter = g;
 	}
-	public void setMarketCashier(Market1CashierRole c){
+	public void setMarketCashier(MarketCashierRole c){
 		marketCashier = c;
 	}
-	public void setMarketDeliveryMan(Market1DeliveryManRole d){
+	public void setMarketDeliveryMan(MarketDeliveryManRole d){
 		marketDeliveryMan = d;
 	}
 	public void setMarket(MarketPanel m){

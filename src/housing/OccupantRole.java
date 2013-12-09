@@ -87,20 +87,7 @@ public OccupantRole(PersonAgent p, String personNm)
 	this.name = personNm;
 	this.person=p;
 
-	for(ApartmentObject apartment : AnimationPanel.apartments)
-	{
-		if(apartment.getBuild().equals(p.getHomePlace()))
-		{
-			owner = false;
-			rent = 850;
-		}
-	}
-
-	/*if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
-	{
-		owner = false;
-		rent = 850;
-	}*/
+	
 	
 	for (HomeObject homer : AnimationPanel.houses)
 	{	
@@ -112,9 +99,18 @@ public OccupantRole(PersonAgent p, String personNm)
 		}
 	}
 	
+	for(ApartmentObject apartment : AnimationPanel.apartments)
+	{
+		if(apartment.getBuild().equals(p.getHomePlace()))
+		{
+			owner = false;
+			needsWork.add("stove");
+			rent = 850;
+			setLandLord(ContactList.getInstance().getLandLords().get(0));
+		}
+	}
 	
-	//ContactList.getInstance().setOccInstance(this);
-
+	
 }
 
 public OccupantRole(PersonAgent p) {
@@ -202,9 +198,7 @@ public void msgCookFood(String foodCh)
 
 	
 //SCHEDULER
-/* (non-Javadoc)
- * @see housing.Occupant#pickAndExecuteAnAction()
- */
+
 @Override
 public boolean pickAndExecuteAnAction()
 {
@@ -230,6 +224,7 @@ public boolean pickAndExecuteAnAction()
 	}
 	if(!needsWork.isEmpty() && (eState == eatingState.hungry || eState == eatingState.nothing) )
 	{
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		log("needs to fix appliance");
 		serviceAppliance();	
 		return true;
@@ -320,12 +315,13 @@ public void PayRent()
 
 public void serviceAppliance()
 {
-	synchronized(needsWork)
-	{
-	for(String app : needsWork)
-	{
+   synchronized(needsWork)
+   {
+	 for(String app : needsWork)
+	 {
 		if(owner == false)
 		{
+			System.out.println("___________________________________________________________________________________________");
 			log("calling landlord for maintenance");
 			landLord.msgPleaseFix(this, app);
 		}
@@ -335,7 +331,7 @@ public void serviceAppliance()
 		}
 		
 		needsWork.remove(app);
-	}
+	  }
 	}
 	fState = fixState.fixed;
 }
@@ -409,8 +405,11 @@ public void goToStore()
 	log("Going To the store to buy groceries");
 	sState = shoppingState.shopping;
 	gui.DoLeave();
-	//person.msgGoToMarket();
-
+	try {
+		destination.acquire();
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
 	super.setInactive();
 	person.msgGoToMarket();
 	
@@ -516,9 +515,9 @@ public void setHouse(personHome house) {
 
 
 
-public void setLandLord(LandlordRole land)
+public void setLandLord(LandlordRole lndlrd)
 {
-	this.landLord = land;
+	this.landLord = lndlrd;
 }
 
 

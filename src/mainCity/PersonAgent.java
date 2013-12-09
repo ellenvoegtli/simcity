@@ -21,13 +21,9 @@ import mainCity.gui.AnimationPanel.HomeObject;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
-import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.*;
-import mainCity.market1.*;
-import role.market1.*;
-import mainCity.market2.*;
-import role.market2.*;
+import role.market.*;
 import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
@@ -219,20 +215,33 @@ public class PersonAgent extends Agent {
 
 	//A message received to tell the person to go to the bank
 	public void msgGoToBank(String purpose) {
+		boolean decide = (Math.random() < 0.5);
 
 		synchronized(actions) {
 			switch(purpose) {
 				case "deposit":
-					actions.add(new Action(ActionType.bankDeposit, 2));
+					if(decide)
+						actions.add(new Action(ActionType.bankDeposit, 2));
+					else
+						actions.add(new Action(ActionType.bankDeposit2, 2));
 					break;
 				case "withdraw":
-					actions.add(new Action(ActionType.bankWithdraw, 2));
+					if(decide)
+						actions.add(new Action(ActionType.bankWithdraw, 2));
+					else
+						actions.add(new Action(ActionType.bankWithdraw2, 2));
 					break;
 				case "loan":
-					actions.add(new Action(ActionType.bankLoan, 2));
+					if(decide)
+						actions.add(new Action(ActionType.bankLoan, 2));
+					else
+						actions.add(new Action(ActionType.bankLoan2, 2));
 					break;
 				case "rob":
-					actions.add(new Action(ActionType.bankRob, 5));
+					if(decide)
+						actions.add(new Action(ActionType.bankRob, 5));
+					else
+						actions.add(new Action(ActionType.bankRob2, 5));
 			}
 	
 			stateChanged();
@@ -318,7 +327,7 @@ public class PersonAgent extends Agent {
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
-					if (event == PersonEvent.arrivedAtMarket && !((Market1CustomerRole) customer).getGui().goInside()) {
+					if (event == PersonEvent.arrivedAtMarket && !((MarketCustomerRole) customer).getGui().goInside()) {
 						currentAction.state = ActionState.done;
 						return true;
 					}
@@ -388,7 +397,7 @@ public class PersonAgent extends Agent {
 						currentAction.state = ActionState.done;
 						return true;
 					}
-					
+
 					switch(currentAction.type) {
 						case bankWithdraw:
 							((BankCustomer) customer).msgWantToWithdraw();
@@ -438,8 +447,7 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 			
-			if(event == PersonEvent.maintainWork)
-			{
+			if(event == PersonEvent.maintainWork) {
 				goToRenters();
 				return true;
 			}
@@ -527,13 +535,18 @@ public class PersonAgent extends Agent {
 		}
 		
 		synchronized(actions) {
-			if(cash < 50 && !actionExists(ActionType.bankWithdraw)){
-				actions.add(new Action(ActionType.bankWithdraw,3));
+			if(cash < 50 && (!actionExists(ActionType.bankWithdraw) || !actionExists(ActionType.bankWithdraw2))){
+				if((Math.random() < 0.5))
+					actions.add(new Action(ActionType.bankWithdraw, 3));
+				else
+					actions.add(new Action(ActionType.bankWithdraw2, 3));
 				stateChanged();
 			}
-			if(cash > 300 && !actionExists(ActionType.bankDeposit)){
-	
-				actions.add(new Action(ActionType.bankDeposit,3));
+			if(cash > 300 && (!actionExists(ActionType.bankDeposit) || !actionExists(ActionType.bankDeposit2))){
+				if((Math.random() < 0.5))
+					actions.add(new Action(ActionType.bankDeposit, 3));
+				else
+					actions.add(new Action(ActionType.bankDeposit2, 3));
 				stateChanged();
 			}
 		}
@@ -705,44 +718,44 @@ public class PersonAgent extends Agent {
 							
 							//-----Market Roles---//
 							case "marketEmployee":
-								Market1EmployeeRole mem = new Market1EmployeeRole(this, name);
+								MarketEmployeeRole mem = new MarketEmployeeRole(this, name);
 								ContactList.getInstance().getMarket().handleRole(mem);
 								roles.put(action, mem);
 								break;
 							case "marketGreeter":
-								Market1GreeterRole mgr = new Market1GreeterRole(this, name);
+								MarketGreeterRole mgr = new MarketGreeterRole(this, name);
 								ContactList.getInstance().getMarket().handleRole(mgr);
 								roles.put(action, mgr);
 								break;
 							case "marketCashier":
-								Market1CashierRole mcsh = new Market1CashierRole(this, name);
+								MarketCashierRole mcsh = new MarketCashierRole(this, name);
 								ContactList.getInstance().getMarket().handleRole(mcsh);
 								roles.put(action, mcsh);
 								break;
 							case "marketDeliveryMan":
-								Market1DeliveryManRole mdm = new Market1DeliveryManRole(this, name);
+								MarketDeliveryManRole mdm = new MarketDeliveryManRole(this, name);
 								ContactList.getInstance().getMarket().handleRole(mdm);
 								roles.put(action, mdm);
 								break;
 								
 							//-----Market 2 Roles ---//
 							case "market2Employee":
-								Market1EmployeeRole mem2 = new Market1EmployeeRole(this, name);
+								MarketEmployeeRole mem2 = new MarketEmployeeRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mem2);
 								roles.put(action, mem2);
 								break;
 							case "market2Greeter":
-								Market1GreeterRole mgr2 = new Market1GreeterRole(this, name);
+								MarketGreeterRole mgr2 = new MarketGreeterRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mgr2);
 								roles.put(action, mgr2);
 								break;
 							case "market2Cashier":
-								Market1CashierRole mcsh2 = new Market1CashierRole(this, name);
+								MarketCashierRole mcsh2 = new MarketCashierRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mcsh2);
 								roles.put(action, mcsh2);
 								break;
 							case "market2DeliveryMan":
-								Market1DeliveryManRole mdm2 = new Market1DeliveryManRole(this, name);
+								MarketDeliveryManRole mdm2 = new MarketDeliveryManRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mdm2);
 								roles.put(action, mdm2);
 								break;
@@ -784,12 +797,12 @@ public class PersonAgent extends Agent {
 						}
 						break;
 					case market :
-						Market1CustomerRole mcr = new Market1CustomerRole(this, name);
+						MarketCustomerRole mcr = new MarketCustomerRole(this, name);
 						ContactList.getInstance().getMarket().handleRole(mcr);
 						roles.put(action, mcr);
 						break;
 					case market2 : 
-						Market1CustomerRole mcr2 = new Market1CustomerRole(this, name);
+						MarketCustomerRole mcr2 = new MarketCustomerRole(this, name);
 						ContactList.getInstance().getMarket2().handleRole(mcr2);
 						roles.put(action, mcr2);
 						break;
@@ -808,6 +821,24 @@ public class PersonAgent extends Agent {
 						ContactList.getInstance().getHome().handleRoleGui(lr);
 						roles.put(action, lr);
 						break;
+					case bankWithdraw2:
+					case bankDeposit2:
+					case bankLoan2:
+						if(roles.containsKey("bankDeposit2") || roles.containsKey("bankLoan2") || roles.containsKey("bankWithdraw2")){
+							return;
+						}
+						BankCustomerRole bc2 = new BankCustomerRole(this, name);
+						ContactList.getInstance().getBank2().handleRole(bc2);
+						roles.put(action, bc2);
+						break;
+					case bankRob2:
+						if(roles.containsKey("bankRob2")){
+							return;
+						}
+						BankRobberRole br2 = new BankRobberRole(this, name);
+						ContactList.getInstance().getBank2().handleRole(br2);
+						roles.put(action, br2);
+						break;
 					case bankWithdraw:
 					case bankDeposit:
 					case bankLoan:
@@ -816,7 +847,6 @@ public class PersonAgent extends Agent {
 						}
 						BankCustomerRole bc = new BankCustomerRole(this, name);
 						ContactList.getInstance().getBank().handleRole(bc);
-						ContactList.getInstance().getBank2().handleRole(bc);
 						roles.put(action, bc);
 						break;
 					case bankRob:
@@ -825,7 +855,6 @@ public class PersonAgent extends Agent {
 						}
 						BankRobberRole br = new BankRobberRole(this, name);
 						ContactList.getInstance().getBank().handleRole(br);
-						ContactList.getInstance().getBank2().handleRole(br);
 						roles.put(action, br);
 						break;
 					default:
@@ -856,11 +885,17 @@ public class PersonAgent extends Agent {
 			case restaurant:
 				event = PersonEvent.chooseRestaurant;
 				break;
-				
+			//======= restaurant hacks from gui ========
+			//case restaurant_ellen:
+				//event = PersonEvent.
 			case bankWithdraw:
+			case bankWithdraw2:
 			case bankDeposit:
+			case bankDeposit2:
 			case bankLoan: 
+			case bankLoan2: 
 			case bankRob:
+			case bankRob2:
 				event = PersonEvent.needToBank;
 				break;
 			default:
@@ -885,7 +920,7 @@ public class PersonAgent extends Agent {
 			waitForGui();
 			return;
 		}
-		else if(walk) { //chose bus
+		else if(!car) { //chose bus
 			output(name + " is taking the bus to " + d);
 			gui.DoGoToStop();
 			waitForGui();
@@ -907,10 +942,9 @@ public class PersonAgent extends Agent {
 			waitForGui();
 			state = PersonState.inCar; 
 			gui.getInCar(); 
-			//gui.DoGoInside();
+			gui.DoGoInside();
 			gui.AddCarToLane();
 			gui.DoGoToLocationOnCar(d); 
-			//state = PersonState.waiting;
 			return;
 		}
 	}
@@ -1053,14 +1087,10 @@ public class PersonAgent extends Agent {
 	}
 
 	private void goToBank() {
-		switch((int) Math.random()*2) {
-		case 0:
+		if(!currentAction.type.toString().contains("2"))
 			travelToLocation(CityLocation.bank);
-			break;
-		case 1:
+		else
 			travelToLocation(CityLocation.bank2);
-			break;
-		}
 		
 		event = PersonEvent.arrivedAtBank;
 		stateChanged();
@@ -1238,7 +1268,7 @@ public class PersonAgent extends Agent {
 	public enum ActionState {created, inProgress, done}
 	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, 
 		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
-		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, home}
+		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, bankWithdraw2, bankDeposit2, bankLoan2, bankRob2, home}
 	public class Action implements Comparable<Object> {
 		public ActionState state;
 		public ActionType type;

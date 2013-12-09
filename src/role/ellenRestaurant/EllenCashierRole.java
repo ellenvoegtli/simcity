@@ -3,7 +3,7 @@ package role.ellenRestaurant;
 
 import java.util.*;
 
-import role.market1.*;
+import role.market.*;
 import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.EllenMenu;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
@@ -131,7 +131,7 @@ public class EllenCashierRole extends Role implements Cashier {
 				}
 			}
 		}
-		b.amountOwed = Math.round(amountOwed*100.0)/100.0;
+		b.amountOwed = Math.round(amountOwed*100.00)/100.00;
 		b.s = MarketBillState.oweMoney;
 		stateChanged();
 	}

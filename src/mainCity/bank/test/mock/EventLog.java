@@ -3,7 +3,7 @@ package mainCity.bank.test.mock;
 import java.util.LinkedList;
 import java.util.List;
 
-import mainCity.market1.test.mock.*;
+import mainCity.market.test.mock.*;
 
 /**
  * This class should be used by Mock agents to log significant events. For

@@ -299,98 +299,77 @@ public abstract class JeffersonWaiterRole extends Role implements Waiter {
 					
 					return true;
 				}
-			}
-		}
-		
-		synchronized(CustomerList){
-			for(WaiterCust waitercust:CustomerList){
+
+
 				if(waitercust.state == waiterCustState.readyToOrder){
 					waitercust.state = waiterCustState.waitingForWaiter;
 					log("going to take order");
 					goToTakeOrder(waitercust);
 					return true;
 				}
-			}
-		}
-		
-		synchronized(CustomerList){
-			for(WaiterCust waitercust:CustomerList){
+
+
 				if(waitercust.state==waiterCustState.ordered){
 					waitercust.state=waiterCustState.waitingForOrder;
 					tellCook(waitercust.table, waitercust.choice);
 					
 					return true;
 				}	
-			}
-		}
+
 		
-		synchronized(CustomerList){
-			for (WaiterCust waitercust:CustomerList){
+
 				if(waitercust.state==waiterCustState.foodReady){
 					waitercust.state=waiterCustState.eating;
 					deliverOrder(waitercust);
 					return true;
 				}	
-			}
-		}
+
 		
-		synchronized(CustomerList){
-			for (WaiterCust waitercust:CustomerList){
+
 				if(waitercust.state==waiterCustState.leaving){
 					clearCustomer(waitercust);
 					
 					return true;	
 				}
-			}	
-		}	
-		
-		synchronized(CustomerList){
-			for(WaiterCust waitercust:CustomerList){
+
+
 				if(waitercust.state==waiterCustState.cleared){
 					clearCustomer(waitercust);
 					return true;
 				}
-			}	
-		}
+
 		
-		synchronized(CustomerList){
-			for(WaiterCust waitercust:CustomerList){
+
 				if(waitercust.state==waiterCustState.cantOrder){
 					//System.out.println("Customer can't order");
 					tellCustomerOutOfStock(waitercust);
 					waitercust.state=waiterCustState.seated;
 					return true;
 				}
-			}
-		}
-		synchronized(CustomerList){
-			for(WaiterCust waitercust:CustomerList){	
+
+	
 				if(waitercust.state==waiterCustState.requestedCheck){
 					waitercust.state=waiterCustState.waitingForCheck;
 					tellCashier(waitercust);
 					return true;
 				}
-			}	
-		}
-		synchronized(CustomerList){
-			for(WaiterCust waitercust:CustomerList){
+
+
 				if(waitercust.state==waiterCustState.waiterHasCheck){
 					waitercust.state=waiterCustState.recievedCheck;
 					giveCheckToCust(waitercust);
 					return true;
 				}
-			}
-		}
-		synchronized(CustomerList){
-			for(WaiterCust waitercust:CustomerList){
+		
 				if(waitercust.state==waiterCustState.paid){
 					waitercust.state=waiterCustState.waitingPaymentClear;
 					deliverPayment(waitercust);
 					return true;
 				}
-			}	
+			}
+				
 		}
-	
+		
 		//System.out.println("waiter no action");
 		return false;
 	}
