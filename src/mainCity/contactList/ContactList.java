@@ -126,7 +126,7 @@ public class ContactList {
 	BankPanel bank;
 	BankPanel bank2;
 	MarketPanel market;
-	Market2Panel market2;
+	MarketPanel market2;
 	
 	CityPanel city;
 	
@@ -268,6 +268,7 @@ public class ContactList {
 	public BankPanel getBank2(){
 		return bank2;
 	}
+	
 	//Market********
 	public void setMarketGreeter(Market1GreeterRole g){
 		marketGreeter = g;
@@ -284,24 +285,15 @@ public class ContactList {
 	public MarketPanel getMarket(){
 		return market;
 	}
-	
-
-	//***MARKET 2 - added===============
-	public void setMarket2Greeter(Market2GreeterRole g){
-		market2Greeter = g;
-	}
-	public void setMarket2Cashier(Market2CashierRole c){
-		market2Cashier = c;
-	}
-	public void setMarket2DeliveryMan(Market2DeliveryManRole d){
-		market2DeliveryMan = d;
-	}
-	public void setMarket2(Market2Panel m){
+	//MARKET 2********
+	public void setMarket2(MarketPanel m){
 		market2 = m;
 	}
-	public Market2Panel getMarket2(){
+	public MarketPanel getMarket2(){
 		return market2;
 	}
+	
+	
 	
 	//Ellen's Restaurant******
 	public void setEllenHost(EllenHostRole h){
