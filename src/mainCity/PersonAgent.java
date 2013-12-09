@@ -49,6 +49,7 @@ public class PersonAgent extends Agent {
 	private Map<ActionType, Role> roles;
 	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
+	private boolean alive;
 	public EventLog log = new EventLog(); 
 	
 	public PersonAgent(String n) {
@@ -64,6 +65,7 @@ public class PersonAgent extends Agent {
 		roles = Collections.synchronizedMap(new HashMap<ActionType, Role>());
 		actions = new PriorityBlockingQueue<Action>();
 		currentAction = null;
+		alive = true;
 	}
 	
 	public void setGui(PersonGuiInterface g) {
@@ -103,8 +105,6 @@ public class PersonAgent extends Agent {
 		return homePlace;
 	}
 	
-	//----------Messages----------//
-	//From a timer to tell the person to do a checkup
 	public void updateOccupation(String o, int b, int e) {
 		job.occupation = o;
 		job.shiftBegin = b;
@@ -219,6 +219,7 @@ public class PersonAgent extends Agent {
 		}
 	}
 	
+	//A message received from the to send personagent home
 	public void msgGoHome() {
 		System.out.println(name + ": Received msgGoHome");
 		synchronized(actions) {
@@ -261,6 +262,13 @@ public class PersonAgent extends Agent {
 			stateChanged();
 
 		}
+	}
+	
+	//A message received from the transportation object to remove the person
+	public void msgHitByVehicle() {
+		if(isMoving.availablePermits() == 0)
+			isMoving.release();
+		alive = false;
 	}
 
 	//----------Scheduler----------//
