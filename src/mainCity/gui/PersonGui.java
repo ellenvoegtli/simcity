@@ -314,13 +314,12 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			Coordinate node3 = (Coordinate) nodes.pollFirstEntry().getValue();
 			
 			if(node1 == destination || node2 == destination || node3 == destination) {
-				System.out.println("Path found!");
 				path.add(destination);
 				traveling = true;
 				nodes.clear();
 				return;
 			}
-			System.out.println("``````````Path not found" + current.x + ", " + current.y);
+
 			Coordinate pathNext = node1;
 			if(getDistance(pathNext, destination) > getDistance(node2, destination)) {
 				pathNext = node2;
