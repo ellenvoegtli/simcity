@@ -1,14 +1,12 @@
 package mainCity.restaurants.EllenRestaurant.gui;
 
 
-import mainCity.restaurants.EllenRestaurant.*;
-
+import mainCity.restaurants.EllenRestaurant.interfaces.KitchenGuiInterface;
 import java.awt.*;
 import java.util.*;
 
-import javax.swing.*;
 
-public class KitchenGui implements Gui {
+public class KitchenGui implements Gui, KitchenGuiInterface {
 
     private final int WINDOWX = 500;
     private final int WINDOWY = 370;

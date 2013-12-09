@@ -24,17 +24,17 @@ public class EllenCookRole extends Role implements Cook{
 	private RevolvingStand stand;
 	private EllenMenu menu;
 	private Cashier cashier;
-	private KitchenGui kitchenGui = null;
+	private KitchenGuiInterface kitchenGui = null;
 	boolean notAdded = true;
 	boolean greeterNull = true;
 	Timer timer = new Timer();
 	
-	private Collection<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
+	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
 	//private List<EllenMarketRole> markets = Collections.synchronizedList(new ArrayList<EllenMarketRole>());
 	private Map<String, Food> inventory = new TreeMap<String, Food>();	//what the cook has available
 	private Map<String, Integer> foodAtAvailableMarket = new TreeMap<String, Integer>();
 		
-	enum OrderState {pending, cooking, plated, finished, pickedUp};
+	public enum OrderState {pending, cooking, plated, finished, pickedUp};
 	enum FoodState {none, depleted, requested, delivered, tryAgain};
 	
 	private boolean isCheckingStand;
@@ -78,10 +78,14 @@ public class EllenCookRole extends Role implements Cook{
 	public void setOpened(boolean o){
 		opened = o;
 	}
+	public List<Order> getOrders(){
+		return orders;
+	}
 	public String getName() {
 		return name;
 	}
-	public void setKitchenGui(KitchenGui gui){
+	public void setKitchenGui(KitchenGuiInterface gui){
+		log("setting kitchengui = " + gui);
 		kitchenGui = gui;
 	}
 	//for alert log trace statements
@@ -294,6 +298,7 @@ public class EllenCookRole extends Role implements Cook{
 		synchronized(orders){
 			for (Order ord : orders){
 				if (ord.equals(o)){
+					log("kitchengui = " + kitchenGui);
 					kitchenGui.DoGrilling(o.choice, o.table, WINDOWX-30, WINDOWY/2-60 + i*20);
 					break;
 				}
@@ -374,7 +379,7 @@ public class EllenCookRole extends Role implements Cook{
 
 	
 	//inner classes
-	private class Order {
+	public class Order {	//public for testing purposes only
 		Waiter waiter;
 		String choice;
 		int table;
@@ -384,6 +389,12 @@ public class EllenCookRole extends Role implements Cook{
 			this.choice = choice;
 			this.table = table;
 			this.waiter = w;
+		}
+		public OrderState getState(){
+			return s;
+		}
+		public void setState(OrderState state){
+			s = state;
 		}
 		
 	}
