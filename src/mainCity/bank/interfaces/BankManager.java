@@ -1,6 +1,7 @@
 package mainCity.bank.interfaces;
 
 import mainCity.bank.BankAccounts;
+import mainCity.bank.BankRobberRole;
 import mainCity.bank.BankerRole;
 
 public interface BankManager {
@@ -36,5 +37,7 @@ public interface BankManager {
 	public abstract void setBankAccounts(BankAccounts accounts);
 
 	public abstract boolean closeBuilding();
+
+	public abstract void msgGiveMeTheMoney(BankRobberRole bankRobberRole, double d);
 
 }

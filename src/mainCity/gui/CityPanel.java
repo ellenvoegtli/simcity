@@ -1,7 +1,5 @@
 package mainCity.gui;
 
-import housing.gui.HomeGui;
-
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -13,25 +11,18 @@ import role.market2.Market2DeliveryManRole;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
 import mainCity.PersonAgent;
-import mainCity.bank.gui.BankPanel;
 import mainCity.contactList.ContactList;
-import mainCity.market1.*;
-import mainCity.market1.gui.*;
-import mainCity.restaurants.marcusRestaurant.gui.*;
-import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonRestaurantPanel;
-//import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantPanel;
-//import mainCity.restaurants.restaurant_zhangdt.gui.DavidRestaurantGui;
-import mainCity.restaurants.enaRestaurant.*;
-import mainCity.restaurants.enaRestaurant.gui.*;
 
 public class CityPanel extends JPanel{
 	private CityGui gui; 
 	private int clock;
+	private int day;
 	private List<PersonAgent> occupants = new ArrayList<PersonAgent>();
 		
 	public CityPanel(CityGui gui) {
 		this.gui = gui;
 		clock = 4;
+		day = 1;//Will be 0-6 for each day, 0 = Sunday...6 = Saturday
 		
 		ContactList.getInstance().setCity(this);
 
@@ -48,18 +39,45 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg1); 
     	bus1.startThread();
 
-		parseConfig();
+		//parseConfig("config.txt");
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
 			 public void run() {
 				 clock = (clock+1) % 24;
+				 if(clock == 0) {
+					 day = (day+1) % 6;
+					 
+					 switch(day) {
+						case 0:
+						 	System.out.println("It is now Sunday");
+							break;
+						case 1:
+						 	System.out.println("It is now Monday");			 
+							break;
+						case 2:
+							System.out.println("It is now Tuesday");
+							break;
+						case 3:
+							System.out.println("It is now Wednesday");
+							break;
+						case 4:
+							System.out.println("It is now Thursday");
+							break;
+						case 5:
+							System.out.println("It is now Friday");
+							break;
+						case 6:
+							System.out.println("It is now Saturday");
+							break;
+					 }
+				 }
 				 updateCity();
 			 }
 		 };
 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		 executor.scheduleAtFixedRate(cityClock, 0, 15, TimeUnit.SECONDS); //Timer goes off every 30 seconds
+		 executor.scheduleAtFixedRate(cityClock, 0, 15, TimeUnit.SECONDS); //Timer goes off every 15 seconds
 	}
 	
 	public void addDeliveryGui(Market1DeliveryManRole d){
@@ -76,7 +94,7 @@ public class CityPanel extends JPanel{
 	
 	private void updateCity() {
 		for(PersonAgent p : occupants) {
-			p.updateClock(clock);
+			p.updateClock(clock, day);
 		}
 	}
 	
@@ -85,11 +103,13 @@ public class CityPanel extends JPanel{
 	}
 	
 	
-	private void parseConfig() {
-	    int counter = 0;
-
+	public void parseConfig(String filename) {
+		if(!occupants.isEmpty()) {
+			resetCity();
+		}
+		
 		try {
-		    FileInputStream fstream = new FileInputStream("config.txt");
+		    FileInputStream fstream = new FileInputStream(filename);
 		    DataInputStream in = new DataInputStream(fstream);
 		    BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		    String strLine;
@@ -104,7 +124,6 @@ public class CityPanel extends JPanel{
 				   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
 				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
 				    String[] actionList = actions.split(",");
-				    ++counter;
 				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    	}
 		    }
@@ -112,9 +131,8 @@ public class CityPanel extends JPanel{
 		    in.close();
 		}
 		catch(Exception e) {
-			System.err.println("Error: " + e.getMessage());
+			//System.err.println("Error: " + e.getMessage());
 		}
-		System.out.println(counter);
 	}
 	
 	public void addPerson(String name, double c, boolean renter, String occupation, int sb, int se, String[] actions) {
@@ -124,18 +142,26 @@ public class CityPanel extends JPanel{
 		person.setCash(c);
 		
 		person.setHomePlace(renter);
+<<<<<<< HEAD
 		ContactList.getInstance().setPersonInstance(person, renter);
 
 		System.out.println("selected house for person to live in");
+=======
+		System.out.println("selected house for person: " + person.getName() + " to live in");
+>>>>>>> ad05c6227f462e3e84634d01cde43437cf141eb3
 		PersonGui pg = new PersonGui(person, gui);
 		gui.getAnimationPanel().addPersonGui(pg);
 		person.setGui(pg);
 		
 		gui.addPerson(person);
 		
+		
 		if(actions != null) {
 			for(int i = 0; i < actions.length; ++i) {
 				switch(actions[i]) {
+					case "home":
+						person.msgGoHome();
+						break;
 					case "work":
 						if(!occupation.equals("rich")) person.msgGoToWork();
 						break;
@@ -150,11 +176,33 @@ public class CityPanel extends JPanel{
 						break;
 					case "bank":
 						person.msgGoToBank("deposit");
+						break;
+					case "rob":
+						person.msgGoToBank("rob");
+						break;
 				}
 			}
 		}
 		
     	occupants.add(person);
     	person.startThread();
+	}
+	
+	private void resetCity() {
+		clock = 4;
+		day = 1;
+		
+		gui.getAnimationPanel().getPersonGuiList().clear();
+
+		for(Map.Entry<String, CityCard> entry : gui.getView().getCards().entrySet()) {
+			entry.getValue().clearPeople();
+		}
+		
+		for(PersonAgent p : occupants) {
+			p.stopThread();
+			p.getRoles().clear();
+		}
+		
+		occupants.clear();
 	}
 }

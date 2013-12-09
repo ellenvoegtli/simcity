@@ -26,6 +26,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	protected MarcusCookRole cook;
 	protected Cashier cashier;
 	protected MarcusMenu waiterMenu;
+	protected boolean needGui;
 	
 	Timer timer = new Timer();
 	
@@ -36,6 +37,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		onBreak = tired = requested = false;
 		onDuty = true;
 		waiterMenu = new MarcusMenu();
+		needGui = false;
 	}
 
 	public String getMaitreDName() {
@@ -197,76 +199,81 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(needGui) {
+			waiterGui.guiAppear();
+			needGui = false;
+		}
 		if(!requested && !onBreak && tired) {
 			this.requestBreak();
 			return true;
 		}
 		
-			if(!customers.isEmpty()) {
-				try{
-					for(MyCustomer customer : customers) {
-						if(customer.state == CustomerState.leaving) {
-							this.clearTable(customer);
-							return true;
-						}
-					}
-								
-					for(MyCustomer customer : customers) {
-						if(customer.state == CustomerState.waiting) {
-							this.seatCustomer(customer);
-							return true;
-						}
-					}
-					
-					for(MyCustomer customer : customers) {
-						if(customer.state == CustomerState.readyToOrder) {
-							this.askForOrder(customer);
-							return true;
-						}
-					}
-					
-					for(MyCustomer customer : customers) {
-						if(customer.state == CustomerState.reorder) {
-							this.askToReorder(customer);
-							return true;
-						}
-					}
-					
-					for(MyCustomer customer : customers) {
-						if(customer.state == CustomerState.ordered) {
-							this.handleOrder(customer);
-							return true;
-						}
-					}
-					
-					for(MyCustomer customer : customers) {
-						if(customer.state == CustomerState.readyToServe) {
-							this.serveFood(customer);
-							return true;
-						}
-					}
-					
-					for(MyCustomer customer : customers) {
-						if(customer.state == CustomerState.wantsCheck) {
-							this.retrieveCheck(customer);
-							return true;
-						}
-					}
-					
-					for(MyCustomer customer : customers) {
-						if(customer.state == CustomerState.checkReady) {
-							this.deliverCheck(customer);
-							return true;
-						}
+		
+		if(!customers.isEmpty()) {
+			try{
+				for(MyCustomer customer : customers) {
+					if(customer.state == CustomerState.leaving) {
+						this.clearTable(customer);
+						return true;
 					}
 				}
-				
-				//catch statement
-				catch(ConcurrentModificationException e) {
-					output("Error has occurred. Waiting.");
-					return false;
+							
+				for(MyCustomer customer : customers) {
+					if(customer.state == CustomerState.waiting) {
+						this.seatCustomer(customer);
+						return true;
+					}
+				}
+					
+				for(MyCustomer customer : customers) {
+					if(customer.state == CustomerState.readyToOrder) {
+						this.askForOrder(customer);
+						return true;
+					}
+				}
+					
+				for(MyCustomer customer : customers) {
+					if(customer.state == CustomerState.reorder) {
+						this.askToReorder(customer);
+						return true;
+					}
+				}
+					
+				for(MyCustomer customer : customers) {
+					if(customer.state == CustomerState.ordered) {
+						this.handleOrder(customer);
+						return true;
+					}
+				}
+					
+				for(MyCustomer customer : customers) {
+					if(customer.state == CustomerState.readyToServe) {
+						this.serveFood(customer);
+						return true;
+					}
+				}
+					
+				for(MyCustomer customer : customers) {
+					if(customer.state == CustomerState.wantsCheck) {
+						this.retrieveCheck(customer);
+						return true;
+					}
+				}
+					
+				for(MyCustomer customer : customers) {
+					if(customer.state == CustomerState.checkReady) {
+						this.deliverCheck(customer);
+						return true;
+					}
 				}
 			}
+				
+			//catch statement
+			catch(ConcurrentModificationException e) {
+				output("Error has occurred. Waiting.");
+				return false;
+			}
+		}
 		
 		else {
 			if(onBreak && requested && tired) {
@@ -276,7 +283,8 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 			
 			if(!onDuty) {
 				leaveRestaurant();
-				onDuty = false;
+				onDuty = true;
+				needGui = true;
 			}
 		}
 		
@@ -390,6 +398,7 @@ public abstract class MarcusWaiterRole extends Role implements Waiter, WorkerRol
 		waitForGui();
 		setInactive();
 		onDuty = true;
+		needGui = true;
 	}
 	
 	//utilities

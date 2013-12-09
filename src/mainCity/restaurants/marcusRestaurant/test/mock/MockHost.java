@@ -36,6 +36,10 @@ public class MockHost extends Mock implements Host {
 	public MarcusCookRole getCook() {
 		return null;
 	}
+	
+	public boolean isOpen() {
+		return false;
+	}
 
 	public EventLog getLog() {
 		return log;

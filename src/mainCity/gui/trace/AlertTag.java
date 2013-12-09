@@ -25,7 +25,14 @@ public enum AlertTag {
         BANK_TELLER,
         BANK_CUSTOMER,
         BANK_MANAGER,
+        BANK_ROBBER,
         BANK,
+        
+        BANK2_BANKER,
+        BANK2_TELLER,
+        BANK2_CUSTOMER,
+        BANK2_MANAGER,
+        BANK2,
                 
         MARKET_CUSTOMER,
         MARKET_EMPLOYEE,
@@ -34,7 +41,15 @@ public enum AlertTag {
         MARKET_DELIVERYMAN,
         MARKET,
         
-        //RESTAURANT,
+        MARKET2_CUSTOMER,
+        MARKET2_EMPLOYEE,
+        MARKET2_CASHIER,
+        MARKET2_GREETER,
+        MARKET2_DELIVERYMAN,
+        MARKET2,
+        
+        
+        //RESTAURANTS
         
         ELLEN_RESTAURANT,
         ELLEN_HOST,

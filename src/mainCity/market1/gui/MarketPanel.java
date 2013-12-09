@@ -8,6 +8,9 @@ import javax.swing.*;
 
 import java.awt.event.*;
 import java.util.Vector;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import role.Role;
 import role.market1.Market1CashierRole;
@@ -32,6 +35,20 @@ public class MarketPanel extends JPanel implements ActionListener{
     
     public MarketPanel(MarketAnimationPanel market){
         this.animation = market;
+        
+      //Thread to tell delivery man to check for undelivered orders every so often
+		 Runnable orderChecker = new Runnable() {
+			 public void run() {
+				try {
+					if(deliveryMan.isActive())
+						deliveryMan.msgCheckForRedeliveries();
+				}
+				catch(NullPointerException e) {
+				}
+			 }
+		 };
+		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		 executor.scheduleAtFixedRate(orderChecker, 0, 15, TimeUnit.SECONDS);
         
     }
     public void actionPerformed(ActionEvent e) {

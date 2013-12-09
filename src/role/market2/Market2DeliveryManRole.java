@@ -5,13 +5,16 @@ import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
-
 import mainCity.market2.interfaces.DeliveryManGuiInterface;
 import mainCity.market2.interfaces.MarketCashier;
 import mainCity.market2.interfaces.DeliveryMan2;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
 import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
 import role.Role;
+import role.market1.Market1DeliveryManRole.AgentState;
+import role.market1.Market1DeliveryManRole.Bill;
+import role.market1.Market1DeliveryManRole.DeliveryEvent;
+import role.market1.Market1DeliveryManRole.DeliveryState;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -30,8 +33,8 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 	public AgentState state;
 	public enum AgentState {doingNothing, makingDelivery};
 	
-	public enum DeliveryState {newBill, enRoute, waitingForPayment, calculatingChange, oweMoney, waitingForVerification, goingBackToMarket, done};
-	public enum DeliveryEvent {deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, acknowledgedDebt, arrivedAtMarket};
+	public enum DeliveryState {newBill, enRoute, waitingToRedeliver, waitingForPayment, calculatingChange, oweMoney, waitingForVerification, goingBackToMarket, done};
+	public enum DeliveryEvent {checkRedeliveryOn, checkRedeliveryOff, deliveryRequested, arrivedAtLocation, receivedPayment, changeVerified, acknowledgedDebt, arrivedAtMarket};
 	
 	
 	private Semaphore atHome = new Semaphore(0, true);
@@ -67,8 +70,8 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 	}
 
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_DELIVERYMAN, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2_DELIVERYMAN, this.getName(), s);
 	}
 	
 	// Messages
@@ -125,6 +128,19 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 	}
 	
 	
+	
+	public void msgCheckForRedeliveries(){
+		log("Checking for bills that need redelivery");
+		for (Bill b : bills){
+			if (b.s == DeliveryState.waitingToRedeliver){
+				b.event = DeliveryEvent.checkRedeliveryOn;
+				stateChanged();
+				return;
+			}
+		}
+	}
+	
+	
 	public void msgAtHome(){		//from gui
 		log("msgAtHome called");
 		atHome.release();
@@ -150,6 +166,7 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		
 		for(Bill b: bills){
 			if (b.s == DeliveryState.newBill && b.event == DeliveryEvent.deliveryRequested && state == AgentState.doingNothing){
+				log("NEW BILL, DELIVERY REQUESTED! :" + b.restaurantName);
 				DeliverOrder(b);
 				state = AgentState.makingDelivery;
 				return true;
@@ -164,15 +181,28 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		for(Bill b: bills){
 			if (b.s == DeliveryState.waitingForVerification && b.event == DeliveryEvent.changeVerified){
 				ReturnToMarket(b);
+				state = AgentState.doingNothing;
 				return true;
 			}
 		}
 		for(Bill b: bills){
 			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt){
 				ReturnToMarket(b);
+				state = AgentState.doingNothing;
 				return true;
 			}
 		}
+		
+		for (Bill b: bills){
+			if (b.s == DeliveryState.waitingToRedeliver && b.event == DeliveryEvent.checkRedeliveryOn && state == AgentState.doingNothing){
+				log("RE-delivering order...");
+				DeliverOrder(b);
+				state = AgentState.makingDelivery;
+				b.event = DeliveryEvent.checkRedeliveryOff;
+				return true;
+			}
+		}
+		
 		
 		if (bills.isEmpty() && !onDuty){
 			deliveryGui.DoGoToHomePosition();
@@ -193,43 +223,55 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		try {
 			atDestination.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		//gui will then message appropriate deliveryMan when it arrives
-		if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
-			b.cook = ContactList.getInstance().ellenCook;
-			b.cashier = ContactList.getInstance().ellenCashier;
-			b.cook.msgHereIsYourOrder(b.itemsBought);
-			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+		if (!restaurantOpen(b)){
+			deliveryGui.DoGoToHomePosition();
+			try {
+				atHome.acquire();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			b.s = DeliveryState.waitingToRedeliver;
+			return;
 		}
-		else if (b.restaurantName.equalsIgnoreCase("enaRestaurant")){
-			b.cook = ContactList.getInstance().enaCook;
-			b.cashier = ContactList.getInstance().enaCashier;
-			b.cook.msgHereIsYourOrder(b.itemsBought);
-			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+		else {
+			//delivery man will then message appropriate cashier and cook
+			if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
+				b.cook = ContactList.getInstance().ellenCook;
+				b.cashier = ContactList.getInstance().ellenCashier;
+				b.cook.msgHereIsYourOrder(b.itemsBought);
+				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+			}
+			else if (b.restaurantName.equalsIgnoreCase("enaRestaurant")){
+				b.cook = ContactList.getInstance().enaCook;
+				b.cashier = ContactList.getInstance().enaCashier;
+				b.cook.msgHereIsYourOrder(b.itemsBought);
+				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+			}
+			else if (b.restaurantName.equalsIgnoreCase("marcusRestaurant")){
+				b.cook = ContactList.getInstance().marcusCook;
+				b.cashier = ContactList.getInstance().marcusCashier;
+				b.cook.msgHereIsYourOrder(b.itemsBought);
+				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+			}
+			else if (b.restaurantName.equalsIgnoreCase("jeffersonRestaurant")){
+				b.cook = ContactList.getInstance().jeffersonCook;
+				b.cashier = ContactList.getInstance().jeffersonCashier;
+				b.cook.msgHereIsYourOrder(b.itemsBought);
+				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+			}
+			else if (b.restaurantName.equalsIgnoreCase("davidRestaurant")){
+				b.cook = ContactList.getInstance().davidCook;
+				b.cashier = ContactList.getInstance().davidCashier;
+				b.cook.msgHereIsYourOrder(b.itemsBought);
+				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+			}
+			
+			
+			b.s = DeliveryState.waitingForPayment;
 		}
-		else if (b.restaurantName.equalsIgnoreCase("marcusRestaurant")){
-			b.cook = ContactList.getInstance().marcusCook;
-			b.cashier = ContactList.getInstance().marcusCashier;
-			b.cook.msgHereIsYourOrder(b.itemsBought);
-			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}
-		else if (b.restaurantName.equalsIgnoreCase("jeffersonRestaurant")){
-			b.cook = ContactList.getInstance().jeffersonCook;
-			b.cashier = ContactList.getInstance().jeffersonCashier;
-			b.cook.msgHereIsYourOrder(b.itemsBought);
-			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}
-		else if (b.restaurantName.equalsIgnoreCase("davidRestaurant")){
-			b.cook = ContactList.getInstance().davidCook;
-			b.cashier = ContactList.getInstance().davidCashier;
-			b.cook.msgHereIsYourOrder(b.itemsBought);
-			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-		}
-		
-		b.s = DeliveryState.waitingForPayment;
 	}
 	
 	
@@ -260,7 +302,6 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		try {
 			atHome.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		state = AgentState.doingNothing;
@@ -279,6 +320,60 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 	public DeliveryManGuiInterface getGui() {
 		return deliveryGui;
 	}
+	
+	
+	public boolean restaurantOpen(Bill b){
+		if (b.restaurantName.equalsIgnoreCase("ellenrestaurant")){
+			if (ContactList.getInstance().ellenHost !=null){
+				if (ContactList.getInstance().ellenHost.isOpen()){
+					log("Ellen's host says restaurant is OPEN!");
+					return true;
+				}
+			}
+			log("Ellen's restaurant is CLOSED.");
+			return false;
+		}
+		else if (b.restaurantName.equalsIgnoreCase("enarestaurant")){
+			if (ContactList.getInstance().enaHost !=null)
+				if (ContactList.getInstance().enaHost.isItOpen()){
+					log("Ena's host says restaurant is OPEN!");
+					return true;
+				}
+			log("Ena's restaurant is CLOSED.");
+			return false;
+		}
+		else if (b.restaurantName.equalsIgnoreCase("marcusrestaurant")){
+			if (ContactList.getInstance().marcusHost != null)
+				if (ContactList.getInstance().marcusHost.isOpen()){
+					log("Marcus' host says restaurant is OPEN!");
+					return true;
+				}
+			log("Marcus' restaurant is CLOSED.");
+			return false;
+		}
+		else if (b.restaurantName.equalsIgnoreCase("davidrestaurant")){
+			if (ContactList.getInstance().davidHost != null)
+				if(ContactList.getInstance().davidHost.isOpen()){
+					log("David's host says restaurant is OPEN!");
+					return true;
+				}
+			log("David's restaurant is CLOSED.");
+			return false;
+		}
+		else if (b.restaurantName.equalsIgnoreCase("jeffersonrestaurant")){
+			if (ContactList.getInstance().jeffersonHost != null)
+				if (ContactList.getInstance().jeffersonHost.isOpen()){
+					log("Jefferson's host says restaurant is OPEN!");
+					return true;
+				}
+			log("Jefferson's restaurant is CLOSED.");
+			return false;
+		}
+		
+		return false;	//last resort if something is wrong
+	}
+	
+	
 	
 
 	public class Bill {		//public only for testing purposes

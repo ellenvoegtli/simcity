@@ -45,6 +45,7 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
 	Map<Integer, Integer> stationY = new TreeMap<Integer, Integer>();
 
     private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> personGuis = new ArrayList<Gui>();
 
     public MarketAnimationPanel(CityGui gui) {
     	super(gui);
@@ -141,7 +142,7 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
         g.drawImage(stockroomImg, stockRoomX, stockRoomY-20, null);
         
 
-        for(Gui gui : guis) {
+        for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -152,10 +153,16 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
             	gui.draw(g2);
             }
         }
+        
+        for(Gui gui : personGuis) {
+            if (gui.isPresent()) {
+            	gui.draw(g2);
+            }
+        }
     }
     
     public void backgroundUpdate() {
-    	for(Gui gui : guis) {
+    	for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -163,7 +170,7 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
     }
 
     public void addGui(CustomerGui gui) {
-        guis.add(gui);
+    	personGuis.add(gui);
     }
     /*
     public void addGui(HostGui gui) {
@@ -171,6 +178,11 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
     }
     */
     public void addGui(EmployeeGui gui){
-    	guis.add(gui);
+    	personGuis.add(gui);
+    }
+    
+    @Override
+    public void clearPeople() {
+    	personGuis.clear();
     }
 }

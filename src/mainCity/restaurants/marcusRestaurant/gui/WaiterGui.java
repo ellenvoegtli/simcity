@@ -137,6 +137,10 @@ public class WaiterGui implements Gui, WaiterGuiInterface {
     	yDestination = y;
     	gettingCustomer = true;
     }
+    
+    public void guiAppear() {
+    	this.DoGoHome();
+    }
 
     public int getXPos() {
         return xPos;

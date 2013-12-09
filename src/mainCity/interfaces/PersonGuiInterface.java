@@ -16,5 +16,5 @@ public interface PersonGuiInterface {
 
 	public abstract void DoGoOutside();
 
-	public abstract CityLocation findNearestStop();
+	public abstract CityLocation findNearestStop();	
 }

@@ -44,6 +44,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private TracePanel tracePanel6;
 	private TracePanel tracePanel7;
 	private TracePanel tracePanel8;
+	private TracePanel tracePanel9;
 
 	
 	private JPanel controlPanel = new JPanel();
@@ -71,7 +72,6 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel infoLabel = new JLabel("");
 	private JPanel infoPanel = new JPanel();
 	private GroupLayout layout2 = new GroupLayout(infoPanel);
-	private JLabel hungryLabel = new JLabel("Hungry?");
 	private JLabel restLabel = new JLabel("Eat at restaurant: ");
 	private JComboBox restaurantMenu; 
 	private JButton restaurantButton = new JButton("Go");
@@ -80,7 +80,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel workLabel = new JLabel("Go to work?");
 	private JCheckBox workCB = new JCheckBox();
 	
-	private JLabel breakLabel = new JLabel("Home/Apartment: ");
+	private JLabel breakLabel = new JLabel();
 	private JButton breakButton = new JButton("Break something");
 	//private JButton depositButton = new JButton("Deposit");
 	//private JButton loanButton = new JButton("Request a loan");
@@ -90,19 +90,29 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	//private JTextField loanField = new JTextField(100);
 	
 	//=================Scenario Hack panel components========================
-	private JPanel subControlPanel3 = new JPanel();
-	private GroupLayout layout3 = new GroupLayout(subControlPanel3);
-	private JLabel scenario1Label = new JLabel("Scenario 1: ");
-	private JButton scenario1Button = new JButton("Run");
-	private JLabel scenario2Label = new JLabel("Scenario 2: ");
-	private JButton scenario2Button = new JButton("Run");
-	private JLabel scenario3Label = new JLabel("Scenario 3: ");
-	private JButton scenario3Button = new JButton("Run");
-	private JLabel scenario4Label = new JLabel("Scenario 4: ");
-	private JButton scenario4Button = new JButton("Run");
-	private JLabel scenario5Label = new JLabel("Scenario 5: ");
-	private JButton scenario5Button = new JButton("Run");
+	private JPanel subControlPanel3 = new JPanel();	
 	
+	private GroupLayout layout3 = new GroupLayout(subControlPanel3);
+	private JLabel scenario1Label = new JLabel("Scenario 1: Norm: All employees/many rich");
+	private JButton scenario1Button = new JButton("Run");
+	private JLabel scenario2Label = new JLabel("Scenario 2: Norm: All employees/1 rich");
+	private JButton scenario2Button = new JButton("Run");
+	private JLabel scenario3Label = new JLabel("Scenario 3: Norm: All employees/3 rich");
+	private JButton scenario3Button = new JButton("Run");
+	private JLabel scenario4Label = new JLabel("Scenario 4: Norm: Market/restaurant deliveries");
+	private JButton scenario4Button = new JButton("Run");
+	private JLabel scenario5Label = new JLabel("Scenario 5: Non-norm: Workplaces closing");
+	private JButton scenario5Button = new JButton("Run");
+	private JLabel scenario6Label = new JLabel("Scenario 6: Non-norm: Market delivery fails");
+	private JButton scenario6Button = new JButton("Run");
+	private JLabel scenario7Label = new JLabel("Scenario 5: Non-norm: Vehicle accident");
+	private JButton scenario7Button = new JButton("Run");
+	private JLabel scenario8Label = new JLabel("Scenario 6: Non-norm: Vehicle hits person");
+	private JButton scenario8Button = new JButton("Run");
+	private JLabel scenario9Label = new JLabel("Scenario 7: Non-norm: Weekend");
+	private JButton scenario9Button = new JButton("Run");
+	private JLabel scenario10Label = new JLabel("Scenario 8: Non-norm: Changing shifts");
+	private JButton scenario10Button = new JButton("Run");
 	
 	private JLabel blankLabel = new JLabel(" ");
 	private JButton addPersonButton = new JButton("Create person");
@@ -135,9 +145,14 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		//moneyField.addKeyListener(this);
 		
 		
-		String[] occupationStrings = {"rich", "jeffersonWaiter", 
-				"marcusWaiter", "marcusShareWaiter", "enaWaiter",
-				 "marketEmployee", "ellenWaiter", "davidWaiter"
+		String[] occupationStrings = {"rich", "jeffersonHost", "jeffersonCashier", "jeffersonCook", "jeffersonWaiter", 
+				"marcusHost", "marcusCashier", "marcusCook", "marcusWaiter", "marcusShareWaiter", 
+				"enaHost", "enaCashier", "enaCook", "enaWaiter",
+				"ellenHost", "ellenCashier", "ellenCook", "ellenWaiter", "ellenShareWaiter",
+				 "davidHost", "davidCashier", "davidCook", "davidWaiter", "davidSharedWaiter",
+				 "marketGreeter", "marketCashier", "marketDeliveryMan", "marketEmployee",
+				 "market2Greeter", "market2Cashier", "market2DeliveryMan", "market2Employee",
+				 "bankManager", "bankTeller", "banker"
 		};
 		occupationMenu = new JComboBox(occupationStrings);
 		Dimension occupationDim = new Dimension(150, 30);
@@ -243,10 +258,12 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		
 		GroupLayout.SequentialGroup hGroup2 = layout2.createSequentialGroup();
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(personLabel).addComponent(blankLabel).
-	            addComponent(restLabel).addComponent(blankLabel).addComponent(orLabel).addComponent(workLabel)
+	            addComponent(restLabel).addComponent(blankLabel).addComponent(orLabel).addComponent(workLabel).
+	            addComponent(breakLabel)
 	            );
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(infoLabel).addComponent(blankLabel).
-	            addComponent(restaurantMenu).addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB)
+	            addComponent(restaurantMenu).addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB).
+	            addComponent(breakButton)
 	            );
 		layout2.setHorizontalGroup(hGroup2);
 		
@@ -263,6 +280,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	            addComponent(orLabel).addComponent(homeButton));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
 	            addComponent(workLabel).addComponent(workCB));
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(breakLabel).addComponent(breakButton));
 		layout2.setVerticalGroup(vGroup2);
 	   //=======================END GROUP LAYOUT 2===================================================
 		
@@ -292,11 +311,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		GroupLayout.SequentialGroup hGroup3 = layout3.createSequentialGroup();
 		hGroup3.addGroup(layout3.createParallelGroup().
 	            addComponent(scenario1Label).addComponent(scenario2Label).addComponent(scenario3Label).
-	            addComponent(scenario4Label).addComponent(scenario5Label)
+	            addComponent(scenario4Label).addComponent(scenario5Label).addComponent(scenario6Label).
+	            addComponent(scenario7Label).addComponent(scenario8Label).addComponent(scenario9Label).
+	            addComponent(scenario10Label)
 	            );
 		hGroup3.addGroup(layout3.createParallelGroup().
 	            addComponent(scenario1Button).addComponent(scenario2Button).addComponent(scenario3Button).
-	            addComponent(scenario4Button).addComponent(scenario5Button)
+	            addComponent(scenario4Button).addComponent(scenario5Button).addComponent(scenario6Button).
+	            addComponent(scenario7Button).addComponent(scenario8Button).addComponent(scenario9Button).
+	            addComponent(scenario10Button)
 	            );
 		layout3.setHorizontalGroup(hGroup3);
 		
@@ -311,15 +334,35 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	            addComponent(scenario4Label).addComponent(scenario4Button));
 		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
 				addComponent(scenario5Label).addComponent(scenario5Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario6Label).addComponent(scenario6Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario7Label).addComponent(scenario7Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario8Label).addComponent(scenario8Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario9Label).addComponent(scenario9Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario10Label).addComponent(scenario10Button));
 		layout3.setVerticalGroup(vGroup3);
 		//==================END GROUP LAYOUT 3=====================================================
-		controlTabbedPane.addTab("Scenarios", subControlPanel3);
+		JScrollPane scenarioPane = new JScrollPane(subControlPanel3);
+		subControlPanel3.setAutoscrolls(true);
+		scenarioPane.setPreferredSize(new Dimension((int) (WINDOWX * .35), (int) (WINDOWY * .4)));
+		//scenarioPane.setViewportView(subControlPanel3);
+		//controlTabbedPane.addTab("Scenarios", subControlPanel3);
+		controlTabbedPane.addTab("Scenarios", scenarioPane);
 		
 		scenario1Button.addActionListener(this);
 		scenario2Button.addActionListener(this);
 		scenario3Button.addActionListener(this);
 		scenario4Button.addActionListener(this);
 		scenario5Button.addActionListener(this);
+		scenario6Button.addActionListener(this);
+		scenario7Button.addActionListener(this);
+		scenario8Button.addActionListener(this);
+		scenario9Button.addActionListener(this);
+		scenario10Button.addActionListener(this);
 		
 		
 		//=================== END SUBCONTROLPANEL2 =================================================
@@ -360,24 +403,41 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel2 = new TracePanel();
         tracePanel2.setPreferredSize(new Dimension((int) (WINDOWY * .4), (int) (WINDOWY * .25)));
-        tracePanel2.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel2.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel2.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel2.hideAlertsWithLevel(AlertLevel.ERROR);          
+        tracePanel2.hideAlertsWithLevel(AlertLevel.INFO);             
+        tracePanel2.showAlertsWithLevel(AlertLevel.MESSAGE);      
         tracePanel2.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel2.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel2.hideAlertsWithTag(AlertTag.PERSON);   
         tracePanel2.showAlertsWithTag(AlertTag.MARKET);
         tracePanel2.hideAlertsWithTag(AlertTag.BANK);        
         
         AlertLog.getInstance().addAlertListener(tracePanel2);
         tabbedPane.addTab("MARKET", tracePanel2);
         
+        
+        tracePanel9 = new TracePanel();
+        tracePanel9.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
+        tracePanel9.hideAlertsWithLevel(AlertLevel.ERROR);          
+        tracePanel9.hideAlertsWithLevel(AlertLevel.INFO);             
+        tracePanel9.showAlertsWithLevel(AlertLevel.MESSAGE);         
+        tracePanel9.hideAlertsWithLevel(AlertLevel.DEBUG);
+        tracePanel9.hideAlertsWithTag(AlertTag.PERSON);   
+        tracePanel9.hideAlertsWithTag(AlertTag.MARKET);
+        tracePanel9.hideAlertsWithTag(AlertTag.BANK);
+        tracePanel9.showAlertsWithTag(AlertTag.MARKET2);
+        
+        AlertLog.getInstance().addAlertListener(tracePanel9);
+        tabbedPane.addTab("MARKET2", tracePanel9);
+        
+        
+        
         tracePanel3 = new TracePanel();
         tracePanel3.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel3.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel3.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel3.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel3.hideAlertsWithLevel(AlertLevel.ERROR);       
+        tracePanel3.hideAlertsWithLevel(AlertLevel.INFO);              
+        tracePanel3.showAlertsWithLevel(AlertLevel.MESSAGE);           
         tracePanel3.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel3.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel3.hideAlertsWithTag(AlertTag.PERSON);  
         tracePanel3.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel3.showAlertsWithTag(AlertTag.BANK);
         
@@ -387,11 +447,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel4 = new TracePanel();
         tracePanel4.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel4.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel4.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel4.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel4.hideAlertsWithLevel(AlertLevel.ERROR);         
+        tracePanel4.hideAlertsWithLevel(AlertLevel.INFO);             
+        tracePanel4.showAlertsWithLevel(AlertLevel.MESSAGE);    
         tracePanel4.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel4.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel4.hideAlertsWithTag(AlertTag.PERSON);   
         tracePanel4.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel4.hideAlertsWithTag(AlertTag.BANK);
         tracePanel4.showAlertsWithTag(AlertTag.ELLEN_RESTAURANT);
@@ -403,11 +463,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel5 = new TracePanel();
         tracePanel5.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel5.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel5.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel5.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel5.hideAlertsWithLevel(AlertLevel.ERROR);         
+        tracePanel5.hideAlertsWithLevel(AlertLevel.INFO);         
+        tracePanel5.showAlertsWithLevel(AlertLevel.MESSAGE);        
         tracePanel5.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel5.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel5.hideAlertsWithTag(AlertTag.PERSON);     
         tracePanel5.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel5.hideAlertsWithTag(AlertTag.BANK);
         tracePanel5.showAlertsWithTag(AlertTag.MARCUS_RESTAURANT);
@@ -418,11 +478,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel6 = new TracePanel();
         tracePanel6.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel6.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel6.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel6.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel6.hideAlertsWithLevel(AlertLevel.ERROR);           
+        tracePanel6.hideAlertsWithLevel(AlertLevel.INFO);               
+        tracePanel6.showAlertsWithLevel(AlertLevel.MESSAGE);              
         tracePanel6.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel6.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel6.hideAlertsWithTag(AlertTag.PERSON);   	
         tracePanel6.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel6.hideAlertsWithTag(AlertTag.BANK);
         tracePanel6.showAlertsWithTag(AlertTag.ENA_RESTAURANT);
@@ -433,11 +493,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel7 = new TracePanel();
         tracePanel7.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel7.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel7.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel7.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel7.hideAlertsWithLevel(AlertLevel.ERROR);            
+        tracePanel7.hideAlertsWithLevel(AlertLevel.INFO);               
+        tracePanel7.showAlertsWithLevel(AlertLevel.MESSAGE);         
         tracePanel7.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel7.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel7.hideAlertsWithTag(AlertTag.PERSON);    
         tracePanel7.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel7.hideAlertsWithTag(AlertTag.BANK);
         tracePanel7.showAlertsWithTag(AlertTag.DAVID_RESTAURANT);
@@ -448,11 +508,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         
         tracePanel8 = new TracePanel();
         tracePanel8.setPreferredSize(new Dimension((int) (WINDOWX * .4), (int) (WINDOWY * .25)));
-        tracePanel8.hideAlertsWithLevel(AlertLevel.ERROR);                //THESE PRINT RED, WARNINGS PRINT YELLOW on a black background... :/
-        tracePanel8.hideAlertsWithLevel(AlertLevel.INFO);                //THESE PRINT BLUE
-        tracePanel8.showAlertsWithLevel(AlertLevel.MESSAGE);                //THESE SHOULD BE THE MOST COMMON AND PRINT BLACK
+        tracePanel8.hideAlertsWithLevel(AlertLevel.ERROR);               
+        tracePanel8.hideAlertsWithLevel(AlertLevel.INFO); 
+        tracePanel8.showAlertsWithLevel(AlertLevel.MESSAGE); 
         tracePanel8.hideAlertsWithLevel(AlertLevel.DEBUG);
-        tracePanel8.hideAlertsWithTag(AlertTag.PERSON);   	//as default, show all tags   
+        tracePanel8.hideAlertsWithTag(AlertTag.PERSON);   
         tracePanel8.hideAlertsWithTag(AlertTag.MARKET);
         tracePanel8.hideAlertsWithTag(AlertTag.BANK);
         tracePanel8.showAlertsWithTag(AlertTag.JEFFERSON_RESTAURANT);
@@ -460,6 +520,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         AlertLog.getInstance().addAlertListener(tracePanel8);
         tabbedPane.addTab("JEFFERSON RESTAURANT", tracePanel8);
 
+        
+        
+
+        
+        
+        
+        
+        
+        
         mainPanel.add(tabbedPane, BorderLayout.SOUTH); 
         
         
@@ -488,19 +557,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         controlPanel.setMinimumSize(controlDim);
         controlPanel.setMaximumSize(controlDim);
         //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
-        leftPanel.add(controlPanel, BorderLayout.SOUTH);
-                
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-			public void run() {
-		        for (PersonAgent p : cityPanel.getOccupants()){
-		        	personPanel.addPerson(p.getName());
-		        }
-			}
-		}, 200);
-         
+        leftPanel.add(controlPanel, BorderLayout.SOUTH);         
 	}
-	
+
 	public void showInfo(String name) {
 		for (int i = 0; i < people.size(); i++) {
                 PersonAgent temp = people.get(i);
@@ -610,20 +669,39 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		else if (e.getSource() == breakButton){
 			System.out.println("BREAK SOMETHING BUTTON PRESSED");
 			PersonAgent p = (PersonAgent) currentPerson;
-			/*for (PersonAgent pers : cityPanel.getOccupants()){
-	        	if (pers.equals(p))
-	        		OccupantRole o = (OccupantRole) p.getRoles().getValue(ActionType.homeAndEat);
-	        		OccupantRole o = p.getRoles().getValue(ActionType.home);
-	        		
-	        }*/
+			for (PersonAgent pers : cityPanel.getOccupants()){
+	        	if (pers.equals(p)){
+	        		/*
+	        		 * New algorithm: loop through the list of homes (personHome), see if the occupant's person agent pointer
+	        		 * equals the person agent here. then message personHome.applianceBroke
+	        		 */
+	        		System.out.println("I FOUND THE PERSON!!");
+	        		OccupantRole o = (OccupantRole) p.getRoles().get(ActionType.home);
+	        		if (o !=null){
+	        			System.out.println("occupant role exits!!");
+	        			o.applianceBroke();
+	        		}
+	        		else
+	        			System.out.println("No such occupant role. :( :(");
+	        			
+	        		//p.msgBrokeSomething();
+	        		break;
+	        	}
+	        }
 		}
 		else if (e.getSource() == scenario1Button){
 			System.out.println("SCENARIO1 BUTTON PRESSED");
-			//load a certain config file
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config.txt");
+			
+			generatePeopleList();
 		}
 		else if (e.getSource() == scenario2Button){
 			System.out.println("SCENARIO2 BUTTON PRESSED");
-			//load a certain config file
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config2.txt");
+			
+			generatePeopleList();
 		}
 		else if (e.getSource() == scenario3Button){
 			System.out.println("SCENARIO3 BUTTON PRESSED");
@@ -663,6 +741,16 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		this.view = view;
 	}
 	
+	private void generatePeopleList() {
+		Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+			public void run() {
+		        for (PersonAgent p : cityPanel.getOccupants()){
+		        	personPanel.addPerson(p.getName());
+		        }
+			}
+		}, 200);
+	}
 	
 	@Override
 	public void keyTyped(KeyEvent e) {

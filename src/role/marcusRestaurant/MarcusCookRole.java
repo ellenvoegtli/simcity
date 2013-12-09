@@ -34,6 +34,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	private CookStatus status;
 	private String order;
 	private int grill;
+	private boolean needGui;
 
 	public MarcusCookRole(PersonAgent p, String n) {
 		super(p);
@@ -55,6 +56,8 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 		tracker = 0;
 		selector = 0;
 		grill = 0;
+		
+		needGui = false;
 	}
 
 	public void setGui(CookGuiInterface g) {
@@ -125,7 +128,12 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	/**
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
-	public boolean pickAndExecuteAnAction() {		
+	public boolean pickAndExecuteAnAction() {
+		if(needGui) {
+			//stuff to make gui show up
+			cookGui.guiAppear();
+			needGui = false;
+		}
 		//synchronized(markets) {
 			if(status == CookStatus.lowFood) {
 				//if(tracker < markets.size()) {
@@ -169,6 +177,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 			cookGui.DoLeaveRestaurant();
 			super.setInactive();
 			onDuty = true;
+			needGui = true;
 		}
 
 		return false;

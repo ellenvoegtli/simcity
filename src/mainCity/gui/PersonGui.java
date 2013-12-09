@@ -72,7 +72,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	}
 
 	public PersonGui(PersonAgent p) {
-			this.agent = p;
+		this.agent = p;
 	}
 
 	public void updatePosition() {

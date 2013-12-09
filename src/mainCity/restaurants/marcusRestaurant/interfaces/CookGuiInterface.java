@@ -11,4 +11,6 @@ public interface CookGuiInterface {
 	public abstract void DoLeaveRestaurant();
 
 	public abstract void setPresent(boolean t);
+	
+	public abstract void guiAppear();
 }

@@ -2,12 +2,7 @@ package mainCity;
 import agent.Agent;
 import role.*;
 import role.davidRestaurant.*;
-import role.ellenRestaurant.EllenCashierRole;
-import role.ellenRestaurant.EllenCookRole;
-import role.ellenRestaurant.EllenCustomerRole;
-import role.ellenRestaurant.EllenHostRole;
-import role.ellenRestaurant.EllenNormalWaiterRole;
-import role.ellenRestaurant.EllenSharedDataWaiterRole;
+import role.ellenRestaurant.*;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import housing.*;
@@ -28,8 +23,7 @@ import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
-import mainCity.test.EventLog;
-import mainCity.test.LoggedEvent;
+import mainCity.test.*;
 import mainCity.market1.*;
 import role.market1.*;
 import mainCity.market2.*;
@@ -49,6 +43,7 @@ public class PersonAgent extends Agent {
 	private BusAgent currentBus; 
 	private Building homePlace;
 	private int time;
+	private int day;
 	private Job job;
 	private PersonState state;
 	private PersonEvent event;
@@ -79,24 +74,34 @@ public class PersonAgent extends Agent {
 		this.gui = g;
 	}
 	
+	public PersonGuiInterface getGui() {
+		return gui;
+	}
+	
 	public CityLocation getDestination() { 
 		return destination;
 	}
 	
 	public boolean isHungryForRestaurant(){
-		if(actions.contains(ActionType.restaurant) || (currentAction != null && currentAction.type == ActionType.restaurant))
-			return true;
-		return false;
+		synchronized(actions) {
+			if(actions.contains(ActionType.restaurant) || (currentAction != null && currentAction.type == ActionType.restaurant))
+				return true;
+			return false;
+		}
 	}
 	public boolean isHungryForHome(){
-		if(actions.contains(ActionType.homeAndEat) || (currentAction != null && currentAction.type == ActionType.homeAndEat))
-			return true;
-		return false;
+		synchronized(actions) {
+			if(actions.contains(ActionType.homeAndEat) || (currentAction != null && currentAction.type == ActionType.homeAndEat))
+				return true;
+			return false;
+		}
 	}
 	public boolean isGoingOrAtWork(){
-		if(actions.contains(ActionType.work) || (currentAction != null && currentAction.type == ActionType.work))
-			return true;
-		return false;
+		synchronized(actions) {
+			if(actions.contains(ActionType.work) || (currentAction != null && currentAction.type == ActionType.work))
+				return true;
+			return false;
+		}
 	}
 	public Building getBuilding(){
 		return homePlace;
@@ -128,10 +133,23 @@ public class PersonAgent extends Agent {
 	}
 	//A message for the landlord	
 	public void msgNeedToFix() {
-		actions.add(new Action(ActionType.maintenance, 1));
-		stateChanged();
+		synchronized(actions) {
+			actions.add(new Action(ActionType.maintenance, 1));
+			stateChanged();
+		}
 	}
-	
+	public void msgBrokeSomething(){
+		log.add(new LoggedEvent("I BROKE SOMETHINGGGGGGG!!!!!!!!!!!!!!!"));
+		System.out.println("I BROKE SOMETHINGGGGGGG!!!!!!!!!!!!!!!");
+		if (roles.get(ActionType.home) != null){
+			System.out.println("HOME ACTION TYPE IS NOT NULL!");
+			((Occupant) roles.get(ActionType.home)).applianceBroke();
+		}
+		else {
+			System.out.println("HOME ACTIONTYPE IS NULL :(");
+			log.add(new LoggedEvent("occupant role doesn't exist :/"));
+		}
+	}
 	public void msgBusHasArrived() {
 		//print("msgBusHasArrived received");
 		log.add(new LoggedEvent("msgBusHasArrived received"));
@@ -141,42 +159,50 @@ public class PersonAgent extends Agent {
 
 	//A message received from the system or GUI to tell person to go to work
 	public void msgGoToWork() {
-		actions.add(new Action(ActionType.work, 1));
-		stateChanged();
+		synchronized(actions) {
+			actions.add(new Action(ActionType.work, 1));
+			stateChanged();
+		}
 	}
 
 	//A message received from the system or GUI to tell person to get hungry - //they will choose between restaurant and home
 	public void msgGotHungryForHome() {
 		if(!actions.contains(ActionType.homeAndEat)) {
-			output(name + " got hungry, will go home");
-			actions.add(new Action(ActionType.homeAndEat, 5));
-			stateChanged();
+			synchronized(actions) {
+				actions.add(new Action(ActionType.homeAndEat, 5));
+				stateChanged();
+			}
 		}
 	}
 	
 	//A message received from the HomeAgent or GUI to go to a restaurant
 	public void msgGoToRestaurant() {
 		if(!actionExists(ActionType.restaurant)) {
-			//output(name + " will go to restaurant");
-			actions.add(new Action(ActionType.restaurant, 4));
-			stateChanged();
+			synchronized(actions) {
+				actions.add(new Action(ActionType.restaurant, 4));
+				stateChanged();
+			}
 		}
 	}
 	
 	//A message received from the GUI to go to a specific restaurant (hack)
 	public void msgGoToRestaurant(String name) {
 		if(!actionExists(ActionType.restaurant)) {
-			//output(name + " will go to restaurant");
 			restaurantHack = name;
-			actions.add(new Action(ActionType.restaurant, 4));
-			stateChanged();
+			
+			synchronized(actions) {
+				actions.add(new Action(ActionType.restaurant, 4));
+				stateChanged();
+			}
 		}
 	}
 
 	//A message received from the HomeAgent or GUI (possibly?) to go to the market
 	public void msgGoToMarket() {
-		actions.add(new Action(ActionType.market, 3));
-		stateChanged();
+		synchronized(actions) {
+			actions.add(new Action(ActionType.market, 3));
+			stateChanged();
+		}
 	}
 	/*
 	public void msgGoToMarket2(){
@@ -185,34 +211,45 @@ public class PersonAgent extends Agent {
 	}*/
 	
 	public void msgGoHome() {
-		actions.add(new Action(ActionType.home, 3));
-		stateChanged();
+		System.out.println(name + ": Received msgGoHome");
+		synchronized(actions) {
+			actions.add(new Action(ActionType.home, 3));
+			stateChanged();
+		}
 	}
 
 	//A message received to tell the person to go to the bank
 	public void msgGoToBank(String purpose) {
-		switch(purpose) {
-		case "deposit":
-			actions.add(new Action(ActionType.bankDeposit, 2));
-			break;
-		case "withdraw":
-			actions.add(new Action(ActionType.bankWithdraw, 2));
-			break;
-		case "loan":
-			actions.add(new Action(ActionType.bankLoan, 2));
-			break;
-		}
 
-		stateChanged();
+		synchronized(actions) {
+			switch(purpose) {
+				case "deposit":
+					actions.add(new Action(ActionType.bankDeposit, 2));
+					break;
+				case "withdraw":
+					actions.add(new Action(ActionType.bankWithdraw, 2));
+					break;
+				case "loan":
+					actions.add(new Action(ActionType.bankLoan, 2));
+					break;
+				case "rob":
+					actions.add(new Action(ActionType.bankRob, 5));
+			}
+	
+			stateChanged();
+
+		}
 	}
 
 	//----------Scheduler----------//
 	public boolean pickAndExecuteAnAction() {
 		//Handling active roles takes top priority
-		if(!roles.isEmpty()) {
-			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
-				if(r.getValue().isActive()) {
-					return r.getValue().pickAndExecuteAnAction();
+		synchronized(roles) {
+			if(!roles.isEmpty()) {
+				for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
+					if(r.getValue().isActive()) {
+						return r.getValue().pickAndExecuteAnAction();
+					}
 				}
 			}
 		}
@@ -223,175 +260,167 @@ public class PersonAgent extends Agent {
 		}
 		
 		if(!actions.isEmpty() && currentAction == null ) {
-			actions.peek().state = ActionState.inProgress;
-			currentAction = actions.poll();
-			handleAction(currentAction.type);
-			return true;
+			synchronized(actions) {
+				actions.peek().state = ActionState.inProgress;
+				currentAction = actions.poll();
+				handleAction(currentAction.type);
+				return true;
+			}
 		}
 		
 		if(currentAction != null && state == PersonState.normal && !traveling) {
 			if(event == PersonEvent.arrivedAtHome) {
-				if(!actions.isEmpty()) { //If there's other stuff to do, don't go inside yet
-					currentAction.state = ActionState.done;
-					return true;
+				synchronized(actions) {
+					if(!actions.isEmpty()) { //If there's other stuff to do, don't go inside yet
+						currentAction.state = ActionState.done;
+						return true;
+					}
 				}
 				
 				output("Arrived at home!");
-				
 				handleRole(currentAction.type);
 				
-				if(currentAction != null && (currentAction.type == ActionType.homeAndEat)){
-					if (roles.get(ActionType.home) != null) {
-						((Occupant) roles.get(ActionType.home)).gotHungry();
-						roles.get(ActionType.home).setActive();
+				synchronized(roles) {
+					if(currentAction != null && (currentAction.type == ActionType.homeAndEat)){
+						if (roles.get(ActionType.home) != null) {
+							((Occupant) roles.get(ActionType.home)).gotHungry();
+							roles.get(ActionType.home).setActive();
+						}
+	
+						else {
+							((Occupant) roles.get(ActionType.homeAndEat)).gotHungry();
+							roles.get(ActionType.homeAndEat).setActive();
+						}
 					}
-
-					else {
-						((Occupant) roles.get(ActionType.homeAndEat)).gotHungry();
-						roles.get(ActionType.homeAndEat).setActive();
-					}
-				}
-				else
-					roles.get(currentAction.type).setActive();
-				
-				if(currentAction != null && (currentAction.type == ActionType.market || currentAction.type == ActionType.home)) {
-					currentAction.state = ActionState.done;
+					
+					else
+						roles.get(currentAction.type).setActive();
 				}
 				
-				gui.DoGoInside();
-				state = PersonState.inBuilding;
+				enterBuilding();
 				return true;
 			}
 
 			if(event == PersonEvent.arrivedAtWork) {
 				output("Arrived at work!");
-				
 				handleRole(currentAction.type);
-				roles.get(currentAction.type).setActive();
-								
-				if(currentAction != null && currentAction.type == ActionType.work) {
-					currentAction.state = ActionState.done;
+
+				synchronized(roles) {
+					roles.get(currentAction.type).setActive();
 				}
-				
-				gui.DoGoInside();
-				state = PersonState.working;
+
+				enterBuilding();
 				return true;
 			}
 
-			if(event == PersonEvent.arrivedAtMarket) {
+			if(event == PersonEvent.arrivedAtMarket || event == PersonEvent.arrivedAtMarket2) {
 				handleRole(currentAction.type);
-				Role customer = roles.get(currentAction.type);
-				if (!((Market1CustomerRole) customer).getGui().goInside()){
-					return true;
-				}
-				//check home agent to get a list of what they need?
-				customer.setActive();
 				
-				if(currentAction != null && currentAction.type == ActionType.market) {
-					currentAction.state = ActionState.done;
+				synchronized(roles) {
+					Role customer = roles.get(currentAction.type);
+					
+					if (event == PersonEvent.arrivedAtMarket && !((Market1CustomerRole) customer).getGui().goInside()) {
+						return true;
+					}
+					else if (event == PersonEvent.arrivedAtMarket2 && !((Market2CustomerRole) customer).getGui().goInside()){
+						return true;
+					}
+					
+					//check home agent to get a list of what they need?
+					customer.setActive();
 				}
-				gui.DoGoInside();
-				state = PersonState.inBuilding;
+				
+				enterBuilding();
 				return true;
 			}
-			
-			if(event == PersonEvent.arrivedAtMarket2) {
-				handleRole(currentAction.type);
-				Role customer = roles.get(currentAction.type);
-				if (!((Market2CustomerRole) customer).getGui().goInside()){
-					return true;
-				}
-				//check home agent to get a list of what they need?
-				customer.setActive();
-				
-				if(currentAction != null && currentAction.type == ActionType.market2) {
-					currentAction.state = ActionState.done;
-				}
-				gui.DoGoInside();
-				state = PersonState.inBuilding;
-				return true;
-			}
-
 			
 			if(event == PersonEvent.arrivedAtRestaurant) {
 				output("Arrived at " + destination);	
 				handleRole(currentAction.type);
-				Role customer = roles.get(currentAction.type);
 				
-				if(customer instanceof MarcusCustomerRole) {
-					if(!((MarcusCustomerRole) customer).getGui().goInside()) {
-						chooseRestaurant();
-						return true;
+				synchronized(roles) {
+					Role customer = roles.get(currentAction.type);
+					
+					if(customer instanceof MarcusCustomerRole) {
+						if(!((MarcusCustomerRole) customer).getGui().goInside()) {
+							chooseRestaurant();
+							return true;
+						}
 					}
-				}
-				else if(customer instanceof EllenCustomerRole) {
-					if (!((EllenCustomerRole) customer).getGui().goInside()){
-						chooseRestaurant();
-						return true;
+					else if(customer instanceof EllenCustomerRole) {
+						if (!((EllenCustomerRole) customer).getGui().goInside()){
+							chooseRestaurant();
+							return true;
+						}
 					}
-				}
-				else if(customer instanceof EnaCustomerRole)
-				{
-					print("is customer hungry?");
-					if (!((EnaCustomerRole) customer).getGui().goInside())
-					{	chooseRestaurant();
-						return true;
+					else if(customer instanceof EnaCustomerRole)
+					{
+						if (!((EnaCustomerRole) customer).getGui().goInside())
+						{	chooseRestaurant();
+							return true;
+						}
 					}
-				}
-				else if(customer instanceof JeffersonCustomerRole){
-					if(!((JeffersonCustomerRole) customer).getGui().goInside()){
-						chooseRestaurant();
-						return true;
+					else if(customer instanceof JeffersonCustomerRole){
+						if(!((JeffersonCustomerRole) customer).getGui().goInside()){
+							chooseRestaurant();
+							return true;
+						}
 					}
-				}
-				else if(customer instanceof DavidCustomerRole){
-					if(!((DavidCustomerRole) customer).getGui().goInside()){
-						chooseRestaurant(); 
-						return true;
+					else if(customer instanceof DavidCustomerRole){
+						if(!((DavidCustomerRole) customer).getGui().goInside()){
+							chooseRestaurant(); 
+							return true;
+						}
 					}
-				}
-				
-				customer.setActive();
 
-				if(currentAction != null && currentAction.type == ActionType.restaurant) {
-					currentAction.state = ActionState.done;
+				customer.setActive();
 				}
-				
-				gui.DoGoInside();
-				state = PersonState.inBuilding;
+
+				enterBuilding();
 				return true;
 			}
 		
 			if(event == PersonEvent.arrivedAtBank) {
+				System.out.println("arrived at bank");
 				//set appropriate role and initial state for different actions
 				handleRole(currentAction.type);
-				Role customer = roles.get(currentAction.type);
-				if (!((BankCustomer) customer).getGui().goInside()){
-					//System.out.println("bank closed");
-					currentAction.state=ActionState.done;
-					return true;
-				}
-				if(roles.containsKey(ActionType.bankWithdraw)){
-					roles.get(ActionType.bankWithdraw).setActive();
-					Role bankCustomer = roles.get(ActionType.bankWithdraw);
-					((BankCustomer) bankCustomer).msgWantToWithdraw();
-				}
-				else if(roles.containsKey(ActionType.bankDeposit)){
-					roles.get(ActionType.bankDeposit).setActive();
-					Role bankCustomer = roles.get(ActionType.bankDeposit);
-					((BankCustomer) bankCustomer).msgWantToDeposit();
-				}
-				else if(roles.containsKey(ActionType.bankLoan)){
-					roles.get(ActionType.bankLoan).setActive();
-					Role bankCustomer = roles.get(ActionType.bankLoan);
-					((BankCustomer) bankCustomer).msgNeedLoan();
-				}
 
-				if(currentAction != null && (currentAction.type == ActionType.bankWithdraw || currentAction.type == ActionType.bankDeposit || currentAction.type == ActionType.bankLoan)) {
-					currentAction.state = ActionState.done;
+				synchronized(roles) {
+					Role customer = roles.get(currentAction.type);
+					
+					if (customer instanceof BankRobberRole && !((BankRobberRole) customer).getGui().goInside()){
+						System.out.println("bank robber checked closed");
+						currentAction.state = ActionState.done;
+						return true;
+					}
+					
+					if (customer instanceof BankCustomer && !((BankCustomer) customer).getGui().goInside()){
+						currentAction.state = ActionState.done;
+						return true;
+					}
+					if(roles.containsKey(ActionType.bankWithdraw)){
+						roles.get(ActionType.bankWithdraw).setActive();
+						Role bankCustomer = roles.get(ActionType.bankWithdraw);
+						((BankCustomer) bankCustomer).msgWantToWithdraw();
+					}
+					else if(roles.containsKey(ActionType.bankDeposit)){
+						roles.get(ActionType.bankDeposit).setActive();
+						Role bankCustomer = roles.get(ActionType.bankDeposit);
+						((BankCustomer) bankCustomer).msgWantToDeposit();
+					}
+					else if(roles.containsKey(ActionType.bankLoan)){
+						roles.get(ActionType.bankLoan).setActive();
+						Role bankCustomer = roles.get(ActionType.bankLoan);
+						((BankCustomer) bankCustomer).msgNeedLoan();
+					}
+					else if(roles.containsKey(ActionType.bankRob)){
+						roles.get(ActionType.bankRob).setActive();
+						Role bankRobber = roles.get(ActionType.bankRob);
+						((BankRobberRole) bankRobber).msgWantToRobBank();
+					}
 				}
-				gui.DoGoInside();
-				state = PersonState.inBuilding;
+				
+				enterBuilding();
 				return true;
 			}
 
@@ -453,315 +482,349 @@ public class PersonAgent extends Agent {
 			travelToLocation(destination);
 			return true;
 		}
-
-		if(actions.isEmpty() && state == PersonState.normal && !traveling) {
-			actions.add(new Action(ActionType.home, 10));
-			return true;
+		
+		synchronized(actions) {
+			if(actions.isEmpty() && state == PersonState.normal && !traveling) {
+				actions.add(new Action(ActionType.home, 10));
+				return true;
+			}
 		}
 		
 		return false;
 	}
 	
 	//----------Actions----------//
+	private void enterBuilding() {
+		if(currentAction != null) {
+			currentAction.state = ActionState.done;
+		}
+		
+		gui.DoGoInside();
+		state = PersonState.inBuilding;
+
+		if(currentAction.type == ActionType.work) {
+			state = PersonState.working;
+		}
+	}
+	
 	private void checkSelf() {
 		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
-		if(time == job.shiftBegin && state != PersonState.working && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
-			actions.add(new Action(ActionType.work, 1));
-			stateChanged();
-		}
-		
-		if(job.occupation.equals("rich") && event == PersonEvent.maintainWork)
-		{
-			actions.add(new Action(ActionType.maintenance , 1));
-		}
-		
-		if(time == job.shiftEnd && state == PersonState.working) {
-			for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
-				if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
-					output("Closing up shop");
-					((ManagerRole) r.getValue()).msgEndShift();
-				}
-				
+		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && currentAction.type != ActionType.work && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
+			synchronized(actions) {
+				actions.add(new Action(ActionType.work, 1));
+				stateChanged();
 			}
 		}
 		
-		if(cash < 50 && !actionExists(ActionType.bankWithdraw)){
-			actions.add(new Action(ActionType.bankWithdraw,3));
-			stateChanged();
-		}
-		if(cash > 300 && !actionExists(ActionType.bankDeposit)){
-
-			actions.add(new Action(ActionType.bankDeposit,3));
-			stateChanged();
+		if(job.occupation.equals("rich") && event == PersonEvent.maintainWork) {
+			synchronized(actions) {
+				actions.add(new Action(ActionType.maintenance , 1));
+			}
 		}
 		
+		if(time == job.shiftEnd && state == PersonState.working) {
+			synchronized(roles) {
+				for(Map.Entry<ActionType, Role> r : roles.entrySet()) {
+					if(r.getValue() instanceof ManagerRole && r.getValue().isActive() ) {
+						((ManagerRole) r.getValue()).msgEndShift();
+					}
+					
+				}
+			}
+		}
+		
+		synchronized(actions) {
+			if(cash < 50 && !actionExists(ActionType.bankWithdraw)){
+				actions.add(new Action(ActionType.bankWithdraw,3));
+				stateChanged();
+			}
+			if(cash > 300 && !actionExists(ActionType.bankDeposit)){
+	
+				actions.add(new Action(ActionType.bankDeposit,3));
+				stateChanged();
+			}
+		}
 	}
 	
 	private void handleRole(ActionType action) {
-		if(!roles.containsKey(action)) {
-			switch(action) {
-				case work:
-					switch(job.occupation) {
-						case "banker":
-							BankerRole bk = new BankerRole(this, name);
-							ContactList.getInstance().getBank().handleRole(bk);
-							roles.put(action, bk);
-							break;
-						case "bankTeller":	
-							BankTellerRole bt = new BankTellerRole(this, name);
-							ContactList.getInstance().getBank().handleRole(bt);
-							roles.put(action, bt);
-							break;
-						case "bankManager":
-							BankManagerRole bm = new BankManagerRole(this, name);
-							ContactList.getInstance().getBank().handleRole(bm);
-							roles.put(action, bm);
-							break;
-						
-						//-----Jefferson Restaurant Roles---//
-						case "jeffersonCook":
-							JeffersonCookRole jc = new JeffersonCookRole(this, name);
-							ContactList.getInstance().getJeffersonRestaurant().handleRole(jc);
-							roles.put(action,jc);
-							break;
-						case "jeffersonCashier":
-							JeffersonCashierRole jr = new JeffersonCashierRole(this, name);
-							ContactList.getInstance().getJeffersonRestaurant().handleRole(jr);
-							roles.put(action, jr);
-							break;
-						case "jeffersonWaiter":
-							JeffersonWaiterRole jw = new JeffersonWaiterRole(this, name);
-							ContactList.getInstance().getJeffersonRestaurant().handleRole(jw);
-							roles.put(action, jw);
-							break;
-						case "jeffersonHost":
-							JeffersonHostRole jh = new JeffersonHostRole(this, name);
-							ContactList.getInstance().getJeffersonRestaurant().handleRole(jh);
-							roles.put(action, jh);
-							break;
-						//-----Marcus Restaurant Roles---//
-						case "marcusCook":
-							MarcusCookRole mco = new MarcusCookRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRole(mco);
-							roles.put(action, mco);
-							break;
-						case "marcusCashier":
-							MarcusCashierRole mca = new MarcusCashierRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRole(mca);
-							roles.put(action, mca);
-							break;
-						case "marcusHost":
-							MarcusHostRole mh = new MarcusHostRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRole(mh);
-							roles.put(action, mh);
-							break;
-						case "marcusWaiter":
-							MarcusNormalWaiterRole mw = new MarcusNormalWaiterRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRole(mw);
-							roles.put(action, mw);
-							break;
-						case "marcusShareWaiter":
-							MarcusSharedWaiterRole ms = new MarcusSharedWaiterRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRole(ms);
-							roles.put(action, ms);
-							break;
+		synchronized(roles) {
+			if(!roles.containsKey(action)) {
+				switch(action) {
+					case work:
+						switch(job.occupation) {
+							case "banker":
+								BankerRole bk = new BankerRole(this, name);
+								ContactList.getInstance().getBank().handleRole(bk);
+								roles.put(action, bk);
+								break;
+							case "bankTeller":	
+								BankTellerRole bt = new BankTellerRole(this, name);
+								ContactList.getInstance().getBank().handleRole(bt);
+								roles.put(action, bt);
+								break;
+							case "bankManager":
+								BankManagerRole bm = new BankManagerRole(this, name);
+								ContactList.getInstance().getBank().handleRole(bm);
+								roles.put(action, bm);
+								break;
 							
-						//-----Ena Restaurant Roles---//
-						case "enaWaiter":
-							EnaWaiterRole en = new EnaWaiterRole(this, name);
-							ContactList.getInstance().getEnaRestaurant().handleRole(en);
-							roles.put(action, en);
-							break;
-						case "enaCook":
-							EnaCookRole eco = new EnaCookRole(this, name);
-							ContactList.getInstance().getEnaRestaurant().handleRole(eco);
-							roles.put(action, eco);
-							break;
-						case "enaCashier":
-							EnaCashierRole eca = new EnaCashierRole(this, name);
-							ContactList.getInstance().getEnaRestaurant().handleRole(eca);
-							roles.put(action, eca);
-							break;
-						case "enaHost":
-							EnaHostRole eh = new EnaHostRole(this, name);
-							ContactList.getInstance().getEnaRestaurant().handleRole(eh);
-							roles.put(action, eh);
-							break;
+							//-----Jefferson Restaurant Roles---//
+							case "jeffersonCook":
+								JeffersonCookRole jc = new JeffersonCookRole(this, name);
+								ContactList.getInstance().getJeffersonRestaurant().handleRole(jc);
+								roles.put(action,jc);
+								break;
+							case "jeffersonCashier":
+								JeffersonCashierRole jr = new JeffersonCashierRole(this, name);
+								ContactList.getInstance().getJeffersonRestaurant().handleRole(jr);
+								roles.put(action, jr);
+								break;
+							case "jeffersonWaiter":
+								JeffersonWaiterRole jw = new JeffersonWaiterRole(this, name);
+								ContactList.getInstance().getJeffersonRestaurant().handleRole(jw);
+								roles.put(action, jw);
+								break;
+							case "jeffersonHost":
+								JeffersonHostRole jh = new JeffersonHostRole(this, name);
+								ContactList.getInstance().getJeffersonRestaurant().handleRole(jh);
+								roles.put(action, jh);
+								break;
+							//-----Marcus Restaurant Roles---//
+							case "marcusCook":
+								MarcusCookRole mco = new MarcusCookRole(this, name);
+								ContactList.getInstance().getMarcusRestaurant().handleRole(mco);
+								roles.put(action, mco);
+								break;
+							case "marcusCashier":
+								MarcusCashierRole mca = new MarcusCashierRole(this, name);
+								ContactList.getInstance().getMarcusRestaurant().handleRole(mca);
+								roles.put(action, mca);
+								break;
+							case "marcusHost":
+								MarcusHostRole mh = new MarcusHostRole(this, name);
+								ContactList.getInstance().getMarcusRestaurant().handleRole(mh);
+								roles.put(action, mh);
+								break;
+							case "marcusWaiter":
+								MarcusNormalWaiterRole mw = new MarcusNormalWaiterRole(this, name);
+								ContactList.getInstance().getMarcusRestaurant().handleRole(mw);
+								roles.put(action, mw);
+								break;
+							case "marcusShareWaiter":
+								MarcusSharedWaiterRole ms = new MarcusSharedWaiterRole(this, name);
+								ContactList.getInstance().getMarcusRestaurant().handleRole(ms);
+								roles.put(action, ms);
+								break;
+								
+							//-----Ena Restaurant Roles---//
+							case "enaWaiter":
+								EnaWaiterRole en = new EnaWaiterRole(this, name);
+								ContactList.getInstance().getEnaRestaurant().handleRole(en);
+								roles.put(action, en);
+								break;
+							case "enaCook":
+								EnaCookRole eco = new EnaCookRole(this, name);
+								ContactList.getInstance().getEnaRestaurant().handleRole(eco);
+								roles.put(action, eco);
+								break;
+							case "enaCashier":
+								EnaCashierRole eca = new EnaCashierRole(this, name);
+								ContactList.getInstance().getEnaRestaurant().handleRole(eca);
+								roles.put(action, eca);
+								break;
+							case "enaHost":
+								EnaHostRole eh = new EnaHostRole(this, name);
+								ContactList.getInstance().getEnaRestaurant().handleRole(eh);
+								roles.put(action, eh);
+								break;
+								
+							//-----Ellen Restaurant Roles---//
+							case "ellenWaiter":
+								EllenNormalWaiterRole el = new EllenNormalWaiterRole(this, name);
+								ContactList.getInstance().getEllenRestaurant().handleRole(el);
+								roles.put(action, el);
+								break;
+							case "ellenShareWaiter":
+								EllenSharedDataWaiterRole esdw = new EllenSharedDataWaiterRole(this, name);
+								ContactList.getInstance().getEllenRestaurant().handleRole(esdw);
+								roles.put(action, esdw);
+								break;
+							case "ellenCook":
+								EllenCookRole elco = new EllenCookRole(this, name);
+								ContactList.getInstance().getEllenRestaurant().handleRole(elco);
+								roles.put(action, elco);
+								break;
+							case "ellenCashier":
+								EllenCashierRole elca = new EllenCashierRole(this, name);
+								ContactList.getInstance().getEllenRestaurant().handleRole(elca);
+								roles.put(action, elca);
+								break;
+							case "ellenHost":
+								EllenHostRole elh = new EllenHostRole(this, name);
+								ContactList.getInstance().getEllenRestaurant().handleRole(elh);
+								roles.put(action, elh);
+								break;
 							
-						//-----Ellen Restaurant Roles---//
-						case "ellenWaiter":
-							EllenNormalWaiterRole el = new EllenNormalWaiterRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(el);
-							roles.put(action, el);
-							break;
-						case "ellenShareWaiter":
-							EllenSharedDataWaiterRole esdw = new EllenSharedDataWaiterRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(esdw);
-							roles.put(action, esdw);
-							break;
-						case "ellenCook":
-							EllenCookRole elco = new EllenCookRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(elco);
-							roles.put(action, elco);
-							break;
-						case "ellenCashier":
-							EllenCashierRole elca = new EllenCashierRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(elca);
-							roles.put(action, elca);
-							break;
-						case "ellenHost":
-							EllenHostRole elh = new EllenHostRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(elh);
-							roles.put(action, elh);
-							break;
-						
-						//-----David Restaurant Roles---//
-						case "davidWaiter": 
-							DavidWaiterRole dw = new DavidNormalWaiterRole(name, this); 
-							ContactList.getInstance().getDavidRestaurant().handleRole(dw); 
-							roles.put(action, dw); 
-							break; 
+							//-----David Restaurant Roles---//
+							case "davidWaiter": 
+								DavidWaiterRole dw = new DavidNormalWaiterRole(name, this); 
+								ContactList.getInstance().getDavidRestaurant().handleRole(dw); 
+								roles.put(action, dw); 
+								break; 
+								
+							case "davidSharedWaiter": 
+								DavidWaiterRole dsw = new DavidSharedDataWaiterRole(name, this); 
+								ContactList.getInstance().getDavidRestaurant().handleRole(dsw); 
+								roles.put(action, dsw); 
+								break;
 							
-						case "davidSharedWaiter": 
-							DavidWaiterRole dsw = new DavidSharedDataWaiterRole(name, this); 
-							ContactList.getInstance().getDavidRestaurant().handleRole(dsw); 
-							roles.put(action, dsw); 
-							break;
-						
-						case "davidCook": 
-							DavidCookRole dc = new DavidCookRole(name, this); 
-							ContactList.getInstance().getDavidRestaurant().handleRole(dc);
-							roles.put(action, dc); 
-							break;
+							case "davidCook": 
+								DavidCookRole dc = new DavidCookRole(name, this); 
+								ContactList.getInstance().getDavidRestaurant().handleRole(dc);
+								roles.put(action, dc); 
+								break;
+								
+							case "davidCashier": 
+								DavidCashierRole dca = new DavidCashierRole(name, this); 
+								ContactList.getInstance().getDavidRestaurant().handleRole(dca); 
+								roles.put(action, dca); 
+								break; 
 							
-						case "davidCashier": 
-							DavidCashierRole dca = new DavidCashierRole(name, this); 
-							ContactList.getInstance().getDavidRestaurant().handleRole(dca); 
-							roles.put(action, dca); 
-							break; 
-						
-						case "davidHost": 
-							DavidHostRole dh = new DavidHostRole(name, this); 
-							ContactList.getInstance().getDavidRestaurant().handleRole(dh);
-							roles.put(action, dh);
-							break;
-						
-						//-----Market Roles---//
-						case "marketEmployee":
-							Market1EmployeeRole mem = new Market1EmployeeRole(this, name);
-							ContactList.getInstance().getMarket().handleRole(mem);
-							roles.put(action, mem);
-							break;
-						case "marketGreeter":
-							Market1GreeterRole mgr = new Market1GreeterRole(this, name);
-							ContactList.getInstance().getMarket().handleRole(mgr);
-							roles.put(action, mgr);
-							break;
-						case "marketCashier":
-							Market1CashierRole mcsh = new Market1CashierRole(this, name);
-							ContactList.getInstance().getMarket().handleRole(mcsh);
-							roles.put(action, mcsh);
-							break;
-						case "marketDeliveryMan":
-							Market1DeliveryManRole mdm = new Market1DeliveryManRole(this, name);
-							ContactList.getInstance().getMarket().handleRole(mdm);
-							roles.put(action, mdm);
-							break;
+							case "davidHost": 
+								DavidHostRole dh = new DavidHostRole(name, this); 
+								ContactList.getInstance().getDavidRestaurant().handleRole(dh);
+								roles.put(action, dh);
+								break;
 							
-						//-----Market 2 Roles ---//
-						case "market2Employee":
-							Market2EmployeeRole mem2 = new Market2EmployeeRole(this, name);
-							ContactList.getInstance().getMarket2().handleRole(mem2);
-							roles.put(action, mem2);
-							break;
-						case "market2Greeter":
-							Market2GreeterRole mgr2 = new Market2GreeterRole(this, name);
-							ContactList.getInstance().getMarket2().handleRole(mgr2);
-							roles.put(action, mgr2);
-							break;
-						case "market2Cashier":
-							Market2CashierRole mcsh2 = new Market2CashierRole(this, name);
-							ContactList.getInstance().getMarket2().handleRole(mcsh2);
-							roles.put(action, mcsh2);
-							break;
-						case "market2DeliveryMan":
-							Market2DeliveryManRole mdm2 = new Market2DeliveryManRole(this, name);
-							ContactList.getInstance().getMarket2().handleRole(mdm2);
-							roles.put(action, mdm2);
-							break;
+							//-----Market Roles---//
+							case "marketEmployee":
+								Market1EmployeeRole mem = new Market1EmployeeRole(this, name);
+								ContactList.getInstance().getMarket().handleRole(mem);
+								roles.put(action, mem);
+								break;
+							case "marketGreeter":
+								Market1GreeterRole mgr = new Market1GreeterRole(this, name);
+								ContactList.getInstance().getMarket().handleRole(mgr);
+								roles.put(action, mgr);
+								break;
+							case "marketCashier":
+								Market1CashierRole mcsh = new Market1CashierRole(this, name);
+								ContactList.getInstance().getMarket().handleRole(mcsh);
+								roles.put(action, mcsh);
+								break;
+							case "marketDeliveryMan":
+								Market1DeliveryManRole mdm = new Market1DeliveryManRole(this, name);
+								ContactList.getInstance().getMarket().handleRole(mdm);
+								roles.put(action, mdm);
+								break;
+								
+							//-----Market 2 Roles ---//
+							case "market2Employee":
+								Market2EmployeeRole mem2 = new Market2EmployeeRole(this, name);
+								ContactList.getInstance().getMarket2().handleRole(mem2);
+								roles.put(action, mem2);
+								break;
+							case "market2Greeter":
+								Market2GreeterRole mgr2 = new Market2GreeterRole(this, name);
+								ContactList.getInstance().getMarket2().handleRole(mgr2);
+								roles.put(action, mgr2);
+								break;
+							case "market2Cashier":
+								Market2CashierRole mcsh2 = new Market2CashierRole(this, name);
+								ContactList.getInstance().getMarket2().handleRole(mcsh2);
+								roles.put(action, mcsh2);
+								break;
+							case "market2DeliveryMan":
+								Market2DeliveryManRole mdm2 = new Market2DeliveryManRole(this, name);
+								ContactList.getInstance().getMarket2().handleRole(mdm2);
+								roles.put(action, mdm2);
+								break;
+						
+							default:
+								break;
+						}
+						break;
 					
-						default:
-							break;
-					}
-					break;
-				
-				case restaurant:
-					switch(destination) {
-						case restaurant_marcus:
-							MarcusCustomerRole m = new MarcusCustomerRole(this, name);
-							ContactList.getInstance().getMarcusRestaurant().handleRole(m);
-							roles.put(action, m);
-							break;
-						case restaurant_ellen:
-							EllenCustomerRole e = new EllenCustomerRole(this, name);
-							ContactList.getInstance().getEllenRestaurant().handleRole(e);
-							roles.put(action, e);
-							break;
-						case restaurant_ena:
-							EnaCustomerRole en = new EnaCustomerRole(this, name);
-							ContactList.getInstance().getEnaRestaurant().handleRole(en);
-							roles.put(action, en);
-							break;
-						case restaurant_jefferson:
-							JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
-							ContactList.getInstance().getJeffersonRestaurant().handleRole(jc);
-							roles.put(action,jc);
-							break;
-						case restaurant_david: 
-							DavidCustomerRole d = new DavidCustomerRole(name, this); 
-							ContactList.getInstance().getDavidRestaurant().handleRole(d); 
-							roles.put(action, d);
-							break;
-						default:
-							break;
-					}
-					break;
-				case market :
-					Market1CustomerRole mcr = new Market1CustomerRole(this, name);
-					ContactList.getInstance().getMarket().handleRole(mcr);
-					roles.put(action, mcr);
-					break;
-				case market2 : 
-					Market2CustomerRole mcr2 = new Market2CustomerRole(this, name);
-					ContactList.getInstance().getMarket2().handleRole(mcr2);
-					roles.put(action, mcr2);
-					break;
-				case home :
-					
-				case homeAndEat : 
-					if (actions.contains(ActionType.home) || actions.contains(ActionType.homeAndEat))
-						return;
-					OccupantRole or = new OccupantRole(this, name);
-					ContactList.getInstance().getHome(or).handleRoleGui(or);
-					roles.put(action, or);
-					break;
-				case maintenance:
-					LandlordRole lr = new LandlordRole(this);
-					ContactList.getInstance().getHome().handleRoleGui(lr);
-					roles.put(action, lr);
-					break;
-				case bankWithdraw:
-				case bankDeposit:
-				case bankLoan:
-					if(roles.containsKey("bankDeposit") || roles.containsKey("bankLoan") || roles.containsKey("bankWithdraw")){
-						return;
-					}
-					BankCustomerRole bc = new BankCustomerRole(this, name);
-					ContactList.getInstance().getBank().handleRole(bc);
-					roles.put(action, bc);
-					break;
-				default:
-					break;
+
+					case restaurant:
+						switch(destination) {
+							case restaurant_marcus:
+								MarcusCustomerRole m = new MarcusCustomerRole(this, name);
+								ContactList.getInstance().getMarcusRestaurant().handleRole(m);
+								roles.put(action, m);
+								break;
+							case restaurant_ellen:
+								EllenCustomerRole e = new EllenCustomerRole(this, name);
+								ContactList.getInstance().getEllenRestaurant().handleRole(e);
+								roles.put(action, e);
+								break;
+							case restaurant_ena:
+								EnaCustomerRole en = new EnaCustomerRole(this, name);
+								ContactList.getInstance().getEnaRestaurant().handleRole(en);
+								roles.put(action, en);
+								break;
+							case restaurant_jefferson:
+								JeffersonCustomerRole jc = new JeffersonCustomerRole(this, name);
+								ContactList.getInstance().getJeffersonRestaurant().handleRole(jc);
+								roles.put(action,jc);
+								break;
+							case restaurant_david: 
+								DavidCustomerRole d = new DavidCustomerRole(name, this); 
+								ContactList.getInstance().getDavidRestaurant().handleRole(d); 
+								roles.put(action, d);
+								break;
+							default:
+								break;
+						}
+						break;
+					case market :
+						Market1CustomerRole mcr = new Market1CustomerRole(this, name);
+						ContactList.getInstance().getMarket().handleRole(mcr);
+						roles.put(action, mcr);
+						break;
+					case market2 : 
+						Market2CustomerRole mcr2 = new Market2CustomerRole(this, name);
+						ContactList.getInstance().getMarket2().handleRole(mcr2);
+						roles.put(action, mcr2);
+						break;
+					case home :
+						
+					case homeAndEat :
+						synchronized(actions) {
+							if (actions.contains(ActionType.home) || actions.contains(ActionType.homeAndEat))
+								return;
+							OccupantRole or = new OccupantRole(this, name);
+							ContactList.getInstance().getHome(or).handleRoleGui(or);
+							roles.put(action, or);
+						}
+						break;
+					case maintenance:
+						LandlordRole lr = new LandlordRole(this);
+						ContactList.getInstance().getHome().handleRoleGui(lr);
+						roles.put(action, lr);
+						break;
+					case bankWithdraw:
+					case bankDeposit:
+					case bankLoan:
+						if(roles.containsKey("bankDeposit") || roles.containsKey("bankLoan") || roles.containsKey("bankWithdraw")){
+							return;
+						}
+						BankCustomerRole bc = new BankCustomerRole(this, name);
+						ContactList.getInstance().getBank().handleRole(bc);
+						roles.put(action, bc);
+						break;
+					case bankRob:
+						if(roles.containsKey("bankRob")){
+							return;
+						}
+						BankRobberRole br = new BankRobberRole(this, name);
+						ContactList.getInstance().getBank().handleRole(br);
+						roles.put(action, br);
+						break;
+					default:
+						break;
+				}
+
 			}
 		}
 	}
@@ -800,6 +863,9 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.needToBank;
 				break;
 			case bankLoan: 
+				event = PersonEvent.needToBank;
+				break;
+			case bankRob:
 				event = PersonEvent.needToBank;
 				break;
 			default:
@@ -886,6 +952,7 @@ public class PersonAgent extends Agent {
 				break;
 		}
 		
+		
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
@@ -957,7 +1024,6 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToMarket() {
-		//output("Going to market");
 		
 		switch((int) (Math.random() * 2)) {
 		case 0:
@@ -1019,7 +1085,9 @@ public class PersonAgent extends Agent {
 
 	//---Other Actions functions---//
 	public void addRole(ActionType type, Role role) {
-		roles.put(type, role);
+		synchronized(roles) {
+			roles.put(type, role);
+		}
 	}
 	
 	public void roleInactive() {
@@ -1032,8 +1100,9 @@ public class PersonAgent extends Agent {
 		super.stateChanged();
 	}
 
-	public void updateClock(int newTime) {
+	public void updateClock(int newTime, int currentDay) {
 		this.time = newTime;
+		this.day = currentDay;
 		checkSelf();
 	}
 	
@@ -1054,6 +1123,11 @@ public class PersonAgent extends Agent {
 	
 	public void setCash(double d) {
 		this.cash = d;
+	}
+	
+	public void stopThread() {
+		isMoving.release();
+		super.stopThread();
 	}
 
 	private void waitForGui() {
@@ -1150,17 +1224,20 @@ public class PersonAgent extends Agent {
 	}
 	
 	private boolean actionExists(ActionType type) {
-		for(Action a : actions) { 
-			if(a.type == type) return true;
+		synchronized(actions) {
+			for(Action a : actions) { 
+				if(a.type == type) return true;
+			}
+			
+			return false;
 		}
-		return false;
 	}
 
 	//Lower the priority level, the more "important" it is (it'll get done faster)
 	public enum ActionState {created, inProgress, done}
 	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, 
 		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
-		market, market2, bankWithdraw, bankDeposit, bankLoan, home}
+		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, home}
 	public class Action implements Comparable<Object> {
 		public ActionState state;
 		public ActionType type;

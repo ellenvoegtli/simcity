@@ -40,6 +40,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private Semaphore doneLeaving = new Semaphore(0, true);
 	
 	private boolean onDuty;
+	private boolean customer = false;
 
 		
 
@@ -106,7 +107,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	public void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory, String deliveryMethod) {
 		MyCustomer mc = null;
-		for (MyCustomer thisMC : myCustomers){	//to find the myCustomer with this specific Customer within myCustomers list
+		for (MyCustomer thisMC : myCustomers){	
 			if (thisMC.c.equals(c)){
 				mc = thisMC;
 				break;
@@ -120,7 +121,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	public void msgHereIsBill(Customer c, double amount){		//from cashier
 		MyCustomer mc = null;
-		for (MyCustomer thisMC : myCustomers){	//to find the myCustomer with this specific Customer within myCustomers list
+		for (MyCustomer thisMC : myCustomers){	
 			if (thisMC.c.equals(c)){
 				mc = thisMC;
 				break;
@@ -135,7 +136,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	//for businesses
 	public void msgHereIsBill(String name, double amount){		//from cashier
 		MyBusiness mb = null;
-		for (MyBusiness thisMB : myBusinesses){	//to find the myCustomer with this specific Customer within myCustomers list
+		for (MyBusiness thisMB : myBusinesses){	
 			if (thisMB.restaurantName.equals(name)){
 				mb = thisMB;
 				break;
@@ -161,7 +162,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	public void msgDoneAndLeaving(Customer c) {
 		MyCustomer mc = null;
-		for (MyCustomer thisMC : myCustomers){ //to find the myCustomer with this specific Customer within myCustomers list
+		for (MyCustomer thisMC : myCustomers){ 
 			if (thisMC.c.equals(c)){
 				mc = thisMC;
 				break;
@@ -175,8 +176,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 
 
 	public void msgAtStation() {
-		//print("msgAtStation called");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "msgAtStation called");
+		log("msgAtStation called");
 		atStation.release();// = true;
 		stateChanged();
 	}
@@ -202,6 +202,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	}
 	
 	public void msgGoOffDuty(double amount){
+		log("msgGoOffDuty called");
 		addToCash(amount);
 		onDuty = false;
 		stateChanged();
@@ -215,17 +216,10 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 		
 		try {
 			for (MyCustomer mc : myCustomers){
-				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing){
+				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing && !customer){
+					wState = WaiterState.busy;
+					customer = true;
 					GreetCustomer(mc);
-					wState = WaiterState.busy;
-					return true;
-				}
-			}
-			//business check
-			for (MyBusiness mb : myBusinesses) {
-				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing){
-					ProcessOrder(mb);		//determine what we can fulfill, have cashier compute bill
-					wState = WaiterState.busy;
 					return true;
 				}
 			}
@@ -236,27 +230,9 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 					return true;
 				}
 			}
-			
-			//business check
-			for (MyBusiness mb : myBusinesses) {
-				if (mb.s == BusinessState.gotCheckFromCashier && wState == WaiterState.doingNothing){
-					FulfillOrder(mb);
-					wState = WaiterState.busy;
-					return true;
-				}
-			}
 			for (MyCustomer mc : myCustomers){
 				if (mc.s == CustomerState.gotCheckFromCashier && wState == WaiterState.doingNothing){
 					FulfillOrder(mc);
-					wState = WaiterState.busy;
-					return true;
-				}
-			}
-			
-			//business check
-			for (MyBusiness mb : myBusinesses) {
-				if (mb.s == BusinessState.doneFulfillingOrder && wState == WaiterState.doingNothing){
-					DeliverOrder(mb);
 					wState = WaiterState.busy;
 					return true;
 				}
@@ -272,6 +248,37 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 			for (MyCustomer mc : myCustomers) {
 				if (mc.s == CustomerState.leaving){
 					RemoveCustomer(mc);
+					wState = WaiterState.doingNothing;
+					customer = false;
+					return true;
+				}
+			}
+			
+			
+			//business check
+			for (MyBusiness mb : myBusinesses) {
+				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing && !customer){
+					ProcessOrder(mb);		//determine what we can fulfill, have cashier compute bill
+					wState = WaiterState.busy;
+					customer = true;
+					return true;
+				}
+			}
+			//business check
+			for (MyBusiness mb : myBusinesses) {
+				if (mb.s == BusinessState.gotCheckFromCashier && wState == WaiterState.doingNothing){
+					FulfillOrder(mb);
+					wState = WaiterState.busy;
+					return true;
+				}
+			}
+			
+			//business check
+			for (MyBusiness mb : myBusinesses) {
+				if (mb.s == BusinessState.doneFulfillingOrder && wState == WaiterState.doingNothing){
+					DeliverOrder(mb);
+					wState = WaiterState.busy;
+					customer = false;
 					return true;
 				}
 			}
@@ -300,7 +307,6 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 		try {
 			atWaitingRoom.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -309,7 +315,6 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 		try {
 			atStation.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		mc.c.msgMayITakeYourOrder(this);
@@ -319,12 +324,6 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private void ProcessOrder(MyCustomer mc){
 		log("Processing order for " + mc.c.getName());
 		for (Map.Entry<String, Integer> entry : mc.inventoryOrdered.entrySet()){
-			/*if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
-				mc.inventoryFulfilled.put(entry.getKey(), entry.getValue());
-			}
-			else {
-				mc.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - marketMenu.getStock(entry.getKey())));
-			}*/
 			for (Item i : marketMenu.menuItems){
 				if (i.getItem().equalsIgnoreCase(entry.getKey())){
 					if (entry.getValue() <= i.getStock())
@@ -352,6 +351,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private void FulfillOrder(final MyCustomer mc){
 		log("Fulfilling order for: " + mc.c.getName());
 		employeeGui.DoFulfillOrder();
+		mc.s = CustomerState.fulfillingOrder;
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
@@ -383,12 +383,6 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private void ProcessOrder(MyBusiness mb){
 		log("Processing order for " + mb.restaurantName);
 		for (Map.Entry<String, Integer> entry : mb.inventoryOrdered.entrySet()){
-			/*if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
-				mb.inventoryFulfilled.put(entry.getKey(), entry.getValue());
-			}
-			else {		//take everything the market has left
-				mb.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - marketMenu.getStock(entry.getKey())));
-			}*/
 			for (Item i : marketMenu.menuItems){
 				if (i.getItem().equalsIgnoreCase(entry.getKey())){
 					if (entry.getValue() <= i.getStock())
@@ -403,12 +397,10 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	private void SendBillToCashier(MyBusiness mb){
 		log("Sending bill to cashier");
-		//gui to go to cashier
 		employeeGui.DoGoToCashier();
 		try {
 			atCashier.acquire();
 		} catch(InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		cashier.msgComputeBill(mb.inventoryFulfilled, mb.restaurantName, this);
@@ -418,6 +410,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	private void FulfillOrder(final MyBusiness mb){
 		log("Fulfilling order for: " + mb.restaurantName);
 		employeeGui.DoFulfillOrder();
+		mb.s = BusinessState.fulfillingOrder;
 		
 		timer.schedule(new TimerTask() {
 			public void run() {
