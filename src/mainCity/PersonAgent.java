@@ -405,26 +405,25 @@ public class PersonAgent extends Agent {
 						currentAction.state = ActionState.done;
 						return true;
 					}
-					if(roles.containsKey(ActionType.bankWithdraw)){
-						roles.get(ActionType.bankWithdraw).setActive();
-						Role bankCustomer = roles.get(ActionType.bankWithdraw);
-						((BankCustomer) bankCustomer).msgWantToWithdraw();
+					
+					switch(currentAction.type) {
+						case bankWithdraw:
+							((BankCustomer) customer).msgWantToWithdraw();
+							break;
+						case bankDeposit:
+							((BankCustomer) customer).msgWantToDeposit();
+							break;
+						case bankLoan:
+							((BankCustomer) customer).msgNeedLoan();
+							break;
+						case bankRob:
+							((BankRobberRole) customer).msgWantToRobBank();
+							break;
+						default:
+							break;
 					}
-					else if(roles.containsKey(ActionType.bankDeposit)){
-						roles.get(ActionType.bankDeposit).setActive();
-						Role bankCustomer = roles.get(ActionType.bankDeposit);
-						((BankCustomer) bankCustomer).msgWantToDeposit();
-					}
-					else if(roles.containsKey(ActionType.bankLoan)){
-						roles.get(ActionType.bankLoan).setActive();
-						Role bankCustomer = roles.get(ActionType.bankLoan);
-						((BankCustomer) bankCustomer).msgNeedLoan();
-					}
-					else if(roles.containsKey(ActionType.bankRob)){
-						roles.get(ActionType.bankRob).setActive();
-						Role bankRobber = roles.get(ActionType.bankRob);
-						((BankRobberRole) bankRobber).msgWantToRobBank();
-					}
+					
+					customer.setActive();
 				}
 				
 				enterBuilding();
@@ -765,7 +764,6 @@ public class PersonAgent extends Agent {
 								break;
 						}
 						break;
-					
 
 					case restaurant:
 						switch(destination) {
@@ -809,7 +807,6 @@ public class PersonAgent extends Agent {
 						roles.put(action, mcr2);
 						break;
 					case home :
-						
 					case homeAndEat :
 						synchronized(actions) {
 							if (actions.contains(ActionType.home) || actions.contains(ActionType.homeAndEat))
@@ -969,7 +966,6 @@ public class PersonAgent extends Agent {
 				break;
 		}
 		
-		
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
@@ -988,7 +984,7 @@ public class PersonAgent extends Agent {
 		}
 
 		else if(temp) {//chose home
-			if(temp) { //need food
+			if(temp) { //check if need food
 				currentAction.type = ActionType.market;
 				handleAction(currentAction.type);
 			}
@@ -1026,17 +1022,13 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-	private void goToRenters()
-	{
+	private void goToRenters() {
 		output("Going to a renters home for maintenance");
-		
 		travelToLocation(CityLocation.home);
-		
 		stateChanged();
 	}
 	
 	private void goToMarket() {
-		
 		switch((int) (Math.random() * 2)) {
 		case 0:
 			output("Going to market 1");
@@ -1055,7 +1047,6 @@ public class PersonAgent extends Agent {
 		default:
 				break;
 		}
-		
 	}
 
 	private void goHome()  {
@@ -1073,10 +1064,14 @@ public class PersonAgent extends Agent {
 	}
 
 	private void goToBank() {
-		if(((int) Math.random()*10) > 5)
+		switch((int) Math.random()*2) {
+		case 0:
 			travelToLocation(CityLocation.bank);
-		else
+			break;
+		case 1:
 			travelToLocation(CityLocation.bank2);
+			break;
+		}
 		
 		event = PersonEvent.arrivedAtBank;
 		stateChanged();
@@ -1149,7 +1144,8 @@ public class PersonAgent extends Agent {
 	private void waitForGui() {
 		try {
 			isMoving.acquire();
-		} catch (InterruptedException e) {
+		}
+		catch (InterruptedException e) {
 			e.printStackTrace();
 		} 
 	}
