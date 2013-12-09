@@ -70,11 +70,11 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 					
 
 		}
-		/*for(int j=0; j<8; j++)
+		for(int j=0; j<7; j++)
 		{
 			cards.put("apartment" +j, new ApartAnimationPanel(city));
 
-		}*/
+		}
 		
 		layout = new CardLayout();
 		this.setLayout(layout);

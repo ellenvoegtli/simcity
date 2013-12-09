@@ -124,6 +124,8 @@ public class CityPanel extends JPanel{
 		person.setCash(c);
 		
 		person.setHomePlace(renter);
+		ContactList.getInstance().setPersonInstance(person, renter);
+
 		System.out.println("selected house for person to live in");
 		PersonGui pg = new PersonGui(person, gui);
 		gui.getAnimationPanel().addPersonGui(pg);

@@ -31,6 +31,7 @@ public class Building implements Gui{
 		xLocation = xLoc; 
 		yLocation = yLoc; 
 		rectangle.setLocation(xLoc, yLoc);
+
 		
 		if(p.contains("house1")){ 
 			rectangle.setSize(80, 64);
@@ -71,11 +72,13 @@ public class Building implements Gui{
 	
 	public int getXLoc()
 	{
+		
 		return xLocation;
 		
 	}
 	public int getYLoc()
 	{
+		
 		return yLocation;
 	}
 
