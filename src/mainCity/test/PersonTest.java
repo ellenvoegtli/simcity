@@ -13,10 +13,10 @@ import role.ellenRestaurant.EllenNormalWaiterRole;
 import role.ellenRestaurant.EllenWaiterRole;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
-import role.market1.Market1CashierRole;
-import role.market1.Market1CustomerRole;
-import role.market1.Market1EmployeeRole;
-import role.market1.Market1GreeterRole;
+import role.market.MarketCashierRole;
+import role.market.MarketCustomerRole;
+import role.market.MarketEmployeeRole;
+import role.market.MarketGreeterRole;
 import mainCity.bank.*;
 import mainCity.market1.*;
 import mainCity.restaurants.EllenRestaurant.*;
@@ -1330,10 +1330,10 @@ public class PersonTest extends TestCase {
 	
 	public void testTwentySixMarketCashierWork() {
 		person.updateOccupation("marketCashier", -1, -1);
-		Market1CashierRole cashier = null;
+		MarketCashierRole cashier = null;
 		assertNull("MarketCashierRole should be null. It isn't", cashier);
 		
-		cashier = new Market1CashierRole(person, person.getName());
+		cashier = new MarketCashierRole(person, person.getName());
 		assertEquals("MarketCashierRole should have current person as holder. It's not", cashier.getPerson(), person);
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
@@ -1383,10 +1383,10 @@ public class PersonTest extends TestCase {
 	
 	public void testTwentySevenMarketEmployeeWork() {
 		person.updateOccupation("marketEmployee", -1, -1);
-		Market1EmployeeRole employee = null;
+		MarketEmployeeRole employee = null;
 		assertNull("MarketEmployeeRole should be null. It isn't", employee);
 		
-		employee = new Market1EmployeeRole(person, person.getName());
+		employee = new MarketEmployeeRole(person, person.getName());
 		assertEquals("MarketEmployeeRole should have current person as holder. It's not", employee.getPerson(), person);
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
@@ -1436,10 +1436,10 @@ public class PersonTest extends TestCase {
 	
 	public void testTwentyEightMarketGreeterWork() {
 		person.updateOccupation("marketGreeter", -1, -1);
-		Market1GreeterRole greeter = null;
+		MarketGreeterRole greeter = null;
 		assertNull("MarketGreeterRole should be null. It isn't", greeter);
 		
-		greeter = new Market1GreeterRole(person, person.getName());
+		greeter = new MarketGreeterRole(person, person.getName());
 		assertEquals("MarketGreeterRole should have current person as holder. It's not", greeter.getPerson(), person);
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
@@ -1488,10 +1488,10 @@ public class PersonTest extends TestCase {
 	}//End marketGreeter
 	
 	public void testTwentyNineMarketCustomer() {
-		Market1CustomerRole customer = null;
+		MarketCustomerRole customer = null;
 		assertNull("MarketCustomerRole should be null. It isn't", customer);
 		
-		customer = new Market1CustomerRole(person, person.getName());
+		customer = new MarketCustomerRole(person, person.getName());
 		assertEquals("MarketCustomerRole should have current person as holder. It's not", customer.getPerson(), person);
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		

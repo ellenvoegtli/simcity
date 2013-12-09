@@ -1,4 +1,4 @@
-package role.market1;
+package role.market;
 
 import java.util.*;
 
@@ -13,7 +13,7 @@ import mainCity.market1.interfaces.*;
 
 
 
-public class Market1CashierRole extends Role implements MarketCashier, WorkerRole {	
+public class MarketCashierRole extends Role implements MarketCashier, WorkerRole {	
 	private String name;
 	Greeter greeter;
 	private double cash = 0;
@@ -27,7 +27,7 @@ public class Market1CashierRole extends Role implements MarketCashier, WorkerRol
 	private boolean onDuty;
 	
 	//constructor
-	public Market1CashierRole(PersonAgent p, String name) {
+	public MarketCashierRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		onDuty = true;

@@ -1,6 +1,7 @@
 package mainCity.market1.gui;
 
 import mainCity.contactList.*;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.market1.*;
 import mainCity.market1.interfaces.*;
 
@@ -13,11 +14,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import role.Role;
-import role.market1.Market1CashierRole;
-import role.market1.Market1CustomerRole;
-import role.market1.Market1DeliveryManRole;
-import role.market1.Market1EmployeeRole;
-import role.market1.Market1GreeterRole;
+import role.market.MarketCashierRole;
+import role.market.MarketCustomerRole;
+import role.market.MarketDeliveryManRole;
+import role.market.MarketEmployeeRole;
+import role.market.MarketGreeterRole;
 
 /**
  * Panel in frame that contains all the restaurant information,
@@ -27,10 +28,10 @@ public class MarketPanel extends JPanel implements ActionListener{
 	private MarketAnimationPanel animation;
 	private Greeter host;
 	private MarketCashier cashier;
-	private DeliveryMan1 deliveryMan;
+	private DeliveryMan deliveryMan;
         
-    private Vector<Market1CustomerRole> customers = new Vector<Market1CustomerRole>();
-    private Vector<Market1EmployeeRole> employees = new Vector<Market1EmployeeRole>();
+    private Vector<MarketCustomerRole> customers = new Vector<MarketCustomerRole>();
+    private Vector<MarketEmployeeRole> employees = new Vector<MarketEmployeeRole>();
     
     
     public MarketPanel(MarketAnimationPanel market){
@@ -63,14 +64,14 @@ public class MarketPanel extends JPanel implements ActionListener{
      * @param name name of person
      */
     public void handleRole(Role r){
-    	if(r instanceof Market1CashierRole) {
-    		cashier = (Market1CashierRole) r;
+    	if(r instanceof MarketCashierRole) {
+    		cashier = (MarketCashierRole) r;
     		System.out.println("setting cashier");
     		
-    		for(Market1EmployeeRole e : employees) {
+    		for(MarketEmployeeRole e : employees) {
     			e.setCashier(cashier);
     		}
-    		for(Market1CustomerRole c : customers) {
+    		for(MarketCustomerRole c : customers) {
     			c.setCashier(cashier);
     		}
             
@@ -79,32 +80,32 @@ public class MarketPanel extends JPanel implements ActionListener{
     			cashier.setGreeter(host);
     		}
     		
-    		ContactList.getInstance().setMarketCashier((Market1CashierRole)cashier);
+    		ContactList.getInstance().setMarketCashier((MarketCashierRole)cashier);
     	}
     	
-    	if(r instanceof Market1DeliveryManRole) {
-    		deliveryMan = (Market1DeliveryManRole) r;
+    	if(r instanceof MarketDeliveryManRole) {
+    		deliveryMan = (MarketDeliveryManRole) r;
     		if (r.getName().toLowerCase().contains("market2"))
-    			ContactList.getInstance().getCity().addDeliveryGui((Market1DeliveryManRole) deliveryMan, 655, 135);
+    			ContactList.getInstance().getCity().addDeliveryGui((MarketDeliveryManRole) deliveryMan, 655, 135);
     		else
-    			ContactList.getInstance().getCity().addDeliveryGui((Market1DeliveryManRole) deliveryMan, 415, 200);
+    			ContactList.getInstance().getCity().addDeliveryGui((MarketDeliveryManRole) deliveryMan, 415, 200);
             deliveryMan.setCashier(cashier);
             
             if(host != null) host.setDeliveryMan(deliveryMan);
-            for(Market1EmployeeRole e : employees) {
+            for(MarketEmployeeRole e : employees) {
     			e.setDeliveryMan(deliveryMan);
     		}
-    		ContactList.getInstance().setMarketDeliveryMan((Market1DeliveryManRole) deliveryMan);
+    		ContactList.getInstance().setMarketDeliveryMan((MarketDeliveryManRole) deliveryMan);
     	}
     	
-    	if(r instanceof Market1GreeterRole) {
-    		host = (Market1GreeterRole) r;
+    	if(r instanceof MarketGreeterRole) {
+    		host = (MarketGreeterRole) r;
     		
-    		for(Market1EmployeeRole e : employees) {
+    		for(MarketEmployeeRole e : employees) {
     			e.setHost(host);
     			host.addEmployee(e);
     		}
-    		for(Market1CustomerRole c : customers) {
+    		for(MarketCustomerRole c : customers) {
     			c.setHost(host);
     		}
     		
@@ -112,11 +113,11 @@ public class MarketPanel extends JPanel implements ActionListener{
     		host.setCashier(cashier);
     		
     		if(cashier != null) cashier.setGreeter(host);
-    		ContactList.getInstance().setMarketGreeter((Market1GreeterRole) host);
+    		ContactList.getInstance().setMarketGreeter((MarketGreeterRole) host);
     	}
     	
-    	if(r instanceof Market1EmployeeRole) {
-    		Market1EmployeeRole e = (Market1EmployeeRole) r;
+    	if(r instanceof MarketEmployeeRole) {
+    		MarketEmployeeRole e = (MarketEmployeeRole) r;
     		EmployeeGui g = new EmployeeGui(e, animation);
     		
     		animation.addGui(g);
@@ -128,7 +129,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     		
     		int i = 0;
     		int x = 0, y = 0;
-    		for (Market1EmployeeRole em : employees){
+    		for (MarketEmployeeRole em : employees){
     			if (em.equals(e)){
     				if (i < 4){
     					x = 150 + 100*i + 15;	//add 15 to go to center of station
@@ -147,16 +148,16 @@ public class MarketPanel extends JPanel implements ActionListener{
     		if (host != null) /*host.addEmployee(e, x, y);*/ host.addEmployee(e);
     	}
     	
-    	if(r instanceof Market1CustomerRole) {
-    		Market1CustomerRole c = (Market1CustomerRole) r;
+    	if(r instanceof MarketCustomerRole) {
+    		MarketCustomerRole c = (MarketCustomerRole) r;
 	    	
-    		for(Market1CustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
+    		for(MarketCustomerRole cust : customers) { // Checking to make sure customer doesn't exist already
 	    		if (cust == c) return;
 	    	}
 			customers.add(c);
 			CustomerGui g = new CustomerGui(c, animation);
     		int i = 0;
-    		for (Market1CustomerRole cust : customers){
+    		for (MarketCustomerRole cust : customers){
     			if (cust.equals(c)) g.setWaitingAreaPosition(10 + (i%5)*25, (10 + ( (int)(Math.floor(i/5)) *25) ));
     			else i++;
     		}

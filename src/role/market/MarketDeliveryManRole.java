@@ -1,11 +1,10 @@
-package role.market1;
+package role.market;
 
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
-import mainCity.market1.interfaces.DeliveryMan1;
 import mainCity.market1.interfaces.DeliveryManGuiInterface;
 import mainCity.market1.interfaces.MarketCashier;
 import role.Role;
@@ -15,7 +14,7 @@ import java.util.concurrent.*;
 
 
 
-public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//only handles one restaurant at a time right now
+public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only handles one restaurant at a time right now
 	private String name;
 	public DeliveryManGuiInterface deliveryGui;
 	MarketCashier cashier;
@@ -36,7 +35,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	
 	
 	//constructor
-	public Market1DeliveryManRole(PersonAgent p, String name) {
+	public MarketDeliveryManRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		state = AgentState.doingNothing;

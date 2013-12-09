@@ -2,15 +2,16 @@ package mainCity.market1.interfaces;
 
 import java.util.Map;
 
-import role.market1.Market1CustomerRole;
-import role.market1.Market1DeliveryManRole;
+import role.market.MarketCustomerRole;
+import role.market.MarketDeliveryManRole;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
 
 
 public interface Greeter {
 	public abstract void setCashier(MarketCashier c);
-	public abstract void setDeliveryMan(DeliveryMan1 d);
+	public abstract void setDeliveryMan(DeliveryMan d);
 	public abstract void addEmployee(Employee e);
 	
 	public abstract void msgINeedInventory(Customer c, int x, int y);

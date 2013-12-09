@@ -3,10 +3,10 @@ package mainCity.market1.test;
 import java.util.Map;
 import java.util.TreeMap;
 
-import role.market1.Market1DeliveryManRole;
-import role.market1.Market1DeliveryManRole.AgentState;
-import role.market1.Market1DeliveryManRole.DeliveryEvent;
-import role.market1.Market1DeliveryManRole.DeliveryState;
+import role.market.MarketDeliveryManRole;
+import role.market.MarketDeliveryManRole.AgentState;
+import role.market.MarketDeliveryManRole.DeliveryEvent;
+import role.market.MarketDeliveryManRole.DeliveryState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
 import mainCity.market1.test.mock.*;
@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 
 
 public class DeliveryManTest extends TestCase {
-	Market1DeliveryManRole deliveryMan;
+	MarketDeliveryManRole deliveryMan;
 	MockDeliveryManGui gui;
 	MockEmployee employee;
 	MockCashier ellenCashier;	//from ellen's restaurant
@@ -29,7 +29,7 @@ public class DeliveryManTest extends TestCase {
         super.setUp();
         
         PersonAgent d = new PersonAgent("Delivery man");
-        deliveryMan = new Market1DeliveryManRole(d, d.getName());
+        deliveryMan = new MarketDeliveryManRole(d, d.getName());
         d.addRole(ActionType.work, deliveryMan);
 
         gui = new MockDeliveryManGui("MockDeliveryGui");

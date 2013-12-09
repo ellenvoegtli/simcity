@@ -10,8 +10,8 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import role.market1.Market1CustomerRole;
-import role.market1.Market1GreeterRole;
+import role.market.MarketCustomerRole;
+import role.market.MarketGreeterRole;
 
 
 public class CustomerGui implements Gui, CustomerGuiInterface{

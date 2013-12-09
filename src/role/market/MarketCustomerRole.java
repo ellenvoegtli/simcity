@@ -1,4 +1,4 @@
-package role.market1;
+package role.market;
 
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
@@ -20,7 +20,7 @@ import java.awt.*;
 /**
  * Restaurant customer agent.
  */
-public class Market1CustomerRole extends Role implements Customer {
+public class MarketCustomerRole extends Role implements Customer {
 	private String name;
 	private int hungerLevel = 5;        // determines length of meal
 	Timer timer = new Timer();
@@ -62,7 +62,7 @@ public class Market1CustomerRole extends Role implements Customer {
 	 * @param name name of the customer
 	 * @param gui  reference to the customergui so the customer can send it messages
 	 */
-	public Market1CustomerRole(PersonAgent p, String name){
+	public MarketCustomerRole(PersonAgent p, String name){
 		super(p);
 		this.name = name;
 		
@@ -448,8 +448,8 @@ public class Market1CustomerRole extends Role implements Customer {
 	}
 	
 	public boolean restaurantOpen() {
-		if (host instanceof Market1GreeterRole){
-			Market1GreeterRole h = (Market1GreeterRole) host;
+		if (host instanceof MarketGreeterRole){
+			MarketGreeterRole h = (MarketGreeterRole) host;
 			if (h !=null && h.isActive() && h.isOpen())
 				return true;
 		}

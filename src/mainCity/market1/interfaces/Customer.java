@@ -2,7 +2,7 @@ package mainCity.market1.interfaces;
 
 import java.util.Map;
 
-import role.market1.Market1EmployeeRole;
+import role.market.MarketEmployeeRole;
 
 
 public interface Customer {

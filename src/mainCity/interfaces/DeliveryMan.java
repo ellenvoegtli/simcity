@@ -2,6 +2,8 @@ package mainCity.interfaces;
 
 import java.util.Map;
 
+import mainCity.market1.interfaces.MarketCashier;
+
 
 public interface DeliveryMan {
 	public abstract String getName();
@@ -15,4 +17,5 @@ public interface DeliveryMan {
 	
 	public abstract boolean isActive();
 	public abstract void msgCheckForRedeliveries();
+	public abstract void setCashier(MarketCashier c);
 }

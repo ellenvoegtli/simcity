@@ -2,13 +2,14 @@ package mainCity.market1.test.mock;
 
 import java.util.Map;
 
-import role.market1.Market1CashierRole;
-import role.market1.Market1DeliveryManRole.Bill;
+import role.market.MarketCashierRole;
+import role.market.MarketDeliveryManRole.Bill;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
 import mainCity.market1.interfaces.*;
 
-public class MockDeliveryMan extends Mock implements DeliveryMan1 {
+public class MockDeliveryMan extends Mock implements DeliveryMan {
 	MockDeliveryMan(String name){
 		super(name);
 	}
