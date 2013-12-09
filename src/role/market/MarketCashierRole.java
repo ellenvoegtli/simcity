@@ -4,6 +4,7 @@ import java.util.*;
 
 import role.Role;
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.WorkerRole;
@@ -134,6 +135,14 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	}
 	public void msgGoOffDuty(double amount){
 		addToCash(amount);
+		
+		String restaurantName = null;
+		if (name.toLowerCase().contains("market2"))
+			restaurantName = "market2";
+		else 
+			restaurantName = "market";
+		ContactList.getInstance().getBank().directDeposit(restaurantName, cash);
+		
 		onDuty = false;
 		stateChanged();
 	}

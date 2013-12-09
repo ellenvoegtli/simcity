@@ -7,6 +7,7 @@ import role.market.*;
 import mainCity.PersonAgent;
 import mainCity.restaurants.EllenRestaurant.EllenMenu;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.DeliveryMan;
 import role.Role;
@@ -16,7 +17,7 @@ import role.Role;
 
 public class EllenCashierRole extends Role implements Cashier {	
 	private String name;
-	private double cash = 500;		//modify
+	private double cash = 0;		//default
 	Timer timer = new Timer();
 	private EllenMenu menu = new EllenMenu();
 	
@@ -28,6 +29,7 @@ public class EllenCashierRole extends Role implements Cashier {
 	public enum MarketBillState {newBill, computing, waitingForChange, receivedChange, oweMoney, done};	//is this ok???
 	
 	private boolean onDuty;
+	private boolean opened;
 	private EllenHostRole host;
 
 	
@@ -35,6 +37,7 @@ public class EllenCashierRole extends Role implements Cashier {
 		super(p);
 		this.name = name;
 		onDuty = true;
+		opened = true;
 	}
 
 	public void addWaiter(Waiter w){	//hack
@@ -52,7 +55,7 @@ public class EllenCashierRole extends Role implements Cashier {
 	public void setHost(EllenHostRole h){
 		host = h;
 	}
-	
+
 	public void deductCash(double amount){
 		cash -= amount;
 	}
@@ -138,6 +141,7 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	public void msgGoOffDuty(double amount){
 		addToCash(amount);
+		ContactList.getInstance().getBank().directDeposit("ellenrestaurant", cash);
 		onDuty = false;
 		stateChanged();
 	}
@@ -146,6 +150,11 @@ public class EllenCashierRole extends Role implements Cashier {
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	public boolean pickAndExecuteAnAction() {
+		if (opened){
+			getDailyCapital();
+			opened = false;
+		}
+		
 		
 		//Customer checks
 		synchronized(checks){
@@ -201,6 +210,11 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 
 	// Actions
+	private void getDailyCapital(){
+		ContactList.getInstance().getBank().directWithdraw("ellenrestaurant", 1500);
+		cash = 1500;
+	}
+	
 	
 	public void ComputeBill(final Check c){
 		log("Computing bill");
