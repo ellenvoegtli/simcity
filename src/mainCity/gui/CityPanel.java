@@ -148,6 +148,7 @@ public class CityPanel extends JPanel{
 		System.out.println("selected house for person: " + person.getName() + " to live in");
 		PersonGui pg = new PersonGui(person, gui);
 		gui.getAnimationPanel().addPersonGui(pg);
+		pg.setAnimationPanel(gui.getAnimationPanel()); 
 		person.setGui(pg);
 		
 		gui.addPerson(person);

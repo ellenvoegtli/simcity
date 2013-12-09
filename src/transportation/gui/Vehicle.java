@@ -4,16 +4,23 @@ import java.awt.geom.*;
 
 
 public class Vehicle extends Rectangle2D.Double {
-	Color vehicleColor = Color.yellow;
+	Color vehicleColor;
 	public boolean atBusStop;
 	public int counter;
+	boolean isBus; 
 	
 	public enum Direction 
 	{Up, Down, Left, Right, SimpleUp, SimpleDown, SimpleLeft, SimpleRight}; 
 	public Direction myDirection; 
 	
-	public Vehicle( int x, int y, int width, int height ) {
+	public Vehicle( int x, int y, int width, int height, boolean iB ) {
 		super( x, y, width, height );
+		isBus = iB; 
+		if(isBus) 
+			vehicleColor = Color.yellow; 
+		else 
+			vehicleColor = Color.blue;
+			
 		atBusStop = false;
 	}
 	public void setLocation( int x, int y ) {

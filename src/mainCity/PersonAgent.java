@@ -919,9 +919,13 @@ public class PersonAgent extends Agent {
 			//will receive an arrived at destination message when done
 		}
 		else if(walk) {//chose car
-			//DoGoToLocationOnCar(d); //walk to car
+			gui.getInCar(); 
+			gui.DoGetOnRoad(); 
 			waitForGui();
-			//car.msgGoToPlace(d); //some message to tell the car where to go, will receive an arrived at destination message when done
+			gui.DoGoInside();
+			gui.AddCarToLane();
+			gui.DoGoToLocationOnCar(d); 
+			return;
 		}
 	}
 
