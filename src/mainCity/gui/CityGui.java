@@ -557,17 +557,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         controlPanel.setMinimumSize(controlDim);
         controlPanel.setMaximumSize(controlDim);
         //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
-        leftPanel.add(controlPanel, BorderLayout.SOUTH);
-                
-        /*Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-			public void run() {
-		        for (PersonAgent p : cityPanel.getOccupants()){
-		        	personPanel.addPerson(p.getName());
-		        }
-			}
-		}, 300);*/
-         
+        leftPanel.add(controlPanel, BorderLayout.SOUTH);         
 	}
 
 	public void showInfo(String name) {
@@ -701,22 +691,17 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		}
 		else if (e.getSource() == scenario1Button){
 			System.out.println("SCENARIO1 BUTTON PRESSED");
-			personPanel.getPersonList().clear();
+			personPanel.resetPanel();
 			cityPanel.parseConfig("config.txt");
 			
-			Timer timer = new Timer();
-	        timer.schedule(new TimerTask() {
-				public void run() {
-			        for (PersonAgent p : cityPanel.getOccupants()){
-			        	personPanel.addPerson(p.getName());
-			        }
-				}
-			}, 200);
+			generatePeopleList();
 		}
 		else if (e.getSource() == scenario2Button){
 			System.out.println("SCENARIO2 BUTTON PRESSED");
-			personPanel.getPersonList().clear();
+			personPanel.resetPanel();
 			cityPanel.parseConfig("config2.txt");
+			
+			generatePeopleList();
 		}
 		else if (e.getSource() == scenario3Button){
 			System.out.println("SCENARIO3 BUTTON PRESSED");
@@ -756,6 +741,16 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		this.view = view;
 	}
 	
+	private void generatePeopleList() {
+		Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+			public void run() {
+		        for (PersonAgent p : cityPanel.getOccupants()){
+		        	personPanel.addPerson(p.getName());
+		        }
+			}
+		}, 200);
+	}
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
