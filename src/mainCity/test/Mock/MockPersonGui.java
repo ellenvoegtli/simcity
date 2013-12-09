@@ -43,15 +43,13 @@ public class MockPersonGui extends Mock implements PersonGuiInterface{
 
 	@Override
 	public void getInCar() {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Gui told to go to get into car"));
 	}
 
 
 	@Override
 	public void getOutOfCar() {
-		// TODO Auto-generated method stub
-		
+		log.add(new LoggedEvent("Gui told to go to get out of car"));		
 	}
 
 
