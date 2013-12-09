@@ -125,8 +125,8 @@ public class Market2CustomerRole extends Role implements Customer {
 
 	//for alert log trace statements
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_CUSTOMER, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2_CUSTOMER, this.getName(), s);
 	}
 	
 	
@@ -271,7 +271,7 @@ public class Market2CustomerRole extends Role implements Customer {
 		}
 		if (state == AgentState.Leaving && event == AgentEvent.doneLeaving){
 			state = AgentState.DoingNothing;
-			//no action
+			super.setInactive();
 			return true;
 		}
 		return false;
@@ -378,7 +378,7 @@ public class Market2CustomerRole extends Role implements Customer {
 		}
 			
 		
-		if (bill.changeReceived == (bill.amountPaid - bill.charge)){
+		else if (bill.changeReceived == (bill.amountPaid - bill.charge)){
 			log("Equal. Change verified.");
 	        cashier.msgChangeVerified(this);
 
@@ -411,6 +411,7 @@ public class Market2CustomerRole extends Role implements Customer {
 	        state = AgentState.Leaving;
 	        bill = null;
 		}
+		
 	}
 	
 	

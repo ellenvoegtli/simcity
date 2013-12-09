@@ -40,7 +40,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	private Semaphore doneLeaving = new Semaphore(0, true);
 	
 	private boolean onDuty;
-
+	public boolean customer = false;
 		
 
 	public Market2EmployeeRole(PersonAgent p, String name) {
@@ -87,8 +87,8 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
     
 	//for alert log trace statements
 	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.MARKET_EMPLOYEE, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.MARKET2_EMPLOYEE, this.getName(), s);
 	}
     
 	// Messages
@@ -175,8 +175,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 
 
 	public void msgAtStation() {
-		//print("msgAtStation called");
-        AlertLog.getInstance().logMessage(AlertTag.MARKET, this.getName(), "msgAtStation called");
+		log("msgAtStation called");
 		atStation.release();// = true;
 		stateChanged();
 	}
@@ -215,17 +214,10 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 		
 		try {
 			for (MyCustomer mc : myCustomers){
-				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing){
+				if (mc.s == CustomerState.newCustomer && wState == WaiterState.doingNothing && !customer){
 					GreetCustomer(mc);
 					wState = WaiterState.busy;
-					return true;
-				}
-			}
-			//business check
-			for (MyBusiness mb : myBusinesses) {
-				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing){
-					ProcessOrder(mb);		//determine what we can fulfill, have cashier compute bill
-					wState = WaiterState.busy;
+					customer = true;
 					return true;
 				}
 			}
@@ -236,27 +228,9 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 					return true;
 				}
 			}
-			
-			//business check
-			for (MyBusiness mb : myBusinesses) {
-				if (mb.s == BusinessState.gotCheckFromCashier && wState == WaiterState.doingNothing){
-					FulfillOrder(mb);
-					wState = WaiterState.busy;
-					return true;
-				}
-			}
 			for (MyCustomer mc : myCustomers){
 				if (mc.s == CustomerState.gotCheckFromCashier && wState == WaiterState.doingNothing){
 					FulfillOrder(mc);
-					wState = WaiterState.busy;
-					return true;
-				}
-			}
-			
-			//business check
-			for (MyBusiness mb : myBusinesses) {
-				if (mb.s == BusinessState.doneFulfillingOrder && wState == WaiterState.doingNothing){
-					DeliverOrder(mb);
 					wState = WaiterState.busy;
 					return true;
 				}
@@ -272,9 +246,40 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 			for (MyCustomer mc : myCustomers) {
 				if (mc.s == CustomerState.leaving){
 					RemoveCustomer(mc);
+					customer = false;
 					return true;
 				}
 			}
+			
+			
+			//business check
+			for (MyBusiness mb : myBusinesses) {
+				if (mb.s == BusinessState.ordered && wState == WaiterState.doingNothing && !customer){
+					ProcessOrder(mb);		//determine what we can fulfill, have cashier compute bill
+					wState = WaiterState.busy;
+					customer = true;
+					return true;
+				}
+			}
+			//business check
+			for (MyBusiness mb : myBusinesses) {
+				if (mb.s == BusinessState.gotCheckFromCashier && wState == WaiterState.doingNothing){
+					FulfillOrder(mb);
+					wState = WaiterState.busy;
+					return true;
+				}
+			}
+			
+			//business check
+			for (MyBusiness mb : myBusinesses) {
+				if (mb.s == BusinessState.doneFulfillingOrder && wState == WaiterState.doingNothing){
+					DeliverOrder(mb);
+					wState = WaiterState.busy;
+					customer = false;
+					return true;
+				}
+			}
+			
 
 			wState = WaiterState.doingNothing;
 			
@@ -300,7 +305,6 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 		try {
 			atWaitingRoom.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -309,7 +313,6 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 		try {
 			atStation.acquire();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		mc.c.msgMayITakeYourOrder(this);
@@ -319,12 +322,6 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	private void ProcessOrder(MyCustomer mc){
 		log("Processing order for " + mc.c.getName());
 		for (Map.Entry<String, Integer> entry : mc.inventoryOrdered.entrySet()){
-			/*if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
-				mc.inventoryFulfilled.put(entry.getKey(), entry.getValue());
-			}
-			else {
-				mc.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - marketMenu.getStock(entry.getKey())));
-			}*/
 			for (Item i : marketMenu.menuItems){
 				if (i.getItem().equalsIgnoreCase(entry.getKey())){
 					if (entry.getValue() <= i.getStock())
@@ -383,12 +380,6 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	private void ProcessOrder(MyBusiness mb){
 		log("Processing order for " + mb.restaurantName);
 		for (Map.Entry<String, Integer> entry : mb.inventoryOrdered.entrySet()){
-			/*if (entry.getValue() <= marketMenu.getStock(entry.getKey())){	//if the num desired <= amount market has, add it to the inventoryFulfilled list
-				mb.inventoryFulfilled.put(entry.getKey(), entry.getValue());
-			}
-			else {		//take everything the market has left
-				mb.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - marketMenu.getStock(entry.getKey())));
-			}*/
 			for (Item i : marketMenu.menuItems){
 				if (i.getItem().equalsIgnoreCase(entry.getKey())){
 					if (entry.getValue() <= i.getStock())
@@ -403,12 +394,10 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	private void SendBillToCashier(MyBusiness mb){
 		log("Sending bill to cashier");
-		//gui to go to cashier
 		employeeGui.DoGoToCashier();
 		try {
 			atCashier.acquire();
 		} catch(InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		cashier.msgComputeBill(mb.inventoryFulfilled, mb.restaurantName, this);
@@ -438,7 +427,7 @@ public class Market2EmployeeRole extends Role implements Employee, WorkerRole {
 		mb.s = BusinessState.sentForDelivery;	//unnecessary
 		employeeGui.DoGoToStation();
 		
-		log("Removing customer: " + mb.restaurantName);
+		log("Removing business: " + mb.restaurantName);
 		myBusinesses.remove(mb);
 	}
 	

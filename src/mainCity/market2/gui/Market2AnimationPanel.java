@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
+import mainCity.contactList.ContactList;
 import mainCity.gui.*;
 
 
@@ -37,10 +38,11 @@ public class Market2AnimationPanel extends CityCard implements ActionListener {
 	Map<Integer, Integer> stationY = new TreeMap<Integer, Integer>();
 
     private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> personGuis = new ArrayList<Gui>();
 
     public Market2AnimationPanel(CityGui gui) {
     	super(gui);
-    	//ContactList.getInstance().setMarket(market);
+    	ContactList.getInstance().setMarket2(market);
     	
     	stationX.put(1, 150);	//station 1
     	stationY.put(1, 50);
@@ -110,7 +112,7 @@ public class Market2AnimationPanel extends CityCard implements ActionListener {
         
         
 
-        for(Gui gui : guis) {
+        for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -121,10 +123,16 @@ public class Market2AnimationPanel extends CityCard implements ActionListener {
             	gui.draw(g2);
             }
         }
+        
+        for(Gui gui : personGuis) {
+            if (gui.isPresent()) {
+            	gui.draw(g2);
+            }
+        }
     }
     
     public void backgroundUpdate() {
-    	for(Gui gui : guis) {
+    	for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -132,9 +140,13 @@ public class Market2AnimationPanel extends CityCard implements ActionListener {
     }
 
     public void addGui(CustomerGui gui) {
-        guis.add(gui);
+    	personGuis.add(gui);
     }
     public void addGui(EmployeeGui gui){
-    	guis.add(gui);
+    	personGuis.add(gui);
+    }
+    @Override
+    public void clearPeople() {
+    	personGuis.clear();
     }
 }

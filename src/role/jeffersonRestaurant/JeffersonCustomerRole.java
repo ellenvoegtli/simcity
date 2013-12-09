@@ -10,6 +10,8 @@ import java.util.TimerTask;
 import java.util.Random;
 
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.jeffersonrestaurant.Menu;
 import mainCity.restaurants.jeffersonrestaurant.gui.CustomerGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
@@ -103,13 +105,13 @@ public class JeffersonCustomerRole extends Role implements Customer {
 	// Messages
 
 	public void gotHungry() {//from animation
-		print("I'm hungry");
+		log("I'm hungry");
 		event = AgentEvent.gotHungry;
 		stateChanged();
 	}
 
 	public void msgSitAtTable(int t, Menu m, Waiter w) {
-		print("Received msgSitAtTable");
+		log("Received msgSitAtTable");
 		table = t;
 		menu=m;
 		waiter=w;
@@ -167,7 +169,7 @@ public class JeffersonCustomerRole extends Role implements Customer {
 	
 	public void msgRestaurantFullLeave(){
 		state=AgentState.LeavingBeforeSeated;
-		Do("No tables, I'm leaving");
+		log("No tables, I'm leaving");
 		stateChanged();
 	}
 	
@@ -242,7 +244,7 @@ public class JeffersonCustomerRole extends Role implements Customer {
 		
 		if(state==AgentState.waitingForFood && event==AgentEvent.cantOrder & this.menu.choices.size()==0){
 			state = AgentState.waitingForCheck;
-			Do(" out of options");
+			log(" out of options");
 			requestCheck();
 			return true;
 			
@@ -283,9 +285,14 @@ public class JeffersonCustomerRole extends Role implements Customer {
 	}
 
 	// Actions
+	
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.JEFFERSON_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.JEFFERSON_CUSTOMER, this.getName(), s);
+	}
 
 	private void goToRestaurant() {
-		Do("Going to restaurant");
+		log("Going to restaurant");
 		
 		customerGui.DoGoToRestaurant();
 		host.msgIWantFood(this);//send our instance, so he can respond to us
@@ -331,7 +338,7 @@ public class JeffersonCustomerRole extends Role implements Customer {
 				
 				
 				print(choice);
-				print("Done deciding");
+				log("Done deciding");
 				event = AgentEvent.decided;
 				stateChanged();
 			}
@@ -348,7 +355,7 @@ public class JeffersonCustomerRole extends Role implements Customer {
 	}
 
 	private void EatFood() {
-		Do("Eating Food");
+		log("Eating Food");
 		customerGui.drawFood(choice);
 		//This next complicated line creates and starts a timer thread.
 		//We schedule a deadline of getHungerLevel()*1000 milliseconds.
@@ -385,7 +392,7 @@ public class JeffersonCustomerRole extends Role implements Customer {
 		if(!(debt==0)){
 			money=money-prices.get(choice);
 			money=money-debt;
-			Do("here is my money plus debt owed");
+			log("here is my money plus debt owed");
 			waiter.msgHereIsPayment(this, prices.get(choice)+debt);
 			leaveTable();
 			return;
@@ -393,7 +400,7 @@ public class JeffersonCustomerRole extends Role implements Customer {
 		
 		if(money<0){
 			debt=debt+prices.get(choice);
-			Do("Will pay next time, leaving");
+			log("Will pay next time, leaving");
 			money=money+100;
 			waiter.msgHereIsPayment(this, 0);
 			leaveTable();
@@ -402,7 +409,7 @@ public class JeffersonCustomerRole extends Role implements Customer {
 		
 		
 		money=money-prices.get(choice);
-		Do("here is my money");
+		log("here is my money");
 		waiter.msgHereIsPayment(this,prices.get(choice));
 		leaveTable();
 	}
@@ -442,8 +449,9 @@ public class JeffersonCustomerRole extends Role implements Customer {
 	}
 
 	public boolean restaurantOpen() {
-		if(host != null && host.isActive() && host.isOpen())
+		if(host != null && host.isActive() && host.isOpen()){
 			return true;
+		}
 		return false;
 	}
 

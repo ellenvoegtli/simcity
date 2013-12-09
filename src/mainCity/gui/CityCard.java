@@ -54,10 +54,7 @@ public class CityCard extends JPanel {
 		
 	}
 
-	//A method to be overwritten
-	public void backgroundUpdate() 
-	{
-		
-	}
-
+	public void backgroundUpdate(){}
+	
+	public void clearPeople(){}
 }

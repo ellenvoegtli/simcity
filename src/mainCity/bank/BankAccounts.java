@@ -9,6 +9,8 @@ import mainCity.PersonAgent;
 public class BankAccounts {
 
 	public List<BankAccount> accounts = Collections.synchronizedList(new ArrayList<BankAccount>());
+	public List<BusinessAccount> businessaccounts = Collections.synchronizedList(new ArrayList<BusinessAccount>());
+	public double FDICfund = 250000;
 	
 	public class BankAccount{
 		
@@ -31,10 +33,29 @@ public class BankAccounts {
 	    
 	}
 	
+	public class BusinessAccount{
+		public String businessName;
+		public double balance;
+		
+		public BusinessAccount(String name, double initialcapital){
+			businessName = name;
+			balance=initialcapital;
+			
+		}
+		
+	}
+	
 	public double getNumberOfAccounts(){
 		return accounts.size();
 		
 	}
+	
+	public void addBusinessAccount(String name, double capital){
+		businessaccounts.add(new BusinessAccount(name, capital));
+		
+		
+	}
+	
 	public void addAccount(String cname, double amount, PersonAgent pa, double newaccnum){
 		accounts.add(new BankAccount(cname, amount, pa, newaccnum));
 		System.out.println("Account added");

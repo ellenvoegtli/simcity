@@ -9,7 +9,7 @@ public class Vehicle extends Rectangle2D.Double {
 	public int counter;
 	
 	public enum Direction 
-	{Up, Down, Left, Right}; 
+	{Up, Down, Left, Right, SimpleUp, SimpleDown, SimpleLeft, SimpleRight}; 
 	public Direction myDirection; 
 	
 	public Vehicle( int x, int y, int width, int height ) {

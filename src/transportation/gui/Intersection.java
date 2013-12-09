@@ -48,31 +48,26 @@ public class Intersection {
 	
 	public void addVehicle( Vehicle v ) {
 		
-		System.out.println("Adding Vehicle: Bus Location X: " + v.getX() + ", Bus Location Y: " + v.getY());
-		System.out.println("Conditions: Y < " + (yOrigin + (RoadWidth/2)) + " and > than " + (yOrigin + RoadWidth));
-		
 		if( (v.getY() > (yOrigin + (RoadWidth/2))) && (v.getY() < (yOrigin + RoadWidth)) ){ 
-			System.out.println("Left"); 
 			v.setRect( xOrigin, (yOrigin + (RoadWidth/2)+5), v.getWidth(), v.getHeight() );
-			v.setDirection(Vehicle.Direction.Left);
+			v.setDirection(Vehicle.Direction.Right);
 		}
 		
 		//Entering from top right horizontally
 		else if( v.getY() == yOrigin+5 ) {
 			v.setRect( (xOrigin + (RoadWidth/2))+5, yOrigin+5, v.getWidth(), v.getHeight() );
-			v.setDirection(Vehicle.Direction.Right);
+			v.setDirection(Vehicle.Direction.Left);
 		}
 		
 		//Entering from top left vertically 
 		else if( (v.getX() > xOrigin) && (v.getX() < (xOrigin + (RoadWidth/2))) ) { 
-			System.out.println("Adding vehicle to intersection from top right"); 
 			v.setRect( xOrigin+5, (yOrigin - (RoadWidth/2))+5, v.getWidth(), v.getHeight() );
 			v.setDirection(Vehicle.Direction.Down);
 		}
 		
 		//Entering from the bottom right vertically
 		else if( (v.getX() > (xOrigin + (RoadWidth/2))) && (v.getX() < (xOrigin + RoadWidth)) ) { 
-			v.setRect( (xOrigin + (RoadWidth/2))+5, yOrigin, v.getWidth(), v.getHeight() );
+			v.setRect( (xOrigin + (RoadWidth/2))+5, (yOrigin + (RoadWidth/2))+5, v.getWidth(), v.getHeight() );
 			v.setDirection(Vehicle.Direction.Up);
 		}
 		
@@ -92,31 +87,31 @@ public class Intersection {
 			Vehicle v = vehicles.get(i);
 			if ( !redLight && !v.atBusStop ) {
 				
-				if(v.myDirection == Vehicle.Direction.Left){
+				if(v.myDirection == Vehicle.Direction.Right){
 					v.move( xVelocity, 0 );
 					if(v.getY() < 150) { 
 						if(v.getX() > (xOrigin)) {
-							v.myDirection = Vehicle.Direction.Down; 
+							v.myDirection = Vehicle.Direction.SimpleDown; 
 						}
 					}
 					
 					else if(v.getY() >= 150) { 
-						if(v.getX() > (xOrigin + (RoadWidth/2)+5)){ 
-							v.myDirection = Vehicle.Direction.Up; 
+						if(v.getX() > (xOrigin + (RoadWidth/2))){ 
+							v.myDirection = Vehicle.Direction.SimpleUp; 
 						}
 					}
 				}
 				
-				else if(v.myDirection == Vehicle.Direction.Right){
+				else if(v.myDirection == Vehicle.Direction.Left){
 					v.move( -xVelocity, 0 );
 					if(v.getY() < 150) { 
 						if(v.getX() < (xOrigin+10)) { 
-							v.myDirection = Vehicle.Direction.Down; 
+							v.myDirection = Vehicle.Direction.SimpleDown; 
 						}
 					}
 					else if (v.getY() >= 150) { 
 						if(v.getX() < (xOrigin + (RoadWidth/2)+5)){ 
-							v.myDirection = Vehicle.Direction.Up; 
+							v.myDirection = Vehicle.Direction.SimpleUp; 
 						}
 					}
 				}
@@ -124,13 +119,13 @@ public class Intersection {
 				else if(v.myDirection == Vehicle.Direction.Down){
 					v.move( 0, yVelocity );
 					if(v.getX() < 200) { 
-						if(v.getY() > (yOrigin + (RoadWidth))){ 
-							v.myDirection = Vehicle.Direction.Right; 
+						if(v.getY() > (yOrigin + (RoadWidth/2))){ 
+							v.myDirection = Vehicle.Direction.SimpleRight; 
 						}
 					}
 					else if (v.getX() >= 200) { 
 						if(v.getY() > (yOrigin + (RoadWidth/2))){ 
-							v.myDirection = Vehicle.Direction.Left;
+							v.myDirection = Vehicle.Direction.SimpleLeft;
 						}
 					}
 				}
@@ -138,18 +133,34 @@ public class Intersection {
 				else if(v.myDirection == Vehicle.Direction.Up){
 					v.move( 0, -yVelocity );
 					if(v.getX() > 200) { 
-						if(v.getY() > (yOrigin + (RoadWidth/2))) { 
-							v.myDirection = Vehicle.Direction.Left; 
+						if(v.getY() < (yOrigin + +10)) { 
+							v.myDirection = Vehicle.Direction.SimpleLeft; 
 						}
 					}
 					else if (v.getX() < 200) { 
-						if(v.getY() > (yOrigin + RoadWidth)){ 
-							v.myDirection = Vehicle.Direction.Right;
+						if(v.getY() < (yOrigin + (RoadWidth/2))+10){ 
+							v.myDirection = Vehicle.Direction.SimpleRight;
 						}
 					}
 				}
+				
+				else if(v.myDirection == Vehicle.Direction.SimpleLeft) { 
+					v.move( -xVelocity, 0 );
+				}
+				
+				else if(v.myDirection == Vehicle.Direction.SimpleRight) { 
+					v.move( xVelocity, 0 );			
+				}
+								
+				else if(v.myDirection == Vehicle.Direction.SimpleUp) { 
+					v.move( 0, -yVelocity );
+				}
+								
+				else if(v.myDirection == Vehicle.Direction.SimpleDown) { 
+					v.move( 0, yVelocity );
+				}
 				else { 
-					System.out.println("not supposed to get here");
+					System.out.println("Intersection logic error: Never supposed to reach here.");
 				}
 			}
 			

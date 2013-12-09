@@ -1,10 +1,14 @@
 package mainCity.market1.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -19,6 +23,10 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
     private Image bufferImage;
     private Dimension bufferSize;
     static final int timerStart = 10;
+    private BufferedImage shelvesImg = null;
+    private BufferedImage marketcashierstationImg = null;
+    private BufferedImage deliverystationImg = null;
+    private BufferedImage stockroomImg = null;
     
     static final int agentWidth = 20, agentHeight = 20;
     static final int stationWidth = 50, stationHeight = 17;
@@ -37,10 +45,21 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
 	Map<Integer, Integer> stationY = new TreeMap<Integer, Integer>();
 
     private List<Gui> guis = new ArrayList<Gui>();
+    private List<Gui> personGuis = new ArrayList<Gui>();
 
     public MarketAnimationPanel(CityGui gui) {
     	super(gui);
     	ContactList.getInstance().setMarket(market);
+    	StringBuilder path = new StringBuilder("imgs/");
+        try {
+			shelvesImg = ImageIO.read(new File(path.toString() + "shelves.png"));
+			marketcashierstationImg = ImageIO.read(new File(path.toString() + "marketcashierstation.png"));
+			deliverystationImg = ImageIO.read(new File(path.toString() + "deliverystation.png"));
+			stockroomImg = ImageIO.read(new File(path.toString() + "stockroom.png"));
+        } 
+        catch (IOException e) {	
+			e.printStackTrace();
+		}
     	
     	stationX.put(1, 150);	//station 1
     	stationY.put(1, 50);
@@ -82,6 +101,7 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
 
         Color purple = new Color(147, 112, 219);
         //Here are the stations
+        /*
         g2.setColor(purple);
         g2.fillRect(stationX.get(1), stationY.get(1), stationWidth, stationHeight);
         g2.fillRect(stationX.get(2), stationY.get(2), stationWidth, stationHeight);
@@ -91,26 +111,38 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
         g2.fillRect(stationX.get(6), stationY.get(6), stationWidth, stationHeight);
         g2.fillRect(stationX.get(7), stationY.get(7), stationWidth, stationHeight);
         g2.fillRect(stationX.get(8), stationY.get(8), stationWidth, stationHeight);
+        */
+        
+        g.drawImage(shelvesImg,stationX.get(1), stationY.get(1),null);
+        g.drawImage(shelvesImg,stationX.get(2), stationY.get(2),null);
+        g.drawImage(shelvesImg,stationX.get(3), stationY.get(3),null);
+        g.drawImage(shelvesImg,stationX.get(4), stationY.get(4),null);
+        g.drawImage(shelvesImg,stationX.get(5), stationY.get(5),null);
+        g.drawImage(shelvesImg,stationX.get(6), stationY.get(6),null);
+        g.drawImage(shelvesImg,stationX.get(7), stationY.get(7),null);
+        g.drawImage(shelvesImg,stationX.get(8), stationY.get(8),null);
         
         
         //cashier
         Color green = new Color(46, 139, 87);
         g2.setColor(green);
-        g2.fillRect(cashierX, cashierY, cashierWidth, cashierHeight);
-        
+        //g2.fillRect(cashierX, cashierY, cashierWidth, cashierHeight);
+        g.drawImage(marketcashierstationImg,cashierX, cashierY,null);
         
         //delivery man's station
         Color pink = new Color(247, 26, 152);
         g2.setColor(pink);
-        g2.fillRect(deliveryX, deliveryY, deliveryWidth, deliveryHeight);
+        //g2.fillRect(deliveryX, deliveryY, deliveryWidth, deliveryHeight);
+        g.drawImage(deliverystationImg,deliveryX,deliveryY,null);
+        
         
         Color yellow = new Color(240, 246, 78);
         g2.setColor(yellow);
-        g2.fillRect(stockRoomX, stockRoomY, stockRoomWidth, stockRoomHeight);
-        
+       // g2.fillRect(stockRoomX, stockRoomY, stockRoomWidth, stockRoomHeight);
+        g.drawImage(stockroomImg, stockRoomX, stockRoomY-20, null);
         
 
-        for(Gui gui : guis) {
+        for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -121,10 +153,16 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
             	gui.draw(g2);
             }
         }
+        
+        for(Gui gui : personGuis) {
+            if (gui.isPresent()) {
+            	gui.draw(g2);
+            }
+        }
     }
     
     public void backgroundUpdate() {
-    	for(Gui gui : guis) {
+    	for(Gui gui : personGuis) {
             if (gui.isPresent()) {
                 gui.updatePosition();
             }
@@ -132,7 +170,7 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
     }
 
     public void addGui(CustomerGui gui) {
-        guis.add(gui);
+    	personGuis.add(gui);
     }
     /*
     public void addGui(HostGui gui) {
@@ -140,6 +178,11 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
     }
     */
     public void addGui(EmployeeGui gui){
-    	guis.add(gui);
+    	personGuis.add(gui);
+    }
+    
+    @Override
+    public void clearPeople() {
+    	personGuis.clear();
     }
 }

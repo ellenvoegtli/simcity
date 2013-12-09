@@ -72,7 +72,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 	}
 
 	public PersonGui(PersonAgent p) {
-			this.agent = p;
+		this.agent = p;
 	}
 
 	public void updatePosition() {
@@ -81,7 +81,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		else if (xPos > xDestination)
 			xPos--;
 
-		if (yPos < yDestination)
+		else if (yPos < yDestination)
 			yPos++;
 		else if (yPos > yDestination)
 			yPos--;
@@ -119,7 +119,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		//if(yPos < )
 	}
 
-	@Override
 	public void DoGoToLocation(PersonAgent.CityLocation destination) {
 		switch(destination) {
 			case restaurant_marcus:
@@ -160,7 +159,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		}
 	}
 	
-	@Override
 	public void DoGoToStop() {
 		System.out.println("Gui is told to go to nearest bus stop");
 		
@@ -188,6 +186,9 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			case market:
 				calculatePath(440, 55);
 				break;
+			case market2:
+				calculatePath(670, 140);
+				break;
 			case bank:
 				calculatePath(105, 230);
 				break;
@@ -205,7 +206,6 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		}		
 	}
 	
-	@Override
 	public void DoGoToLocationOnBus(PersonAgent.CityLocation destination) { 
 		switch(destination) {
 			case restaurant_marcus:
@@ -232,6 +232,10 @@ public class PersonGui implements Gui, PersonGuiInterface{
 				xDestination = xPos = 445;
 				yDestination = yPos = 55;
 				break;
+			case market2:
+				xDestination = xPos = 670;
+				yDestination = yPos = 140;
+				break;
 			case bank:
 				xDestination = xPos = 105;
 				yDestination = yPos = 230;
@@ -247,12 +251,10 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		}		
 	}
 	
-	@Override
 	public void DoGoInside() {
 		isVisible = false;
 	}
 	
-	@Override
 	public void DoGoOutside() {
 		isVisible = true;
 	}
@@ -315,7 +317,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			if(getDistance(pathNext, destination) > getDistance(node2, destination)) {
 				pathNext = node2;
 			}
-			if(getDistance(pathNext, destination) > getDistance(node3, destination)) {
+			else if(getDistance(pathNext, destination) > getDistance(node3, destination)) {
 				pathNext = node3;
 			}
 			

@@ -8,6 +8,8 @@ import java.util.concurrent.Semaphore;
 import role.Role;
 import role.jeffersonRestaurant.JeffersonWaiterRole.*;
 import mainCity.PersonAgent;
+import mainCity.gui.trace.AlertLog;
+import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Host;
@@ -55,7 +57,7 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 		onDuty=true;
 		// make some tables
 		tables =Collections.synchronizedList (new ArrayList<Table>(NTABLES));
-		System.out.println("making tables");
+		log("Host instantiated");
 		tablesFull=false;
 		for (int ix = 1; ix <= NTABLES; ix++) {
 			tables.add(new Table(ix));
@@ -75,7 +77,7 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	//messages
 
 	public void msgEndShift(){
-		Do("jeffersonHost closing");
+		log("jeffersonHost closing");
 		onDuty=false;
 		stateChanged();
 	}
@@ -119,7 +121,7 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 		for(Table t:tables){
 			if(t.tableNumber==table){
 				t.setUnoccupied();
-				print("table set unoccupied");
+				log("table set unoccupied");
 				stateChanged();
 			}
 			
@@ -129,7 +131,7 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	
 	public void msgWantToGoOnBreak(Waiter w){
 		breakWaiters.add(new myWaiters(w));
-		Do("break request recieved");
+		log("break request recieved");
 		stateChanged();
 	}
 		
@@ -158,13 +160,13 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 				if(w.wantToBreak==true){
 					if(waiters.size()<=1){
 						
-						System.out.println("Break denied");
+						log("Break denied");
 						tellWaiterNo(w.mw);
 						w.wantToBreak=false;
 						return true;
 					}
 					else{		
-						System.out.println("break approved");
+						log("break approved");
 						w.wantToBreak=false;
 						tellWaiterYes(w.mw);
 						waiters.remove(w.mw);
@@ -203,7 +205,7 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 						waiter=waiters.get(index);
 						
 						//waitingCustomers.get(0).setWaiter(waiter);
-						Do("waiter assigned");
+						log("waiter assigned");
 						tellWaiterToSeatAtTable(waitingCustomers.get(0), table.getTableNumber());//the action
 						//System.out.println("messaged waiter to seat cust");
 						table.setOccupant(waitingCustomers.get(0));
@@ -227,6 +229,10 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	
 	
 	//Actions
+	public void log(String s){
+        AlertLog.getInstance().logMessage(AlertTag.JEFFERSON_RESTAURANT, this.getName(), s);
+        AlertLog.getInstance().logMessage(AlertTag.JEFFERSON_HOST, this.getName(), s);
+	}
 	public boolean closeBuilding() {
 		if(!waitingCustomers.isEmpty()) return false;
 		
@@ -271,11 +277,11 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	
 	
 		private void tellWaiterNo(Waiter w){
-			System.out.println("Break Denied");
+			log("Break Denied");
 		}
 		
 		private void tellWaiterYes(Waiter w){
-			System.out.println("telling waiter ok to break");
+			log("telling waiter ok to break");
 			w.msgYouCanBreak();
 			
 		}
@@ -295,7 +301,8 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 		}
 		
 		public boolean isOpen() {
-			return (cook != null && cook.isActive()) && (cashier != null && cashier.isActive() && !waiters.isEmpty());
+			//TODO removed check for empty waiter list, make sure waiters are assign customers on entry/return
+			return (cook != null && cook.isActive()) && (cashier != null && cashier.isActive());
 		}
 		
 		public void setCook(JeffersonCookRole ck){
