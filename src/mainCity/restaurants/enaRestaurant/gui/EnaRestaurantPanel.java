@@ -2,7 +2,7 @@ package mainCity.restaurants.enaRestaurant.gui;
 
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
-import mainCity.market1.gui.CustomerGui;
+import mainCity.market.gui.CustomerGui;
 import mainCity.restaurants.enaRestaurant.EnaCashierRole;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaSharedWaiterRole;

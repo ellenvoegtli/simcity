@@ -2,7 +2,7 @@ package mainCity.interfaces;
 
 import java.util.Map;
 
-import mainCity.market1.interfaces.MarketCashier;
+import mainCity.market.interfaces.MarketCashier;
 
 
 public interface DeliveryMan {

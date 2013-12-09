@@ -1,7 +1,7 @@
 package mainCity.gui;
 
 import mainCity.interfaces.*;
-import mainCity.market1.interfaces.DeliveryManGuiInterface;
+import mainCity.market.interfaces.DeliveryManGuiInterface;
 import mainCity.gui.*;
 import role.market.MarketDeliveryManRole;
 

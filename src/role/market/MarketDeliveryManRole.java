@@ -5,8 +5,8 @@ import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
-import mainCity.market1.interfaces.DeliveryManGuiInterface;
-import mainCity.market1.interfaces.MarketCashier;
+import mainCity.market.interfaces.DeliveryManGuiInterface;
+import mainCity.market.interfaces.MarketCashier;
 import role.Role;
 
 import java.util.*;

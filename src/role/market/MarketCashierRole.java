@@ -7,9 +7,9 @@ import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.WorkerRole;
-import mainCity.market1.Market1Menu;
-import mainCity.market1.Market1Menu.Item;
-import mainCity.market1.interfaces.*;
+import mainCity.market.MarketMenu;
+import mainCity.market.MarketMenu.Item;
+import mainCity.market.interfaces.*;
 
 
 
@@ -18,7 +18,7 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	Greeter greeter;
 	private double cash = 0;
 	Timer timer = new Timer();
-	private Market1Menu marketMenu = new Market1Menu();
+	private MarketMenu marketMenu = new MarketMenu();
 	
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());	//from waiters
 	private List<Employee> employees = Collections.synchronizedList(new ArrayList<Employee>());

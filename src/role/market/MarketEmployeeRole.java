@@ -1,9 +1,9 @@
 package role.market;
 
 import mainCity.PersonAgent;
-import mainCity.market1.Market1Menu;
-import mainCity.market1.Market1Menu.Item;
-import mainCity.market1.interfaces.*;
+import mainCity.market.MarketMenu;
+import mainCity.market.MarketMenu.Item;
+import mainCity.market.interfaces.*;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
@@ -20,7 +20,7 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	private Greeter host;
 	private MarketCashier cashier;
 	private DeliveryMan deliveryMan;
-	private Market1Menu marketMenu = new Market1Menu();
+	private MarketMenu marketMenu = new MarketMenu();
 	
 	public EmployeeGuiInterface employeeGui = null;
 	private int homeX, homeY;
