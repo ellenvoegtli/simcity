@@ -311,9 +311,6 @@ public class PersonAgent extends Agent {
 						currentAction.state = ActionState.done;
 						return true;
 					}
-					/*else if (event == PersonEvent.arrivedAtMarket2 && !((Market2CustomerRole) customer).getGui().goInside()){
-						return true;
-					}*/
 					
 					//check home agent to get a list of what they need?
 					customer.setActive();
@@ -1012,7 +1009,6 @@ public class PersonAgent extends Agent {
 				break;
 		}
 		
-		//currentAction.type = ActionType.market;
 		event = PersonEvent.arrivedAtMarket;
 		stateChanged();
 
