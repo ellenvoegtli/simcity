@@ -996,7 +996,7 @@ public class PersonAgent extends Agent {
 	
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
-		//Decide between restaurant or home
+
 		handleAction(currentAction.type);
 		boolean temp = true;
 		
@@ -1054,17 +1054,17 @@ public class PersonAgent extends Agent {
 	
 	private void goToMarket() {
 		switch((int) (Math.random() * 2)) {
-		case 0:
-			output("Going to market 1");
-			travelToLocation(CityLocation.market);
-			currentAction.type = ActionType.market;
-			break;
-		case 1:
-			output("Going to market 2");
-			travelToLocation(CityLocation.market2);
-			currentAction.type = ActionType.market2;
-			break;
-		default:
+			case 0:
+				output("Going to market 1");
+				travelToLocation(CityLocation.market);
+				currentAction.type = ActionType.market;
+				break;
+			case 1:
+				output("Going to market 2");
+				travelToLocation(CityLocation.market2);
+				currentAction.type = ActionType.market2;
+				break;
+			default:
 				break;
 		}
 		
@@ -1098,7 +1098,6 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void boardBus() {
-		///message the bus
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			synchronized(ContactList.stops.get(i).waitingPeople){
 				for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
@@ -1186,6 +1185,39 @@ public class PersonAgent extends Agent {
 		this.accountnumber = accountnumber;
 	}
 	
+	public void setHomePlace(boolean renter) {
+		if(renter) {
+			for(ApartmentObject apartment : AnimationPanel.getApartments()) {
+				if(apartment.getComplex().size() <= 3) {
+					this.homePlace = apartment.getBuild();
+					print("assigned to apartment" +apartment.getComplex().size());
+					apartment.getComplex().add(apartment.getComplex().size());
+					//AnimationPanel.getApts().add(apartment.getComplexSize().size()+1);
+					//AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
+					break;
+				}
+			}
+		}
+		
+		if(!renter) {
+			for(HomeObject house : AnimationPanel.getHouses()) {
+				if(house.getBusy() == false) {
+					this.homePlace = house.getBuild();
+					house.setBusy(true);
+					return;
+				}
+			}
+		}
+	}
+	
+	public Building getHomePlace() {
+		return homePlace;
+	}
+
+	public void setHomePlace(Building homePlace) {
+		this.homePlace = homePlace;
+	}
+
 	//---Used for Unit Testing---//
 	public Map<ActionType, Role> getRoles() {
 		return roles;
@@ -1210,50 +1242,7 @@ public class PersonAgent extends Agent {
 	public PersonState getState() {
 		return state;
 	}
-	//---      ---//
-	
-	public void setHomePlace(boolean renter)
-	{
-		if(renter)
-		{	for(ApartmentObject apartment : AnimationPanel.getApartments())
-			//for(Building apartment : AnimationPanel.getApartments().keySet())
-			{
-				if(apartment.getComplex().size() <= 3)
-				{
-					this.homePlace = apartment.getBuild();
-					print("assigned to apartment" +apartment.getComplex().size());
-					apartment.getComplex().add(apartment.getComplex().size());
-						//AnimationPanel.getApts().add(apartment.getComplexSize().size()+1);
-						//AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
-					break;
-				}
-			}
-		}
-		
-		if(!renter)
-		{
-
-			for(HomeObject house : AnimationPanel.getHouses())
-			{
-				if(house.getBusy() == false)
-				{
-					this.homePlace = house.getBuild();
-					house.setBusy(true);
-					return;
-				}
-			
-
-			}
-		}
-	}
-	
-	public Building getHomePlace() {
-		return homePlace;
-	}
-
-	public void setHomePlace(Building homePlace) {
-		this.homePlace = homePlace;
-	}
+	//----------------//
 	
 	private boolean actionExists(ActionType type) {
 		synchronized(actions) {
@@ -1265,7 +1254,7 @@ public class PersonAgent extends Agent {
 		}
 	}
 
-	//Lower the priority level, the more "important" it is (it'll get done faster)
+	//Lower the priority level, the more "important" it is (it'll get done earlier)
 	public enum ActionState {created, inProgress, done}
 	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, 
 		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
