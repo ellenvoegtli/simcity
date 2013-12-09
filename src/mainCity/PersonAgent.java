@@ -290,7 +290,7 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtWork) {
 				output("Arrived at work!");
 				handleRole(currentAction.type);
-				System.out.println("heeeree");
+
 				synchronized(roles) {
 					roles.get(currentAction.type).setActive();
 				}

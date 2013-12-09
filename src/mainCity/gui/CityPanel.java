@@ -77,7 +77,7 @@ public class CityPanel extends JPanel{
 		 };
 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		 executor.scheduleAtFixedRate(cityClock, 0, 15, TimeUnit.SECONDS); //Timer goes off every 15 seconds
+		 executor.scheduleAtFixedRate(cityClock, 0, 3, TimeUnit.SECONDS); //Timer goes off every 15 seconds
 	}
 	
 	public void addDeliveryGui(Market1DeliveryManRole d){
