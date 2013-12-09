@@ -65,7 +65,7 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			}
 		}
 
-		if (this.atEndPoint()) 
+		else if (this.atEndPoint()) 
 		{
 			
 			if((xDestination == -10 && yDestination == 45) && atDestination == true)
@@ -74,14 +74,14 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 				System.out.println("******Destination reached*******");
 				person.msgAtDestination();
 			}
-			if((xDestination == 250 && yDestination == 150) && atDestination == true)
+			else if((xDestination == 250 && yDestination == 150) && atDestination == true)
 			{
 				atDestination = false;	
 				System.out.println("******Destination reached*******");
 				person.msgAtDestination();
 			}
 			
-			if ((((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 70 && yDestination == 100) ) 
+			else if ((((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 70 && yDestination == 100) ) 
 					|| (xDestination == 350 && yDestination == 30) || (xDestination == 450 && yDestination == 30) || (xDestination == 400 && yDestination == 30) || (xDestination == 415 && yDestination == 63) || (xDestination == 50 && yDestination == 55) )
 																																								&& atDestination == true)
 			{
