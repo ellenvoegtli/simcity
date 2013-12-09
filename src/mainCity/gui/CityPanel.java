@@ -39,7 +39,7 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg1); 
     	bus1.startThread();
 
-		parseConfig("config1.txt");
+		parseConfig("config2.txt");
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {

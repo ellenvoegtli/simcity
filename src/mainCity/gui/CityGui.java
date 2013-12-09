@@ -78,6 +78,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	
 	private JLabel breakLabel = new JLabel("");
 	private JButton breakButton = new JButton("Break something");
+	private JButton marketButton = new JButton("Go to market");
 	
 	//=================Scenario Hack panel components========================
 	private JPanel subControlPanel3 = new JPanel();	
@@ -232,11 +233,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		GroupLayout.SequentialGroup hGroup2 = layout2.createSequentialGroup();
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(personLabel).addComponent(blankLabel).
 	            addComponent(restLabel).addComponent(blankLabel).addComponent(orLabel).addComponent(workLabel).
-	            addComponent(breakButton)
+	            addComponent(breakButton).addComponent(marketButton)
 	            );
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(infoLabel).addComponent(blankLabel).
 	            addComponent(restaurantMenu).addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB).
-	            addComponent(breakLabel)
+	            addComponent(breakLabel).addComponent(blankLabel)
 	            );
 		layout2.setHorizontalGroup(hGroup2);
 		
@@ -255,6 +256,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	            addComponent(workLabel).addComponent(workCB));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
 	            addComponent(breakButton).addComponent(breakLabel));
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(marketButton).addComponent(blankLabel));
 		layout2.setVerticalGroup(vGroup2);
 	   //=======================END GROUP LAYOUT 2===================================================
 		
@@ -262,6 +265,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		homeButton.addActionListener(this);
 		workCB.addActionListener(this);
 		breakButton.addActionListener(this);
+		marketButton.addActionListener(this);
 
 		
 		subControlPanel2.setLayout(new GridBagLayout());
@@ -657,6 +661,12 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	        		break;
 	        	}
 	        }
+		}
+		else if (e.getSource() == marketButton){
+			System.out.println("BREAK SOMETHING BUTTON PRESSED");
+			PersonAgent p = (PersonAgent) currentPerson;
+			p.msgGoToMarket();
+			marketButton.setEnabled(false);
 		}
 		else if (e.getSource() == scenario1Button){
 			System.out.println("SCENARIO1 BUTTON PRESSED");
