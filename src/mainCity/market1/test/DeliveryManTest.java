@@ -20,8 +20,6 @@ import junit.framework.TestCase;
 public class DeliveryManTest extends TestCase {
 	Market1DeliveryManRole deliveryMan;
 	MockDeliveryManGui gui;
-	//MockCustomer customer1;
-	//MockCustomer customer2;
 	MockEmployee employee;
 	MockCashier cashier;
 	MockCook cook;
@@ -33,9 +31,7 @@ public class DeliveryManTest extends TestCase {
         PersonAgent d = new PersonAgent("Delivery man");
         deliveryMan = new Market1DeliveryManRole(d, d.getName());
         d.addRole(ActionType.work, deliveryMan);
-        
-        //customer1 = new MockCustomer("MockCustomer1"); 
-        //customer2 = new MockCustomer("MockCustomer2");  
+
         gui = new MockDeliveryManGui("MockDeliveryGui");
         deliveryMan.setGui(gui);
         
@@ -49,7 +45,6 @@ public class DeliveryManTest extends TestCase {
 		//=============================== NEXT TEST =========================================================================
 		public void testOneNormalBusinessScenario(){
 			gui.deliveryMan = deliveryMan;
-			//deliveryMan.deliveryGui = gui;
 			
 			
 			//preconditions
