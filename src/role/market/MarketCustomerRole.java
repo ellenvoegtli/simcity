@@ -73,8 +73,9 @@ public class MarketCustomerRole extends Role implements Customer {
 		else if (name.equalsIgnoreCase("none"))
 			myCash = 0;
 		else 
+			myCash = p.getCash();
 			//myCash = 30;
-			myCash = 100;
+			//myCash = 100;
 	
 	}
 
@@ -145,11 +146,13 @@ public class MarketCustomerRole extends Role implements Customer {
 	// Messages
 	public void goGetInventory(Map<String, Integer> inventoryNeeded){
 		log("Told to go to market to order inventory");
-		this.inventoryToOrder = inventoryNeeded;
+		this.inventoryToOrder = Collections.synchronizedMap(new TreeMap<String, Integer>(inventoryNeeded));
 		
 		log("Items to order: ");
-		for (Map.Entry<String, Integer> entry : inventoryToOrder.entrySet()){
-			log("Item: " + entry.getKey() + "; #: " + entry.getValue());
+		synchronized(inventoryToOrder){
+			for (Map.Entry<String, Integer> entry : inventoryToOrder.entrySet()){
+				log("Item: " + entry.getKey() + "; #: " + entry.getValue());
+			}
 		}
 		
 		event = AgentEvent.toldToGetInventory;
@@ -189,9 +192,7 @@ public class MarketCustomerRole extends Role implements Customer {
 
 	public void msgNotEnoughCash(double cashOwed){
 		log("Received msg NotEnoughCash: I owe $" + cashOwed);
-		this.cashOwed = cashOwed;
-		myCash += 100;		//ok to do in simcity?
-        log("Now have in cash: $" + myCash);
+		this.cashOwed += cashOwed;
 		IOweMarket = true;
 		event = AgentEvent.gotChange;		//essentially
 		stateChanged();
@@ -215,16 +216,6 @@ public class MarketCustomerRole extends Role implements Customer {
 	}
 	
 	//Messages from animation
-	/*
-	public void msgAnimationFinishedGoToSeat() {
-		event = AgentEvent.seated;
-		stateChanged();
-	}
-	public void msgAnimationFinishedGoToStation(){
-		event = AgentEvent.atStation;
-		stateChanged();
-	}*/
-	
 	public void msgAnimationFinishedGoToCashier(){
 		event = AgentEvent.atCashierAgent;
 		stateChanged();
@@ -272,12 +263,10 @@ public class MarketCustomerRole extends Role implements Customer {
 			return true;
 		}
 		if (state == AgentState.Paying && event == AgentEvent.gotChange){
-			//state = AgentState.Leaving;		//not necessarily
 			LeaveMarket();	//verifies change first
 			return true;
 		}
 		if (state == AgentState.WaitingForChange && event == AgentEvent.gotChange){
-			//state = AgentState.Leaving;		//not necessarily
 			LeaveMarket();	//verifies change first
 			return true;
 		}
@@ -320,13 +309,13 @@ public class MarketCustomerRole extends Role implements Customer {
 				IOweMarket = false;
 			} else {
 				log("Still can't pay everything I owe.");
-				//...
+				//nothing to do here
 			}
 		}
 		
 		
-		if (bill.nonNegotiable){		//don't verify again
-			if (myCash >= bill.charge){
+		if (bill.nonNegotiable){			//if the bill is final, don't verify again
+			if (myCash >= bill.charge){			//if you can pay the final bill, pay it in full
 				log("Paying: $" + bill.charge);
 				cashier.msgHereIsPayment(bill.charge, this);
 				myCash -= bill.charge;
@@ -334,42 +323,42 @@ public class MarketCustomerRole extends Role implements Customer {
 				bill.amountPaid = bill.charge;
 				return;
 			}
-			else {
+			else {								//if you can't pay the final bill, pay what you can		
 				log("I don't have enough money to pay full bill.");
 				cashier.msgHereIsPayment(myCash, this);
 				myCash = 0;
 				return;
 			}
 		}
-		else {
+		else {			//normative scenario
 			double expected = 0;
-
-			for (Map.Entry<String, Integer> entry : bill.inventoryFulfilled.entrySet()){
-				//expected += marketMenu.getPrice(entry.getKey())*entry.getValue();	//price of each item * # that was fulfilled
-				for (Item i : marketMenu.menuItems){
-					if (i.getItem().equalsIgnoreCase(entry.getKey()))
-						expected += i.getPrice() * entry.getValue();
+			synchronized(bill.inventoryFulfilled){
+				for (Map.Entry<String, Integer> entry : bill.inventoryFulfilled.entrySet()){	//check the calculations
+					for (Item i : marketMenu.menuItems){
+						if (i.getItem().equalsIgnoreCase(entry.getKey()))
+							expected += i.getPrice() * entry.getValue(); 	//price of each item * # that was fulfilled
+					}
 				}
 			}
-			if (expected >= bill.charge){		//if the verification of bill charge succeeds, or they don't charge us enough (we don't care, take it!)
-				if (myCash >= bill.charge){
+			if (expected >= bill.charge){		//1.) if the verification succeeds, or they don't charge us enough (we don't care, take it!)
+				if (myCash >= bill.charge){			//a.) if I have enough money to pay, pay full bill
 			        log("Paying: $" + bill.charge);
 					cashier.msgHereIsPayment(bill.charge, this);
 					myCash -= bill.charge;
-					myCash = Math.round(myCash*100.0)/100.0;
+					myCash = Math.round(myCash*100.00)/100.00;
 					bill.amountPaid = bill.charge;
 					return;
 				}
-				else {	//if my cash is less than bill charge
+				else {								//b.) if my cash is less than bill charge, pay what I can
 					log("I don't have enough money to pay full bill.");
-					cashier.msgHereIsPayment(Math.round(myCash*100.0)/100, this);
-					cashOwed = Math.round((bill.charge - myCash)*100.0)/100.0;
+					cashier.msgHereIsPayment(Math.round(myCash*100.00)/100.00, this);
+					cashOwed = Math.round((bill.charge - myCash)*100.00)/100.00;
 					bill.amountPaid = myCash;
 					myCash = 0;
 					return;
 				}
 			}
-			else if (expected < bill.charge){		//if the verification fails (charged more than they should have been)
+			else if (expected < bill.charge){	//2.) if the verification fails (charged more than they should have been)
 				cashier.msgPleaseRecalculateBill(this);
 				return;
 			}
@@ -377,52 +366,33 @@ public class MarketCustomerRole extends Role implements Customer {
 	}
 	
 	private void LeaveMarket(){
-		if (IOweMarket) {
-	        log("No change. Didn't pay enough.");
-	        cashier.msgChangeVerified(this);		//essentially
-
-			employee.msgDoneAndLeaving(this);
-			customerGui.DoExitMarket();
-	        log("Leaving market.");
-	        state = AgentState.Leaving;
-	        bill = null;
-	        return;
-		}
-			
-		
-		if (bill.changeReceived == (bill.amountPaid - bill.charge)){
-			log("Equal. Change verified.");
-	        cashier.msgChangeVerified(this);
-
-			employee.msgDoneAndLeaving(this);
-			customerGui.DoExitMarket();
-	        log("Leaving market.");
-	        state = AgentState.Leaving;
-	        bill = null;
-		}
-		else if (bill.changeReceived > (bill.amountPaid - bill.charge)){
-	        log("More change than necessary. Take it and run.");
-	        cashier.msgChangeVerified(this);
-
-			employee.msgDoneAndLeaving(this);
-			customerGui.DoExitMarket();
-	        log("Leaving market.");
-	        state = AgentState.Leaving;
-	        bill = null;
-		}
-		else if (bill.changeReceived < (bill.amountPaid - bill.charge)){
+		if (bill.changeReceived < (bill.amountPaid - bill.charge)){
 	        log("Not enough change. Recalculate change.");
 	        
 	        //TELL CASHIER TO RECALCULATE CHANGE (just have cashier give him the amount of change he wants)
-	        //state = AgentState.WaitingForChange;
-	        cashier.msgChangeVerified(this);
-
-			employee.msgDoneAndLeaving(this);
-			customerGui.DoExitMarket();
-	        log("Leaving market.");
-	        state = AgentState.Leaving;
-	        bill = null;
+	        cashier.msgPleaseRecalculateChange(this, (bill.amountPaid - bill.charge));
+	        state = AgentState.WaitingForChange;
+	        return;
 		}
+		
+		
+		if (IOweMarket) {
+	        log("No change. Didn't pay enough.");
+		}
+		if (bill.changeReceived == (bill.amountPaid - bill.charge)){
+			log("Equal. Change verified.");
+		}
+		else if (bill.changeReceived > (bill.amountPaid - bill.charge)){
+	        log("More change than necessary. Take it and run.");
+		}
+		
+		cashier.msgChangeVerified(this);
+
+		employee.msgDoneAndLeaving(this);
+		customerGui.DoExitMarket();
+        log("Leaving market.");
+        state = AgentState.Leaving;
+        bill = null;
 	}
 	
 	
@@ -472,7 +442,7 @@ public class MarketCustomerRole extends Role implements Customer {
 	
 	public class Bill {		//public only for testing purposes
 		boolean nonNegotiable = false;
-		Map<String, Integer> inventoryFulfilled = new TreeMap<String, Integer>();
+		Map<String, Integer> inventoryFulfilled = Collections.synchronizedMap(new TreeMap<String, Integer>());
 		double charge;
 		double amountPaid;
 		double amountOwed;

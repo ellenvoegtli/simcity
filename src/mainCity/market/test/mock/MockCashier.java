@@ -42,6 +42,10 @@ public class MockCashier extends Mock implements MarketCashier {
 	public void msgChangeVerified(Customer cust){
 		log.add(new LoggedEvent("Received msgChangeVerified from " + cust.getName()));
 	}
+	@Override
+	public void msgPleaseRecalculateChange(Customer cust, double amount){
+		log.add(new LoggedEvent("Received msgPleaseRecalculateChange from " + cust.getName() + " for $" + amount));
+	}
 	public void msgHereIsMoneyIOwe(Customer cust, double amount){
 		
 	}

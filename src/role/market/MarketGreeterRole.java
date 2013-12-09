@@ -18,7 +18,6 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 	public List<MyWaitingCustomer> waitingCustomers  = Collections.synchronizedList(new ArrayList<MyWaitingCustomer>());
 	public List<MyWaitingBusiness> waitingBusinesses = Collections.synchronizedList(new ArrayList<MyWaitingBusiness>());
 	public List<Employee> myEmployees = Collections.synchronizedList(new ArrayList<Employee>());
-	public Collection<Table> tables;
 
 	int nextEmployee = 0;
 	boolean cashierArrived = false;
@@ -30,10 +29,6 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 		this.name = name;
 		onDuty = true;
 		
-		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
-		for (int ix = 1; ix <= NTABLES; ix++) {
-			tables.add(new Table(ix));
-		}
 	}
 	
 	public void addEmployee(Employee e){
@@ -68,7 +63,7 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 	public boolean isOpen() {
 		if (cashier instanceof MarketCashierRole){
 			MarketCashierRole c = (MarketCashierRole) cashier;
-			return (/*deliveryMan != null && deliveryMan.isActive()) &&*/ (c != null && c.isActive()));
+			return ((deliveryMan != null && deliveryMan.isActive()) && (c != null && c.isActive()));
 		}
 		return false;
 	}
@@ -113,30 +108,39 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 	 */
 	public boolean pickAndExecuteAnAction() {
 
-		if (!waitingCustomers.isEmpty()){
-			if (!myEmployees.isEmpty()){
-				nextEmployee++;
-				if (nextEmployee > myEmployees.size() - 1)
-					nextEmployee = 0;
-				
-				assignCustomerToEmployee(waitingCustomers.get(0), myEmployees.get(nextEmployee));
-				return true;
-			}
-		}
-
-		if (!waitingBusinesses.isEmpty()){
-			if (!myEmployees.isEmpty()){
-				if (isOpen() || cashierArrived){
-					//cashierArrived = false;
-					nextEmployee++;
-					if (nextEmployee > myEmployees.size() - 1)
-						nextEmployee = 0;
-					
-					assignBusinessToEmployee(waitingBusinesses.get(0), myEmployees.get(nextEmployee));
-					return true;
+		synchronized(waitingCustomers){
+			synchronized(myEmployees){
+				if (!waitingCustomers.isEmpty()){
+					if (!myEmployees.isEmpty()){
+						nextEmployee++;
+						if (nextEmployee > myEmployees.size() - 1)
+							nextEmployee = 0;
+						
+						assignCustomerToEmployee(waitingCustomers.get(0), myEmployees.get(nextEmployee));
+						return true;
+					}
 				}
 			}
 		}
+		
+		synchronized(waitingBusinesses){
+			synchronized(myEmployees){
+				if (!waitingBusinesses.isEmpty()){
+					if (!myEmployees.isEmpty()){
+						if (isOpen() || cashierArrived){
+							//cashierArrived = false;
+							nextEmployee++;
+							if (nextEmployee > myEmployees.size() - 1)
+								nextEmployee = 0;
+							
+							assignBusinessToEmployee(waitingBusinesses.get(0), myEmployees.get(nextEmployee));
+							return true;
+						}
+					}
+				}
+			}
+		}
+	
 		
 		if (!onDuty){
 			closeBuilding();
@@ -161,10 +165,10 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 		if (!waitingCustomers.isEmpty())
 			return false;
 		
-		for (Table t : tables){
+		/*for (Table t : tables){
 			if (t.isOccupied)
 				return false;
-		}
+		}*/
 		
 		double payroll = 0;
 		for(Employee e : myEmployees) {
@@ -196,14 +200,10 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 	
 	public class MyWaitingBusiness {
 		String restaurantName;
-		//MainCook cook;
-		//MainCashier cashier;
 		Map<String, Integer> inventory;
 		
 		MyWaitingBusiness(String restaurantName, Map<String, Integer> inventoryNeeded){
 			this.restaurantName = restaurantName;
-			//this.cook = cook;
-			//this.cashier = cashier;
 			inventory = inventoryNeeded;
 		}
 		public String getRestaurant(){
@@ -213,7 +213,6 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 	
 	public class MyWaitingCustomer {
 		Customer c;
-		//boolean confirmedToWait;
 		
 		int waitingPosX;
 		int waitingPosY;
@@ -229,15 +228,6 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 		}
 		public Customer getCustomer(){
 			return c;
-		}
-	}
-	
-	public class Table {
-		int tableNumber;
-		boolean isOccupied;
-
-		Table(int tableNumber) {
-			this.tableNumber = tableNumber;
 		}
 	}
 }

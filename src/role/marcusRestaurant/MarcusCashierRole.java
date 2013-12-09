@@ -113,6 +113,10 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	
 	public void msgNotEnoughMoney(double amountOwed, double amountPaid) {		
 		output("I paid $" + amountPaid + " to the delivery man. I still owe $" + amountOwed);
+		for(MarketBill b: marketBills){
+			if (b.bill == amountPaid)
+				b.deliveryPerson.msgIOweYou(amountOwed, "marcusRestaurant");
+		}
 	}
 	
 	public void msgHereIsChange(double amount, DeliveryMan deliveryPerson) {

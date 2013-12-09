@@ -24,7 +24,7 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());	//from waiters
 	private List<Employee> employees = Collections.synchronizedList(new ArrayList<Employee>());
 	
-	public enum BillState {computing, waitingForPayment, recomputingBill, calculatingChange, oweMoney, paid};
+	public enum BillState {computing, waitingForPayment, recomputingBill, calculatingChange, recalculatingChange, oweMoney, paid};
 	private boolean onDuty;
 	
 	//constructor
@@ -124,10 +124,25 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 				}
 			}
 		}
-		//NOW we can add the money they finally, for sure paid and are not taking back
+		//NOW we can add the money they finally for sure paid and are not taking back
 		cash += b.amountMarketGets;
 		cash = Math.round(cash*100.00)/100.00;
 		bills.remove(b);
+	}
+	public void msgPleaseRecalculateChange(Customer cust, double amount){
+		log("Received msgPleaseRecalculateChange from " + cust.getName());
+		Bill b = null;
+		synchronized(bills){
+			for (Bill thisB : bills){	
+				if (thisB.c.equals(cust)){
+					b = thisB;
+					break;
+				}
+			}
+		}
+		b.recalculatedChange = amount;
+		b.s = BillState.recalculatingChange;
+		stateChanged();
 	}
 	public void msgHereIsMoneyIOwe(Customer cust, double amount){
 		log("Received msgHereIsMoneyIOwe from " + cust.getName() + ": $" + amount);
@@ -152,7 +167,27 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	public boolean pickAndExecuteAnAction() {
+		/*Later actions are prioritized above earlier actions (want to get each customer out the door ASAP!).
+		 * If they've been asking for recalculations, they need to be taken care of first.
+		 * They've been here the longest.
+		 */
 		
+		synchronized(bills){
+			for (Bill b: bills) {
+				if (b.s == BillState.recalculatingChange){
+					RecomputeChange(b);
+					return true;
+				}
+			}
+		}
+		synchronized(bills){
+			for (Bill b: bills) {
+				if (b.s == BillState.recomputingBill){
+					RecomputeBill(b);
+					return true;
+				}
+			}
+		}
 		synchronized(bills){
 			for (Bill b: bills) {
 				if (b.s == BillState.calculatingChange){
@@ -165,14 +200,6 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 			for (Bill b: bills) {
 				if (b.s == BillState.computing){
 					ComputeBill(b);
-					return true;
-				}
-			}
-		}
-		synchronized(bills){
-			for (Bill b: bills) {
-				if (b.s == BillState.recomputingBill){
-					RecomputeBill(b);
 					return true;
 				}
 			}
@@ -195,20 +222,22 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	public void ComputeBill(final Bill b){
 		log("Computing bill");
 		double dollars = 0;
-		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-			for (Item i : marketMenu.menuItems){
-				if (i.getItem().equalsIgnoreCase(entry.getKey())){
-					dollars += i.getPrice() * entry.getValue();
+		synchronized(b.itemsBought){
+			for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
+				for (Item i : marketMenu.menuItems){
+					if (i.getItem().equalsIgnoreCase(entry.getKey())){
+						dollars += i.getPrice() * entry.getValue();
+					}
 				}
 			}
 		}
 		b.amountCharged = Math.round(dollars * 100.00)/100.00;
 		
-		if (b.c == null){
+		if (b.c == null){		//if it's a restaurant
 			b.e.msgHereIsBill(b.restaurantName, b.amountCharged);
 			bills.remove(b);		//employee hands it off to deliveryMan, it's handled there
 		}
-		else {
+		else {		//if it's an in-store customer
 			b.e.msgHereIsBill(b.c, b.amountCharged);
 			b.s = BillState.waitingForPayment;
 		}
@@ -234,14 +263,23 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 			b.s = BillState.oweMoney;
 		}
 	}
+	
+	public void RecomputeChange(Bill b){		//for convenience, we'll just give the customer the change they want
+		log("Recalculating change");
+		b.c.msgHereIsYourChange(b.recalculatedChange, b.amountCharged);
+		b.amountMarketGets = b.amountPaid - b.recalculatedChange;	//because it could be different from the amount charged
+		b.s = BillState.paid;
+	}
 
 	public void RecomputeBill(final Bill b){
 		log("Recomputing bill");
 		double dollars = 0;
-		for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-			for (Item i : marketMenu.menuItems){
-				if (i.getItem().equalsIgnoreCase(entry.getKey()))
-					dollars += i.getPrice() * entry.getValue();
+		synchronized(b.itemsBought){
+			for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
+				for (Item i : marketMenu.menuItems){
+					if (i.getItem().equalsIgnoreCase(entry.getKey()))
+						dollars += i.getPrice() * entry.getValue();
+				}
 			}
 		}
 		b.newAmountCharged = Math.round(dollars * 100.00)/100.00;
@@ -271,12 +309,13 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	}
 
 	public class Bill {		//for testing purposes only
-		Map<String, Integer> itemsBought = new TreeMap<String, Integer>();
+		Map<String, Integer> itemsBought = Collections.synchronizedMap(new TreeMap<String, Integer>());
 		double amountCharged;
 		double newAmountCharged; 	//if customer asks cashier to recalculate
 		double amountPaid;
 		double amountMarketGets;
 		double amountOwed;
+		double recalculatedChange;	//if customer asks cashier to recalculate change, just give him what he wants
 		Customer c;
 		String restaurantName;
 		BillState s;
