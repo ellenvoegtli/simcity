@@ -682,10 +682,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			for (PersonAgent pers : cityPanel.getOccupants()){
 	        	if (pers.equals(p)){
 	        		System.out.println("I FOUND THE PERSON!!");
-	        		/*OccupantRole o = (OccupantRole) p;
-	        		p.getRoles().getValue(ActionType.homeAndEat);
-	        		OccupantRole o = p.getRoles().getValue(ActionType.home);*/
-	        		p.msgBrokeSomething();
+	        		OccupantRole o = (OccupantRole) p.getRoles().get(ActionType.home);
+	        		if (o !=null){
+	        			System.out.println("occupant role exits!!");
+	        			o.applianceBroke();
+	        		}
+	        		else
+	        			System.out.println("No such occupant role. :( :(");
+	        			
+	        		//p.msgBrokeSomething();
 	        		break;
 	        	}
 	        }
