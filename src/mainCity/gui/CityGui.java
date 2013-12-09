@@ -588,8 +588,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         if (restaurantButton.isEnabled())
         	restaurantMenu.setSelectedIndex(0);
         
-        //breakButton.setEnabled(b);
-        
+        //breakButton.setEnabled(p.isAtHome());
         
         infoPanel.validate();
     }
