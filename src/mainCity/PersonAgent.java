@@ -29,7 +29,7 @@ import transportation.BusAgent;
 public class PersonAgent extends Agent {
 	
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, inCar, walkingFromBus, walkingFromCar}
-	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
+	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, chooseGivenRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
 	
 	private PersonGuiInterface gui;
@@ -49,7 +49,6 @@ public class PersonAgent extends Agent {
 	private Map<ActionType, Role> roles;
 	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
-	private String restaurantHack;
 	public EventLog log = new EventLog(); 
 	
 	public PersonAgent(String n) {
@@ -183,11 +182,31 @@ public class PersonAgent extends Agent {
 	//A message received from the GUI to go to a specific restaurant (hack)
 	public void msgGoToRestaurant(String name) {
 		if(!actionExists(ActionType.restaurant)) {
-			restaurantHack = name;
-			
-			synchronized(actions) {
-				actions.add(new Action(ActionType.restaurant, 4));
-				stateChanged();
+			synchronized(actions){
+				if (name.toLowerCase().contains("ellen")){
+					actions.add(new Action(ActionType.restaurant_ellen, 4));
+					stateChanged();
+				}
+				else if (name.toLowerCase().contains("ena")){
+					actions.add(new Action(ActionType.restaurant_ena, 4));
+					stateChanged();
+				}
+				else if (name.toLowerCase().contains("marcus")){
+					actions.add(new Action(ActionType.restaurant_marcus, 4));
+					stateChanged();
+				}
+				else if (name.toLowerCase().contains("jefferson")){
+					actions.add(new Action(ActionType.restaurant_jefferson, 4));
+					stateChanged();
+				}
+				else if (name.toLowerCase().contains("david")){
+					actions.add(new Action(ActionType.restaurant_david, 4));
+					stateChanged();
+				}
+				else{		//in case something is wrong
+					actions.add(new Action(ActionType.restaurant, 4));
+					stateChanged();
+				}
 			}
 		}
 	}
@@ -199,11 +218,6 @@ public class PersonAgent extends Agent {
 			stateChanged();
 		}
 	}
-	/*
-	public void msgGoToMarket2(){
-		actions.add(new Action(ActionType.market2, 3));
-		stateChanged();
-	}*/
 	
 	public void msgGoHome() {
 		System.out.println(name + ": Received msgGoHome");
@@ -431,11 +445,6 @@ public class PersonAgent extends Agent {
 				goToMarket();
 				return true;
 			}
-			
-			/*if(event == PersonEvent.needMarket2) {
-				goToMarket2();
-				return true;
-			}*/
 
 			if(event == PersonEvent.gotFood || event == PersonEvent.goHome) {
 				goHome();
@@ -883,11 +892,14 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.needMarket;
 				break;
 			case restaurant:
+			//======= restaurant hacks from gui ========
+			case restaurant_ellen:
+			case restaurant_david:
+			case restaurant_ena:
+			case restaurant_marcus:
+			case restaurant_jefferson:
 				event = PersonEvent.chooseRestaurant;
 				break;
-			//======= restaurant hacks from gui ========
-			//case restaurant_ellen:
-				//event = PersonEvent.
 			case bankWithdraw:
 			case bankWithdraw2:
 			case bankDeposit:
@@ -951,26 +963,16 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		if (restaurantHack != null){
-			if (restaurantHack.toLowerCase().contains("ellen"))
-				destination = CityLocation.restaurant_ellen;
-			else if (restaurantHack.toLowerCase().contains("ena"))
-				destination = CityLocation.restaurant_ena;
-			else if (restaurantHack.toLowerCase().contains("marcus"))
-				destination = CityLocation.restaurant_marcus;
-			else if (restaurantHack.toLowerCase().contains("jefferson"))
-				destination = CityLocation.restaurant_jefferson;
-			else if (restaurantHack.toLowerCase().contains("david"))
-				destination = CityLocation.restaurant_david;
-			
-			restaurantHack = null;
-			
-			event = PersonEvent.decidedRestaurant;
-			handleRole(currentAction.type);
-			return;
-		}
-
-		switch((int) (Math.random() * 5)) {
+		if (currentAction.type == ActionType.restaurant_ena)	//gui hacks
+			destination = CityLocation.restaurant_ena;
+		else if (currentAction.type == ActionType.restaurant_ellen)
+			destination = CityLocation.restaurant_ellen;
+		else if (currentAction.type == ActionType.restaurant_marcus)
+			destination = CityLocation.restaurant_jefferson;
+		else if (currentAction.type == ActionType.restaurant_david)
+			destination = CityLocation.restaurant_david;
+		else {													//default: do random (if ActionType = restaurant)
+			switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
 				break;
@@ -988,8 +990,9 @@ public class PersonAgent extends Agent {
 				break;
 			default:
 				break;
+			}
 		}
-		
+		currentAction.type = ActionType.restaurant;		//in case there was a hack
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
