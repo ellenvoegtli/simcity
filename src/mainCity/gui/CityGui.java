@@ -623,7 +623,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			}
 			String [] actions ={"work"};
 
-			personPanel.addPerson(name);
+			//personPanel.addPerson(name);
 			
 			//Reset all fields
 			nameField.setText("");

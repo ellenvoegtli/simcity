@@ -145,6 +145,9 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			case bank:
 				calculatePath(175, 230);
 				break;
+			case bank2:
+				calculatePath(665, 285);
+				break;
 			case home:
 				calculatePath(xHome, yHome);
 				break;
@@ -191,6 +194,9 @@ public class PersonGui implements Gui, PersonGuiInterface{
 				break;
 			case bank:
 				calculatePath(105, 230);
+				break;
+			case bank2:
+				calculatePath(670, 140);
 				break;
 			case home:
 				calculatePath(320, 55); 

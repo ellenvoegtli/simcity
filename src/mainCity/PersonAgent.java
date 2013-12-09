@@ -33,7 +33,7 @@ import transportation.BusAgent;
 public class PersonAgent extends Agent {
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
 	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
-	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market, market2}
+	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
 	
 	private PersonGuiInterface gui;
 	private String name;
@@ -574,7 +574,21 @@ public class PersonAgent extends Agent {
 								ContactList.getInstance().getBank().handleRole(bm);
 								roles.put(action, bm);
 								break;
-							
+							case "bank2er":
+								BankerRole bk2 = new BankerRole(this, name);
+								ContactList.getInstance().getBank2().handleRole(bk2);
+								roles.put(action, bk2);
+								break;
+							case "bank2Teller":	
+								BankTellerRole bt2 = new BankTellerRole(this, name);
+								ContactList.getInstance().getBank2().handleRole(bt2);
+								roles.put(action, bt2);
+								break;
+							case "bank2Manager":
+								BankManagerRole bm2 = new BankManagerRole(this, name);
+								ContactList.getInstance().getBank2().handleRole(bm2);
+								roles.put(action, bm2);
+								break;
 							//-----Jefferson Restaurant Roles---//
 							case "jeffersonCook":
 								JeffersonCookRole jc = new JeffersonCookRole(this, name);
@@ -818,6 +832,7 @@ public class PersonAgent extends Agent {
 						}
 						BankCustomerRole bc = new BankCustomerRole(this, name);
 						ContactList.getInstance().getBank().handleRole(bc);
+						ContactList.getInstance().getBank2().handleRole(bc);
 						roles.put(action, bc);
 						break;
 					case bankRob:
@@ -826,6 +841,7 @@ public class PersonAgent extends Agent {
 						}
 						BankRobberRole br = new BankRobberRole(this, name);
 						ContactList.getInstance().getBank().handleRole(br);
+						ContactList.getInstance().getBank2().handleRole(br);
 						roles.put(action, br);
 						break;
 					default:
@@ -864,14 +880,8 @@ public class PersonAgent extends Agent {
 				//event = PersonEvent.
 				
 			case bankWithdraw:
-				event = PersonEvent.needToBank;
-				break;
 			case bankDeposit:
-				event = PersonEvent.needToBank;
-				break;
 			case bankLoan: 
-				event = PersonEvent.needToBank;
-				break;
 			case bankRob:
 				event = PersonEvent.needToBank;
 				break;
@@ -992,30 +1002,25 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToWork() {
-		if(job.occupation.contains("market2")) {
+		if(job.occupation.contains("market2"))
 			destination = CityLocation.market2;
-		}
-		else if(job.occupation.contains("market")) {
+		else if(job.occupation.contains("market"))
 			destination = CityLocation.market;
-		}
-		else if(job.occupation.contains("bank")) {
+		else if(job.occupation.contains("bank2"))
+			destination = CityLocation.bank2;
+		else if(job.occupation.contains("bank"))
 			destination = CityLocation.bank;
-		}
-		else if(job.occupation.contains("marcus")) {
+		else if(job.occupation.contains("marcus"))
 			destination = CityLocation.restaurant_marcus;
-		}
-		else if(job.occupation.contains("ena")) {
+		else if(job.occupation.contains("ena"))
 			destination = CityLocation.restaurant_ena;
-		}
-		else if(job.occupation.contains("ellen")) {
+		else if(job.occupation.contains("ellen"))
 			destination = CityLocation.restaurant_ellen;
-		}
-		else if(job.occupation.contains("jefferson")){
-			destination =CityLocation.restaurant_jefferson;
-		}
-		else if(job.occupation.contains("david")){ 
-			destination =CityLocation.restaurant_david;
-		}
+		else if(job.occupation.contains("jefferson"))
+			destination = CityLocation.restaurant_jefferson;
+		else if(job.occupation.contains("david"))
+			destination = CityLocation.restaurant_david;
+		
 		travelToLocation(destination);
 		event = PersonEvent.arrivedAtWork;
 		stateChanged();
@@ -1068,7 +1073,11 @@ public class PersonAgent extends Agent {
 	}
 
 	private void goToBank() {
-		travelToLocation(CityLocation.bank);
+		if(((int) Math.random()*10) > 5)
+			travelToLocation(CityLocation.bank);
+		else
+			travelToLocation(CityLocation.bank2);
+		
 		event = PersonEvent.arrivedAtBank;
 		stateChanged();
 	}
