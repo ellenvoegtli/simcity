@@ -109,8 +109,9 @@ public class JeffersonCashierRole extends Role implements Cashier{
 			DeliveryMan deliveryPerson) {
 			log("recieved change of " + amount);
 			profits +=amount;
+			int difference = (int) (1000.0-(int)amount);
 			for(Bill b:bills){
-				if(b.amount==1000-amount){
+				if((int)b.amount==difference || (int)b.amount==difference +1 || (int)b.amount==difference-1 ){
 					log("need verify set to true");
 					b.needverify=true;
 				}
@@ -255,7 +256,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	}
 	
 	private void payMarket (Bill b){
-		log("Paying Market");
+		log("Paying Market $" +b.amount );
 		profits=profits-b.amount;
 		if (profits<0){
 			log("Profits are in the negative");

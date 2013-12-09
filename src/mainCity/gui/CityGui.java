@@ -349,8 +349,6 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		JScrollPane scenarioPane = new JScrollPane(subControlPanel3);
 		subControlPanel3.setAutoscrolls(true);
 		scenarioPane.setPreferredSize(new Dimension((int) (WINDOWX * .35), (int) (WINDOWY * .4)));
-		//scenarioPane.setViewportView(subControlPanel3);
-		//controlTabbedPane.addTab("Scenarios", subControlPanel3);
 		controlTabbedPane.addTab("Scenarios", scenarioPane);
 		
 		scenario1Button.addActionListener(this);
@@ -591,6 +589,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         if (restaurantButton.isEnabled())
         	restaurantMenu.setSelectedIndex(0);
         
+        //breakButton.setEnabled(b);
+        
         
         infoPanel.validate();
     }
@@ -672,20 +672,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			PersonAgent p = (PersonAgent) currentPerson;
 			for (PersonAgent pers : cityPanel.getOccupants()){
 	        	if (pers.equals(p)){
-	        		/*
-	        		 * New algorithm: loop through the list of homes (personHome), see if the occupant's person agent pointer
-	        		 * equals the person agent here. then message personHome.applianceBroke
-	        		 */
-	        		System.out.println("I FOUND THE PERSON!!");
 	        		OccupantRole o = (OccupantRole) p.getRoles().get(ActionType.home);
-	        		if (o !=null){
-	        			System.out.println("occupant role exits!!");
+	        		if (o !=null)
 	        			o.applianceBroke();
-	        		}
-	        		else
-	        			System.out.println("No such occupant role. :( :(");
-	        			
-	        		//p.msgBrokeSomething();
 	        		break;
 	        	}
 	        }
