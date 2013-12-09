@@ -39,4 +39,36 @@ public class MockPersonGui extends Mock implements PersonGuiInterface{
 	public CityLocation findNearestStop() {
 		return null;
 	}
+
+
+	@Override
+	public void getInCar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void getOutOfCar() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void DoGetOnRoad() {
+		log.add(new LoggedEvent("Gui told to go to go on road"));		
+	}
+
+
+	@Override
+	public void DoGoToLocationOnCar(CityLocation d) {
+		log.add(new LoggedEvent("Gui told to go to " + d + " as a car"));		
+	}
+
+
+	@Override
+	public void AddCarToLane() {
+		log.add(new LoggedEvent("Adding car to lane"));		
+	}
 }
