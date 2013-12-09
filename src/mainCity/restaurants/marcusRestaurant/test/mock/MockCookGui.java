@@ -32,6 +32,7 @@ public class MockCookGui extends Mock implements CookGuiInterface {
 		log.add(new LoggedEvent("Gui leaving restaurant"));
 	}
 
-
 	public void setPresent(boolean t){}
+
+	public void guiAppear() {}
 }

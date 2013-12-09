@@ -574,6 +574,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	}
 	public void addPerson(PersonAgent p){
 		people.add(p);
+		personPanel.addPerson(p.getName());
 	}
 	
 	public void updateInfoPanel(Object person) {
@@ -694,14 +695,14 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			personPanel.resetPanel();
 			cityPanel.parseConfig("config.txt");
 			
-			generatePeopleList();
+			//generatePeopleList();
 		}
 		else if (e.getSource() == scenario2Button){
 			System.out.println("SCENARIO2 BUTTON PRESSED");
 			personPanel.resetPanel();
 			cityPanel.parseConfig("config2.txt");
 			
-			generatePeopleList();
+			//generatePeopleList();
 		}
 		else if (e.getSource() == scenario3Button){
 			System.out.println("SCENARIO3 BUTTON PRESSED");
