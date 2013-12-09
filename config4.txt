@@ -1,4 +1,4 @@
--Scenario: Norm: All employees working/1 rich person
+-Scenario 3: Norm: Restaurants order from market and market delivers their orders successfully
 -Bank
 Name:bankteller;Cash:100;Renter:true;Occupation:bankTeller;ShiftBegin:6;ShiftEnd:22;Actions:work
 Name:bankmanager;Cash:100;Renter:true;Occupation:bankManager;ShiftBegin:6;ShiftEnd:22;Actions:work
@@ -42,4 +42,4 @@ Name:davidcashier;Cash:100;Renter:true;Occupation:davidCashier;ShiftBegin:7;Shif
 Name:davidhost;Cash:100;Renter:false;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:davidwaiter;Cash:100;Renter:false;Occupation:davidWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Other
-Name:richpersonA;Cash:80;Renter:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat
+-(None; all that matters is the employees)

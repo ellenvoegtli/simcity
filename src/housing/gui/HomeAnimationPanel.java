@@ -45,6 +45,7 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 	    private BufferedImage computerImg = null;
 	    
 	    private List<Gui> guis = new ArrayList<Gui>();
+	    private List<Gui> personGuis = new ArrayList<Gui>();
 
     
 
@@ -168,7 +169,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	       
 	   
 
-	        for(Gui gui : guis)
+	        for(Gui gui : personGuis)
 		     {
 		            if (gui.isPresent()) 
 		            {
@@ -184,14 +185,20 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		            }
 		        }
 		        
-            
+		        for(Gui gui : personGuis) 
+		        {
+		            if (gui.isPresent())
+		            {
+		                gui.draw(g2);
+		            }
+		        }
 		        
 	 }
 	    
 	    public void backgroundUpdate()
 	    {
 
-	    	for (Gui gui : getGuis())
+	    	for (Gui gui : personGuis)
 	    	{
 	    		if(gui.isPresent())
 	    		{
@@ -203,22 +210,18 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    public void addGui(LandlordGui gui) 
 	    {
 	    	System.out.println("gui added to window???");
-	        guis.add(gui);
+	        personGuis.add(gui);
 	    }
 	    public void addGui(OccupantGui gui)
 	    {
 	    	
-	    	System.out.println("gui list size " +getGuis().size());
-	    	guis.add(gui);
+	    	System.out.println("gui list size " +personGuis.size());
+	    	personGuis.add(gui);
 	    }
 
 		public HomePanel getHomeP() 
 		{
 			return home;
-		}
-
-		public List<Gui> getGuis() {
-			return guis;
 		}
 
 		public void setGuis(List<Gui> guis) {
@@ -228,7 +231,11 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		public void setHomeP(HomePanel home) {
 			this.home = home;
 		}
-	
+	    
+		@Override
+	    public void clearPeople() {
+	    	personGuis.clear();
+	    }
 	}
 
 

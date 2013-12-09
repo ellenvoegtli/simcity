@@ -9,12 +9,13 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
+import mainCity.market1.interfaces.DeliveryMan1;
 import mainCity.market2.gui.*;
 import mainCity.market2.interfaces.*;
 
 public class DeliveryManGui2 implements Gui, DeliveryManGuiInterface {
 	
-	public DeliveryMan2 agent = null;
+	public DeliveryMan1 agent = null;
     CityGui gui;
     private boolean isPresent;
 
@@ -33,7 +34,7 @@ public class DeliveryManGui2 implements Gui, DeliveryManGuiInterface {
 	private BufferedImage myImg = null;
 	
 
-    public DeliveryManGui2(DeliveryMan2 agent) {
+    public DeliveryManGui2(DeliveryMan1 agent) {
     	StringBuilder path = new StringBuilder("imgs/");
 		try {
 			truckImg = ImageIO.read(new File(path.toString() + "truck.png"));

@@ -36,36 +36,26 @@ public class EllenHostRole extends Role implements ManagerRole {
 		}
 		onDuty = true;
 	}
-
-	public String getMaitreDName() {
-		return name;
-	}
-
+	
 	public String getName() {
 		return name;
 	}
-	
 	public void setCashier(EllenCashierRole c){
 		cashier = c;
 	}
 	public void setCook(EllenCookRole c){
 		cook = c;
 	}
-
-
 	public Collection<MyWaitingCustomer> getWaitingCustomers(){
 		return waitingCustomers;
 	}
-
 	public Collection<Table> getTables() {
 		return tables;
 	}
-	
 	public void msgEndShift(){
 		onDuty = false;
 		stateChanged();
 	}
-	
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.ELLEN_HOST, this.getName(), s);
@@ -194,6 +184,31 @@ public class EllenHostRole extends Role implements ManagerRole {
 			}//end of synchronized
 			
 		}//end of if
+		
+		
+		/*
+		 * For notifying a waiting customer that the restaurant is full
+		 */
+		int n = 0;
+		synchronized(tables){
+			for (Table table : tables){
+				if (table.isOccupied)
+					n++;
+				else
+					break;
+				
+				if (n == NTABLES){	//all tables are occupied
+					if (!waitingCustomers.isEmpty()){
+						for (MyWaitingCustomer wc : waitingCustomers){
+							if (!wc.confirmedToWait){
+								notifyCustomerRestFull(wc.c);
+								return false;
+							}
+						}
+					}
+				}//end of if
+			} //end of for loop
+		}//end of synchronized
 
 		
 		/*

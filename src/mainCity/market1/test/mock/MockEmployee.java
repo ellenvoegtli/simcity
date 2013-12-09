@@ -42,7 +42,7 @@ public class MockEmployee extends Mock implements Employee {
 	}
 	
 	@Override
-	public void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory){
+	public void msgAssignedToBusiness(String restaurantName, Map<String, Integer>inventory){
 		log.add(new LoggedEvent("Received msgAssignedToBusiness: " + restaurantName));
 	}
 	@Override

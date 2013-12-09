@@ -124,8 +124,9 @@ public class ContactList {
 	EnaRestaurantPanel enaRestaurant;
 	DavidRestaurantPanel davidRestaurant; 
 	BankPanel bank;
+	BankPanel bank2;
 	MarketPanel market;
-	Market2Panel market2;
+	MarketPanel market2;
 	
 	CityPanel city;
 	
@@ -143,81 +144,57 @@ public class ContactList {
 		return city;
 	}
 	
-	// Home *****
+	// Home *****   \\
+	
 	HomePanel homeP;
-	public OccupantRole oR;
-	public PersonAgent pA;
 	public boolean rent;
-	//public List<Integer> OccInstances = new ArrayList<Integer> ();
 
-	public List<OccupantRole> OccInstances = new ArrayList<OccupantRole> ();
-	public List<OccupantRole> RenterInstances = new ArrayList<OccupantRole> ();
 	public List<PersonAgent> peopleList = new ArrayList<PersonAgent>();
 	public List<PersonAgent> RenterList = new ArrayList<PersonAgent>();
 
-	public Map<OccupantRole, HomePanel> LivingPlaces = new HashMap<OccupantRole,HomePanel>();
+	public Map<PersonAgent, HomePanel> LivingPlaces = new HashMap<PersonAgent,HomePanel>();
 	public List<HomePanel> homeInstances = new ArrayList<HomePanel> ();
 
 	public void setHome(HomePanel hp)
 	{
 		homeP = hp;
 		homeInstances.add(hp);
-		  System.out.println("home list size---------------------------------------   " +homeInstances.size());
-
 	}
 	
 	
 	public void setPersonInstance(PersonAgent p, boolean renter)
 	{
-		pA = p;
 		rent = renter;
 		if(renter == false)
 		{
 			peopleList.add(p);
-			//OccInstances.add(1);
 		}
 		if(renter == true)
 		{
 			RenterList.add(p);
 		}
-	}
-	public void setOccInstance(OccupantRole oR)
-	{
-
-		if(oR.owner)
-		{
-			 OccInstances.add(oR);
-
-		}
-		else //if(!oR.owner)
-		{
-			 RenterInstances.add(oR);
-		}
+		
 		 HomePanel home = null;
 		  if(homeInstances.size() != 0)
 		  {
-			 if (oR.owner)
+			 if (renter==false)
 			 {
-				  home = homeInstances.get(OccInstances.size()-1);
-					 LivingPlaces.put(oR, home);
-
+				  home = homeInstances.get(peopleList.size()-1);
+					 LivingPlaces.put(p, home);
 			 }
 			 
 			else //if(!oR.owner)
 			 {
-				  home = homeInstances.get(6+RenterInstances.size());
-				  System.out.println("renter list size" +RenterInstances.size());
-					 LivingPlaces.put(oR, home);
-
+				  home = homeInstances.get(6+RenterList.size());
+					 LivingPlaces.put(p, home);
 			 }
 		  }
-		
 		
 	}
 	
 	public HomePanel getHome(OccupantRole oR)
 	{
-		return LivingPlaces.get(oR);
+		return LivingPlaces.get(oR.person);
 	}
 	
 
@@ -225,6 +202,8 @@ public class ContactList {
 	{
 		return homeP;
 	}
+	
+	
 	
 	//Bank*******
 	public void setBankManager(BankManager m){
@@ -238,9 +217,16 @@ public class ContactList {
 	public void setBank(BankPanel b){
 		bank=b;
 	}
+	public void setBank2(BankPanel b){
+		bank2=b;
+	}
 	public BankPanel getBank(){
 		return bank;
 	}
+	public BankPanel getBank2(){
+		return bank2;
+	}
+	
 	//Market********
 	public void setMarketGreeter(Market1GreeterRole g){
 		marketGreeter = g;
@@ -257,24 +243,15 @@ public class ContactList {
 	public MarketPanel getMarket(){
 		return market;
 	}
-	
-
-	//***MARKET 2 - added===============
-	public void setMarket2Greeter(Market2GreeterRole g){
-		market2Greeter = g;
-	}
-	public void setMarket2Cashier(Market2CashierRole c){
-		market2Cashier = c;
-	}
-	public void setMarket2DeliveryMan(Market2DeliveryManRole d){
-		market2DeliveryMan = d;
-	}
-	public void setMarket2(Market2Panel m){
+	//MARKET 2********
+	public void setMarket2(MarketPanel m){
 		market2 = m;
 	}
-	public Market2Panel getMarket2(){
+	public MarketPanel getMarket2(){
 		return market2;
 	}
+	
+	
 	
 	//Ellen's Restaurant******
 	public void setEllenHost(EllenHostRole h){

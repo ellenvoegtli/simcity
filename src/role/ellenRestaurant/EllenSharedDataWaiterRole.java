@@ -1,9 +1,6 @@
 package role.ellenRestaurant;
-import java.util.concurrent.Semaphore;
 
 import mainCity.PersonAgent;
-import mainCity.gui.trace.AlertLog;
-import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.sharedData.*;
 
 public class EllenSharedDataWaiterRole extends EllenWaiterRole {
@@ -16,11 +13,6 @@ public class EllenSharedDataWaiterRole extends EllenWaiterRole {
 	
 	public void setStand(RevolvingStand s) {
 		this.stand = s;
-	}
-	
-	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.ELLEN_RESTAURANT, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.ELLEN_WAITER, this.getName(), s);
 	}
 
 	protected void sendOrderToCook(MyCustomer mc) {

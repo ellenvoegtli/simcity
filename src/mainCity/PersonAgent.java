@@ -31,9 +31,10 @@ import role.market2.*;
 import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
+	
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus, walkingFromCar}
 	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
-	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, market, market2}
+	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
 	
 	private PersonGuiInterface gui;
 	private String name;
@@ -144,18 +145,6 @@ public class PersonAgent extends Agent {
 		synchronized(actions) {
 			actions.add(new Action(ActionType.maintenance, 1));
 			stateChanged();
-		}
-	}
-	public void msgBrokeSomething(){
-		log.add(new LoggedEvent("I BROKE SOMETHINGGGGGGG!!!!!!!!!!!!!!!"));
-		System.out.println("I BROKE SOMETHINGGGGGGG!!!!!!!!!!!!!!!");
-		if (roles.get(ActionType.home) != null){
-			System.out.println("HOME ACTION TYPE IS NOT NULL!");
-			((Occupant) roles.get(ActionType.home)).applianceBroke();
-		}
-		else {
-			System.out.println("HOME ACTIONTYPE IS NULL :(");
-			log.add(new LoggedEvent("occupant role doesn't exist :/"));
 		}
 	}
 	public void msgBusHasArrived() {
@@ -321,16 +310,14 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
-			if(event == PersonEvent.arrivedAtMarket || event == PersonEvent.arrivedAtMarket2) {
+			if(event == PersonEvent.arrivedAtMarket/* || event == PersonEvent.arrivedAtMarket2*/) {
 				handleRole(currentAction.type);
 				
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
 					if (event == PersonEvent.arrivedAtMarket && !((Market1CustomerRole) customer).getGui().goInside()) {
-						return true;
-					}
-					else if (event == PersonEvent.arrivedAtMarket2 && !((Market2CustomerRole) customer).getGui().goInside()){
+						currentAction.state = ActionState.done;
 						return true;
 					}
 					
@@ -389,43 +376,35 @@ public class PersonAgent extends Agent {
 			}
 		
 			if(event == PersonEvent.arrivedAtBank) {
-				System.out.println("arrived at bank");
-				//set appropriate role and initial state for different actions
+				output("Arrived at bank");
 				handleRole(currentAction.type);
 
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
-					if (customer instanceof BankRobberRole && !((BankRobberRole) customer).getGui().goInside()){
-						System.out.println("bank robber checked closed");
+					if ((customer instanceof BankRobberRole && !((BankRobberRole) customer).getGui().goInside()) || (customer instanceof BankCustomer && !((BankCustomer) customer).getGui().goInside())){
 						currentAction.state = ActionState.done;
 						return true;
 					}
 					
-					if (customer instanceof BankCustomer && !((BankCustomer) customer).getGui().goInside()){
-						currentAction.state = ActionState.done;
-						return true;
+					switch(currentAction.type) {
+						case bankWithdraw:
+							((BankCustomer) customer).msgWantToWithdraw();
+							break;
+						case bankDeposit:
+							((BankCustomer) customer).msgWantToDeposit();
+							break;
+						case bankLoan:
+							((BankCustomer) customer).msgNeedLoan();
+							break;
+						case bankRob:
+							((BankRobberRole) customer).msgWantToRobBank();
+							break;
+						default:
+							break;
 					}
-					if(roles.containsKey(ActionType.bankWithdraw)){
-						roles.get(ActionType.bankWithdraw).setActive();
-						Role bankCustomer = roles.get(ActionType.bankWithdraw);
-						((BankCustomer) bankCustomer).msgWantToWithdraw();
-					}
-					else if(roles.containsKey(ActionType.bankDeposit)){
-						roles.get(ActionType.bankDeposit).setActive();
-						Role bankCustomer = roles.get(ActionType.bankDeposit);
-						((BankCustomer) bankCustomer).msgWantToDeposit();
-					}
-					else if(roles.containsKey(ActionType.bankLoan)){
-						roles.get(ActionType.bankLoan).setActive();
-						Role bankCustomer = roles.get(ActionType.bankLoan);
-						((BankCustomer) bankCustomer).msgNeedLoan();
-					}
-					else if(roles.containsKey(ActionType.bankRob)){
-						roles.get(ActionType.bankRob).setActive();
-						Role bankRobber = roles.get(ActionType.bankRob);
-						((BankRobberRole) bankRobber).msgWantToRobBank();
-					}
+					
+					customer.setActive();
 				}
 				
 				enterBuilding();
@@ -521,7 +500,6 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void checkSelf() {
-		//FOR AI - need to check self to do things? bank, eat, etc. -- this is called from the global timer
 		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && currentAction.type != ActionType.work && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
 			synchronized(actions) {
 				actions.add(new Action(ActionType.work, 1));
@@ -580,7 +558,21 @@ public class PersonAgent extends Agent {
 								ContactList.getInstance().getBank().handleRole(bm);
 								roles.put(action, bm);
 								break;
-							
+							case "bank2er":
+								BankerRole bk2 = new BankerRole(this, name);
+								ContactList.getInstance().getBank2().handleRole(bk2);
+								roles.put(action, bk2);
+								break;
+							case "bank2Teller":	
+								BankTellerRole bt2 = new BankTellerRole(this, name);
+								ContactList.getInstance().getBank2().handleRole(bt2);
+								roles.put(action, bt2);
+								break;
+							case "bank2Manager":
+								BankManagerRole bm2 = new BankManagerRole(this, name);
+								ContactList.getInstance().getBank2().handleRole(bm2);
+								roles.put(action, bm2);
+								break;
 							//-----Jefferson Restaurant Roles---//
 							case "jeffersonCook":
 								JeffersonCookRole jc = new JeffersonCookRole(this, name);
@@ -593,7 +585,7 @@ public class PersonAgent extends Agent {
 								roles.put(action, jr);
 								break;
 							case "jeffersonWaiter":
-								JeffersonWaiterRole jw = new JeffersonWaiterRole(this, name);
+								JeffersonWaiterRole jw = new JeffersonSharedDataWaiterRole(this, name);
 								ContactList.getInstance().getJeffersonRestaurant().handleRole(jw);
 								roles.put(action, jw);
 								break;
@@ -733,22 +725,22 @@ public class PersonAgent extends Agent {
 								
 							//-----Market 2 Roles ---//
 							case "market2Employee":
-								Market2EmployeeRole mem2 = new Market2EmployeeRole(this, name);
+								Market1EmployeeRole mem2 = new Market1EmployeeRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mem2);
 								roles.put(action, mem2);
 								break;
 							case "market2Greeter":
-								Market2GreeterRole mgr2 = new Market2GreeterRole(this, name);
+								Market1GreeterRole mgr2 = new Market1GreeterRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mgr2);
 								roles.put(action, mgr2);
 								break;
 							case "market2Cashier":
-								Market2CashierRole mcsh2 = new Market2CashierRole(this, name);
+								Market1CashierRole mcsh2 = new Market1CashierRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mcsh2);
 								roles.put(action, mcsh2);
 								break;
 							case "market2DeliveryMan":
-								Market2DeliveryManRole mdm2 = new Market2DeliveryManRole(this, name);
+								Market1DeliveryManRole mdm2 = new Market1DeliveryManRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mdm2);
 								roles.put(action, mdm2);
 								break;
@@ -757,7 +749,6 @@ public class PersonAgent extends Agent {
 								break;
 						}
 						break;
-					
 
 					case restaurant:
 						switch(destination) {
@@ -796,12 +787,11 @@ public class PersonAgent extends Agent {
 						roles.put(action, mcr);
 						break;
 					case market2 : 
-						Market2CustomerRole mcr2 = new Market2CustomerRole(this, name);
+						Market1CustomerRole mcr2 = new Market1CustomerRole(this, name);
 						ContactList.getInstance().getMarket2().handleRole(mcr2);
 						roles.put(action, mcr2);
 						break;
 					case home :
-						
 					case homeAndEat :
 						synchronized(actions) {
 							if (actions.contains(ActionType.home) || actions.contains(ActionType.homeAndEat))
@@ -824,6 +814,7 @@ public class PersonAgent extends Agent {
 						}
 						BankCustomerRole bc = new BankCustomerRole(this, name);
 						ContactList.getInstance().getBank().handleRole(bc);
+						ContactList.getInstance().getBank2().handleRole(bc);
 						roles.put(action, bc);
 						break;
 					case bankRob:
@@ -832,6 +823,7 @@ public class PersonAgent extends Agent {
 						}
 						BankRobberRole br = new BankRobberRole(this, name);
 						ContactList.getInstance().getBank().handleRole(br);
+						ContactList.getInstance().getBank2().handleRole(br);
 						roles.put(action, br);
 						break;
 					default:
@@ -859,25 +851,13 @@ public class PersonAgent extends Agent {
 			case market:
 				event = PersonEvent.needMarket;
 				break;
-			/*case market2:
-				event = PersonEvent.needMarket2;
-				break;*/
 			case restaurant:
 				event = PersonEvent.chooseRestaurant;
 				break;
-			//======= restaurant hacks from gui ========
-			//case restaurant_ellen:
-				//event = PersonEvent.
 				
 			case bankWithdraw:
-				event = PersonEvent.needToBank;
-				break;
 			case bankDeposit:
-				event = PersonEvent.needToBank;
-				break;
 			case bankLoan: 
-				event = PersonEvent.needToBank;
-				break;
 			case bankRob:
 				event = PersonEvent.needToBank;
 				break;
@@ -931,15 +911,15 @@ public class PersonAgent extends Agent {
 
 	private void chooseRestaurant() {
 		if (restaurantHack != null){
-			if (restaurantHack.contains("Ellen"))
+			if (restaurantHack.toLowerCase().contains("ellen"))
 				destination = CityLocation.restaurant_ellen;
-			else if (restaurantHack.contains("Ena"))
+			else if (restaurantHack.toLowerCase().contains("ena"))
 				destination = CityLocation.restaurant_ena;
-			else if (restaurantHack.contains("Marcus"))
+			else if (restaurantHack.toLowerCase().contains("marcus"))
 				destination = CityLocation.restaurant_marcus;
-			else if (restaurantHack.contains("Jefferson"))
+			else if (restaurantHack.toLowerCase().contains("jefferson"))
 				destination = CityLocation.restaurant_jefferson;
-			else if (restaurantHack.contains("David"))
+			else if (restaurantHack.toLowerCase().contains("david"))
 				destination = CityLocation.restaurant_david;
 			
 			restaurantHack = null;
@@ -969,7 +949,6 @@ public class PersonAgent extends Agent {
 				break;
 		}
 		
-		
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
@@ -988,7 +967,7 @@ public class PersonAgent extends Agent {
 		}
 
 		else if(temp) {//chose home
-			if(temp) { //need food
+			if(temp) { //check if need food
 				currentAction.type = ActionType.market;
 				handleAction(currentAction.type);
 			}
@@ -1002,65 +981,55 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void goToWork() {
-		if(job.occupation.contains("market2")) {
+		if(job.occupation.contains("market2"))
 			destination = CityLocation.market2;
-		}
-		else if(job.occupation.contains("market")) {
+		else if(job.occupation.contains("market"))
 			destination = CityLocation.market;
-		}
-		else if(job.occupation.contains("bank")) {
+		else if(job.occupation.contains("bank2"))
+			destination = CityLocation.bank2;
+		else if(job.occupation.contains("bank"))
 			destination = CityLocation.bank;
-		}
-		else if(job.occupation.contains("marcus")) {
+		else if(job.occupation.contains("marcus"))
 			destination = CityLocation.restaurant_marcus;
-		}
-		else if(job.occupation.contains("ena")) {
+		else if(job.occupation.contains("ena"))
 			destination = CityLocation.restaurant_ena;
-		}
-		else if(job.occupation.contains("ellen")) {
+		else if(job.occupation.contains("ellen"))
 			destination = CityLocation.restaurant_ellen;
-		}
-		else if(job.occupation.contains("jefferson")){
-			destination =CityLocation.restaurant_jefferson;
-		}
-		else if(job.occupation.contains("david")){ 
-			destination =CityLocation.restaurant_david;
-		}
+		else if(job.occupation.contains("jefferson"))
+			destination = CityLocation.restaurant_jefferson;
+		else if(job.occupation.contains("david"))
+			destination = CityLocation.restaurant_david;
+		
 		travelToLocation(destination);
 		event = PersonEvent.arrivedAtWork;
 		stateChanged();
 	}
 
-	private void goToRenters()
-	{
+	private void goToRenters() {
 		output("Going to a renters home for maintenance");
-		
 		travelToLocation(CityLocation.home);
-		
 		stateChanged();
 	}
 	
 	private void goToMarket() {
-		
 		switch((int) (Math.random() * 2)) {
 		case 0:
 			output("Going to market 1");
 			travelToLocation(CityLocation.market);
 			currentAction.type = ActionType.market;
-			event = PersonEvent.arrivedAtMarket;
-			stateChanged();
 			break;
 		case 1:
 			output("Going to market 2");
 			travelToLocation(CityLocation.market2);
 			currentAction.type = ActionType.market2;
-			event = PersonEvent.arrivedAtMarket2;
-			stateChanged();
 			break;
 		default:
 				break;
 		}
 		
+		event = PersonEvent.arrivedAtMarket;
+		stateChanged();
+
 	}
 
 	private void goHome()  {
@@ -1078,7 +1047,15 @@ public class PersonAgent extends Agent {
 	}
 
 	private void goToBank() {
-		travelToLocation(CityLocation.bank);
+		switch((int) Math.random()*2) {
+		case 0:
+			travelToLocation(CityLocation.bank);
+			break;
+		case 1:
+			travelToLocation(CityLocation.bank2);
+			break;
+		}
+		
 		event = PersonEvent.arrivedAtBank;
 		stateChanged();
 	}
@@ -1150,7 +1127,8 @@ public class PersonAgent extends Agent {
 	private void waitForGui() {
 		try {
 			isMoving.acquire();
-		} catch (InterruptedException e) {
+		}
+		catch (InterruptedException e) {
 			e.printStackTrace();
 		} 
 	}

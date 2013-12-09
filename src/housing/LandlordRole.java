@@ -55,10 +55,7 @@ public class LandlordRole extends Role implements landLord
 
 	
 	
-	//for alert log trace statements
-	/* (non-Javadoc)
-	 * @see housing.landLord#log(java.lang.String)
-	 */
+
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.OCCUPANT, this.getName(), s);
 	}
@@ -72,9 +69,7 @@ public class LandlordRole extends Role implements landLord
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see housing.landLord#msgPleaseFix(housing.OccupantRole, java.lang.String)
-	 */
+	
 	@Override
 	public void msgPleaseFix(Occupant occp, String appName)
 	{
@@ -83,11 +78,7 @@ public class LandlordRole extends Role implements landLord
 				ToDo.put(occp, getFixJobs());
 		
 	}
-	//SCHEDULER
-	/* (non-Javadoc)
-	 * @see housing.landLord#pickAndExecuteAnAction()
-	 */
-	@Override
+	
 	public boolean pickAndExecuteAnAction() 
 	{
 		if(ToDo.isEmpty() == false)
@@ -101,11 +92,7 @@ public class LandlordRole extends Role implements landLord
 	
 
 	
-	//ACTIONS
-	
-	/* (non-Javadoc)
-	 * @see housing.landLord#serviceRenter()
-	 */
+	//Actions
 	
 	public void serviceRenter()
 	{
@@ -148,9 +135,7 @@ public class LandlordRole extends Role implements landLord
 
 
 	
-	/* (non-Javadoc)
-	 * @see housing.landLord#repair()
-	 */
+	
 	public void repair()
 	{
 		/*try {

@@ -74,6 +74,18 @@ public class MockOccupant extends Mock implements Occupant
 		return home;
 	}
 
+	@Override
+	public void applianceBroke() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgNeedsMaintenance(String appl) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 

@@ -514,10 +514,10 @@ public class PersonTest extends TestCase {
 	
 	public void testTenJeffersonWaiterRoleWork() {
 		person.updateOccupation("jeffersonWaiter", -1, -1);
-		JeffersonWaiterRole waiter = null;
+		JeffersonNormalWaiterRole waiter = null;
 		assertNull("JeffersonNormalWaiterRole should be null. It isn't", waiter);
 		
-		waiter = new JeffersonWaiterRole(person, person.getName());
+		waiter = new JeffersonNormalWaiterRole(person, person.getName());
 		assertEquals("JeffersonNormalWaiterRole should have current person as holder. It's not", waiter.getPerson(), person);
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		

@@ -210,6 +210,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         buildings.add(building); 
         addBuildingGui(building);
         
+        building = new Building ( 670, 250, "bank.png", "bank2");
+        buildings.add(building); 
+        addBuildingGui(building);
+        
         building = new Building ( 275, 150, "restaurant_right.png", "enarestaurant");
         buildings.add(building); 
         addBuildingGui(building);
@@ -481,11 +485,13 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(655, 155, 22, 20);//market2 doorway
 
         synchronized(guis){
+        	/*
 	        for(Gui gui : guis) {
 	            if (gui.isPresent() ) {
 	                gui.updatePosition();
 	            }
 	        }
+	        */
 	        
 	        for(Gui gui : personGuis) { 
 	        	if (gui.isPresent() ) {
@@ -538,14 +544,14 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     public void addBuildingGui(Building gui) { 
     	guis.add(gui);
     }
-    
+ 
 
     public void addMarketDeliveryGui(DeliveryManGui1 gui){
-    	guis.add(gui);
+    	personGuis.add(gui);
     }
     
     public void addMarket2DeliveryGui(DeliveryManGui2 gui){
-    	guis.add(gui);
+    	personGuis.add(gui);
     }
         
     public static List<HomeObject> getHouses()

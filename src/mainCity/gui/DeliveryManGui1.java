@@ -21,11 +21,12 @@ public class DeliveryManGui1 implements Gui, DeliveryManGuiInterface {
     CityGui gui;
     private boolean isPresent;
 
-    private int xPos = 415, yPos = 200;//default delivery position
-    private int xDestination = 415, yDestination = 200;//default start position
+    //private int xPos = 415, yPos = 200;//default delivery position
+    //private int xDestination = 415, yDestination = 200;//default start position
     static final int waiterWidth = 20;
     static final int waiterHeight = 20;
-    public int homeX = 415, homeY = 200;
+    //public int homeX = 415, homeY = 200;
+    private int xPos, yPos, xDestination, yDestination, homeX, homeY;
     private BufferedImage truckImg = null;
 
 	Map<String, Integer> restaurantX = new TreeMap<String, Integer>();
@@ -36,7 +37,7 @@ public class DeliveryManGui1 implements Gui, DeliveryManGuiInterface {
 	private BufferedImage myImg = null;
 	
 
-    public DeliveryManGui1(DeliveryMan1 agent) {
+    public DeliveryManGui1(DeliveryMan1 agent, int x, int y) {
     	StringBuilder path = new StringBuilder("imgs/");
 		try {
 			truckImg = ImageIO.read(new File(path.toString() + "truck.png"));
@@ -45,6 +46,8 @@ public class DeliveryManGui1 implements Gui, DeliveryManGuiInterface {
 		}
     	
         this.agent = agent;
+        xPos = xDestination = homeX = x;
+        yPos = yDestination = homeY = y;
         
         restaurantX.put("EllenRestaurant", 105);
     	restaurantY.put("EllenRestaurant", 280);

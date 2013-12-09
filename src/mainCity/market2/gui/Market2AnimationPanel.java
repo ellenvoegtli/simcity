@@ -42,7 +42,7 @@ public class Market2AnimationPanel extends CityCard implements ActionListener {
 
     public Market2AnimationPanel(CityGui gui) {
     	super(gui);
-    	ContactList.getInstance().setMarket2(market);
+    	//ContactList.getInstance().setMarket2(market);
     	
     	stationX.put(1, 150);	//station 1
     	stationY.put(1, 50);

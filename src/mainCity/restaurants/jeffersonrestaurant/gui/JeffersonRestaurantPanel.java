@@ -8,6 +8,7 @@ import role.jeffersonRestaurant.JeffersonCookRole;
 import role.jeffersonRestaurant.JeffersonCustomerRole;
 import role.jeffersonRestaurant.JeffersonHostRole;
 import role.jeffersonRestaurant.JeffersonNormalWaiterRole;
+import role.jeffersonRestaurant.JeffersonSharedDataWaiterRole;
 import role.jeffersonRestaurant.JeffersonWaiterRole;
 import mainCity.contactList.ContactList;
 import mainCity.restaurants.jeffersonrestaurant.sharedData.RevolvingStand;
@@ -272,6 +273,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     		CookGui cg = new CookGui((JeffersonCookRole) r);
             //cook.setStand(stand);
     		cook.setGui(cg);
+    		cook.setRevolvingstand(stand);
            JAnimationPanel.addGui(cg);
             
             
@@ -323,12 +325,12 @@ public class JeffersonRestaurantPanel extends JPanel {
     	
     	
     	if(r instanceof JeffersonWaiterRole) {
-        	JeffersonWaiterRole w = (JeffersonNormalWaiterRole) r;
+        	JeffersonSharedDataWaiterRole w = (JeffersonSharedDataWaiterRole) r;
 
     	
     		
     		WaiterGui g = new WaiterGui(w);
-    		
+    		w.stand=stand;
     		JAnimationPanel.addGui(g);
     		w.setHost(host);
     		w.setGui(g);

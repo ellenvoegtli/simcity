@@ -82,7 +82,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 
 
 	public void msgNotEnoughMoney(double amountOwed, double amountPaid) {
-		// TODO Auto-generated method stub
+		log("not enough money");
 		
 	}
 
@@ -107,9 +107,12 @@ public class JeffersonCashierRole extends Role implements Cashier{
 
 	public void msgHereIsChange(double amount,
 			DeliveryMan deliveryPerson) {
+			log("recieved change of " + amount);
 			profits +=amount;
+			int difference = (int) (1000.0-(int)amount);
 			for(Bill b:bills){
-				if(b.amount==amount){
+				if((int)b.amount==difference || (int)b.amount==difference +1 || (int)b.amount==difference-1 ){
+					log("need verify set to true");
 					b.needverify=true;
 				}
 			}
@@ -167,6 +170,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 				}
 				if(b.needverify){
 					b.needverify=false;
+					log("telling verify");
 					tellDeliveryManVerified(b);
 					return true;
 				}
@@ -227,6 +231,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 
 
 	private void tellDeliveryManVerified(Bill b) {
+		log("telling deliveryman change verified");
 		b.deliveryPerson.msgChangeVerified("jeffersonrestaurant");
 		
 	}
@@ -251,7 +256,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	}
 	
 	private void payMarket (Bill b){
-		log("Paying Market");
+		log("Paying Market $" +b.amount );
 		profits=profits-b.amount;
 		if (profits<0){
 			log("Profits are in the negative");
@@ -259,7 +264,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 		
 		//b.m.msgHereIsMonies(b.amount);
 		// TODO deliveryperson.msgHereIsPayment(double)
-		b.deliveryPerson.msgHereIsPayment(b.amount,"jeffersonrestaurant");
+		b.deliveryPerson.msgHereIsPayment(1000,"jeffersonrestaurant");
 		
 	}
 

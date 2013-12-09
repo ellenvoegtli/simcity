@@ -5,24 +5,17 @@ import housing.OccupantRole;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 
-import role.marcusRestaurant.MarcusCustomerRole.AgentEvent;
 import mainCity.PersonAgent;
 import mainCity.gui.AnimationPanel;
-//import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
-import mainCity.market1.gui.*;
-import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.PersonAgent.ActionType;
-import mainCity.contactList.*;
 import mainCity.gui.trace.*;
 import mainCity.gui.ListPanel;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.NumberFormat;
 import java.util.TimerTask;
 import java.util.Timer;
 import java.util.Vector;
-import java.math.*;
 
 
 public class CityGui extends JFrame implements ActionListener, KeyListener{	
@@ -65,6 +58,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel carMenuLabel = new JLabel("Car or no car? : ");
 	private JComboBox carMenu;
 	
+	private JLabel blankLabel = new JLabel(" ");
+	private JButton addPersonButton = new JButton("Create person");
+	
 	//=================Control panel components========================
 	private JPanel subControlPanel2 = new JPanel();
 	
@@ -80,20 +76,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel workLabel = new JLabel("Go to work?");
 	private JCheckBox workCB = new JCheckBox();
 	
-	private JLabel breakLabel = new JLabel();
+	private JLabel breakLabel = new JLabel("");
 	private JButton breakButton = new JButton("Break something");
-	//private JButton depositButton = new JButton("Deposit");
-	//private JButton loanButton = new JButton("Request a loan");
-	//private JButton withdrawButton = new JButton("Withdraw");
-	//private JTextField depositField = new JTextField(100);
-	//private JTextField withrawField = new JTextField(100);
-	//private JTextField loanField = new JTextField(100);
+	private JButton marketButton = new JButton("Go to market");
 	
 	//=================Scenario Hack panel components========================
 	private JPanel subControlPanel3 = new JPanel();	
 	
 	private GroupLayout layout3 = new GroupLayout(subControlPanel3);
-	private JLabel scenario1Label = new JLabel("Scenario 1: Norm: All employees/many rich");
+	private JLabel scenario1Label = new JLabel("Scenario 1: All employees/many rich (Default)");
 	private JButton scenario1Button = new JButton("Run");
 	private JLabel scenario2Label = new JLabel("Scenario 2: Norm: All employees/1 rich");
 	private JButton scenario2Button = new JButton("Run");
@@ -114,11 +105,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel scenario10Label = new JLabel("Scenario 8: Non-norm: Changing shifts");
 	private JButton scenario10Button = new JButton("Run");
 	
-	private JLabel blankLabel = new JLabel(" ");
-	private JButton addPersonButton = new JButton("Create person");
 	
 	private Object currentPerson;
-	//private JPanel infoPanel;		//add to subControlPanel2
 
 	
 	public CityGui() { 
@@ -198,20 +186,6 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		restaurantMenu.setSelectedIndex(0);
 		restaurantMenu.addActionListener(this);
 		
-		/*Dimension depositDim = new Dimension(150, 30);
-		depositField.setPreferredSize(depositDim);
-		depositField.setMinimumSize(depositDim);
-		depositField.setMaximumSize(depositDim);
-		
-		Dimension withdrawDim = new Dimension(150, 30);
-		withrawField.setPreferredSize(withdrawDim);
-		withrawField.setMinimumSize(withdrawDim);
-		withrawField.setMaximumSize(withdrawDim);
-		
-		Dimension loanDim = new Dimension(150, 30);
-		loanField.setPreferredSize(loanDim);
-		loanField.setMinimumSize(loanDim);
-		loanField.setMaximumSize(loanDim);*/
 		
 		
 		//==================GROUP LAYOUT 1 FOR **CREATE** PANEL====================================
@@ -259,11 +233,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		GroupLayout.SequentialGroup hGroup2 = layout2.createSequentialGroup();
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(personLabel).addComponent(blankLabel).
 	            addComponent(restLabel).addComponent(blankLabel).addComponent(orLabel).addComponent(workLabel).
-	            addComponent(breakLabel)
+	            addComponent(breakButton).addComponent(marketButton)
 	            );
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(infoLabel).addComponent(blankLabel).
 	            addComponent(restaurantMenu).addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB).
-	            addComponent(breakButton)
+	            addComponent(breakLabel).addComponent(blankLabel)
 	            );
 		layout2.setHorizontalGroup(hGroup2);
 		
@@ -281,7 +255,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
 	            addComponent(workLabel).addComponent(workCB));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
-	            addComponent(breakLabel).addComponent(breakButton));
+	            addComponent(breakButton).addComponent(breakLabel));
+		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
+	            addComponent(marketButton).addComponent(blankLabel));
 		layout2.setVerticalGroup(vGroup2);
 	   //=======================END GROUP LAYOUT 2===================================================
 		
@@ -289,6 +265,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		homeButton.addActionListener(this);
 		workCB.addActionListener(this);
 		breakButton.addActionListener(this);
+		marketButton.addActionListener(this);
 
 		
 		subControlPanel2.setLayout(new GridBagLayout());
@@ -349,8 +326,6 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		JScrollPane scenarioPane = new JScrollPane(subControlPanel3);
 		subControlPanel3.setAutoscrolls(true);
 		scenarioPane.setPreferredSize(new Dimension((int) (WINDOWX * .35), (int) (WINDOWY * .4)));
-		//scenarioPane.setViewportView(subControlPanel3);
-		//controlTabbedPane.addTab("Scenarios", subControlPanel3);
 		controlTabbedPane.addTab("Scenarios", scenarioPane);
 		
 		scenario1Button.addActionListener(this);
@@ -557,7 +532,10 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         controlPanel.setMinimumSize(controlDim);
         controlPanel.setMaximumSize(controlDim);
         //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
-        leftPanel.add(controlPanel, BorderLayout.SOUTH);         
+        leftPanel.add(controlPanel, BorderLayout.SOUTH);  
+        
+        
+        generatePeopleList();
 	}
 
 	public void showInfo(String name) {
@@ -574,6 +552,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	}
 	public void addPerson(PersonAgent p){
 		people.add(p);
+		personPanel.addPerson(p.getName());
 	}
 	
 	public void updateInfoPanel(Object person) {
@@ -590,6 +569,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         if (restaurantButton.isEnabled())
         	restaurantMenu.setSelectedIndex(0);
         
+        breakLabel.setText("");
         
         infoPanel.validate();
     }
@@ -629,7 +609,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			}
 			String [] actions ={"work"};
 
-			personPanel.addPerson(name);
+			//personPanel.addPerson(name);
 			
 			//Reset all fields
 			nameField.setText("");
@@ -671,44 +651,46 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			PersonAgent p = (PersonAgent) currentPerson;
 			for (PersonAgent pers : cityPanel.getOccupants()){
 	        	if (pers.equals(p)){
-	        		/*
-	        		 * New algorithm: loop through the list of homes (personHome), see if the occupant's person agent pointer
-	        		 * equals the person agent here. then message personHome.applianceBroke
-	        		 */
-	        		System.out.println("I FOUND THE PERSON!!");
 	        		OccupantRole o = (OccupantRole) p.getRoles().get(ActionType.home);
 	        		if (o !=null){
-	        			System.out.println("occupant role exits!!");
 	        			o.applianceBroke();
+	        			breakLabel.setText("Success!");
 	        		}
 	        		else
-	        			System.out.println("No such occupant role. :( :(");
-	        			
-	        		//p.msgBrokeSomething();
+	        			breakLabel.setText("Not at home!");
 	        		break;
 	        	}
 	        }
 		}
+		else if (e.getSource() == marketButton){
+			System.out.println("BREAK SOMETHING BUTTON PRESSED");
+			PersonAgent p = (PersonAgent) currentPerson;
+			p.msgGoToMarket();
+			marketButton.setEnabled(false);
+		}
 		else if (e.getSource() == scenario1Button){
 			System.out.println("SCENARIO1 BUTTON PRESSED");
 			personPanel.resetPanel();
-			cityPanel.parseConfig("config.txt");
+			cityPanel.parseConfig("config1.txt");
 			
-			generatePeopleList();
+			//generatePeopleList();
 		}
 		else if (e.getSource() == scenario2Button){
 			System.out.println("SCENARIO2 BUTTON PRESSED");
 			personPanel.resetPanel();
 			cityPanel.parseConfig("config2.txt");
 			
-			generatePeopleList();
+			//generatePeopleList();
 		}
 		else if (e.getSource() == scenario3Button){
 			System.out.println("SCENARIO3 BUTTON PRESSED");
-			//load a certain config file
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config3.txt");
 		}
 		else if (e.getSource() == scenario4Button){
 			System.out.println("SCENARIO4 BUTTON PRESSED");
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config4.txt");
 			//load a certain config file
 		}
 		else if (e.getSource() == scenario5Button){

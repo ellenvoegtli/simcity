@@ -3,14 +3,11 @@ package mainCity.market1.test;
 import java.util.Map;
 import java.util.TreeMap;
 
-import role.market1.Market1EmployeeRole;
 import role.market1.Market1GreeterRole;
-import role.market1.Market1EmployeeRole.CustomerState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
 import mainCity.market1.test.mock.MockCustomer;
 import mainCity.market1.test.mock.MockEmployee;
-import mainCity.market1.test.mock.MockEmployeeGui;
 import junit.framework.TestCase;
 import mainCity.restaurants.EllenRestaurant.test.mock.*;
 
@@ -178,7 +175,7 @@ public class GreeterTest extends TestCase {
             assertEquals("Employee should have 1 myEmployees in it. It doesn't.", greeter.getEmployees().size(), 1);
             
             //step 1
-            greeter.msgINeedInventory("ellenRestaurant", cook, cashier, inventory);
+            greeter.msgINeedInventory("ellenRestaurant", inventory);
             
             
             //postconditions 1/preconditions 2
@@ -216,8 +213,8 @@ public class GreeterTest extends TestCase {
             assertEquals("Employee should have 2 myEmployees in it. It doesn't.", greeter.getEmployees().size(), 2);
             
             //step 1
-            greeter.msgINeedInventory("ellenRestaurant", cook, cashier, inventory);
-            greeter.msgINeedInventory("enaRestaurant", cook, cashier, inventory2); 		//different name for testing
+            greeter.msgINeedInventory("ellenRestaurant", inventory);
+            greeter.msgINeedInventory("enaRestaurant", inventory2); 		//different name for testing
             
             
             //postconditions 1/preconditions 2
