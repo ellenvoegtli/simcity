@@ -36,10 +36,10 @@ Name:enacook;Cash:100;Renter:true;Occupation:enaCook;ShiftBegin:7;ShiftEnd:19;Ac
 Name:enahost;Cash:100;Renter:false;Occupation:enaHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:enawaiter;Cash:100;Renter:false;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Jefferson Restaurant
--Name:jeffersoncook;Cash:100;Renter:false;Occupation:jeffersonCook;ShiftBegin:7;ShiftEnd:19;Actions:work
--Name:jeffersoncashier;Cash:100;Renter:true;Occupation:jeffersonCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
--Name:jeffersonhost;Cash:100;Renter:true;Occupation:jeffersonHost;ShiftBegin:7;ShiftEnd:19;Actions:work
--Name:jeffersonwaiter;Cash:100;Renter:true;Occupation:jeffersonWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:jeffersoncook;Cash:100;Renter:false;Occupation:jeffersonCook;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:jeffersoncashier;Cash:100;Renter:true;Occupation:jeffersonCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:jeffersonhost;Cash:100;Renter:true;Occupation:jeffersonHost;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:jeffersonwaiter;Cash:100;Renter:true;Occupation:jeffersonWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -David Restaurant 
 Name:davidcook;Cash:100;Renter:true;Occupation:davidCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:davidcashier;Cash:100;Renter:true;Occupation:davidCashier;ShiftBegin:7;ShiftEnd:19;Actions:work

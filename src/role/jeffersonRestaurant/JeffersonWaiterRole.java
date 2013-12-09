@@ -33,7 +33,7 @@ import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class JeffersonWaiterRole extends Role implements Waiter {
+public abstract class JeffersonWaiterRole extends Role implements Waiter {
 	static final int NTABLES = 3;//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
 	//with List semantics.
@@ -47,12 +47,12 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 
 	private String name;
 	private Semaphore atTable = new Semaphore(0,false);
-	private Semaphore atHome =  new Semaphore(0,false);
-	private Semaphore atCook =new Semaphore(0, false);
-	private Semaphore atPlating =new Semaphore(0, false);
+	protected Semaphore atHome =  new Semaphore(0,false);
+	protected Semaphore atCook =new Semaphore(0, false);
+	protected Semaphore atPlating =new Semaphore(0, false);
 	
 	private PersonAgent p;
-	private JeffersonCookRole cook;
+	protected JeffersonCookRole cook;
 	private JeffersonHostRole host;
 	private JeffersonCashierRole cashier;
 	public WaiterGui waiterGui = null;
@@ -479,16 +479,12 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 	
 	}
 	
+	protected abstract void tellCook(int table, String choice);
 	
+	/*
 	private void tellCook(int table, String choice){
 		print("sending order to cook");
-		try {
-			atTable.acquire();
-		} 
-		catch (InterruptedException e) {
-			
-			e.printStackTrace();
-		}
+		
 		
 		waiterGui.DoGoToCook();
 		
@@ -510,7 +506,7 @@ public class JeffersonWaiterRole extends Role implements Waiter {
 			e.printStackTrace();
 		}
 	}
-	
+	*/
 	private void deliverOrder(WaiterCust cust){
 		log("delivering order to cust");
 		try {
