@@ -4,8 +4,6 @@ import java.util.Map;
 
 import role.market2.Market2EmployeeRole.MyBusiness;
 import role.market2.Market2EmployeeRole.MyCustomer;
-import mainCity.interfaces.MainCashier;
-import mainCity.interfaces.MainCook;
 
 
 public interface Employee {
@@ -21,7 +19,7 @@ public interface Employee {
 	public abstract void msgAtStation();
 	public abstract void msgDoneLeaving();
 	
-    public abstract void msgAssignedToBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory);
+    public abstract void msgAssignedToBusiness(String restaurantName, Map<String, Integer>inventory);
 	public abstract void msgAssignedToCustomer(Customer c, int waitPosX, int waitPosY);
 	public abstract void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory, String deliveryMethod);
 	public abstract void msgHereIsBill(Customer c, double amount);		//from cashier

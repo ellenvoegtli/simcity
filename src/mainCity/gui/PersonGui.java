@@ -39,7 +39,7 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		
 		try {
 			xHome = agent.getHomePlace().getXLoc();
-			yHome = agent.getHomePlace().getYLoc();
+			yHome = agent.getHomePlace().getYLoc()+10;
 		}
 		catch(Exception e) {
 			xHome = 710;

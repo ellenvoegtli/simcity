@@ -94,9 +94,9 @@ public class Market2GreeterRole extends Role implements Greeter, ManagerRole {
 	}
 	
 	//from businesses
-	public void msgINeedInventory(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer> inventoryNeeded){
+	public void msgINeedInventory(String restaurantName, Map<String, Integer> inventoryNeeded){
 		log("Received msgINeedInventory from " + restaurantName);
-		waitingBusinesses.add(new MyWaitingBusiness(restaurantName, cook, cashier, inventoryNeeded));
+		waitingBusinesses.add(new MyWaitingBusiness(restaurantName, inventoryNeeded));
 		stateChanged();
 	}
 
@@ -148,7 +148,7 @@ public class Market2GreeterRole extends Role implements Greeter, ManagerRole {
 	}
 	private void assignBusinessToEmployee(MyWaitingBusiness business, Employee e){
         log("Assigning " + business.restaurantName + " to " + e.getName());
-		e.msgAssignedToBusiness(business.restaurantName, business.cook, business.cashier, business.inventory);
+		e.msgAssignedToBusiness(business.restaurantName, business.inventory);
 		waitingBusinesses.remove(business);
 	}
 	public boolean closeBuilding(){
@@ -190,14 +190,10 @@ public class Market2GreeterRole extends Role implements Greeter, ManagerRole {
 	
 	public class MyWaitingBusiness {
 		String restaurantName;
-		MainCook cook;
-		MainCashier cashier;
 		Map<String, Integer> inventory;
 		
-		MyWaitingBusiness(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer> inventoryNeeded){
+		MyWaitingBusiness(String restaurantName, Map<String, Integer> inventoryNeeded){
 			this.restaurantName = restaurantName;
-			this.cook = cook;
-			this.cashier = cashier;
 			inventory = inventoryNeeded;
 		}
 		public String getRestaurant(){

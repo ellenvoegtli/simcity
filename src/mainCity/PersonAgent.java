@@ -16,6 +16,8 @@ import mainCity.bank.*;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
+import mainCity.gui.AnimationPanel.ApartmentObject;
+import mainCity.gui.AnimationPanel.HomeObject;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
@@ -578,7 +580,7 @@ public class PersonAgent extends Agent {
 								roles.put(action, jr);
 								break;
 							case "jeffersonWaiter":
-								JeffersonWaiterRole jw = new JeffersonWaiterRole(this, name);
+								JeffersonWaiterRole jw = new JeffersonNormalWaiterRole(this, name);
 								ContactList.getInstance().getJeffersonRestaurant().handleRole(jw);
 								roles.put(action, jw);
 								break;
@@ -1181,14 +1183,16 @@ public class PersonAgent extends Agent {
 	public void setHomePlace(boolean renter)
 	{
 		if(renter)
-		{
-			for(Building apartment : AnimationPanel.getApartments().keySet())
+		{	for(ApartmentObject apartment : AnimationPanel.getApartments())
+			//for(Building apartment : AnimationPanel.getApartments().keySet())
 			{
-				if(AnimationPanel.getApartments().get(apartment).size() <= 3)
+				if(apartment.getComplex().size() <= 3)
 				{
-					this.homePlace = apartment;
-					AnimationPanel.getApts().add(AnimationPanel.getApartments().get(apartment).size()+1);
-					AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
+					this.homePlace = apartment.getBuild();
+					print("assigned to apartment" +apartment.getComplex().size());
+					apartment.getComplex().add(apartment.getComplex().size());
+						//AnimationPanel.getApts().add(apartment.getComplexSize().size()+1);
+						//AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
 					break;
 				}
 			}
@@ -1196,14 +1200,17 @@ public class PersonAgent extends Agent {
 		
 		if(!renter)
 		{
-			for(Building house : AnimationPanel.getHouses().keySet())
+
+			for(HomeObject house : AnimationPanel.getHouses())
 			{
-				if(AnimationPanel.getHouses().get(house) == false)
+				if(house.getBusy() == false)
 				{
-					this.homePlace = house;
-					AnimationPanel.houses.put(house, true);
-					break;
+					this.homePlace = house.getBuild();
+					house.setBusy(true);
+					return;
 				}
+			
+
 			}
 		}
 	}

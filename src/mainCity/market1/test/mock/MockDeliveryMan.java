@@ -3,6 +3,7 @@ package mainCity.market1.test.mock;
 import java.util.Map;
 
 import role.market1.Market1CashierRole;
+import role.market1.Market1DeliveryManRole.Bill;
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
 import mainCity.market1.interfaces.*;
@@ -18,6 +19,9 @@ public class MockDeliveryMan extends Mock implements DeliveryMan1 {
 	public boolean isActive(){
 		return true;
 	}
+	public boolean restaurantOpen(Bill b){
+		return true;
+	}
 	
 	@Override
 	public void msgAtHome(){
@@ -31,7 +35,7 @@ public class MockDeliveryMan extends Mock implements DeliveryMan1 {
 		
 	}
 	
-	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){
+	public void msgHereIsOrderForDelivery(String restaurantName, Map<String, Integer>inventory, double billAmount){
 		
 	}
 	public void msgHereIsPayment(double amount, String restaurantName){		//sent by any restaurant's cashier

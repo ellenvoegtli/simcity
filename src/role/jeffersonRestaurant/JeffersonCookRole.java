@@ -16,6 +16,7 @@ import java.util.TreeMap;
 import role.Role;
 import role.jeffersonRestaurant.JeffersonCustomerRole.*;
 import role.jeffersonRestaurant.JeffersonWaiterRole.Table;
+import role.marcusRestaurant.MarcusCookRole.CookStatus;
 import role.market1.Market1GreeterRole;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
@@ -38,6 +39,7 @@ public class JeffersonCookRole extends Role implements Cook{
 	private OrderState state=OrderState.pending;
 	private String name;
 	public boolean onDuty;
+	public boolean checkingStand;
 	public CookGui cookGui = null;
 	private JeffersonCashierRole cashier;
 	private RevolvingStand revolvingstand;
@@ -62,6 +64,7 @@ public class JeffersonCookRole extends Role implements Cook{
 		super(p);
 		this.name=name;
 		onDuty=true;
+		checkingStand=false;
 		cookingTimes.put("steak",8);
 		cookingTimes.put("chicken",6);
 		cookingTimes.put("salad",4);
@@ -120,7 +123,14 @@ public class JeffersonCookRole extends Role implements Cook{
 		this.revolvingstand = revolvingstand;
 	}
 	
-	
+	public void msgCheckStand() {
+		if(checkingStand==false) {
+			checkingStand=true;
+			stateChanged();
+		}
+		
+	}
+
 	
 	// Messages
 	public void msgGoOffDuty(double d){
@@ -260,6 +270,11 @@ public class JeffersonCookRole extends Role implements Cook{
 	
 	public boolean pickAndExecuteAnAction(){
 		
+		if(checkingStand) {
+			checkStand();
+			return true;
+		}
+		
 		
 		if(!ordersTaken.isEmpty()){
 			for(Integer i:ordersTaken){
@@ -311,9 +326,9 @@ public class JeffersonCookRole extends Role implements Cook{
 	}
 
 	private void checkStand() {
+		checkingStand=false;
 		
-		
-		print("Checking the stand for orders");
+		log("Checking the stand for orders");
 		
 		
 		if(revolvingstand.isEmpty()) {
@@ -393,7 +408,7 @@ public class JeffersonCookRole extends Role implements Cook{
 			marketOrder.put("salad", 5);
 		}
 		
-		ContactList.getInstance().marketGreeter.msgINeedInventory("jeffersonrestaurant", this, cashier, marketOrder);
+		ContactList.getInstance().marketGreeter.msgINeedInventory("jeffersonrestaurant",marketOrder);
 		// TODO Insert messaging to Ellen's Market Here
 	
 		
@@ -465,6 +480,7 @@ public class JeffersonCookRole extends Role implements Cook{
 		
 	}
 
+	
 
 	
 

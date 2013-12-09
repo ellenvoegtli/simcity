@@ -7,15 +7,17 @@ import role.jeffersonRestaurant.JeffersonCashierRole;
 import role.jeffersonRestaurant.JeffersonCookRole;
 import role.jeffersonRestaurant.JeffersonCustomerRole;
 import role.jeffersonRestaurant.JeffersonHostRole;
+import role.jeffersonRestaurant.JeffersonNormalWaiterRole;
 import role.jeffersonRestaurant.JeffersonWaiterRole;
-import role.marcusRestaurant.MarcusCookRole;
-import role.marcusRestaurant.MarcusCustomerRole;
-import role.marcusRestaurant.MarcusWaiterRole;
 import mainCity.contactList.ContactList;
+import mainCity.restaurants.jeffersonrestaurant.sharedData.RevolvingStand;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Panel in frame that contains all the restaurant information,
@@ -30,6 +32,7 @@ public class JeffersonRestaurantPanel extends JPanel {
   // private WaiterGui waiterGui = new WaiterGui(waiter);
     private JeffersonCookRole cook;
     private JeffersonCashierRole cashier;
+    private RevolvingStand stand = new RevolvingStand();
     /* 
     private JeffersonMarketRole m1 = new JeffersonMarketRole();
     private JeffersonMarketRole m2 = new JeffersonMarketRole();
@@ -62,6 +65,21 @@ public class JeffersonRestaurantPanel extends JPanel {
 
     public JeffersonRestaurantPanel(JeffersonAnimationPanel JAPanel) {
         this.JAnimationPanel=  JAPanel;
+        
+        Runnable standChecker = new Runnable() {
+			 public void run() {
+				try {
+					if(cook.isActive())
+						cook.msgCheckStand();
+				}
+				catch(NullPointerException e) {
+				}
+			 }
+		 };
+		 
+		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+		 executor.scheduleAtFixedRate(standChecker, 0, 15, TimeUnit.SECONDS);
+   
        // waiter.setGui(waiterGui);
         //waiter.setCook(cook);
        // waiter.setHost(host);
@@ -254,6 +272,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     		CookGui cg = new CookGui((JeffersonCookRole) r);
             //cook.setStand(stand);
     		cook.setGui(cg);
+    		cook.setRevolvingstand(stand);
            JAnimationPanel.addGui(cg);
             
             
@@ -305,7 +324,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     	
     	
     	if(r instanceof JeffersonWaiterRole) {
-        	JeffersonWaiterRole w = (JeffersonWaiterRole) r;
+        	JeffersonWaiterRole w = (JeffersonNormalWaiterRole) r;
 
     	
     		
