@@ -19,6 +19,7 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import mainCity.contactList.ContactList;
 import mainCity.gui.AnimationPanel;
@@ -55,8 +56,7 @@ public class ApartAnimationPanel extends HomeAnimationPanel{
     private HomeAnimationPanel apt3 = new HomeAnimationPanel(gui, false);
     private HomeAnimationPanel apt4 = new HomeAnimationPanel(gui, false);
     
-    //protected List<Gui> guis = new ArrayList<Gui>();
-
+    
 	public ApartAnimationPanel(CityGui gui) 
 	{
 		super(gui, false);
@@ -92,26 +92,14 @@ public class ApartAnimationPanel extends HomeAnimationPanel{
 	    apts.add(apt2);
 	    apts.add(apt3);
 	    apts.add(apt4);
-		
+	    
+	    
 	    ContactList.getInstance().setHome(apt1.getHomeP());
-	    ContactList.getInstance().setHome(apt2.getHomeP());
-	    ContactList.getInstance().setHome(apt3.getHomeP());
-	    ContactList.getInstance().setHome(apt4.getHomeP());
-
-		//ContactList.getInstance().setApart(apts);
-        
-        
+        ContactList.getInstance().setHome(apt2.getHomeP());
+        ContactList.getInstance().setHome(apt3.getHomeP());
+        ContactList.getInstance().setHome(apt4.getHomeP());
+		
 	}
-	
-
-	/*public void actionPerformed(ActionEvent e) 
-	{
-		apt1.actionPerformed(e);
-		apt2.actionPerformed(e);
-		apt3.actionPerformed(e);
-		apt4.actionPerformed(e);
-
-	}*/
 
 
 }
