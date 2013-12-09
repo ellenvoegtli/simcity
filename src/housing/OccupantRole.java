@@ -260,7 +260,7 @@ public boolean pickAndExecuteAnAction()
 	{
 		//print("----------------------");
 		//EatFood();
-		return true;
+		return false;
 	}
 	
 	if(eState == eatingState.washing)
@@ -416,6 +416,7 @@ public void restockKitchen()
 
 public void cookAMeal()
 {
+	eState = eatingState.nothing;
 	if(owner) gui.DoGoToStove();
 	if(!owner) gui.DoGoToStoveA();
 	
