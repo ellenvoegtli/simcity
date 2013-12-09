@@ -106,7 +106,8 @@ public OccupantRole(PersonAgent p, String personNm)
 			owner = false;
 			needsWork.add("stove");
 			rent = 850;
-			setLandLord(ContactList.getInstance().getLandLords().get(0));
+			if(!ContactList.getInstance().getLandLords().isEmpty())
+				setLandLord(ContactList.getInstance().getLandLords().get(0));
 		}
 	}
 	

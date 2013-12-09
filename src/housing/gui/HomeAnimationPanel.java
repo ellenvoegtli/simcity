@@ -197,9 +197,9 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    
 	    public void backgroundUpdate()
 	    {
-
 	    	for (Gui gui : personGuis)
 	    	{
+
 	    		if(gui.isPresent())
 	    		{
 	    			gui.updatePosition();
