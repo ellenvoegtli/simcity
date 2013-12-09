@@ -38,9 +38,9 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg1); 
     	bus1.startThread();
 
-    	String[] actions = {"work"}; 
-    	addPerson("CarTest", 500, false, "davidWaiter", 6, 22, actions);
-		//parseConfig("config1.txt");
+    	//String[] actions = {"work"}; 
+    	//addPerson("CarTest", 500, false, "davidWaiter", 6, 22, actions);
+		parseConfig("config1.txt");
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
@@ -78,7 +78,7 @@ public class CityPanel extends JPanel{
 		 };
 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		 executor.scheduleAtFixedRate(cityClock, 0, 15, TimeUnit.SECONDS); //Timer goes off every 15 seconds
+		 executor.scheduleAtFixedRate(cityClock, 0, 2, TimeUnit.SECONDS); //Timer goes off every 15 seconds
 	}
 	
 	public void addDeliveryGui(MarketDeliveryManRole d, int x, int y){
@@ -113,11 +113,10 @@ public class CityPanel extends JPanel{
 		    while ((strLine = br.readLine()) != null)   {
 		    	//System.out.println(strLine);
 		    	if(!strLine.startsWith("-")) {
-		    		Timer timer = new Timer();
-		            timer.schedule(new CreationDelay(strLine), 500*staggerIndex);
-		            ++staggerIndex;
-		            
-		            /*
+		    		//Timer timer = new Timer();
+		            //timer.schedule(new CreationDelay(strLine), 500*staggerIndex);
+		            //++staggerIndex;
+		          
 		    		String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
 				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
 				   	String renter = strLine.substring(strLine.indexOf("Renter")+7, strLine.indexOf("Occupation")-1);
@@ -127,7 +126,6 @@ public class CityPanel extends JPanel{
 				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
 				    String[] actionList = actions.split(",");
 				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
-		             */
 		    	}
 		    }
 

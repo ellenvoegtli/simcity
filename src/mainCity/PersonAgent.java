@@ -361,38 +361,18 @@ public class PersonAgent extends Agent {
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
-					if(customer instanceof MarcusCustomerRole) {
-						if(!((MarcusCustomerRole) customer).getGui().goInside()) {
-							chooseRestaurant();
-							return true;
+					if((customer instanceof MarcusCustomerRole && !((MarcusCustomerRole) customer).getGui().goInside()) ||
+						(customer instanceof EllenCustomerRole && !((EllenCustomerRole) customer).getGui().goInside()) ||
+						(customer instanceof EnaCustomerRole && !((EnaCustomerRole) customer).getGui().goInside()) ||
+						(customer instanceof JeffersonCustomerRole && !((JeffersonCustomerRole) customer).getGui().goInside()) ||
+						(customer instanceof DavidCustomerRole && !((DavidCustomerRole) customer).getGui().goInside())) {
+						
+						currentAction.state = ActionState.done;
+						//chooseRestaurant();
+						//actions.add(new Action(ActionType.hungry, 7));
+						return true;
 						}
-					}
-					else if(customer instanceof EllenCustomerRole) {
-						if (!((EllenCustomerRole) customer).getGui().goInside()){
-							chooseRestaurant();
-							return true;
-						}
-					}
-					else if(customer instanceof EnaCustomerRole)
-					{
-						if (!((EnaCustomerRole) customer).getGui().goInside())
-						{	chooseRestaurant();
-							return true;
-						}
-					}
-					else if(customer instanceof JeffersonCustomerRole){
-						if(!((JeffersonCustomerRole) customer).getGui().goInside()){
-							chooseRestaurant();
-							return true;
-						}
-					}
-					else if(customer instanceof DavidCustomerRole){
-						if(!((DavidCustomerRole) customer).getGui().goInside()){
-							chooseRestaurant(); 
-							return true;
-						}
-					}
-
+					
 				customer.setActive();
 				}
 
