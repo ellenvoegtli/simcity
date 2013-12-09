@@ -5,6 +5,7 @@ import role.davidRestaurant.*;
 import role.ellenRestaurant.*;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
+import role.market.*;
 import housing.*;
 import housing.Interfaces.Occupant;
 
@@ -23,7 +24,6 @@ import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.*;
-import role.market.*;
 import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
