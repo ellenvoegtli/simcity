@@ -948,9 +948,11 @@ public class PersonAgent extends Agent {
 		else if (currentAction.type == ActionType.restaurant_ellen)
 			destination = CityLocation.restaurant_ellen;
 		else if (currentAction.type == ActionType.restaurant_marcus)
-			destination = CityLocation.restaurant_jefferson;
+			destination = CityLocation.restaurant_marcus;
 		else if (currentAction.type == ActionType.restaurant_david)
 			destination = CityLocation.restaurant_david;
+		else if (currentAction.type == ActionType.restaurant_jefferson)
+			destination = CityLocation.restaurant_jefferson;
 		else {													//default: do random (if ActionType = restaurant)
 			switch((int) (Math.random() * 5)) {
 			case 0:
