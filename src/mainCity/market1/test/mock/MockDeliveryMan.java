@@ -35,7 +35,7 @@ public class MockDeliveryMan extends Mock implements DeliveryMan1 {
 		
 	}
 	
-	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){
+	public void msgHereIsOrderForDelivery(String restaurantName, Map<String, Integer>inventory, double billAmount){
 		
 	}
 	public void msgHereIsPayment(double amount, String restaurantName){		//sent by any restaurant's cashier

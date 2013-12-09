@@ -24,7 +24,7 @@ public class MockGreeter extends Mock implements Greeter{
 	public void msgINeedInventory(Customer c, int x, int y){
 		log.add(new LoggedEvent("Received msgINeedInventory from " + c.getName() + "."));
 	}
-	public void msgINeedInventory(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer> inventoryNeeded){
+	public void msgINeedInventory(String restaurantName, Map<String, Integer> inventoryNeeded){
 		
 	}
 }

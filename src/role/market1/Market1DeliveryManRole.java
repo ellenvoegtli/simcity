@@ -72,7 +72,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	
 	// Messages
 	
-	public void msgHereIsOrderForDelivery(String restaurantName, /*MainCook cook, MainCashier cashier,*/ Map<String, Integer>inventory, double billAmount){
+	public void msgHereIsOrderForDelivery(String restaurantName, Map<String, Integer>inventory, double billAmount){
 		log("Received msgHereIsOrderForDelivery for " + restaurantName);
 		bills.add(new Bill(restaurantName, billAmount, inventory));
 		stateChanged();
@@ -179,6 +179,12 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			}
 		}
 		for(Bill b: bills){
+			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.receivedPayment){
+				CalculateChange(b);
+				return true;
+			}
+		}
+		for(Bill b: bills){
 			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt){
 				ReturnToMarket(b);
 				state = AgentState.doingNothing;
@@ -262,6 +268,11 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			else if (b.restaurantName.equalsIgnoreCase("davidRestaurant")){
 				b.cook = ContactList.getInstance().davidCook;
 				b.cashier = ContactList.getInstance().davidCashier;
+				b.cook.msgHereIsYourOrder(b.itemsBought);
+				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
+			}
+			
+			if(b.restaurantName.contains("mock")){
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
