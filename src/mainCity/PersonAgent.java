@@ -269,6 +269,7 @@ public class PersonAgent extends Agent {
 		if(isMoving.availablePermits() == 0)
 			isMoving.release();
 		alive = false;
+		stateChanged();
 	}
 
 	//----------Scheduler----------//
@@ -284,6 +285,10 @@ public class PersonAgent extends Agent {
 			}
 		}
 
+		if(!alive) {
+			respawnPerson();
+		}
+		
 		if(currentAction != null && currentAction.state == ActionState.done) {
 			currentAction = null;
 			return true;
@@ -1088,6 +1093,10 @@ public class PersonAgent extends Agent {
 		
 		event = PersonEvent.arrivedAtBank;
 		stateChanged();
+	}
+	
+	private void respawnPerson() {
+		//handle stuff to respawn the person in their home and change their position;
 	}
 	
 	private void boardBus() {
