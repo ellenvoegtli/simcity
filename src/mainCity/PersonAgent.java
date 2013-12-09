@@ -136,7 +136,18 @@ public class PersonAgent extends Agent {
 			stateChanged();
 		}
 	}
-	
+	public void msgBrokeSomething(){
+		log.add(new LoggedEvent("I BROKE SOMETHINGGGGGGG!!!!!!!!!!!!!!!"));
+		System.out.println("I BROKE SOMETHINGGGGGGG!!!!!!!!!!!!!!!");
+		if (roles.get(ActionType.home) != null){
+			System.out.println("HOME ACTION TYPE IS NOT NULL!");
+			((Occupant) roles.get(ActionType.home)).applianceBroke();
+		}
+		else {
+			System.out.println("HOME ACTIONTYPE IS NULL :(");
+			log.add(new LoggedEvent("occupant role doesn't exist :/"));
+		}
+	}
 	public void msgBusHasArrived() {
 		//print("msgBusHasArrived received");
 		log.add(new LoggedEvent("msgBusHasArrived received"));
@@ -198,6 +209,7 @@ public class PersonAgent extends Agent {
 	}*/
 	
 	public void msgGoHome() {
+		System.out.println(name + ": Received msgGoHome");
 		synchronized(actions) {
 			actions.add(new Action(ActionType.home, 3));
 			stateChanged();
