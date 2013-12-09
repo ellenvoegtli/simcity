@@ -99,7 +99,16 @@ public class EnaCashierRole extends Role implements Cashier{
 			return restCash;
 		}
 
-
+		public void msgNotEnoughMoney(double amountOwed, double amountPaid) 
+		{
+				for(MarketTab tab : marketChecks)
+				{
+					if(tab.checks == amountPaid);
+					{
+						tab.deliveryMan.msgIOweYou(amountOwed, "enaRestaurant");
+					}
+				}
+		}
 
 		public void msgRestockBill(double reciept, Market ma)
 		{
@@ -350,27 +359,6 @@ public boolean pickAndExecuteAnAction()
 	{
 		this.host = host;		
 	}
-
-
-
-	
-	public void msgNotEnoughMoney(double amountOwed, double amountPaid) 
-	{
-			
-	}
-
-
-
-
-
-
-
-
-
-	
-
-
-
 
 
 
