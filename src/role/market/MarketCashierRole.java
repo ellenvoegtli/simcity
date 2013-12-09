@@ -18,7 +18,7 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	Greeter greeter;
 	private double cash = 0;
 	Timer timer = new Timer();
-	private MarketMenu marketMenu = new MarketMenu();
+	private MarketMenu marketMenu;
 	
 	public List<Bill> bills = Collections.synchronizedList(new ArrayList<Bill>());	//from waiters
 	private List<Employee> employees = Collections.synchronizedList(new ArrayList<Employee>());
@@ -47,6 +47,10 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	public double getCash(){
 		return cash;
 	}
+	public void setMenu(MarketMenu m){
+		marketMenu = m;
+	}
+	
 	public void deductCash(double sub){
 		cash -= sub;
 		cash = Math.round(cash*100.00)/100.00;

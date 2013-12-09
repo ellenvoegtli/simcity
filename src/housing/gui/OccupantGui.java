@@ -56,7 +56,7 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		
 		if(!this.atEndPoint())
 		{
-			if (((xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) || (xDestination == 70 && yDestination == 100) ||
+			if (((xDestination != -10 && yDestination != 45) || (xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) || (xDestination == 70 && yDestination == 100) ||
 				(xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55)) && atDestination == false)
 			{
 					atDestination = true;
@@ -67,29 +67,31 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 
 		if (this.atEndPoint()) 
 		{
-			if (command==Command.doneInKitchen)
+			
+			if((xDestination == -10 && yDestination == 45) && atDestination == true)
 			{
-				isHungry = false;
-			}
-			/*if(atDestination)
-			{
-				
 				atDestination = false;	
 				System.out.println("******Destination reached*******");
 				person.msgAtDestination();
-
-				
-			}*/
-			//command=Command.noCommand;
-			if ((((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 50 && yDestination ==150) || (xDestination == 70 && yDestination == 100) ) 
+			}
+			if((xDestination == 250 && yDestination == 150) && atDestination == true)
+			{
+				atDestination = false;	
+				System.out.println("******Destination reached*******");
+				person.msgAtDestination();
+			}
+			
+			if ((((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 70 && yDestination == 100) ) 
 					|| (xDestination == 350 && yDestination == 30) || (xDestination == 450 && yDestination == 30) || (xDestination == 400 && yDestination == 30) || (xDestination == 415 && yDestination == 63) || (xDestination == 50 && yDestination == 55) )
 																																								&& atDestination == true)
 			{
-			atDestination = false;	
-			System.out.println("******Destination reached*******");
-			person.msgAtDestination();}
+				atDestination = false;	
+				System.out.println("******Destination reached*******");
+				person.msgAtDestination();
+			}
 			
 		}
+		
 	}
 
 	
@@ -177,7 +179,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			System.out.println("doing dishes");
 			xDestination = 250;
 			yDestination = 40;
-			//command = Command.doneInKitchen;
 		}
 		
 		public void DoGoToSinkA()
@@ -222,11 +223,7 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		}
 
 
-		@Override
-		public void DoGoToAplliance(String app) 
-		{
-			
-		}
+	
 		
 		
 

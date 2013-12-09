@@ -20,7 +20,7 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	private Greeter host;
 	private MarketCashier cashier;
 	private DeliveryMan deliveryMan;
-	private MarketMenu marketMenu = new MarketMenu();
+	private MarketMenu marketMenu;
 	
 	public EmployeeGuiInterface employeeGui = null;
 	private int homeX, homeY;
@@ -74,6 +74,9 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	}
 	public String getName() {
 		return name;
+	}
+	public void setMenu(MarketMenu m){
+		marketMenu = m;
 	}
 	public Collection<MyCustomer> getMyCustomers() {
 		return myCustomers;

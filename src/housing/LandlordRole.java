@@ -22,6 +22,7 @@ import java.util.concurrent.Semaphore;
 
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 //import mainCity.test.EventLog;
@@ -66,21 +67,27 @@ public class LandlordRole extends Role implements landLord
 	public LandlordRole(PersonAgent p)
 	{
 		super(p);
-		
+		ContactList.getInstance().setLandLordInstance(this);
 	}
 	
 	
 	@Override
 	public void msgPleaseFix(Occupant occp, String appName)
 	{
+		System.out.println("LANDLORD GETS MESSAGE TO FIX APPLIANCE FOR RENTER");
 		log.add(new LoggedEvent("message recieved to fix"));
 				getFixJobs().add(appName);
 				ToDo.put(occp, getFixJobs());
+				System.out.println("LANDLORD .......");
+
+			stateChanged();
 		
 	}
 	
 	public boolean pickAndExecuteAnAction() 
 	{
+		System.out.println("LANDLORD .......SCHEDULER");
+
 		if(ToDo.isEmpty() == false)
 		{
 			serviceRenter();

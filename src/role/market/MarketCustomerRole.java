@@ -30,7 +30,7 @@ public class MarketCustomerRole extends Role implements Customer {
 	private Greeter host;
 	private Employee employee;
 	private MarketCashier cashier;
-	private MarketMenu marketMenu = new MarketMenu();
+	private MarketMenu marketMenu;
 	
 	private int stationX;
 	private int stationY;
@@ -123,6 +123,9 @@ public class MarketCustomerRole extends Role implements Customer {
 	}
 	public boolean getIOweMarket(){
 		return IOweMarket;
+	}
+	public void setMenu(MarketMenu m){
+		marketMenu = m;
 	}
 
 
