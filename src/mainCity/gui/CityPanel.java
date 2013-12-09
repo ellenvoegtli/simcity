@@ -113,10 +113,15 @@ public class CityPanel extends JPanel{
 		    DataInputStream in = new DataInputStream(fstream);
 		    BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		    String strLine;
+		    int staggerIndex = 0;
+		    
 		    while ((strLine = br.readLine()) != null)   {
-		    	System.out.println(strLine);
+		    	//System.out.println(strLine);
 		    	if(!strLine.startsWith("-")) {
-				   	String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
+		    		//Timer timer = new Timer();
+		            //timer.schedule(new CreationDelay(strLine), 500*staggerIndex);
+		            //++staggerIndex;
+		    		String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
 				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
 				   	String renter = strLine.substring(strLine.indexOf("Renter")+7, strLine.indexOf("Occupation")-1);
 				   	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
@@ -136,14 +141,14 @@ public class CityPanel extends JPanel{
 	}
 	
 	public void addPerson(String name, double c, boolean renter, String occupation, int sb, int se, String[] actions) {
-		System.out.println(name);
+		//System.out.println(name);
     	PersonAgent person = new PersonAgent(name);
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);
 		
 		person.setHomePlace(renter);
-		ContactList.getInstance().setPersonInstance(person, renter);
 
+		ContactList.getInstance().setPersonInstance(person, renter);
 		System.out.println("selected house for person to live in");
 		System.out.println("selected house for person: " + person.getName() + " to live in");
 		PersonGui pg = new PersonGui(person, gui);
@@ -151,7 +156,6 @@ public class CityPanel extends JPanel{
 		person.setGui(pg);
 		
 		gui.addPerson(person);
-		
 		
 		if(actions != null) {
 			for(int i = 0; i < actions.length; ++i) {
@@ -201,5 +205,25 @@ public class CityPanel extends JPanel{
 		}
 		
 		occupants.clear();
+	}
+	
+	class CreationDelay extends TimerTask {
+		String strLine;
+		
+		public CreationDelay(String s) {
+			this.strLine = s;
+		}
+		
+		public void run() {
+			String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
+		   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
+		   	String renter = strLine.substring(strLine.indexOf("Renter")+7, strLine.indexOf("Occupation")-1);
+		   	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
+		   	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
+		   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
+		   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
+		    String[] actionList = actions.split(",");
+		    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
+		}
 	}
 }

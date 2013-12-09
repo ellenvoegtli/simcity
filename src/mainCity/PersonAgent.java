@@ -587,7 +587,7 @@ public class PersonAgent extends Agent {
 								roles.put(action, jr);
 								break;
 							case "jeffersonWaiter":
-								JeffersonWaiterRole jw = new JeffersonNormalWaiterRole(this, name);
+								JeffersonWaiterRole jw = new JeffersonSharedDataWaiterRole(this, name);
 								ContactList.getInstance().getJeffersonRestaurant().handleRole(jw);
 								roles.put(action, jw);
 								break;

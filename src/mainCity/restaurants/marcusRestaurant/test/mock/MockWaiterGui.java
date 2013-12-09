@@ -58,4 +58,6 @@ public class MockWaiterGui extends Mock implements WaiterGuiInterface {
 	public EventLog getLog() {
 		return log;
 	}
+
+	public void guiAppear() {}
 }
