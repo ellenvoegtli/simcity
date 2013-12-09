@@ -49,7 +49,7 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
 
     public MarketAnimationPanel(CityGui gui) {
     	super(gui);
-    	ContactList.getInstance().setMarket(market);
+    	//ContactList.getInstance().setMarket(market);
     	StringBuilder path = new StringBuilder("imgs/");
         try {
 			shelvesImg = ImageIO.read(new File(path.toString() + "shelves.png"));
@@ -86,6 +86,10 @@ public class MarketAnimationPanel extends CityCard implements ActionListener {
  
     	Timer timer = new Timer(timerStart, this);
     	timer.start();
+    }
+    
+    public MarketPanel getMarketPanel(){
+    	return market;
     }
 
 	public void actionPerformed(ActionEvent e) {

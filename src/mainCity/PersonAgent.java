@@ -32,7 +32,7 @@ import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus}
-	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
+	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
 	
 	private PersonGuiInterface gui;
@@ -208,20 +208,33 @@ public class PersonAgent extends Agent {
 
 	//A message received to tell the person to go to the bank
 	public void msgGoToBank(String purpose) {
+		boolean decide = (Math.random() < 0.5);
 
 		synchronized(actions) {
 			switch(purpose) {
 				case "deposit":
-					actions.add(new Action(ActionType.bankDeposit, 2));
+					if(decide)
+						actions.add(new Action(ActionType.bankDeposit, 2));
+					else
+						actions.add(new Action(ActionType.bankDeposit2, 2));
 					break;
 				case "withdraw":
-					actions.add(new Action(ActionType.bankWithdraw, 2));
+					if(decide)
+						actions.add(new Action(ActionType.bankWithdraw, 2));
+					else
+						actions.add(new Action(ActionType.bankWithdraw2, 2));
 					break;
 				case "loan":
-					actions.add(new Action(ActionType.bankLoan, 2));
+					if(decide)
+						actions.add(new Action(ActionType.bankLoan, 2));
+					else
+						actions.add(new Action(ActionType.bankLoan2, 2));
 					break;
 				case "rob":
-					actions.add(new Action(ActionType.bankRob, 5));
+					if(decide)
+						actions.add(new Action(ActionType.bankRob, 5));
+					else
+						actions.add(new Action(ActionType.bankRob2, 5));
 			}
 	
 			stateChanged();
@@ -301,18 +314,19 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
-			if(event == PersonEvent.arrivedAtMarket || event == PersonEvent.arrivedAtMarket2) {
+			if(event == PersonEvent.arrivedAtMarket/* || event == PersonEvent.arrivedAtMarket2*/) {
 				handleRole(currentAction.type);
 				
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
 					if (event == PersonEvent.arrivedAtMarket && !((Market1CustomerRole) customer).getGui().goInside()) {
+						currentAction.state = ActionState.done;
 						return true;
 					}
-					else if (event == PersonEvent.arrivedAtMarket2 && !((Market2CustomerRole) customer).getGui().goInside()){
+					/*else if (event == PersonEvent.arrivedAtMarket2 && !((Market2CustomerRole) customer).getGui().goInside()){
 						return true;
-					}
+					}*/
 					
 					//check home agent to get a list of what they need?
 					customer.setActive();
@@ -379,7 +393,7 @@ public class PersonAgent extends Agent {
 						currentAction.state = ActionState.done;
 						return true;
 					}
-					
+
 					switch(currentAction.type) {
 						case bankWithdraw:
 							((BankCustomer) customer).msgWantToWithdraw();
@@ -512,13 +526,18 @@ public class PersonAgent extends Agent {
 		}
 		
 		synchronized(actions) {
-			if(cash < 50 && !actionExists(ActionType.bankWithdraw)){
-				actions.add(new Action(ActionType.bankWithdraw,3));
+			if(cash < 50 && (!actionExists(ActionType.bankWithdraw) || !actionExists(ActionType.bankWithdraw2))){
+				if((Math.random() < 0.5))
+					actions.add(new Action(ActionType.bankWithdraw, 3));
+				else
+					actions.add(new Action(ActionType.bankWithdraw2, 3));
 				stateChanged();
 			}
-			if(cash > 300 && !actionExists(ActionType.bankDeposit)){
-	
-				actions.add(new Action(ActionType.bankDeposit,3));
+			if(cash > 300 && (!actionExists(ActionType.bankDeposit) || !actionExists(ActionType.bankDeposit2))){
+				if((Math.random() < 0.5))
+					actions.add(new Action(ActionType.bankDeposit, 3));
+				else
+					actions.add(new Action(ActionType.bankDeposit2, 3));
 				stateChanged();
 			}
 		}
@@ -712,22 +731,22 @@ public class PersonAgent extends Agent {
 								
 							//-----Market 2 Roles ---//
 							case "market2Employee":
-								Market2EmployeeRole mem2 = new Market2EmployeeRole(this, name);
+								Market1EmployeeRole mem2 = new Market1EmployeeRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mem2);
 								roles.put(action, mem2);
 								break;
 							case "market2Greeter":
-								Market2GreeterRole mgr2 = new Market2GreeterRole(this, name);
+								Market1GreeterRole mgr2 = new Market1GreeterRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mgr2);
 								roles.put(action, mgr2);
 								break;
 							case "market2Cashier":
-								Market2CashierRole mcsh2 = new Market2CashierRole(this, name);
+								Market1CashierRole mcsh2 = new Market1CashierRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mcsh2);
 								roles.put(action, mcsh2);
 								break;
 							case "market2DeliveryMan":
-								Market2DeliveryManRole mdm2 = new Market2DeliveryManRole(this, name);
+								Market1DeliveryManRole mdm2 = new Market1DeliveryManRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mdm2);
 								roles.put(action, mdm2);
 								break;
@@ -774,7 +793,7 @@ public class PersonAgent extends Agent {
 						roles.put(action, mcr);
 						break;
 					case market2 : 
-						Market2CustomerRole mcr2 = new Market2CustomerRole(this, name);
+						Market1CustomerRole mcr2 = new Market1CustomerRole(this, name);
 						ContactList.getInstance().getMarket2().handleRole(mcr2);
 						roles.put(action, mcr2);
 						break;
@@ -793,6 +812,24 @@ public class PersonAgent extends Agent {
 						ContactList.getInstance().getHome().handleRoleGui(lr);
 						roles.put(action, lr);
 						break;
+					case bankWithdraw2:
+					case bankDeposit2:
+					case bankLoan2:
+						if(roles.containsKey("bankDeposit2") || roles.containsKey("bankLoan2") || roles.containsKey("bankWithdraw2")){
+							return;
+						}
+						BankCustomerRole bc2 = new BankCustomerRole(this, name);
+						ContactList.getInstance().getBank2().handleRole(bc2);
+						roles.put(action, bc2);
+						break;
+					case bankRob2:
+						if(roles.containsKey("bankRob2")){
+							return;
+						}
+						BankRobberRole br2 = new BankRobberRole(this, name);
+						ContactList.getInstance().getBank2().handleRole(br2);
+						roles.put(action, br2);
+						break;
 					case bankWithdraw:
 					case bankDeposit:
 					case bankLoan:
@@ -801,7 +838,6 @@ public class PersonAgent extends Agent {
 						}
 						BankCustomerRole bc = new BankCustomerRole(this, name);
 						ContactList.getInstance().getBank().handleRole(bc);
-						ContactList.getInstance().getBank2().handleRole(bc);
 						roles.put(action, bc);
 						break;
 					case bankRob:
@@ -810,7 +846,6 @@ public class PersonAgent extends Agent {
 						}
 						BankRobberRole br = new BankRobberRole(this, name);
 						ContactList.getInstance().getBank().handleRole(br);
-						ContactList.getInstance().getBank2().handleRole(br);
 						roles.put(action, br);
 						break;
 					default:
@@ -838,20 +873,20 @@ public class PersonAgent extends Agent {
 			case market:
 				event = PersonEvent.needMarket;
 				break;
-			/*case market2:
-				event = PersonEvent.needMarket2;
-				break;*/
 			case restaurant:
 				event = PersonEvent.chooseRestaurant;
 				break;
 			//======= restaurant hacks from gui ========
 			//case restaurant_ellen:
 				//event = PersonEvent.
-
 			case bankWithdraw:
+			case bankWithdraw2:
 			case bankDeposit:
+			case bankDeposit2:
 			case bankLoan: 
+			case bankLoan2: 
 			case bankRob:
+			case bankRob2:
 				event = PersonEvent.needToBank;
 				break;
 			default:
@@ -1006,19 +1041,20 @@ public class PersonAgent extends Agent {
 			output("Going to market 1");
 			travelToLocation(CityLocation.market);
 			currentAction.type = ActionType.market;
-			event = PersonEvent.arrivedAtMarket;
-			stateChanged();
 			break;
 		case 1:
 			output("Going to market 2");
 			travelToLocation(CityLocation.market2);
 			currentAction.type = ActionType.market2;
-			event = PersonEvent.arrivedAtMarket2;
-			stateChanged();
 			break;
 		default:
 				break;
 		}
+		
+		//currentAction.type = ActionType.market;
+		event = PersonEvent.arrivedAtMarket;
+		stateChanged();
+
 	}
 
 	private void goHome()  {
@@ -1036,14 +1072,10 @@ public class PersonAgent extends Agent {
 	}
 
 	private void goToBank() {
-		switch((int) Math.random()*2) {
-		case 0:
+		if(!currentAction.type.toString().contains("2"))
 			travelToLocation(CityLocation.bank);
-			break;
-		case 1:
+		else
 			travelToLocation(CityLocation.bank2);
-			break;
-		}
 		
 		event = PersonEvent.arrivedAtBank;
 		stateChanged();
@@ -1221,7 +1253,7 @@ public class PersonAgent extends Agent {
 	public enum ActionState {created, inProgress, done}
 	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, 
 		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
-		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, home}
+		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, bankWithdraw2, bankDeposit2, bankLoan2, bankRob2, home}
 	public class Action implements Comparable<Object> {
 		public ActionState state;
 		public ActionType type;
