@@ -139,7 +139,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 	    	return xPos == xDestination && yPos == yDestination;
 	    }
 
-		
 		public void DoGoToAppliance(int x, int y)
 		{
 			xDestination = x;
@@ -172,8 +171,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			yDestination = 30;
 		}
 		
-		
-		
 		public void DoGoToSink()
 		{
 			System.out.println("doing dishes");
@@ -189,12 +186,9 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		
 		public void DoGoToKitchenTable() 
 		{
-			
 			xDestination = 250;
 			yDestination = 150;
-			
 			System.out.println("going to table to eat");
-
 		}
 		
 		public void DoGoToKitchenTableA()
@@ -222,9 +216,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			yDestination = 45;
 		}
 
-
 	
-		
-		
 
 }
