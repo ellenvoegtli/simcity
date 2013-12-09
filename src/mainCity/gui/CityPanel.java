@@ -39,7 +39,7 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg1); 
     	bus1.startThread();
 
-		//parseConfig("config.txt");
+		parseConfig("config1.txt");
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
@@ -80,17 +80,17 @@ public class CityPanel extends JPanel{
 		 executor.scheduleAtFixedRate(cityClock, 0, 15, TimeUnit.SECONDS); //Timer goes off every 15 seconds
 	}
 	
-	public void addDeliveryGui(Market1DeliveryManRole d){
-		DeliveryManGui1 dg = new DeliveryManGui1(d);
+	public void addDeliveryGui(Market1DeliveryManRole d, int x, int y){
+		DeliveryManGui1 dg = new DeliveryManGui1(d, x, y);
 		d.setGui(dg);
 		gui.getAnimationPanel().addMarketDeliveryGui(dg);
 	}
 	
-	public void addDelivery2Gui(Market2DeliveryManRole d){
+	/*public void addDelivery2Gui(Market1DeliveryManRole d){
 		DeliveryManGui2 dg = new DeliveryManGui2(d);
 		d.setGui(dg);
 		gui.getAnimationPanel().addMarket2DeliveryGui(dg);
-	}
+	}*/
 	
 	private void updateCity() {
 		for(PersonAgent p : occupants) {
@@ -180,6 +180,22 @@ public class CityPanel extends JPanel{
 						break;
 					case "rob":
 						person.msgGoToBank("rob");
+						break;
+						
+					case "restaurant_ellen":
+						person.msgGoToRestaurant("ellenrestaurant");
+						break;
+					case "restaurant_marcus":
+						person.msgGoToRestaurant("marcusrestaurant");
+						break;
+					case "restaurant_david":
+						person.msgGoToRestaurant("davidrestaurant");
+						break;
+					case "restaurant_ena":
+						person.msgGoToRestaurant("enarestaurant");
+						break;
+					case "restaurant_jefferson":
+						person.msgGoToRestaurant("jeffersonrestaurant");
 						break;
 				}
 			}

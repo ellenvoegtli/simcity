@@ -84,7 +84,10 @@ public class MarketPanel extends JPanel implements ActionListener{
     	
     	if(r instanceof Market1DeliveryManRole) {
     		deliveryMan = (Market1DeliveryManRole) r;
-    		ContactList.getInstance().getCity().addDeliveryGui((Market1DeliveryManRole) deliveryMan);
+    		if (r.getName().toLowerCase().contains("market2"))
+    			ContactList.getInstance().getCity().addDeliveryGui((Market1DeliveryManRole) deliveryMan, 655, 135);
+    		else
+    			ContactList.getInstance().getCity().addDeliveryGui((Market1DeliveryManRole) deliveryMan, 415, 200);
             deliveryMan.setCashier(cashier);
             
             if(host != null) host.setDeliveryMan(deliveryMan);

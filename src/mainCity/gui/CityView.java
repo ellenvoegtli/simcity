@@ -53,7 +53,7 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		}
 		cards.put("bank", new CityCard(city, Color.green));
 		cards.put("market", new MarketAnimationPanel(city));
-		cards.put("market2", new Market2AnimationPanel(city));
+		cards.put("market2", new MarketAnimationPanel(city));
 		
 		cards.put("marcusRestaurant", new MarcusAnimationPanel(city));
 		cards.put("EllenRestaurant", new EllenAnimationPanel(city));
@@ -65,7 +65,9 @@ public class CityView extends JPanel implements MouseListener, ActionListener {
 		
 		ContactList.getInstance().setBank(((BankAnimationPanel)cards.get("bank")).getBankPanel());
 		ContactList.getInstance().setBank2(((BankAnimationPanel)cards.get("bank2")).getBankPanel());
-
+		ContactList.getInstance().setMarket(((MarketAnimationPanel)cards.get("market")).getMarketPanel());
+		ContactList.getInstance().setMarket2(((MarketAnimationPanel)cards.get("market2")).getMarketPanel());
+		
 
 		for(int i=0; i<7; i++)
 		{
