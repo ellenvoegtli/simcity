@@ -19,10 +19,10 @@ Name:market2employee1;Cash:100;Renter:true;Occupation:market2Employee;ShiftBegin
 Name:market2employee2;Cash:100;Renter:true;Occupation:market2Employee;ShiftBegin:6;ShiftEnd:22;Actions:work
 Name:market2deliveryman;Cash:100;Renter:true;Occupation:market2DeliveryMan;ShiftBegin:6;ShiftEnd:22;Actions:work
 -Marcus Restaurant
-Name:marcuscook;Cash:100;Renter:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:marcushost;Cash:100;Renter:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:marcuscashier;Cash:100;Renter:true;Occupation:marcusCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:marcuswaiter;Cash:100;Renter:true;Occupation:marcusWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:marcuscook;Cash:100;Renter:false;Occupation:marcusCook;ShiftBegin:6;ShiftEnd:18;Actions:work,bank
+Name:marcushost;Cash:100;Renter:true;Occupation:marcusHost;ShiftBegin:6;ShiftEnd:18;Actions:work,market
+Name:marcuscashier;Cash:100;Renter:true;Occupation:marcusCashier;ShiftBegin:6;ShiftEnd:18;Actions:work,hungry
+Name:marcuswaiter;Cash:100;Renter:true;Occupation:marcusWaiter;ShiftBegin:6;ShiftEnd:18;Actions:work,restaurant
 -Ellen Restaurant
 Name:ellencook;Cash:100;Renter:true;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:ellencashier;Cash:100;Renter:false;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
