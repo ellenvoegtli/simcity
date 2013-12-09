@@ -216,8 +216,10 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	
 	public void AddCarToLane() { 
 		if(xPos == 589 && yPos == 80) {
-			animation.Cars.add(myCar);
-			animation.lanes.get(1).addVehicle(myCar);
+			if(animation.lanes.get(1).vehicles.isEmpty()){
+				animation.Cars.add(myCar);
+				animation.lanes.get(1).addVehicle(myCar);
+			}
 		}
 		
 		else if(xPos == 130 && yPos == 126) { 
