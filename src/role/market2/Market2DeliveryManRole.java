@@ -2,25 +2,17 @@ package role.market2;
 
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
-import mainCity.gui.trace.AlertLog;
-import mainCity.gui.trace.AlertTag;
+import mainCity.gui.trace.*;
 import mainCity.interfaces.*;
 import mainCity.market2.interfaces.DeliveryManGuiInterface;
 import mainCity.market2.interfaces.MarketCashier;
 import mainCity.market2.interfaces.DeliveryMan2;
-import mainCity.restaurants.EllenRestaurant.interfaces.Cook;
-import mainCity.restaurants.EllenRestaurant.interfaces.Cashier;
 import role.Role;
-import role.market1.Market1DeliveryManRole.AgentState;
-import role.market1.Market1DeliveryManRole.Bill;
-import role.market1.Market1DeliveryManRole.DeliveryEvent;
-import role.market1.Market1DeliveryManRole.DeliveryState;
 
 import java.util.*;
 import java.util.concurrent.*;
 
 
- // Restaurant Cook Agent
 
 public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//only handles one restaurant at a time right now
 	private String name;
@@ -68,20 +60,17 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 	public void setState(AgentState s){
 		state = s;
 	}
-
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.MARKET2, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.MARKET2_DELIVERYMAN, this.getName(), s);
 	}
 	
 	// Messages
-	
 	public void msgHereIsOrderForDelivery(String restaurantName, Map<String, Integer>inventory, double billAmount){
 		log("Received msgHereIsOrderForDelivery");
 		bills.add(new Bill(restaurantName, billAmount, inventory));
 		stateChanged();
 	}
-
 	
 	public void msgHereIsPayment(double amount, String restaurantName){		//sent by any restaurant's cashier
 		log("Received msgHereIsPayment: got $" + amount);
@@ -124,19 +113,16 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		cash = Math.round(cash*100.0)/100.0;
 		b.event = DeliveryEvent.acknowledgedDebt;
 		stateChanged();
-	}
-	
-	
+	}	
 	
 	public void msgCheckForRedeliveries(){
 		log("Checking for bills that need redelivery");
 		for (Bill b : bills){
 			if (b.s == DeliveryState.waitingToRedeliver){
 				b.event = DeliveryEvent.checkRedeliveryOn;
-				stateChanged();
-				return;
 			}
 		}
+		stateChanged();
 	}
 	
 	
@@ -185,13 +171,18 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 			}
 		}
 		for(Bill b: bills){
+			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.receivedPayment){
+				CalculateChange(b);
+				return true;
+			}
+		}
+		for(Bill b: bills){
 			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt){
 				ReturnToMarket(b);
 				state = AgentState.doingNothing;
 				return true;
 			}
 		}
-		
 		for (Bill b: bills){
 			if (b.s == DeliveryState.waitingToRedeliver && b.event == DeliveryEvent.checkRedeliveryOn && state == AgentState.doingNothing){
 				log("RE-delivering order...");
@@ -237,38 +228,35 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		}
 		else {
 			//delivery man will then message appropriate cashier and cook
+			//we have to assign these values here because they might have filled the role between requesting inventory and now
 			if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
 				b.cook = ContactList.getInstance().ellenCook;
 				b.cashier = ContactList.getInstance().ellenCashier;
-				b.cook.msgHereIsYourOrder(b.itemsBought);
-				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			else if (b.restaurantName.equalsIgnoreCase("enaRestaurant")){
 				b.cook = ContactList.getInstance().enaCook;
 				b.cashier = ContactList.getInstance().enaCashier;
-				b.cook.msgHereIsYourOrder(b.itemsBought);
-				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			else if (b.restaurantName.equalsIgnoreCase("marcusRestaurant")){
 				b.cook = ContactList.getInstance().marcusCook;
 				b.cashier = ContactList.getInstance().marcusCashier;
-				b.cook.msgHereIsYourOrder(b.itemsBought);
-				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			else if (b.restaurantName.equalsIgnoreCase("jeffersonRestaurant")){
 				b.cook = ContactList.getInstance().jeffersonCook;
 				b.cashier = ContactList.getInstance().jeffersonCashier;
-				b.cook.msgHereIsYourOrder(b.itemsBought);
-				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			else if (b.restaurantName.equalsIgnoreCase("davidRestaurant")){
 				b.cook = ContactList.getInstance().davidCook;
 				b.cashier = ContactList.getInstance().davidCashier;
+			}
+			
+			if (b.restaurantName.contains("mock")){		//hack for testing purposes - avoids contact list
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			
-			
+			b.cook.msgHereIsYourOrder(b.itemsBought);
+			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			b.s = DeliveryState.waitingForPayment;
 		}
 	}
@@ -303,7 +291,6 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		state = AgentState.doingNothing;
 		
 		if(!onDuty){
 			super.setInactive();
@@ -369,6 +356,10 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 			return false;
 		}
 		
+		if (b.restaurantName.contains("mock"))	//hack for testing purposes - we always want to assume it's open
+			return true;
+		
+		log("DIDN'T FIND A RESTAURANT! :o");
 		return false;	//last resort if something is wrong
 	}
 	
@@ -408,13 +399,13 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		public MainCook getCook(){
 			return cook;
 		}
-		public void setCook(Cook c){
+		public void setCook(MainCook c){
 			cook = c;
 		}
 		public MainCashier getCashier(){
 			return cashier;
 		}
-		public void setCashier(Cashier c){
+		public void setCashier(MainCashier c){
 			cashier = c;
 		}
 		public String getRestaurant(){

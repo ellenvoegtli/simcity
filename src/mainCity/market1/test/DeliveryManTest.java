@@ -3,15 +3,12 @@ package mainCity.market1.test;
 import java.util.Map;
 import java.util.TreeMap;
 
-import role.ellenRestaurant.EllenCashierRole;
 import role.market1.Market1DeliveryManRole;
 import role.market1.Market1DeliveryManRole.AgentState;
 import role.market1.Market1DeliveryManRole.DeliveryEvent;
 import role.market1.Market1DeliveryManRole.DeliveryState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
-import mainCity.contactList.ContactList;
-import mainCity.interfaces.*;
 import mainCity.market1.test.mock.*;
 import mainCity.restaurants.EllenRestaurant.test.mock.MockCashier;
 import mainCity.restaurants.EllenRestaurant.test.mock.MockCook;
