@@ -46,12 +46,13 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     
     
     
-    //List of houses in the city
-    public static Map<Building, Boolean > houses = new HashMap<Building, Boolean >();
+    //List of home objects in the city, each gas building and occupied reference
+    public static List<HomeObject> houses = new ArrayList<HomeObject> ();
     
     
-    //list of apartment buildings in the city
-   public static  Map<Building, List<Integer>> apartments = new HashMap<Building, List<Integer> >();
+    //list of apartment buildings in the city, each has reference to how many apartmnents are filled and the building
+    public static List<ApartmentObject> apartments= new ArrayList<ApartmentObject> ();
+   //public static  Map<Building, List<Integer>> apartments = new HashMap<Building, List<Integer> >();
    
    //list to hold apartments in a single apartment building
    
@@ -138,18 +139,21 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         for(int i=0; i<7; i++){
 	        Building house = new Building( ( 20 + (i*110) ), TopHouseLocY, "house1.png", "house" +i );
 	        buildings.add(house);
-	        houses.put(house, false);
 	        addBuildingGui(house);
+
+	        HomeObject home = new HomeObject(house, false);
+	        houses.add(home);
         }
         
         //drawing bottom houses 
         for(int i=0; i<7; i++){
 	        Building house = new Building( ( 20 + (i*110) ), BotHouseLocY, "house2.png", "apartment" +i);
 	        		//list to hold apartments in a single apartment building
-	        		List<Integer> Apt = new ArrayList<Integer>();
 	        buildings.add(house);
-	        apartments.put(house, Apt);
 	        addBuildingGui(house);
+    		List<Integer> Apt = new ArrayList<Integer>();
+	        ApartmentObject aptment = new ApartmentObject(house, Apt);
+	        apartments.add(aptment);
         }
         
         //drawing restaurants 
@@ -413,15 +417,20 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     public void addMarket2DeliveryGui(DeliveryManGui2 gui){
     	guis.add(gui);
     }
-    
-    public static Map<Building, Boolean> getHouses()
+        
+    public static List<HomeObject> getHouses()
     {
     	return houses;
     }
-    
-    public static Map<Building, List<Integer>> getApartments()
+    /*public static Map<Building, List<Integer>> getApartments()
     {
     	return apartments;
+    }*/
+    
+    public static List<ApartmentObject> getApartments()
+    {
+    	return apartments;
+
     }
     public static List<Integer> getApts()
     {
@@ -462,5 +471,64 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 	}
 
  
+	public class HomeObject
+	{
+		private Building house;
+		private boolean occupied;
+		
+		private HomeObject(Building bd, boolean occ)
+		{
+			this.house = bd;
+			this.occupied = occ;
+			
+		}
+		
+		public void setBusy(boolean oc)
+		{
+			this.occupied = oc;
+			//return occupied;
+		}
+		
+		public boolean getBusy()
+		{
+			return occupied;
+		}
+		
+		public Building getBuild()
+		{
+			return house;
+		}
+		
+		
+	}
+	
+	public class ApartmentObject
+	{
+		private Building apartment;
+		private List<Integer> buildingSize;
+		
+		private ApartmentObject(Building bd, List<Integer> bldSize)
+		{
+			this.apartment = bd;
+			this.buildingSize = bldSize;
+			
+		}
+		
+		/*public void setBusy(boolean oc)
+		{
+			this.occupied = oc;
+			//return occupied;
+		}*/
+		
+		public List<Integer> getComplex()
+		{
+			return buildingSize;
+		}
+		
+		public Building getBuild()
+		{
+			return apartment;
+		}
+	}
  
 }

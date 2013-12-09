@@ -41,24 +41,7 @@ public class HomePanel extends JPanel
     {
        
     	this.animation = homeAnimationPanel;
-    	house = new personHome(occupant);
-    	
-
-    	
-    	//ContactList.getInstance().setHome(this);
-    	
-
-    	/*
-    	PersonAgent base5 = new PersonAgent("occupant");
-		occupant = new OccupantRole(base5, base5.getName());
-		base5.addRole(PersonAgent.ActionType.homeAndEat, occupant);
-		occupant.setActive();
-	*/
-		
-		//occupantGui = new OccupantGui(occupant, animation); 
-		//animation.addGui(occupantGui);
-
-		
+    	house = new personHome(occupant);		
     
     }
  
@@ -72,23 +55,7 @@ public class HomePanel extends JPanel
     }
     
     
-    
-   /* public void addPerson(String type, String name) 
-    {
 
-    	if (type.equals("Occupant")) 
-    	{
-    		OccupantRole c = new OccupantRole(name);	
-    		
-			c.setHouse(house);
-    		OccupantGui g = new OccupantGui(c, gui);
-    		gui.animationPanel.addGui(g);// dw
-    		c.setGui(g);
-    		c.startThread();
-
-    	}
-    	
-    }*/
    
     public void handleRoleGui(Role r) 
     {
@@ -98,6 +65,7 @@ public class HomePanel extends JPanel
 
         	occupant = (OccupantRole) r;
         	house = new personHome(occupant);
+        	//homeList.add(house);
 
         	occupant.setHouse(house);
         	if(!occupant.owner)
@@ -108,9 +76,7 @@ public class HomePanel extends JPanel
         	}
             house.setOccupant(occupant);
     		occupantGui = new OccupantGui(occupant, animation); 
-    		System.out.println("HOME PANEL SIZE" +animation.getGuis().size());
     		animation.addGui(occupantGui);
-    		System.out.println("HOME PANEL SIZE AFTER" +animation.getGuis().size());
     		occupant.setGui(occupantGui);
     		
     		occupantGui.setHungry();    

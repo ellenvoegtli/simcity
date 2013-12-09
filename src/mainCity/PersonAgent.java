@@ -16,6 +16,8 @@ import mainCity.bank.*;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
+import mainCity.gui.AnimationPanel.ApartmentObject;
+import mainCity.gui.AnimationPanel.HomeObject;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
@@ -136,7 +138,18 @@ public class PersonAgent extends Agent {
 			stateChanged();
 		}
 	}
-	
+	public void msgBrokeSomething(){
+		log.add(new LoggedEvent("I BROKE SOMETHINGGGGGGG!!!!!!!!!!!!!!!"));
+		System.out.println("I BROKE SOMETHINGGGGGGG!!!!!!!!!!!!!!!");
+		if (roles.get(ActionType.home) != null){
+			System.out.println("HOME ACTION TYPE IS NOT NULL!");
+			((Occupant) roles.get(ActionType.home)).applianceBroke();
+		}
+		else {
+			System.out.println("HOME ACTIONTYPE IS NULL :(");
+			log.add(new LoggedEvent("occupant role doesn't exist :/"));
+		}
+	}
 	public void msgBusHasArrived() {
 		//print("msgBusHasArrived received");
 		log.add(new LoggedEvent("msgBusHasArrived received"));
@@ -198,6 +211,7 @@ public class PersonAgent extends Agent {
 	}*/
 	
 	public void msgGoHome() {
+		System.out.println(name + ": Received msgGoHome");
 		synchronized(actions) {
 			actions.add(new Action(ActionType.home, 3));
 			stateChanged();
@@ -290,11 +304,11 @@ public class PersonAgent extends Agent {
 			if(event == PersonEvent.arrivedAtWork) {
 				output("Arrived at work!");
 				handleRole(currentAction.type);
-				System.out.println("heeeree");
+
 				synchronized(roles) {
 					roles.get(currentAction.type).setActive();
 				}
-				
+
 				enterBuilding();
 				return true;
 			}
@@ -488,8 +502,9 @@ public class PersonAgent extends Agent {
 		gui.DoGoInside();
 		state = PersonState.inBuilding;
 
-		if(currentAction.type == ActionType.work)
+		if(currentAction.type == ActionType.work) {
 			state = PersonState.working;
+		}
 	}
 	
 	private void checkSelf() {
@@ -1168,14 +1183,16 @@ public class PersonAgent extends Agent {
 	public void setHomePlace(boolean renter)
 	{
 		if(renter)
-		{
-			for(Building apartment : AnimationPanel.getApartments().keySet())
+		{	for(ApartmentObject apartment : AnimationPanel.getApartments())
+			//for(Building apartment : AnimationPanel.getApartments().keySet())
 			{
-				if(AnimationPanel.getApartments().get(apartment).size() <= 3)
+				if(apartment.getComplex().size() <= 3)
 				{
-					this.homePlace = apartment;
-					AnimationPanel.getApts().add(AnimationPanel.getApartments().get(apartment).size()+1);
-					AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
+					this.homePlace = apartment.getBuild();
+					print("assigned to apartment" +apartment.getComplex().size());
+					apartment.getComplex().add(apartment.getComplex().size());
+						//AnimationPanel.getApts().add(apartment.getComplexSize().size()+1);
+						//AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
 					break;
 				}
 			}
@@ -1183,14 +1200,17 @@ public class PersonAgent extends Agent {
 		
 		if(!renter)
 		{
-			for(Building house : AnimationPanel.getHouses().keySet())
+
+			for(HomeObject house : AnimationPanel.getHouses())
 			{
-				if(AnimationPanel.getHouses().get(house) == false)
+				if(house.getBusy() == false)
 				{
-					this.homePlace = house;
-					AnimationPanel.houses.put(house, true);
-					break;
+					this.homePlace = house.getBuild();
+					house.setBusy(true);
+					return;
 				}
+			
+
 			}
 		}
 	}

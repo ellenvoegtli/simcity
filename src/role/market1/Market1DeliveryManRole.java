@@ -72,10 +72,9 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 	
 	// Messages
 	
-	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){
+	public void msgHereIsOrderForDelivery(String restaurantName, /*MainCook cook, MainCashier cashier,*/ Map<String, Integer>inventory, double billAmount){
 		log("Received msgHereIsOrderForDelivery for " + restaurantName);
-
-		bills.add(new Bill(restaurantName, cook, cashier, billAmount, inventory));
+		bills.add(new Bill(restaurantName, billAmount, inventory));
 		stateChanged();
 	}
 
@@ -198,7 +197,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			}
 		}
 		
-		state = AgentState.doingNothing;
+		//state = AgentState.doingNothing;
 		
 		if (bills.isEmpty() && !onDuty){
 			deliveryGui.DoGoToHomePosition();
@@ -221,6 +220,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		
 
 		if (!restaurantOpen(b)){
 			deliveryGui.DoGoToHomePosition();
@@ -234,6 +234,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		}
 		else {
 			//delivery man will then message appropriate cashier and cook
+			//we have to assign these values here because they might have filled the role between requesting inventory and now
 			if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
 				b.cook = ContactList.getInstance().ellenCook;
 				b.cashier = ContactList.getInstance().ellenCashier;
@@ -264,7 +265,6 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
-			
 			
 			b.s = DeliveryState.waitingForPayment;
 		}
@@ -366,6 +366,9 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			return false;
 		}
 		
+		if (b.restaurantName.contains("mock"))
+			return true;
+		
 		log("DIDN'T FIND A RESTAURANT! :o");
 		return false;	//last resort if something is wrong
 	}
@@ -383,9 +386,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		MainCook cook;
 		MainCashier cashier;
 
-		Bill(String name, MainCook cook, MainCashier cashier, double billAmount, Map<String, Integer> inventory){
-			this.cook = cook;
-			this.cashier = cashier;
+		Bill(String name, double billAmount, Map<String, Integer> inventory){
 			amountCharged = billAmount;
 			restaurantName = name;
 			itemsBought = new TreeMap<String, Integer>(inventory);
@@ -406,13 +407,13 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		public MainCook getCook(){
 			return cook;
 		}
-		public void setCook(Cook c){
+		public void setCook(MainCook c){
 			cook = c;
 		}
 		public MainCashier getCashier(){
 			return cashier;
 		}
-		public void setCashier(Cashier c){
+		public void setCashier(MainCashier c){
 			cashier = c;
 		}
 		public String getRestaurant(){

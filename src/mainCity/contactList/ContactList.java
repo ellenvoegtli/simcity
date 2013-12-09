@@ -146,8 +146,15 @@ public class ContactList {
 	// Home *****
 	HomePanel homeP;
 	public OccupantRole oR;
-	
+	public PersonAgent pA;
+	public boolean rent;
+	//public List<Integer> OccInstances = new ArrayList<Integer> ();
+
 	public List<OccupantRole> OccInstances = new ArrayList<OccupantRole> ();
+	public List<OccupantRole> RenterInstances = new ArrayList<OccupantRole> ();
+	public List<PersonAgent> peopleList = new ArrayList<PersonAgent>();
+	public List<PersonAgent> RenterList = new ArrayList<PersonAgent>();
+
 	public Map<OccupantRole, HomePanel> LivingPlaces = new HashMap<OccupantRole,HomePanel>();
 	public List<HomePanel> homeInstances = new ArrayList<HomePanel> ();
 
@@ -155,35 +162,58 @@ public class ContactList {
 	{
 		homeP = hp;
 		homeInstances.add(hp);
-		System.out.println("_______________============______________");
-
-		System.out.println("_______________" +homeInstances.size() +"______________");
+		  System.out.println("home list size---------------------------------------   " +homeInstances.size());
 
 	}
 	
+	
+	public void setPersonInstance(PersonAgent p, boolean renter)
+	{
+		pA = p;
+		rent = renter;
+		if(renter == false)
+		{
+			peopleList.add(p);
+			//OccInstances.add(1);
+		}
+		if(renter == true)
+		{
+			RenterList.add(p);
+		}
+	}
 	public void setOccInstance(OccupantRole oR)
 	{
-		System.out.println("_______________" +homeInstances.size() +"______________");
-		 OccInstances.add(oR);
-		 HomePanel home = null;
-	  if(homeInstances.size() != 0)
-	  {
-		 if (oR.owner)
-		 {
-			  home = homeInstances.get(OccInstances.size()-1);
-		 }
-		 
-		/* else if(!oR.owner)
-		 {
-			  home = homeInstances.get(OccInstances.size()+7);
 
-		 }*/
-	  }
-		 LivingPlaces.put(oR, home);
+		if(oR.owner)
+		{
+			 OccInstances.add(oR);
+
+		}
+		else //if(!oR.owner)
+		{
+			 RenterInstances.add(oR);
+		}
+		 HomePanel home = null;
+		  if(homeInstances.size() != 0)
+		  {
+			 if (oR.owner)
+			 {
+				  home = homeInstances.get(OccInstances.size()-1);
+					 LivingPlaces.put(oR, home);
+
+			 }
+			 
+			else //if(!oR.owner)
+			 {
+				  home = homeInstances.get(6+RenterInstances.size());
+				  System.out.println("renter list size" +RenterInstances.size());
+					 LivingPlaces.put(oR, home);
+
+			 }
+		  }
+		
+		
 	}
-	
-	
-	
 	
 	public HomePanel getHome(OccupantRole oR)
 	{

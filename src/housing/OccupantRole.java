@@ -9,6 +9,8 @@ import housing.gui.OccupantGui;
 import agent.Agent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.AnimationPanel;
+import mainCity.gui.AnimationPanel.ApartmentObject;
+import mainCity.gui.AnimationPanel.HomeObject;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 
@@ -85,17 +87,32 @@ public OccupantRole(PersonAgent p, String personNm)
 {
 	super(p);
 	this.name = personNm;
+	this.person=p;
 
+	for(ApartmentObject apartment : AnimationPanel.apartments)
+	{
+		if(apartment.getBuild().equals(p.getHomePlace()))
+		{
+			owner = false;
+			rent = 850;
+		}
+	}
 
-	if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
+	/*if (AnimationPanel.apartments.containsKey(p.getHomePlace()) )
 	{
 		owner = false;
 		rent = 850;
+	}*/
+	
+	for (HomeObject homer : AnimationPanel.houses)
+	{	
+		if(homer.getBuild().equals(p.getHomePlace()))
+		{
+			owner = true;
+			//break;
+		}
 	}
-	if(AnimationPanel.houses.containsKey(p.getHomePlace()))
-	{
-		owner = true;
-	}
+	
 	
 	ContactList.getInstance().setOccInstance(this);
 
@@ -128,7 +145,6 @@ public void gotHungry()
 
 public void applianceBroke()
 {
-	log("user set appliance to broken");
 	String appln = "sink";
 	switch((int) (Math.random() * 4)) {
 	case 0:
@@ -261,15 +277,16 @@ public boolean pickAndExecuteAnAction()
 	
 	if(eState == eatingState.eating)
 	{
-		print("----------------------");
-
-		EatFood();
+		//print("----------------------");
+		//EatFood();
 		return true;
 	}
 	
 	if(eState == eatingState.washing)
 	{
-		GoWashDishes();
+		//print("----------------------");
+
+		//GoWashDishes();
 		return true;
 	}
 
@@ -288,6 +305,7 @@ public boolean pickAndExecuteAnAction()
 		return true;
 	}
 	
+	System.out.println("FOUND NOTHING, END OF SCHEDULER");
 	return false;
 }
 	
@@ -381,7 +399,7 @@ public void wantsToEat(String mealChoice)
 	print("LOOKING IN FRIDGE?????");
 	if(owner) gui.DoGoToFridge();
 	
-	//else if(!owner) gui.DoGoToFridgeA();
+	else if(!owner) gui.DoGoToFridgeA();
 	
 	
 	try {
@@ -401,11 +419,13 @@ public void wantsToEat(String mealChoice)
 public void goToStore()
 {
 	log("Going To the store to buy groceries");
+	sState = shoppingState.shopping;
 	gui.DoLeave();
+	//person.msgGoToMarket();
+
 	super.setInactive();
 	person.msgGoToMarket();
 	
-	sState = shoppingState.shopping;
 }
 
 
@@ -420,7 +440,6 @@ public void restockKitchen()
 public void cookAMeal()
 {
 	if(owner) gui.DoGoToStove();
-	
 	if(!owner) gui.DoGoToStoveA();
 	
 	try{
@@ -428,41 +447,45 @@ public void cookAMeal()
 	} catch (InterruptedException e) {
 	e.printStackTrace();
 }
+			System.out.println("starting timer for cooking?");
 	timer.schedule(new TimerTask() {
-		//Object cookie = 1;
 		public void run() {
 			log("Done cooking");
-			//EatFood();
-			eState = eatingState.eating;
+			//eState = eatingState.eating;
 			stateChanged();
-			
+			EatFood();	
 		}
 	},
 	1000);
-	
-	
 }
 
 
 public void EatFood()
 {
+	eState = eatingState.eating;
+	//stateChanged();
+
 	if (owner) gui.DoGoToKitchenTable();
 	if(!owner) gui.DoGoToKitchenTableA();
-	
+				System.out.println("eating?");
+
 	try{
 	destination.acquire();
-} catch (InterruptedException e) {
+    }catch (InterruptedException e) {
 	e.printStackTrace();
-}
+    }
+				System.out.println("starting timer for eating?");
 	timer.schedule(new TimerTask() {
 		public void run() {
-			log("Done eating");
-			
-			eState = eatingState.washing;
+			//eState = eatingState.washing;
 			stateChanged();
+			GoWashDishes();
 		}
 	},
-	2000);
+	600);
+
+	
+	
 	//timer to eat food
 }
 
@@ -470,24 +493,25 @@ public void EatFood()
 
 public void GoWashDishes()
 {
+	eState = eatingState.washing;
+	//stateChanged();
 	if (owner) gui.DoGoToSink();
 	if(!owner) gui.DoGoToSink();
-	
+					System.out.println("Timer ,,,,,,, for washing dishes??");
 	try{
 		destination.acquire();
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
-	
+					System.out.println("Timer started for washing dishes??");
 	timer.schedule(new TimerTask() {
-		public void run() {
-			log("Done washing");
-			
-			eState = eatingState.nothing;
-			stateChanged();
+		public void run() {			
+			//eState = eatingState.nothing;
+			//stateChanged();
+			GoRest();
 		}
 	},
-	1000);
+	500);
 }
 
 public void GoRest()

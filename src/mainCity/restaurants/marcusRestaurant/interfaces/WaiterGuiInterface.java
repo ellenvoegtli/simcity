@@ -13,4 +13,6 @@ public interface WaiterGuiInterface {
 	public abstract void DoLeaveRestaunt();
 
 	public abstract void DoPickUpCustomer(int x, int y);
+	
+	public abstract void guiAppear();
 }
