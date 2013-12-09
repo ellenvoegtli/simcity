@@ -12,7 +12,7 @@ import java.util.*;
 public class Market1GreeterRole extends Role implements Greeter, ManagerRole {
 	private String name;
 	MarketCashier cashier;
-	DeliveryMan1 deliveryMan;
+	DeliveryMan deliveryMan;
 	static final int NTABLES = 8;
 	
 	public List<MyWaitingCustomer> waitingCustomers  = Collections.synchronizedList(new ArrayList<MyWaitingCustomer>());
@@ -44,7 +44,7 @@ public class Market1GreeterRole extends Role implements Greeter, ManagerRole {
 		cashier = c;
 		cashierArrived = true;
 	}
-	public void setDeliveryMan(DeliveryMan1 d){
+	public void setDeliveryMan(DeliveryMan d){
 		deliveryMan = d;
 	}
 	public String getMaitreDName() {

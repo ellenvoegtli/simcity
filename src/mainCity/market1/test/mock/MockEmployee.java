@@ -4,6 +4,7 @@ import java.util.Map;
 
 import role.market1.Market1EmployeeRole.MyBusiness;
 import role.market1.Market1EmployeeRole.MyCustomer;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
 import mainCity.market1.*;
@@ -11,7 +12,7 @@ import mainCity.market1.interfaces.*;
 
 
 public class MockEmployee extends Mock implements Employee {
-	public DeliveryMan1 deliveryMan;
+	public DeliveryMan deliveryMan;
 	public MarketCashier cashier;
 	
 	public MockEmployee(String name){

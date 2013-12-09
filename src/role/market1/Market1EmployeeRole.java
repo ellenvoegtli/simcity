@@ -19,7 +19,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	
 	private Greeter host;
 	private MarketCashier cashier;
-	private DeliveryMan1 deliveryMan;
+	private DeliveryMan deliveryMan;
 	private Market1Menu marketMenu = new Market1Menu();
 	
 	public EmployeeGuiInterface employeeGui = null;
@@ -57,7 +57,7 @@ public class Market1EmployeeRole extends Role implements Employee, WorkerRole {
 	public void setCashier(MarketCashier cashier){
 		this.cashier = cashier;
 	}
-	public void setDeliveryMan(DeliveryMan1 d){
+	public void setDeliveryMan(DeliveryMan d){
 		this.deliveryMan = d;
 	}
 	public void setHomeX(int x){

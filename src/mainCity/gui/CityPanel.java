@@ -80,7 +80,7 @@ public class CityPanel extends JPanel{
 	}
 	
 	public void addDeliveryGui(Market1DeliveryManRole d, int x, int y){
-		DeliveryManGui1 dg = new DeliveryManGui1(d, x, y);
+		DeliveryManGui dg = new DeliveryManGui(d, x, y);
 		d.setGui(dg);
 		gui.getAnimationPanel().addMarketDeliveryGui(dg);
 	}

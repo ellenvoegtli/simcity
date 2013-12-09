@@ -3,11 +3,12 @@ package mainCity.market1.test.mock;
 
 import java.util.Map;
 
+import mainCity.interfaces.DeliveryMan;
 import mainCity.market1.*;
 import mainCity.market1.interfaces.*;
 
 public class MockCashier extends Mock implements MarketCashier {
-	public DeliveryMan1 deliveryMan;
+	public DeliveryMan deliveryMan;
     public Employee employee;
     public Greeter greeter;
 

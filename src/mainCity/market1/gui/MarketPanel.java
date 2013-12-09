@@ -1,6 +1,7 @@
 package mainCity.market1.gui;
 
 import mainCity.contactList.*;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.market1.*;
 import mainCity.market1.interfaces.*;
 
@@ -27,7 +28,7 @@ public class MarketPanel extends JPanel implements ActionListener{
 	private MarketAnimationPanel animation;
 	private Greeter host;
 	private MarketCashier cashier;
-	private DeliveryMan1 deliveryMan;
+	private DeliveryMan deliveryMan;
         
     private Vector<Market1CustomerRole> customers = new Vector<Market1CustomerRole>();
     private Vector<Market1EmployeeRole> employees = new Vector<Market1EmployeeRole>();

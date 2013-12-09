@@ -2,9 +2,7 @@ package mainCity.market1.test.mock;
 
 import java.util.Map;
 
-import role.market1.Market1CustomerRole;
-import mainCity.interfaces.MainCashier;
-import mainCity.interfaces.MainCook;
+import mainCity.interfaces.DeliveryMan;
 import mainCity.market1.interfaces.*;
 
 public class MockGreeter extends Mock implements Greeter{
@@ -15,7 +13,7 @@ public class MockGreeter extends Mock implements Greeter{
 	
 	public void setCashier(MarketCashier c){
 	}
-	public void setDeliveryMan(DeliveryMan1 d){
+	public void setDeliveryMan(DeliveryMan d){
 	}
 	public void addEmployee(Employee e){
 	}

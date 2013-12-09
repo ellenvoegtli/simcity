@@ -5,7 +5,6 @@ import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.*;
-import mainCity.market1.interfaces.DeliveryMan1;
 import mainCity.market1.interfaces.DeliveryManGuiInterface;
 import mainCity.market1.interfaces.MarketCashier;
 import role.Role;
@@ -15,7 +14,7 @@ import java.util.concurrent.*;
 
 
 
-public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//only handles one restaurant at a time right now
+public class Market1DeliveryManRole extends Role implements DeliveryMan{			//only handles one restaurant at a time right now
 	private String name;
 	public DeliveryManGuiInterface deliveryGui;
 	MarketCashier cashier;

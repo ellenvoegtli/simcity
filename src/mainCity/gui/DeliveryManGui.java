@@ -1,7 +1,6 @@
 package mainCity.gui;
 
-
-import mainCity.market1.interfaces.DeliveryMan1;
+import mainCity.interfaces.*;
 import mainCity.market1.interfaces.DeliveryManGuiInterface;
 import mainCity.gui.*;
 import role.market1.Market1DeliveryManRole;
@@ -15,9 +14,9 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-public class DeliveryManGui1 implements Gui, DeliveryManGuiInterface {
+public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
 
-    public DeliveryMan1 agent = null;
+    public DeliveryMan agent = null;
     CityGui gui;
     private boolean isPresent;
 
@@ -37,7 +36,7 @@ public class DeliveryManGui1 implements Gui, DeliveryManGuiInterface {
 	private BufferedImage myImg = null;
 	
 
-    public DeliveryManGui1(DeliveryMan1 agent, int x, int y) {
+    public DeliveryManGui(DeliveryMan agent, int x, int y) {
     	StringBuilder path = new StringBuilder("imgs/");
 		try {
 			truckImg = ImageIO.read(new File(path.toString() + "truck.png"));
