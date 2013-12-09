@@ -13,7 +13,7 @@ import java.util.*;
  * Restaurant Host Agent
  */
 
-public class EllenHostRole extends Role implements ManagerRole {
+public class EllenHostRole extends Role implements Host, ManagerRole {
 	private String name;
 	static final int NTABLES = 4;//a global for the number of tables.
 	EllenCookRole cook;
@@ -51,6 +51,9 @@ public class EllenHostRole extends Role implements ManagerRole {
 	}
 	public Collection<Table> getTables() {
 		return tables;
+	}
+	public void addTable(Table t){
+		tables.add(t);
 	}
 	public void msgEndShift(){
 		onDuty = false;
@@ -358,12 +361,22 @@ public class EllenHostRole extends Role implements ManagerRole {
 		}
 	}
 	
-	private class Table {
+	public class Table {	//public for testing purposes only
 		int tableNumber;
 		boolean isOccupied;
 
-		Table(int tableNumber) {
+		public Table(int tableNumber) {
 			this.tableNumber = tableNumber;
+		}
+		
+		public boolean isOccupied(){
+			return isOccupied;
+		}
+		public void setOccupied(boolean b){
+			isOccupied = b;
+		}
+		public int getTableNum(){
+			return tableNumber;
 		}
 	}
 }
