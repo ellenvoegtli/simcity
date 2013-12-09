@@ -54,6 +54,13 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 			quantity = q; 
 			cookingTime = ct; 
 		}
+		
+		public void setQuantity(int q){
+			quantity = q;
+		}
+		public void setState(FoodStatus s){
+			fstate = s;
+		}
 	}
 	
 	private RevolvingStand stand;
@@ -369,10 +376,16 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	}
 	
 	public void emptyInventory() {
-		for(int i=0; i<Inventory.size(); i++) {
+		/*for(int i=0; i<Inventory.size(); i++) {
 			Inventory.get(i).quantity = 0;
 			log("Setting the quantity of " + Inventory.get(i).Choice + " to " + Inventory.get(i).quantity);
+		}*/
+		for (Map.Entry<String, Food> entry : Inventory.entrySet()){
+			entry.getValue().setQuantity(0);
+			log("Setting the quantity of " + entry.getKey() + " to " + entry.getValue().quantity);
+			entry.getValue().setState(FoodStatus.empty);
 		}
+		stateChanged();
 	}
 	
 	public void emptySteak() {
