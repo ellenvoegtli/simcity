@@ -1,6 +1,6 @@
 package housing.HouseTest.HouseMock;
 
-import mainCity.market1.test.mock.LoggedEvent;
+import mainCity.market.test.mock.LoggedEvent;
 import housing.Interfaces.Occupant;
 import housing.Interfaces.OccupantGuiInterface;
 import housing.Interfaces.landLord;

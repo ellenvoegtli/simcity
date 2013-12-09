@@ -6,8 +6,7 @@ import java.util.concurrent.*;
 
 import javax.swing.JPanel;
 
-import role.market1.Market1DeliveryManRole;
-import role.market2.Market2DeliveryManRole;
+import role.market.MarketDeliveryManRole;
 import transportation.BusAgent;
 import transportation.gui.BusGui;
 import mainCity.PersonAgent;
@@ -80,16 +79,10 @@ public class CityPanel extends JPanel{
 		 executor.scheduleAtFixedRate(cityClock, 0, 15, TimeUnit.SECONDS); //Timer goes off every 15 seconds
 	}
 	
-	public void addDeliveryGui(Market1DeliveryManRole d){
-		DeliveryManGui1 dg = new DeliveryManGui1(d);
+	public void addDeliveryGui(MarketDeliveryManRole d, int x, int y){
+		DeliveryManGui dg = new DeliveryManGui(d, x, y);
 		d.setGui(dg);
 		gui.getAnimationPanel().addMarketDeliveryGui(dg);
-	}
-	
-	public void addDelivery2Gui(Market2DeliveryManRole d){
-		DeliveryManGui2 dg = new DeliveryManGui2(d);
-		d.setGui(dg);
-		gui.getAnimationPanel().addMarket2DeliveryGui(dg);
 	}
 	
 	private void updateCity() {
