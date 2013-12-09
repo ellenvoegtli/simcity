@@ -84,12 +84,14 @@ public class EnaCashierRole extends Role implements Cashier{
 			
 		}//0000000000000000000 CHANGE ALL CODE AFTER THE MSGRESTOCKBILL IS CALLED 000000000000000000000000000000
 		
-		public void msgHereIsChange(double amount, MarketDeliveryManRole name)
+
+		public void msgHereIsChange(double amount, DeliveryMan deliveryPerson) 
 		{
 			log("Received msgHereIsChange");
 
 			setRestCash(getRestCash() + amount);
 			stateChanged();
+			deliveryPerson.msgChangeVerified("enaRestaurant");
 		}
 		
 		private double getRestCash() 
@@ -359,11 +361,6 @@ public boolean pickAndExecuteAnAction()
 
 
 
-	@Override
-	public void msgHereIsChange(double amount, DeliveryMan deliveryPerson) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 
