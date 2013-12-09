@@ -272,6 +272,7 @@ public class JeffersonRestaurantPanel extends JPanel {
     		CookGui cg = new CookGui((JeffersonCookRole) r);
             //cook.setStand(stand);
     		cook.setGui(cg);
+    		cook.setRevolvingstand(stand);
            JAnimationPanel.addGui(cg);
             
             
