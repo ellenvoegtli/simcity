@@ -198,7 +198,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			}
 		}
 		
-		state = AgentState.doingNothing;
+		//state = AgentState.doingNothing;
 		
 		if (bills.isEmpty() && !onDuty){
 			deliveryGui.DoGoToHomePosition();
@@ -234,36 +234,36 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		}
 		else {
 			//delivery man will then message appropriate cashier and cook
-			if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
-				b.cook = ContactList.getInstance().ellenCook;
-				b.cashier = ContactList.getInstance().ellenCashier;
+			//if (b.restaurantName.equalsIgnoreCase("ellenRestaurant")){
+				//b.cook = ContactList.getInstance().ellenCook;
+				//b.cashier = ContactList.getInstance().ellenCashier;
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-			}
+			/*}
 			else if (b.restaurantName.equalsIgnoreCase("enaRestaurant")){
-				b.cook = ContactList.getInstance().enaCook;
-				b.cashier = ContactList.getInstance().enaCashier;
+				//b.cook = ContactList.getInstance().enaCook;
+				//b.cashier = ContactList.getInstance().enaCashier;
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			else if (b.restaurantName.equalsIgnoreCase("marcusRestaurant")){
-				b.cook = ContactList.getInstance().marcusCook;
-				b.cashier = ContactList.getInstance().marcusCashier;
+				//b.cook = ContactList.getInstance().marcusCook;
+				//b.cashier = ContactList.getInstance().marcusCashier;
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			else if (b.restaurantName.equalsIgnoreCase("jeffersonRestaurant")){
-				b.cook = ContactList.getInstance().jeffersonCook;
-				b.cashier = ContactList.getInstance().jeffersonCashier;
+				//b.cook = ContactList.getInstance().jeffersonCook;
+				//b.cashier = ContactList.getInstance().jeffersonCashier;
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			}
 			else if (b.restaurantName.equalsIgnoreCase("davidRestaurant")){
-				b.cook = ContactList.getInstance().davidCook;
-				b.cashier = ContactList.getInstance().davidCashier;
+				//b.cook = ContactList.getInstance().davidCook;
+				//b.cashier = ContactList.getInstance().davidCashier;
 				b.cook.msgHereIsYourOrder(b.itemsBought);
 				b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
-			}
+			}*/
 			
 			
 			b.s = DeliveryState.waitingForPayment;
@@ -366,6 +366,9 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 			return false;
 		}
 		
+		if (b.restaurantName.contains("mock"))
+			return true;
+		
 		log("DIDN'T FIND A RESTAURANT! :o");
 		return false;	//last resort if something is wrong
 	}
@@ -406,13 +409,13 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan1{			//on
 		public MainCook getCook(){
 			return cook;
 		}
-		public void setCook(Cook c){
+		public void setCook(MainCook c){
 			cook = c;
 		}
 		public MainCashier getCashier(){
 			return cashier;
 		}
-		public void setCashier(Cashier c){
+		public void setCashier(MainCashier c){
 			cashier = c;
 		}
 		public String getRestaurant(){
