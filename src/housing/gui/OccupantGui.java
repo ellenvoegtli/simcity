@@ -31,16 +31,13 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 	
 	public OccupantGui(Occupant occupant, HomeAnimationPanel h) 
 	{
-		System.out.println("NEW OCCUPANT GUI CONDTRUCTOR OCCUPANT CREATED");
+		System.out.println("NEW OCCUPANT GUI CONSTRUCTOR OCCUPANT CREATED");
 		this.person = occupant;
 		this.animation = h;
 		xPos = 10;
 		yPos = 35;
 		xDestination = 40;
 		yDestination = 35;
-		//setPresent(true);
-		//this.gui = gui;
-		setHungry();
 	}
 
 	
@@ -63,6 +60,8 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 				(xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55)) && atDestination == false)
 			{
 					atDestination = true;
+					System.out.println("======");
+
 			}
 		}
 
@@ -72,20 +71,23 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			{
 				isHungry = false;
 			}
-			if(atDestination)
+			/*if(atDestination)
 			{
 				
-				atDestination = false;				
+				atDestination = false;	
+				System.out.println("******Destination reached*******");
 				person.msgAtDestination();
 
 				
-			}
+			}*/
 			//command=Command.noCommand;
-			/*if ((((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 50 && yDestination ==150) || (xDestination == 70 && yDestination == 100) ) 
+			if ((((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 50 && yDestination ==150) || (xDestination == 70 && yDestination == 100) ) 
 					|| (xDestination == 350 && yDestination == 30) || (xDestination == 450 && yDestination == 30) || (xDestination == 400 && yDestination == 30) || (xDestination == 415 && yDestination == 63) || (xDestination == 50 && yDestination == 55) )
 																																								&& atDestination == true)
-			{*/
-
+			{
+			atDestination = false;	
+			System.out.println("******Destination reached*******");
+			person.msgAtDestination();}
 			
 		}
 	}
@@ -135,8 +137,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 	    	return xPos == xDestination && yPos == yDestination;
 	    }
 
-
-	
 		
 		public void DoGoToAppliance(int x, int y)
 		{
@@ -149,7 +149,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			System.out.println("going to fridge");
 			xDestination = 300;
 			yDestination = 40;
-			//command = Command.GoCook;
 		}
 		
 		public void DoGoToFridgeA()
@@ -163,7 +162,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			System.out.println("cooking at stove");
 			xDestination = 200;
 			yDestination = 40;
-			//command = Command.GoCook;
 		}
 		
 		public void DoGoToStoveA()
@@ -179,7 +177,7 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			System.out.println("doing dishes");
 			xDestination = 250;
 			yDestination = 40;
-			command = Command.doneInKitchen;
+			//command = Command.doneInKitchen;
 		}
 		
 		public void DoGoToSinkA()
@@ -190,9 +188,12 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		
 		public void DoGoToKitchenTable() 
 		{
-			System.out.println("going to table to eat");
+			
 			xDestination = 250;
 			yDestination = 150;
+			
+			System.out.println("going to table to eat");
+
 		}
 		
 		public void DoGoToKitchenTableA()
@@ -204,7 +205,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		public void DoGoRest()
 		{
 			System.out.println("going to couch");
-
 			xDestination = 50;
 			yDestination = 200;
 		}

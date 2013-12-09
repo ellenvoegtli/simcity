@@ -241,7 +241,7 @@ if(status == CookStatus.checkingStand)
 		
 		if(ContactList.getInstance().marketGreeter != null)
 		 { 
-			ContactList.getInstance().marketGreeter.msgINeedInventory("enaRestaurant", this, cashier, Stock);
+			ContactList.getInstance().marketGreeter.msgINeedInventory("enaRestaurant", Stock);
 		 }
 			
 

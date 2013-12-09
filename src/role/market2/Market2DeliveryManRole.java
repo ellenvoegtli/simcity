@@ -76,10 +76,9 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 	
 	// Messages
 	
-	public void msgHereIsOrderForDelivery(String restaurantName, MainCook cook, MainCashier cashier, Map<String, Integer>inventory, double billAmount){
+	public void msgHereIsOrderForDelivery(String restaurantName, Map<String, Integer>inventory, double billAmount){
 		log("Received msgHereIsOrderForDelivery");
-
-		bills.add(new Bill(restaurantName, cook, cashier, billAmount, inventory));
+		bills.add(new Bill(restaurantName, billAmount, inventory));
 		stateChanged();
 	}
 
@@ -388,9 +387,7 @@ public class Market2DeliveryManRole extends Role implements DeliveryMan2{			//on
 		MainCook cook;
 		MainCashier cashier;
 
-		Bill(String name, MainCook cook, MainCashier cashier, double billAmount, Map<String, Integer> inventory){
-			this.cook = cook;
-			this.cashier = cashier;
+		Bill(String name, double billAmount, Map<String, Integer> inventory){
 			amountCharged = billAmount;
 			restaurantName = name;
 			itemsBought = new TreeMap<String, Integer>(inventory);

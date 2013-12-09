@@ -3,6 +3,7 @@ package mainCity.market1.test.mock;
 import java.util.Map;
 
 import role.market1.Market1CashierRole;
+import role.market1.Market1DeliveryManRole.Bill;
 import mainCity.interfaces.MainCashier;
 import mainCity.interfaces.MainCook;
 import mainCity.market1.interfaces.*;
@@ -16,6 +17,9 @@ public class MockDeliveryMan extends Mock implements DeliveryMan1 {
 		
 	}
 	public boolean isActive(){
+		return true;
+	}
+	public boolean restaurantOpen(Bill b){
 		return true;
 	}
 	

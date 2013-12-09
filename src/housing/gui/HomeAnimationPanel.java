@@ -51,8 +51,8 @@ public class HomeAnimationPanel extends CityCard implements ActionListener
 public HomeAnimationPanel(CityGui cg, boolean type) {
 	    	super(cg);
 	    	this.ty = type;
-	    	
-	    	ContactList.getInstance().setHome(home);
+	    	if(type==true)
+	    		ContactList.getInstance().setHome(home);
 	    	
 	    	StringBuilder path = new StringBuilder("imgs/");
 			try {
@@ -69,22 +69,17 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-	       // setBorder(BorderFactory.createRaisedBevelBorder());
-	    	System.out.println("ANIMATION PANEL CREATED");
-	    	
-	    	
-	    	
-	    	//ContactList.getInstance().setAptB(AptBuilding);
-
-	    	
+		
+			
 	    	setSize(520, 360);
 	        setVisible(true);
-	        
 	        bufferSize = this.getSize();
 	 
-	    	Timer timer = new Timer(9,this);
+	    	Timer timer = new Timer(7,this);
 	    	timer.start();
 	    }
+
+
 
 		public void actionPerformed(ActionEvent e) {
 			repaint();  //Will have paintComponent called
@@ -93,9 +88,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		
 	    public void paintComponent(Graphics g)
 	    {
-	        Graphics2D g2 = (Graphics2D)g;
-	        //JLabel label;
-	        
+	        Graphics2D g2 = (Graphics2D)g;	        
 		 
 	        
 	    if(ty)
@@ -143,10 +136,6 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	        
 	     }
 
-	        
-
-	     
-	
 	     
 	     if (!ty)
 	     {
@@ -219,10 +208,8 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    public void addGui(OccupantGui gui)
 	    {
 	    	
-	    	System.out.println("gui added to window???");
 	    	System.out.println("gui list size " +getGuis().size());
 	    	guis.add(gui);
-	    	System.out.println("gui list size after addition" +getGuis().size());
 	    }
 
 		public HomePanel getHomeP() 
