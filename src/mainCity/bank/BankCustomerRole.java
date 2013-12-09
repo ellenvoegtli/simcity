@@ -196,7 +196,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	 */
 	@Override
 	public void msgWantToWithdraw(){
-		Do("Recieved message want to withdraw");
+		log("Recieved message want to withdraw");
 		amount = 50;
 		tstate=BankCustomerTransactionState.wantToWithdraw;
 		if(myaccountnumber== -1){
@@ -433,7 +433,7 @@ public void msgLoanDenied(double loanamount){
 			
 			e.printStackTrace();
 		}
-		
+		bcstate=BankCustomerState.none;
 	}
 	private void doGoToWaiting(){
 		custGui.doGoToWaitingArea();

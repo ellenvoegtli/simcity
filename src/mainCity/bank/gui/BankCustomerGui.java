@@ -90,9 +90,15 @@ public class BankCustomerGui implements Gui {
     		bankcustomer.msgAtWaiting();    	 
         }
         
-        if(xPos == xHome && yPos == yHome && traveling==true ){
+        if(xPos == xHome && yPos == yHome && xPos == xDestination && yPos == yDestination && traveling==true ){
         	traveling=false;
+        	xPos = -20;
+        	yPos = 520;
+        	xDestination = -20; 
+        	yDestination = 520;
+        	atOrigin=true;
         	bankcustomer.msgLeftBank();
+        	
         	
         }
         
