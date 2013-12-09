@@ -3,6 +3,7 @@ package transportation.gui;
 import java.awt.Graphics2D;
 
 import transportation.BusAgent;
+import mainCity.PersonAgent;
 import mainCity.gui.CityGui;
 import mainCity.gui.Gui;
 
@@ -15,13 +16,15 @@ public class CarGui extends Vehicle {
 	private int width;
 	private int height; 
 	private int xDestination, yDestination;
+	PersonAgent owner; 
 	
-	public CarGui(int x, int y, int w, int h){ 
+	public CarGui(PersonAgent p, int x, int y, int w, int h){ 
 		super(x, y, w, h, false);
 		xLocation = x; 
 		yLocation = y; 
 		width = w; 
 		height = h;
+		owner = p;
 	}
 	
 	public int getXLoc() { 

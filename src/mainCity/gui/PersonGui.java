@@ -32,6 +32,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	private boolean isPresent = false;
 	private boolean isVisible = true;
 	private boolean traveling;
+	private boolean CarFinished = false;
 	private boolean inCar = false;
 	private BufferedImage personImg = null;
 	private ArrayList<Coordinate> corners = new ArrayList<Coordinate>();
@@ -57,7 +58,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		xDestination = xPos = 750;
 		yDestination = yPos = 80;
 		
-		myCar = new CarGui(750, 80, 16, 16);
+		myCar = new CarGui(p, 750, 80, 16, 16);
 		
 		traveling  = false;
 		StringBuilder path = new StringBuilder("imgs/");
@@ -116,8 +117,9 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				yPos--;
 		}
 		
-		if(xPos == xDestination && yPos == yDestination && traveling && !inCar) {
+		if(xPos == xDestination && yPos == yDestination && traveling && (inCar!=true) ) {
 			if(path.isEmpty()) {
+				System.out.println("Destination Reached");
 				traveling = false;
 				agent.msgAtDestination();
 				return;
@@ -127,8 +129,9 @@ public class PersonGui implements Gui, PersonGuiInterface {
 			yDestination = path.poll().y;
 		}
 		
-		if(xPos == xDestination && yPos == yDestination && inCar) {
+		if(xPos == xDestination && yPos == yDestination && inCar && CarFinished) {
 			if(path.isEmpty()) {
+				System.out.println("Destination Reached in Car");
 				traveling = false;
 				agent.msgArrivedAtDestinationInCar();
 				return;
@@ -141,6 +144,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	
 	public void draw(Graphics2D g) {
 		if(isVisible) {
+			/*
 			if(!inCar){
 				g.setColor(Color.ORANGE);
 				g.drawImage(personImg, xPos,yPos, null);
@@ -151,6 +155,12 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				g.setColor(Color.RED);
 				g.fillRect(xPos, yPos, w, h);
 			}
+			*/
+			
+			g.setColor(Color.ORANGE);
+			g.drawImage(personImg, xPos,yPos, null);
+			//g.fillRect(xPos, yPos, w, h);
+        	g.drawString(name, xPos, yPos);
 		}
 	}
 
@@ -217,7 +227,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	}
 	
 	public void AddCarToLane() { 
-		if(xPos == 589 && yPos == 90) { 
+		if(xPos == 589 && yPos == 80) {
 			animation.Cars.add(myCar);
 			animation.lanes.get(1).addVehicle(myCar);
 		}
@@ -496,5 +506,9 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	
 	public void setAnimationPanel(AnimationPanel a) { 
 		animation = a;
+	}
+	
+	public void setCarFinished(boolean b) { 
+		CarFinished = b;
 	}
 }

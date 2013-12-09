@@ -32,7 +32,7 @@ import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
 	
-	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, walkingFromBus, walkingFromCar}
+	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, inCar, walkingFromBus, walkingFromCar}
 	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
 	
@@ -136,6 +136,8 @@ public class PersonAgent extends Agent {
 	//A message received from car when arrived at destination 
 	public void msgArrivedAtDestinationInCar() { 
 		log.add(new LoggedEvent("msgArrivedAtDestinationInCar received")); 
+		gui.DoGoOutside(); 
+		gui.getOutOfCar();
 		state = PersonState.walkingFromCar; 
 		stateChanged();
 	}
@@ -874,7 +876,8 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 		
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-		walk = true;
+		walk = false;
+		boolean car = true;
 		
 		if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
 			output(name + " is walking to " + d);
@@ -882,7 +885,7 @@ public class PersonAgent extends Agent {
 			waitForGui();
 			return;
 		}
-		else if(!walk) { //chose bus
+		else if(walk) { //chose bus
 			output(name + " is taking the bus to " + d);
 			gui.DoGoToStop();
 			waitForGui();
@@ -898,13 +901,16 @@ public class PersonAgent extends Agent {
 			//bus.myDestination(d); //send message to transportation object of where they want to go
 			//will receive an arrived at destination message when done
 		}
-		else if(walk) {//chose car
-			gui.getInCar(); 
+		else if(car) {//chose car
+			System.out.println("Gonna drive"); 
 			gui.DoGetOnRoad(); 
 			waitForGui();
-			gui.DoGoInside();
+			state = PersonState.inCar; 
+			gui.getInCar(); 
+			//gui.DoGoInside();
 			gui.AddCarToLane();
 			gui.DoGoToLocationOnCar(d); 
+			//state = PersonState.waiting;
 			return;
 		}
 	}
