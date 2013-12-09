@@ -14,7 +14,6 @@ public class EnaWaiterGui implements Gui
 		
 	    private EnaWaiterRole agent = null;
 	    
-	   private EnaRestaurantGui gui;
 
 	    private int xPos = 400, yPos = 100;//default waiter position
 	    private int xDestination = 400, yDestination = 100;//default start position
@@ -32,16 +31,13 @@ public class EnaWaiterGui implements Gui
 	    public static final int yTable = 150;
 	    private boolean fdChoice = false;
 	    public EnaWaiterGui(EnaWaiterRole w, EnaRestaurantGui gui, int yP)
-		{ //HostAgent m) {
+		{ 
 			agent = w;
 			xPos =400;
 			yPos = 100 + yP;
 			xDestination = 400;
 			yDestination = 100 + yP;
 			home = 100 + yP;
-			//maitreD = m;
-			this.gui = gui;			
-			
 		}
 
 	public int setPositionX(int tableNum)
@@ -59,7 +55,6 @@ public class EnaWaiterGui implements Gui
 				xTable = xTable3;
 			}
 			
-			
 			return xTable;
 	}
 
@@ -73,12 +68,6 @@ public class EnaWaiterGui implements Gui
 	        this.agent = agent;
 	}
 
-	/*public void setBreak() 
-	{
-		onBreak = true;
-		agent.gotBreak();
-		setPresent(true);
-	}*/
 	
     public void updatePosition() 
     {
@@ -105,9 +94,9 @@ public class EnaWaiterGui implements Gui
 	        if (this.atDestination())
 	        {
 	        		if(xDestination == setPositionX(tableXX) + 20 && (yDestination == yTable - 20)) 
-	           				{
-	        					agent.msgAtTable();
-	           				}
+	           		{
+	        				agent.msgAtTable();
+	           		}
 	        		if(xDestination == 280 && yDestination == 280)
 	        		{
 	        			agent.msgAtKitchen();
@@ -118,8 +107,8 @@ public class EnaWaiterGui implements Gui
 	        		}
 	        		else if(xDestination == 50 && yDestination == 30 && entrance == true)
 	           		{
-	           				entrance = false;
-	        	   			agent.msgAtEntrance();
+	           			entrance = false;
+	        	   		agent.msgAtEntrance();
 	           		}
 	           		else if(xDestination == 400 && yDestination == home && lobby == true)
 	           		{

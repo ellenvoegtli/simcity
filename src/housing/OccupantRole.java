@@ -32,18 +32,14 @@ public class OccupantRole extends Role implements Occupant
 //DATA
 	Timer timer = new Timer();
 	private LandlordRole landLord;
-	//private houseAgent house;
 	private personHome home;
 	public OccupantGuiInterface gui;
 	public boolean owner;
 	public PersonAgent person;
-	//private boolean checking = true;
 	private String meal = "pasta";
 	private String name;
 	private int rent;
-	
-	//private List<Occupant>
-	
+		
 	private Semaphore destination = new Semaphore(0,true);
 	
 	public enum eatingState {hungry, cooking, eating, washing, nothing};
@@ -70,7 +66,6 @@ public class OccupantRole extends Role implements Occupant
 @Override
 public void msgAtDestination()
 {
-	print("RELEASING SEMAPHORE------------");
 	destination.release();
 	stateChanged();
 }
@@ -88,17 +83,15 @@ public OccupantRole(PersonAgent p, String personNm)
 	this.person=p;
 
 	
-	
 	for (HomeObject homer : AnimationPanel.houses)
 	{	
 		if(homer.getBuild().equals(p.getHomePlace()))
 		{
 			owner = true;
 			landLord = new LandlordRole(p);
-			//break;
 		}
 	}
-	
+	int count = 0;
 	for(ApartmentObject apartment : AnimationPanel.apartments)
 	{
 		if(apartment.getBuild().equals(p.getHomePlace()))
@@ -106,8 +99,9 @@ public OccupantRole(PersonAgent p, String personNm)
 			owner = false;
 			needsWork.add("stove");
 			rent = 850;
-			setLandLord(ContactList.getInstance().getLandLords().get(0));
+			setLandLord(ContactList.getInstance().getLandLords().get(count));
 		}
+		count++;
 	}
 	
 	
@@ -468,8 +462,7 @@ public void EatFood()
 	},
 	600);
 
-	
-	
+
 	//timer to eat food
 }
 
@@ -504,15 +497,16 @@ public void GoRest()
 	if(!owner) gui.DoGoRestA();
 }
 
-public personHome getHome() {
+public personHome getHome()
+{
 	return home;
 }
 
 
-public void setHouse(personHome house) {
+public void setHouse(personHome house) 
+{
 	this.home = house;
 }
-
 
 
 public void setLandLord(LandlordRole lndlrd)
@@ -530,7 +524,6 @@ public void setGui(OccupantGuiInterface occupantGui)
 public OccupantGuiInterface getGui() {
 	return gui;
 }
-
 
 
 	

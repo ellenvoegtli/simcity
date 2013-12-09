@@ -4,7 +4,6 @@ import housing.gui.HomeAnimationPanel;
 
 public interface OccupantGuiInterface {
 	
-	public abstract void DoGoToAplliance(String app);
 	public abstract void DoGoToFridge();
 	public abstract void DoGoToFridgeA();
 	public abstract void DoGoToStove();

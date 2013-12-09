@@ -135,6 +135,12 @@ public class LandlordRole extends Role implements landLord
 			if(ToDo.size() == 0)break;
 		}
 		gui.DoLeave();	
+		try {
+			atDest.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		super.setInactive();
 		setInactive();	
 		//gui.DoGoBackHome();
 

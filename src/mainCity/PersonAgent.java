@@ -5,6 +5,7 @@ import role.davidRestaurant.*;
 import role.ellenRestaurant.*;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
+import role.market.*;
 import housing.*;
 import housing.Interfaces.Occupant;
 
@@ -23,7 +24,6 @@ import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.*;
-import role.market.*;
 import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
@@ -910,9 +910,11 @@ public class PersonAgent extends Agent {
 		traveling = true;
 		this.destination = d;
 		
+
 		boolean walk = (70 > ((int) (Math.random() * 100)));
 		walk = false;
 		boolean car = true;
+
 		
 		if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
 			output(name + " is walking to " + d);
