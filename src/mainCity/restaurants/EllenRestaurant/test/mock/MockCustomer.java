@@ -31,14 +31,17 @@ public class MockCustomer extends Mock implements Customer {
 		public void msgRestaurantFull(){
 			
 		}
+		@Override
 		public void msgFollowMe(EllenMenu menu, int tablenum, Waiter w){
-			
+			log.add(new LoggedEvent("Received msgFollowMe from " + w.getName()));
 		}
+		@Override
 		public void msgWhatDoYouWant(){
-			
+			log.add(new LoggedEvent("Received msgWhatDoYouWant"));
 		}
+		@Override
 		public void msgHereIsYourFood(String choice){
-			
+			log.add(new LoggedEvent("Received my order of " + choice));
 		}
 		public void msgOutOfFoodPleaseReorder(EllenMenu menu){
 			
@@ -49,21 +52,13 @@ public class MockCustomer extends Mock implements Customer {
         public void msgHereIsCheck(double amount) {
                 log.add(new LoggedEvent("Received HereIsCheck from waiter. Amount = "+ amount));
 
-                /*
-                if(this.name.toLowerCase().contains("thief")){
-                        //test the non-normative scenario where the customer has no money if their name contains the string "theif"
-                        cashier.IAmShort(this, 0);
-
-                }
-                *///else 
                 if (this.getName().toLowerCase().contains("rich")){
                         //test the non-normative scenario where the customer overpays if their name contains the string "rich"
-                        //cashier.msgHereIsPayment(this, Math.ceil(amount));
                 	cashier.msgHereIsPayment(amount, (double) Math.ceil(amount), this);
 
                 }else{
                         //test the normative scenario
-                        cashier.msgHereIsPayment(amount, amount, this);		//??
+                        cashier.msgHereIsPayment(amount, amount, this);
                 }
         }
 

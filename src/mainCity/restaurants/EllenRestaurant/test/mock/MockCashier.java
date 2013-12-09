@@ -27,7 +27,9 @@ public class MockCashier extends Mock implements Cashier {
 	
 	
 	//from old restaurant tests
+	@Override
 	public void msgComputeBill(String choice, Customer cust, Waiter w){
+		log.add(new LoggedEvent("Received msgComputeBill from " + w.getName()));
 	}
 	public void msgHereIsPayment(double checkAmount, double cashAmount, Customer cust){
 	}
