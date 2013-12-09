@@ -303,7 +303,8 @@ public class PersonGui implements Gui, PersonGuiInterface{
 		
 		while(current.x != destination.x || current.y != destination.y) {
 			for(int i = 0; i < corners.size(); ++i) {
-				nodes.put(getDistance(current, corners.get(i)), corners.get(i));
+				if(corners.get(i).x != current.x && corners.get(i).y != current.y)
+					nodes.put(getDistance(current, corners.get(i)), corners.get(i));
 			}
 			
 			nodes.put(getDistance(current, destination), destination);
@@ -313,12 +314,13 @@ public class PersonGui implements Gui, PersonGuiInterface{
 			Coordinate node3 = (Coordinate) nodes.pollFirstEntry().getValue();
 			
 			if(node1 == destination || node2 == destination || node3 == destination) {
+				System.out.println("Path found!");
 				path.add(destination);
 				traveling = true;
 				nodes.clear();
 				return;
 			}
-			
+			System.out.println("``````````Path not found" + current.x + ", " + current.y);
 			Coordinate pathNext = node1;
 			if(getDistance(pathNext, destination) > getDistance(node2, destination)) {
 				pathNext = node2;
