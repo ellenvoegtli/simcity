@@ -504,27 +504,19 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(585, 230, 20, 20); //rest5 doorway
         g2.fillRect(655, 155, 22, 20);//market2 doorway
 
-        synchronized(guis){
-        	/*
-	        for(Gui gui : guis) {
-	            if (gui.isPresent() ) {
-	                gui.updatePosition();
-	            }
-	        }
-	        */
-	        
-	        for(Gui gui : personGuis) { 
-	        	if (gui.isPresent() ) {
-	                gui.updatePosition();
-	            }
-	        }
-	
+        synchronized(guis){	
 	        for(Gui gui : guis) {
 	            if (gui.isPresent()) {
 	                gui.draw(g2);
 	            }
 	        }
-	        
+        }
+        synchronized(personGuis) {
+	        for(Gui gui : personGuis) { 
+	        	if (gui.isPresent() ) {
+	                gui.updatePosition();
+	            }
+	        }
 	        for(Gui gui : personGuis) {
 	            if (gui.isPresent()) {
 	                gui.draw(g2);

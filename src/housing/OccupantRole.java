@@ -82,7 +82,6 @@ public OccupantRole(PersonAgent p, String personNm)
 	this.name = personNm;
 	this.person=p;
 
-	
 	for (HomeObject homer : AnimationPanel.houses)
 	{	
 		if(homer.getBuild().equals(p.getHomePlace()))
@@ -91,6 +90,7 @@ public OccupantRole(PersonAgent p, String personNm)
 			landLord = new LandlordRole(p);
 		}
 	}
+	
 	int count = 0;
 	for(ApartmentObject apartment : AnimationPanel.apartments)
 	{
@@ -109,7 +109,7 @@ public OccupantRole(PersonAgent p, String personNm)
 
 public OccupantRole(PersonAgent p) {
 	super(p);
-	this.person =p;
+	this.person = p;
 	
 }
 
@@ -218,7 +218,7 @@ public boolean pickAndExecuteAnAction()
 	}
 	if(!needsWork.isEmpty() && (eState == eatingState.hungry || eState == eatingState.nothing) )
 	{
-		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("++++++++++++++++++++++++++++++++++++");
 		log("needs to fix appliance");
 		serviceAppliance();	
 		return true;
@@ -260,7 +260,7 @@ public boolean pickAndExecuteAnAction()
 	{
 		//print("----------------------");
 		//EatFood();
-		return true;
+		return false;
 	}
 	
 	if(eState == eatingState.washing)
@@ -315,7 +315,6 @@ public void serviceAppliance()
 	 {
 		if(owner == false)
 		{
-			System.out.println("___________________________________________________________________________________________");
 			log("calling landlord for maintenance");
 			landLord.msgPleaseFix(this, app);
 		}
@@ -417,6 +416,7 @@ public void restockKitchen()
 
 public void cookAMeal()
 {
+	eState = eatingState.nothing;
 	if(owner) gui.DoGoToStove();
 	if(!owner) gui.DoGoToStoveA();
 	
