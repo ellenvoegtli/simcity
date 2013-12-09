@@ -106,13 +106,6 @@ public class PersonAgent extends Agent {
 	public Building getBuilding(){
 		return homePlace;
 	}
-	public boolean isAtHome(){
-		synchronized(roles) {
-			if((currentAction.type == ActionType.home) || (currentAction.type == ActionType.homeAndEat))
-				return true;
-			return false;
-		}
-	}
 	
 	//----------Messages----------//
 	//From a timer to tell the person to do a checkup
@@ -143,18 +136,6 @@ public class PersonAgent extends Agent {
 		synchronized(actions) {
 			actions.add(new Action(ActionType.maintenance, 1));
 			stateChanged();
-		}
-	}
-	public void msgBrokeSomething(){
-		log.add(new LoggedEvent("I BROKE SOMETHINGGGGGGG!!!!!!!!!!!!!!!"));
-		System.out.println("I BROKE SOMETHINGGGGGGG!!!!!!!!!!!!!!!");
-		if (roles.get(ActionType.home) != null){
-			System.out.println("HOME ACTION TYPE IS NOT NULL!");
-			((Occupant) roles.get(ActionType.home)).applianceBroke();
-		}
-		else {
-			System.out.println("HOME ACTIONTYPE IS NULL :(");
-			log.add(new LoggedEvent("occupant role doesn't exist :/"));
 		}
 	}
 	public void msgBusHasArrived() {
@@ -920,15 +901,15 @@ public class PersonAgent extends Agent {
 
 	private void chooseRestaurant() {
 		if (restaurantHack != null){
-			if (restaurantHack.contains("Ellen"))
+			if (restaurantHack.toLowerCase().contains("ellen"))
 				destination = CityLocation.restaurant_ellen;
-			else if (restaurantHack.contains("Ena"))
+			else if (restaurantHack.toLowerCase().contains("ena"))
 				destination = CityLocation.restaurant_ena;
-			else if (restaurantHack.contains("Marcus"))
+			else if (restaurantHack.toLowerCase().contains("marcus"))
 				destination = CityLocation.restaurant_marcus;
-			else if (restaurantHack.contains("Jefferson"))
+			else if (restaurantHack.toLowerCase().contains("jefferson"))
 				destination = CityLocation.restaurant_jefferson;
-			else if (restaurantHack.contains("David"))
+			else if (restaurantHack.toLowerCase().contains("david"))
 				destination = CityLocation.restaurant_david;
 			
 			restaurantHack = null;
