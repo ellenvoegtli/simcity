@@ -37,7 +37,6 @@ public class MarketCustomerRole extends Role implements Customer {
 	
 	private double myCash;
 	private double cashOwed = 0;
-	String deliveryMethod;
 	Map<String, Integer> inventoryToOrder;
 	
 	Bill bill;
@@ -292,7 +291,7 @@ public class MarketCustomerRole extends Role implements Customer {
 	
 	private void PlaceOrder(){
         log("Placing order");
-		employee.msgHereIsMyOrder(this, inventoryToOrder, deliveryMethod);
+		employee.msgHereIsMyOrder(this, inventoryToOrder);
 	}
 	
 	private void GoToCashier(){

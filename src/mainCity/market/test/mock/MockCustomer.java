@@ -38,7 +38,7 @@ public class MockCustomer extends Mock implements Customer {
     	}
     	@Override
     	public void msgHereIsYourOrder(Map<String, Integer> inventoryFulfilled, double amount){
-    		log.add(new LoggedEvent("Received msgHereIsYourOder. Amount = $" + amount));
+    		log.add(new LoggedEvent("Received msgHereIsYourOrder. Amount = $" + amount));
     	}
     	@Override
     	public void msgHereIsYourChange(double amountChange, double amountCharged){

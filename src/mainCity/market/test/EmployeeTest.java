@@ -3,20 +3,15 @@ package mainCity.market.test;
 import java.util.Map;
 import java.util.TreeMap;
 
-import role.market.MarketCustomerRole;
-import role.market.MarketEmployeeRole;
+import role.market.*;
 import role.market.MarketCashierRole.BillState;
 import role.market.MarketCustomerRole.AgentState;
 import role.market.MarketEmployeeRole.CustomerState;
 import role.market.MarketEmployeeRole.WaiterState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
-import mainCity.market.test.mock.MockCashier;
-import mainCity.market.test.mock.MockCustomer;
-import mainCity.market.test.mock.MockCustomerGui;
-import mainCity.market.test.mock.MockEmployee;
-import mainCity.market.test.mock.MockEmployeeGui;
-import mainCity.market.test.mock.MockGreeter;
+import mainCity.market.MarketMenu;
+import mainCity.market.test.mock.*;
 import junit.framework.TestCase;
 
 
@@ -26,6 +21,7 @@ public class EmployeeTest extends TestCase {
 	MockCustomer customer1;
 	MockCustomer customer2;
 	MockCashier cashier;
+	MarketMenu menu;
 	
 	public void setUp() throws Exception{
         super.setUp();
@@ -37,14 +33,19 @@ public class EmployeeTest extends TestCase {
         customer1 = new MockCustomer("MockCustomer");
         gui = new MockEmployeeGui("MockEmployeeGui");
         employee.setGui(gui);
+        gui.employee = employee;
+        
+        menu = new MarketMenu();
+        employee.setMenu(menu);
         
         cashier = new MockCashier("MockCashier");
+        employee.setCashier(cashier);
         
 	}
 	
 		//=============================== NEXT TEST =========================================================================
 		public void testOneNormalCustomerScenario(){
-			
+		
 			
 			//check preconditions
 			Map<String, Integer>inventory = new TreeMap<String, Integer>();
@@ -52,7 +53,7 @@ public class EmployeeTest extends TestCase {
             inventory.put("soup", 2);		//cost of soup = 5.00
             
             assertEquals("Employee should have 0 customers in it. It doesn't.", employee.getMyCustomers().size(), 0);
-            assertTrue("Customer should be in state == doingNothing. He isn't.",
+            assertTrue("Employee should be in state == doingNothing. He isn't. He is in state " + employee.getState() + ".",
                     employee.getState() == WaiterState.doingNothing);
 
 			//step 1
@@ -68,8 +69,6 @@ public class EmployeeTest extends TestCase {
             		employee.myCustomers.get(0).getCustomer() == customer1);
             
             //step 2
-            employee.msgAtWaitingRoom();		//to avoid locking
-            employee.msgAtStation();
             assertTrue("Employee's scheduler should have returned true (needs to react to new customer), but didn't.",
             		employee.pickAndExecuteAnAction());
             
@@ -90,32 +89,31 @@ public class EmployeeTest extends TestCase {
             		employee.pickAndExecuteAnAction());
             
             
-            //step 4
-            employee.msgHereIsMyOrder(customer1, inventory, "deliveryMethod");
+            //step 3
+            employee.msgHereIsMyOrder(customer1, inventory);
             
-            //postconditions 4/preconditions 5
+            //postconditions 3/preconditions 4
             assertTrue("Employee should contain a customer with state == ordered. It doesn't.",
                     employee.myCustomers.get(0).getState() == CustomerState.ordered);
             
             
-            //step 5
-            employee.msgAtCashier();
+            //step 4
             assertTrue("Employee's scheduler should have returned true (needs to react), but didn't.",
             		employee.pickAndExecuteAnAction());
             
-            //postconditions 5/preconditions 6
+            //postconditions 4/preconditions 5
             assertTrue("Employee should contain a customer with state == waitingForBill. It doesn't.",
                     employee.myCustomers.get(0).getState() == CustomerState.waitingForBill);
             assertTrue("MockEmployeeGui should have logged \"Told to DoGoToCashier\" but didn't. His log reads instead: " 
                     + gui.log.getLastLoggedEvent().toString(), gui.log.containsString("Gui told to DoGoToCashier by agent."));
             assertTrue("MockCashier should have logged an event for receiving \"msgComputeBill\", but his last event logged reads instead: " 
-                    + customer1.log.getLastLoggedEvent().toString(), customer1.log.containsString("Received msgComputeBill from Employee for MockCustomer"));
+                    + cashier.log.getLastLoggedEvent().toString(), cashier.log.containsString("Received msgComputeBill from Employee for MockCustomer"));
             
             
-            //step 6
+            //step 5
             employee.msgHereIsBill(customer1, 25.99);
             
-            //postconditions 6/preconditions 7
+            //postconditions 5/preconditions 6
             assertTrue("Employee should contain a customer with the right customer in it. It doesn't.", 
                     employee.myCustomers.get(0).getCustomer() == customer1);
             assertTrue("Employee should contain a customer with the right bill amount in it. It doesn't.", 
@@ -124,23 +122,36 @@ public class EmployeeTest extends TestCase {
                     employee.myCustomers.get(0).getState() == CustomerState.gotCheckFromCashier);
             
             
-            //step 7
+            //step 6
+            employee.setState(WaiterState.doingNothing);	//since it won't be called in the scheduler
             assertTrue("Employee's scheduler should have returned true (needs to react), but didn't.",
             		employee.pickAndExecuteAnAction());
             
-            //postconditions 7/preconditions 8
+            //postconditions 6/preconditions 7
             assertTrue("MockEmployeeGui should have logged \"Told to DoFulfill\" but didn't.", 
             		gui.log.containsString("Gui told to DoFulfillOrder by agent."));
+            assertTrue("Employee should contain a customer with state == fulfillingOrder. It doesn't.",
+                    employee.myCustomers.get(0).getState() == CustomerState.fulfillingOrder);
+            assertFalse("Employee's scheduler should have returned false (waiting for order to be fulfilled), but didn't.",
+            		employee.pickAndExecuteAnAction());
+            
+            
+            //step 7
+            employee.msgOrderFulfilled(employee.myCustomers.get(0));
+            
+            //postconditions 7/preconditions 8
             assertTrue("Employee should contain a customer with state == doneFulfillingOrder. It doesn't.",
                     employee.myCustomers.get(0).getState() == CustomerState.doneFulfillingOrder);
             
             
             //step 8
-            employee.msgAtStation();
+            employee.setState(WaiterState.doingNothing);	//since it won't be called in the scheduler
             assertTrue("Employee's scheduler should have returned true (needs to react), but didn't.",
             		employee.pickAndExecuteAnAction());
             
             //postconditions 8/preconditions 9
+            assertTrue("MockEmployeeGui should have logged an event for receiving \"Told to go to station\", but his last event logged reads instead: " 
+                    + gui.log.getLastLoggedEvent().toString(), gui.log.containsString("Gui told to DoGoToStation by agent."));
             assertTrue("MockCustomer should have logged an event for receiving \"msgHereIsYourOrder\" for the correct bill amount, but his last event logged reads instead: " 
                     + customer1.log.getLastLoggedEvent().toString(), customer1.log.containsString("Received msgHereIsYourOrder. Amount = $25.99"));
             assertTrue("Employee should contain a customer with state == gotOrderAndBill. It doesn't.",
@@ -154,6 +165,7 @@ public class EmployeeTest extends TestCase {
                     employee.myCustomers.get(0).getState() == CustomerState.leaving);
             
             //step 10
+            employee.setState(WaiterState.doingNothing);
             assertTrue("Employee's scheduler should have returned true (needs to react), but didn't.",
             		employee.pickAndExecuteAnAction());
             

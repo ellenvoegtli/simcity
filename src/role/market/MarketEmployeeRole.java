@@ -48,6 +48,7 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		super(p);
 		this.name = name;
 		onDuty = true;
+		wState = WaiterState.doingNothing;
 	}
 	
 	public void setHost(Greeter host){
@@ -71,6 +72,9 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	}
 	public WaiterState getState(){
 		return wState;
+	}
+	public void setState(WaiterState s){
+		wState = s;
 	}
 	public String getName() {
 		return name;
@@ -114,7 +118,7 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		stateChanged();
 	}
 	
-	public void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory, String deliveryMethod) {
+	public void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory) {
 		MyCustomer mc = null;
 		synchronized(myCustomers){
 			for (MyCustomer thisMC : myCustomers){	

@@ -23,12 +23,13 @@ public class MockCashier extends Mock implements MarketCashier {
     }
     public void setMenu(MarketMenu m){
     }
-    
+    @Override
 	public void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e){
 		log.add(new LoggedEvent("Received msgComputeBill from " + e.getName() + " for " + c.getName()));
 	}
+    @Override
 	public void msgComputeBill(Map<String, Integer> inventory, String name, Employee e){
-		
+		log.add(new LoggedEvent("Received msgCompute bill from " + e + " for " + name));
 	}
 	@Override
 	public void msgHereIsPayment(double amount, Customer cust){

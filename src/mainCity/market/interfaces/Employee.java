@@ -24,7 +24,7 @@ public interface Employee {
 	
     public abstract void msgAssignedToBusiness(String restaurantName, Map<String, Integer>inventory);
 	public abstract void msgAssignedToCustomer(Customer c, int waitPosX, int waitPosY);
-	public abstract void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory, String deliveryMethod);
+	public abstract void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory);
 	public abstract void msgHereIsBill(Customer c, double amount);		//from cashier
 	public abstract void msgHereIsBill(String name, double amount);		//from cashier
 	public abstract void msgOrderFulfilled(MyCustomer mc);		//from timer
