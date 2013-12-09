@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import role.ellenRestaurant.EllenHostRole.Table;
 import mainCity.restaurants.EllenRestaurant.interfaces.Host;
+import mainCity.restaurants.EllenRestaurant.interfaces.Waiter;
 
 
 public class MockHost extends Mock implements Host {
@@ -21,5 +22,12 @@ public class MockHost extends Mock implements Host {
 	@Override
 	public void msgTableFree(int t){
 		log.add(new LoggedEvent("Received msgTableFree for table " + t));
+	}
+	
+	public void msgIWantBreak(Waiter w){
+		
+	}
+	public void msgComingOffBreak(Waiter w){
+		
 	}
 }

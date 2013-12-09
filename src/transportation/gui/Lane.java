@@ -66,31 +66,36 @@ public class Lane {
 		
 		boolean dontAdd = true;
 		
-		while(dontAdd){
-			if(xVelocity == 5) {
-				if(vehicles.get(vehicles.size()-1).getX() == xOrigin+25) {
-					vehicles.add( v );
-					dontAdd = false;
+		if(vehicles.size() > 0) {
+			while(dontAdd){
+				if(xVelocity == 5) {
+					if(vehicles.get(vehicles.size()-1).getX() == xOrigin+25) {
+						vehicles.add( v );
+						dontAdd = false;
+					}
+				}
+				else if(xVelocity == -5) {
+					if(vehicles.get(vehicles.size()-1).getX() == (xOrigin + width - v.getWidth())-20) {
+						vehicles.add( v );
+						dontAdd = false;
+					}
+				}
+				else if(yVelocity == 5) {
+					if(vehicles.get(vehicles.size()-1).getY() == yOrigin+25) {
+						vehicles.add( v );
+						dontAdd = false;
+					}
+				}
+				else if(yVelocity == -5) {
+					if(vehicles.get(vehicles.size()-1).getY() == (yOrigin + height - v.getHeight())-20) {
+						vehicles.add( v );
+						dontAdd = false;
+					}
 				}
 			}
-			else if(xVelocity == -5) {
-				if(vehicles.get(vehicles.size()-1).getX() == (xOrigin + width - v.getWidth())-20) {
-					vehicles.add( v );
-					dontAdd = false;
-				}
-			}
-			else if(yVelocity == 5) {
-				if(vehicles.get(vehicles.size()-1).getY() == yOrigin+25) {
-					vehicles.add( v );
-					dontAdd = false;
-				}
-			}
-			else if(yVelocity == -5) {
-				if(vehicles.get(vehicles.size()-1).getY() == (yOrigin + height - v.getHeight())-20) {
-					vehicles.add( v );
-					dontAdd = false;
-				}
-			}
+		}
+		else { 
+			vehicles.add( v );
 		}
 	}
 	
