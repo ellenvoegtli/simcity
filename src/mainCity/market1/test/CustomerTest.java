@@ -3,10 +3,10 @@ package mainCity.market1.test;
 import java.util.Map;
 import java.util.TreeMap;
 
-import role.market1.Market1CustomerRole;
-import role.market1.Market1CustomerRole.AgentEvent;
-import role.market1.Market1CustomerRole.AgentState;
-import role.market1.Market1CustomerRole.BillState;
+import role.market.MarketCustomerRole;
+import role.market.MarketCustomerRole.AgentEvent;
+import role.market.MarketCustomerRole.AgentState;
+import role.market.MarketCustomerRole.BillState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
 import mainCity.market1.gui.CustomerGui;
@@ -18,8 +18,8 @@ import junit.framework.TestCase;
 
 
 public class CustomerTest extends TestCase {
-	Market1CustomerRole customer;
-	Market1CustomerRole flake;
+	MarketCustomerRole customer;
+	MarketCustomerRole flake;
 	MockCustomerGui gui;
 	MockEmployee employee;
 	MockGreeter greeter;
@@ -30,11 +30,11 @@ public class CustomerTest extends TestCase {
         super.setUp();
         
         PersonAgent d = new PersonAgent("Customer");
-        customer = new Market1CustomerRole(d, d.getName());
+        customer = new MarketCustomerRole(d, d.getName());
         d.addRole(ActionType.work, customer);
         
         PersonAgent c = new PersonAgent("Flake");
-        flake = new Market1CustomerRole(c, c.getName());
+        flake = new MarketCustomerRole(c, c.getName());
         c.addRole(ActionType.work, flake);
  
         gui = new MockCustomerGui("MockCustomerGui");

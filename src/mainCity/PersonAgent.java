@@ -23,7 +23,7 @@ import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.*;
-import role.market1.*;
+import role.market.*;
 import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
@@ -303,7 +303,7 @@ public class PersonAgent extends Agent {
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
-					if (event == PersonEvent.arrivedAtMarket && !((Market1CustomerRole) customer).getGui().goInside()) {
+					if (event == PersonEvent.arrivedAtMarket && !((MarketCustomerRole) customer).getGui().goInside()) {
 						currentAction.state = ActionState.done;
 						return true;
 					}
@@ -685,44 +685,44 @@ public class PersonAgent extends Agent {
 							
 							//-----Market Roles---//
 							case "marketEmployee":
-								Market1EmployeeRole mem = new Market1EmployeeRole(this, name);
+								MarketEmployeeRole mem = new MarketEmployeeRole(this, name);
 								ContactList.getInstance().getMarket().handleRole(mem);
 								roles.put(action, mem);
 								break;
 							case "marketGreeter":
-								Market1GreeterRole mgr = new Market1GreeterRole(this, name);
+								MarketGreeterRole mgr = new MarketGreeterRole(this, name);
 								ContactList.getInstance().getMarket().handleRole(mgr);
 								roles.put(action, mgr);
 								break;
 							case "marketCashier":
-								Market1CashierRole mcsh = new Market1CashierRole(this, name);
+								MarketCashierRole mcsh = new MarketCashierRole(this, name);
 								ContactList.getInstance().getMarket().handleRole(mcsh);
 								roles.put(action, mcsh);
 								break;
 							case "marketDeliveryMan":
-								Market1DeliveryManRole mdm = new Market1DeliveryManRole(this, name);
+								MarketDeliveryManRole mdm = new MarketDeliveryManRole(this, name);
 								ContactList.getInstance().getMarket().handleRole(mdm);
 								roles.put(action, mdm);
 								break;
 								
 							//-----Market 2 Roles ---//
 							case "market2Employee":
-								Market1EmployeeRole mem2 = new Market1EmployeeRole(this, name);
+								MarketEmployeeRole mem2 = new MarketEmployeeRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mem2);
 								roles.put(action, mem2);
 								break;
 							case "market2Greeter":
-								Market1GreeterRole mgr2 = new Market1GreeterRole(this, name);
+								MarketGreeterRole mgr2 = new MarketGreeterRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mgr2);
 								roles.put(action, mgr2);
 								break;
 							case "market2Cashier":
-								Market1CashierRole mcsh2 = new Market1CashierRole(this, name);
+								MarketCashierRole mcsh2 = new MarketCashierRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mcsh2);
 								roles.put(action, mcsh2);
 								break;
 							case "market2DeliveryMan":
-								Market1DeliveryManRole mdm2 = new Market1DeliveryManRole(this, name);
+								MarketDeliveryManRole mdm2 = new MarketDeliveryManRole(this, name);
 								ContactList.getInstance().getMarket2().handleRole(mdm2);
 								roles.put(action, mdm2);
 								break;
@@ -764,12 +764,12 @@ public class PersonAgent extends Agent {
 						}
 						break;
 					case market :
-						Market1CustomerRole mcr = new Market1CustomerRole(this, name);
+						MarketCustomerRole mcr = new MarketCustomerRole(this, name);
 						ContactList.getInstance().getMarket().handleRole(mcr);
 						roles.put(action, mcr);
 						break;
 					case market2 : 
-						Market1CustomerRole mcr2 = new Market1CustomerRole(this, name);
+						MarketCustomerRole mcr2 = new MarketCustomerRole(this, name);
 						ContactList.getInstance().getMarket2().handleRole(mcr2);
 						roles.put(action, mcr2);
 						break;

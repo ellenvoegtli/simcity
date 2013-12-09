@@ -5,7 +5,7 @@ import java.util.*;
 import role.Role;
 import role.jeffersonRestaurant.JeffersonWaiterRole;
 import role.jeffersonRestaurant.JeffersonCookRole.Order;
-import role.market1.Market1DeliveryManRole;
+import role.market.MarketDeliveryManRole;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;

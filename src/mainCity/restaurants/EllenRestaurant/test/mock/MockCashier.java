@@ -2,7 +2,7 @@ package mainCity.restaurants.EllenRestaurant.test.mock;
 
 import java.util.Map;
 
-import role.market1.Market1DeliveryManRole;
+import role.market.MarketDeliveryManRole;
 import mainCity.interfaces.DeliveryMan;
 import mainCity.restaurants.EllenRestaurant.interfaces.*;
 

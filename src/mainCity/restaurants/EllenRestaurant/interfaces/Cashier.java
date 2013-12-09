@@ -2,7 +2,7 @@ package mainCity.restaurants.EllenRestaurant.interfaces;
 
 import java.util.Map;
 
-import role.market1.Market1DeliveryManRole;
+import role.market.MarketDeliveryManRole;
 import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.interfaces.*;
 

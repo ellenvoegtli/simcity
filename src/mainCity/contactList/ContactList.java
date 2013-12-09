@@ -25,7 +25,7 @@ import transportation.BusStop;
 import housing.LandlordRole;
 import housing.OccupantRole;
 import housing.gui.HomePanel;
-import role.market1.*;
+import role.market.*;
 import mainCity.market1.gui.*;
 
 import java.util.*;
@@ -68,9 +68,9 @@ public class ContactList {
 	
 	
 	
-	public Market1GreeterRole marketGreeter;
-	public Market1CashierRole marketCashier;
-	public Market1DeliveryManRole marketDeliveryMan;
+	public MarketGreeterRole marketGreeter;
+	public MarketCashierRole marketCashier;
+	public MarketDeliveryManRole marketDeliveryMan;
 		
 	//all of the restaurants' cooks
 	public EllenCookRole ellenCook;
@@ -220,13 +220,13 @@ public class ContactList {
 	}
 	
 	//Market********
-	public void setMarketGreeter(Market1GreeterRole g){
+	public void setMarketGreeter(MarketGreeterRole g){
 		marketGreeter = g;
 	}
-	public void setMarketCashier(Market1CashierRole c){
+	public void setMarketCashier(MarketCashierRole c){
 		marketCashier = c;
 	}
-	public void setMarketDeliveryMan(Market1DeliveryManRole d){
+	public void setMarketDeliveryMan(MarketDeliveryManRole d){
 		marketDeliveryMan = d;
 	}
 	public void setMarket(MarketPanel m){

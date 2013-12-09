@@ -17,7 +17,7 @@ import role.Role;
 import role.jeffersonRestaurant.JeffersonCustomerRole.*;
 import role.jeffersonRestaurant.JeffersonWaiterRole.Table;
 import role.marcusRestaurant.MarcusCookRole.CookStatus;
-import role.market1.Market1GreeterRole;
+import role.market.MarketGreeterRole;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;

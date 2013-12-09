@@ -1,4 +1,4 @@
-package role.market1;
+package role.market;
 
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
@@ -14,7 +14,7 @@ import java.util.concurrent.*;
 
 
 
-public class Market1DeliveryManRole extends Role implements DeliveryMan{			//only handles one restaurant at a time right now
+public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only handles one restaurant at a time right now
 	private String name;
 	public DeliveryManGuiInterface deliveryGui;
 	MarketCashier cashier;
@@ -35,7 +35,7 @@ public class Market1DeliveryManRole extends Role implements DeliveryMan{			//onl
 	
 	
 	//constructor
-	public Market1DeliveryManRole(PersonAgent p, String name) {
+	public MarketDeliveryManRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		state = AgentState.doingNothing;

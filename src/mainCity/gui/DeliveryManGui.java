@@ -3,7 +3,7 @@ package mainCity.gui;
 import mainCity.interfaces.*;
 import mainCity.market1.interfaces.DeliveryManGuiInterface;
 import mainCity.gui.*;
-import role.market1.Market1DeliveryManRole;
+import role.market.MarketDeliveryManRole;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

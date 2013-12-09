@@ -11,7 +11,7 @@ import mainCity.restaurants.marcusRestaurant.interfaces.*;
 import java.util.*;
 
 import role.Role;
-import role.market1.Market1DeliveryManRole;
+import role.market.MarketDeliveryManRole;
 
 public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 	private String name;
