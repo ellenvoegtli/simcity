@@ -204,7 +204,7 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		
 		public void DoGoRest()
 		{
-			System.out.println("going to couch");
+			//System.out.println("going to couch");
 			xDestination = 50;
 			yDestination = 200;
 		}
