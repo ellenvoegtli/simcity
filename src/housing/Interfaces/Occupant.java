@@ -1,6 +1,7 @@
 package housing.Interfaces;
 
 import housing.personHome;
+import housing.personHome.Appliance;
 import housing.gui.OccupantGui;
 
 import java.util.List;
@@ -29,6 +30,8 @@ public interface Occupant {
 	public abstract personHome getHome();
 	
 	public abstract void applianceBroke();
+
+	public abstract void msgNeedsMaintenance(String appl);
 
 	
 

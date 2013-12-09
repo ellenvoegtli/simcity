@@ -5,24 +5,17 @@ import housing.OccupantRole;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 
-import role.marcusRestaurant.MarcusCustomerRole.AgentEvent;
 import mainCity.PersonAgent;
 import mainCity.gui.AnimationPanel;
-//import mainCity.restaurants.restaurant_zhangdt.gui.RestaurantGui;
-import mainCity.market1.gui.*;
-import mainCity.restaurants.EllenRestaurant.gui.*;
 import mainCity.PersonAgent.ActionType;
-import mainCity.contactList.*;
 import mainCity.gui.trace.*;
 import mainCity.gui.ListPanel;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.text.NumberFormat;
 import java.util.TimerTask;
 import java.util.Timer;
 import java.util.Vector;
-import java.math.*;
 
 
 public class CityGui extends JFrame implements ActionListener, KeyListener{	
@@ -80,7 +73,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JLabel workLabel = new JLabel("Go to work?");
 	private JCheckBox workCB = new JCheckBox();
 	
-	private JLabel breakLabel = new JLabel();
+	private JLabel breakLabel = new JLabel("");
 	private JButton breakButton = new JButton("Break something");
 	//private JButton depositButton = new JButton("Deposit");
 	//private JButton loanButton = new JButton("Request a loan");
@@ -259,11 +252,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		GroupLayout.SequentialGroup hGroup2 = layout2.createSequentialGroup();
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(personLabel).addComponent(blankLabel).
 	            addComponent(restLabel).addComponent(blankLabel).addComponent(orLabel).addComponent(workLabel).
-	            addComponent(breakLabel)
+	            addComponent(breakButton)
 	            );
 		hGroup2.addGroup(layout2.createParallelGroup().addComponent(infoLabel).addComponent(blankLabel).
 	            addComponent(restaurantMenu).addComponent(restaurantButton).addComponent(homeButton).addComponent(workCB).
-	            addComponent(breakButton)
+	            addComponent(breakLabel)
 	            );
 		layout2.setHorizontalGroup(hGroup2);
 		
@@ -281,7 +274,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
 	            addComponent(workLabel).addComponent(workCB));
 		vGroup2.addGroup(layout2.createParallelGroup(Alignment.BASELINE).
-	            addComponent(breakLabel).addComponent(breakButton));
+	            addComponent(breakButton).addComponent(breakLabel));
 		layout2.setVerticalGroup(vGroup2);
 	   //=======================END GROUP LAYOUT 2===================================================
 		
@@ -589,8 +582,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         if (restaurantButton.isEnabled())
         	restaurantMenu.setSelectedIndex(0);
         
-        //breakButton.setEnabled(b);
-        
+        //breakButton.setEnabled(p.isAtHome());
+        breakLabel.setText("");
         
         infoPanel.validate();
     }
@@ -673,8 +666,12 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			for (PersonAgent pers : cityPanel.getOccupants()){
 	        	if (pers.equals(p)){
 	        		OccupantRole o = (OccupantRole) p.getRoles().get(ActionType.home);
-	        		if (o !=null)
+	        		if (o !=null){
 	        			o.applianceBroke();
+	        			breakLabel.setText("Success!");
+	        		}
+	        		else
+	        			breakLabel.setText("Not at home!");
 	        		break;
 	        	}
 	        }

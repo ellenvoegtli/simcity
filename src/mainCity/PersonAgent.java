@@ -106,6 +106,13 @@ public class PersonAgent extends Agent {
 	public Building getBuilding(){
 		return homePlace;
 	}
+	public boolean isAtHome(){
+		synchronized(roles) {
+			if((currentAction.type == ActionType.home) || (currentAction.type == ActionType.homeAndEat))
+				return true;
+			return false;
+		}
+	}
 	
 	//----------Messages----------//
 	//From a timer to tell the person to do a checkup
@@ -580,7 +587,7 @@ public class PersonAgent extends Agent {
 								roles.put(action, jr);
 								break;
 							case "jeffersonWaiter":
-								JeffersonWaiterRole jw = new JeffersonNormalWaiterRole(this, name);
+								JeffersonWaiterRole jw = new JeffersonSharedDataWaiterRole(this, name);
 								ContactList.getInstance().getJeffersonRestaurant().handleRole(jw);
 								roles.put(action, jw);
 								break;

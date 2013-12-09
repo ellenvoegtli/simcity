@@ -122,8 +122,8 @@ public class personHome
 		{
 			if(appl.isWorking() == false)
 			{
-				synchronized(occupant.needsWork)
-				{occupant.needsWork.add(appl.appliance);}
+				occupant.msgNeedsMaintenance(appl.appliance);
+				
 			}
 		}
 		

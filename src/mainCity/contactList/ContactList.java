@@ -155,7 +155,7 @@ public class ContactList {
 	public List<PersonAgent> peopleList = new ArrayList<PersonAgent>();
 	public List<PersonAgent> RenterList = new ArrayList<PersonAgent>();
 
-	public Map<OccupantRole, HomePanel> LivingPlaces = new HashMap<OccupantRole,HomePanel>();
+	public Map<PersonAgent, HomePanel> LivingPlaces = new HashMap<PersonAgent,HomePanel>();
 	public List<HomePanel> homeInstances = new ArrayList<HomePanel> ();
 
 	public void setHome(HomePanel hp)
@@ -180,8 +180,28 @@ public class ContactList {
 		{
 			RenterList.add(p);
 		}
+		
+		 HomePanel home = null;
+		  if(homeInstances.size() != 0)
+		  {
+			 if (renter==false)
+			 {
+				  home = homeInstances.get(peopleList.size()-1);
+					 LivingPlaces.put(p, home);
+
+			 }
+			 
+			else //if(!oR.owner)
+			 {
+				  home = homeInstances.get(6+RenterList.size());
+				 // System.out.println("renter list size" +RenterInstances.size());
+					 LivingPlaces.put(p, home);
+
+			 }
+		  }
+		
 	}
-	public void setOccInstance(OccupantRole oR)
+/*	public void setOccInstance(OccupantRole oR)
 	{
 
 		if(oR.owner)
@@ -213,11 +233,11 @@ public class ContactList {
 		  }
 		
 		
-	}
+	}*/
 	
 	public HomePanel getHome(OccupantRole oR)
 	{
-		return LivingPlaces.get(oR);
+		return LivingPlaces.get(oR.person);
 	}
 	
 

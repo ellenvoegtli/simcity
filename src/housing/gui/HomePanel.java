@@ -53,10 +53,7 @@ public class HomePanel extends JPanel
     		}
     	
     }
-    
-    
-
-   
+ 
     public void handleRoleGui(Role r) 
     {
     	
@@ -65,13 +62,12 @@ public class HomePanel extends JPanel
 
         	occupant = (OccupantRole) r;
         	house = new personHome(occupant);
-        	//homeList.add(house);
 
         	occupant.setHouse(house);
         	if(!occupant.owner)
         	{
         		renting.add(occupant); 
-        		occupant.setLandLord(landLord);
+        		//occupant.setLandLord(landLord);
 
         	}
             house.setOccupant(occupant);
@@ -79,8 +75,6 @@ public class HomePanel extends JPanel
     		animation.addGui(occupantGui);
     		occupant.setGui(occupantGui);
     		
-    		occupantGui.setHungry();    
-
     		
     	}
     	if( r instanceof LandlordRole)
@@ -90,7 +84,7 @@ public class HomePanel extends JPanel
     		for(OccupantRole oc : renting) 
         	{
         		((LandlordRole) landLord).setRenter(oc);
-        	    oc.setLandLord(landLord);
+        	   // oc.setLandLord(landLord);
 
         	}
     		landLordGui = new LandlordGui(landLord, animation);
