@@ -528,7 +528,10 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         controlPanel.setMinimumSize(controlDim);
         controlPanel.setMaximumSize(controlDim);
         //detailedPanel.setBorder(BorderFactory.createEtchedBorder());
-        leftPanel.add(controlPanel, BorderLayout.SOUTH);         
+        leftPanel.add(controlPanel, BorderLayout.SOUTH);  
+        
+        
+        generatePeopleList();
 	}
 
 	public void showInfo(String name) {
