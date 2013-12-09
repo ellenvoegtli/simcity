@@ -429,8 +429,7 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 			
-			if(event == PersonEvent.maintainWork)
-			{
+			if(event == PersonEvent.maintainWork) {
 				goToRenters();
 				return true;
 			}
@@ -848,7 +847,7 @@ public class PersonAgent extends Agent {
 			//======= restaurant hacks from gui ========
 			//case restaurant_ellen:
 				//event = PersonEvent.
-				
+
 			case bankWithdraw:
 			case bankDeposit:
 			case bankLoan: 
