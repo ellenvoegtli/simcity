@@ -19,7 +19,6 @@ import mainCity.bank.gui.BankAnimationPanel;
 import mainCity.bank.gui.BankPanel;
 import mainCity.contactList.ContactList;
 import mainCity.market1.gui.MarketAnimationPanel;
-import mainCity.market2.gui.Market2AnimationPanel;
 import mainCity.restaurants.EllenRestaurant.gui.EllenAnimationPanel;
 import mainCity.restaurants.enaRestaurant.gui.EnaAnimationPanel;
 import mainCity.restaurants.jeffersonrestaurant.gui.JeffersonAnimationPanel;

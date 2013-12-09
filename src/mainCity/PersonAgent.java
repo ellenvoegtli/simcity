@@ -21,13 +21,9 @@ import mainCity.gui.AnimationPanel.HomeObject;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
-import mainCity.restaurants.EllenRestaurant.*;
 import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.*;
-import mainCity.market1.*;
 import role.market1.*;
-import mainCity.market2.*;
-import role.market2.*;
 import transportation.BusAgent;
 
 public class PersonAgent extends Agent {
