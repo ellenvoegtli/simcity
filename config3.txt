@@ -44,4 +44,4 @@ Name:davidwaiter;Cash:100;Renter:false;hasCar:false;Occupation:davidWaiter;Shift
 -Other
 Name:richpersonAwalk;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,market,market2,bank,restaurant
 Name:richpersonBbus;Cash:250;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,restaurant,bank,market,market2
-Name:richpersonC;Cash:170;Renter:false;hasCar:true;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,restaurant,market,market2,bank
+Name:richpersonCcar;Cash:170;Renter:false;hasCar:true;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,restaurant,market,market2,bank
