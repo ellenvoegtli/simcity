@@ -935,33 +935,32 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-		walk = true;
-		boolean car = true;
 
-		
-		if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
-			output(name + " is walking to " + d);
-			gui.DoGoToLocation(d); //call gui
-			waitForGui();
-			return;
-		}
-		else if(!car) { //chose bus
-			output(name + " is taking the bus to " + d);
-			gui.DoGoToStop();
-			waitForGui();
-
-			//add self to waiting list of BusStop once arrived
-			for(int i=0; i<ContactList.stops.size(); i++){ 
-				if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
-					ContactList.stops.get(i).ArrivedAtBusStop(this);
-					state = PersonState.waiting;
-					return;
-				}
+		if(!hasCar) { 
+			if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
+				output(name + " is walking to " + d);
+				gui.DoGoToLocation(d); //call gui
+				waitForGui();
+				return;
 			}
-			//bus.myDestination(d); //send message to transportation object of where they want to go
-			//will receive an arrived at destination message when done
+			else if(!walk) { //chose bus
+				output(name + " is taking the bus to " + d);
+				gui.DoGoToStop();
+				waitForGui();
+	
+				//add self to waiting list of BusStop once arrived
+				for(int i=0; i<ContactList.stops.size(); i++){ 
+					if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+						ContactList.stops.get(i).ArrivedAtBusStop(this);
+						state = PersonState.waiting;
+						return;
+					}
+				}
+				//bus.myDestination(d); //send message to transportation object of where they want to go
+				//will receive an arrived at destination message when done
+			}
 		}
-		else if(car) {//chose car
+		else if(hasCar) {//chose car
 			System.out.println("Gonna drive"); 
 			gui.DoGetOnRoad(); 
 			waitForGui();
