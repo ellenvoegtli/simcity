@@ -101,7 +101,6 @@ public OccupantRole(PersonAgent p, String personNm)
 		{
 			owner = true;
 			landLord = new LandlordRole(p, this);
-			//landLord.person.startThread();
 		}
 	}
 	
