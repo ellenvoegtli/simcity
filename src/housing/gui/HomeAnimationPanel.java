@@ -209,7 +209,6 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 
 	    public void addGui(LandlordGui gui) 
 	    {
-	    	System.out.println("gui added to window???");
 	        personGuis.add(gui);
 	    }
 	    public void addGui(OccupantGui gui)

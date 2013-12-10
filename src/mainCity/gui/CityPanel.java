@@ -160,6 +160,9 @@ public class CityPanel extends JPanel{
 					case "home":
 						person.msgGoHome();
 						break;
+					case "renterHome":
+						person.msgNeedToFix(person.renterHome);
+						break;
 					case "work":
 						if(!occupation.equals("rich")) person.msgGoToWork();
 						break;

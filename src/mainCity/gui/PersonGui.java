@@ -26,6 +26,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	private int xDestination, yDestination;
 	Coordinate destination; 
 	private int xHome, yHome;
+	private int xRenter, yRenter;
 	private static final int w = 20;
 	private static final int h = 20;
 	private boolean isPresent = false;
@@ -48,6 +49,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		try {
 			xHome = agent.getHomePlace().getXLoc();
 			yHome = agent.getHomePlace().getYLoc()+10;
+			
 		}
 		catch(Exception e) {
 			xHome = 710;
@@ -191,6 +193,15 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				break;
 			case home:
 				calculatePath(xHome, yHome);
+				break;
+			case renterHome:
+				
+				xRenter = agent.renterHome.getXLoc();
+				yRenter = agent.renterHome.getYLoc();
+				System.out.println("x house: "  +xRenter);
+				System.out.println("y house: "  +yRenter);
+
+				calculatePath(xRenter, yRenter);
 				break;
 			default:
 				calculatePath(0, 0);

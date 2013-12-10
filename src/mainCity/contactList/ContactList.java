@@ -108,10 +108,7 @@ public class ContactList {
 	MarketPanel market;
 	MarketPanel market2;
 	
-	CityPanel city;
-	
-	//anything else? apartment landlords?
-	
+	CityPanel city;	
 	
 	
 	//*****SETTERS********
@@ -176,14 +173,20 @@ public class ContactList {
 	
 	public HomePanel getHome(OccupantRole oR)
 	{
+		homeP = LivingPlaces.get(oR.person);
 		return LivingPlaces.get(oR.person);
 	}
 	
+	/*public HomePanel getHome(LandlordRole lR)
+	{
+		return RenterList(person.landLord);
+	}*/
 	public void setLandLordInstance(LandlordRole lLR)
 	{
 		LandLordList.add(lLR);
 		
 	}
+	
 	
 	public List<LandlordRole> getLandLords()
 	{

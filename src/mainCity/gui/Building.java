@@ -82,4 +82,14 @@ public class Building implements Gui{
 		return yLocation;
 	}
 
+	public void setXRenterHome(int renterX) {
+		this.xLocation = renterX;
+		
+	}
+
+	public void setYRenterHome(int renterY) {
+		this.yLocation = renterY;
+		
+	}
+
 }

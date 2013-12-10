@@ -67,7 +67,6 @@ public class HomePanel extends JPanel
         	if(!occupant.owner)
         	{
         		renting.add(occupant); 
-        		//occupant.setLandLord(landLord);
 
         	}
             house.setOccupant(occupant);
@@ -79,17 +78,26 @@ public class HomePanel extends JPanel
     	}
     	if( r instanceof LandlordRole)
     	{
+    		System.out.println("LANDLORD INSTSNCE HANDLE ROLE");
     		landLord = (housing.Interfaces.landLord) r;
     		
     		for(OccupantRole oc : renting) 
         	{
         		((LandlordRole) landLord).setRenter(oc);
-        	   // oc.setLandLord(landLord);
+        		System.out.println("OCCUPANT RENTINGS SET LANDLORD FUNCTIONS");
 
+        	   //oc.setLandLord(landLord);
+    			//oc.setLandLord(ContactList.getInstance().getLandLords().get());
+
+        		//landLordGui = new LandlordGui(landLord, animation);
+        		//((LandlordRole) landLord).setGui(landLordGui);
+        		//animation.addGui(landLordGui);
         	}
+
     		landLordGui = new LandlordGui(landLord, animation);
     		((LandlordRole) landLord).setGui(landLordGui);
     		animation.addGui(landLordGui);
+    		
     	}
     
    

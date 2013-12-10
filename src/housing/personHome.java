@@ -50,7 +50,7 @@ public class personHome
 	AAppliances.add(new Appliance("stove" , true, true));
 	AAppliances.add(new Appliance("fridge" , true, true));
 	AAppliances.add(new Appliance("sink" , true, true));
-	AAppliances.add(new Appliance("TV", true, true));
+	AAppliances.add(new Appliance("TV", false, true));
 
 		
 	}
@@ -115,9 +115,10 @@ public class personHome
 		
 	}
 	
-	public void CheckAppliances()
+	public void CheckAppliances(boolean renter)
 	{
-		
+		if(!renter)
+		{
 		for (Appliance appl : Appliances)
 		{
 			if(appl.isWorking() == false)
@@ -126,6 +127,20 @@ public class personHome
 				
 			}
 		}
+		}
+		
+		if(renter)
+		{
+		for (Appliance appl : AAppliances)
+		{
+			if(appl.isWorking() == false)
+			{
+				occupant.msgNeedsMaintenance(appl.appliance);
+				
+			}
+		}
+		}
+		
 		
 	}
 	
