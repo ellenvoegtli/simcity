@@ -40,9 +40,10 @@ public class CityPanel extends JPanel{
     	bus1.startThread();
 
     	//String[] actions = {"work"}; 
-    	//addPerson("CarTest", 500, false, true, "enaWaiter", 6, 22, actions);
+    	//addPerson("CarTest", 500, false, false, "enaWaiter", 6, 22, actions);
 
-		parseConfig("config5.txt");
+		parseConfig("config9.txt");
+
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
@@ -146,6 +147,14 @@ public class CityPanel extends JPanel{
 		person.updateOccupation(occupation, sb, se);
 		person.setCash(c);
 		
+		if(person.getName().toLowerCase().contains("walk")){
+			person.setTransportation(true);
+			person.setWalk(true);
+		}
+		else if (person.getName().toLowerCase().contains("bus")){
+			person.setTransportation(true);
+			person.setWalk(false);
+		}
 		person.setHomePlace(renter);
 		person.setCar(hasCar);
 

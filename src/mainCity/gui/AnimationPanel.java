@@ -263,7 +263,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 			}
 			
 			//Creating second bus 
-			if((count % 150 == 0) && dontReset == false){ 
+			if((count % 350 == 0) && dontReset == false){ 
 				dontReset = true;		
 				if(lanes.size() != 0){
 					synchronized(lanes.get(3).vehicles){
@@ -279,10 +279,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 							&& ( Buses.get(s).getY() > (ContactList.stops.get(i).yLocation-2) ) 
 								&& (Buses.get(s).getY() < (ContactList.stops.get(i).yLocation)+2) ) {
 						
-						Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
 						Buses.get(s).atBusStop = true;
-						if(count % 50 == 0){
+						if(count % 100 == 0){
 							Buses.get(s).atBusStop = false;
+							Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
 						}	
 					}
 				}
@@ -503,7 +503,9 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         
         //drawing bus stops 
         g2.drawImage(stopSign, 320, 55, null); 
-        g2.drawImage(stopSign, 660, 230, null); 
+        g2.drawImage(stopSign, 660, 230, null);
+        g2.drawImage(stopSign, 660, 155, null);
+        g2.drawImage(stopSign, 660, 305, null);
         g2.drawImage(stopSign, 105, 155, null); 
         g2.drawImage(stopSign, 220 , 405, null);
         g2.drawImage(stopSign, 105, 305, null); 

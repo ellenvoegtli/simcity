@@ -1,4 +1,4 @@
--Scenario 6: Market delivery fails (all restaurant employees except waiters + cashiers, all market employees)
+-Scenario 6: Market delivery fails (all restaurant employees except waiters + cashiers, all market employees) - must create new Cashier
 -Market
 Name:marketgreeter;Cash:100;Renter:true;hasCar:false;Occupation:marketGreeter;ShiftBegin:6;ShiftEnd:22;Actions:work
 Name:marketcashier;Cash:100;Renter:true;hasCar:true;Occupation:marketCashier;ShiftBegin:6;ShiftEnd:22;Actions:work

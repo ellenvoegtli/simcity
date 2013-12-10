@@ -66,6 +66,7 @@ public class PersonAgent extends Agent {
 	private Action currentAction;
 	private boolean alive;
 	public EventLog log = new EventLog(); 
+	private String restaurantHack;
 	
 	public PersonAgent(String n) {
 		super();
@@ -210,32 +211,26 @@ public class PersonAgent extends Agent {
 	
 	//A message received from the GUI to go to a specific restaurant (hack)
 	public void msgGoToRestaurant(String name) {
+		if (name.toLowerCase().contains("ellen")){
+			restaurantHack = "ellenRestaurant";
+		}
+		else if (name.toLowerCase().contains("ena")){
+			restaurantHack = "enaRestaurant";
+		}
+		else if (name.toLowerCase().contains("marcus")){
+			restaurantHack = "marcusRestaurant";
+		}
+		else if (name.toLowerCase().contains("jefferson")){
+			restaurantHack = "jeffersonRestaurant";
+		}
+		else if (name.toLowerCase().contains("david")){
+			restaurantHack = "davidRestaurant";
+		}
+		
 		if(!actionExists(ActionType.restaurant)) {
-			synchronized(actions){
-				if (name.toLowerCase().contains("ellen")){
-					actions.add(new Action(ActionType.restaurant_ellen, 4));
-					stateChanged();
-				}
-				else if (name.toLowerCase().contains("ena")){
-					actions.add(new Action(ActionType.restaurant_ena, 4));
-					stateChanged();
-				}
-				else if (name.toLowerCase().contains("marcus")){
-					actions.add(new Action(ActionType.restaurant_marcus, 4));
-					stateChanged();
-				}
-				else if (name.toLowerCase().contains("jefferson")){
-					actions.add(new Action(ActionType.restaurant_jefferson, 4));
-					stateChanged();
-				}
-				else if (name.toLowerCase().contains("david")){
-					actions.add(new Action(ActionType.restaurant_david, 4));
-					stateChanged();
-				}
-				else{		//in case something is wrong
-					actions.add(new Action(ActionType.restaurant, 4));
-					stateChanged();
-				}
+			synchronized(actions) {
+				actions.add(new Action(ActionType.restaurant, 4));
+				stateChanged();
 			}
 		}
 	}
@@ -955,11 +950,11 @@ public class PersonAgent extends Agent {
 				break;
 			case restaurant:
 			//======= restaurant hacks from gui ========
-			case restaurant_ellen:
-			case restaurant_david:
-			case restaurant_ena:
-			case restaurant_marcus:
-			case restaurant_jefferson:
+			//case restaurant_ellen:
+			//case restaurant_david:
+			//case restaurant_ena:
+			//case restaurant_marcus:
+			//case restaurant_jefferson:
 				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
@@ -988,6 +983,7 @@ public class PersonAgent extends Agent {
 		if((destination == CityLocation.home) || (destination == CityLocation.renterHome)) { 
 			walk = true;
 		}
+		walk = false;
 
 		if(!chooseTransportation){
 			if((walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar)) { //chose to walk
@@ -1020,35 +1016,35 @@ public class PersonAgent extends Agent {
 					}
 				}
 			}
-			else { 
-				if(forceWalk) { //chose to walk
-					output(name + " is walking to " + d);
-					gui.DoGoToLocation(d); //call gui
+		}
+		else { 
+			if(forceWalk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
+				output(name + " is walking to " + d);
+				gui.DoGoToLocation(d); //call gui
+				waitForGui();
+				return;
+			}
+			else if(!forceWalk) { //chose bus
+				if(hasCar) { 
+					System.out.println("Gonna drive"); 
+					gui.DoGetOnRoad(); 
 					waitForGui();
+					state = PersonState.inCar; 
+					gui.getInCar(); 
+					gui.DoGoInside();
+					gui.AddCarToLane();
+					gui.DoGoToLocationOnCar(d); 
 					return;
 				}
-				else if(!forceWalk) { //chose bus
-					if(hasCar) { 
-						System.out.println("Gonna drive"); 
-						gui.DoGetOnRoad(); 
-						waitForGui();
-						state = PersonState.inCar; 
-						gui.getInCar(); 
-						gui.DoGoInside();
-						gui.AddCarToLane();
-						gui.DoGoToLocationOnCar(d); 
+				output(name + " is taking the bus to " + d);
+				gui.DoGoToStop();
+				waitForGui();
+					//add self to waiting list of BusStop once arrived
+				for(int i=0; i<ContactList.stops.size(); i++){ 
+					if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+						ContactList.stops.get(i).ArrivedAtBusStop(this);
+						state = PersonState.waiting;
 						return;
-					}
-					output(name + " is taking the bus to " + d);
-					gui.DoGoToStop();
-					waitForGui();
-						//add self to waiting list of BusStop once arrived
-					for(int i=0; i<ContactList.stops.size(); i++){ 
-						if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
-							ContactList.stops.get(i).ArrivedAtBusStop(this);
-							state = PersonState.waiting;
-							return;
-						}
 					}
 				}
 			}
@@ -1056,17 +1052,20 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		if (currentAction.type == ActionType.restaurant_ena)	//gui hacks
-			destination = CityLocation.restaurant_ena;
-		else if (currentAction.type == ActionType.restaurant_ellen)
-			destination = CityLocation.restaurant_ellen;
-		else if (currentAction.type == ActionType.restaurant_marcus)
-			destination = CityLocation.restaurant_marcus;
-		else if (currentAction.type == ActionType.restaurant_david)
-			destination = CityLocation.restaurant_david;
-		else if (currentAction.type == ActionType.restaurant_jefferson)
-			destination = CityLocation.restaurant_jefferson;
-		else {													//default: do random (if ActionType = restaurant)
+		if (restaurantHack!= null){	//gui/config hacks
+			if (restaurantHack.toLowerCase().contains("ellen"))
+				destination = CityLocation.restaurant_ellen;
+			else if (restaurantHack.toLowerCase().contains("ena"))
+				destination = CityLocation.restaurant_ena;
+			else if (restaurantHack.toLowerCase().contains("jefferson"))
+				destination = CityLocation.restaurant_jefferson;
+			else if (restaurantHack.toLowerCase().contains("marcus"))
+				destination = CityLocation.restaurant_marcus;
+			else if (restaurantHack.toLowerCase().contains("david"))
+				destination = CityLocation.restaurant_david;
+			restaurantHack = null;
+		}
+		else {												//default: do random (if ActionType = restaurant)
 			switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
@@ -1087,7 +1086,7 @@ public class PersonAgent extends Agent {
 				break;
 			}
 		}
-		currentAction.type = ActionType.restaurant;		//in case there was a hack
+		currentAction.type = ActionType.restaurant;
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
