@@ -97,30 +97,36 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JButton scenario5Button = new JButton("Run");
 	private JLabel scenario6Label = new JLabel("Scenario 6: Non-norm: Market delivery fails");
 	private JButton scenario6Button = new JButton("Run");
-	private JLabel scenario7Label = new JLabel("Scenario 5: Non-norm: Vehicle accident");
+	private JLabel scenario7Label = new JLabel("Scenario 7: Non-norm: Vehicle accident");
 	private JButton scenario7Button = new JButton("Run");
-	private JLabel scenario8Label = new JLabel("Scenario 6: Non-norm: Vehicle hits person");
+	private JLabel scenario8Label = new JLabel("Scenario 8: Non-norm: Vehicle hits person");
 	private JButton scenario8Button = new JButton("Run");
-	private JLabel scenario9Label = new JLabel("Scenario 7: Non-norm: Weekend");
+	private JLabel scenario9Label = new JLabel("Scenario 9: Non-norm: Weekend");
 	private JButton scenario9Button = new JButton("Run");
-	private JLabel scenario10Label = new JLabel("Scenario 8: Non-norm: Changing shifts");
+	private JLabel scenario10Label = new JLabel("Scenario 10: Non-norm: Changing shifts: M/D/J REST");
 	private JButton scenario10Button = new JButton("Run");
+	private JLabel scenario11Label = new JLabel("Scenario 11: Non-norm: Changing shifts: E/E REST");
+	private JButton scenario11Button = new JButton("Run");
+	private JLabel scenario12Label = new JLabel("Scenario 12: Non-norm: Changing shifts: MARKET/BANK");
+	private JButton scenario12Button = new JButton("Run");
+	private JLabel scenario13Label = new JLabel("");
+	private JButton scenario13Button = new JButton("Run"); 
 	
 	
 	//=================Restaurant Inventory Hack panel components========================
-		private JPanel subControlPanel4 = new JPanel();	
-		
-		private GroupLayout layout4 = new GroupLayout(subControlPanel4);
-		private JLabel ellenRestLabel = new JLabel("Ellen's Restaurant: ");
-		private JButton ellenRestButton = new JButton("Deplete all");
-		private JLabel davidRestLabel = new JLabel("David's Restaurant: ");
-		private JButton davidRestButton = new JButton("Deplete all");
-		private JLabel enaRestLabel = new JLabel("Ena's Restaurant: ");
-		private JButton enaRestButton = new JButton("Deplete all");
-		private JLabel marcusRestLabel = new JLabel("Marcus' Restaurant: ");
-		private JButton marcusRestButton = new JButton("Deplete all");
-		private JLabel jeffersonRestLabel = new JLabel("Jefferson's Restaurant: ");
-		private JButton jeffersonRestButton = new JButton("Deplete all");
+	private JPanel subControlPanel4 = new JPanel();	
+	
+	private GroupLayout layout4 = new GroupLayout(subControlPanel4);
+	private JLabel ellenRestLabel = new JLabel("Ellen's Restaurant: ");
+	private JButton ellenRestButton = new JButton("Deplete all");
+	private JLabel davidRestLabel = new JLabel("David's Restaurant: ");
+	private JButton davidRestButton = new JButton("Deplete all");
+	private JLabel enaRestLabel = new JLabel("Ena's Restaurant: ");
+	private JButton enaRestButton = new JButton("Deplete all");
+	private JLabel marcusRestLabel = new JLabel("Marcus' Restaurant: ");
+	private JButton marcusRestButton = new JButton("Deplete all");
+	private JLabel jeffersonRestLabel = new JLabel("Jefferson's Restaurant: ");
+	private JButton jeffersonRestButton = new JButton("Deplete all");
 	
 	private Object currentPerson;
 
@@ -149,9 +155,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		//moneyField.addKeyListener(this);
 		
 		
-		String[] occupationStrings = {"rich", "jeffersonHost", "jeffersonCashier", "jeffersonCook", "jeffersonWaiter", 
+		String[] occupationStrings = {"rich", "jeffersonHost", "jeffersonCashier", "jeffersonCook", "jeffersonWaiter", "jeffersonSharedWaiter",
 				"marcusHost", "marcusCashier", "marcusCook", "marcusWaiter", "marcusShareWaiter", 
-				"enaHost", "enaCashier", "enaCook", "enaWaiter",
+				"enaHost", "enaCashier", "enaCook", "enaWaiter", "enaSharedWaiter",
 				"ellenHost", "ellenCashier", "ellenCook", "ellenWaiter", "ellenShareWaiter",
 				 "davidHost", "davidCashier", "davidCook", "davidWaiter", "davidSharedWaiter",
 				 "marketGreeter", "marketCashier", "marketDeliveryMan", "marketEmployee",
@@ -306,13 +312,13 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	            addComponent(scenario1Label).addComponent(scenario2Label).addComponent(scenario3Label).
 	            addComponent(scenario4Label).addComponent(scenario5Label).addComponent(scenario6Label).
 	            addComponent(scenario7Label).addComponent(scenario8Label).addComponent(scenario9Label).
-	            addComponent(scenario10Label)
+	            addComponent(scenario10Label).addComponent(scenario11Label).addComponent(scenario12Label)
 	            );
 		hGroup3.addGroup(layout3.createParallelGroup().
 	            addComponent(scenario1Button).addComponent(scenario2Button).addComponent(scenario3Button).
 	            addComponent(scenario4Button).addComponent(scenario5Button).addComponent(scenario6Button).
 	            addComponent(scenario7Button).addComponent(scenario8Button).addComponent(scenario9Button).
-	            addComponent(scenario10Button)
+	            addComponent(scenario10Button).addComponent(scenario11Button).addComponent(scenario12Button)
 	            );
 		layout3.setHorizontalGroup(hGroup3);
 		
@@ -337,6 +343,10 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 				addComponent(scenario9Label).addComponent(scenario9Button));
 		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
 				addComponent(scenario10Label).addComponent(scenario10Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario11Label).addComponent(scenario11Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario12Label).addComponent(scenario12Button));
 		layout3.setVerticalGroup(vGroup3);
 		//==================END GROUP LAYOUT 3=====================================================
 		JScrollPane scenarioPane = new JScrollPane(subControlPanel3);
@@ -354,6 +364,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		scenario8Button.addActionListener(this);
 		scenario9Button.addActionListener(this);
 		scenario10Button.addActionListener(this);
+		scenario11Button.addActionListener(this);
+		scenario12Button.addActionListener(this);
 		
 		
 		//=================== END SUBCONTROLPANEL2 =================================================
@@ -758,21 +770,62 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			personPanel.resetPanel();
 			cityPanel.parseConfig("config5.txt");
 		}
+		else if (e.getSource() == scenario6Button){
+			System.out.println("SCENARIO6 BUTTON PRESSED");
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config6.txt");
+		}
+		else if (e.getSource() == scenario7Button){
+			System.out.println("SCENARIO7 BUTTON PRESSED");
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config7.txt");
+		}
+		else if (e.getSource() == scenario8Button){
+			System.out.println("SCENARIO8 BUTTON PRESSED");
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config8.txt");
+		}
+		else if (e.getSource() == scenario9Button){
+			System.out.println("SCENARIO9 BUTTON PRESSED");
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config9.txt");
+		}
+		else if (e.getSource() == scenario10Button){
+			System.out.println("SCENARIO10 BUTTON PRESSED");
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config10.txt");
+		}
+		else if (e.getSource() == scenario11Button){
+			System.out.println("SCENARIO11 BUTTON PRESSED");
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config11.txt");
+		}
+		else if (e.getSource() == scenario12Button){
+			System.out.println("SCENARIO12 BUTTON PRESSED");
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config12.txt");
+		}
+		
 		
 		//================== INVENTORY PANEL BUTTONS ======================================
 		else if (e.getSource() == davidRestButton){
+			System.out.println("DAVID DEPLETE INVENTORY BUTTON PRESSED");
 			ContactList.getInstance().davidCook.emptyInventory();
 		}
 		else if (e.getSource() == ellenRestButton){
+			System.out.println("ELLEN DEPLETE INVENTORY BUTTON PRESSED");
 			ContactList.getInstance().ellenCook.depleteInventory();
 		}
 		else if (e.getSource() == enaRestButton){
+			System.out.println("ENA DEPLETE INVENTORY BUTTON PRESSED");
 			ContactList.getInstance().enaCook.depleteInventory();
 		}
 		else if (e.getSource() == marcusRestButton){
+			System.out.println("MARCUS DEPLETE INVENTORY BUTTON PRESSED");
 			ContactList.getInstance().marcusCook.depleteInventory();
 		}
 		else if (e.getSource() == jeffersonRestButton){
+			System.out.println("JEFFERSON DEPLETE INVENTORY BUTTON PRESSED");
 			ContactList.getInstance().jeffersonCook.depleteInventory();
 		}
 
