@@ -115,12 +115,14 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 			synchronized(myEmployees){
 				if (!waitingCustomers.isEmpty()){
 					if (!myEmployees.isEmpty()){
-						nextEmployee++;
-						if (nextEmployee > myEmployees.size() - 1)
-							nextEmployee = 0;
-						
-						assignCustomerToEmployee(waitingCustomers.get(0), myEmployees.get(nextEmployee));
-						return true;
+						if (isOpen() || (cashierArrived)){
+							nextEmployee++;
+							if (nextEmployee > myEmployees.size() - 1)
+								nextEmployee = 0;
+							
+							assignCustomerToEmployee(waitingCustomers.get(0), myEmployees.get(nextEmployee));
+							return true;
+						}
 					}
 				}
 			}
@@ -129,9 +131,7 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 		synchronized(waitingBusinesses){
 			synchronized(myEmployees){
 				if (!waitingBusinesses.isEmpty()){
-					log("WAITING BUSINESSES NOT EMPTY");
 					if (!myEmployees.isEmpty()){
-						log("MY EMPLOYEES NOT EMPTY");
 						if (isOpen() || (cashierArrived && deliveryArrived)){
 							log("IS OPEN = TRUE");
 							nextEmployee++;

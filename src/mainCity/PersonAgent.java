@@ -1010,43 +1010,45 @@ public class PersonAgent extends Agent {
 					}
 				}
 			}
-			else { 
-				if(forceWalk) { //chose to walk
-					output(name + " is walking to " + d);
-					gui.DoGoToLocation(d); //call gui
+		}
+		else { 
+			if(forceWalk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
+				output(name + " is walking to " + d);
+				gui.DoGoToLocation(d); //call gui
+				waitForGui();
+				return;
+			}
+			else if(!forceWalk) { //chose bus
+				if(hasCar) { 
+					System.out.println("Gonna drive"); 
+					gui.DoGetOnRoad(); 
 					waitForGui();
+					state = PersonState.inCar; 
+					gui.getInCar(); 
+					gui.DoGoInside();
+					gui.AddCarToLane();
+					gui.DoGoToLocationOnCar(d); 
 					return;
 				}
-				else if(!forceWalk) { //chose bus
-					if(hasCar) { 
-						System.out.println("Gonna drive"); 
-						gui.DoGetOnRoad(); 
-						waitForGui();
-						state = PersonState.inCar; 
-						gui.getInCar(); 
-						gui.DoGoInside();
-						gui.AddCarToLane();
-						gui.DoGoToLocationOnCar(d); 
+				output(name + " is taking the bus to " + d);
+				gui.DoGoToStop();
+				waitForGui();
+					//add self to waiting list of BusStop once arrived
+				for(int i=0; i<ContactList.stops.size(); i++){ 
+					if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+						ContactList.stops.get(i).ArrivedAtBusStop(this);
+						state = PersonState.waiting;
 						return;
-					}
-					output(name + " is taking the bus to " + d);
-					gui.DoGoToStop();
-					waitForGui();
-						//add self to waiting list of BusStop once arrived
-					for(int i=0; i<ContactList.stops.size(); i++){ 
-						if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
-							ContactList.stops.get(i).ArrivedAtBusStop(this);
-							state = PersonState.waiting;
-							return;
-						}
 					}
 				}
 			}
 		}
+		
+
 	}
 
 	private void chooseRestaurant() {
-		if (currentAction.type == ActionType.restaurant_ena)	//gui hacks
+		if (currentAction.type == ActionType.restaurant_ena)	//gui/config hacks
 			destination = CityLocation.restaurant_ena;
 		else if (currentAction.type == ActionType.restaurant_ellen)
 			destination = CityLocation.restaurant_ellen;

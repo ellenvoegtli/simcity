@@ -82,6 +82,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     		synchronized(employees){
     			for(MarketEmployeeRole e : employees) {
         			e.setCashier(cashier);
+            		System.out.println("***************************************************CASHIER: CASHIER = " + cashier);
         		}
     		}
     		synchronized(customers){
@@ -150,6 +151,7 @@ public class MarketPanel extends JPanel implements ActionListener{
     		animation.addGui(g);
     		e.setHost(greeter);
     		e.setCashier(cashier);
+    		System.out.println("***************************************************EMPLOYEE: CASHIER = " + cashier);
     		e.setDeliveryMan(deliveryMan);
     		e.setGui(g);
     		employees.add(e);

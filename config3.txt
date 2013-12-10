@@ -1,4 +1,4 @@
--Scenario 3: Norm: All employees/3 rich people
+-Scenario 3: Norm: All employees/3 rich people who eat at home and then visit all the workplaces in different orders (1 bus, 1 car, 1 walk)
 -Bank
 Name:bankteller;Cash:100;Renter:true;hasCar:true;Occupation:bankTeller;ShiftBegin:6;ShiftEnd:22;Actions:work
 Name:bankmanager;Cash:100;Renter:true;hasCar:false;Occupation:bankManager;ShiftBegin:6;ShiftEnd:22;Actions:work
@@ -42,6 +42,6 @@ Name:davidcashier;Cash:100;Renter:true;hasCar:false;Occupation:davidCashier;Shif
 Name:davidhost;Cash:100;Renter:false;hasCar:false;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:davidwaiter;Cash:100;Renter:false;hasCar:false;Occupation:davidWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Other
-Name:richpersonA;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,market,market2,bank,restaurant_ellen,restaurant_marcus,restaurant_ena,restaurant_jefferson,restaurant_david
-Name:richpersonB;Cash:250;Renter:false;hasCar:true;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,restaurant_david,restaurant_jefferson,restaurant_ena,restaurant_marcus,restaurant_ellen,bank,market2,market
-Name:richpersonC;Cash:170;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,restaurant_ena,restaurant_ellen,market,restaurant_david,restaurant_jefferson,market2,bank,restaurant_marcus
+Name:richpersonAwalk;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,market,market2,bank,restaurant_ellen,restaurant_marcus,restaurant_ena,restaurant_jefferson,restaurant_david
+Name:richpersonBbus;Cash:250;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,restaurant_david,restaurant_jefferson,restaurant_ena,restaurant_marcus,restaurant_ellen,bank,market2,market
+Name:richpersonC;Cash:170;Renter:false;hasCar:true;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,restaurant_ena,restaurant_ellen,market,restaurant_david,restaurant_jefferson,market2,bank,restaurant_marcus
