@@ -31,7 +31,6 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 	
 	public OccupantGui(Occupant occupant, HomeAnimationPanel h) 
 	{
-		System.out.println("NEW OCCUPANT GUI CONSTRUCTOR OCCUPANT CREATED");
 		this.person = occupant;
 		this.animation = h;
 		xPos = 10;
@@ -58,49 +57,19 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		{
 			if (((xDestination != -10 && yDestination != 45) || (xDestination != 200 && yDestination != 40) || (xDestination != 250 && yDestination != 40) || (xDestination != 300 && yDestination != 40) || ( xDestination != 250 && yDestination != 150) || (xDestination != 50 && yDestination !=150) || (xDestination == 70 && yDestination == 100) ||
 				(xDestination != 350 && yDestination != 30) || (xDestination != 450 && yDestination != 30) || (xDestination != 400 && yDestination != 30) || (xDestination != 415 && yDestination != 63) || (xDestination != 50 && yDestination != 55))) //&& atDestination == false)
+			
 			{
 					atDestination = true;
-					System.out.println("======");
-
 			}
-		}
-
-		if (xPos == xDestination && yPos == yDestination && atDestination == true)
-		{
-			atDestination = false;	
-			System.out.println("******Destination reached*******");
-			person.msgAtDestination();
-		}
-			
-		/*if (this.atEndPoint()) 
-		else if (this.atEndPoint()) 
-		{
-			
-			if((xDestination == -10 && yDestination == 45) && atDestination == true)
-			{
-				atDestination = false;	
-				System.out.println("******Destination reached*******");
-				person.msgAtDestination();
-			}
-			else if((xDestination == 250 && yDestination == 150) && atDestination == true)
-			{
-				atDestination = false;	
-				System.out.println("******Destination reached*******");
-				person.msgAtDestination();
-			}
-			
-			else if ((((xDestination == 200 && yDestination == 40) || (xDestination == 250 && yDestination == 40) || (xDestination == 300 && yDestination == 40) || ( xDestination == 250 && yDestination == 150) || (xDestination == 70 && yDestination == 100) ) 
-					|| (xDestination == 350 && yDestination == 30) || (xDestination == 450 && yDestination == 30) || (xDestination == 400 && yDestination == 30) || (xDestination == 415 && yDestination == 63) || (xDestination == 50 && yDestination == 55) )
-																																								&& atDestination == true)
-			{
-				atDestination = false;	
-				System.out.println("******Destination reached*******");
-				person.msgAtDestination();
-			}*/
-			
 		}
 		
-
+		else if (xPos == xDestination && yPos == yDestination && atDestination == true)
+		{
+			atDestination = false;	
+			person.msgAtDestination();
+		}	
+	}
+		
 
 	
 	public void draw(Graphics2D g) 

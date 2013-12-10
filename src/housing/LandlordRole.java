@@ -45,13 +45,14 @@ public class LandlordRole extends Role implements landLord
 	
 	int id;
 	List<Property> properties = new ArrayList<Property>();
-	Map<Occupant, List<String>> ToDo = new HashMap<Occupant, List<String>>(); 
+	Map<OccupantRole, List<String>> ToDo = new HashMap<OccupantRole, List<String>>(); 
 	LanLordGuiInterface gui;
 	private Semaphore atDest = new Semaphore(0,true);
 	private List <String> fixJobs = new ArrayList<String>(); 
 	public List<Occupant> renters = new ArrayList<Occupant>();
-	private Occupant occupant;
-
+	private OccupantRole occupant;
+	private OccupantRole occ;
+	public PersonAgent person;
 	 public EventLog log = new EventLog();
 
 	
@@ -68,25 +69,32 @@ public class LandlordRole extends Role implements landLord
 	{
 		super(p);
 		ContactList.getInstance().setLandLordInstance(this);
+		this.person = p;
+	}
+	public LandlordRole(PersonAgent p, OccupantRole oR)
+	{
+		super(p);
+		this.occ = oR;
+		this.person = p;
+		ContactList.getInstance().setLandLordInstance(this);
 	}
 	
 	
 	@Override
-	public void msgPleaseFix(Occupant occp, String appName)
+	public void msgPleaseFix(OccupantRole occp, String appName)
 	{
 		System.out.println("LANDLORD GETS MESSAGE TO FIX APPLIANCE FOR RENTER");
 		log.add(new LoggedEvent("message recieved to fix"));
 				getFixJobs().add(appName);
 				ToDo.put(occp, getFixJobs());
-				System.out.println("LANDLORD .......");
 
 			stateChanged();
+pickAndExecuteAnAction();
 		
 	}
 	
 	public boolean pickAndExecuteAnAction() 
 	{
-		System.out.println("LANDLORD .......SCHEDULER");
 
 		if(ToDo.isEmpty() == false)
 		{
@@ -103,19 +111,29 @@ public class LandlordRole extends Role implements landLord
 	
 	public void serviceRenter()
 	{
-		for(Occupant occ : ToDo.keySet())
+	if(occ.isFree)
+	{
+		occ.isFree = true;
+		occ.gui.DoLeave();
+		try {
+			occ.getDestinationSem().acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		occ.setNotActive();
+		for(OccupantRole oc : ToDo.keySet())
 		{
 			log("the landlord is going to renters home");
 			log.add(new LoggedEvent("going to the renters home"));
-
-			person.msgNeedToFix();
-			//gui.DoGoToRenterHome(occ.getHome());
+			
+			person.msgNeedToFix(oc.person.getHomePlace());
+			
 			int xPos = 0;
 			int yPos = 0;
 			
 				for (String a : ToDo.get(occ))
 				{
-				  for (Appliance appl : occ.getHome().getAAList())
+				  for (Appliance appl : oc.getHome().getAAList())
 				  {
 					  if(appl.appliance.equals(a))
 					  {
@@ -125,16 +143,16 @@ public class LandlordRole extends Role implements landLord
 					
 					  }
 				   }
-				  ToDo.get(occ).remove(a);
-				  if(ToDo.get(occ).size() == 0) break;
+				  ToDo.get(oc).remove(a);
+				  if(ToDo.get(oc).size() == 0) break;
 				}
 				
-			gui.DoGoToAppliance(xPos, yPos);
+			//gui.DoGoToAppliance(xPos, yPos);
 			repair();
 			ToDo.remove(occ);
 			if(ToDo.size() == 0)break;
 		}
-		gui.DoLeave();	
+		//gui.DoLeave();	
 		try {
 			atDest.acquire();
 		} catch (InterruptedException e) {
@@ -142,9 +160,9 @@ public class LandlordRole extends Role implements landLord
 		}
 		super.setInactive();
 		setInactive();	
-		//gui.DoGoBackHome();
 
-		}			
+		}
+	}
 
 
 	
@@ -170,7 +188,7 @@ public class LandlordRole extends Role implements landLord
 	
 	
 	
-	public Map<Occupant, List<String>> getToDo()
+	public Map<OccupantRole, List<String>> getToDo()
 	{
 		return ToDo;
 	}
@@ -204,10 +222,10 @@ public class LandlordRole extends Role implements landLord
 	}
 
 
-	public void setRenter(Occupant occupant) 
+	public void setRenter(OccupantRole occupant) 
 	{
 		this.occupant = occupant;
-		renters.add( occupant);
+		renters.add(occupant);
 	}
 
 
@@ -218,6 +236,13 @@ public class LandlordRole extends Role implements landLord
 
 	public void setFixJobs(List <String> fixJobs) {
 		this.fixJobs = fixJobs;
+	}
+
+
+	@Override
+	public void msgPleaseFix(Occupant occp, String appName) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

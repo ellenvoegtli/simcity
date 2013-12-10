@@ -100,10 +100,10 @@ public class landlordTest extends TestCase {
 		//step 1
 		occupant1.landLord  = landlord;
 		occupant1.setHouse(home);
-		landlord.setRenter(occupant1);
+		//landlord.setRenter(occupant1);
 		home.setOccupant(occupant1);
 		occupant2.landLord = landlord;
-		landlord.setRenter(occupant2);
+		//landlord.setRenter(occupant2);
 		occupant2.setHouse(home2);
 		lGui.landlord =  landlord;
 
@@ -164,10 +164,10 @@ public class landlordTest extends TestCase {
 		//Part 1	
 			occupant1.landLord  = landlord;
 			occupant1.setHouse(home);
-			landlord.setRenter(occupant1);
+			//landlord.setRenter(occupant1);
 			home.setOccupant(occupant1);
 			occupant2.landLord = landlord;
-			landlord.setRenter(occupant2);
+			//landlord.setRenter(occupant2);
 			occupant2.setHouse(home2);
 			occupant3.landLord = landlord;
 			landlord.setRenter(occupant3);

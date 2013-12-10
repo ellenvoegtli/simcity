@@ -37,6 +37,7 @@ public class OccupantRole extends Role implements Occupant
 	private personHome home;
 	public OccupantGuiInterface gui;
 	public boolean owner;
+	public boolean isFree;
 	public PersonAgent person;
 	private String meal = "pasta";
 	private String name;
@@ -50,6 +51,8 @@ public class OccupantRole extends Role implements Occupant
 	public fixState fState = fixState.nothing;
 	public enum shoppingState {needMarket, shopping, reStocking, nothing};
 	public shoppingState sState = shoppingState.nothing;
+	public enum homeState {present, gone}
+	public homeState hState = homeState.present;
 	
 	
 	public List<String> needsWork = Collections.synchronizedList(new ArrayList<String>());
@@ -68,7 +71,7 @@ public class OccupantRole extends Role implements Occupant
 @Override
 public void msgAtDestination()
 {
-	destination.release();
+	getDestinationSem().release();
 	stateChanged();
 }
 	
@@ -97,7 +100,8 @@ public OccupantRole(PersonAgent p, String personNm)
 		if(homer.getBuild().equals(p.getHomePlace()))
 		{
 			owner = true;
-			landLord = new LandlordRole(p);
+			landLord = new LandlordRole(p, this);
+			//landLord.person.startThread();
 		}
 	}
 	
@@ -107,7 +111,6 @@ public OccupantRole(PersonAgent p, String personNm)
 		if(apartment.getBuild().equals(p.getHomePlace()))
 		{
 			owner = false;
-			needsWork.add("stove");
 			rent = 850;
 			setLandLord(ContactList.getInstance().getLandLords().get(count));
 		}
@@ -159,7 +162,10 @@ public void applianceBroke()
 		appln = "stove";
 		break;
 	}
+	synchronized(needsWork)
+	{
 	needsWork.add(appln);
+	}
 	fState = fixState.fixing;
 	stateChanged();
 	
@@ -167,7 +173,11 @@ public void applianceBroke()
 
 public void msgNeedsMaintenance(String appName)
 {
-	needsWork.add(appName);
+	log("recieved message for maintenance");
+	synchronized(needsWork)
+	{
+		needsWork.add(appName);
+	}
 	fState = fixState.fixing;
 	stateChanged();
 }
@@ -223,12 +233,17 @@ public boolean pickAndExecuteAnAction()
 	
 	if(needsWork.isEmpty() && fState == fixState.nothing && eState == eatingState.nothing )
 	{
-		checkMaintenance();
+		//isFree = false;
+		if(owner)
+			checkMaintenance(false);
+		if(!owner)
+			checkMaintenance(true);
+
 		//return true;
 	}
 	if(!needsWork.isEmpty() && (eState == eatingState.hungry || eState == eatingState.nothing) )
 	{
-		System.out.println("++++++++++++++++++++++++++++++++++++");
+		isFree = false;
 		log("needs to fix appliance");
 		serviceAppliance();	
 		return true;
@@ -236,11 +251,13 @@ public boolean pickAndExecuteAnAction()
 	
 	if (eState == eatingState.hungry && sState == shoppingState.nothing) 
 	{
+		isFree = false;
 		wantsToEat(meal);
 		return true;
 	}
 	if (sState == shoppingState.needMarket)
 	{
+		isFree = false;
 		log("needs to go to the market");
 		goToStore();
 		return true;
@@ -250,6 +267,7 @@ public boolean pickAndExecuteAnAction()
 	
 	if (sState == shoppingState.shopping)
 	{
+		
 		//do nothing, things put on hold since person has left the house
 		return true;
 	}
@@ -261,7 +279,7 @@ public boolean pickAndExecuteAnAction()
 	}
 	if (eState == eatingState.cooking)
 	{
-		print("******************");
+		isFree = false;
 		cookAMeal();
 		return true;
 	}
@@ -273,38 +291,40 @@ public boolean pickAndExecuteAnAction()
 		return false;
 	}
 	
-	if(eState == eatingState.washing)
+	/*if(eState == eatingState.washing)
 	{
 		//print("----------------------");
 
 		//GoWashDishes();
 		return true;
-	}
+	}*/
 
-	if (eState == eatingState.nothing && sState == shoppingState.nothing && (fState == fixState.nothing || fState == fixState.fixed) )
+	if (eState == eatingState.nothing && sState == shoppingState.nothing && (fState == fixState.nothing || fState == fixState.fixed) && hState == homeState.present)
 	{
 		GoRest();
+		isFree = true;
 		return true;
 	}
-	if(owner == false)
+	if(owner == false && person.getDay() == 3)
 	{
 		PayRent();
-		//return true;
-	}
-	if(!person.getRoles().isEmpty()) {//makes the person leave the home if there's something else to do
-		setInactive();
 		return true;
 	}
+	/*if(!person.getRoles().isEmpty()) {//makes the person leave the home if there's something else to do
+		setInactive();
+		return true;
+	}*/
 	
-	System.out.println("FOUND NOTHING, END OF SCHEDULER");
+	System.out.println("NOTHING LEFT TO DO IN OCCUPANT SCHEDULER");
 	return false;
 }
 	
+
 //ACTIONS
 	
-private void checkMaintenance() 
+private void checkMaintenance(boolean renter) 
 {
-		home.CheckAppliances();
+		home.CheckAppliances(renter);
 }
 
 
@@ -312,6 +332,7 @@ private void checkMaintenance()
 public void PayRent()
 {
 	log("pay the owner rent money");
+	
 	//timer to run for a reasonable amount of time to make rent due, a "week?"
 	//bank.DirectDeposit(owner.id, rent);
 }
@@ -326,14 +347,24 @@ public void serviceAppliance()
 		if(owner == false)
 		{
 			log("calling landlord for maintenance");
-			landLord.msgPleaseFix(this, app);
+			if(landLord == null)
+			{
+				log("uhoh, londlord on vacation, must fix on his own! ");
+				fixAppliance(app, false);
+			}
+			
+			else
+				landLord.msgPleaseFix(this, app);
 		}
 		if(owner == true)
 		{
-			fixAppliance(app);
+			log("owner is performing maintenance himself");
+			fixAppliance(app, true);
 		}
-		
-		needsWork.remove(app);
+		synchronized(needsWork)
+		{
+			needsWork.remove(app);
+		}
 	  }
 	}
 	fState = fixState.fixed;
@@ -341,40 +372,66 @@ public void serviceAppliance()
 
 
 
-public void fixAppliance(String app)
+public void fixAppliance(final String app, Boolean owner)
 {
+	fState = fixState.nothing;
 	int xPos = 0;
 	int yPos = 0;
-		
+if (owner)	
+{
 	for (Appliance appl : home.Appliances)
 	{
 		if(appl.appliance.equals(app))
 		{
 			xPos = appl.getXPos();
 			yPos = appl.getYPos();
-			appl.setWorking(true);
-			
+			appl.setWorking(true);	
 		}
-		
 	}
 	gui.DoGoToAppliance(xPos, yPos);
 	try {
-		destination.acquire();
+		getDestinationSem().acquire();
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
 	
 	timer.schedule(new TimerTask() {
-		Object cookie = 1;
 		public void run() {
-			log("fixed appliance");
-			fState = fixState.fixed;
+			log("fixed appliance" +app);
+			//fState = fixState.fixed;
 			stateChanged();
 		}
 	},
-	1000);
-	//timer runs for period of time to allow for appliance to be "fixed"
-	//state = occupantState.fixed;
+	2000);
+}
+
+if (!owner)	
+{
+	for (Appliance appl : home.AAppliances)
+	{
+		if(appl.appliance.equals(app))
+		{
+			xPos = appl.getXPos();
+			yPos = appl.getYPos();
+			appl.setWorking(true);	
+		}
+	}
+	gui.DoGoToAppliance(xPos, yPos);
+	try {
+		getDestinationSem().acquire();
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+	
+	timer.schedule(new TimerTask() {
+		public void run() {
+			log("fixed appliance" + app);
+			//fState = fixState.fixed;
+			stateChanged();
+		}
+	},
+	2000);
+}
 	
 }
 
@@ -382,25 +439,20 @@ public void fixAppliance(String app)
 
 public void wantsToEat(String mealChoice)
 {
-	log("has reached the fridge");
-	print("LOOKING IN FRIDGE?????");
-	if(owner) gui.DoGoToFridge();
+	log("checking fridge for food");
 	
-	else if(!owner) gui.DoGoToFridgeA();
-	
+		if(owner) gui.DoGoToFridge();
+		else if(!owner) gui.DoGoToFridgeA();
 	
 	try {
-		destination.acquire();
+		getDestinationSem().acquire();
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
 	
-	
-	print("LOOKING IN FRIDGE FOR FOOD");
-	home.checkSupplies("pasta");
+		home.checkSupplies(mealChoice);
 		
 }
-
 
 
 public void goToStore()
@@ -409,7 +461,7 @@ public void goToStore()
 	sState = shoppingState.shopping;
 	gui.DoLeave();
 	try {
-		destination.acquire();
+		getDestinationSem().acquire();
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
@@ -431,7 +483,7 @@ public void cookAMeal()
 	if(!owner) gui.DoGoToStoveA();
 	
 	try{
-	destination.acquire();
+	getDestinationSem().acquire();
 	} catch (InterruptedException e) {
 	e.printStackTrace();
 }
@@ -458,7 +510,7 @@ public void EatFood()
 				System.out.println("eating?");
 
 	try{
-	destination.acquire();
+	getDestinationSem().acquire();
     }catch (InterruptedException e) {
 	e.printStackTrace();
     }
@@ -486,7 +538,7 @@ public void GoWashDishes()
 	if(!owner) gui.DoGoToSink();
 					System.out.println("Timer ,,,,,,, for washing dishes??");
 	try{
-		destination.acquire();
+		getDestinationSem().acquire();
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
@@ -505,6 +557,12 @@ public void GoRest()
 {
 	if(owner) gui.DoGoRest();
 	if(!owner) gui.DoGoRestA();
+	try{
+		getDestinationSem().acquire();
+	    }catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
+	
 }
 
 public personHome getHome()
@@ -535,6 +593,24 @@ public OccupantGuiInterface getGui() {
 	return gui;
 }
 
+
+
+public Semaphore getDestinationSem() {
+	return destination;
+}
+
+
+
+public void setDestinationSem(Semaphore destination) {
+	this.destination = destination;
+}
+
+
+public void setNotActive()
+{
+	super.setInactive();
+	hState = homeState.gone;
+}
 
 	
 }

@@ -11,6 +11,8 @@ public interface landLord {
 
 	public abstract void msgAtDestination();
 
+	void msgPleaseFix(OccupantRole occp, String appName);
+
 
 
 

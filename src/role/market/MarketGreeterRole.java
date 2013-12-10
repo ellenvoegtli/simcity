@@ -127,8 +127,7 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 			synchronized(myEmployees){
 				if (!waitingBusinesses.isEmpty()){
 					if (!myEmployees.isEmpty()){
-						if (isOpen() || cashierArrived){
-							//cashierArrived = false;
+						if (isOpen()){
 							nextEmployee++;
 							if (nextEmployee > myEmployees.size() - 1)
 								nextEmployee = 0;

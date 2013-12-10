@@ -157,7 +157,7 @@ public class OccupantTest extends TestCase
 	    	       assertEquals("occupant should have one thing it needs to fix. It doesn't.", occupant2.eState.washing, eatingState.washing);
 
 	   	       	        	
-		occupant2.fixAppliance("sink");
+		occupant2.fixAppliance("sink", false);
 	       assertEquals("occupant should have one thing it needs to fix. It doesn't.", occupant2.fState.fixed, fixState.fixed);
 
 	       assertTrue("occupants scheduler should have returned true (needs to react to new job), but didn't.",

@@ -29,8 +29,14 @@ import transportation.BusAgent;
 public class PersonAgent extends Agent {
 	
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, inCar, walkingFromBus, walkingFromCar}
+<<<<<<< HEAD
+	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome, arrivedRenterApartment}
+
+	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2, renterHome}
+=======
 	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome, manageApartments}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
+>>>>>>> 700c6a014eb9b9777d4ac5b7f2df6d92e1ca4b04
 	
 	private PersonGuiInterface gui;
 	private String name;
@@ -40,7 +46,7 @@ public class PersonAgent extends Agent {
 	private boolean hasCar; 
 	private BusAgent currentBus; 
 	private Building homePlace;
-	private Building renterHome;
+	public Building renterHome;
 	private int time;
 	private int day;
 	private Job job;
@@ -142,21 +148,15 @@ public class PersonAgent extends Agent {
 	}
 	
 	//A message for the landlord	
-	public void msgNeedToFix(Building renterHome) {
-		
+	public void msgNeedToFix(Building renterPlace) {
+		this.renterHome = renterPlace;
 		synchronized(actions) {
 			actions.add(new Action(ActionType.maintenance, 1));
 			stateChanged();
 		}
 	}
 	
-	public void msgGoToRenterHome(PersonAgent p)
-	{
-		synchronized(actions) {
-			actions.add(new Action(ActionType.fixing, 1));
-			stateChanged();
-		}
-	}
+
 	public void msgBusHasArrived() {
 		//print("msgBusHasArrived received");
 		log.add(new LoggedEvent("msgBusHasArrived received"));
@@ -350,6 +350,19 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
+			if(event == PersonEvent.arrivedRenterApartment)
+			{
+				output("Arrived at renter home!");
+				handleRole(currentAction.type);
+				synchronized(roles) {
+					output("the type of action is "  +currentAction.type);
+					roles.get(currentAction.type).setActive();
+				}
+
+				enterBuilding();
+				return true;
+				
+			}
 			if(event == PersonEvent.arrivedAtWork) {
 				output("Arrived at work!");
 				handleRole(currentAction.type);
@@ -476,10 +489,7 @@ public class PersonAgent extends Agent {
 				decideWhereToEat();
 				return true;
 			}
-			if(event == PersonEvent.manageApartments)
-			{
-				
-			}
+			
 			if(event == PersonEvent.maintainWork) {
 				goToRenters();
 				return true;
@@ -850,7 +860,7 @@ public class PersonAgent extends Agent {
 						}
 						break;
 					case maintenance:
-						LandlordRole lr = new LandlordRole(this);
+						LandlordRole lr = ContactList.getInstance().getLandLords().get(0);
 						ContactList.getInstance().getHome().handleRoleGui(lr);
 						roles.put(action, lr);
 						break;
@@ -903,9 +913,7 @@ public class PersonAgent extends Agent {
 			case work:
 				event = PersonEvent.timeToWork;
 				break;
-			case fixing:
-				event = PersonEvent.manageApartments;
-				break;
+			
 			case maintenance:
 				event = PersonEvent.maintainWork;
 				break;
@@ -1077,9 +1085,13 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-	private void goToRenters() {
+	private void goToRenters() 
+	{
+		renterHome.setXRenterHome(renterHome.getXLoc());
+		renterHome.setYRenterHome(renterHome.getYLoc());
 		output("Going to a renters home for maintenance");
-		travelToLocation(CityLocation.home);
+		travelToLocation(CityLocation.renterHome);
+		event = PersonEvent.arrivedRenterApartment;
 		stateChanged();
 	}
 	
@@ -1184,6 +1196,10 @@ public class PersonAgent extends Agent {
 	
 	public int getTime() {
 		return time;
+	}
+	public int getDay()
+	{
+		return day;
 	}
 	
 	public int getWorkHours() {
