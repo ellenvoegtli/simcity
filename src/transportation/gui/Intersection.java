@@ -56,7 +56,7 @@ public class Intersection {
 		
 		//Entering from top right horizontally
 		else if( v.getY() > yOrigin && v.getY() < (yOrigin + (RoadWidth/2)) ) {
-			v.setRect( (xOrigin + (RoadWidth))+5, yOrigin+5, v.getWidth(), v.getHeight() );
+			v.setRect( (xOrigin + (RoadWidth/2))+10, yOrigin+5, v.getWidth(), v.getHeight() );
 			v.setDirection(Vehicle.Direction.Left);
 		}
 		
@@ -139,7 +139,7 @@ public class Intersection {
 						}
 					}
 					else if (v.getX() < 200) { 
-						if(v.getY() < (yOrigin + (RoadWidth/2))+10){ 
+						if(v.getY() == 100){ 
 							v.myDirection = Vehicle.Direction.SimpleRight;
 						}
 					}
