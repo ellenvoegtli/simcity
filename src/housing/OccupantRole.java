@@ -311,6 +311,13 @@ public boolean pickAndExecuteAnAction()
 	}
 	if(!person.getRoles().isEmpty() && isFree == true) {//makes the person leave the home if there's something else to do
 		gui.DoLeave();
+		try{
+			getDestinationSem().acquire();
+			} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		if(owner)
+			landLord.setInactive();
 		setInactive();
 		return true;
 	}
@@ -333,7 +340,6 @@ public void PayRent()
 {
 	log("pay the owner rent money");
 	
-	//timer to run for a reasonable amount of time to make rent due, a "week?"
 	//bank.DirectDeposit(owner.id, rent);
 }
 
