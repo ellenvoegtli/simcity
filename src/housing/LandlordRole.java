@@ -37,34 +37,27 @@ public class LandlordRole extends Role implements landLord
 	
 	//DATA
 	Timer timer = new Timer();
-	
-	
-//public List<String> needsWork = Collections.synchronizedList(new ArrayList<String>());
-//DO THID ******************
-	
-	
 	int id;
-	List<Property> properties = new ArrayList<Property>();
 	Map<OccupantRole, List<String>> ToDo = new HashMap<OccupantRole, List<String>>(); 
 	LanLordGuiInterface gui;
 	private Semaphore atDest = new Semaphore(0,true);
 	private List <String> fixJobs = new ArrayList<String>(); 
 	public List<Occupant> renters = new ArrayList<Occupant>();
-	private OccupantRole occupant;
 	private OccupantRole occ;
 	public PersonAgent person;
 	 public EventLog log = new EventLog();
-
+	 public enum landlordActive {leaving, working, nothing, done, end};
+	 public landlordActive lDActive = landlordActive.nothing;
+	 
 	
-	
-
+	 //for trace panel
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.OCCUPANT, this.getName(), s);
 	}
 
 	
-	//MESSAGES
-	
+
+
 	public LandlordRole(PersonAgent p)
 	{
 		super(p);
@@ -79,7 +72,7 @@ public class LandlordRole extends Role implements landLord
 		ContactList.getInstance().setLandLordInstance(this);
 	}
 	
-	
+	//MESSAGES
 	@Override
 	public void msgPleaseFix(OccupantRole occp, String appName)
 	{
@@ -89,18 +82,40 @@ public class LandlordRole extends Role implements landLord
 				ToDo.put(occp, fixJobs);
 
 			stateChanged();
-pickAndExecuteAnAction();
+			pickAndExecuteAnAction();
 		
 	}
 	
 	public boolean pickAndExecuteAnAction() 
 	{
+		if(lDActive == landlordActive.nothing && occ.isActive() == true && occ.isFree == true)
+		{
+			if(ToDo.isEmpty() == false)
+			{
+				goToRenter();
+				return true;
+			}
+		}
+		if(lDActive == landlordActive.nothing)
+		{
+			if(ToDo.isEmpty() == false)
+			{
+				lDActive = landlordActive.working;	
+				return true;
+			}
+		}
 
-		if(ToDo.isEmpty() == false)
+		if(lDActive == landlordActive.working)
 		{
 			serviceRenter();
 			return true;
 		}
+		
+		if(lDActive == landlordActive.done)
+		{
+			goBackHome();
+		}
+
 		return false;
 	}	
 	
@@ -109,77 +124,113 @@ pickAndExecuteAnAction();
 	
 	//Actions
 	
-	public void serviceRenter()
+	public void goToRenter()
 	{
-	if(occ.isFree)
-	{
-		occ.isFree = true;
-		occ.gui.DoLeave();
+		if(occ.isFree)
+		{
+			lDActive = landlordActive.leaving;
+			occ.isFree = true;
+			occ.gui.DoLeave();
 		try {
 			occ.getDestinationSem().acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		occ.gui.getAnimationP().getPersonGuis().remove(occ.gui);
+		super.setInactive();
 		occ.setNotActive();
+
+		
 		for(OccupantRole oc : ToDo.keySet())
 		{
 			log("the landlord is going to renters home");
 			log.add(new LoggedEvent("going to the renters home"));
 			
-			System.out.println(oc.person.getHomePlace().getXLoc());
-			System.out.println(oc.person.getHomePlace().getYLoc());
-			
+			super.setInactive();
 			person.msgNeedToFix(oc.person.getHomePlace());
-			
-			int xPos = 0;
-			int yPos = 0;
-			
-				for (String a : ToDo.get(oc))
-				{
-				  for (Appliance appl : oc.getHome().getAAList())
-				  {
-					  if(appl.appliance.equals(a))
-					  {
-						xPos = appl.getXPos();
-						yPos = appl.getYPos();
-						appl.setWorking(true);
-					
-					  }
-				   }
-				  ToDo.get(oc).remove(a);
-				  if(ToDo.get(oc).size() == 0) break;
-				}
-				
-			//gui.DoGoToAppliance(xPos, yPos);
-			repair();
-			ToDo.remove(oc);
-			if(ToDo.size() == 0)break;
-		}
-		//gui.DoLeave();	
-		try {
-			atDest.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		super.setInactive();
-		setInactive();	
+			stateChanged();
+			break;
 
 		}
 	}
+}
+
+	public void serviceRenter()
+	{
+		log("the landlord is working on home");
+		int xPos = 0;
+		int yPos = 0;
+		for(OccupantRole oc : ToDo.keySet())
+		{
+			for (String a : ToDo.get(oc))
+			{
+			  for (Appliance appl : oc.getHome().getAAList())
+			  {
+				  if(appl.appliance.equals(a))
+				  {
+					xPos = appl.getXPos();
+					yPos = appl.getYPos();
+					appl.setWorking(true);
+					gui.DoGoToAppliance(xPos, yPos);
+					repair();
+				  }
+			   }
+			  ToDo.get(oc).remove(a);
+			  if(ToDo.get(oc).size() == 0) break;
+			}
+			
+		ToDo.remove(oc);
+		break;
+	}
+	gui.DoLeave();	
+	try {
+		atDest.acquire();
+	} catch (InterruptedException e) {
+		e.printStackTrace();
+	}
+	super.setInactive();
+	person.roleInactive();
+	
+	if(ToDo.size() != 0)
+	{
+		for(OccupantRole oc : ToDo.keySet())
+		{
+			lDActive = landlordActive.nothing;
+
+			person.msgNeedToFix(oc.person.getHomePlace());
+			stateChanged();
+			break;
+		}
+
+	}
+	lDActive = landlordActive.done;
+	stateChanged();
+
+}
+		
+public void goBackHome()
+{
+	super.setInactive();
+	person.roleInactive();
+	person.msgGoHome();
+
+	lDActive = landlordActive.end;
+	stateChanged();
+
+}
 
 
 	
 	
 	public void repair()
 	{
-		/*try {
-			occupant.destination.acquire();
+		try {
+			atDest.acquire();
 		} catch (InterruptedException e) {
-			e.logStackTrace();
-		}*/
+			e.printStackTrace();
+		}
 		
 		timer.schedule(new TimerTask() {
-			Object cookie = 1;
 			public void run() {
 				log("fixed appliance");
 				stateChanged();
@@ -196,22 +247,7 @@ pickAndExecuteAnAction();
 		return ToDo;
 	}
 	
-	public class Property
-	{
-		personHome house;
-		Occupant renter;
-		
-		Property(Occupant prs)
-		{
-			
-		}
-		
-	}
 
-
-	/* (non-Javadoc)
-	 * @see housing.landLord#msgAtDestination()
-	 */
 	@Override
 	public void msgAtDestination() {
 		atDest.release();
@@ -227,7 +263,7 @@ pickAndExecuteAnAction();
 
 	public void setRenter(OccupantRole occupant) 
 	{
-		this.occupant = occupant;
+		this.occ = occupant;
 		renters.add(occupant);
 	}
 

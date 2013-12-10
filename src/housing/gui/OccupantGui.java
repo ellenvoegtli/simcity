@@ -32,7 +32,7 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 	public OccupantGui(Occupant occupant, HomeAnimationPanel h) 
 	{
 		this.person = occupant;
-		this.animation = h;
+		this.setAnimationP(h);
 		xPos = 10;
 		yPos = 35;
 		xDestination = 40;
@@ -190,6 +190,16 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 		{
 			xDestination = -10;
 			yDestination = 45;
+		}
+
+
+		public HomeAnimationPanel getAnimationP() {
+			return animation;
+		}
+
+
+		public void setAnimationP(HomeAnimationPanel animation) {
+			this.animation = animation;
 		}
 
 	
