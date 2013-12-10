@@ -558,10 +558,12 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void checkSelf() {
-		if((day != 0 || day != 6) && time == job.shiftBegin && state != PersonState.working && currentAction.type != ActionType.work && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
-			synchronized(actions) {
-				actions.add(new Action(ActionType.work, 1));
-				stateChanged();
+		if(day != 0 && time == job.shiftBegin && state != PersonState.working && currentAction.type != ActionType.work && !actionExists(ActionType.work) && !job.occupation.equals("rich")) {
+			if(day != 6 || job.occupation.contains("bank") || job.occupation.contains("market")) {
+				synchronized(actions) {
+					actions.add(new Action(ActionType.work, 1));
+					stateChanged();
+				}
 			}
 		}
 		
