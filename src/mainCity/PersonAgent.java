@@ -1096,6 +1096,9 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void respawnPerson() {
+		alive = true;
+		actions.clear();
+		
 		//handle stuff to respawn the person in their home and change their position;
 	}
 	
