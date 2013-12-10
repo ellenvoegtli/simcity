@@ -25,6 +25,11 @@ public class MockMarket extends Mock implements Market
 	public void msgRestCantPay() {
 		log.add(new LoggedEvent("message recieved that restaurant cant pay bill"));
 	}
+	@Override
+	public void msgHereIsPayment(int amount) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

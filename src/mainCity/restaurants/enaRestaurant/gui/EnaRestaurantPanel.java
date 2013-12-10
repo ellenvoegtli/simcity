@@ -20,6 +20,9 @@ import role.Role;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Panel in frame that contains all the restaurant information,
@@ -56,123 +59,28 @@ public class EnaRestaurantPanel extends JPanel
         
     	this.animation = pnl;
        
-        //creating instances of people to test shared waiters  w/o rest of city
-        /*PersonAgent base = new PersonAgent("Host");
-		host = new EnaHostRole(base, base.getName());
-		base.addRole(PersonAgent.ActionType.work, host);
-		host.setActive();
-		
-		PersonAgent base2 = new PersonAgent("Cashier");
-		cashier = new EnaCashierRole(base2, base2.getName());
-		base2.addRole(PersonAgent.ActionType.work, cashier);
-		cashier.setActive();
-		
-		PersonAgent base3 = new PersonAgent("Cook");
-		cook = new EnaCookRole(base3, base3.getName());
-		base3.addRole(PersonAgent.ActionType.work, cook);
-		cook.setActive();
-		
-		PersonAgent base4 = new PersonAgent("Waiter");
-		waiter = new EnaSharedWaiterRole(base4, base4.getName());
-		base4.addRole(PersonAgent.ActionType.work, waiter);
-		waiter.setActive();
-		
-		PersonAgent base5 = new PersonAgent("Customer");
-		customer = new EnaCustomerRole(base5, base5.getName());
-		base5.addRole(PersonAgent.ActionType.hungry, customer);
-		customer.setActive();
-		
-		
-		cookGui = new EnaCookGui(cook);
-		cook.setGui(cookGui);
-		animation.addGui(cookGui);
-		cook.setCashier(cashier);
-	
-		host.setCashier(cashier);
-		host.setCook(cook);
-	
-		
-
-		customers.add(customer);
-		//int posX = 22 * customers.size();
-	EnaCustomerGui g = new EnaCustomerGui(customer, gui);
-	animation.addGui(g);// dw
-	customer.setHost(host);
-	customer.setCashier(cashier);
-	customer.setGui(g);
-	customer.startThread();
-	
-		host.addWaiterRole(waiter);
-		int pos = 22* host.waiters.size();
-		EnaWaiterGui wg = new EnaWaiterGui(waiter, gui, pos);  
-		waiter.setGui(wg);
-		waiter.setHost(host);
-		waiter.setCook(cook);
-		waiter.setCashier(cashier);
-		waiters.add(waiter);
-		animation.addGui(wg);
-		  
-		g.setHungry();
-	//host.setGui(hostGui);
-        //cook.setGui(cookGui);
-        //cook.setCashier(cashier);
-        //gui.animationPanel.addGui(hostGui);
-		
-		//animation.addGui(gui);
-		
-		base.startThread();
-		base2.startThread();
-		base3.startThread();
-		base4.startThread();
-		base5.startThread();
-     
-		g.setHungry();
-
-    */
         	
         ContactList.getInstance().setEnaCook(cook);
         ContactList.getInstance().setEnaCashier(cashier);
         ContactList.getInstance().setEnaHost(host);
-
         
-
-       // setLayout(new GridLayout(1, 2, 20, 20));
-        //group.setLayout(new GridLayout(2, 1, 10, 10));
-
-        //group.add(waiterPanel);
-        
-        //group.add(customerPanel);
-
-        //initRestLabel();
-        //add(restLabel);
-        //add(group);
+        Runnable standChecker = new Runnable() {
+    			 public void run() {
+    				try {
+    					if(cook.isActive())
+    						cook.msgCheckStand();
+    				}
+    				catch(NullPointerException e) {
+    					
+    				}
+    			 }
+    		 };
+    		 
+    		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+    		 executor.scheduleAtFixedRate(standChecker, 0, 15, TimeUnit.SECONDS);
     }
 
-    /**
-     * Sets up the restaurant label that includes the menu,
-     * and host and cook information
-     */
-    private void initRestLabel() {
-        JLabel label = new JLabel();
-        //restLabel.setLayout(new BoxLayout((Container)restLabel, BoxLayout.Y_AXIS));
-        restLabel.setLayout(new FlowLayout());
-       label.setText(
-               "<html></td></tr></table><h3><u> Menu</u></h3><table><tr><td>Steak</td><td>$15.99</td></tr><tr><td>Porkchops</td><td>$10.99</td></tr><tr><td>Lamb</td><td>$5.99</td></tr><tr><td>Lambchops</td><td>$8.99</td></tr></table><br></html>");
-
-        restLabel.setBorder(BorderFactory.createRaisedBevelBorder());
-        restLabel.add(label, BorderLayout.CENTER);
-        restLabel.add(new JLabel("               "), BorderLayout.EAST);
-        restLabel.add(new JLabel("               "), BorderLayout.WEST);
-    }
-
-    /**
-     * When a customer or waiter is clicked, this function calls
-     * updatedInfoPanel() from the main gui so that person's information
-     * will be shown
-     *
-     * @param type indicates whether the person is a customer or waiter
-     * @param name name of person
-     */
+   
     public void showInfo(String type, String name) {
 
         if (type.equals("Customers")) 
@@ -357,7 +265,7 @@ public class EnaRestaurantPanel extends JPanel
     		cook = (EnaCookRole) r;
 	    	
 			cookGui = new EnaCookGui(cook);
-            //cook.setStand(stand);
+            cook.setStand(stand);
     		animation.addGui(cookGui);
             cook.setGui(cookGui);
             cook.setCashier(cashier);

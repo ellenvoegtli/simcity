@@ -44,6 +44,7 @@ public class CityPanel extends JPanel{
 
 		//parseConfig("config5.txt");
 
+
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
 			 public void run() {

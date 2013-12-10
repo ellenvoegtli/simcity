@@ -110,7 +110,7 @@ public class CashierTest extends TestCase
 	//step 1 of the test
 			
 		Double reciept = 25.00;
-		cashier.msgRestockBill(reciept, market);//send the message from a waiter
+		//cashier.msgHereIsMarketBill(null, reciept, null);//send the message from a market
 			
 	//check postconditions for step 1 and preconditions for step 2
 				assertTrue("CashierAgent should have a log that reads \"Recieved message to pay the market\" Instead, the Cashier's event log reads: "  + cashier.log.getLastLoggedEvent().toString(),cashier.log.containsString("recieved message to pay the market"));

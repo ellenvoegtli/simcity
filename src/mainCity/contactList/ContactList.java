@@ -355,6 +355,10 @@ public class ContactList {
 	public void setEnaHost(EnaHostRole h){
 		enaHost = h;
 	}
+	public EnaHostRole getEnaHost()
+	{
+		return enaHost;
+	}
 	public void setEnaCook(EnaCookRole cook){
 		enaCook = cook;
 	}
