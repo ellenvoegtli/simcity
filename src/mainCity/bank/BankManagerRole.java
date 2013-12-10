@@ -78,19 +78,13 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#setBanker(mainCity.bank.BankerRole)
-	 */
-	@Override
+	
 	public void setBanker(BankerRole br){
 		mbanker=new myBanker(br);
 	}
 	
 	//Messages
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgBankerAdded()
-	 */
 	
 	
 	public void log(String s){
@@ -101,10 +95,8 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	public void msgBankerAdded(){
 		stateChanged();
 	}
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgEndShift()
-	 */
-	@Override
+
+
 	public void msgEndShift() {
 		
 		Do("bank closing");
@@ -121,15 +113,12 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 		stateChanged();
 		
 	}
-	@Override
+	
 	public void msgTellerAdded(BankTeller bt){
 		tellers.add(new myTeller(bt,tellers.size()));
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgDirectDeposit(double, int)
-	 */
-	@Override
+	
 	public void msgDirectDeposit(double accountNumber, int amount){
 		synchronized (baccounts.accounts) {
 			for(BankAccount account:baccounts.accounts){
@@ -141,30 +130,21 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgIWantToDeposit(mainCity.bank.interfaces.BankCustomer)
-	 */
-	@Override
+	
 	public void msgIWantToDeposit( BankCustomer bc){
 		log("recieved message IWantToDeposit");
 	    teller_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgIWantToWithdraw(mainCity.bank.interfaces.BankCustomer)
-	 */
-	@Override
+	
 	public void msgIWantToWithdraw( BankCustomer bc){
 		log("recieved message IWantToWithdraw");
 		teller_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgIWantNewAccount(mainCity.bank.interfaces.BankCustomer)
-	 */
-	@Override
+	
 	public void msgIWantNewAccount(BankCustomer bc) {
 		log("recieved message want new account");
 		banker_bankCustomers.add(new myBankCustomer(bc));
@@ -174,20 +154,14 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	
 	
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgIWantALoan(mainCity.bank.interfaces.BankCustomer)
-	 */
-	@Override
+	
 	public void msgIWantALoan(BankCustomer bc){
 		log("recieved message IWantALoan");
 		banker_bankCustomers.add(new myBankCustomer(bc));
 	    stateChanged();
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgImLeaving(mainCity.bank.BankTellerRole)
-	 */
-	@Override
+	
 	public void msgImLeaving(BankTeller bt){
 		for (myTeller mt: tellers){
 			if(mt.t==bt){
@@ -197,18 +171,12 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgImLeaving(mainCity.bank.interfaces.Banker)
-	 */
-	@Override
+	
 	public void msgImLeaving(Banker b){
 		mbanker=null;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#msgImLeaving(mainCity.bank.interfaces.BankCustomer)
-	 */
-	@Override
+	
 	public void msgImLeaving(BankCustomer bc){
 		log("recieved message ImLeaving");
 	    for (myTeller mt: tellers){
@@ -235,14 +203,10 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	
 	
 	
-	
-//TODO handle scenarios where not enough employees	
+/*SCHEDULER*/
+
 	
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#pickAndExecuteAnAction()
-	 */
-	@Override
 	public boolean pickAndExecuteAnAction() {
 	
 		
@@ -289,10 +253,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	}
 	
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#isOpen()
-	 */
-	@Override
+	
 	public boolean isOpen(){
 		log("bank manager checking open");
 		if(tellers.isEmpty() || mbanker.b==null || !onDuty || !mbanker.b.isActive()){
@@ -320,18 +281,12 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	    banker_bankCustomers.remove(0);
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#setBankAccounts(mainCity.bank.BankAccounts)
-	 */
-	@Override
+	
 	public void setBankAccounts(BankAccounts accounts){
 		baccounts= accounts;
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankManager#closeBuilding()
-	 */
-	@Override
+	
 	public boolean closeBuilding() {
 		if(!teller_bankCustomers.isEmpty() || !banker_bankCustomers.isEmpty()){
 			return false;
@@ -356,7 +311,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 		addToCash(getShiftDuration()*100.00);
 		payroll += getShiftDuration()*100.00;	
 		
-		//Emblezzle Funds here
+		//Embezzle Funds here
 		baccounts.FDICfund-= payroll;
 		setInactive();
 		onDuty = true;

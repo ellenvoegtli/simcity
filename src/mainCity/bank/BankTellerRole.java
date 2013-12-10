@@ -42,31 +42,25 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		onDuty=true;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#setBankAccounts(mainCity.bank.BankAccounts)
-	 */
+	
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.BANK, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.BANK_TELLER, this.getName(), s);
 	}
-	@Override
+	
+
 	public void setBankAccounts(BankAccounts ba){
 		this.bankaccounts=ba;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#setTellerNumber(int)
-	 */
-	@Override
+	
 	public void setTellerNumber(int tn){
 		this.tellernumber=tn;
 	}
 	
 	//Messages
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#msgGoOffDuty(double)
-	 */
-	@Override
+	
+	
 	public void msgGoOffDuty(double amount) {
 		
 		addToCash(amount);
@@ -76,10 +70,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#msgIWantToDeposit(mainCity.bank.interfaces.BankCustomer, double, int)
-	 */
-	@Override
+	
 	public void msgIWantToDeposit(BankCustomer b, double accnum, int amount){
 		log("recieved msgIWantToDeposit from a customer");
 		myclient=new myClient();
@@ -90,10 +81,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#msgIWantToWithdraw(mainCity.bank.interfaces.BankCustomer, double, int)
-	 */
-	@Override
+	
 	public void msgIWantToWithdraw(BankCustomer b, double accnum, int amount){
 		log("recieved msgIWantToWithdraw from a customer");
 		myclient=new myClient();
@@ -105,13 +93,6 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	}
 	
 	
-	
-	
-	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#pickAndExecuteAnAction()
-	 */
-	@Override
 	public boolean pickAndExecuteAnAction() {
 		if(onDuty){
 			
@@ -212,10 +193,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#setGui(mainCity.bank.gui.BankTellerGui)
-	 */
-	@Override
+	
 	public void setGui(BankTellerGui gui){
 		//Do("gui set");
 		this.btGui=gui;

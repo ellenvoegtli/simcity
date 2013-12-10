@@ -44,30 +44,24 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		log("Banker initiated");
 		onDuty=true;
 	}
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#setBankAccounts(mainCity.bank.BankAccounts)
-	 */
-	@Override
+	
+
 	public void setBankAccounts(BankAccounts singular){
 		this.bankaccounts=singular;
 	}
 	
 	
 //Messages
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgGoOffDuty(double)
-	 */
-	@Override
+
+
 	public void msgGoOffDuty(double d){
 		addToCash(d);
 		onDuty=false;
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgGoToWork()
-	 */
-	@Override
+
+
 	public void msgGoToWork(){
 		
 		log("Banker at station");
@@ -77,10 +71,6 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	
 
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgIWantALoan(mainCity.bank.interfaces.BankCustomer, double, double)
-	 */
-	@Override
 	public void msgIWantALoan(BankCustomer b, double accnum, double amnt){
 		log("Recieved msgIWantALoan from customer");
 		myclient=new myClient();
@@ -91,10 +81,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgIWantNewAccount(mainCity.PersonAgent, mainCity.bank.interfaces.BankCustomer, java.lang.String, double)
-	 */
-	@Override
+
 	public void msgIWantNewAccount(PersonAgent p, BankCustomer b, String name, double amnt){
 		log("Recieved msgIWantNewAccount from customer");
 		myclient=new myClient();
@@ -108,10 +95,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	
 	
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#pickAndExecuteAnAction()
-	 */
-	@Override
+
 	public boolean pickAndExecuteAnAction() {
 		if(onDuty){
 			doGoToWork();
@@ -203,14 +187,13 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 			return;
 		
 	}
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#setGui(mainCity.bank.gui.BankerGui)
-	 */
+
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.BANK, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.BANK_BANKER, this.getName(), s);
 	}
-	@Override
+	
+
 	public void setGui(BankerGui gui){
 		this.bGui=gui;
 	}
