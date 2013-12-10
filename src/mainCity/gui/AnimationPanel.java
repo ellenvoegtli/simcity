@@ -269,11 +269,11 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 							&& ( Buses.get(s).getY() > ContactList.stops.get(i).yLocation - 2) 
 								&& (Buses.get(s).getY() < ContactList.stops.get(i).yLocation + 2) ) {
 						
-						//Buses.get(s).atBusStop = true;
-						//if(count % 50 == 0){
-							//Buses.get(s).atBusStop = false;
+						Buses.get(s).atBusStop = true;
+						if(count % 50 == 0){
+							Buses.get(s).atBusStop = false;
 							Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
-						//}	
+						}	
 					}
 				}
 			}
@@ -384,7 +384,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 						lanes.get(13).vehicles.remove(Cars.get(c));
 						intersections.get(0).addVehicle(Cars.get(c));
 					}
-					
+	
 					
 					if(Cars.get(c).getX() == 160 && Cars.get(c).getY() == 100){ 
 						intersections.get(0).vehicles.remove(Cars.get(c));

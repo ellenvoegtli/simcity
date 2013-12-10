@@ -139,7 +139,7 @@ public class Intersection {
 						}
 					}
 					else if (v.getX() < 200) { 
-						if(v.getY() == 100){ 
+						if(v.getY() < (yOrigin + (RoadWidth/2))+10){ 
 							v.myDirection = Vehicle.Direction.SimpleRight;
 						}
 					}
