@@ -309,10 +309,11 @@ public boolean pickAndExecuteAnAction()
 		PayRent();
 		return true;
 	}
-	/*if(!person.getRoles().isEmpty()) {//makes the person leave the home if there's something else to do
+	if(!person.getRoles().isEmpty() && isFree == true) {//makes the person leave the home if there's something else to do
+		gui.DoLeave();
 		setInactive();
 		return true;
-	}*/
+	}
 	
 	System.out.println("NOTHING LEFT TO DO IN OCCUPANT SCHEDULER");
 	return false;
