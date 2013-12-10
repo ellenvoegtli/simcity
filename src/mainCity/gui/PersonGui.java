@@ -185,9 +185,6 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				
 				xRenter = agent.renterHome.getXLoc();
 				yRenter = agent.renterHome.getYLoc();
-				System.out.println("x house: "  +xRenter);
-				System.out.println("y house: "  +yRenter);
-
 				calculatePath(xRenter, yRenter);
 				break;
 			default:
