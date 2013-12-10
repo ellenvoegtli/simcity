@@ -945,7 +945,7 @@ public class PersonTest extends TestCase {
 		EnaWaiterRole waiter = null;
 		assertNull("EnaNormalWaiterRole should be null. It isn't", waiter);
 		
-		waiter = new EnaWaiterRole(person, person.getName());
+		waiter = new EnaNormalWaiterRole(person, person.getName());
 		assertEquals("EnaNormalWaiterRole should have current person as holder. It's not", waiter.getPerson(), person);
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		
