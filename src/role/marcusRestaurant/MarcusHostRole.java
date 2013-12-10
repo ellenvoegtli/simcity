@@ -1,6 +1,7 @@
 package role.marcusRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
@@ -28,7 +29,8 @@ public class MarcusHostRole extends Role implements ManagerRole, Host {
 	public Collection<MarcusTable> tables;
 	boolean newCustomer;
 	private boolean onDuty;
-
+	private boolean entered;
+	
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 	
@@ -45,6 +47,8 @@ public class MarcusHostRole extends Role implements ManagerRole, Host {
 		customerCount = 0;
 		newCustomer = false;
 		onDuty = true;
+		entered = true;
+		
 		// make some tables
 		tables = Collections.synchronizedList(new ArrayList<MarcusTable>(NTABLES));
 		
@@ -145,6 +149,11 @@ public class MarcusHostRole extends Role implements ManagerRole, Host {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if(entered) {
+			ContactList.getInstance().setMarcusHost(this);
+			entered = false;
+		}
+		
 		if(restaurantFull() && newCustomer && !waitingCustomers.isEmpty()) {//If the restaurant is full, we get the customer in the back of the queue 
 			waitingCustomers.get(0).msgWantToWait();
 			waitingCustomers.remove(waitingCustomers.get(0));
@@ -305,6 +314,7 @@ public class MarcusHostRole extends Role implements ManagerRole, Host {
 		
 		setInactive();
 		onDuty = true;
+		entered = true;
 		return true;
 	}
 

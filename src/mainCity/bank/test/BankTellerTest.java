@@ -1,11 +1,11 @@
 package mainCity.bank.test;
 
+import role.bank.BankTellerRole;
+import role.bank.BankerRole;
+import role.bank.BankTellerRole.ClientState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
 import mainCity.bank.BankAccounts;
-import mainCity.bank.BankTellerRole;
-import mainCity.bank.BankTellerRole.ClientState;
-import mainCity.bank.BankerRole;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.gui.BankerGui;
 import mainCity.bank.test.mock.MockCustomer;

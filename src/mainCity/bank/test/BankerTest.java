@@ -1,10 +1,10 @@
 package mainCity.bank.test;
 
+import role.bank.BankerRole;
+import role.bank.BankerRole.ClientState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
 import mainCity.bank.BankAccounts;
-import mainCity.bank.BankerRole;
-import mainCity.bank.BankerRole.ClientState;
 import mainCity.bank.gui.BankerGui;
 import mainCity.bank.test.mock.MockCustomer;
 import junit.framework.TestCase;

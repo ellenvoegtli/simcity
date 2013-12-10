@@ -1,18 +1,19 @@
-package mainCity.bank;
+package role.bank;
 
 import java.util.concurrent.Semaphore;
 
 import role.Role;
+import role.bank.BankCustomerRole.BankCustomerState;
 import mainCity.PersonAgent;
-import mainCity.bank.BankCustomerRole.BankCustomerState;
 import mainCity.bank.gui.BankCustomerGui;
 import mainCity.bank.gui.BankRobberGui;
+import mainCity.bank.interfaces.BankRobber;
 import mainCity.bank.interfaces.BankTeller;
 import mainCity.bank.interfaces.Banker;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 
-public class BankRobberRole extends Role {
+public class BankRobberRole extends Role implements BankRobber {
 		PersonAgent p;
 		String name;
 		BankManagerRole bm;
@@ -37,6 +38,9 @@ public class BankRobberRole extends Role {
 	}
 
 	//Messages
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankRobber#msgLeftBank()
+	 */
 	public void msgLeftBank() {
 		log("finished leaving/robbing bank");
 		atHome.release();	
@@ -44,11 +48,17 @@ public class BankRobberRole extends Role {
 		setInactive();
 	}
 	
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankRobber#msgAtBankManager()
+	 */
 	public void msgAtBankManager(){
 		log("at bank manager");
 		atBankManager.release();
 	}
 	
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankRobber#msgWantToRobBank()
+	 */
 	public void msgWantToRobBank(){
 		log("recieved msgWantToRobBank");
 		brstate=BankRobberState.wantToRob;
@@ -56,6 +66,9 @@ public class BankRobberRole extends Role {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankRobber#msgOkayDontHurtMe(double)
+	 */
 	public void msgOkayDontHurtMe(double bounty){
 		log("recieved money from bankmanager");
 		p.setCash(p.getCash()+bounty);
@@ -65,6 +78,9 @@ public class BankRobberRole extends Role {
 
 
 	//Scheduler
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankRobber#pickAndExecuteAnAction()
+	 */
 	public boolean pickAndExecuteAnAction() {
 		
 		if(brstate==BankRobberState.wantToRob){
@@ -88,6 +104,9 @@ public class BankRobberRole extends Role {
 	
 	//Actions
 	
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankRobber#log(java.lang.String)
+	 */
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.BANK, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.BANK_ROBBER, this.getName(), s);
@@ -119,6 +138,9 @@ public class BankRobberRole extends Role {
 		
 	}	
 
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankRobber#bankClosed()
+	 */
 	public boolean bankClosed() {
 		if(bm != null && bm.isActive() && bm.isOpen()){
 		log("robber checked and bank is open");
@@ -129,15 +151,24 @@ public class BankRobberRole extends Role {
 		return true;
 		}
 
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankRobber#setGui(mainCity.bank.gui.BankRobberGui)
+	 */
 	public void setGui(BankRobberGui brGui2) {
 		this.brGui = brGui2;
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankRobber#getGui()
+	 */
 	public BankRobberGui getGui() {
 		return brGui;
 		}
 
+	/* (non-Javadoc)
+	 * @see mainCity.bank.BankRobber#setBankManager(mainCity.bank.BankManagerRole)
+	 */
 	public void setBankManager(BankManagerRole bankmanager) {
 		this.bm=bankmanager;
 	}

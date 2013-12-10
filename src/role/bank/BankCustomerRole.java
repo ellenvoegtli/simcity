@@ -1,4 +1,4 @@
-package mainCity.bank;
+package role.bank;
 
 import java.util.concurrent.Semaphore;
 
@@ -58,49 +58,36 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		this.amount=50;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#setBankManager(mainCity.bank.BankManagerRole)
-	 */
-	@Override
+	
 	public void setBankManager(BankManagerRole bm){
 		this.bm=bm;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#setBanker(mainCity.bank.BankerRole)
-	 */
-	@Override
+	
 	public void setBanker(Banker b){
 		this.banker=b;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#setBankTeller(mainCity.bank.BankTellerRole)
-	 */
-	@Override
+
 	public void setBankTeller(BankTeller t){
 		this.teller=t;
 	}
 
 //Messages
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgBankClosed()
-	 */
+
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.BANK, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.BANK_CUSTOMER, this.getName(), s);
 	}
-	@Override
+	
+
 	public void msgBankClosed() {
 		Do("Bank closed");
 		bcstate=BankCustomerState.done;
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgAtTeller()
-	 */
-	@Override
+
 	public void msgAtTeller() {
 		atTeller.release();
 		bcstate=BankCustomerState.atTeller;
@@ -108,29 +95,22 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgAtBanker()
-	 */
-	@Override
+	
 	public void msgAtBanker(){
 		log("arrived at banker");
 		atBanker.release();
 		bcstate=BankCustomerState.atBanker;
 		stateChanged();
 	}
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgAtWaiting()
-	 */
-	@Override
+
+	
 	public void msgAtWaiting(){
 		//Do("arrived at waiting");
 		atWaiting.release();
 		stateChanged();
 	}
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgLeftBank()
-	 */
-	@Override
+	
+
 	public void msgLeftBank(){
 		log("finished leaving bank");
 		atHome.release();
@@ -140,10 +120,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgNeedLoan()
-	 */
-	@Override
+
+
 	public void msgNeedLoan(){
 		log("Recieved message need loan");
 	    tstate=BankCustomerTransactionState.wantLoan;
@@ -155,20 +133,15 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	    stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgWantNewAccount()
-	 */
-	@Override
+	
+
 	public void msgWantNewAccount(){
 		log("Recieved message want new account");
 		tstate=BankCustomerTransactionState.wantNewAccount;
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgWantToDeposit()
-	 */
-	@Override
+
 	public void msgWantToDeposit(){
 		amount = (int) person.getCash()-100;
 		System.out.println(amount);
@@ -191,10 +164,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgWantToWithdraw()
-	 */
-	@Override
+	
+
 	public void msgWantToWithdraw(){
 		log("Recieved message want to withdraw");
 		amount = 50;
@@ -219,10 +190,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 	
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgGoToTeller(mainCity.bank.BankTellerRole, int)
-	 */
-	@Override
+	
+
 	public void msgGoToTeller(BankTeller te, int tn) {
 		log("Recieved message go to teller");
 		teller=te;
@@ -232,10 +201,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgGoToBanker(mainCity.bank.BankerRole, int)
-	 */
-	@Override
+	
+
 	public void msgGoToBanker(Banker bk, int bn) {
 		log("Recieved message go to banker");
 		banker=bk;
@@ -245,10 +212,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgAccountCreated(double)
-	 */
-	@Override
+	
+
 	public void msgAccountCreated(double temp) {
 		log("Recieved message account created");
 		setMyaccountnumber(temp);
@@ -256,10 +221,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgRequestComplete(double, double)
-	 */
-	@Override
+	
+
 	public void msgRequestComplete(double change, double balance){
 		log("Recieved message request complete");
 	    person.setCash((int) (person.getCash()+change));
@@ -270,10 +233,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	}
 
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#msgLoanApproved(double)
-	 */
-	@Override
+	
+
 	public void msgLoanApproved(double loanamount){
 		log("Recieved message loan approved");
 		person.setCash(person.getCash()+loanamount);
@@ -281,10 +242,8 @@ public class BankCustomerRole extends Role implements BankCustomer {
 		stateChanged();
 	}
 	
-/* (non-Javadoc)
- * @see mainCity.bank.BankCustomer#msgLoanDenied(double)
- */
-@Override
+
+
 public void msgLoanDenied(double loanamount){
 		log("Recieved message loan denied");
 		bcstate=BankCustomerState.done;
@@ -294,10 +253,8 @@ public void msgLoanDenied(double loanamount){
 	
 	
 //Scheduler	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#pickAndExecuteAnAction()
-	 */
-	@Override
+	
+
 	public boolean pickAndExecuteAnAction() {
 		
 		if(bcstate==BankCustomerState.none && tstate==BankCustomerTransactionState.wantToDeposit){
@@ -529,75 +486,49 @@ public void msgLoanDenied(double loanamount){
 
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#getAmount()
-	 */
-	@Override
+	
+
 	public int getAmount() {
 		return amount;
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#setAmount(int)
-	 */
-	@Override
+	
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#getMyaccountnumber()
-	 */
-	@Override
+	
 	public double getMyaccountnumber() {
 		return myaccountnumber;
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#setMyaccountnumber(double)
-	 */
-	@Override
+	
 	public void setMyaccountnumber(double myaccountnumber) {
 		this.myaccountnumber = myaccountnumber;
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#getBankbalance()
-	 */
-	@Override
+	
 	public double getBankbalance() {
 		return bankbalance;
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#setBankbalance(double)
-	 */
-	@Override
+	
 	public void setBankbalance(double bankbalance) {
 		this.bankbalance = bankbalance;
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#setGui(mainCity.bank.gui.BankCustomerGui)
-	 */
-	@Override
+	
 	public void setGui(BankCustomerGui bcGui) {
 		custGui=bcGui;
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#getGui()
-	 */
-	@Override
+	
 	public BankCustomerGui getGui() {
 		return custGui;
 		}
 
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankCustomer#bankClosed()
-	 */
-	@Override
+	
 	public boolean bankClosed() {
 		
 		if(bm != null && bm.isActive() && bm.isOpen()){

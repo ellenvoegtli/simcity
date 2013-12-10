@@ -1,6 +1,11 @@
 package mainCity;
 import agent.Agent;
 import role.*;
+import role.bank.BankCustomerRole;
+import role.bank.BankManagerRole;
+import role.bank.BankRobberRole;
+import role.bank.BankTellerRole;
+import role.bank.BankerRole;
 import role.davidRestaurant.*;
 import role.ellenRestaurant.*;
 import role.jeffersonRestaurant.*;
@@ -638,9 +643,14 @@ public class PersonAgent extends Agent {
 								roles.put(action, jr);
 								break;
 							case "jeffersonWaiter":
-								JeffersonWaiterRole jw = new JeffersonSharedDataWaiterRole(this, name);
+								JeffersonWaiterRole jw = new JeffersonNormalWaiterRole(this, name);
 								ContactList.getInstance().getJeffersonRestaurant().handleRole(jw);
 								roles.put(action, jw);
+								break;
+							case "jeffersonSharedWaiter":
+								JeffersonWaiterRole jsw = new JeffersonSharedDataWaiterRole(this, name);
+								ContactList.getInstance().getJeffersonRestaurant().handleRole(jsw);
+								roles.put(action, jsw);
 								break;
 							case "jeffersonHost":
 								JeffersonHostRole jh = new JeffersonHostRole(this, name);
@@ -954,41 +964,39 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-
-		if(!hasCar) { 
-			if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
-				output(name + " is walking to " + d);
-				gui.DoGoToLocation(d); //call gui
+		walk = false;
+		
+		if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
+			output(name + " is walking to " + d);
+			gui.DoGoToLocation(d); //call gui
+			waitForGui();
+			return;
+		}
+		else if(!walk) { //chose bus
+			if(hasCar) { 
+				System.out.println("Gonna drive"); 
+				gui.DoGetOnRoad(); 
 				waitForGui();
+				state = PersonState.inCar; 
+				gui.getInCar(); 
+				gui.DoGoInside();
+				gui.AddCarToLane();
+				gui.DoGoToLocationOnCar(d); 
 				return;
 			}
-			else if(!walk) { //chose bus
-				output(name + " is taking the bus to " + d);
-				gui.DoGoToStop();
-				waitForGui();
-	
+			output(name + " is taking the bus to " + d);
+			gui.DoGoToStop();
+			waitForGui();
 				//add self to waiting list of BusStop once arrived
-				for(int i=0; i<ContactList.stops.size(); i++){ 
-					if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
-						ContactList.stops.get(i).ArrivedAtBusStop(this);
-						state = PersonState.waiting;
-						return;
-					}
+			for(int i=0; i<ContactList.stops.size(); i++){ 
+				if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+					ContactList.stops.get(i).ArrivedAtBusStop(this);
+					state = PersonState.waiting;
+					return;
 				}
+			}
 				//bus.myDestination(d); //send message to transportation object of where they want to go
 				//will receive an arrived at destination message when done
-			}
-		}
-		else if(hasCar) {//chose car
-			System.out.println("Gonna drive"); 
-			gui.DoGetOnRoad(); 
-			waitForGui();
-			state = PersonState.inCar; 
-			gui.getInCar(); 
-			gui.DoGoInside();
-			gui.AddCarToLane();
-			gui.DoGoToLocationOnCar(d); 
-			return;
 		}
 	}
 
