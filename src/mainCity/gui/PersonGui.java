@@ -82,10 +82,10 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		corners.add(new Coordinate(655, 125));
 		corners.add(new Coordinate(655, 330));
 		
-		roads.add(new Coordinate( 589, 80));
-		roads.add(new Coordinate( 130, 126));
-		roads.add(new Coordinate( 181, 380));
-		roads.add(new Coordinate( 635, 350));
+		roads.add(new Coordinate( 181, 105));
+		roads.add(new Coordinate( 155, 330));
+		roads.add(new Coordinate( 585, 355));
+		roads.add(new Coordinate( 610, 131));
 	}
 
 	public PersonGui(PersonAgent p) {
@@ -131,20 +131,8 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	}
 	
 	public void draw(Graphics2D g) {
+
 		if(isVisible) {
-			/*
-			if(!inCar){
-				g.setColor(Color.ORANGE);
-				g.drawImage(personImg, xPos,yPos, null);
-				//g.fillRect(xPos, yPos, w, h);
-	        	g.drawString(name, xPos, yPos);
-			}
-			else if(inCar){ 
-				g.setColor(Color.RED);
-				g.fillRect(xPos, yPos, w, h);
-			}
-			*/
-			
 			g.setColor(Color.ORANGE);
 			g.drawImage(personImg, xPos,yPos, null);
 			//g.fillRect(xPos, yPos, w, h);
@@ -224,26 +212,26 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	}
 	
 	public void AddCarToLane() { 
-		if(xPos == 589 && yPos == 80) {
+		if(xPos == 181 && yPos == 105) {
 			if(animation.lanes.get(1).vehicles.isEmpty()){
 				animation.Cars.add(myCar);
-				animation.lanes.get(1).addVehicle(myCar);
+				animation.lanes.get(4).addVehicle(myCar);
 			}
 		}
 		
-		else if(xPos == 130 && yPos == 126) { 
+		else if(xPos == 155 && yPos == 330) { 
 			animation.Cars.add(myCar);
-			animation.lanes.get(12).addVehicle(myCar);
+			animation.lanes.get(13).addVehicle(myCar);
 		}
 	
-		else if(xPos == 181 && yPos == 380) { 
+		else if(xPos == 585 && yPos == 355) { 
 			animation.Cars.add(myCar);
-			animation.lanes.get(10).addVehicle(myCar);
+			animation.lanes.get(7).addVehicle(myCar);
 		}
 
-		else if(xPos == 635 && yPos == 350) { 
+		else if(xPos == 610 && yPos == 131) { 
 			animation.Cars.add(myCar);
-			animation.lanes.get(17).addVehicle(myCar);
+			animation.lanes.get(16).addVehicle(myCar);
 		}
 	}
 	
@@ -251,36 +239,40 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		
 		switch(destination) {
 			case restaurant_marcus:
-				xDestination = xPos = 105;
+				xDestination = xPos = 155;
 				yDestination = yPos = 155;
 				break;
 			case restaurant_ellen:
-				xDestination = xPos = 105;
+				xDestination = xPos = 155;
 				yDestination = yPos = 305;
 				break;
 			case restaurant_ena:
-				xDestination = xPos = 215;
-				yDestination = yPos = 55;
+				xDestination = xPos = 347;
+				yDestination = yPos = 105;
 				break;
 			case restaurant_jefferson:
-				xDestination = xPos = 220;
-				yDestination = yPos = 405;
+				xDestination = xPos = 345;
+				yDestination = yPos = 355;
 				break;
 			case restaurant_david: 
-				xDestination = xPos = 615; 
+				xDestination = xPos = 610; 
 				yDestination = yPos = 230; 
 				break;
 			case market:
-				xDestination = xPos = 445;
-				yDestination = yPos = 55;
+				xDestination = xPos = 440;
+				yDestination = yPos = 105;
 				break;
 			case market2:
-				xDestination = xPos = 670;
+				xDestination = xPos = 610;
 				yDestination = yPos = 140;
 				break;
 			case bank:
-				xDestination = xPos = 105;
+				xDestination = xPos = 155;
 				yDestination = yPos = 230;
+				break;
+			case bank2:
+				xDestination = xPos = 610;
+				yDestination = yPos = 285;
 				break;
 			case home:
 				xDestination = xPos = xHome;
@@ -321,13 +313,13 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				calculatePath(440, 55);
 				break;
 			case market2:
-				calculatePath(670, 140);
+				calculatePath(660, 230);
 				break;
 			case bank:
 				calculatePath(105, 230);
 				break;
 			case bank2:
-				calculatePath(670, 140);
+				calculatePath(660, 230);
 				break;
 			case home:
 				calculatePath(320, 55); 
@@ -370,11 +362,15 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				yDestination = yPos = 55;
 				break;
 			case market2:
-				xDestination = xPos = 670;
-				yDestination = yPos = 140;
+				xDestination = xPos = 660;
+				yDestination = yPos = 230;
 				break;
 			case bank:
 				xDestination = xPos = 105;
+				yDestination = yPos = 230;
+				break;
+			case bank2:
+				xDestination = xPos = 660;
 				yDestination = yPos = 230;
 				break;
 			case home:

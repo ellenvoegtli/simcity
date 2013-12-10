@@ -12,6 +12,7 @@ import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import role.market.*;
 import housing.*;
+import housing.LandlordRole.landlordActive;
 import housing.Interfaces.Occupant;
 
 import java.util.*;
@@ -152,7 +153,6 @@ public class PersonAgent extends Agent {
 			actions.add(new Action(ActionType.maintenance, 1));
 			stateChanged();
 		}
-		output("-----------RECIEVED MESSAGE FOR OERSON TO FIX SOMETHING-------------");
 	}
 	
 
@@ -357,7 +357,6 @@ public class PersonAgent extends Agent {
 					output("the type of action is "  +currentAction.type);
 					roles.get(currentAction.type).setActive();
 				}
-
 				enterBuilding();
 				return true;
 				
@@ -491,7 +490,6 @@ public class PersonAgent extends Agent {
 			
 			if(currentAction.type == ActionType.maintenance) {
 				
-				output("-------------------Scheduler to call walking function----------------------");
 				goToRenters();
 				return true;
 			}
@@ -868,6 +866,7 @@ public class PersonAgent extends Agent {
 						break;
 					case maintenance:
 						LandlordRole lr = ContactList.getInstance().getLandLords().get(0);
+						lr.lDActive = landlordActive.working;
 						ContactList.getInstance().getHome().handleRoleGui(lr);
 						roles.put(action, lr);
 						break;
@@ -965,41 +964,39 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-
-		if(!hasCar) { 
-			if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
-				output(name + " is walking to " + d);
-				gui.DoGoToLocation(d); //call gui
+		walk = false;
+		
+		if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
+			output(name + " is walking to " + d);
+			gui.DoGoToLocation(d); //call gui
+			waitForGui();
+			return;
+		}
+		else if(!walk) { //chose bus
+			if(hasCar) { 
+				System.out.println("Gonna drive"); 
+				gui.DoGetOnRoad(); 
 				waitForGui();
+				state = PersonState.inCar; 
+				gui.getInCar(); 
+				gui.DoGoInside();
+				gui.AddCarToLane();
+				gui.DoGoToLocationOnCar(d); 
 				return;
 			}
-			else if(!walk) { //chose bus
-				output(name + " is taking the bus to " + d);
-				gui.DoGoToStop();
-				waitForGui();
-	
+			output(name + " is taking the bus to " + d);
+			gui.DoGoToStop();
+			waitForGui();
 				//add self to waiting list of BusStop once arrived
-				for(int i=0; i<ContactList.stops.size(); i++){ 
-					if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
-						ContactList.stops.get(i).ArrivedAtBusStop(this);
-						state = PersonState.waiting;
-						return;
-					}
+			for(int i=0; i<ContactList.stops.size(); i++){ 
+				if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+					ContactList.stops.get(i).ArrivedAtBusStop(this);
+					state = PersonState.waiting;
+					return;
 				}
+			}
 				//bus.myDestination(d); //send message to transportation object of where they want to go
 				//will receive an arrived at destination message when done
-			}
-		}
-		else if(hasCar) {//chose car
-			System.out.println("Gonna drive"); 
-			gui.DoGetOnRoad(); 
-			waitForGui();
-			state = PersonState.inCar; 
-			gui.getInCar(); 
-			gui.DoGoInside();
-			gui.AddCarToLane();
-			gui.DoGoToLocationOnCar(d); 
-			return;
 		}
 	}
 
@@ -1096,7 +1093,6 @@ public class PersonAgent extends Agent {
 	{
 		renterHome.setXRenterHome(renterHome.getXLoc());
 		renterHome.setYRenterHome(renterHome.getYLoc());
-		output("Going to a renters home for maintenance.................]]]]]]]]]]]]]]]]]]]");
 		travelToLocation(CityLocation.renterHome);
 		event = PersonEvent.arrivedRenterApartment;
 		stateChanged();
