@@ -645,9 +645,14 @@ public class PersonAgent extends Agent {
 								roles.put(action, jr);
 								break;
 							case "jeffersonWaiter":
-								JeffersonWaiterRole jw = new JeffersonSharedDataWaiterRole(this, name);
+								JeffersonWaiterRole jw = new JeffersonNormalWaiterRole(this, name);
 								ContactList.getInstance().getJeffersonRestaurant().handleRole(jw);
 								roles.put(action, jw);
+								break;
+							case "jeffersonSharedWaiter":
+								JeffersonWaiterRole jsw = new JeffersonSharedDataWaiterRole(this, name);
+								ContactList.getInstance().getJeffersonRestaurant().handleRole(jsw);
+								roles.put(action, jsw);
 								break;
 							case "jeffersonHost":
 								JeffersonHostRole jh = new JeffersonHostRole(this, name);

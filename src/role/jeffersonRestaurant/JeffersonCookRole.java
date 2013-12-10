@@ -276,7 +276,9 @@ public class JeffersonCookRole extends Role implements Cook{
 	// Scheduler
 	
 	public boolean pickAndExecuteAnAction(){
-		
+		if(onDuty){
+			cookGui.DoEnterRestaurant();
+		}
 		if(checkingStand) {
 			checkStand();
 			return true;
@@ -293,6 +295,7 @@ public class JeffersonCookRole extends Role implements Cook{
 		}
 		if(!onDuty && orders.isEmpty()){
 			leaveRestaurant();
+			return false;
 		}
 		synchronized(orders){
 			for(Order o:orders){
