@@ -324,13 +324,33 @@ public class JeffersonRestaurantPanel extends JPanel {
     	
     	
     	
-    	if(r instanceof JeffersonWaiterRole) {
+    	if(r instanceof JeffersonSharedDataWaiterRole) {
         	JeffersonSharedDataWaiterRole w = (JeffersonSharedDataWaiterRole) r;
 
     	
     		
     		WaiterGui g = new WaiterGui(w);
     		w.stand=stand;
+    		JAnimationPanel.addGui(g);
+    		w.setHost(host);
+    		w.setGui(g);
+            w.setCook(cook);
+            w.setCashier(cashier);
+            if(host!=null){
+            	  host.waiters.add(w);
+            }
+          
+    		waiters.add(w);
+    		g.setOrigin(waiters.size()*25 + 50, 170);
+    		System.out.println("jeffersonsharedwaiter added");
+    	}
+    	if(r instanceof JeffersonNormalWaiterRole) {
+        	JeffersonNormalWaiterRole w = (JeffersonNormalWaiterRole) r;
+
+    	
+    		
+    		WaiterGui g = new WaiterGui(w);
+    		//w.stand=stand;
     		JAnimationPanel.addGui(g);
     		w.setHost(host);
     		w.setGui(g);

@@ -1,8 +1,9 @@
-package mainCity.bank;
+package role.bank;
 import java.util.List;
 
 import role.Role;
 import mainCity.PersonAgent;
+import mainCity.bank.BankAccounts;
 import mainCity.bank.BankAccounts.BankAccount;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.interfaces.BankCustomer;
@@ -17,11 +18,11 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	
 	
 	
-	PersonAgent p;
+	PersonAgent person;
 	
-	public BankAccounts ba;
+	public BankAccounts bankaccounts;
 	String name;
-	public myClient mc;
+	public myClient myclient;
 	private int tellernumber;
 	BankTellerGui btGui;
 	public enum ClientState{withdrawing, depositing, talking}
@@ -36,37 +37,31 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 
 	public BankTellerRole(PersonAgent p, String name){
 		super(p);
-		this.p=p;
+		this.person=p;
 		this.name=name;
 		log("Bank Teller initiated");
 		onDuty=true;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#setBankAccounts(mainCity.bank.BankAccounts)
-	 */
+	
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.BANK, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.BANK_TELLER, this.getName(), s);
 	}
-	@Override
+	
+
 	public void setBankAccounts(BankAccounts ba){
-		this.ba=ba;
+		this.bankaccounts=ba;
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#setTellerNumber(int)
-	 */
-	@Override
+	
 	public void setTellerNumber(int tn){
 		this.tellernumber=tn;
 	}
 	
 	//Messages
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#msgGoOffDuty(double)
-	 */
-	@Override
+	
+	
 	public void msgGoOffDuty(double amount) {
 		
 		addToCash(amount);
@@ -76,42 +71,29 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#msgIWantToDeposit(mainCity.bank.interfaces.BankCustomer, double, int)
-	 */
-	@Override
+	
 	public void msgIWantToDeposit(BankCustomer b, double accnum, int amount){
 		log("recieved msgIWantToDeposit from a customer");
-		mc=new myClient();
-		mc.bc=b;
-		mc.amount=amount;
-		mc.accountnumber=accnum;
-		mc.cs=ClientState.depositing;
+		myclient=new myClient();
+		myclient.bc=b;
+		myclient.amount=amount;
+		myclient.accountnumber=accnum;
+		myclient.cs=ClientState.depositing;
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#msgIWantToWithdraw(mainCity.bank.interfaces.BankCustomer, double, int)
-	 */
-	@Override
+	
 	public void msgIWantToWithdraw(BankCustomer b, double accnum, int amount){
 		log("recieved msgIWantToWithdraw from a customer");
-		mc=new myClient();
-		mc.bc=b;
-		mc.amount=amount;
-		mc.accountnumber=accnum;
-		mc.cs=ClientState.withdrawing;
+		myclient=new myClient();
+		myclient.bc=b;
+		myclient.amount=amount;
+		myclient.accountnumber=accnum;
+		myclient.cs=ClientState.withdrawing;
 		stateChanged();
 	}
 	
 	
-	
-	
-	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#pickAndExecuteAnAction()
-	 */
-	@Override
 	public boolean pickAndExecuteAnAction() {
 		if(onDuty){
 			
@@ -120,21 +102,21 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		}
 		
 		
-		if(mc!=null){
-			if(mc.cs==ClientState.depositing){
-				mc.cs=ClientState.talking;
-				doDeposit(mc);
+		if(myclient!=null){
+			if(myclient.cs==ClientState.depositing){
+				myclient.cs=ClientState.talking;
+				doDeposit(myclient);
 				return true;
 			}
 			
-			if(mc.cs==ClientState.withdrawing){
-				mc.cs=ClientState.talking; 
-				doWithdraw(mc);
+			if(myclient.cs==ClientState.withdrawing){
+				myclient.cs=ClientState.talking; 
+				doWithdraw(myclient);
 				return true;
 			}
 		}
 		
-		if(!onDuty && mc==null){
+		if(!onDuty && myclient==null){
 			doLeaveWork();
 			return true;
 		}
@@ -160,9 +142,9 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	
 	private void doDeposit(myClient mc){
 		log("doing deposit");
-		synchronized (ba.accounts) {
+		synchronized (bankaccounts.accounts) {
 			
-			for(BankAccount b: ba.accounts){
+			for(BankAccount b: bankaccounts.accounts){
 				if(mc.accountnumber==b.accountNumber){
 					//handles repaying of loans
 					if(b.debt>0){
@@ -170,7 +152,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 						b.balance+=mc.amount*.5;
 						b.creditScore+=5;
 						mc.bc.msgRequestComplete(mc.amount*-1, b.balance);
-						mc=null;
+						myclient=null;
 						
 						return;
 					}
@@ -189,21 +171,21 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	
 	private void doWithdraw(myClient mc){
 		log("doing withdraw");
-		synchronized (ba.accounts) {
+		synchronized (bankaccounts.accounts) {
 			
-			for(BankAccount b: ba.accounts){
+			for(BankAccount b: bankaccounts.accounts){
 				if(mc.accountnumber==b.accountNumber){
 					if(b.balance < mc.amount){
 						mc.bc.msgRequestComplete(b.balance, 0);
 						//mc.bc.msgNeedLoan();
 						b.balance=0;
 						b.creditScore-=10;
-						mc=null;
+						myclient=null;
 						return;	
 					}
 					b.balance-=mc.amount;
 					mc.bc.msgRequestComplete(mc.amount, b.balance);
-					mc=null;
+					myclient=null;
 					return;
 				}
 			}
@@ -212,10 +194,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.BankTeller#setGui(mainCity.bank.gui.BankTellerGui)
-	 */
-	@Override
+	
 	public void setGui(BankTellerGui gui){
 		//Do("gui set");
 		this.btGui=gui;

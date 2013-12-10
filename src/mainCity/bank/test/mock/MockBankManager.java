@@ -1,8 +1,8 @@
 package mainCity.bank.test.mock;
 
+import role.bank.BankRobberRole;
+import role.bank.BankerRole;
 import mainCity.bank.BankAccounts;
-import mainCity.bank.BankRobberRole;
-import mainCity.bank.BankerRole;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.bank.interfaces.BankManager;
 import mainCity.bank.interfaces.BankTeller;

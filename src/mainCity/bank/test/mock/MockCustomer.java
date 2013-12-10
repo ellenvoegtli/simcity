@@ -1,7 +1,7 @@
 package mainCity.bank.test.mock;
 
+import role.bank.BankManagerRole;
 import mainCity.PersonAgent;
-import mainCity.bank.BankManagerRole;
 import mainCity.bank.gui.BankCustomerGui;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.bank.interfaces.BankManager;

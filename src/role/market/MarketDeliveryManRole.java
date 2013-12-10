@@ -132,6 +132,8 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		synchronized(bills){
 			for (Bill b : bills){
 				if (b.s == DeliveryState.waitingToRedeliver){
+					if (!restaurantOpen(b))
+						return;
 					b.event = DeliveryEvent.checkRedeliveryOn;
 				}
 			}

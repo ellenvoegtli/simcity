@@ -112,6 +112,7 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 	 */
 	public boolean pickAndExecuteAnAction() {
 		if(needGui) {
+			ContactList.getInstance().setMarcusCook(this);
 			cookGui.guiAppear();
 			needGui = false;
 		}

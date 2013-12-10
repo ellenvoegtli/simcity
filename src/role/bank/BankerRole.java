@@ -1,9 +1,10 @@
-package mainCity.bank;
+package role.bank;
 
 import role.Role;
+import role.bank.BankTellerRole.ClientState;
+import role.bank.BankTellerRole.myClient;
+import mainCity.bank.BankAccounts;
 import mainCity.bank.BankAccounts.BankAccount;
-import mainCity.bank.BankTellerRole.ClientState;
-import mainCity.bank.BankTellerRole.myClient;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.gui.BankerGui;
 import mainCity.bank.interfaces.BankCustomer;
@@ -18,11 +19,11 @@ import agent.Agent;
 public class BankerRole extends Role implements WorkerRole, Banker {
 	
 	
-	public BankAccounts ba;
+	public BankAccounts bankaccounts;
 	String name;
-	public myClient mc;
+	public myClient myclient;
 	BankerGui bGui;
-	private PersonAgent p;
+	private PersonAgent person;
 	public enum ClientState{none,wantsLoan, wantsAccount,done}
 	private boolean onDuty;
 	
@@ -39,35 +40,29 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	
 	public BankerRole(PersonAgent p, String name){
 		super(p);
-		this.p=p;
+		this.person=p;
 		this.name=name;
 		log("Banker initiated");
 		onDuty=true;
 	}
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#setBankAccounts(mainCity.bank.BankAccounts)
-	 */
-	@Override
+	
+
 	public void setBankAccounts(BankAccounts singular){
-		this.ba=singular;
+		this.bankaccounts=singular;
 	}
 	
 	
 //Messages
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgGoOffDuty(double)
-	 */
-	@Override
+
+
 	public void msgGoOffDuty(double d){
 		addToCash(d);
 		onDuty=false;
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgGoToWork()
-	 */
-	@Override
+
+
 	public void msgGoToWork(){
 		
 		log("Banker at station");
@@ -77,66 +72,56 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	
 
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgIWantALoan(mainCity.bank.interfaces.BankCustomer, double, double)
-	 */
-	@Override
 	public void msgIWantALoan(BankCustomer b, double accnum, double amnt){
 		log("Recieved msgIWantALoan from customer");
-		mc=new myClient();
-		mc.bc=b;
-		mc.amount=amnt;
-		mc.cs=ClientState.wantsLoan;
-		mc.accountnumber=accnum;
+		myclient=new myClient();
+		myclient.bc=b;
+		myclient.amount=amnt;
+		myclient.cs=ClientState.wantsLoan;
+		myclient.accountnumber=accnum;
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgIWantNewAccount(mainCity.PersonAgent, mainCity.bank.interfaces.BankCustomer, java.lang.String, double)
-	 */
-	@Override
+
 	public void msgIWantNewAccount(PersonAgent p, BankCustomer b, String name, double amnt){
 		log("Recieved msgIWantNewAccount from customer");
-		mc=new myClient();
-		mc.mcname=name;
-		mc.p=p;
-		mc.bc=b;
-		mc.amount=amnt;
-		mc.cs=ClientState.wantsAccount;
+		myclient=new myClient();
+		myclient.mcname=name;
+		myclient.p=p;
+		myclient.bc=b;
+		myclient.amount=amnt;
+		myclient.cs=ClientState.wantsAccount;
 		stateChanged();
 	}
 	
 	
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#pickAndExecuteAnAction()
-	 */
-	@Override
+
 	public boolean pickAndExecuteAnAction() {
 		if(onDuty){
 			doGoToWork();
 		}
 	
 		
-		if(mc!=null){
+		if(myclient!=null){
 			
 			
-			if(mc.cs==ClientState.wantsAccount){
-				createAccount(mc);
-				mc.cs=ClientState.done;
+			if(myclient.cs==ClientState.wantsAccount){
+				createAccount(myclient);
+				myclient.cs=ClientState.done;
 				return true;
 			}
 			
-			if(mc.cs==ClientState.wantsLoan){
-				processLoan(mc);
-				mc.cs=ClientState.done;
+			if(myclient.cs==ClientState.wantsLoan){
+				processLoan(myclient);
+				myclient.cs=ClientState.done;
 				return true;
 			}
 			
 			
 		}
 		
-		if(!onDuty && mc ==null){
+		if(!onDuty && myclient ==null){
 			doLeaveWork();
 			return false;
 			
@@ -164,12 +149,12 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	
 	private void createAccount(myClient mctemp){
 		log("Creating new account");
-		double temp =ba.getNumberOfAccounts();
-		ba.addAccount(mctemp.mcname, mctemp.amount, mctemp.p, temp);
+		double temp =bankaccounts.getNumberOfAccounts();
+		bankaccounts.addAccount(mctemp.mcname, mctemp.amount, mctemp.p, temp);
 		mctemp.bc.msgAccountCreated(temp);
 		
 		mctemp.bc.msgRequestComplete(mctemp.amount*-1, mctemp.amount);
-		mctemp=null;
+		myclient=null;
 	}
 	
 	
@@ -178,7 +163,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		if(mctemp.accountnumber==-1){
 			createAccount(mctemp);
 		}
-		for(BankAccount b: ba.accounts){
+		for(BankAccount b: bankaccounts.accounts){
 			if(mctemp.accountnumber==b.accountNumber){
 				if(b.debt>=500){
 					b.creditScore-=20;
@@ -190,7 +175,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 					b.debt+=mctemp.amount;
 					mctemp.bc.msgLoanApproved(mctemp.amount);
 					Do("Loan approved");
-					mctemp=null;
+					myclient=null;
 					return;
 				}
 		
@@ -203,14 +188,13 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 			return;
 		
 	}
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#setGui(mainCity.bank.gui.BankerGui)
-	 */
+
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.BANK, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.BANK_BANKER, this.getName(), s);
 	}
-	@Override
+	
+
 	public void setGui(BankerGui gui){
 		this.bGui=gui;
 	}
