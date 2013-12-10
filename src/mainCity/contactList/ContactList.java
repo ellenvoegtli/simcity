@@ -45,6 +45,7 @@ public class ContactList {
 	public BusStop marketStop = new BusStop( 440, 80 , PersonAgent.CityLocation.market);
 	public BusStop market2Stop = new BusStop( 635, 230 , PersonAgent.CityLocation.market2);
 	public BusStop bank2Stop = new BusStop ( 635, 230, PersonAgent.CityLocation.bank2);
+	public BusStop aptStop = new BusStop ( 440, 380, PersonAgent.CityLocation.renterHome);
 	
 	private static ContactList contactList = null;
 	
@@ -60,6 +61,7 @@ public class ContactList {
 		stops.add(marketStop);
 		stops.add(market2Stop);
 		stops.add(bank2Stop);
+		stops.add(aptStop);
 		
 	}
 	
