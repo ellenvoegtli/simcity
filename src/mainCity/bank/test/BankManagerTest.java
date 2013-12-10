@@ -1,9 +1,9 @@
 package mainCity.bank.test;
 
+import role.bank.BankManagerRole;
+import role.bank.BankManagerRole.myTeller;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
-import mainCity.bank.BankManagerRole;
-import mainCity.bank.BankManagerRole.myTeller;
 import mainCity.bank.test.mock.MockBankTeller;
 import mainCity.bank.test.mock.MockBanker;
 import mainCity.bank.test.mock.MockCustomer;

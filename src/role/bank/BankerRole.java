@@ -1,9 +1,10 @@
-package mainCity.bank;
+package role.bank;
 
 import role.Role;
+import role.bank.BankTellerRole.ClientState;
+import role.bank.BankTellerRole.myClient;
+import mainCity.bank.BankAccounts;
 import mainCity.bank.BankAccounts.BankAccount;
-import mainCity.bank.BankTellerRole.ClientState;
-import mainCity.bank.BankTellerRole.myClient;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.gui.BankerGui;
 import mainCity.bank.interfaces.BankCustomer;
@@ -44,30 +45,24 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		log("Banker initiated");
 		onDuty=true;
 	}
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#setBankAccounts(mainCity.bank.BankAccounts)
-	 */
-	@Override
+	
+
 	public void setBankAccounts(BankAccounts singular){
 		this.bankaccounts=singular;
 	}
 	
 	
 //Messages
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgGoOffDuty(double)
-	 */
-	@Override
+
+
 	public void msgGoOffDuty(double d){
 		addToCash(d);
 		onDuty=false;
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgGoToWork()
-	 */
-	@Override
+
+
 	public void msgGoToWork(){
 		
 		log("Banker at station");
@@ -77,10 +72,6 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	
 
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgIWantALoan(mainCity.bank.interfaces.BankCustomer, double, double)
-	 */
-	@Override
 	public void msgIWantALoan(BankCustomer b, double accnum, double amnt){
 		log("Recieved msgIWantALoan from customer");
 		myclient=new myClient();
@@ -91,10 +82,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		stateChanged();
 	}
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#msgIWantNewAccount(mainCity.PersonAgent, mainCity.bank.interfaces.BankCustomer, java.lang.String, double)
-	 */
-	@Override
+
 	public void msgIWantNewAccount(PersonAgent p, BankCustomer b, String name, double amnt){
 		log("Recieved msgIWantNewAccount from customer");
 		myclient=new myClient();
@@ -108,10 +96,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	
 	
 	
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#pickAndExecuteAnAction()
-	 */
-	@Override
+
 	public boolean pickAndExecuteAnAction() {
 		if(onDuty){
 			doGoToWork();
@@ -169,7 +154,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		mctemp.bc.msgAccountCreated(temp);
 		
 		mctemp.bc.msgRequestComplete(mctemp.amount*-1, mctemp.amount);
-		mctemp=null;
+		myclient=null;
 	}
 	
 	
@@ -190,7 +175,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 					b.debt+=mctemp.amount;
 					mctemp.bc.msgLoanApproved(mctemp.amount);
 					Do("Loan approved");
-					mctemp=null;
+					myclient=null;
 					return;
 				}
 		
@@ -203,14 +188,13 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 			return;
 		
 	}
-	/* (non-Javadoc)
-	 * @see mainCity.bank.Banker#setGui(mainCity.bank.gui.BankerGui)
-	 */
+
 	public void log(String s){
         AlertLog.getInstance().logMessage(AlertTag.BANK, this.getName(), s);
         AlertLog.getInstance().logMessage(AlertTag.BANK_BANKER, this.getName(), s);
 	}
-	@Override
+	
+
 	public void setGui(BankerGui gui){
 		this.bGui=gui;
 	}

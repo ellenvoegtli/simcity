@@ -3,8 +3,8 @@ package mainCity.bank.gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import mainCity.bank.BankCustomerRole;
-import mainCity.bank.BankTellerRole;
+import role.bank.BankCustomerRole;
+import role.bank.BankTellerRole;
 import mainCity.bank.interfaces.Banker;
 import mainCity.gui.Gui;
 
