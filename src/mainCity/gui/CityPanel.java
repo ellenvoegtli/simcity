@@ -115,7 +115,7 @@ public class CityPanel extends JPanel{
 		    	//System.out.println(strLine);
 		    	if(!strLine.startsWith("-")) {
 		    		Timer timer = new Timer();
-		            timer.schedule(new CreationDelay(strLine), 500*staggerIndex);
+		            timer.schedule(new CreationDelay(strLine), 400*(staggerIndex+1));
 		            toBeCreated.add(timer);
 		            ++staggerIndex;
 		            
