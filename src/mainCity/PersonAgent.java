@@ -827,7 +827,7 @@ public class PersonAgent extends Agent {
 						break;
 					case home :
 					case homeAndEat :
-						synchronized(actions) {
+						synchronized(roles) {
 							if (roles.containsKey(ActionType.home) || roles.containsKey(ActionType.homeAndEat))
 								return;
 							OccupantRole or = new OccupantRole(this, name);
