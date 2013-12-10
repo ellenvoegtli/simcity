@@ -677,7 +677,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			carMenu.setSelectedIndex(0);
 			restaurantMenu.setSelectedIndex(0);
 
-			cityPanel.addPerson(name, money, renter, occupation, sb, se, actions);
+			cityPanel.addPerson(name, money, renter, false, occupation, sb, se, actions);
 		}
 		
 		//===================== CONTROL PANEL BUTTONS ========================================
