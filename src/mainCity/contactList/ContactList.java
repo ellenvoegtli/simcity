@@ -71,6 +71,10 @@ public class ContactList {
 	public MarketGreeterRole marketGreeter;
 	public MarketCashierRole marketCashier;
 	public MarketDeliveryManRole marketDeliveryMan;
+	
+	public MarketGreeterRole market2Greeter;
+	public MarketCashierRole market2Cashier;
+	public MarketDeliveryManRole market2DeliveryMan;
 		
 	//all of the restaurants' cooks
 	public EllenCookRole ellenCook;
@@ -239,6 +243,15 @@ public class ContactList {
 		return market;
 	}
 	//MARKET 2********
+	public void setMarket2Greeter(MarketGreeterRole g){
+		market2Greeter = g;
+	}
+	public void setMarket2Cashier(MarketCashierRole c){
+		market2Cashier = c;
+	}
+	public void setMarket2DeliveryMan(MarketDeliveryManRole d){
+		market2DeliveryMan = d;
+	}
 	public void setMarket2(MarketPanel m){
 		market2 = m;
 	}
@@ -348,6 +361,13 @@ public class ContactList {
 	
 	public EnaRestaurantPanel getEnaRestaurant() {
 		return enaRestaurant;
+	}
+	
+	public void clearOccupants() {
+		peopleList.clear();
+		RenterList.clear();
+		LandLordList.clear();
+		LivingPlaces.clear();
 	}
 	
 }

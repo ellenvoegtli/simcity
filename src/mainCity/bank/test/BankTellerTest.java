@@ -41,9 +41,9 @@ public class BankTellerTest extends TestCase {
 		//check preconditions
 		assertFalse("BankTeller's scheduler should have returned false. But it didn't.", teller.pickAndExecuteAnAction());
 		
-		assertTrue("BankTeller's myClient should be Null, it isnt", teller.mc==null);
+		assertTrue("BankTeller's myClient should be Null, it isnt", teller.myclient==null);
 		
-		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.ba!=null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.bankaccounts!=null);
 		
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 				+ "event log reads: "+ m1.log.toString(),0, m1.log.size(),0 );
@@ -61,16 +61,16 @@ public class BankTellerTest extends TestCase {
 		teller.msgIWantToDeposit(m1, 0, 100);
 		
 		//Step 2 Check postconditions
-		assertTrue("Banker's myClient shouldn't be Null, it is", teller.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", teller.myclient!=null);
 
 		
-		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.mc.bc==m1);		
+		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.myclient.bc==m1);		
 		
-		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.mc.amount==100);
+		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.myclient.amount==100);
 		
-		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.mc.accountnumber==0);
+		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.myclient.accountnumber==0);
 		
-		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.mc.cs==ClientState.depositing);
+		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.myclient.cs==ClientState.depositing);
 		
 		//Step 3 Run the scheduler
 		assertTrue("BankTeller's scheduler should have returned true. But it didn't.", teller.pickAndExecuteAnAction());
@@ -105,9 +105,9 @@ public class BankTellerTest extends TestCase {
 		//check preconditions
 		assertFalse("BankTeller's scheduler should have returned false. But it didn't.", teller.pickAndExecuteAnAction());
 		
-		assertTrue("BankTeller's myClient should be Null, it isnt", teller.mc==null);
+		assertTrue("BankTeller's myClient should be Null, it isnt", teller.myclient==null);
 		
-		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.ba!=null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.bankaccounts!=null);
 		
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 				+ "event log reads: "+ m1.log.toString(),0, m1.log.size(),0 );
@@ -125,16 +125,16 @@ public class BankTellerTest extends TestCase {
 		teller.msgIWantToWithdraw(m1, 0, 50);
 		
 		//Step 2 Check postconditions
-		assertTrue("Banker's myClient shouldn't be Null, it is", teller.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", teller.myclient!=null);
 
 		
-		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.mc.bc==m1);		
+		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.myclient.bc==m1);		
 		
-		assertTrue("Teller's myClient's amount should be 50 . It isn't", teller.mc.amount==50);
+		assertTrue("Teller's myClient's amount should be 50 . It isn't", teller.myclient.amount==50);
 		
-		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.mc.accountnumber==0);
+		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.myclient.accountnumber==0);
 		
-		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.mc.cs==ClientState.withdrawing);
+		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.myclient.cs==ClientState.withdrawing);
 		
 		//Step 3 Run the scheduler
 		assertTrue("BankTeller's scheduler should have returned true. But it didn't.", teller.pickAndExecuteAnAction());
@@ -168,9 +168,9 @@ public class BankTellerTest extends TestCase {
 		//check preconditions
 		assertFalse("BankTeller's scheduler should have returned false. But it didn't.", teller.pickAndExecuteAnAction());
 		
-		assertTrue("BankTeller's myClient should be Null, it isnt", teller.mc==null);
+		assertTrue("BankTeller's myClient should be Null, it isnt", teller.myclient==null);
 		
-		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.ba!=null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.bankaccounts!=null);
 		
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 				+ "event log reads: "+ m1.log.toString(),0, m1.log.size(),0 );
@@ -188,16 +188,16 @@ public class BankTellerTest extends TestCase {
 		teller.msgIWantToDeposit(m1, 0, 100);
 		
 		//Step 2 Check postconditions
-		assertTrue("Banker's myClient shouldn't be Null, it is", teller.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", teller.myclient!=null);
 
 		
-		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.mc.bc==m1);		
+		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.myclient.bc==m1);		
 		
-		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.mc.amount==100);
+		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.myclient.amount==100);
 		
-		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.mc.accountnumber==0);
+		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.myclient.accountnumber==0);
 		
-		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.mc.cs==ClientState.depositing);
+		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.myclient.cs==ClientState.depositing);
 		
 		//Step 3 Run the scheduler
 		assertTrue("BankTeller's scheduler should have returned true. But it didn't.", teller.pickAndExecuteAnAction());
@@ -231,7 +231,7 @@ public class BankTellerTest extends TestCase {
 				
 		//assertTrue("BankTeller's myClient should be Null, it isnt", teller.mc==null);
 				
-		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.ba!=null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.bankaccounts!=null);
 				
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 						+ "event log reads: "+ m2.log.toString(),0, m2.log.size(),0 );
@@ -249,16 +249,16 @@ public class BankTellerTest extends TestCase {
 		teller.msgIWantToDeposit(m2, 1, 100);
 				
 		//Step 6 Check postconditions
-		assertTrue("Banker's myClient shouldn't be Null, it is", teller.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", teller.myclient!=null);
 
 				
-		assertTrue("Teller's myClient's customer should be m2. It isn't", teller.mc.bc==m2);		
+		assertTrue("Teller's myClient's customer should be m2. It isn't", teller.myclient.bc==m2);		
 			
-		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.mc.amount==100);
+		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.myclient.amount==100);
 			
-		assertTrue("Teller's myClient's accountnumber should be 1 . It isn't", teller.mc.accountnumber==1);
+		assertTrue("Teller's myClient's accountnumber should be 1 . It isn't", teller.myclient.accountnumber==1);
 			
-		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.mc.cs==ClientState.depositing);
+		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.myclient.cs==ClientState.depositing);
 			
 		//Step 7 Run the scheduler
 		assertTrue("BankTeller's scheduler should have returned true. But it didn't.", teller.pickAndExecuteAnAction());
@@ -293,9 +293,9 @@ public class BankTellerTest extends TestCase {
 		//check preconditions
 		assertFalse("BankTeller's scheduler should have returned false. But it didn't.", teller.pickAndExecuteAnAction());
 		
-		assertTrue("BankTeller's myClient should be Null, it isnt", teller.mc==null);
+		assertTrue("BankTeller's myClient should be Null, it isnt", teller.myclient==null);
 		
-		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.ba!=null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.bankaccounts!=null);
 		
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 				+ "event log reads: "+ m1.log.toString(),0, m1.log.size(),0 );
@@ -313,16 +313,16 @@ public class BankTellerTest extends TestCase {
 		teller.msgIWantToWithdraw(m1, 0, 50);
 		
 		//Step 2 Check postconditions
-		assertTrue("Banker's myClient shouldn't be Null, it is", teller.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", teller.myclient!=null);
 
 		
-		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.mc.bc==m1);		
+		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.myclient.bc==m1);		
 		
-		assertTrue("Teller's myClient's amount should be 50 . It isn't", teller.mc.amount==50);
+		assertTrue("Teller's myClient's amount should be 50 . It isn't", teller.myclient.amount==50);
 		
-		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.mc.accountnumber==0);
+		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.myclient.accountnumber==0);
 		
-		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.mc.cs==ClientState.withdrawing);
+		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.myclient.cs==ClientState.withdrawing);
 		
 		//Step 3 Run the scheduler
 		assertTrue("BankTeller's scheduler should have returned true. But it didn't.", teller.pickAndExecuteAnAction());
@@ -356,7 +356,7 @@ public class BankTellerTest extends TestCase {
 				
 		//assertTrue("BankTeller's myClient should be Null, it isnt", teller.mc==null);
 				
-		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.ba!=null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.bankaccounts!=null);
 				
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 						+ "event log reads: "+ m2.log.toString(),0, m2.log.size(),0 );
@@ -374,16 +374,16 @@ public class BankTellerTest extends TestCase {
 		teller.msgIWantToWithdraw(m2, 1, 50);
 				
 		//Step 6 Check postconditions
-		assertTrue("Banker's myClient shouldn't be Null, it is", teller.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", teller.myclient!=null);
 
 				
-		assertTrue("Teller's myClient's customer should be m2. It isn't", teller.mc.bc==m2);		
+		assertTrue("Teller's myClient's customer should be m2. It isn't", teller.myclient.bc==m2);		
 			
-		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.mc.amount==50);
+		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.myclient.amount==50);
 			
-		assertTrue("Teller's myClient's accountnumber should be 1 . It isn't", teller.mc.accountnumber==1);
+		assertTrue("Teller's myClient's accountnumber should be 1 . It isn't", teller.myclient.accountnumber==1);
 			
-		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.mc.cs==ClientState.withdrawing);
+		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.myclient.cs==ClientState.withdrawing);
 			
 		//Step 7 Run the scheduler
 		assertTrue("BankTeller's scheduler should have returned true. But it didn't.", teller.pickAndExecuteAnAction());
@@ -418,9 +418,9 @@ public class BankTellerTest extends TestCase {
 		//check preconditions
 		assertFalse("BankTeller's scheduler should have returned false. But it didn't.", teller.pickAndExecuteAnAction());
 		
-		assertTrue("BankTeller's myClient should be Null, it isnt", teller.mc==null);
+		assertTrue("BankTeller's myClient should be Null, it isnt", teller.myclient==null);
 		
-		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.ba!=null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.bankaccounts!=null);
 		
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 				+ "event log reads: "+ m1.log.toString(),0, m1.log.size(),0 );
@@ -438,16 +438,16 @@ public class BankTellerTest extends TestCase {
 		teller.msgIWantToWithdraw(m1, 0, 50);
 		
 		//Step 2 Check postconditions
-		assertTrue("Banker's myClient shouldn't be Null, it is", teller.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", teller.myclient!=null);
 
 		
-		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.mc.bc==m1);		
+		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.myclient.bc==m1);		
 		
-		assertTrue("Teller's myClient's amount should be 50 . It isn't", teller.mc.amount==50);
+		assertTrue("Teller's myClient's amount should be 50 . It isn't", teller.myclient.amount==50);
 		
-		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.mc.accountnumber==0);
+		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.myclient.accountnumber==0);
 		
-		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.mc.cs==ClientState.withdrawing);
+		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.myclient.cs==ClientState.withdrawing);
 		
 		//Step 3 Run the scheduler
 		assertTrue("BankTeller's scheduler should have returned true. But it didn't.", teller.pickAndExecuteAnAction());
@@ -481,7 +481,7 @@ public class BankTellerTest extends TestCase {
 				
 		//assertTrue("BankTeller's myClient should be Null, it isnt", teller.mc==null);
 				
-		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.ba!=null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.bankaccounts!=null);
 				
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 						+ "event log reads: "+ m2.log.toString(),0, m2.log.size(),0 );
@@ -499,16 +499,16 @@ public class BankTellerTest extends TestCase {
 		teller.msgIWantToDeposit(m2, 1, 100);
 				
 		//Step 6 Check postconditions
-		assertTrue("Banker's myClient shouldn't be Null, it is", teller.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", teller.myclient!=null);
 
 				
-		assertTrue("Teller's myClient's customer should be m2. It isn't", teller.mc.bc==m2);		
+		assertTrue("Teller's myClient's customer should be m2. It isn't", teller.myclient.bc==m2);		
 			
-		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.mc.amount==100);
+		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.myclient.amount==100);
 			
-		assertTrue("Teller's myClient's accountnumber should be 1 . It isn't", teller.mc.accountnumber==1);
+		assertTrue("Teller's myClient's accountnumber should be 1 . It isn't", teller.myclient.accountnumber==1);
 			
-		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.mc.cs==ClientState.depositing);
+		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.myclient.cs==ClientState.depositing);
 			
 		//Step 7 Run the scheduler
 		assertTrue("BankTeller's scheduler should have returned true. But it didn't.", teller.pickAndExecuteAnAction());
@@ -543,9 +543,9 @@ public class BankTellerTest extends TestCase {
 		//check preconditions
 		assertFalse("BankTeller's scheduler should have returned false. But it didn't.", teller.pickAndExecuteAnAction());
 		
-		assertTrue("BankTeller's myClient should be Null, it isnt", teller.mc==null);
+		assertTrue("BankTeller's myClient should be Null, it isnt", teller.myclient==null);
 		
-		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.ba!=null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.bankaccounts!=null);
 		
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 				+ "event log reads: "+ m1.log.toString(),0, m1.log.size(),0 );
@@ -563,16 +563,16 @@ public class BankTellerTest extends TestCase {
 		teller.msgIWantToDeposit(m1, 0, 100);
 		
 		//Step 2 Check postconditions
-		assertTrue("Banker's myClient shouldn't be Null, it is", teller.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", teller.myclient!=null);
 
 		
-		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.mc.bc==m1);		
+		assertTrue("Teller's myClient's customer should be m1. It isn't", teller.myclient.bc==m1);		
 		
-		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.mc.amount==100);
+		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.myclient.amount==100);
 		
-		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.mc.accountnumber==0);
+		assertTrue("Teller's myClient's accountnumber should be 0 . It isn't", teller.myclient.accountnumber==0);
 		
-		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.mc.cs==ClientState.depositing);
+		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.myclient.cs==ClientState.depositing);
 		
 		//Step 3 Run the scheduler
 		assertTrue("BankTeller's scheduler should have returned true. But it didn't.", teller.pickAndExecuteAnAction());
@@ -605,7 +605,7 @@ public class BankTellerTest extends TestCase {
 				
 		//assertTrue("BankTeller's myClient should be Null, it isnt", teller.mc==null);
 				
-		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.ba!=null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", teller.bankaccounts!=null);
 				
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 						+ "event log reads: "+ m2.log.toString(),0, m2.log.size(),0 );
@@ -623,16 +623,16 @@ public class BankTellerTest extends TestCase {
 		teller.msgIWantToDeposit(m2, 1, 100);
 				
 		//Step 6 Check postconditions
-		assertTrue("Banker's myClient shouldn't be Null, it is", teller.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", teller.myclient!=null);
 
 				
-		assertTrue("Teller's myClient's customer should be m2. It isn't", teller.mc.bc==m2);		
+		assertTrue("Teller's myClient's customer should be m2. It isn't", teller.myclient.bc==m2);		
 			
-		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.mc.amount==100);
+		assertTrue("Teller's myClient's amount should be 100 . It isn't", teller.myclient.amount==100);
 			
-		assertTrue("Teller's myClient's accountnumber should be 1 . It isn't", teller.mc.accountnumber==1);
+		assertTrue("Teller's myClient's accountnumber should be 1 . It isn't", teller.myclient.accountnumber==1);
 			
-		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.mc.cs==ClientState.depositing);
+		assertTrue("Teller's myClient's state should be withdrawing . It isn't", teller.myclient.cs==ClientState.depositing);
 			
 		//Step 7 Run the scheduler
 		assertTrue("BankTeller's scheduler should have returned true. But it didn't.", teller.pickAndExecuteAnAction());

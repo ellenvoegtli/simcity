@@ -18,11 +18,11 @@ import agent.Agent;
 public class BankerRole extends Role implements WorkerRole, Banker {
 	
 	
-	public BankAccounts ba;
+	public BankAccounts bankaccounts;
 	String name;
-	public myClient mc;
+	public myClient myclient;
 	BankerGui bGui;
-	private PersonAgent p;
+	private PersonAgent person;
 	public enum ClientState{none,wantsLoan, wantsAccount,done}
 	private boolean onDuty;
 	
@@ -39,7 +39,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	
 	public BankerRole(PersonAgent p, String name){
 		super(p);
-		this.p=p;
+		this.person=p;
 		this.name=name;
 		log("Banker initiated");
 		onDuty=true;
@@ -49,7 +49,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	 */
 	@Override
 	public void setBankAccounts(BankAccounts singular){
-		this.ba=singular;
+		this.bankaccounts=singular;
 	}
 	
 	
@@ -83,11 +83,11 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	@Override
 	public void msgIWantALoan(BankCustomer b, double accnum, double amnt){
 		log("Recieved msgIWantALoan from customer");
-		mc=new myClient();
-		mc.bc=b;
-		mc.amount=amnt;
-		mc.cs=ClientState.wantsLoan;
-		mc.accountnumber=accnum;
+		myclient=new myClient();
+		myclient.bc=b;
+		myclient.amount=amnt;
+		myclient.cs=ClientState.wantsLoan;
+		myclient.accountnumber=accnum;
 		stateChanged();
 	}
 	
@@ -97,12 +97,12 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	@Override
 	public void msgIWantNewAccount(PersonAgent p, BankCustomer b, String name, double amnt){
 		log("Recieved msgIWantNewAccount from customer");
-		mc=new myClient();
-		mc.mcname=name;
-		mc.p=p;
-		mc.bc=b;
-		mc.amount=amnt;
-		mc.cs=ClientState.wantsAccount;
+		myclient=new myClient();
+		myclient.mcname=name;
+		myclient.p=p;
+		myclient.bc=b;
+		myclient.amount=amnt;
+		myclient.cs=ClientState.wantsAccount;
 		stateChanged();
 	}
 	
@@ -118,25 +118,25 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		}
 	
 		
-		if(mc!=null){
+		if(myclient!=null){
 			
 			
-			if(mc.cs==ClientState.wantsAccount){
-				createAccount(mc);
-				mc.cs=ClientState.done;
+			if(myclient.cs==ClientState.wantsAccount){
+				createAccount(myclient);
+				myclient.cs=ClientState.done;
 				return true;
 			}
 			
-			if(mc.cs==ClientState.wantsLoan){
-				processLoan(mc);
-				mc.cs=ClientState.done;
+			if(myclient.cs==ClientState.wantsLoan){
+				processLoan(myclient);
+				myclient.cs=ClientState.done;
 				return true;
 			}
 			
 			
 		}
 		
-		if(!onDuty && mc ==null){
+		if(!onDuty && myclient ==null){
 			doLeaveWork();
 			return false;
 			
@@ -164,8 +164,8 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 	
 	private void createAccount(myClient mctemp){
 		log("Creating new account");
-		double temp =ba.getNumberOfAccounts();
-		ba.addAccount(mctemp.mcname, mctemp.amount, mctemp.p, temp);
+		double temp =bankaccounts.getNumberOfAccounts();
+		bankaccounts.addAccount(mctemp.mcname, mctemp.amount, mctemp.p, temp);
 		mctemp.bc.msgAccountCreated(temp);
 		
 		mctemp.bc.msgRequestComplete(mctemp.amount*-1, mctemp.amount);
@@ -178,7 +178,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		if(mctemp.accountnumber==-1){
 			createAccount(mctemp);
 		}
-		for(BankAccount b: ba.accounts){
+		for(BankAccount b: bankaccounts.accounts){
 			if(mctemp.accountnumber==b.accountNumber){
 				if(b.debt>=500){
 					b.creditScore-=20;
