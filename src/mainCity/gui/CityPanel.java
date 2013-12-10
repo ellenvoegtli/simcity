@@ -41,7 +41,7 @@ public class CityPanel extends JPanel{
 
     	//String[] actions = {"work"}; 
     	//addPerson("CarTest", 500, false, true, "davidWaiter", 6, 22, actions);
-		parseConfig("config5.txt");
+		parseConfig("config1.txt");
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
@@ -79,7 +79,7 @@ public class CityPanel extends JPanel{
 		 };
 
 		 ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-		 executor.scheduleAtFixedRate(cityClock, 0, 2, TimeUnit.SECONDS); //Timer goes off every 15 seconds
+		 executor.scheduleAtFixedRate(cityClock, 0, 15, TimeUnit.SECONDS); //Timer goes off every 15 seconds
 	}
 	
 	public void addDeliveryGui(MarketDeliveryManRole d, int x, int y){
