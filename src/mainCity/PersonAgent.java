@@ -964,6 +964,9 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 
 		boolean walk = (70 > ((int) (Math.random() * 100)));
+		if((destination == CityLocation.home) || (destination == CityLocation.renterHome)) { 
+			walk = true;
+		}
 		
 		if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
 			output(name + " is walking to " + d);
