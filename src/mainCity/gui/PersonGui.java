@@ -247,7 +247,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				yDestination = yPos = 305;
 				break;
 			case restaurant_ena:
-				xDestination = xPos = 215;
+				xDestination = xPos = 347;
 				yDestination = yPos = 105;
 				break;
 			case restaurant_jefferson:
