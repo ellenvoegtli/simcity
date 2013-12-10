@@ -686,10 +686,14 @@ public class PersonAgent extends Agent {
 								
 							//-----Ena Restaurant Roles---//
 							case "enaWaiter":
-								EnaWaiterRole en = new EnaWaiterRole(this, name);
+								EnaNormalWaiterRole en = new EnaNormalWaiterRole(this, name);
 								ContactList.getInstance().getEnaRestaurant().handleRole(en);
 								roles.put(action, en);
 								break;
+							case "enaSharedWaiter":
+								EnaSharedWaiterRole esw = new EnaSharedWaiterRole(this, name);
+								ContactList.getInstance().getEnaRestaurant().handleRole(esw);
+								roles.put(action, esw);
 							case "enaCook":
 								EnaCookRole eco = new EnaCookRole(this, name);
 								ContactList.getInstance().getEnaRestaurant().handleRole(eco);
