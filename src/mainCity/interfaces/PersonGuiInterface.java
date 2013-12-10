@@ -28,4 +28,5 @@ public interface PersonGuiInterface {
 
 	public abstract void AddCarToLane();
 
+	public abstract void DoDie();
 }

@@ -287,6 +287,7 @@ public class PersonAgent extends Agent {
 
 		if(!alive) {
 			respawnPerson();
+			return true;
 		}
 		
 		if(currentAction != null && currentAction.state == ActionState.done) {
@@ -1098,8 +1099,16 @@ public class PersonAgent extends Agent {
 	private void respawnPerson() {
 		alive = true;
 		actions.clear();
+		gui.DoDie();
 		
-		//handle stuff to respawn the person in their home and change their position;
+		synchronized(roles) {
+			if(actions.contains(ActionType.home))
+				roles.get(ActionType.home).setActive();
+			else if (actions.contains(ActionType.homeAndEat))
+				roles.get(ActionType.homeAndEat).setActive();
+		}
+
+		stateChanged();
 	}
 	
 	private void boardBus() {
