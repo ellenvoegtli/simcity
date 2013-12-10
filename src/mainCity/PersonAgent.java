@@ -43,6 +43,8 @@ public class PersonAgent extends Agent {
 	private double accountnumber;
 	private boolean traveling;
 	private boolean hasCar; 
+	private boolean forceWalk; 
+	private boolean chooseTransportation; 
 	private BusAgent currentBus; 
 	private Building homePlace;
 	public Building renterHome;
@@ -73,6 +75,7 @@ public class PersonAgent extends Agent {
 		actions = new PriorityBlockingQueue<Action>();
 		currentAction = null;
 		alive = true;
+		chooseTransportation = false;
 	}
 	
 	public void setGui(PersonGuiInterface g) {
@@ -89,6 +92,14 @@ public class PersonAgent extends Agent {
 	
 	public void setCar(boolean b) { 
 		hasCar = b;
+	}
+	
+	public void setWalk(boolean b) { 
+		forceWalk = b;
+	}
+	
+	public void setTransportation(boolean b) {
+		chooseTransportation = true;
 	}
 	
 	public boolean isHungryForRestaurant(){
@@ -734,31 +745,31 @@ public class PersonAgent extends Agent {
 								break;
 							
 							//-----David Restaurant Roles---//
-							case "davidWaiter": 
+							case "davidWaiter":
 								DavidWaiterRole dw = new DavidNormalWaiterRole(name, this); 
 								ContactList.getInstance().getDavidRestaurant().handleRole(dw); 
 								roles.put(action, dw); 
 								break; 
 								
-							case "davidSharedWaiter": 
-								DavidWaiterRole dsw = new DavidSharedDataWaiterRole(name, this); 
+							case "davidSharedWaiter":
+								DavidWaiterRole dsw = new DavidSharedWaiterRole(name, this); 
 								ContactList.getInstance().getDavidRestaurant().handleRole(dsw); 
 								roles.put(action, dsw); 
 								break;
 							
-							case "davidCook": 
+							case "davidCook":
 								DavidCookRole dc = new DavidCookRole(name, this); 
 								ContactList.getInstance().getDavidRestaurant().handleRole(dc);
 								roles.put(action, dc); 
 								break;
 								
-							case "davidCashier": 
+							case "davidCashier":
 								DavidCashierRole dca = new DavidCashierRole(name, this); 
 								ContactList.getInstance().getDavidRestaurant().handleRole(dca); 
 								roles.put(action, dca); 
 								break; 
 							
-							case "davidHost": 
+							case "davidHost":
 								DavidHostRole dh = new DavidHostRole(name, this); 
 								ContactList.getInstance().getDavidRestaurant().handleRole(dh);
 								roles.put(action, dh);
@@ -967,38 +978,70 @@ public class PersonAgent extends Agent {
 		if((destination == CityLocation.home) || (destination == CityLocation.renterHome)) { 
 			walk = true;
 		}
-		
-		if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
-			output(name + " is walking to " + d);
-			gui.DoGoToLocation(d); //call gui
-			waitForGui();
-			return;
-		}
-		else if(!walk) { //chose bus
-			if(hasCar) { 
-				System.out.println("Gonna drive"); 
-				gui.DoGetOnRoad(); 
+
+		if(!chooseTransportation){
+			if((walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar)) { //chose to walk
+				output(name + " is walking to " + d);
+				gui.DoGoToLocation(d); //call gui
 				waitForGui();
-				state = PersonState.inCar; 
-				gui.getInCar(); 
-				gui.DoGoInside();
-				gui.AddCarToLane();
-				gui.DoGoToLocationOnCar(d); 
 				return;
 			}
-			output(name + " is taking the bus to " + d);
-			gui.DoGoToStop();
-			waitForGui();
-				//add self to waiting list of BusStop once arrived
-			for(int i=0; i<ContactList.stops.size(); i++){ 
-				if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
-					ContactList.stops.get(i).ArrivedAtBusStop(this);
-					state = PersonState.waiting;
+			else if(!walk) { //chose bus
+				if(hasCar) { 
+					System.out.println("Gonna drive"); 
+					gui.DoGetOnRoad(); 
+					waitForGui();
+					state = PersonState.inCar; 
+					gui.getInCar(); 
+					gui.DoGoInside();
+					gui.AddCarToLane();
+					gui.DoGoToLocationOnCar(d); 
 					return;
 				}
+				output(name + " is taking the bus to " + d);
+				gui.DoGoToStop();
+				waitForGui();
+					//add self to waiting list of BusStop once arrived
+				for(int i=0; i<ContactList.stops.size(); i++){ 
+					if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+						ContactList.stops.get(i).ArrivedAtBusStop(this);
+						state = PersonState.waiting;
+						return;
+					}
+				}
 			}
-				//bus.myDestination(d); //send message to transportation object of where they want to go
-				//will receive an arrived at destination message when done
+			else { 
+				if(forceWalk) { //chose to walk
+					output(name + " is walking to " + d);
+					gui.DoGoToLocation(d); //call gui
+					waitForGui();
+					return;
+				}
+				else if(!forceWalk) { //chose bus
+					if(hasCar) { 
+						System.out.println("Gonna drive"); 
+						gui.DoGetOnRoad(); 
+						waitForGui();
+						state = PersonState.inCar; 
+						gui.getInCar(); 
+						gui.DoGoInside();
+						gui.AddCarToLane();
+						gui.DoGoToLocationOnCar(d); 
+						return;
+					}
+					output(name + " is taking the bus to " + d);
+					gui.DoGoToStop();
+					waitForGui();
+						//add self to waiting list of BusStop once arrived
+					for(int i=0; i<ContactList.stops.size(); i++){ 
+						if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+							ContactList.stops.get(i).ArrivedAtBusStop(this);
+							state = PersonState.waiting;
+							return;
+						}
+					}
+				}
+			}
 		}
 	}
 

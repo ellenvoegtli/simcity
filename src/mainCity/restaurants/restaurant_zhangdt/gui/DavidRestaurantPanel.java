@@ -136,7 +136,7 @@ public class DavidRestaurantPanel extends JPanel implements ActionListener{
     	if(r instanceof DavidCookRole) { 
     		cook = (DavidCookRole) r;
     		cookGui = new CookGui(cook, 20, 200, 20, 200); 
-    		//cook.setStand(stand);
+    		cook.setStand(stand);
     		animation.addGui(cookGui);
     		cook.setGui(cookGui); 
     		cook.addCashier(cashier);
@@ -181,11 +181,11 @@ public class DavidRestaurantPanel extends JPanel implements ActionListener{
     	}
     	
     	if(r instanceof DavidWaiterRole) {
-    		/*
+    		
     		if(r instanceof DavidSharedWaiterRole) { 
     			((DavidSharedWaiterRole) r).setStand(stand);
     		}
-    		*/
+    		
     		DavidWaiterRole w = (DavidWaiterRole) r; 
     		
     		WaiterGui g = new WaiterGui(w, WaiterXLoc, WaiterYLoc, WaiterXLoc, WaiterYLoc); 
