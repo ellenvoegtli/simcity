@@ -29,11 +29,7 @@ import transportation.BusAgent;
 public class PersonAgent extends Agent {
 	
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, inCar, walkingFromBus, walkingFromCar}
-<<<<<<< HEAD
 	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome, manageApartments}
-=======
-	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, chooseGivenRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
->>>>>>> 42e40e33d7465fa2f45964cb732fd9aa105ed255
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
 	
 	private PersonGuiInterface gui;
