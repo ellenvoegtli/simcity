@@ -37,6 +37,7 @@ public class PersonAgent extends Agent {
 	private double cash;
 	private double accountnumber;
 	private boolean traveling;
+	private boolean hasCar; 
 	private BusAgent currentBus; 
 	private Building homePlace;
 	private int time;
@@ -77,6 +78,10 @@ public class PersonAgent extends Agent {
 	
 	public CityLocation getDestination() { 
 		return destination;
+	}
+	
+	public void setCar(boolean b) { 
+		hasCar = b;
 	}
 	
 	public boolean isHungryForRestaurant(){

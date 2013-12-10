@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.TimerTask;
 
 public class AnimationPanel extends JPanel implements ActionListener, MouseListener {
 
@@ -71,13 +72,14 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     
     boolean onlyOnce = true;
     boolean dontReset = false;
+    boolean timeOnce = true;
     public boolean atStop = false;
     int count; 
     private Image bufferImage;
     private Dimension bufferSize;
     
     CityGui gui;
-    List<BusGui> Buses = new ArrayList<BusGui>(); 
+    List<BusGui> Buses = Collections.synchronizedList(new ArrayList<BusGui>()); 
     List<CarGui> Cars = Collections.synchronizedList(new ArrayList<CarGui>()); 
 
     //List of all guis that we need to animate in the city (Busses, Cars, People...etc) 
@@ -259,7 +261,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 			}
 			
 			//Creating second bus 
-			if(count % 150 == 0 && dontReset == false){ 
+			if((count % 150 == 0) && dontReset == false){ 
 				dontReset = true;		
 				if(lanes.size() != 0){
 					synchronized(lanes.get(3).vehicles){
@@ -272,12 +274,16 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 
 			for(int i=0; i<ContactList.stops.size(); i++){
 				for(int s=0; s<Buses.size(); s++){
-					if( ( Buses.get(s).getX() > (ContactList.stops.get(i).xLocation-5) ) 
-						&& ( Buses.get(s).getX() < (ContactList.stops.get(i).xLocation+5) ) 
-							&& ( Buses.get(s).getY() > ContactList.stops.get(i).yLocation - 5) 
-								&& (Buses.get(s).getY() < ContactList.stops.get(i).yLocation + 5) ) {
+					if( ( Buses.get(s).getX() > (ContactList.stops.get(i).xLocation-2) ) 
+						&& ( Buses.get(s).getX() < (ContactList.stops.get(i).xLocation+2) ) 
+							&& ( Buses.get(s).getY() > ContactList.stops.get(i).yLocation - 2) 
+								&& (Buses.get(s).getY() < ContactList.stops.get(i).yLocation + 2) ) {
 						
-						Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
+						//Buses.get(s).atBusStop = true;
+						//if(count % 100 == 0){
+							//Buses.get(s).atBusStop = false;
+							Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
+						//}	
 					}
 				}
 			}
@@ -417,7 +423,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					
 				}	
 			}
-			
 		}
 		
 		
