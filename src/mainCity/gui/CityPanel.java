@@ -17,6 +17,7 @@ public class CityPanel extends JPanel{
 	private int clock;
 	private int day;
 	private List<PersonAgent> occupants = new ArrayList<PersonAgent>();
+	private List<Timer> toBeCreated  = new ArrayList<Timer>();
 		
 	public CityPanel(CityGui gui) {
 		this.gui = gui;
@@ -115,7 +116,9 @@ public class CityPanel extends JPanel{
 		    	if(!strLine.startsWith("-")) {
 		    		Timer timer = new Timer();
 		            timer.schedule(new CreationDelay(strLine), 500*staggerIndex);
+		            toBeCreated.add(timer);
 		            ++staggerIndex;
+		            
 //		    		String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
 //				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
 //				   	String renter = strLine.substring(strLine.indexOf("Renter")+7, strLine.indexOf("hasCar")-1);
@@ -221,6 +224,11 @@ public class CityPanel extends JPanel{
 			p.getRoles().clear();
 		}
 		
+		for(Timer t : toBeCreated) {
+			t.cancel();
+		}
+		
+		toBeCreated.clear();
 		occupants.clear();
 	}
 	
