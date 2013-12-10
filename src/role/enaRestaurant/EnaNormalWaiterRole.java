@@ -1,4 +1,4 @@
-package mainCity.restaurants.enaRestaurant;
+package role.enaRestaurant;
 
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;

@@ -1,9 +1,9 @@
 package mainCity.restaurants.enaRestaurant.interfaces;
 
+import role.enaRestaurant.EnaCashierRole.Tab;
+import role.enaRestaurant.EnaCashierRole.payStatus;
 import mainCity.interfaces.MainCashier;
 import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
-import mainCity.restaurants.enaRestaurant.EnaCashierRole.Tab;
-import mainCity.restaurants.enaRestaurant.EnaCashierRole.payStatus;
 
 public interface Cashier extends MainCashier {
 	

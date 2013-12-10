@@ -1,12 +1,11 @@
-package mainCity.restaurants.enaRestaurant;
+package role.enaRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 import role.Role;
+import role.enaRestaurant.EnaHostRole.Table;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;
@@ -700,6 +699,14 @@ catch(ConcurrentModificationException e){};
 			choice = ch; 
 		}
 
+	}
+
+
+
+
+	public void msgGoOffDuty(double amount) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

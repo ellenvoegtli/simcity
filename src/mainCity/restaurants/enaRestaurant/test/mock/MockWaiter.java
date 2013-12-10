@@ -2,9 +2,9 @@ package mainCity.restaurants.enaRestaurant.test.mock;
 
 
 //import restaurant.WaiterAgent.AgentEvent;
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
+import role.enaRestaurant.EnaCustomerRole;
+import role.enaRestaurant.EnaHostRole.Table;
+import role.enaRestaurant.EnaWaiterRole.MyCustomers;
 //import restaurant.WaiterAgent.custState;
 import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
 import mainCity.restaurants.enaRestaurant.interfaces.Waiter;

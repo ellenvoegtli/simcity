@@ -2,8 +2,8 @@ package mainCity.restaurants.enaRestaurant.interfaces;
 
 import java.util.Collection;
 
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
+import role.enaRestaurant.EnaCustomerRole;
+import role.enaRestaurant.EnaHostRole.Table;
 
 
 public interface Host {

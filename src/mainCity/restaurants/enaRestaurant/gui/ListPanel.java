@@ -1,9 +1,10 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
-
 import javax.swing.*;
+
+import role.enaRestaurant.EnaCustomerRole;
+import role.enaRestaurant.EnaWaiterRole;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;

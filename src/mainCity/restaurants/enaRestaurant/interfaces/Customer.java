@@ -1,6 +1,6 @@
 package mainCity.restaurants.enaRestaurant.interfaces;
 
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
+import role.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.enaRestaurant.gui.EnaCustomerGui;
 
 /**
