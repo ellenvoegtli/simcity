@@ -133,6 +133,7 @@ public class MarcusCashierRole extends Role implements Cashier, WorkerRole {
 		if(entered) {
 			output("Withdrawing $1200 from bank");
 			ContactList.getInstance().getBank().directWithdraw("marcusrestaurant", 1200);
+			ContactList.getInstance().setMarcusCashier(this);
 			cash = 1200;
 			entered = false;
 		}
