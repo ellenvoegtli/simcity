@@ -4,10 +4,10 @@ import mainCity.PersonAgent;
 import mainCity.restaurants.restaurant_zhangdt.sharedData.OrderTicket;
 import mainCity.restaurants.restaurant_zhangdt.sharedData.RevolvingStand;
 
-public class DavidSharedDataWaiterRole extends DavidWaiterRole{
+public class DavidSharedWaiterRole extends DavidWaiterRole{
 	private RevolvingStand stand;
 
-	public DavidSharedDataWaiterRole(String name, PersonAgent p) {
+	public DavidSharedWaiterRole(String name, PersonAgent p) {
 		super(name, p);
 	}
 

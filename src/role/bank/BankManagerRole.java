@@ -12,6 +12,7 @@ import mainCity.bank.interfaces.BankCustomer;
 import mainCity.bank.interfaces.BankManager;
 import mainCity.bank.interfaces.BankTeller;
 import mainCity.bank.interfaces.Banker;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
@@ -27,7 +28,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	public List <myBankCustomer>  teller_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
 	public List <myBankCustomer>  banker_bankCustomers = Collections.synchronizedList(new ArrayList<myBankCustomer>());
 	public boolean onDuty;
-	
+	private boolean entered;
 	
 	BankRobberRole robber=null;
 	double robberdemand =0;
@@ -75,6 +76,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 		this.person=p;
 		this.name=name;
 		onDuty=true;
+		entered=true;
 		log("Bank Manager instantiated");
 		
 	}
@@ -215,6 +217,10 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 
 	public boolean pickAndExecuteAnAction() {
 	
+		if(entered) {
+			ContactList.getInstance().setBankManager(this);
+			entered = false;
+		}
 		
 		for(myTeller mt:tellers){
 			if(!mt.Occupied && !teller_bankCustomers.isEmpty()){
@@ -321,6 +327,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 		baccounts.FDICfund-= payroll;
 		setInactive();
 		onDuty = true;
+		entered=true;
 		return true;
 		
 	}

@@ -70,12 +70,12 @@ public class MockCustomer extends Mock implements Customer {
 
 	
 	public void msgSitAtTable(int t, Menu m, JeffersonWaiterRole waiterAgent) {
-		log.add(new LoggedEvent("Received msgSitAtTable from . table = " + t));
+		log.add(new LoggedEvent("Received msgSitAtTable"));
 	}
 
 	@Override
 	public void msgSitAtTable(int t, Menu m, Waiter waiterAgent) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Received msgSitAtTable"));
 		
 	}
 

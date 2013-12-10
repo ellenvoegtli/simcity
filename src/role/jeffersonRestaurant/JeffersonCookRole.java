@@ -39,6 +39,7 @@ public class JeffersonCookRole extends Role implements Cook{
 	private OrderState state=OrderState.pending;
 	private String name;
 	public boolean onDuty;
+	public boolean entered;
 	public boolean checkingStand;
 	public CookGui cookGui = null;
 	private JeffersonCashierRole cashier;
@@ -148,6 +149,7 @@ public class JeffersonCookRole extends Role implements Cook{
 	public void msgLeftRestaurant() {
 		super.setInactive();
 		onDuty=true;
+		entered=true;
 		
 	}
 
@@ -276,6 +278,11 @@ public class JeffersonCookRole extends Role implements Cook{
 	// Scheduler
 	
 	public boolean pickAndExecuteAnAction(){
+		if(entered) {
+			ContactList.getInstance().setJeffersonCook(this);
+			entered = false;
+		}
+		
 		if(onDuty){
 			cookGui.DoEnterRestaurant();
 		}
@@ -332,6 +339,7 @@ public class JeffersonCookRole extends Role implements Cook{
 	
 	private void leaveRestaurant() {
 		cookGui.DoLeaveRestaurant();
+		entered=true;
 		
 	}
 

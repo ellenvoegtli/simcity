@@ -56,6 +56,7 @@ public class EllenHostRole extends Role implements Host, ManagerRole {
 	public void addTable(Table t){
 		tables.add(t);
 	}
+	@Override
 	public void msgEndShift(){
 		onDuty = false;
 		stateChanged();
@@ -312,14 +313,16 @@ public class EllenHostRole extends Role implements Host, ManagerRole {
 			cashier.msgGoOffDuty(cashier.getShiftDuration()*6.0);
 		}
 		if(cook != null){
-			payroll += cashier.getShiftDuration()*7.50;
+			payroll += cook.getShiftDuration()*7.50;
 			cook.msgGoOffDuty(cook.getShiftDuration()*7.50);
 		}
 		
 		addToCash(getShiftDuration()*9.50);
 		payroll += getShiftDuration()*9.50;		
 		
-		cashier.deductCash(payroll);
+		if (cashier != null)
+			cashier.deductCash(payroll);
+		
 		setInactive();
 		onDuty = true;
 		return true;

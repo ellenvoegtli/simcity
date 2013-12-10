@@ -271,20 +271,18 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					}
 				}
 			}
-			
-			if(Cars.size() != 0)
 
 			for(int i=0; i<ContactList.stops.size(); i++){
 				for(int s=0; s<Buses.size(); s++){
 					if( ( Buses.get(s).getX() > (ContactList.stops.get(i).xLocation-2) ) 
 						&& ( Buses.get(s).getX() < (ContactList.stops.get(i).xLocation+2) ) 
-							&& ( Buses.get(s).getY() > ContactList.stops.get(i).yLocation - 2) 
-								&& (Buses.get(s).getY() < ContactList.stops.get(i).yLocation + 2) ) {
+							&& ( Buses.get(s).getY() > (ContactList.stops.get(i).yLocation-2) ) 
+								&& (Buses.get(s).getY() < (ContactList.stops.get(i).yLocation)+2) ) {
 						
+						Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
 						Buses.get(s).atBusStop = true;
 						if(count % 50 == 0){
 							Buses.get(s).atBusStop = false;
-							Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
 						}	
 					}
 				}
@@ -329,7 +327,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if(Buses.get(t).getX() == 105 && Buses.get(t).getY() == 105){  
 					lanes.get(3).redLight();
-					if(count % 100 == 0) { 
+					if(count % 150 == 0) { 
 						lanes.get(3).greenLight();
 						lanes.get(3).vehicles.remove(Buses.get(t)); 
 						intersections.get(0).addVehicle(Buses.get(t));
@@ -343,7 +341,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if(Buses.get(t).getX() == 130 && Buses.get(t).getY() == 331){ 
 					lanes.get(12).redLight();
-					if(count % 100 == 0) { 
+					if(count % 150 == 0) { 
 						lanes.get(12).greenLight();
 						lanes.get(12).vehicles.remove(Buses.get(t));
 						intersections.get(1).addVehicle(Buses.get(t));
@@ -357,7 +355,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if(Buses.get(t).getX() == 586 && Buses.get(t).getY() == 380){ 
 					lanes.get(10).redLight();
-					if(count % 100 == 0) { 
+					if(count % 150 == 0) { 
 						lanes.get(10).greenLight();	
 						lanes.get(10).vehicles.remove(Buses.get(t));
 						intersections.get(2).addVehicle(Buses.get(t));
@@ -371,7 +369,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if(Buses.get(t).getX() == 635 && Buses.get(t).getY() == 129){ 
 					lanes.get(17).redLight();
-					if(count % 100 == 0) { 
+					if(count % 150 == 0) { 
 						lanes.get(17).greenLight();	
 						lanes.get(17).vehicles.remove(Buses.get(t));
 						intersections.get(3).addVehicle(Buses.get(t));
@@ -385,7 +383,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if( (Buses.get(t).getX() == 179) || (Buses.get(t).getX() == 180) && Buses.get(t).getY() == 80){  
 					lanes.get(1).redLight();
-					if(count % 100 == 0) { 
+					if(count % 150 == 0) { 
 						lanes.get(1).greenLight();	
 						lanes.get(1).vehicles.remove(Buses.get(t)); 
 						intersections.get(0).addVehicle(Buses.get(t));
@@ -400,7 +398,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					
 					if(Cars.get(c).getX() == 610 && Cars.get(c).getY() == 331){  
 						lanes.get(16).redLight();
-						if(count % 100 == 0) { 
+						if(count % 150 == 0) { 
 							lanes.get(16).greenLight();
 							lanes.get(16).vehicles.remove(Cars.get(c)); 
 							intersections.get(2).addVehicle(Cars.get(c));
@@ -414,7 +412,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					
 					if(Cars.get(c).getX() == 179 && Cars.get(c).getY() == 355){ 
 						lanes.get(7).redLight();
-						if(count % 100 == 0) { 
+						if(count % 150 == 0) { 
 							lanes.get(7).greenLight();
 							lanes.get(7).vehicles.remove(Cars.get(c));
 							intersections.get(1).addVehicle(Cars.get(c));
@@ -428,7 +426,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					
 					if(Cars.get(c).getX() == 155 && Cars.get(c).getY() == 129){
 						lanes.get(13).redLight();
-						if(count % 100 == 0) { 
+						if(count % 150 == 0) { 
 							lanes.get(13).greenLight();
 							lanes.get(13).vehicles.remove(Cars.get(c));
 							intersections.get(0).addVehicle(Cars.get(c));
@@ -444,7 +442,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					
 					if(Cars.get(c).getX() == 586 && Cars.get(c).getY() == 105){ 
 						lanes.get(4).redLight();
-						if(count % 100 == 0) { 
+						if(count % 150 == 0) { 
 							lanes.get(4).greenLight();	
 							lanes.get(4).vehicles.remove(Cars.get(c));
 							intersections.get(3).addVehicle(Cars.get(c));
@@ -512,6 +510,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.drawImage(stopSign, 215 , 55, null); 
         g2.drawImage(stopSign, 105, 230, null);
         g2.drawImage(stopSign, 440, 55, null);
+        g2.drawImage(stopSign, 440, 405, null);
       
         /*   ~~~~~~~~~~~~~~USED TO MAP OUT DOORWAYS FOR WHERE PEOPLE SHOULD GO.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         g2.setColor(Color.LIGHT_GRAY);

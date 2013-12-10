@@ -9,7 +9,7 @@ public class RevolvingStand {
 
     private final int N = 5;
     private int count = 0;
-    private Vector<OrderTicket> theData;
+    public Vector<OrderTicket> theData;
     
     public RevolvingStand(){
         theData = new Vector<OrderTicket>();

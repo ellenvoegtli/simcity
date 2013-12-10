@@ -8,6 +8,7 @@ import java.util.concurrent.Semaphore;
 import role.Role;
 import role.jeffersonRestaurant.JeffersonWaiterRole.*;
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
@@ -46,13 +47,14 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	public List<JeffersonWaiterRole> waiters = Collections.synchronizedList (new ArrayList<JeffersonWaiterRole>());
 	public List<myWaiters> breakWaiters = Collections.synchronizedList (new ArrayList<myWaiters>());
 	private boolean onDuty;
+	public boolean entered;
 	
 	
 	 
 	
 	public JeffersonHostRole(PersonAgent p,String name) {
 		super(p);
-
+		entered=true;
 		this.name = name;
 		onDuty=true;
 		// make some tables
@@ -139,7 +141,10 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 	//This is temporarily set to public, should be protected
 	public boolean pickAndExecuteAnAction() {
 		
-		
+		if(entered) {
+			ContactList.getInstance().setJeffersonHost(this);
+			entered = false;
+		}
 		//System.out.println("entered host scheduler");
 		tablesFull=true;
 		
@@ -267,6 +272,7 @@ public class JeffersonHostRole extends Role implements ManagerRole,Host{
 		}
 		setInactive();
 		onDuty = true;
+		entered = true;
 		return true;
 	}
 	
