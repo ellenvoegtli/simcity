@@ -14,12 +14,12 @@ import mainCity.market.gui.CustomerGui;
 
 
 public class BankCustomerRole extends Role implements BankCustomer {
-	PersonAgent p;
+	PersonAgent person;
 	String name;
 	BankManagerRole bm;
-	Banker b;
+	Banker banker;
 	int bankernumber;
-	BankTeller t;
+	BankTeller teller;
 	int tellernumber;
 	//customer should know how much money he has beforehand
 	private double myaccountnumber;
@@ -51,7 +51,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public BankCustomerRole(PersonAgent p,String name){
 		super(p);
 		Do("bank customer initiated");
-		this.p=p;
+		this.person=p;
 		this.name=name;
 		this.myaccountnumber= -1;
 		this.bankbalance= -1;
@@ -71,7 +71,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	 */
 	@Override
 	public void setBanker(Banker b){
-		this.b=b;
+		this.banker=b;
 	}
 	
 	/* (non-Javadoc)
@@ -79,7 +79,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	 */
 	@Override
 	public void setBankTeller(BankTeller t){
-		this.t=t;
+		this.teller=t;
 	}
 
 //Messages
@@ -170,7 +170,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	 */
 	@Override
 	public void msgWantToDeposit(){
-		amount = (int) p.getCash()-100;
+		amount = (int) person.getCash()-100;
 		System.out.println(amount);
 		if(amount<100){
 			bcstate=BankCustomerState.done;
@@ -225,7 +225,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	@Override
 	public void msgGoToTeller(BankTeller te, int tn) {
 		log("Recieved message go to teller");
-		t=te;
+		teller=te;
 	    tellernumber=tn;
 	    bcstate=BankCustomerState.assignedTeller;
 	    stateChanged();
@@ -238,7 +238,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	@Override
 	public void msgGoToBanker(Banker bk, int bn) {
 		log("Recieved message go to banker");
-		b=bk;
+		banker=bk;
 		bankernumber=bn;
 		bcstate=BankCustomerState.assignedBanker;
 		stateChanged();
@@ -252,7 +252,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	public void msgAccountCreated(double temp) {
 		log("Recieved message account created");
 		setMyaccountnumber(temp);
-		p.setAccountnumber(temp);
+		person.setAccountnumber(temp);
 		
 	}
 	
@@ -262,7 +262,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	@Override
 	public void msgRequestComplete(double change, double balance){
 		log("Recieved message request complete");
-	    p.setCash((int) (p.getCash()+change));
+	    person.setCash((int) (person.getCash()+change));
 		//mymoney += change;
 	    setBankbalance(balance);
 	    bcstate=BankCustomerState.done;
@@ -276,7 +276,7 @@ public class BankCustomerRole extends Role implements BankCustomer {
 	@Override
 	public void msgLoanApproved(double loanamount){
 		log("Recieved message loan approved");
-		p.setCash(p.getCash()+loanamount);
+		person.setCash(person.getCash()+loanamount);
 		bcstate=BankCustomerState.done;
 		stateChanged();
 	}
@@ -404,7 +404,7 @@ public void msgLoanDenied(double loanamount){
 			bcstate=BankCustomerState.leaving;
 			log("leaving");
 			log("New account balance is " + bankbalance);
-			log("current cash balance is " + p.getCash());
+			log("current cash balance is " + person.getCash());
 			setInactive();
 			doLeaveBank();
 			
@@ -508,24 +508,24 @@ public void msgLoanDenied(double loanamount){
 	
 	private void withdrawTeller( int n){
 		log("Telling teller i want to withdraw");
-	   t.msgIWantToWithdraw(this,getMyaccountnumber() ,n);
+	   teller.msgIWantToWithdraw(this,getMyaccountnumber() ,n);
 
 	}
 
 	private void depositTeller( int n){
 		log("Telling teller i want to deposit");
-	   t.msgIWantToDeposit(this,getMyaccountnumber(), n);
+	   teller.msgIWantToDeposit(this,getMyaccountnumber(), n);
 
 	}
 
 	private void requestLoan(int n){
 		log("requesting loan");
-	    b.msgIWantALoan(this, getMyaccountnumber() ,n);
+	    banker.msgIWantALoan(this, getMyaccountnumber() ,n);
 	}
 
 	private void requestNewAccount(int n){
 		log("requesting new acccount");
-	    b.msgIWantNewAccount(p, this, name, n);
+	    banker.msgIWantNewAccount(person, this, name, n);
 
 	}
 
