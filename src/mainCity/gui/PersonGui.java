@@ -396,6 +396,12 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		isVisible = true;
 	}
 	
+	public void DoDie() {
+		isVisible = false;
+		xDestination = xPos = xHome;
+		yDestination = yPos = yHome;
+	}
+	
 	public int getX() {
 		return xDestination;
 	}

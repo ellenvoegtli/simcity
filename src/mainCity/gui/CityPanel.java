@@ -113,21 +113,19 @@ public class CityPanel extends JPanel{
 		    while ((strLine = br.readLine()) != null)   {
 		    	//System.out.println(strLine);
 		    	if(!strLine.startsWith("-")) {
-		    		//Timer timer = new Timer();
-		            //timer.schedule(new CreationDelay(strLine), 500*staggerIndex);
-		            //++staggerIndex;
-		    		String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
-				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
-				   	String renter = strLine.substring(strLine.indexOf("Renter")+7, strLine.indexOf("hasCar")-1);
-				   	String hasCar = strLine.substring(strLine.indexOf("hasCar")+7, strLine.indexOf("Occupation")-1); 
-				   	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
-				   	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
-				   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
-				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
-				    String[] actionList = actions.split(",");
-				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), Boolean.parseBoolean(hasCar), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
-
-		      
+		    		Timer timer = new Timer();
+		            timer.schedule(new CreationDelay(strLine), 500*staggerIndex);
+		            ++staggerIndex;
+//		    		String name = strLine.substring(strLine.indexOf("Name")+5, strLine.indexOf("Cash")-1);
+//				   	String cash = strLine.substring(strLine.indexOf("Cash")+5, strLine.indexOf("Renter")-1);
+//				   	String renter = strLine.substring(strLine.indexOf("Renter")+7, strLine.indexOf("hasCar")-1);
+//				   	String hasCar = strLine.substring(strLine.indexOf("hasCar")+7, strLine.indexOf("Occupation")-1); 
+//				   	String occupation = strLine.substring(strLine.indexOf("Occupation")+11, strLine.indexOf("ShiftBegin")-1);
+//				   	String shiftB = strLine.substring(strLine.indexOf("ShiftBegin")+11, strLine.indexOf("ShiftEnd")-1);
+//				   	String shiftE = strLine.substring(strLine.indexOf("ShiftEnd")+9, strLine.indexOf("Actions")-1);
+//				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
+//				    String[] actionList = actions.split(",");
+//				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), Boolean.parseBoolean(hasCar), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
 		    	}
 		    }
 

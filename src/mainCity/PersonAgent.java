@@ -296,6 +296,7 @@ public class PersonAgent extends Agent {
 
 		if(!alive) {
 			respawnPerson();
+			return true;
 		}
 		
 		if(currentAction != null && currentAction.state == ActionState.done) {
@@ -846,8 +847,8 @@ public class PersonAgent extends Agent {
 						break;
 					case home :
 					case homeAndEat :
-						synchronized(actions) {
-							if (actions.contains(ActionType.home) || actions.contains(ActionType.homeAndEat))
+						synchronized(roles) {
+							if (roles.containsKey(ActionType.home) || roles.containsKey(ActionType.homeAndEat))
 								return;
 							OccupantRole or = new OccupantRole(this, name);
 							ContactList.getInstance().getHome(or).handleRoleGui(or);
@@ -862,7 +863,7 @@ public class PersonAgent extends Agent {
 					case bankWithdraw2:
 					case bankDeposit2:
 					case bankLoan2:
-						if(roles.containsKey("bankDeposit2") || roles.containsKey("bankLoan2") || roles.containsKey("bankWithdraw2")){
+						if(roles.containsKey(ActionType.bankDeposit2) || roles.containsKey(ActionType.bankLoan2) || roles.containsKey(ActionType.bankWithdraw2)){
 							return;
 						}
 						BankCustomerRole bc2 = new BankCustomerRole(this, name);
@@ -870,7 +871,7 @@ public class PersonAgent extends Agent {
 						roles.put(action, bc2);
 						break;
 					case bankRob2:
-						if(roles.containsKey("bankRob2")){
+						if(roles.containsKey(ActionType.bankRob2)){
 							return;
 						}
 						BankRobberRole br2 = new BankRobberRole(this, name);
@@ -880,7 +881,7 @@ public class PersonAgent extends Agent {
 					case bankWithdraw:
 					case bankDeposit:
 					case bankLoan:
-						if(roles.containsKey("bankDeposit") || roles.containsKey("bankLoan") || roles.containsKey("bankWithdraw")){
+						if(roles.containsKey(ActionType.bankDeposit) || roles.containsKey(ActionType.bankLoan) || roles.containsKey(ActionType.bankWithdraw)){
 							return;
 						}
 						BankCustomerRole bc = new BankCustomerRole(this, name);
@@ -888,7 +889,7 @@ public class PersonAgent extends Agent {
 						roles.put(action, bc);
 						break;
 					case bankRob:
-						if(roles.containsKey("bankRob")){
+						if(roles.containsKey(ActionType.bankRob)){
 							return;
 						}
 						BankRobberRole br = new BankRobberRole(this, name);
@@ -1136,7 +1137,18 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void respawnPerson() {
-		//handle stuff to respawn the person in their home and change their position;
+		alive = true;
+		actions.clear();
+		gui.DoDie();
+		
+		synchronized(roles) {
+			if(roles.containsKey(ActionType.home))
+				roles.get(ActionType.home).setActive();
+			else if (roles.containsKey(ActionType.homeAndEat))
+				roles.get(ActionType.homeAndEat).setActive();
+		}
+
+		stateChanged();
 	}
 	
 	private void boardBus() {
