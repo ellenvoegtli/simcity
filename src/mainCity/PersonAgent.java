@@ -29,7 +29,11 @@ import transportation.BusAgent;
 public class PersonAgent extends Agent {
 	
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, inCar, walkingFromBus, walkingFromCar}
+<<<<<<< HEAD
+	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome, manageApartments}
+=======
 	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, chooseGivenRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
+>>>>>>> 42e40e33d7465fa2f45964cb732fd9aa105ed255
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
 	
 	private PersonGuiInterface gui;
@@ -39,6 +43,7 @@ public class PersonAgent extends Agent {
 	private boolean traveling;
 	private BusAgent currentBus; 
 	private Building homePlace;
+	private Building renterHome;
 	private int time;
 	private int day;
 	private Job job;
@@ -49,6 +54,7 @@ public class PersonAgent extends Agent {
 	private Map<ActionType, Role> roles;
 	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
+	private boolean alive;
 	public EventLog log = new EventLog(); 
 	
 	public PersonAgent(String n) {
@@ -64,6 +70,7 @@ public class PersonAgent extends Agent {
 		roles = Collections.synchronizedMap(new HashMap<ActionType, Role>());
 		actions = new PriorityBlockingQueue<Action>();
 		currentAction = null;
+		alive = true;
 	}
 	
 	public void setGui(PersonGuiInterface g) {
@@ -99,12 +106,8 @@ public class PersonAgent extends Agent {
 			return false;
 		}
 	}
-	public Building getBuilding(){
-		return homePlace;
-	}
 	
-	//----------Messages----------//
-	//From a timer to tell the person to do a checkup
+	
 	public void updateOccupation(String o, int b, int e) {
 		job.occupation = o;
 		job.shiftBegin = b;
@@ -138,9 +141,18 @@ public class PersonAgent extends Agent {
 	}
 	
 	//A message for the landlord	
-	public void msgNeedToFix() {
+	public void msgNeedToFix(Building renterHome) {
+		
 		synchronized(actions) {
 			actions.add(new Action(ActionType.maintenance, 1));
+			stateChanged();
+		}
+	}
+	
+	public void msgGoToRenterHome(PersonAgent p)
+	{
+		synchronized(actions) {
+			actions.add(new Action(ActionType.fixing, 1));
 			stateChanged();
 		}
 	}
@@ -219,6 +231,7 @@ public class PersonAgent extends Agent {
 		}
 	}
 	
+	//A message received from the to send personagent home
 	public void msgGoHome() {
 		System.out.println(name + ": Received msgGoHome");
 		synchronized(actions) {
@@ -262,6 +275,14 @@ public class PersonAgent extends Agent {
 
 		}
 	}
+	
+	//A message received from the transportation object to remove the person
+	public void msgHitByVehicle() {
+		if(isMoving.availablePermits() == 0)
+			isMoving.release();
+		alive = false;
+		stateChanged();
+	}
 
 	//----------Scheduler----------//
 	public boolean pickAndExecuteAnAction() {
@@ -276,6 +297,10 @@ public class PersonAgent extends Agent {
 			}
 		}
 
+		if(!alive) {
+			respawnPerson();
+		}
+		
 		if(currentAction != null && currentAction.state == ActionState.done) {
 			currentAction = null;
 			return true;
@@ -435,7 +460,10 @@ public class PersonAgent extends Agent {
 				decideWhereToEat();
 				return true;
 			}
-			
+			if(event == PersonEvent.manageApartments)
+			{
+				
+			}
 			if(event == PersonEvent.maintainWork) {
 				goToRenters();
 				return true;
@@ -859,6 +887,9 @@ public class PersonAgent extends Agent {
 			case work:
 				event = PersonEvent.timeToWork;
 				break;
+			case fixing:
+				event = PersonEvent.manageApartments;
+				break;
 			case maintenance:
 				event = PersonEvent.maintainWork;
 				break;
@@ -1082,6 +1113,10 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 	
+	private void respawnPerson() {
+		//handle stuff to respawn the person in their home and change their position;
+	}
+	
 	private void boardBus() {
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			synchronized(ContactList.stops.get(i).waitingPeople){
@@ -1198,6 +1233,7 @@ public class PersonAgent extends Agent {
 	public Building getHomePlace() {
 		return homePlace;
 	}
+	
 
 	public void setHomePlace(Building homePlace) {
 		this.homePlace = homePlace;
@@ -1241,7 +1277,7 @@ public class PersonAgent extends Agent {
 
 	//Lower the priority level, the more "important" it is (it'll get done earlier)
 	public enum ActionState {created, inProgress, done}
-	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, 
+	public enum ActionType {work, fixing, maintenance, self_maintenance, hungry, homeAndEat, 
 		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
 		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, bankWithdraw2, bankDeposit2, bankLoan2, bankRob2, home}
 	public class Action implements Comparable<Object> {
