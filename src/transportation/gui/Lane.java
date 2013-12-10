@@ -64,6 +64,8 @@ public class Lane {
 			}
 		}
 		
+		vehicles.add( v );
+		/*
 		boolean dontAdd = true;
 		
 		if(vehicles.size() > 0) {
@@ -97,6 +99,7 @@ public class Lane {
 		else { 
 			vehicles.add( v );
 		}
+		*/
 	}
 	
 	public void draw( Graphics2D g2 ) {
