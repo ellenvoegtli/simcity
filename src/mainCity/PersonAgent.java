@@ -26,12 +26,11 @@ import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.*;
 import transportation.BusAgent;
 
-public class PersonAgent extends Agent {
-	
+public class PersonAgent extends Agent {	
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, inCar, walkingFromBus, walkingFromCar}
-	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome, manageApartments}
-	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
-	
+	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome, arrivedRenterApartment}
+	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2, renterHome}
+
 	private PersonGuiInterface gui;
 	private String name;
 	private double cash;
@@ -40,7 +39,7 @@ public class PersonAgent extends Agent {
 	private boolean hasCar; 
 	private BusAgent currentBus; 
 	private Building homePlace;
-	private Building renterHome;
+	public Building renterHome;
 	private int time;
 	private int day;
 	private Job job;
@@ -142,21 +141,15 @@ public class PersonAgent extends Agent {
 	}
 	
 	//A message for the landlord	
-	public void msgNeedToFix(Building renterHome) {
-		
+	public void msgNeedToFix(Building renterPlace) {
+		this.renterHome = renterPlace;
 		synchronized(actions) {
 			actions.add(new Action(ActionType.maintenance, 1));
 			stateChanged();
 		}
 	}
 	
-	public void msgGoToRenterHome(PersonAgent p)
-	{
-		synchronized(actions) {
-			actions.add(new Action(ActionType.fixing, 1));
-			stateChanged();
-		}
-	}
+
 	public void msgBusHasArrived() {
 		//print("msgBusHasArrived received");
 		log.add(new LoggedEvent("msgBusHasArrived received"));
@@ -300,6 +293,7 @@ public class PersonAgent extends Agent {
 
 		if(!alive) {
 			respawnPerson();
+			return true;
 		}
 		
 		if(currentAction != null && currentAction.state == ActionState.done) {
@@ -349,6 +343,19 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
+			if(event == PersonEvent.arrivedRenterApartment)
+			{
+				output("Arrived at renter home!");
+				handleRole(currentAction.type);
+				synchronized(roles) {
+					output("the type of action is "  +currentAction.type);
+					roles.get(currentAction.type).setActive();
+				}
+
+				enterBuilding();
+				return true;
+				
+			}
 			if(event == PersonEvent.arrivedAtWork) {
 				output("Arrived at work!");
 				handleRole(currentAction.type);
@@ -361,18 +368,32 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
-			if(event == PersonEvent.arrivedAtMarket/* || event == PersonEvent.arrivedAtMarket2*/) {
+			if(event == PersonEvent.arrivedAtMarket) {
 				handleRole(currentAction.type);
 				
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
-					if (event == PersonEvent.arrivedAtMarket && !((MarketCustomerRole) customer).getGui().goInside()) {
+					if (roles.containsKey(ActionType.home) || roles.containsKey(ActionType.homeAndEat)){
+						OccupantRole occupant;
+						if (roles.containsKey(ActionType.home)){
+							//check home agent to get a list of what they need
+							occupant = (OccupantRole) (roles.get(ActionType.home));
+						}
+						else {
+							occupant = (OccupantRole) (roles.get(ActionType.homeAndEat));
+						}
+						
+						if (event == PersonEvent.arrivedAtMarket && !((MarketCustomerRole) customer).getGui().goInside(occupant.getFood())) {
+							currentAction.state = ActionState.done;
+							return true;
+						}
+					}
+					else {
 						currentAction.state = ActionState.done;
 						return true;
 					}
-					
-					//check home agent to get a list of what they need?
+										
 					customer.setActive();
 				}
 				
@@ -461,10 +482,7 @@ public class PersonAgent extends Agent {
 				decideWhereToEat();
 				return true;
 			}
-			if(event == PersonEvent.manageApartments)
-			{
-				
-			}
+			
 			if(event == PersonEvent.maintainWork) {
 				goToRenters();
 				return true;
@@ -826,8 +844,8 @@ public class PersonAgent extends Agent {
 						break;
 					case home :
 					case homeAndEat :
-						synchronized(actions) {
-							if (actions.contains(ActionType.home) || actions.contains(ActionType.homeAndEat))
+						synchronized(roles) {
+							if (roles.containsKey(ActionType.home) || roles.containsKey(ActionType.homeAndEat))
 								return;
 							OccupantRole or = new OccupantRole(this, name);
 							ContactList.getInstance().getHome(or).handleRoleGui(or);
@@ -835,14 +853,14 @@ public class PersonAgent extends Agent {
 						}
 						break;
 					case maintenance:
-						LandlordRole lr = new LandlordRole(this);
+						LandlordRole lr = ContactList.getInstance().getLandLords().get(0);
 						ContactList.getInstance().getHome().handleRoleGui(lr);
 						roles.put(action, lr);
 						break;
 					case bankWithdraw2:
 					case bankDeposit2:
 					case bankLoan2:
-						if(roles.containsKey("bankDeposit2") || roles.containsKey("bankLoan2") || roles.containsKey("bankWithdraw2")){
+						if(roles.containsKey(ActionType.bankDeposit2) || roles.containsKey(ActionType.bankLoan2) || roles.containsKey(ActionType.bankWithdraw2)){
 							return;
 						}
 						BankCustomerRole bc2 = new BankCustomerRole(this, name);
@@ -850,7 +868,7 @@ public class PersonAgent extends Agent {
 						roles.put(action, bc2);
 						break;
 					case bankRob2:
-						if(roles.containsKey("bankRob2")){
+						if(roles.containsKey(ActionType.bankRob2)){
 							return;
 						}
 						BankRobberRole br2 = new BankRobberRole(this, name);
@@ -860,7 +878,7 @@ public class PersonAgent extends Agent {
 					case bankWithdraw:
 					case bankDeposit:
 					case bankLoan:
-						if(roles.containsKey("bankDeposit") || roles.containsKey("bankLoan") || roles.containsKey("bankWithdraw")){
+						if(roles.containsKey(ActionType.bankDeposit) || roles.containsKey(ActionType.bankLoan) || roles.containsKey(ActionType.bankWithdraw)){
 							return;
 						}
 						BankCustomerRole bc = new BankCustomerRole(this, name);
@@ -868,7 +886,7 @@ public class PersonAgent extends Agent {
 						roles.put(action, bc);
 						break;
 					case bankRob:
-						if(roles.containsKey("bankRob")){
+						if(roles.containsKey(ActionType.bankRob)){
 							return;
 						}
 						BankRobberRole br = new BankRobberRole(this, name);
@@ -888,9 +906,7 @@ public class PersonAgent extends Agent {
 			case work:
 				event = PersonEvent.timeToWork;
 				break;
-			case fixing:
-				event = PersonEvent.manageApartments;
-				break;
+			
 			case maintenance:
 				event = PersonEvent.maintainWork;
 				break;
@@ -1061,9 +1077,13 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 
-	private void goToRenters() {
+	private void goToRenters() 
+	{
+		renterHome.setXRenterHome(renterHome.getXLoc());
+		renterHome.setYRenterHome(renterHome.getYLoc());
 		output("Going to a renters home for maintenance");
-		travelToLocation(CityLocation.home);
+		travelToLocation(CityLocation.renterHome);
+		event = PersonEvent.arrivedRenterApartment;
 		stateChanged();
 	}
 	
@@ -1113,7 +1133,18 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void respawnPerson() {
-		//handle stuff to respawn the person in their home and change their position;
+		alive = true;
+		actions.clear();
+		gui.DoDie();
+		
+		synchronized(roles) {
+			if(roles.containsKey(ActionType.home))
+				roles.get(ActionType.home).setActive();
+			else if (roles.containsKey(ActionType.homeAndEat))
+				roles.get(ActionType.homeAndEat).setActive();
+		}
+
+		stateChanged();
 	}
 	
 	private void boardBus() {
@@ -1157,6 +1188,10 @@ public class PersonAgent extends Agent {
 	
 	public int getTime() {
 		return time;
+	}
+	public int getDay()
+	{
+		return day;
 	}
 	
 	public int getWorkHours() {

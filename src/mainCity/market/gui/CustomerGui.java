@@ -23,8 +23,6 @@ public class CustomerGui implements Gui, CustomerGuiInterface{
 	private boolean isHungry = false;
 	private boolean needsInventory = false;
 	
-	private Map<String, Integer>inventoryNeeded = new TreeMap<String, Integer>();	//empty for now
-
 	private MarketAnimationPanel animation;
 
 	private int xPos, yPos;
@@ -65,9 +63,7 @@ public class CustomerGui implements Gui, CustomerGuiInterface{
         
         tableX.put(4, 300);
         tableY.put(4, 250);
-        
-        inventoryNeeded.put("steak", 1);		//hard-coded for now; should come from personAgent
-        inventoryNeeded.put("soup", 1);
+       
 		
         //initialize other variables
 		agent = c;
@@ -155,8 +151,7 @@ public class CustomerGui implements Gui, CustomerGuiInterface{
 		return isPresent;
 	}
 
-	//public void setNeedsInventory(){
-	public boolean goInside(){
+	public boolean goInside(Map<String,Integer> inventoryNeeded){
 		if (agent.restaurantOpen()){
 			needsInventory = true;
 			agent.goGetInventory(inventoryNeeded);

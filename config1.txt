@@ -23,10 +23,6 @@ Name:marcuscook;Cash:100;Renter:false;hasCar:false;Occupation:marcusCook;ShiftBe
 Name:marcushost;Cash:100;Renter:true;hasCar:true;Occupation:marcusHost;ShiftBegin:6;ShiftEnd:18;Actions:work,market
 Name:marcuscashier;Cash:100;Renter:true;hasCar:false;Occupation:marcusCashier;ShiftBegin:6;ShiftEnd:18;Actions:work,hungry
 Name:marcuswaiter;Cash:100;Renter:true;hasCar:true;Occupation:marcusWaiter;ShiftBegin:6;ShiftEnd:18;Actions:work,restaurant
-Name:marcuscook2;Cash:100;Renter:false;hasCar:false;Occupation:marcusCook;ShiftBegin:20;ShiftEnd:4;Actions:bank,market,hungry
-Name:marcushost2;Cash:100;Renter:true;hasCar:false;Occupation:marcusHost;ShiftBegin:20;ShiftEnd:4;Actions:market,restaurant
-Name:marcuscashier2;Cash:100;Renter:true;hasCar:true;Occupation:marcusCashier;ShiftBegin:20;ShiftEnd:4;Actions:hungry,market
-Name:marcuswaiter2;Cash:100;Renter:true;hasCar:false;Occupation:marcusWaiter;ShiftBegin:20;ShiftEnd:4;Actions:restaurant,bank
 -Ellen Restaurant
 Name:ellencook;Cash:100;Renter:true;hasCar:false;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:ellencashier;Cash:100;Renter:false;hasCar:true;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
@@ -49,8 +45,8 @@ Name:davidcashier;Cash:100;Renter:true;hasCar:false;Occupation:davidCashier;Shif
 Name:davidhost;Cash:100;Renter:false;hasCar:true;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:davidwaiter;Cash:100;Renter:false;hasCar:false;Occupation:davidWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Other
-Name:richpersonA;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:hungry,market,bank
-Name:richpersonB;Cash:250;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:market,restaurant
+Name:richpersonA;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home
+Name:richpersonB;Cash:250;Renter:true;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home
 Name:richpersonC;Cash:170;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market
 Name:richpersonD;Cash:250;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:hungry
 Name:richpersonE;Cash:20;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market

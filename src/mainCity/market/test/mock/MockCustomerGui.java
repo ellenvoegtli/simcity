@@ -1,12 +1,16 @@
 package mainCity.market.test.mock;
 
+import java.util.Map;
+
+import mainCity.market.interfaces.Customer;
 import mainCity.market.interfaces.CustomerGuiInterface;
 import mainCity.market.interfaces.Employee;
 
 
 
 public class MockCustomerGui extends Mock implements CustomerGuiInterface {
-	Employee employee;
+	public Employee employee;
+	public Customer customer;
 	
 	public MockCustomerGui(String name){
 		super(name);
@@ -44,7 +48,7 @@ public class MockCustomerGui extends Mock implements CustomerGuiInterface {
 		return 0;
 	}
 	
-	public boolean goInside(){
+	public boolean goInside(Map<String, Integer> m){
 		return true;
 	}
 }

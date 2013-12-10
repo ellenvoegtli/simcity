@@ -1,5 +1,7 @@
 package mainCity.market.interfaces;
 
+import java.util.Map;
+
 
 public interface CustomerGuiInterface {
 	
@@ -11,6 +13,6 @@ public interface CustomerGuiInterface {
 	
 	public abstract int getWaitingPosX();
 	public abstract int getWaitingPosY();
-	public abstract boolean goInside();
+	public abstract boolean goInside(Map<String, Integer> m);
 	
 }

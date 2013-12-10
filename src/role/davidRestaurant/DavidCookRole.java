@@ -385,7 +385,7 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 			log("Setting the quantity of " + entry.getKey() + " to " + entry.getValue().quantity);
 			entry.getValue().setState(FoodStatus.empty);
 		}
-		stateChanged();
+		CheckInventory();
 	}
 	
 	public void emptySteak() {

@@ -6,10 +6,9 @@ import java.util.TreeMap;
 import role.market.MarketGreeterRole;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
-import mainCity.market.test.mock.MockCustomer;
-import mainCity.market.test.mock.MockEmployee;
+import mainCity.market.test.mock.*;
+
 import junit.framework.TestCase;
-import mainCity.restaurants.EllenRestaurant.test.mock.*;
 
 public class GreeterTest extends TestCase {
 	MarketGreeterRole greeter;
@@ -17,9 +16,9 @@ public class GreeterTest extends TestCase {
 	MockEmployee employee2;
 	MockCustomer customer1;
 	MockCustomer customer2;
-	
-	MockCook cook;
+	MockDeliveryMan deliveryMan;
 	MockCashier cashier;
+
 	
 	public void setUp() throws Exception{
         super.setUp();
@@ -31,9 +30,10 @@ public class GreeterTest extends TestCase {
         customer1 = new MockCustomer("MockCustomer1");
         customer2 = new MockCustomer("MockCustomer2");
         employee1 = new MockEmployee("MockEmployee1");
-        employee2 = new MockEmployee("MockEmployee2");  
+        employee2 = new MockEmployee("MockEmployee2");
         
-        cook = new MockCook("Cook");
+        
+        deliveryMan = new MockDeliveryMan("DeliveryMan");
         cashier = new MockCashier("Cashier");
 	}
 	
@@ -165,6 +165,8 @@ public class GreeterTest extends TestCase {
 		
 		public void testOneBusinessOneEmployeeScenario(){
 			greeter.addEmployee(employee1);
+			greeter.setDeliveryMan(deliveryMan);
+			greeter.setCashier(cashier);
 			greeter.setCashierArrived(true);
 			
 			//check preconditions
@@ -175,13 +177,13 @@ public class GreeterTest extends TestCase {
             assertEquals("Employee should have 1 myEmployees in it. It doesn't.", greeter.getEmployees().size(), 1);
             
             //step 1
-            greeter.msgINeedInventory("ellenRestaurant", inventory);
+            greeter.msgINeedInventory("mockEllenRestaurant", inventory);
             
             
             //postconditions 1/preconditions 2
             assertEquals("Greeter should have 1 waitingBusinesses in it. It doesn't.", greeter.getWaitingBusinesses().size(), 1);
             assertTrue("Cashier should contain a waitingBusiness with the right customer in it. It doesn't.", 
-            		greeter.waitingBusinesses.get(0).getRestaurant().equalsIgnoreCase("ellenRestaurant"));
+            		greeter.waitingBusinesses.get(0).getRestaurant().equalsIgnoreCase("mockEllenRestaurant"));
             
             //step 2
             assertTrue("Greeter's scheduler should have returned true (needs to react to new business), but didn't.",
@@ -190,7 +192,7 @@ public class GreeterTest extends TestCase {
             
             //postconditions 2
             assertTrue("MockEmployee should have logged an event for receiving \"msgAssignedToBusiness\", but he didn't. His log reads instead: " 
-                    + employee1.log.getLastLoggedEvent().toString(), employee1.log.containsString("Received msgAssignedToBusiness: ellenRestaurant"));
+                    + employee1.log.getLastLoggedEvent().toString(), employee1.log.containsString("Received msgAssignedToBusiness: mockEllenRestaurant"));
             assertEquals("Greeter should have 0 waitingBusinesses in it. It doesn't.", greeter.getWaitingBusinesses().size(), 0);
             assertFalse("Greeter's scheduler should have returned false (nothing left to do), but didn't.",
             		greeter.pickAndExecuteAnAction());
@@ -200,6 +202,8 @@ public class GreeterTest extends TestCase {
 			
 			greeter.addEmployee(employee1);
 			greeter.addEmployee(employee2);
+			greeter.setDeliveryMan(deliveryMan);
+			greeter.setCashier(cashier);
 			greeter.setCashierArrived(true);
 			
 			//check preconditions

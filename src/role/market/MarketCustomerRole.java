@@ -200,7 +200,7 @@ public class MarketCustomerRole extends Role implements Customer {
 	public void msgHereIsBill(double amount){		//from cashier, who recalculated bill and now sends a lower one
         log("Received msgHereIsBill for $" + amount);
         
-        bill.charge = Math.round(amount*100.0)/100.0;
+        bill.charge = Math.round(amount*100.00)/100.00;
         event = AgentEvent.gotNewBill;
         stateChanged();
 	}
@@ -351,7 +351,6 @@ public class MarketCustomerRole extends Role implements Customer {
 				else {								//b.) if my cash is less than bill charge, pay what I can
 					log("I don't have enough money to pay full bill.");
 					cashier.msgHereIsPayment(Math.round(myCash*100.00)/100.00, this);
-					cashOwed = Math.round((bill.charge - myCash)*100.00)/100.00;
 					bill.amountPaid = myCash;
 					myCash = 0;
 					return;
