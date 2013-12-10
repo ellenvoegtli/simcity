@@ -46,4 +46,4 @@ Name:davidcashier;Cash:100;Renter:true;hasCar:true;Occupation:davidCashier;Shift
 Name:davidhost;Cash:100;Renter:true;hasCar:false;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:davidwaiter;Cash:100;Renter:true;hasCar:true;Occupation:davidWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Other
-Name:richpersonAwalk;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,market,market2,bank,restaurant_david,restaurant_jefferson,restaurant_ena,restaurant_marcus,restaurant_ellen
+Name:richpersonAwalk;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:homeAndEat,market,market2,bank,restaurant
