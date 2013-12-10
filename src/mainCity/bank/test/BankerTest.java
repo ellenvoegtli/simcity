@@ -43,8 +43,8 @@ public class BankerTest extends TestCase {
 		
 		//check preconditions
 		assertFalse("Banker's scheduler should have returned false. But it didn't.", banker.pickAndExecuteAnAction());
-		assertTrue("Banker's myClient should be Null, it isnt", banker.mc==null);
-		assertTrue("Banker's bankaccounts should exist, it doesnt", banker.ba!=null);
+		assertTrue("Banker's myClient should be Null, it isnt", banker.myclient==null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", banker.bankaccounts!=null);
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 				+ "event log reads: "+ m1.log.toString(),0, m1.log.size(),0 );
 		
@@ -52,13 +52,13 @@ public class BankerTest extends TestCase {
 		banker.msgIWantNewAccount(m1.p, m1, "mockCustomer1", 100);
 		
 		//check postConditions for step 1
-		assertTrue("Banker's myClient shouldn't be Null, it is", banker.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", banker.myclient!=null);
 		
-		assertTrue("Banker's myClient's person should be p1. It isn't", banker.mc.p==p1);
+		assertTrue("Banker's myClient's person should be p1. It isn't", banker.myclient.p==p1);
 		
-		assertTrue("Banker's myClient's customer should be m1. It isn't", banker.mc.bc==m1);
+		assertTrue("Banker's myClient's customer should be m1. It isn't", banker.myclient.bc==m1);
 		
-		assertTrue("Banker's myClient's state should be wantsAccount. It isn't", banker.mc.cs==ClientState.wantsAccount);
+		assertTrue("Banker's myClient's state should be wantsAccount. It isn't", banker.myclient.cs==ClientState.wantsAccount);
 		assertEquals("MockCustomer should have an empty eventlog before manager scheduler is called. Instead the MockCustomer's "
 				+ "event log reads: "+ m1.log.toString(),0, m1.log.size(),0 );
 		
@@ -100,8 +100,8 @@ public class BankerTest extends TestCase {
 		
 		//check preconditions
 		assertFalse("Banker's scheduler should have returned false. But it didn't.", banker.pickAndExecuteAnAction());
-		assertTrue("Banker's myClient should be Null, it isnt", banker.mc==null);
-		assertTrue("Banker's bankaccounts should exist, it doesnt", banker.ba!=null);
+		assertTrue("Banker's myClient should be Null, it isnt", banker.myclient==null);
+		assertTrue("Banker's bankaccounts should exist, it doesnt", banker.bankaccounts!=null);
 		assertEquals("MockCustomer should have an empty eventlog before scheduler is called. Instead the MockCustomer's "
 				+ "event log reads: "+ m1.log.toString(),0, m1.log.size(),0 );
 		
@@ -109,13 +109,13 @@ public class BankerTest extends TestCase {
 		banker.msgIWantNewAccount(m1.p, m1, "mockCustomer1", 100);
 		
 		//check postConditions for step 1
-		assertTrue("Banker's myClient shouldn't be Null, it is", banker.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", banker.myclient!=null);
 		
-		assertTrue("Banker's myClient's person should be p1. It isn't", banker.mc.p==p1);
+		assertTrue("Banker's myClient's person should be p1. It isn't", banker.myclient.p==p1);
 		
-		assertTrue("Banker's myClient's customer should be m1. It isn't", banker.mc.bc==m1);
+		assertTrue("Banker's myClient's customer should be m1. It isn't", banker.myclient.bc==m1);
 		
-		assertTrue("Banker's myClient's state should be wantsAccount. It isn't", banker.mc.cs==ClientState.wantsAccount);
+		assertTrue("Banker's myClient's state should be wantsAccount. It isn't", banker.myclient.cs==ClientState.wantsAccount);
 		assertEquals("MockCustomer should have an empty eventlog before manager scheduler is called. Instead the MockCustomer's "
 				+ "event log reads: "+ m1.log.toString(),0, m1.log.size(),0 );
 		
@@ -152,13 +152,13 @@ public class BankerTest extends TestCase {
 		banker.msgIWantNewAccount(m2.p, m2, "mockCustomer2", 100);
 				
 		//check postConditions for step 4
-		assertTrue("Banker's myClient shouldn't be Null, it is", banker.mc!=null);
+		assertTrue("Banker's myClient shouldn't be Null, it is", banker.myclient!=null);
 				
-		assertTrue("Banker's myClient's person should be p1. It isn't", banker.mc.p==p2);
+		assertTrue("Banker's myClient's person should be p1. It isn't", banker.myclient.p==p2);
 		
-		assertTrue("Banker's myClient's customer should be m1. It isn't", banker.mc.bc==m2);
+		assertTrue("Banker's myClient's customer should be m1. It isn't", banker.myclient.bc==m2);
 				
-		assertTrue("Banker's myClient's state should be wantsAccount. It isn't", banker.mc.cs==ClientState.wantsAccount);
+		assertTrue("Banker's myClient's state should be wantsAccount. It isn't", banker.myclient.cs==ClientState.wantsAccount);
 		assertEquals("MockCustomer should have an empty eventlog before manager scheduler is called. Instead the MockCustomer's "
 						+ "event log reads: "+ m2.log.toString(),0, m2.log.size(),0 );
 				

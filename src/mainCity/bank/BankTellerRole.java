@@ -17,11 +17,11 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	
 	
 	
-	PersonAgent p;
+	PersonAgent person;
 	
-	public BankAccounts ba;
+	public BankAccounts bankaccounts;
 	String name;
-	public myClient mc;
+	public myClient myclient;
 	private int tellernumber;
 	BankTellerGui btGui;
 	public enum ClientState{withdrawing, depositing, talking}
@@ -36,7 +36,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 
 	public BankTellerRole(PersonAgent p, String name){
 		super(p);
-		this.p=p;
+		this.person=p;
 		this.name=name;
 		log("Bank Teller initiated");
 		onDuty=true;
@@ -51,7 +51,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	}
 	@Override
 	public void setBankAccounts(BankAccounts ba){
-		this.ba=ba;
+		this.bankaccounts=ba;
 	}
 	
 	/* (non-Javadoc)
@@ -82,11 +82,11 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	@Override
 	public void msgIWantToDeposit(BankCustomer b, double accnum, int amount){
 		log("recieved msgIWantToDeposit from a customer");
-		mc=new myClient();
-		mc.bc=b;
-		mc.amount=amount;
-		mc.accountnumber=accnum;
-		mc.cs=ClientState.depositing;
+		myclient=new myClient();
+		myclient.bc=b;
+		myclient.amount=amount;
+		myclient.accountnumber=accnum;
+		myclient.cs=ClientState.depositing;
 		stateChanged();
 	}
 	
@@ -96,11 +96,11 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	@Override
 	public void msgIWantToWithdraw(BankCustomer b, double accnum, int amount){
 		log("recieved msgIWantToWithdraw from a customer");
-		mc=new myClient();
-		mc.bc=b;
-		mc.amount=amount;
-		mc.accountnumber=accnum;
-		mc.cs=ClientState.withdrawing;
+		myclient=new myClient();
+		myclient.bc=b;
+		myclient.amount=amount;
+		myclient.accountnumber=accnum;
+		myclient.cs=ClientState.withdrawing;
 		stateChanged();
 	}
 	
@@ -120,21 +120,21 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 		}
 		
 		
-		if(mc!=null){
-			if(mc.cs==ClientState.depositing){
-				mc.cs=ClientState.talking;
-				doDeposit(mc);
+		if(myclient!=null){
+			if(myclient.cs==ClientState.depositing){
+				myclient.cs=ClientState.talking;
+				doDeposit(myclient);
 				return true;
 			}
 			
-			if(mc.cs==ClientState.withdrawing){
-				mc.cs=ClientState.talking; 
-				doWithdraw(mc);
+			if(myclient.cs==ClientState.withdrawing){
+				myclient.cs=ClientState.talking; 
+				doWithdraw(myclient);
 				return true;
 			}
 		}
 		
-		if(!onDuty && mc==null){
+		if(!onDuty && myclient==null){
 			doLeaveWork();
 			return true;
 		}
@@ -160,9 +160,9 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	
 	private void doDeposit(myClient mc){
 		log("doing deposit");
-		synchronized (ba.accounts) {
+		synchronized (bankaccounts.accounts) {
 			
-			for(BankAccount b: ba.accounts){
+			for(BankAccount b: bankaccounts.accounts){
 				if(mc.accountnumber==b.accountNumber){
 					//handles repaying of loans
 					if(b.debt>0){
@@ -189,9 +189,9 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 	
 	private void doWithdraw(myClient mc){
 		log("doing withdraw");
-		synchronized (ba.accounts) {
+		synchronized (bankaccounts.accounts) {
 			
-			for(BankAccount b: ba.accounts){
+			for(BankAccount b: bankaccounts.accounts){
 				if(mc.accountnumber==b.accountNumber){
 					if(b.balance < mc.amount){
 						mc.bc.msgRequestComplete(b.balance, 0);

@@ -167,7 +167,11 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		        g2.fillRect(65 ,10, 25, 10);
 	     }
 	       
-	   
+	   if(personGuis.size() > 1)
+	   {
+		    System.out.println("GUI LIST FOR THIS PANEL IS OF SIZE ::::   " +personGuis.size());
+
+	   }
 
 	        for(Gui gui : personGuis)
 		     {
@@ -192,9 +196,10 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		                gui.draw(g2);
 		            }
 		        }
+
 		        
 	 }
-	    
+
 	    public void backgroundUpdate()
 	    {
 	    	for (Gui gui : personGuis)
@@ -210,6 +215,8 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    public void addGui(LandlordGui gui) 
 	    {
 	        personGuis.add(gui);
+		    System.out.println("GUI LIST FOR THIS after adding landlord  " +personGuis.size());
+
 	    }
 	    public void addGui(OccupantGui gui)
 	    {

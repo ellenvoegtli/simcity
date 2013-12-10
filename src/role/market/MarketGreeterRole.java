@@ -22,6 +22,7 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 
 	int nextEmployee = 0;
 	boolean cashierArrived = false;
+	boolean deliveryArrived = false;
 	private boolean onDuty;
 
 	
@@ -42,6 +43,7 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 	}
 	public void setDeliveryMan(DeliveryMan d){
 		deliveryMan = d;
+		deliveryArrived = true;
 	}
 	public String getName() {
 		return name;
@@ -130,7 +132,7 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 					log("WAITING BUSINESSES NOT EMPTY");
 					if (!myEmployees.isEmpty()){
 						log("MY EMPLOYEES NOT EMPTY");
-						if (isOpen()){
+						if (isOpen() || (cashierArrived && deliveryArrived)){
 							log("IS OPEN = TRUE");
 							nextEmployee++;
 							if (nextEmployee > myEmployees.size() - 1)
