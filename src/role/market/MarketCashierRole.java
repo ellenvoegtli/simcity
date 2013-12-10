@@ -222,10 +222,12 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	public void ComputeBill(final Bill b){
 		double dollars = 0;
 		synchronized(b.itemsBought){
-			for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-				for (Item i : marketMenu.menuItems){
-					if (i.getItem().equalsIgnoreCase(entry.getKey())){
-						dollars += i.getPrice() * entry.getValue();
+			synchronized(marketMenu.menuItems){
+				for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
+					for (Item i : marketMenu.menuItems){
+						if (i.getItem().equalsIgnoreCase(entry.getKey())){
+							dollars += i.getPrice() * entry.getValue();
+						}
 					}
 				}
 			}
@@ -276,10 +278,12 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 		log("Recomputing bill");
 		double dollars = 0;
 		synchronized(b.itemsBought){
-			for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-				for (Item i : marketMenu.menuItems){
-					if (i.getItem().equalsIgnoreCase(entry.getKey()))
-						dollars += i.getPrice() * entry.getValue();
+			synchronized(marketMenu.menuItems){
+				for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
+					for (Item i : marketMenu.menuItems){
+						if (i.getItem().equalsIgnoreCase(entry.getKey()))
+							dollars += i.getPrice() * entry.getValue();
+					}
 				}
 			}
 		}

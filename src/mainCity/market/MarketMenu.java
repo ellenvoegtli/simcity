@@ -7,10 +7,9 @@ import java.util.List;
 
 public class MarketMenu {
 	static final int NITEMS = 18;
-	public List<Item> menuItems;
+	public List<Item> menuItems = Collections.synchronizedList(new ArrayList<Item>());
 
 	public MarketMenu(){	//used for testing; sets all stock values = 5
-		menuItems = Collections.synchronizedList(new ArrayList<Item>());
 		
 		//Ellen Restaurant
 		menuItems.add(new Item("pasta", 5, 20.00));
