@@ -126,6 +126,8 @@ public class CityPanel extends JPanel{
 				   	String actions = strLine.substring(strLine.indexOf("Actions")+8, strLine.length());
 				    String[] actionList = actions.split(",");
 				    addPerson(name, Integer.parseInt(cash), Boolean.parseBoolean(renter), Boolean.parseBoolean(hasCar), occupation, Integer.parseInt(shiftB), Integer.parseInt(shiftE), actionList);
+
+		      
 		    	}
 		    }
 

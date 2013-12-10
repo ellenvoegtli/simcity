@@ -13,6 +13,7 @@ public interface MarketCashier{
 	public abstract void msgComputeBill(Map<String, Integer> inventory, String name, Employee e);
 	public abstract void msgHereIsPayment(double amount, Customer cust);
 	public abstract void msgPleaseRecalculateBill(Customer cust);
+	public abstract void msgPleaseRecalculateChange(Customer cust, double amount);
 	public abstract void msgChangeVerified(Customer cust);
 	public abstract void msgHereIsMoneyIOwe(Customer cust, double amount);
 	

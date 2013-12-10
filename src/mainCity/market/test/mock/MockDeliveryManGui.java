@@ -13,11 +13,13 @@ public class MockDeliveryManGui extends Mock implements DeliveryManGuiInterface 
 	
 	@Override
 	public void DoGoToHomePosition(){
+		deliveryMan.msgAtHome();
 		log.add(new LoggedEvent("Gui is told to DoGoToHomePosition by agent."));
 	}
 	
 	@Override
 	public void DoDeliverOrder(String restaurantName){
+		deliveryMan.msgAtDestination();
 		log.add(new LoggedEvent("Gui is told to DoDeliverOrder to " + restaurantName + " by agent."));
 	}
 

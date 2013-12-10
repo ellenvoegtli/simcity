@@ -25,8 +25,8 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	public EmployeeGuiInterface employeeGui = null;
 	private int homeX, homeY;
 	
-	public List<MyCustomer> myCustomers = new ArrayList<MyCustomer>();
-	public List<MyBusiness> myBusinesses = new ArrayList<MyBusiness>();
+	public List<MyCustomer> myCustomers = Collections.synchronizedList(new ArrayList<MyCustomer>());
+	public List<MyBusiness> myBusinesses = Collections.synchronizedList(new ArrayList<MyBusiness>());
 	public enum CustomerState {newCustomer, waitingForOrder, ordered, waitingForBill, fulfillingOrder, doneFulfillingOrder, gotCheckFromCashier, gotOrderAndBill, leaving};
 	public enum BusinessState {ordered, waitingForBill, fulfillingOrder, waiting, doneFulfillingOrder, gotCheckFromCashier, sentForDelivery};
 	
@@ -48,6 +48,7 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		super(p);
 		this.name = name;
 		onDuty = true;
+		wState = WaiterState.doingNothing;
 	}
 	
 	public void setHost(Greeter host){
@@ -71,6 +72,9 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	}
 	public WaiterState getState(){
 		return wState;
+	}
+	public void setState(WaiterState s){
+		wState = s;
 	}
 	public String getName() {
 		return name;
@@ -114,26 +118,30 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		stateChanged();
 	}
 	
-	public void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory, String deliveryMethod) {
+	public void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory) {
 		MyCustomer mc = null;
-		for (MyCustomer thisMC : myCustomers){	
-			if (thisMC.c.equals(c)){
-				mc = thisMC;
-				break;
+		synchronized(myCustomers){
+			for (MyCustomer thisMC : myCustomers){	
+				if (thisMC.c.equals(c)){
+					mc = thisMC;
+					break;
+				}
 			}
 		}
 		log("Received msgHereIsMyOrder");
-		mc.inventoryOrdered = new TreeMap<String, Integer>(inventory); 	//copy over list
+		mc.inventoryOrdered = Collections.synchronizedMap(new TreeMap<String, Integer>(inventory)); 	//copy over list
 		mc.s = CustomerState.ordered;
 		stateChanged();
 	}
 	
 	public void msgHereIsBill(Customer c, double amount){		//from cashier
 		MyCustomer mc = null;
-		for (MyCustomer thisMC : myCustomers){	
-			if (thisMC.c.equals(c)){
-				mc = thisMC;
-				break;
+		synchronized(myCustomers){
+			for (MyCustomer thisMC : myCustomers){	
+				if (thisMC.c.equals(c)){
+					mc = thisMC;
+					break;
+				}
 			}
 		}
 		log("Received msgHereIsBill from cashier. Amount = $" + amount);
@@ -145,10 +153,12 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	//for businesses
 	public void msgHereIsBill(String name, double amount){		//from cashier
 		MyBusiness mb = null;
-		for (MyBusiness thisMB : myBusinesses){	
-			if (thisMB.restaurantName.equals(name)){
-				mb = thisMB;
-				break;
+		synchronized(myBusinesses){
+			for (MyBusiness thisMB : myBusinesses){	
+				if (thisMB.restaurantName.equals(name)){
+					mb = thisMB;
+					break;
+				}
 			}
 		}
 		log("Received msgHereIsBill");
@@ -171,10 +181,12 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	
 	public void msgDoneAndLeaving(Customer c) {
 		MyCustomer mc = null;
-		for (MyCustomer thisMC : myCustomers){ 
-			if (thisMC.c.equals(c)){
-				mc = thisMC;
-				break;
+		synchronized(myCustomers){
+			for (MyCustomer thisMC : myCustomers){ 
+				if (thisMC.c.equals(c)){
+					mc = thisMC;
+					break;
+				}
 			}
 		}
 		log("Received msgDoneAndLeaving from: " + mc.c.getName());
@@ -332,20 +344,25 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	
 	private void ProcessOrder(MyCustomer mc){
 		log("Processing order for " + mc.c.getName());
-		for (Map.Entry<String, Integer> entry : mc.inventoryOrdered.entrySet()){
-			for (Item i : marketMenu.menuItems){
-				if (i.getItem().equalsIgnoreCase(entry.getKey())){
-					if (entry.getValue() <= i.getStock()){
-						mc.inventoryFulfilled.put(entry.getKey(), entry.getValue());
-						log("Market had: " + i.getStock() + " " + i.getItem() + "(s).");
-						i.deductStock(entry.getValue());
-						log("Market now has: " + i.getStock() + " " + i.getItem() + "(s).");
-					}
-					else{
-						mc.inventoryFulfilled.put(entry.getKey(), i.getStock());
-						log("Market had: " + i.getStock() + " " + i.getItem() + "(s).");
-						i.deductStock(i.getStock());
-						log("Market now has: " + i.getStock() + " " + i.getItem() + "(s).");
+		
+		synchronized(mc.inventoryOrdered){
+			synchronized(marketMenu.menuItems){
+				for (Map.Entry<String, Integer> entry : mc.inventoryOrdered.entrySet()){
+					for (Item i : marketMenu.menuItems){
+						if (i.getItem().equalsIgnoreCase(entry.getKey())){
+							if (entry.getValue() <= i.getStock()){
+								mc.inventoryFulfilled.put(entry.getKey(), entry.getValue());
+								log("Market had: " + i.getStock() + " " + i.getItem() + "(s).");
+								i.deductStock(entry.getValue());
+								log("Market now has: " + i.getStock() + " " + i.getItem() + "(s).");
+							}
+							else{
+								mc.inventoryFulfilled.put(entry.getKey(), i.getStock());
+								log("Market had: " + i.getStock() + " " + i.getItem() + "(s).");
+								i.deductStock(i.getStock());
+								log("Market now has: " + i.getStock() + " " + i.getItem() + "(s).");
+							}
+						}
 					}
 				}
 			}
@@ -399,13 +416,18 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	//=========================== BUSINESSES ===========================================================================
 	private void ProcessOrder(MyBusiness mb){
 		log("Processing order for " + mb.restaurantName);
-		for (Map.Entry<String, Integer> entry : mb.inventoryOrdered.entrySet()){
-			for (Item i : marketMenu.menuItems){
-				if (i.getItem().equalsIgnoreCase(entry.getKey())){
-					if (entry.getValue() <= i.getStock())
-						mb.inventoryFulfilled.put(entry.getKey(), entry.getValue());
-					else 
-						mb.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - i.getStock()));
+		
+		synchronized(mb.inventoryOrdered){
+			synchronized(marketMenu.menuItems){
+				for (Map.Entry<String, Integer> entry : mb.inventoryOrdered.entrySet()){
+					for (Item i : marketMenu.menuItems){
+						if (i.getItem().equalsIgnoreCase(entry.getKey())){
+							if (entry.getValue() <= i.getStock())
+								mb.inventoryFulfilled.put(entry.getKey(), entry.getValue());
+							else 
+								mb.inventoryFulfilled.put(entry.getKey(), (entry.getValue() - i.getStock()));
+						}
+					}
 				}
 			}
 		}
@@ -445,7 +467,6 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 			e.printStackTrace();
 		}
 		deliveryMan.msgHereIsOrderForDelivery(mb.restaurantName, /*mb.cook, mb.cashier,*/ mb.inventoryFulfilled, mb.billAmount);
-		mb.s = BusinessState.sentForDelivery;	//unnecessary
 		employeeGui.DoGoToStation();
 		
 		log("Removing customer: " + mb.restaurantName);
@@ -482,12 +503,10 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		Customer c;
 		double billAmount;
 		CustomerState s;
-		
 		int waitingAreaX;
 		int waitingAreaY;
-		
 		Map<String, Integer> inventoryOrdered;
-		Map<String, Integer> inventoryFulfilled = new TreeMap<String, Integer>();
+		Map<String, Integer> inventoryFulfilled = Collections.synchronizedMap(new TreeMap<String, Integer>());
 		
 		MyCustomer(Customer c, int posX, int posY, CustomerState s){
 			this.c = c;
@@ -511,15 +530,12 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		String restaurantName;
 		double billAmount;
 		BusinessState s;
-		//MainCook cook;
-		//MainCashier cashier;
-		
 		Map<String, Integer> inventoryOrdered;
-		Map<String, Integer> inventoryFulfilled = new TreeMap<String, Integer>();
+		Map<String, Integer> inventoryFulfilled = Collections.synchronizedMap(new TreeMap<String, Integer>());
 		
 		MyBusiness(String restaurantName, Map<String, Integer>inventory, BusinessState s){
 			this.restaurantName = restaurantName;
-			inventoryOrdered = new TreeMap<String, Integer>(inventory);
+			inventoryOrdered = Collections.synchronizedMap(new TreeMap<String, Integer>(inventory));
 			this.s = s;
 		}
 		public String getRestaurant(){
@@ -528,7 +544,9 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		public double getBillAmount(){
 			return billAmount;
 		}
-		
+		public BusinessState getState(){
+			return s;
+		}
 		
 	}
 	

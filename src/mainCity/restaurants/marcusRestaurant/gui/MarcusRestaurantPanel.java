@@ -155,7 +155,6 @@ public class MarcusRestaurantPanel extends JPanel {
             cook.setStand(stand);
             animation.addGui(cookGui);
             cook.setGui(cookGui);
-            cook.setCashier(cashier);
             
             if(host != null) host.setCook(cook);
             

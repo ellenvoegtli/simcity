@@ -62,8 +62,9 @@ public class EllenCustomerRole extends Role implements Customer{
 		else if (name.equalsIgnoreCase("none"))
 			myCash = 0;
 		else 
+			myCash = p.getCash();
 			//myCash = 30;
-			myCash = 100;
+			//myCash = 100;
 	
 	}
 

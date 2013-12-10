@@ -1,6 +1,7 @@
 package role.ellenRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
@@ -154,6 +155,7 @@ public class EllenHostRole extends Role implements Host, ManagerRole {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		
 		
 		synchronized(myWaiters){
 			for (MyWaiter mw: myWaiters){		//lowest priority

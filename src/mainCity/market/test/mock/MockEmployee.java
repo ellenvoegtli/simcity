@@ -50,7 +50,7 @@ public class MockEmployee extends Mock implements Employee {
 	public void msgAssignedToCustomer(Customer c, int waitPosX, int waitPosY){
 		log.add(new LoggedEvent("Received msgAssignedToCustomer: " + c.getName()));
 	}
-	public void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory, String deliveryMethod){
+	public void msgHereIsMyOrder(Customer c, Map<String, Integer> inventory){
 		log.add(new LoggedEvent("Received msgHereIsMyOrder from " + c.getName()));
 	}
 	@Override

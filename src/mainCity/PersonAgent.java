@@ -29,7 +29,7 @@ import transportation.BusAgent;
 public class PersonAgent extends Agent {
 	
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, inCar, walkingFromBus, walkingFromCar}
-	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
+	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome, manageApartments}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
 	
 	private PersonGuiInterface gui;
@@ -40,6 +40,7 @@ public class PersonAgent extends Agent {
 	private boolean hasCar; 
 	private BusAgent currentBus; 
 	private Building homePlace;
+	private Building renterHome;
 	private int time;
 	private int day;
 	private Job job;
@@ -50,7 +51,7 @@ public class PersonAgent extends Agent {
 	private Map<ActionType, Role> roles;
 	private PriorityBlockingQueue<Action> actions;
 	private Action currentAction;
-	private String restaurantHack;
+	private boolean alive;
 	public EventLog log = new EventLog(); 
 	
 	public PersonAgent(String n) {
@@ -66,6 +67,7 @@ public class PersonAgent extends Agent {
 		roles = Collections.synchronizedMap(new HashMap<ActionType, Role>());
 		actions = new PriorityBlockingQueue<Action>();
 		currentAction = null;
+		alive = true;
 	}
 	
 	public void setGui(PersonGuiInterface g) {
@@ -105,12 +107,8 @@ public class PersonAgent extends Agent {
 			return false;
 		}
 	}
-	public Building getBuilding(){
-		return homePlace;
-	}
 	
-	//----------Messages----------//
-	//From a timer to tell the person to do a checkup
+	
 	public void updateOccupation(String o, int b, int e) {
 		job.occupation = o;
 		job.shiftBegin = b;
@@ -144,9 +142,18 @@ public class PersonAgent extends Agent {
 	}
 	
 	//A message for the landlord	
-	public void msgNeedToFix() {
+	public void msgNeedToFix(Building renterHome) {
+		
 		synchronized(actions) {
 			actions.add(new Action(ActionType.maintenance, 1));
+			stateChanged();
+		}
+	}
+	
+	public void msgGoToRenterHome(PersonAgent p)
+	{
+		synchronized(actions) {
+			actions.add(new Action(ActionType.fixing, 1));
 			stateChanged();
 		}
 	}
@@ -169,7 +176,7 @@ public class PersonAgent extends Agent {
 	public void msgGotHungryForHome() {
 		if(!actions.contains(ActionType.homeAndEat)) {
 			synchronized(actions) {
-				actions.add(new Action(ActionType.homeAndEat, 5));
+				actions.add(new Action(ActionType.homeAndEat, 3));
 				stateChanged();
 			}
 		}
@@ -188,11 +195,31 @@ public class PersonAgent extends Agent {
 	//A message received from the GUI to go to a specific restaurant (hack)
 	public void msgGoToRestaurant(String name) {
 		if(!actionExists(ActionType.restaurant)) {
-			restaurantHack = name;
-			
-			synchronized(actions) {
-				actions.add(new Action(ActionType.restaurant, 4));
-				stateChanged();
+			synchronized(actions){
+				if (name.toLowerCase().contains("ellen")){
+					actions.add(new Action(ActionType.restaurant_ellen, 4));
+					stateChanged();
+				}
+				else if (name.toLowerCase().contains("ena")){
+					actions.add(new Action(ActionType.restaurant_ena, 4));
+					stateChanged();
+				}
+				else if (name.toLowerCase().contains("marcus")){
+					actions.add(new Action(ActionType.restaurant_marcus, 4));
+					stateChanged();
+				}
+				else if (name.toLowerCase().contains("jefferson")){
+					actions.add(new Action(ActionType.restaurant_jefferson, 4));
+					stateChanged();
+				}
+				else if (name.toLowerCase().contains("david")){
+					actions.add(new Action(ActionType.restaurant_david, 4));
+					stateChanged();
+				}
+				else{		//in case something is wrong
+					actions.add(new Action(ActionType.restaurant, 4));
+					stateChanged();
+				}
 			}
 		}
 	}
@@ -204,12 +231,8 @@ public class PersonAgent extends Agent {
 			stateChanged();
 		}
 	}
-	/*
-	public void msgGoToMarket2(){
-		actions.add(new Action(ActionType.market2, 3));
-		stateChanged();
-	}*/
 	
+	//A message received from the to send personagent home
 	public void msgGoHome() {
 		System.out.println(name + ": Received msgGoHome");
 		synchronized(actions) {
@@ -253,6 +276,14 @@ public class PersonAgent extends Agent {
 
 		}
 	}
+	
+	//A message received from the transportation object to remove the person
+	public void msgHitByVehicle() {
+		if(isMoving.availablePermits() == 0)
+			isMoving.release();
+		alive = false;
+		stateChanged();
+	}
 
 	//----------Scheduler----------//
 	public boolean pickAndExecuteAnAction() {
@@ -267,6 +298,10 @@ public class PersonAgent extends Agent {
 			}
 		}
 
+		if(!alive) {
+			respawnPerson();
+		}
+		
 		if(currentAction != null && currentAction.state == ActionState.done) {
 			currentAction = null;
 			return true;
@@ -352,38 +387,18 @@ public class PersonAgent extends Agent {
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
-					if(customer instanceof MarcusCustomerRole) {
-						if(!((MarcusCustomerRole) customer).getGui().goInside()) {
-							chooseRestaurant();
-							return true;
+					if((customer instanceof MarcusCustomerRole && !((MarcusCustomerRole) customer).getGui().goInside()) ||
+						(customer instanceof EllenCustomerRole && !((EllenCustomerRole) customer).getGui().goInside()) ||
+						(customer instanceof EnaCustomerRole && !((EnaCustomerRole) customer).getGui().goInside()) ||
+						(customer instanceof JeffersonCustomerRole && !((JeffersonCustomerRole) customer).getGui().goInside()) ||
+						(customer instanceof DavidCustomerRole && !((DavidCustomerRole) customer).getGui().goInside())) {
+						
+						currentAction.state = ActionState.done;
+						//chooseRestaurant();
+						//actions.add(new Action(ActionType.hungry, 7));
+						return true;
 						}
-					}
-					else if(customer instanceof EllenCustomerRole) {
-						if (!((EllenCustomerRole) customer).getGui().goInside()){
-							chooseRestaurant();
-							return true;
-						}
-					}
-					else if(customer instanceof EnaCustomerRole)
-					{
-						if (!((EnaCustomerRole) customer).getGui().goInside())
-						{	chooseRestaurant();
-							return true;
-						}
-					}
-					else if(customer instanceof JeffersonCustomerRole){
-						if(!((JeffersonCustomerRole) customer).getGui().goInside()){
-							chooseRestaurant();
-							return true;
-						}
-					}
-					else if(customer instanceof DavidCustomerRole){
-						if(!((DavidCustomerRole) customer).getGui().goInside()){
-							chooseRestaurant(); 
-							return true;
-						}
-					}
-
+					
 				customer.setActive();
 				}
 
@@ -436,11 +451,6 @@ public class PersonAgent extends Agent {
 				goToMarket();
 				return true;
 			}
-			
-			/*if(event == PersonEvent.needMarket2) {
-				goToMarket2();
-				return true;
-			}*/
 
 			if(event == PersonEvent.gotFood || event == PersonEvent.goHome) {
 				goHome();
@@ -451,7 +461,10 @@ public class PersonAgent extends Agent {
 				decideWhereToEat();
 				return true;
 			}
-			
+			if(event == PersonEvent.manageApartments)
+			{
+				
+			}
 			if(event == PersonEvent.maintainWork) {
 				goToRenters();
 				return true;
@@ -875,6 +888,9 @@ public class PersonAgent extends Agent {
 			case work:
 				event = PersonEvent.timeToWork;
 				break;
+			case fixing:
+				event = PersonEvent.manageApartments;
+				break;
 			case maintenance:
 				event = PersonEvent.maintainWork;
 				break;
@@ -888,11 +904,14 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.needMarket;
 				break;
 			case restaurant:
+			//======= restaurant hacks from gui ========
+			case restaurant_ellen:
+			case restaurant_david:
+			case restaurant_ena:
+			case restaurant_marcus:
+			case restaurant_jefferson:
 				event = PersonEvent.chooseRestaurant;
 				break;
-			//======= restaurant hacks from gui ========
-			//case restaurant_ellen:
-				//event = PersonEvent.
 			case bankWithdraw:
 			case bankWithdraw2:
 			case bankDeposit:
@@ -914,10 +933,9 @@ public class PersonAgent extends Agent {
 	private void travelToLocation(CityLocation d) {
 		traveling = true;
 		this.destination = d;
-		
 
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-		walk = false;
+		walk = true;
 		boolean car = true;
 
 		
@@ -957,26 +975,18 @@ public class PersonAgent extends Agent {
 	}
 
 	private void chooseRestaurant() {
-		if (restaurantHack != null){
-			if (restaurantHack.toLowerCase().contains("ellen"))
-				destination = CityLocation.restaurant_ellen;
-			else if (restaurantHack.toLowerCase().contains("ena"))
-				destination = CityLocation.restaurant_ena;
-			else if (restaurantHack.toLowerCase().contains("marcus"))
-				destination = CityLocation.restaurant_marcus;
-			else if (restaurantHack.toLowerCase().contains("jefferson"))
-				destination = CityLocation.restaurant_jefferson;
-			else if (restaurantHack.toLowerCase().contains("david"))
-				destination = CityLocation.restaurant_david;
-			
-			restaurantHack = null;
-			
-			event = PersonEvent.decidedRestaurant;
-			handleRole(currentAction.type);
-			return;
-		}
-
-		switch((int) (Math.random() * 5)) {
+		if (currentAction.type == ActionType.restaurant_ena)	//gui hacks
+			destination = CityLocation.restaurant_ena;
+		else if (currentAction.type == ActionType.restaurant_ellen)
+			destination = CityLocation.restaurant_ellen;
+		else if (currentAction.type == ActionType.restaurant_marcus)
+			destination = CityLocation.restaurant_marcus;
+		else if (currentAction.type == ActionType.restaurant_david)
+			destination = CityLocation.restaurant_david;
+		else if (currentAction.type == ActionType.restaurant_jefferson)
+			destination = CityLocation.restaurant_jefferson;
+		else {													//default: do random (if ActionType = restaurant)
+			switch((int) (Math.random() * 5)) {
 			case 0:
 				destination = CityLocation.restaurant_ena;
 				break;
@@ -994,15 +1004,16 @@ public class PersonAgent extends Agent {
 				break;
 			default:
 				break;
+			}
 		}
-		
+		currentAction.type = ActionType.restaurant;		//in case there was a hack
 		event = PersonEvent.decidedRestaurant;
 		handleRole(currentAction.type);
 	}
 	
 	private void decideWhereToEat() {
 		output("Deciding where to eat..");
-		//Decide between restaurant or home
+
 		handleAction(currentAction.type);
 		boolean temp = true;
 		
@@ -1060,17 +1071,17 @@ public class PersonAgent extends Agent {
 	
 	private void goToMarket() {
 		switch((int) (Math.random() * 2)) {
-		case 0:
-			output("Going to market 1");
-			travelToLocation(CityLocation.market);
-			currentAction.type = ActionType.market;
-			break;
-		case 1:
-			output("Going to market 2");
-			travelToLocation(CityLocation.market2);
-			currentAction.type = ActionType.market2;
-			break;
-		default:
+			case 0:
+				output("Going to market 1");
+				travelToLocation(CityLocation.market);
+				currentAction.type = ActionType.market;
+				break;
+			case 1:
+				output("Going to market 2");
+				travelToLocation(CityLocation.market2);
+				currentAction.type = ActionType.market2;
+				break;
+			default:
 				break;
 		}
 		
@@ -1103,8 +1114,11 @@ public class PersonAgent extends Agent {
 		stateChanged();
 	}
 	
+	private void respawnPerson() {
+		//handle stuff to respawn the person in their home and change their position;
+	}
+	
 	private void boardBus() {
-		///message the bus
 		for(int i=0; i<ContactList.stops.size(); i++){ 
 			synchronized(ContactList.stops.get(i).waitingPeople){
 				for(int j=0; j<ContactList.stops.get(i).waitingPeople.size(); j++){ 
@@ -1192,6 +1206,40 @@ public class PersonAgent extends Agent {
 		this.accountnumber = accountnumber;
 	}
 	
+	public void setHomePlace(boolean renter) {
+		if(renter) {
+			for(ApartmentObject apartment : AnimationPanel.getApartments()) {
+				if(apartment.getComplex().size() <= 3) {
+					this.homePlace = apartment.getBuild();
+					print("assigned to apartment" +apartment.getComplex().size());
+					apartment.getComplex().add(apartment.getComplex().size());
+					//AnimationPanel.getApts().add(apartment.getComplexSize().size()+1);
+					//AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
+					break;
+				}
+			}
+		}
+		
+		if(!renter) {
+			for(HomeObject house : AnimationPanel.getHouses()) {
+				if(house.getBusy() == false) {
+					this.homePlace = house.getBuild();
+					house.setBusy(true);
+					return;
+				}
+			}
+		}
+	}
+	
+	public Building getHomePlace() {
+		return homePlace;
+	}
+	
+
+	public void setHomePlace(Building homePlace) {
+		this.homePlace = homePlace;
+	}
+
 	//---Used for Unit Testing---//
 	public Map<ActionType, Role> getRoles() {
 		return roles;
@@ -1216,50 +1264,7 @@ public class PersonAgent extends Agent {
 	public PersonState getState() {
 		return state;
 	}
-	//---      ---//
-	
-	public void setHomePlace(boolean renter)
-	{
-		if(renter)
-		{	for(ApartmentObject apartment : AnimationPanel.getApartments())
-			//for(Building apartment : AnimationPanel.getApartments().keySet())
-			{
-				if(apartment.getComplex().size() <= 3)
-				{
-					this.homePlace = apartment.getBuild();
-					print("assigned to apartment" +apartment.getComplex().size());
-					apartment.getComplex().add(apartment.getComplex().size());
-						//AnimationPanel.getApts().add(apartment.getComplexSize().size()+1);
-						//AnimationPanel.apartments.put(apartment, AnimationPanel.getApts());
-					break;
-				}
-			}
-		}
-		
-		if(!renter)
-		{
-
-			for(HomeObject house : AnimationPanel.getHouses())
-			{
-				if(house.getBusy() == false)
-				{
-					this.homePlace = house.getBuild();
-					house.setBusy(true);
-					return;
-				}
-			
-
-			}
-		}
-	}
-	
-	public Building getHomePlace() {
-		return homePlace;
-	}
-
-	public void setHomePlace(Building homePlace) {
-		this.homePlace = homePlace;
-	}
+	//----------------//
 	
 	private boolean actionExists(ActionType type) {
 		synchronized(actions) {
@@ -1271,9 +1276,9 @@ public class PersonAgent extends Agent {
 		}
 	}
 
-	//Lower the priority level, the more "important" it is (it'll get done faster)
+	//Lower the priority level, the more "important" it is (it'll get done earlier)
 	public enum ActionState {created, inProgress, done}
-	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, 
+	public enum ActionType {work, fixing, maintenance, self_maintenance, hungry, homeAndEat, 
 		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
 		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, bankWithdraw2, bankDeposit2, bankLoan2, bankRob2, home}
 	public class Action implements Comparable<Object> {

@@ -81,10 +81,12 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	public void msgHereIsPayment(double amount, String restaurantName){		//sent by any restaurant's cashier
 		log("Received msgHereIsPayment from: " + restaurantName + ", got: $" + amount);
 		Bill b = null;
-		for (Bill thisB : bills){
-			if (thisB.restaurantName.equalsIgnoreCase(restaurantName)){
-				b = thisB;
-				break;
+		synchronized(bills){
+			for (Bill thisB : bills){
+				if (thisB.restaurantName.equalsIgnoreCase(restaurantName)){
+					b = thisB;
+					break;
+				}
 			}
 		}
 		b.amountPaid = amount;
@@ -94,10 +96,12 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	public void msgChangeVerified(String name){
 		log("Received msgChangeVerified from: " + name);
 		Bill b = null;
-		for (Bill thisB : bills){	
-			if (thisB.restaurantName.equalsIgnoreCase(name)){
-				b = thisB;
-				break;
+		synchronized(bills){
+			for (Bill thisB : bills){	
+				if (thisB.restaurantName.equalsIgnoreCase(name)){
+					b = thisB;
+					break;
+				}
 			}
 		}
 		cash += b.amountMarketGets;
@@ -109,23 +113,27 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	public void msgIOweYou(double amount, String name){
 		log("Received msgIOweYou from " + name + " for $" + amount);
 		Bill b = null;
-		for (Bill thisB : bills){	
-			if (thisB.restaurantName.equalsIgnoreCase(name)){
-				b = thisB;
-				break;
+		synchronized(bills){
+			for (Bill thisB : bills){	
+				if (thisB.restaurantName.equalsIgnoreCase(name)){
+					b = thisB;
+					break;
+				}
 			}
 		}
 		cash += b.amountMarketGets;
-		cash = Math.round(cash*100.0)/100.0;
+		cash = Math.round(cash*100.00)/100.00;
 		b.event = DeliveryEvent.acknowledgedDebt;
 		stateChanged();
 	}
 	
 	public void msgCheckForRedeliveries(){
 		log("Checking for bills that need redelivery");
-		for (Bill b : bills){
-			if (b.s == DeliveryState.waitingToRedeliver){
-				b.event = DeliveryEvent.checkRedeliveryOn;
+		synchronized(bills){
+			for (Bill b : bills){
+				if (b.s == DeliveryState.waitingToRedeliver){
+					b.event = DeliveryEvent.checkRedeliveryOn;
+				}
 			}
 		}
 		stateChanged();
@@ -155,52 +163,62 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	 
 	public boolean pickAndExecuteAnAction() {
 		
-		for(Bill b: bills){
-			if (b.s == DeliveryState.newBill && b.event == DeliveryEvent.deliveryRequested && state == AgentState.doingNothing){
-				log("NEW BILL, DELIVERY REQUESTED! :" + b.restaurantName);
-				DeliverOrder(b);
-				state = AgentState.makingDelivery;
-				return true;
+		synchronized(bills){
+			for(Bill b: bills){
+				if (b.s == DeliveryState.newBill && b.event == DeliveryEvent.deliveryRequested && state == AgentState.doingNothing){
+					log("NEW BILL, DELIVERY REQUESTED! :" + b.restaurantName);
+					DeliverOrder(b);
+					return true;
+				}
 			}
 		}
-		for(Bill b: bills){
-			if (b.s == DeliveryState.waitingForPayment && b.event == DeliveryEvent.receivedPayment){
-				CalculateChange(b);
-				return true;
+		synchronized(bills){
+			for(Bill b: bills){
+				if (b.s == DeliveryState.waitingForPayment && b.event == DeliveryEvent.receivedPayment){
+					CalculateChange(b);
+					return true;
+				}
 			}
 		}
-		for(Bill b: bills){
-			if (b.s == DeliveryState.waitingForVerification && b.event == DeliveryEvent.changeVerified){
-				ReturnToMarket(b);
-				state = AgentState.doingNothing;
-				return true;
+		synchronized(bills){
+			for(Bill b: bills){
+				if (b.s == DeliveryState.waitingForVerification && b.event == DeliveryEvent.changeVerified){
+					ReturnToMarket(b);
+					state = AgentState.doingNothing;
+					return true;
+				}
 			}
 		}
-		for(Bill b: bills){
-			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.receivedPayment){
-				CalculateChange(b);
-				return true;
+		synchronized(bills){
+			for(Bill b: bills){
+				if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.receivedPayment){
+					CalculateChange(b);
+					return true;
+				}
 			}
 		}
-		for(Bill b: bills){
-			if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt){
-				ReturnToMarket(b);
-				state = AgentState.doingNothing;
-				return true;
+		synchronized(bills){
+			for(Bill b: bills){
+				if (b.s == DeliveryState.oweMoney && b.event == DeliveryEvent.acknowledgedDebt){
+					ReturnToMarket(b);
+					state = AgentState.doingNothing;
+					return true;
+				}
 			}
 		}
-		for (Bill b: bills){
-			if (b.s == DeliveryState.waitingToRedeliver && b.event == DeliveryEvent.checkRedeliveryOn && state == AgentState.doingNothing){
-				log("RE-delivering order...");
-				DeliverOrder(b);
-				state = AgentState.makingDelivery;
-				b.event = DeliveryEvent.checkRedeliveryOff;
-				return true;
+		synchronized(bills){
+			for (Bill b: bills){			//lowest priority
+				if (b.s == DeliveryState.waitingToRedeliver && b.event == DeliveryEvent.checkRedeliveryOn && state == AgentState.doingNothing){
+					log("RE-delivering order...");
+					DeliverOrder(b);
+					b.event = DeliveryEvent.checkRedeliveryOff;
+					return true;
+				}
 			}
 		}
 		
 		
-		if (bills.isEmpty() && !onDuty){
+		if (bills.isEmpty() && !onDuty){		//officially going off-duty
 			deliveryGui.DoGoToHomePosition();
 			super.setInactive();
 			onDuty = true;
@@ -230,6 +248,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 				e.printStackTrace();
 			}
 			b.s = DeliveryState.waitingToRedeliver;
+			state = AgentState.doingNothing;
 			return;
 		}
 		else {
@@ -264,27 +283,29 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 			b.cook.msgHereIsYourOrder(b.itemsBought);
 			b.cashier.msgHereIsMarketBill(b.itemsBought, b.amountCharged, this);
 			b.s = DeliveryState.waitingForPayment;
+			state = AgentState.makingDelivery;
 		}
 	
 	}
 	
 	
 	public void CalculateChange(Bill b){
-		log("Calculating change");
 
 		double dollars = 0;
 		if (b.amountPaid >= b.amountCharged){
-			dollars = Math.round((b.amountPaid - b.amountCharged)*100.0)/100.0;
+			dollars = Math.round((b.amountPaid - b.amountCharged)*100.00)/100.00;
 			b.cashier.msgHereIsChange(dollars, this);
+			log("Calculating change: $" + dollars);
 			
-			b.amountMarketGets = Math.round(b.amountCharged *100.0)/100.0;		//mostly for testing purposes
+			b.amountMarketGets = Math.round(b.amountCharged *100.00)/100.00;		//mostly for testing purposes
 			b.s = DeliveryState.waitingForVerification;
 		}
 		else {		//if they didn't pay enough
-			b.amountOwed = Math.round((b.amountCharged - b.amountPaid)*100.0)/100.0;		//mostly for testing purposes
+			b.amountOwed = Math.round((b.amountCharged - b.amountPaid)*100.00)/100.00;		//mostly for testing purposes
 			b.amountMarketGets = b.amountPaid;
 			
 			b.cashier.msgNotEnoughMoney(b.amountOwed, b.amountPaid);
+			log("Calculating change: Not enough money, only paid $" + b.amountPaid);
 			b.s = DeliveryState.oweMoney;
 		}
 	}
@@ -372,8 +393,8 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	
 
 	public class Bill {		//public only for testing purposes
-		public DeliveryState s = DeliveryState.newBill;
-		public DeliveryEvent event = DeliveryEvent.deliveryRequested;
+		public DeliveryState s;
+		public DeliveryEvent event;
 		Map<String, Integer> itemsBought;
 		double amountCharged;
 		double amountPaid;
@@ -386,7 +407,9 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		Bill(String name, double billAmount, Map<String, Integer> inventory){
 			amountCharged = billAmount;
 			restaurantName = name;
-			itemsBought = new TreeMap<String, Integer>(inventory);
+			itemsBought = Collections.synchronizedMap(new TreeMap<String, Integer>(inventory));
+			s = DeliveryState.newBill;
+			event = DeliveryEvent.deliveryRequested;
 		}
 		
 		public double getAmountPaid(){

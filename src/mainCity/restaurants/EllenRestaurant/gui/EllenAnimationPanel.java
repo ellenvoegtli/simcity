@@ -1,10 +1,14 @@
 package mainCity.restaurants.EllenRestaurant.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -17,7 +21,6 @@ public class EllenAnimationPanel extends CityCard implements ActionListener {
 	private EllenRestaurantPanel restaurant = new EllenRestaurantPanel(this);
     private static final int WINDOWX = 500;
     private static final int WINDOWY = 370;
-    private Image bufferImage;
     private Dimension bufferSize;
     static final int timerStart = 10;
 
@@ -33,16 +36,39 @@ public class EllenAnimationPanel extends CityCard implements ActionListener {
     static final int grillY = WINDOWY/2 - 60;
     static final int platingX = WINDOWX - 90;
     static final int platingY = WINDOWY/2 - 60;
+    static final int cashierX = 0;
+    static final int cashierY = 110;
     
 	Map<Integer, Integer> tableX = new TreeMap<Integer, Integer>();
 	Map<Integer, Integer> tableY = new TreeMap<Integer, Integer>();
 
     private List<Gui> guis = new ArrayList<Gui>();
     private List<Gui> personGuis = new ArrayList<Gui>();
+    
+    private BufferedImage tableImg = null;
+    private BufferedImage platingImg = null;
+    private BufferedImage grillingImg = null;
+    private BufferedImage cashierImg = null;
 
     public EllenAnimationPanel(CityGui gui) {
     	super(gui);
     	ContactList.getInstance().setEllenRestaurant(restaurant);
+
+    	StringBuilder path = new StringBuilder("imgs/");
+        try {
+			tableImg = ImageIO.read(new File(path.toString() + "resttable.png"));
+			grillingImg = ImageIO.read(new File(path.toString() + "bigstove.png"));
+			platingImg = ImageIO.read(new File(path.toString() + "plating.png"));
+			cashierImg = ImageIO.read(new File(path.toString() + "marketcashierstation.png"));
+		
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+        
+        
+        bufferSize = this.getSize();
+    	
     	 tableX.put(1, 200);
          tableY.put(1, 150);
          
@@ -58,9 +84,7 @@ public class EllenAnimationPanel extends CityCard implements ActionListener {
     	
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
-        
-        bufferSize = this.getSize();
- 
+         
     	Timer timer = new Timer(timerStart, this );
     	timer.start();
     }
@@ -76,35 +100,34 @@ public class EllenAnimationPanel extends CityCard implements ActionListener {
         g2.setColor(getBackground());
         g2.fillRect(originX, originY, WINDOWX, WINDOWY);
 
-        Color purple = new Color(147, 112, 219);
-        //Here is the table
-        g2.setColor(purple);
-        g2.fillRect(tableX.get(1), tableY.get(1), tableWidth, tableHeight);
-
         
-        g2.setColor(purple);
-        g2.fillRect(tableX.get(2), tableY.get(2), tableWidth, tableHeight);
-        
-        g2.setColor(purple);
-        g2.fillRect(tableX.get(3), tableY.get(3), tableWidth, tableHeight);
-        
-        
-        g2.setColor(purple);
-        g2.fillRect(tableX.get(4), tableY.get(4), tableWidth, tableHeight);
+        //Tables
+        g.drawImage(tableImg, tableX.get(1), tableY.get(1), null);
+        g.drawImage(tableImg, tableX.get(2), tableY.get(2), null);
+        g.drawImage(tableImg, tableX.get(3), tableY.get(3), null);
+        g.drawImage(tableImg, tableX.get(4), tableY.get(4), null);
         
         //cashier
-        Color grun = new Color(46, 139, 87);
-        g2.setColor(grun);
-        g2.fillRect(10, 100, 25, 50);
+        g.drawImage(cashierImg, cashierX, cashierY, null);
         
-        //cook - grill
-        Color blue = new Color(135, 206, 250);
-        g2.setColor(blue);
-        g2.fillRect(grillX, grillY, kitchenWidth, kitchenHeight);
+        //cook-grilling
+        g.drawImage(grillingImg, grillX, grillY, null);
+        g.drawImage(grillingImg, grillX, grillY + 30, null);
+        g.drawImage(grillingImg, grillX, grillY + 60, null);
+        g.drawImage(grillingImg, grillX, grillY + 90, null);
+        g.drawImage(grillingImg, grillX, grillY + 120, null);
+        g.drawImage(grillingImg, grillX, grillY + 150, null);
+        g.drawImage(grillingImg, grillX, grillY + 180, null);
         
-        //cook - plating area
-        g2.setColor(Color.YELLOW);
-        g2.fillRect(platingX, platingY, kitchenWidth, kitchenHeight);
+        //cook-plating
+        g.drawImage(platingImg, platingX, platingY, null);
+        g.drawImage(platingImg, platingX, platingY + 30, null);
+        g.drawImage(platingImg, platingX, platingY + 60, null);
+        g.drawImage(platingImg, platingX, platingY + 90, null);
+        g.drawImage(platingImg, platingX, platingY + 120, null);
+        g.drawImage(platingImg, platingX, platingY + 150, null);
+        g.drawImage(platingImg, platingX, platingY + 180, null);
+        
         
         
 
@@ -137,11 +160,6 @@ public class EllenAnimationPanel extends CityCard implements ActionListener {
     public void addGui(CustomerGui gui) {
     	personGuis.add(gui);
     }
-    /*
-    public void addGui(HostGui gui) {
-        guis.add(gui);
-    }
-    */
     public void addGui(WaiterGui gui){
     	personGuis.add(gui);
     }

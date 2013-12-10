@@ -33,9 +33,9 @@ public class MockWaiter extends Mock implements Waiter{
 	public void msgHereIsChoice(Customer cust, String choice){
 		
 	}
-	
+	@Override
 	public void msgOrderDoneCooking(String choice, int tablenum){
-		
+		log.add(new LoggedEvent(choice + " done cooking"));
 	}
 	
 	public void msgOutOfFood(String choice, int tablenum){

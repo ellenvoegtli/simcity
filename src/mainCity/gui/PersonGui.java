@@ -15,8 +15,7 @@ import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 
-import transportation.gui.CarGui;
-import transportation.gui.Vehicle;
+import transportation.gui.*;
 
 public class PersonGui implements Gui, PersonGuiInterface {
 	CityGui gui;
@@ -163,10 +162,10 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	public void DoGoToLocation(PersonAgent.CityLocation destination) {
 		switch(destination) {
 			case restaurant_marcus:
-				calculatePath(105, 180);
+				calculatePath(110, 180);
 				break;
 			case restaurant_ellen:
-				calculatePath(105, 280);
+				calculatePath(110, 280);
 				break;
 			case restaurant_ena:
 				calculatePath(347, 180);
@@ -175,19 +174,19 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				calculatePath(347, 280);
 				break;
 			case restaurant_david: 
-				calculatePath(588, 230);
+				calculatePath(592, 230);
 				break;
 			case market:
 				calculatePath(415, 215);
 				break;
 			case market2:
-				calculatePath(665, 153);
+				calculatePath(660, 153);
 				break;
 			case bank:
 				calculatePath(175, 230);
 				break;
 			case bank2:
-				calculatePath(665, 285);
+				calculatePath(660, 285);
 				break;
 			case home:
 				calculatePath(xHome, yHome);
@@ -439,7 +438,8 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		
 		while(current.x != destination.x || current.y != destination.y) {
 			for(int i = 0; i < corners.size(); ++i) {
-				nodes.put(getDistance(current, corners.get(i)), corners.get(i));
+				if(!path.contains(corners.get(i)))
+					nodes.put(getDistance(current, corners.get(i)), corners.get(i));
 			}
 			
 			nodes.put(getDistance(current, destination), destination);
@@ -455,7 +455,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				return;
 			}
 
-			Coordinate pathNext = (current.x != node1.x && current.y != node1.y) ? node1 : node2;
+			Coordinate pathNext = node1;//(current.x != node1.x && current.y != node1.y) ? node1 : node2;
 			if(getDistance(pathNext, destination) > getDistance(node2, destination)) {
 				pathNext = node2;
 			}

@@ -2,8 +2,13 @@ package mainCity.restaurants.EllenRestaurant.gui;
 
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
+
+import javax.imageio.ImageIO;
 
 import mainCity.restaurants.EllenRestaurant.interfaces.WaiterGuiInterface;
 import role.ellenRestaurant.EllenWaiterRole;
@@ -45,12 +50,21 @@ public class WaiterGui implements Gui, WaiterGuiInterface {
 	
 	State s;
 	enum State {wantsBreak, onBreak, offBreak};
+	
+	private BufferedImage waiterImg;
 
     public WaiterGui(EllenWaiterRole agent, EllenAnimationPanel animation, int x, int y) {
         this.agent = agent;
         this.animation = animation;
         this.homeX = x;
         this.homeY = y;
+        
+        StringBuilder path = new StringBuilder("imgs/");
+        try {
+			waiterImg = ImageIO.read(new File(path.toString() + "koopa.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         
         //initialize table locations map
         tableX.put(1, 200);
@@ -123,8 +137,7 @@ public class WaiterGui implements Gui, WaiterGuiInterface {
     }
     
     public void draw(Graphics2D g) {
-        g.setColor(Color.BLUE);
-        g.fillRect(xPos, yPos, waiterWidth, waiterHeight);
+    	g.drawImage(waiterImg, xPos, yPos, null);
         
         if (isDeliveringFood){
         	g.setColor(Color.BLACK);

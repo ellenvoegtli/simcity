@@ -3,29 +3,18 @@ package mainCity.gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import mainCity.PersonAgent.ActionType;
 import mainCity.contactList.ContactList;
-import role.Role;
-import transportation.BusAgent;
-import transportation.gui.BusGui;
-import transportation.gui.CarGui;
-import transportation.gui.Intersection;
-import transportation.gui.Lane;
-import transportation.gui.Vehicle;
-import mainCity.gui.*;
+import transportation.gui.*;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.MouseInfo;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -100,7 +89,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         try {
 			stopSign = ImageIO.read(new File(path.toString() + "stopsign.gif"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         
@@ -476,9 +464,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.drawImage(stopSign, 215 , 55, null); 
         g2.drawImage(stopSign, 105, 230, null);
         g2.drawImage(stopSign, 440, 55, null);
-        
       
-        
+        /*
         g2.setColor(Color.LIGHT_GRAY);
         //Location of doorways 
         g2.fillRect(36, 55, 20, 20);  //house1 
@@ -489,7 +476,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(586, 55, 20, 20);
         g2.fillRect(696, 55, 20, 20); //house7
 
-        
         //Location of doorways
         g2.fillRect(49, 400, 20, 20);  //house1
         g2.fillRect(159, 400, 20, 20);
@@ -498,16 +484,16 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.fillRect(489, 400, 20, 20);
         g2.fillRect(599, 400, 20, 20);
         g2.fillRect(709, 400, 20, 20); //house7
-       
         
-        g2.fillRect(105, 180, 20, 20); //rest1 doorway
-        g2.fillRect(105, 280, 20, 20); //rest2 doorway
-        g2.fillRect(175, 230, 20, 20); //bank doorway
-        g2.fillRect(347, 180, 20, 20); //rest3 doorway
-        g2.fillRect(347, 280, 20, 20); //rest4 doorway
-        g2.fillRect(415, 215, 20, 20); //market doorway
-        g2.fillRect(585, 230, 20, 20); //rest5 doorway
-        g2.fillRect(655, 155, 22, 20);//market2 doorway
+        g2.fillRect(105, 180, 20, 20); //doorway
+        g2.fillRect(105, 280, 20, 20); //doorway
+        g2.fillRect(175, 230, 20, 20); //doorway
+        g2.fillRect(347, 180, 20, 20); //doorway
+        g2.fillRect(347, 280, 20, 20); //doorway
+        g2.fillRect(415, 215, 20, 20); //doorway
+        g2.fillRect(585, 230, 20, 20); //doorway
+        g2.fillRect(655, 155, 22, 20);//market2 
+         */
 
         synchronized(guis){	
 	        for(Gui gui : guis) {
@@ -597,29 +583,16 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     
 //Unused.
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseClicked(MouseEvent arg0) {}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent arg0) {}
 
 	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent arg0) {}
 
 	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void mouseReleased(MouseEvent arg0) {}
  
 	public class HomeObject
 	{
