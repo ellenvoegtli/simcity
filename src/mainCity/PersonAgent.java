@@ -961,7 +961,6 @@ public class PersonAgent extends Agent {
 			}
 		}
 		else if(hasCar) {//chose car
-			System.out.println("Gonna drive"); 
 			gui.DoGetOnRoad(); 
 			waitForGui();
 			state = PersonState.inCar; 

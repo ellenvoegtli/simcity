@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import mainCity.contactList.ContactList;
+import mainCity.gui.PersonGui.Coordinate;
 import transportation.gui.*;
 
 import java.awt.*;
@@ -258,7 +259,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				}
 			}
 			
-			//System.out.println("Bus 1 X: " + Buses.get(0).getX() + ", Bus 1 Y: " + Buses.get(0).getY()); 
+			if(Cars.size() != 0)
+				System.out.println("car 1 X: " + Cars.get(0).getX() + ", car 1 Y: " + Cars.get(0).getY()); 
 
 			for(int i=0; i<ContactList.stops.size(); i++){
 				for(int s=0; s<Buses.size(); s++){
@@ -268,7 +270,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 								&& (Buses.get(s).getY() < ContactList.stops.get(i).yLocation + 2) ) {
 						
 						//Buses.get(s).atBusStop = true;
-						//if(count % 100 == 0){
+						//if(count % 50 == 0){
 							//Buses.get(s).atBusStop = false;
 							Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
 						//}	
@@ -358,35 +360,30 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				for(int c=0; c<Cars.size(); c++){
 					
-					if(Cars.get(c).getX() == 105 && Cars.get(c).getY() == 105){  
-						lanes.get(3).redLight();
-						//System.out.println("Count: " + count);
-						if(count == 250) { 
-							lanes.get(3).greenLight();
-							lanes.get(3).vehicles.remove(Cars.get(c)); 
-							intersections.get(0).addVehicle(Cars.get(c));
-						}
+					if(Cars.get(c).getX() == 610 && Cars.get(c).getY() == 331){  
+						lanes.get(16).vehicles.remove(Cars.get(c)); 
+						intersections.get(2).addVehicle(Cars.get(c));
 					}
 					
-					if(Cars.get(c).getX() == 130 && Cars.get(c).getY() == 110){
-						//System.out.println("Count: " + count);
-						intersections.get(0).vehicles.remove(Cars.get(c)); 
-						lanes.get(12).addVehicle(Cars.get(c)); 
+					if(Cars.get(c).getX() == 600 && Cars.get(c).getY() == 355){
+						intersections.get(2).vehicles.remove(Cars.get(c)); 
+						lanes.get(7).addVehicle(Cars.get(c)); 
 					}
 					
-					if(Cars.get(c).getX() == 130 && Cars.get(c).getY() == 331){ 
-						lanes.get(12).vehicles.remove(Cars.get(c));
+					if(Cars.get(c).getX() == 179 && Cars.get(c).getY() == 355){ 
+						lanes.get(7).vehicles.remove(Cars.get(c));
 						intersections.get(1).addVehicle(Cars.get(c));
 					}
 					
-					if(Cars.get(c).getX() == 155 && Cars.get(c).getY() == 380){ 
+					if(Cars.get(c).getX() == 155 && Cars.get(c).getY() == 350){ 
 						intersections.get(1).vehicles.remove(Cars.get(c)); 
-						lanes.get(10).addVehicle(Cars.get(c));
+						lanes.get(13).addVehicle(Cars.get(c));
 					}
 					
-					if(Cars.get(c).getX() == 586 && Cars.get(c).getY() == 380){ 
-						lanes.get(10).vehicles.remove(Cars.get(c));
-						intersections.get(2).addVehicle(Cars.get(c));
+					/*
+					if(Cars.get(c).getX() == 155 && Cars.get(c).getY() == 134){ 
+						lanes.get(13).vehicles.remove(Cars.get(c));
+						intersections.get(0).addVehicle(Cars.get(c));
 					}
 					
 					if(Cars.get(c).getX() == 635 && Cars.get(c).getY() == 355){ 
@@ -408,6 +405,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 						lanes.get(1).vehicles.remove(Cars.get(c)); 
 						intersections.get(0).addVehicle(Cars.get(c));
 					}
+					*/
 					
 				}	
 			}

@@ -80,10 +80,10 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		corners.add(new Coordinate(655, 125));
 		corners.add(new Coordinate(655, 330));
 		
-		roads.add(new Coordinate( 589, 80));
-		roads.add(new Coordinate( 130, 126));
-		roads.add(new Coordinate( 181, 380));
-		roads.add(new Coordinate( 635, 350));
+		roads.add(new Coordinate( 181, 105));
+		roads.add(new Coordinate( 155, 330));
+		roads.add(new Coordinate( 585, 355));
+		roads.add(new Coordinate( 610, 131));
 	}
 
 	public PersonGui(PersonAgent p) {
@@ -129,20 +129,8 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	}
 	
 	public void draw(Graphics2D g) {
+
 		if(isVisible) {
-			/*
-			if(!inCar){
-				g.setColor(Color.ORANGE);
-				g.drawImage(personImg, xPos,yPos, null);
-				//g.fillRect(xPos, yPos, w, h);
-	        	g.drawString(name, xPos, yPos);
-			}
-			else if(inCar){ 
-				g.setColor(Color.RED);
-				g.fillRect(xPos, yPos, w, h);
-			}
-			*/
-			
 			g.setColor(Color.ORANGE);
 			g.drawImage(personImg, xPos,yPos, null);
 			//g.fillRect(xPos, yPos, w, h);
@@ -213,26 +201,26 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	}
 	
 	public void AddCarToLane() { 
-		if(xPos == 589 && yPos == 80) {
+		if(xPos == 181 && yPos == 105) {
 			if(animation.lanes.get(1).vehicles.isEmpty()){
 				animation.Cars.add(myCar);
-				animation.lanes.get(1).addVehicle(myCar);
+				animation.lanes.get(4).addVehicle(myCar);
 			}
 		}
 		
-		else if(xPos == 130 && yPos == 126) { 
+		else if(xPos == 155 && yPos == 330) { 
 			animation.Cars.add(myCar);
-			animation.lanes.get(12).addVehicle(myCar);
+			animation.lanes.get(13).addVehicle(myCar);
 		}
 	
-		else if(xPos == 181 && yPos == 380) { 
+		else if(xPos == 585 && yPos == 355) { 
 			animation.Cars.add(myCar);
-			animation.lanes.get(10).addVehicle(myCar);
+			animation.lanes.get(7).addVehicle(myCar);
 		}
 
-		else if(xPos == 635 && yPos == 350) { 
+		else if(xPos == 610 && yPos == 131) { 
 			animation.Cars.add(myCar);
-			animation.lanes.get(17).addVehicle(myCar);
+			animation.lanes.get(16).addVehicle(myCar);
 		}
 	}
 	

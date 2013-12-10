@@ -48,14 +48,15 @@ public class Intersection {
 	
 	public void addVehicle( Vehicle v ) {
 		
+		//Entering from the bottom left horizontally
 		if( (v.getY() > (yOrigin + (RoadWidth/2))) && (v.getY() < (yOrigin + RoadWidth)) ){ 
 			v.setRect( xOrigin, (yOrigin + (RoadWidth/2)+5), v.getWidth(), v.getHeight() );
 			v.setDirection(Vehicle.Direction.Right);
 		}
 		
 		//Entering from top right horizontally
-		else if( v.getY() == yOrigin+5 ) {
-			v.setRect( (xOrigin + (RoadWidth/2))+5, yOrigin+5, v.getWidth(), v.getHeight() );
+		else if( v.getY() > yOrigin && v.getY() < (yOrigin + (RoadWidth/2)) ) {
+			v.setRect( (xOrigin + (RoadWidth))+5, yOrigin+5, v.getWidth(), v.getHeight() );
 			v.setDirection(Vehicle.Direction.Left);
 		}
 		
@@ -110,7 +111,7 @@ public class Intersection {
 						}
 					}
 					else if (v.getY() >= 150) { 
-						if(v.getX() < (xOrigin + (RoadWidth/2)+5)){ 
+						if(v.getX() < (xOrigin + (RoadWidth/2)+10)){ 
 							v.myDirection = Vehicle.Direction.SimpleUp; 
 						}
 					}
@@ -124,7 +125,7 @@ public class Intersection {
 						}
 					}
 					else if (v.getX() >= 200) { 
-						if(v.getY() > (yOrigin + (RoadWidth/2))){ 
+						if(v.getY() > (yOrigin )){ 
 							v.myDirection = Vehicle.Direction.SimpleLeft;
 						}
 					}
