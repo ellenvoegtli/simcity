@@ -965,7 +965,8 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-
+		walk = false;
+		
 		if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
 			output(name + " is walking to " + d);
 			gui.DoGoToLocation(d); //call gui
@@ -973,7 +974,7 @@ public class PersonAgent extends Agent {
 			return;
 		}
 		else if(!walk) { //chose bus
-			if(!hasCar) { 
+			if(hasCar) { 
 				System.out.println("Gonna drive"); 
 				gui.DoGetOnRoad(); 
 				waitForGui();

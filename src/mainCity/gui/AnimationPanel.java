@@ -3,6 +3,7 @@ package mainCity.gui;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.PersonGui.Coordinate;
 import transportation.gui.*;
@@ -71,6 +72,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     CityGui gui;
     List<BusGui> Buses = Collections.synchronizedList(new ArrayList<BusGui>()); 
     List<CarGui> Cars = Collections.synchronizedList(new ArrayList<CarGui>()); 
+    List<CarStopLocation> carStops = new ArrayList<CarStopLocation>();
 
     //List of all guis that we need to animate in the city (Busses, Cars, People...etc) 
     //Will be Added in CityPanel analogous to RestaurantPanel
@@ -84,7 +86,16 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 		addMouseListener(this);
 		
         StringBuilder path = new StringBuilder("imgs/");
-
+        
+        //Populating 
+        carStops.add(new CarStopLocation(320, 105, PersonAgent.CityLocation.home)); 
+        carStops.add(new CarStopLocation(610, 230, PersonAgent.CityLocation.restaurant_david)); 
+        carStops.add(new CarStopLocation(155, 155, PersonAgent.CityLocation.restaurant_marcus)); 
+        carStops.add(new CarStopLocation(220, 355, PersonAgent.CityLocation.restaurant_jefferson)); 
+        carStops.add(new CarStopLocation(155, 305, PersonAgent.CityLocation.restaurant_ellen)); 
+        carStops.add(new CarStopLocation(215, 105, PersonAgent.CityLocation.restaurant_ena)); 
+        carStops.add(new CarStopLocation(155, 230, PersonAgent.CityLocation.bank)); 
+        carStops.add(new CarStopLocation(440, 105, PersonAgent.CityLocation.market)); 
         
         //Bus Stop 
         try {
@@ -278,14 +289,14 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				}
 			}
 			
-			for(int i=0; i<ContactList.stops.size(); i++){
+			for(int i=0; i<carStops.size(); i++){
 				for(int s=0; s<Cars.size(); s++){
-					if( ( Cars.get(s).getX() > (ContactList.stops.get(i).xLocation-5) ) 
-						&& ( Cars.get(s).getX() < (ContactList.stops.get(i).xLocation+5) ) 
-							&& ( Cars.get(s).getY() > ContactList.stops.get(i).yLocation - 5) 
-								&& (Cars.get(s).getY() < ContactList.stops.get(i).yLocation + 5) ) {
+					if( ( Cars.get(s).getX() > (carStops.get(i).getXCoord()-5) ) 
+						&& ( Cars.get(s).getX() < (carStops.get(i).getXCoord()+5) ) 
+							&& ( Cars.get(s).getY() > (carStops.get(i).getYCoord()-5) )
+								&& (Cars.get(s).getY() < (carStops.get(i).getYCoord()+5) ) ) {
 						
-						if(ContactList.stops.get(i).stopLocation == Cars.get(s).owner.getDestination()) {
+						if(carStops.get(i).getLocation() == Cars.get(s).owner.getDestination()) {
 							Cars.get(s).owner.msgArrivedAtDestinationInCar();
 							for(int g=0; g<lanes.size(); g++) { 
 								for(int v=0; v<lanes.get(g).vehicles.size(); v++) { 
@@ -647,5 +658,28 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 			return apartment;
 		}
 	}
- 
+	
+	public class CarStopLocation { 
+		private int xCoordinate; 
+		private int yCoordinate; 
+		private PersonAgent.CityLocation Location; 
+		
+		CarStopLocation(int x, int y, PersonAgent.CityLocation loc) { 
+			xCoordinate = x; 
+			yCoordinate = y; 
+			Location = loc;
+		}
+		
+		public int getXCoord() { 
+			return xCoordinate; 
+		}
+		
+		public int getYCoord() { 
+			return yCoordinate; 
+		}
+		
+		public PersonAgent.CityLocation getLocation() { 
+			return Location;
+		}
+	}
 }
