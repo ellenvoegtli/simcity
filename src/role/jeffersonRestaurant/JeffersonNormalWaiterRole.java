@@ -1,8 +1,11 @@
 package role.jeffersonRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.restaurants.jeffersonrestaurant.test.mock.MockCook;
 
 public class JeffersonNormalWaiterRole extends JeffersonWaiterRole {
+
+	public MockCook cook;
 
 	public JeffersonNormalWaiterRole(PersonAgent p, String name) {
 		super(p, name);

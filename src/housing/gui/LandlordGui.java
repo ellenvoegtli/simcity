@@ -31,10 +31,10 @@ public class LandlordGui implements Gui, LanLordGuiInterface {
 	{
 		this.landlord = landLord;
 		this.animation = h;
-		xPos = 400;
-		yPos = 300;
-		xDestination = 400;
-		yDestination = 300;
+		xPos = -10;
+		yPos = 45;
+		xDestination = 10;
+		yDestination = 45;
 		
 	}
 
@@ -109,6 +109,7 @@ public class LandlordGui implements Gui, LanLordGuiInterface {
 		
 		public void DoGoToAppliance(int x, int y)
 		{
+			System.out.println("walking to appliance");
 			xDestination = x;
 			yDestination = y;
 		}

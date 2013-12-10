@@ -26,7 +26,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	Timer timer = new Timer();
 	public double profits;
 	private boolean onDuty;
-	
+	private boolean entered;
 	
 	
 	
@@ -153,6 +153,10 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	*/
 	/* Scheduler */
 	public boolean pickAndExecuteAnAction() {
+		if(entered) {
+			ContactList.getInstance().setJeffersonCashier(this);
+			entered = false;
+		}
 		
 		if(profits<=0){
 			acquireFunds();
@@ -226,6 +230,7 @@ public class JeffersonCashierRole extends Role implements Cashier{
 	private void DoLeaveRestaurant() {
 		setInactive();
 		onDuty=true;
+		entered=true;
 		
 	}
 

@@ -12,6 +12,7 @@ import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import role.market.*;
 import housing.*;
+import housing.LandlordRole.landlordActive;
 import housing.Interfaces.Occupant;
 
 import java.util.*;
@@ -152,7 +153,6 @@ public class PersonAgent extends Agent {
 			actions.add(new Action(ActionType.maintenance, 1));
 			stateChanged();
 		}
-		output("-----------RECIEVED MESSAGE FOR OERSON TO FIX SOMETHING-------------");
 	}
 	
 
@@ -357,7 +357,6 @@ public class PersonAgent extends Agent {
 					output("the type of action is "  +currentAction.type);
 					roles.get(currentAction.type).setActive();
 				}
-
 				enterBuilding();
 				return true;
 				
@@ -491,7 +490,6 @@ public class PersonAgent extends Agent {
 			
 			if(currentAction.type == ActionType.maintenance) {
 				
-				output("-------------------Scheduler to call walking function----------------------");
 				goToRenters();
 				return true;
 			}
@@ -868,6 +866,7 @@ public class PersonAgent extends Agent {
 						break;
 					case maintenance:
 						LandlordRole lr = ContactList.getInstance().getLandLords().get(0);
+						lr.lDActive = landlordActive.working;
 						ContactList.getInstance().getHome().handleRoleGui(lr);
 						roles.put(action, lr);
 						break;
@@ -965,7 +964,7 @@ public class PersonAgent extends Agent {
 		this.destination = d;
 
 		boolean walk = (70 > ((int) (Math.random() * 100)));
-		//walk = true;
+		walk = true;
 		if(walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
 			output(name + " is walking to " + d);
 			gui.DoGoToLocation(d); //call gui
@@ -973,7 +972,7 @@ public class PersonAgent extends Agent {
 			return;
 		}
 		else if(!walk) { //chose bus
-			if(!hasCar) { 
+			if(hasCar) { 
 				System.out.println("Gonna drive"); 
 				gui.DoGetOnRoad(); 
 				waitForGui();
@@ -1093,7 +1092,6 @@ public class PersonAgent extends Agent {
 	{
 		renterHome.setXRenterHome(renterHome.getXLoc());
 		renterHome.setYRenterHome(renterHome.getYLoc());
-		output("Going to a renters home for maintenance.................]]]]]]]]]]]]]]]]]]]");
 		travelToLocation(CityLocation.renterHome);
 		event = PersonEvent.arrivedRenterApartment;
 		stateChanged();

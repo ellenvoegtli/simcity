@@ -35,7 +35,7 @@ public class OccupantRole extends Role implements Occupant
 	Timer timer = new Timer();
 	private LandlordRole landLord;
 	private personHome home;
-	public OccupantGuiInterface gui;
+	public OccupantGui gui;
 	public boolean owner;
 	public boolean isFree;
 	public PersonAgent person;
@@ -298,7 +298,7 @@ public boolean pickAndExecuteAnAction()
 		return true;
 	}*/
 
-	if (eState == eatingState.nothing && sState == shoppingState.nothing && (fState == fixState.nothing || fState == fixState.fixed) && hState == homeState.present)
+	if (eState == eatingState.nothing && sState == shoppingState.nothing && (fState == fixState.nothing || fState == fixState.fixed) && hState == homeState.present && isFree == false)
 	{
 		GoRest();
 		isFree = true;
@@ -554,6 +554,7 @@ public void GoWashDishes()
 
 public void GoRest()
 {
+	isFree = true;
 	if(owner) gui.DoGoRest();
 	if(!owner) gui.DoGoRestA();
 	try{
@@ -582,13 +583,13 @@ public void setLandLord(LandlordRole lndlrd)
 }
 
 
-public void setGui(OccupantGuiInterface occupantGui) 
+public void setGui(OccupantGui occupantGui) 
 {
 	this.gui = occupantGui;	
 }
 
 
-public OccupantGuiInterface getGui() {
+public OccupantGui getGui() {
 	return gui;
 }
 

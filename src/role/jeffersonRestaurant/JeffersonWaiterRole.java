@@ -10,6 +10,7 @@ import agent.Agent;
 
 
 
+
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -25,6 +26,7 @@ import mainCity.restaurants.jeffersonrestaurant.gui.CookGui;
 import mainCity.restaurants.jeffersonrestaurant.gui.WaiterGui;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Customer;
 import mainCity.restaurants.jeffersonrestaurant.interfaces.Waiter;
+import mainCity.restaurants.jeffersonrestaurant.interfaces.WaiterGuiInterface;
 
 /**
  * Restaurant Waiter Agent
@@ -55,7 +57,7 @@ public abstract class JeffersonWaiterRole extends Role implements Waiter {
 	protected JeffersonCookRole cook;
 	private JeffersonHostRole host;
 	private JeffersonCashierRole cashier;
-	public WaiterGui waiterGui = null;
+	public WaiterGuiInterface waiterGui = null;
 	public enum waiterCustState
 	{notSeated, seated, readyToOrder,waitingForWaiter, ordered,waitingForOrder,foodReady,eating,requestedCheck,waitingForCheck, 
 		paid, waiterHasCheck,recievedCheck,waitingPaymentClear, leaving,cleared, cantOrder};
@@ -393,14 +395,10 @@ public abstract class JeffersonWaiterRole extends Role implements Waiter {
 	private void seatCustomer(Customer customer, int table) {
 		
 		log("msged cust to sit");
-		customer.msgSitAtTable(table, new Menu(),this);
+		Menu m = new Menu();
+		customer.msgSitAtTable(table, m,this);
 		
-		try {
-			atHome.acquire();
-		} catch (InterruptedException e) {
-			
-			e.printStackTrace();
-		}
+		
 		//print("finished seating");
 		DoSeatCustomer(customer, table);
 	}
@@ -410,12 +408,7 @@ public abstract class JeffersonWaiterRole extends Role implements Waiter {
 		//Notice how we print "customer" directly. It's toString method will do it.
 		//Same with "table"
 		//print("Seating " + customer + " at " + table);
-		try {
-			atHome.acquire();
-		} catch (InterruptedException e) {
-			
-			e.printStackTrace();
-		}
+		
 		waiterGui.DoBringToTable(customer,table);
 		try {
 			atTable.acquire();
@@ -438,12 +431,7 @@ public abstract class JeffersonWaiterRole extends Role implements Waiter {
 	
 	private void goToTakeOrder(WaiterCust cust){
 		//call Gui action to bring waiter to table then call
-		try {
-			atHome.acquire();
-		} catch (InterruptedException e) {
-			
-			e.printStackTrace();
-		}
+		
 		waiterGui.DoBringToTable(cust.c,cust.table);
 				try {
 			atTable.acquire();
@@ -601,11 +589,11 @@ public abstract class JeffersonWaiterRole extends Role implements Waiter {
 
 	//utilities
 
-	public void setGui(WaiterGui gui) {
+	public void setGui(WaiterGuiInterface gui) {
 		waiterGui = gui;
 	}
 
-	public WaiterGui getGui() {
+	public WaiterGuiInterface getGui() {
 		return waiterGui;
 	}
 
@@ -662,9 +650,9 @@ public abstract class JeffersonWaiterRole extends Role implements Waiter {
 	
 	public class WaiterCust{
 		public waiterCustState state;
-		Customer c;
-		int table;
-		String choice;
+		public Customer c;
+		public int table;
+		public String choice;
 		double moneyPaid;
 		
 		

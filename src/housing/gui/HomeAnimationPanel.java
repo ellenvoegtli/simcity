@@ -167,13 +167,9 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		        g2.fillRect(65 ,10, 25, 10);
 	     }
 	       
-	   if(personGuis.size() > 1)
-	   {
-		    System.out.println("GUI LIST FOR THIS PANEL IS OF SIZE ::::   " +personGuis.size());
+	  
 
-	   }
-
-	        for(Gui gui : personGuis)
+	        for(Gui gui : getPersonGuis())
 		     {
 		            if (gui.isPresent()) 
 		            {
@@ -189,7 +185,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 		            }
 		        }
 		        
-		        for(Gui gui : personGuis) 
+		        for(Gui gui : getPersonGuis()) 
 		        {
 		            if (gui.isPresent())
 		            {
@@ -202,7 +198,7 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 
 	    public void backgroundUpdate()
 	    {
-	    	for (Gui gui : personGuis)
+	    	for (Gui gui : getPersonGuis())
 	    	{
 
 	    		if(gui.isPresent())
@@ -214,15 +210,13 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 
 	    public void addGui(LandlordGui gui) 
 	    {
-	        personGuis.add(gui);
-		    System.out.println("GUI LIST FOR THIS after adding landlord  " +personGuis.size());
+	        getPersonGuis().add(gui);
 
 	    }
 	    public void addGui(OccupantGui gui)
 	    {
 	    	
-	    	System.out.println("gui list size " +personGuis.size());
-	    	personGuis.add(gui);
+	    	getPersonGuis().add(gui);
 	    }
 
 		public HomePanel getHomeP() 
@@ -240,8 +234,20 @@ public HomeAnimationPanel(CityGui cg, boolean type) {
 	    
 		@Override
 	    public void clearPeople() {
-	    	personGuis.clear();
+	    	getPersonGuis().clear();
 	    }
+
+
+
+		public List<Gui> getPersonGuis() {
+			return personGuis;
+		}
+
+
+
+		public void setPersonGuis(List<Gui> personGuis) {
+			this.personGuis = personGuis;
+		}
 	}
 
 
