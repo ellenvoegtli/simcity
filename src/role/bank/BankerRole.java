@@ -154,7 +154,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		mctemp.bc.msgAccountCreated(temp);
 		
 		mctemp.bc.msgRequestComplete(mctemp.amount*-1, mctemp.amount);
-		mctemp=null;
+		myclient=null;
 	}
 	
 	
@@ -175,7 +175,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 					b.debt+=mctemp.amount;
 					mctemp.bc.msgLoanApproved(mctemp.amount);
 					Do("Loan approved");
-					mctemp=null;
+					myclient=null;
 					return;
 				}
 		

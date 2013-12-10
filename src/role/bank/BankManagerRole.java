@@ -100,7 +100,12 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 
 	public void msgEndShift() {
 		
-		Do("bank closing");
+		log("BANK CLOSING");
+		log("BANK CLOSING");
+		log("BANK CLOSING");
+		log("BANK CLOSING");
+		log("BANK CLOSING");
+		log("BANK CLOSING");
 		onDuty = false;
 		stateChanged();
 		

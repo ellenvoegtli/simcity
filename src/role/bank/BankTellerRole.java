@@ -152,7 +152,7 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 						b.balance+=mc.amount*.5;
 						b.creditScore+=5;
 						mc.bc.msgRequestComplete(mc.amount*-1, b.balance);
-						mc=null;
+						myclient=null;
 						
 						return;
 					}
@@ -180,12 +180,12 @@ public class BankTellerRole extends Role implements WorkerRole, BankTeller {
 						//mc.bc.msgNeedLoan();
 						b.balance=0;
 						b.creditScore-=10;
-						mc=null;
+						myclient=null;
 						return;	
 					}
 					b.balance-=mc.amount;
 					mc.bc.msgRequestComplete(mc.amount, b.balance);
-					mc=null;
+					myclient=null;
 					return;
 				}
 			}
