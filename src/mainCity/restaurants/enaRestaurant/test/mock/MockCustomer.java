@@ -63,6 +63,51 @@ public class MockCustomer extends Mock implements Customer {
 	{
 		debt = i;
 	}
+	@Override
+	public String getChoice() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setNum(int tableNumber) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgHereIsYourCheck() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgWhatWouldYouLike() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgWhatElseWouldYouLike() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setCh(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgHereIsYourFood(String choice) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void setChoice(String choice) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgFollowToTable() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

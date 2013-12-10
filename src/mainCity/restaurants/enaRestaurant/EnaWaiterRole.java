@@ -13,8 +13,11 @@ import java.util.concurrent.Semaphore;
 
 import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 import mainCity.restaurants.enaRestaurant.gui.EnaWaiterGui;
+import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
+import mainCity.restaurants.enaRestaurant.interfaces.Host;
 import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
+import mainCity.restaurants.enaRestaurant.interfaces.WaiterGuiInterface;
 
 /**
  * Restaurant Host Agent
@@ -23,7 +26,7 @@ import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class EnaWaiterRole extends Role implements Waiter{
+public abstract class EnaWaiterRole extends Role implements Waiter{
 	Timer timer = new Timer();
 	public List<MyCustomers> MyCust= new ArrayList<MyCustomers>();
 	public List<String> Menu = new ArrayList<String>();
@@ -41,12 +44,12 @@ public class EnaWaiterRole extends Role implements Waiter{
 	private Semaphore atLobby = new Semaphore(0, true);
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore atEntrance = new Semaphore(0,true);
-	public EnaWaiterGui waiterGui;
+	public WaiterGuiInterface waiterGui;
 	public boolean breakTime = false;
 	public EnaHostGui hostGui;
-	public EnaHostRole host;
+	public Host host;
 	public EnaCookRole cook;
-	public EnaCashierRole cashier;
+	public Cashier cashier;
 
 	public EnaWaiterRole(PersonAgent p, String name)
 	{
@@ -102,7 +105,7 @@ public class EnaWaiterRole extends Role implements Waiter{
 	}
 	public void msgAtKitchen()
 	{
-		atKitchen.release();
+		getAtKitchen().release();
 		stateChanged();
 	}
 	public void msgAtHome()
@@ -122,7 +125,7 @@ public class EnaWaiterRole extends Role implements Waiter{
 		
 	}
 	
-	public void msgSeatCustomer(EnaCustomerRole c, Table t) 
+	public void msgSeatCustomer(Customer c, Table t) 
 	{
 		//log("seating customer");
 		AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "Received msgSeatCustomer");
@@ -131,7 +134,7 @@ public class EnaWaiterRole extends Role implements Waiter{
 		stateChanged();
 	}
 	
-	public void msgReadyToOrder( EnaCustomerRole c)
+	public void msgReadyToOrder( Customer c)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -145,7 +148,7 @@ public class EnaWaiterRole extends Role implements Waiter{
 			}
 		}
 	}
-	public void msgHereIsMyChoice(String choice, EnaCustomerRole c)
+	public void msgHereIsMyChoice(String choice, Customer c)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -430,7 +433,7 @@ catch(ConcurrentModificationException e){};
 			e.printStackTrace();
 		}
 		c.cust.msgWhatWouldYouLike();
-		PassOrder(c);
+		this.PassOrder(c);
 	}
 	
 	private void TakeNewOrder(MyCustomers c)
@@ -453,7 +456,7 @@ catch(ConcurrentModificationException e){};
 				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "no money for new choice, customer will leave the restaurant");
 
 			  //log("no money for new choice, customer will leave the restaurant");
-			  c.cust.getGui().DoExitRestaurant();
+			  c.cust.gui.DoExitRestaurant();
 			  waiterGui.DoLeaveCustomer();
 			  EmptyTable(c);
 		  }
@@ -465,13 +468,15 @@ catch(ConcurrentModificationException e){};
 			{
 				c.setChoice(Menu.get(0));
 				c.cust.setCh(Menu.get(0));
-				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "GUI SHOULD BE TAKING ORDER TO KITCHEN");
+				
+				this.PassOrder(c);
+				/*AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "GUI SHOULD BE TAKING ORDER TO KITCHEN");
 
 				//log("GUI SHOULD BE TAKING ORDER TO KITCHEN");
 				waiterGui.DoGoToKitchen();
 				waiterGui.SubmitOrder(c.choice);
 				try {
-					atKitchen.acquire();
+					getAtKitchen().acquire();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -481,7 +486,7 @@ catch(ConcurrentModificationException e){};
 				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "Delivering new order to cook " + c.choice);
 
 				//log("Delivering new order to cook " + c.choice);
-				waiterGui.DoLeaveCustomer();
+				waiterGui.DoLeaveCustomer();*/
 				break;
 			}
 			else if (c.choice == Menu.get(i))
@@ -492,13 +497,13 @@ catch(ConcurrentModificationException e){};
 				c.setChoice(Menu.get(i+1));
 				c.cust.setCh(Menu.get(i+1));
 				log("new choice" + c.choice);		
-				
-				
+				this.PassOrder(c);
+				/*
 				log("GUI SHOULD BE TAKING ORDER TO KITCHEN");
 				waiterGui.DoGoToKitchen();
 				waiterGui.SubmitOrder(c.choice);
 				try {
-					atKitchen.acquire();
+					getAtKitchen().acquire();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -506,7 +511,7 @@ catch(ConcurrentModificationException e){};
 				
 				cook.msgHereIsTheOrder(this, c.choice, c.table);
 				log("Delivering New OrderToCook  " +c.choice);
-				waiterGui.DoLeaveCustomer();
+				waiterGui.DoLeaveCustomer();*/
 			break;
 			}
 		  }
@@ -514,30 +519,13 @@ catch(ConcurrentModificationException e){};
 	
 	}
 	
-	private void PassOrder(MyCustomers c)
-	{
-		AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "Gui should be taking order to the kitchen");
-
-		//log("GUI SHOULD BE TAKING ORDER TO KITCHEN");
-		waiterGui.DoGoToKitchen();
-		waiterGui.SubmitOrder(c.choice);
-		try {
-			atKitchen.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		cook.msgHereIsTheOrder(this, c.choice, c.table);
-		waiterGui.DoLeaveCustomer();
-		
-	}
+	protected abstract void PassOrder(MyCustomers c);
 	
 	private void Deliver(MyCustomers c)
 	{		
 		waiterGui.DoGoToKitchen();
 		try {
-			atKitchen.acquire();
+			getAtKitchen().acquire();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -641,11 +629,11 @@ catch(ConcurrentModificationException e){};
 	}
 
 	//utilities
-	public void setGui(EnaWaiterGui gui) {
+	public void setGui(WaiterGuiInterface gui) {
 		waiterGui = gui;
 	}
 
-	public EnaWaiterGui getGui() 
+	public WaiterGuiInterface getGui() 
 	{
 		return waiterGui;
 	}
@@ -654,11 +642,11 @@ catch(ConcurrentModificationException e){};
 	{
 		this.cook = cook;
 	}
-	public void setHost(EnaHostRole host)
+	public void setHost(Host host)
 	{
 		this.host = host;
 	}
-	public void setCashier(EnaCashierRole cashier)
+	public void setCashier(Cashier cashier)
 	{
 		this.cashier = cashier;
 		if(name.equals("noCash"))
@@ -679,14 +667,25 @@ catch(ConcurrentModificationException e){};
 	
 	
 	
+	public Semaphore getAtKitchen() {
+		return atKitchen;
+	}
+
+	public void setAtKitchen(Semaphore atKitchen) {
+		this.atKitchen = atKitchen;
+	}
+
+
+
+
 	public class MyCustomers 
 	{
-		EnaCustomerRole cust;
+		Customer cust;
 		Table table;
 		String choice;
 		custState customerState;
 
-		MyCustomers(EnaCustomerRole c, Table t, custState cSt, String fdc )
+		MyCustomers(Customer c, Table t, custState cSt, String fdc )
 		{
 			cust = c;
 			table = t;
@@ -702,6 +701,8 @@ catch(ConcurrentModificationException e){};
 		}
 
 	}
+
+
 
 
 

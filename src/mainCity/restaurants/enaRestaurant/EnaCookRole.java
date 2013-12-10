@@ -12,6 +12,7 @@ import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 import java.util.*;
 
 import role.Role;
+import role.market.MarketGreeterRole;
 import mainCity.restaurants.enaRestaurant.gui.EnaCookGui;
 import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
@@ -30,6 +31,8 @@ public class EnaCookRole extends Role implements MainCook {
 	private String name;
 	private boolean fullOrder;
 	private RevolvingStand stand;
+	private List<MarketGreeterRole> markets;
+
 
 	private boolean inventoryChecked = false;
 	public enum OrderStatus 
@@ -46,14 +49,16 @@ public class EnaCookRole extends Role implements MainCook {
 	public EnaCookRole( PersonAgent p, String name) {
 		super(p);
 		
+		markets = Collections.synchronizedList(new ArrayList<MarketGreeterRole>());
+
 		this.name = name;
 		Foods.put( "steak", new Food("steak", 1));
 		Foods.put("porkchops", new Food("porkchops", 1));
 		Foods.put("lamb" , new Food("lamb", 1));
 		Foods.put("lambchops", new Food("lambchops", 1));
 		
-		//super().msgGoToWork();
-
+		markets.add(ContactList.getInstance().getMarket().getGreeter());
+		markets.add(ContactList.getInstance().getMarket2().getGreeter());
 		
 	}
 
@@ -137,26 +142,19 @@ public class EnaCookRole extends Role implements MainCook {
 	 */
 	public boolean pickAndExecuteAnAction() 
 	{
-		/* Think of this next rule as:
-            Does there exist a table and customer,
-            so that table is unoccupied and customer is waiting.
-            If so seat him at the table.
-		 */
-synchronized(Orders)
-{
-		for (Order order : Orders) 
+		
+		synchronized(Orders)
 		{
-			if (order.oStat == OrderStatus.pending) 
+			for (Order order : Orders) 
 			{
+				if (order.oStat == OrderStatus.pending) 
+				{
 					cookOrder(order);
-					 //status = OrderStatus.cooked;
 					return true;
-					//return true to the abstract agent to reinvokes the scheduler.
-			}
+				}
 			if (order.oStat == OrderStatus.cooking)
 			{
 				log("order status is LOOKING TO cooking");
-				//DoCooking(order);
 				CookFood(order);
 				order.oStat = OrderStatus.waiting;
 				return true;
@@ -170,23 +168,22 @@ synchronized(Orders)
 				return true;
 			}
 		}
-}
-if(status == CookStatus.checkingStand) 
-{
-	checkStand();
-	return true;
-}
+		}
+		if(status == CookStatus.checkingStand) 
+		{
+			checkStand();
+			return true;
+		}
 		return false;
-		//we have tried all our rules and found
-		//nothing to do. So return false to main loop of abstract agent
-		//and wait.
-	}
+		
+}
 
 	// Actions
 
 	private void cookOrder(Order o)
 	{	
 		o.oStat = OrderStatus.cooking;
+		stateChanged();
 		
 	}
 	
@@ -258,7 +255,6 @@ if(status == CookStatus.checkingStand)
 	
 	private void checkStand() {
 		status = CookStatus.none;		
-		//cookGui.DoGoTo();
 		
 		if(stand.isEmpty()) {
 			return;

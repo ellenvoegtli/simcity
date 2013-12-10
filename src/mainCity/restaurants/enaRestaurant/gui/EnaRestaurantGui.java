@@ -148,7 +148,7 @@ public class EnaRestaurantGui extends JFrame implements ActionListener {
         {
         	EnaWaiterRole waiter = (EnaWaiterRole) person;
         	stateCB.setText("Want Break");
-        	stateCB.setSelected(waiter.getGui().onBreak());
+        	//stateCB.setSelected(waiter.getGui().onBreak());
         	stateCB.setEnabled(true);
             infoLabel.setText(
                     "<html><pre>     Waiter Name: " + waiter.getName() + " </pre></html>");

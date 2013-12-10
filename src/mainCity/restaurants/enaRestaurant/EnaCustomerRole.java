@@ -1,17 +1,20 @@
 package mainCity.restaurants.enaRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
 import role.Role;
-
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import mainCity.restaurants.enaRestaurant.gui.EnaCustomerGui;
+import mainCity.restaurants.enaRestaurant.interfaces.Cashier;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
+import mainCity.restaurants.enaRestaurant.interfaces.Host;
+import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
 
 /**
  * Restaurant customer agent.
@@ -27,9 +30,10 @@ public class EnaCustomerRole extends Role implements Customer{
 	public double debt;
 	private boolean returnCustomer = false;
 	// agent correspondents
-	private EnaHostRole host;
-	private EnaWaiterRole waiter;
-	private EnaCashierRole cashier;
+	private Host host;
+	private EnaHostRole hostR;
+	private Waiter waiter;
+	private Cashier cashier;
 
 	//    private boolean isHungry = false; //hack for gui
 	public enum AgentState
@@ -124,11 +128,11 @@ public class EnaCustomerRole extends Role implements Customer{
 	{
 		this.waiter = waiter;
 	}
-	public EnaWaiterRole getWaiter()
+	public Waiter getWaiter()
 	{
 		return waiter;
 	}
-	public void setHost(EnaHostRole host)
+	public void setHost(Host host)
 	{
 		this.host = host;
 	}
@@ -471,12 +475,16 @@ public class EnaCustomerRole extends Role implements Customer{
 
 	}
 	public boolean restaurantOpen() {
-		if(host != null && host.isActive() && host.isItOpen())
+		hostR = (EnaHostRole) ContactList.getInstance().getEnaHost();
+
+		if(hostR != null &&  hostR.isActive() &&  hostR.isItOpen())
 			{
 				return true;
 			}
 		return false;
 	}
+
+	
 
 	
 }

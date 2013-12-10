@@ -36,6 +36,26 @@ public class MockWaiter extends Mock implements Waiter {
 		log.add(new LoggedEvent("message that order is ready"));
 		
 	}
+	@Override
+	public void msgReadyToOrder(EnaCustomerRole enaCustomerRole) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgHereIsMyChoice(String choice, EnaCustomerRole enaCustomerRole) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgDoneEating(EnaCustomerRole enaCustomerRole) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void msgCheckPlease(EnaCustomerRole enaCustomerRole, String choice) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	
