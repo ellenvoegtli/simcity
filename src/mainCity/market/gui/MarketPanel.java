@@ -69,10 +69,14 @@ public class MarketPanel extends JPanel implements ActionListener{
     public void handleRole(Role r){
     	if(r instanceof MarketCashierRole) {
     		cashier = (MarketCashierRole) r;
-    		if (r.getName().toLowerCase().contains("market2"))
+    		if (r.getName().toLowerCase().contains("market2")){
     			cashier.setMenu(menu2);
-    		else
+    			ContactList.getInstance().setMarket2Cashier((MarketCashierRole)cashier);
+    		}
+    		else{
     			cashier.setMenu(menu1);
+    			ContactList.getInstance().setMarketCashier((MarketCashierRole)cashier);
+    		}
     		
     		for(MarketEmployeeRole e : employees) {
     			e.setCashier(cashier);
@@ -86,16 +90,20 @@ public class MarketPanel extends JPanel implements ActionListener{
     			cashier.setGreeter(greeter);
     		}
     		
-    		ContactList.getInstance().setMarketCashier((MarketCashierRole)cashier);
     	}
     	
     	if(r instanceof MarketDeliveryManRole) {
     		deliveryMan = (MarketDeliveryManRole) r;
-    		if (r.getName().toLowerCase().contains("market2"))
+    		if (r.getName().toLowerCase().contains("market2")){
+    			ContactList.getInstance().setMarket2DeliveryMan((MarketDeliveryManRole)deliveryMan);
     			ContactList.getInstance().getCity().addDeliveryGui((MarketDeliveryManRole) deliveryMan, 655, 135);
-    		else
+    		}
+    		else {
+    			ContactList.getInstance().setMarketDeliveryMan((MarketDeliveryManRole)deliveryMan);
     			ContactList.getInstance().getCity().addDeliveryGui((MarketDeliveryManRole) deliveryMan, 415, 200);
-            deliveryMan.setCashier(cashier);
+    		}
+            
+    		deliveryMan.setCashier(cashier);
             
             if(greeter != null) greeter.setDeliveryMan(deliveryMan);
             for(MarketEmployeeRole e : employees) {
@@ -106,6 +114,11 @@ public class MarketPanel extends JPanel implements ActionListener{
     	
     	if(r instanceof MarketGreeterRole) {
     		greeter = (MarketGreeterRole) r;
+    		if(r.getName().toLowerCase().contains("market2"))
+    			ContactList.getInstance().setMarket2Greeter((MarketGreeterRole)greeter);
+    		else
+    			ContactList.getInstance().setMarketGreeter((MarketGreeterRole)greeter);
+
     		
     		for(MarketEmployeeRole e : employees) {
     			e.setHost(greeter);
