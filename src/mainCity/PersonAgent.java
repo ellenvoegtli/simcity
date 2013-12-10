@@ -356,18 +356,32 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
-			if(event == PersonEvent.arrivedAtMarket/* || event == PersonEvent.arrivedAtMarket2*/) {
+			if(event == PersonEvent.arrivedAtMarket) {
 				handleRole(currentAction.type);
 				
 				synchronized(roles) {
 					Role customer = roles.get(currentAction.type);
 					
-					if (event == PersonEvent.arrivedAtMarket && !((MarketCustomerRole) customer).getGui().goInside()) {
+					if (roles.containsKey(ActionType.home) || roles.containsKey(ActionType.homeAndEat)){
+						OccupantRole occupant;
+						if (roles.containsKey(ActionType.home)){
+							//check home agent to get a list of what they need
+							occupant = (OccupantRole) (roles.get(ActionType.home));
+						}
+						else {
+							occupant = (OccupantRole) (roles.get(ActionType.homeAndEat));
+						}
+						
+						if (event == PersonEvent.arrivedAtMarket && !((MarketCustomerRole) customer).getGui().goInside(occupant.getFood())) {
+							currentAction.state = ActionState.done;
+							return true;
+						}
+					}
+					else {
 						currentAction.state = ActionState.done;
 						return true;
 					}
-					
-					//check home agent to get a list of what they need?
+										
 					customer.setActive();
 				}
 				
