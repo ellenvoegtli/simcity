@@ -2,13 +2,15 @@ package mainCity.market.test.mock;
 
 import java.util.Map;
 
+import mainCity.market.interfaces.Customer;
 import mainCity.market.interfaces.CustomerGuiInterface;
 import mainCity.market.interfaces.Employee;
 
 
 
 public class MockCustomerGui extends Mock implements CustomerGuiInterface {
-	Employee employee;
+	public Employee employee;
+	public Customer customer;
 	
 	public MockCustomerGui(String name){
 		super(name);

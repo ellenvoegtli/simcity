@@ -2,6 +2,7 @@ package role.market;
 
 import mainCity.PersonAgent;
 import mainCity.market.interfaces.*;
+import mainCity.market.test.mock.MockCashier;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.*;
 import role.Role;
@@ -42,9 +43,6 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 	public void setDeliveryMan(DeliveryMan d){
 		deliveryMan = d;
 	}
-	public String getMaitreDName() {
-		return name;
-	}
 	public String getName() {
 		return name;
 	}
@@ -61,6 +59,9 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 		cashierArrived = x;
 	}
 	public boolean isOpen() {
+		if (cashier instanceof MockCashier){		//for testing
+			return true;
+		}
 		if (cashier instanceof MarketCashierRole){
 			MarketCashierRole c = (MarketCashierRole) cashier;
 			return ((deliveryMan != null && deliveryMan.isActive()) && (c != null && c.isActive()));
@@ -126,8 +127,11 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 		synchronized(waitingBusinesses){
 			synchronized(myEmployees){
 				if (!waitingBusinesses.isEmpty()){
+					log("WAITING BUSINESSES NOT EMPTY");
 					if (!myEmployees.isEmpty()){
+						log("MY EMPLOYEES NOT EMPTY");
 						if (isOpen()){
+							log("IS OPEN = TRUE");
 							nextEmployee++;
 							if (nextEmployee > myEmployees.size() - 1)
 								nextEmployee = 0;

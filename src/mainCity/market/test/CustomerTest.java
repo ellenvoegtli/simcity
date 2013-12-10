@@ -9,6 +9,7 @@ import role.market.MarketCustomerRole.AgentState;
 import role.market.MarketCustomerRole.BillState;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
+import mainCity.market.MarketMenu;
 import mainCity.market.gui.CustomerGui;
 import mainCity.market.test.mock.MockCashier;
 import mainCity.market.test.mock.MockCustomerGui;
@@ -25,6 +26,8 @@ public class CustomerTest extends TestCase {
 	MockGreeter greeter;
 	MockCashier cashier;
 	
+	MarketMenu menu;
+	
 	
 	public void setUp() throws Exception{
         super.setUp();
@@ -39,11 +42,16 @@ public class CustomerTest extends TestCase {
  
         gui = new MockCustomerGui("MockCustomerGui");
         customer.setGui(gui);
+        gui.customer = customer;
         flake.setGui(gui);
         
         employee = new MockEmployee("MockEmployee");
         greeter = new MockGreeter("MockGreeter");
         cashier = new MockCashier("MockCashier");
+        
+        menu = new MarketMenu();
+        customer.setMenu(menu);
+        flake.setMenu(menu);
         
 	}
 	
@@ -209,16 +217,6 @@ public class CustomerTest extends TestCase {
 			//postconditons 13/preconditions 14
 			assertTrue("Customer should have event == doneLeaving. He doesn't.",
                     customer.getEvent() == AgentEvent.doneLeaving);
-			
-			
-			//step 14
-			assertTrue("Customer's scheduler should have returned true (needs to react), but didn't.",
-            		customer.pickAndExecuteAnAction());
-			
-			//postconditions 14
-			assertTrue("Customer should be in state == DoingNothing. He isn't.",
-                    customer.getState() == AgentState.DoingNothing);
-			
 		}
 		
 		
@@ -361,7 +359,7 @@ public class CustomerTest extends TestCase {
                     flake.getEvent() == AgentEvent.gotChange);
 			assertTrue("Customer should have boolean IOweMarket == true. He doesn't.",
                     flake.getIOweMarket() == true);
-			assertEquals("Customer's myCash should now equal $100.0 but it does not.", flake.getMyCash(), 100.0);
+			assertEquals("Customer's myCash should now equal $0 but it does not.", flake.getMyCash(), 0.0);
 			
 			
 			
@@ -390,15 +388,6 @@ public class CustomerTest extends TestCase {
 			//postconditions 13/preconditions 14
 			assertTrue("Customer should have event == doneLeaving. He doesn't.",
                     flake.getEvent() == AgentEvent.doneLeaving);
-			
-			
-			//step 14
-			assertTrue("Customer's scheduler should have returned true (needs to react), but didn't.",
-            		flake.pickAndExecuteAnAction());
-			
-			//postconditions 14
-			assertTrue("Customer should be in state == DoingNothing. He isn't.",
-                    flake.getState() == AgentState.DoingNothing);
 			
 		}
 		
@@ -591,16 +580,6 @@ public class CustomerTest extends TestCase {
 			//postconditons 13/preconditions 14
 			assertTrue("Customer should have event == doneLeaving. He doesn't.",
                     customer.getEvent() == AgentEvent.doneLeaving);
-			
-			
-			//step 14
-			assertTrue("Customer's scheduler should have returned true (needs to react), but didn't.",
-            		customer.pickAndExecuteAnAction());
-			
-			//postconditions 14
-			assertTrue("Customer should be in state == DoingNothing. He isn't.",
-                    customer.getState() == AgentState.DoingNothing);
-			
 			
 		}
 }

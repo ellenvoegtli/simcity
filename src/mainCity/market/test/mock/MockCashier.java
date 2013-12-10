@@ -23,6 +23,10 @@ public class MockCashier extends Mock implements MarketCashier {
     }
     public void setMenu(MarketMenu m){
     }
+    public boolean isActive()
+    {
+    	return true;
+    }
     @Override
 	public void msgComputeBill(Map<String, Integer> inventory, Customer c, Employee e){
 		log.add(new LoggedEvent("Received msgComputeBill from " + e.getName() + " for " + c.getName()));
