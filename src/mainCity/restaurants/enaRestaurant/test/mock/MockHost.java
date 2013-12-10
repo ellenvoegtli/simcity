@@ -2,8 +2,8 @@ package mainCity.restaurants.enaRestaurant.test.mock;
 
 import java.util.Collection;
 
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
+import role.enaRestaurant.EnaCustomerRole;
+import role.enaRestaurant.EnaHostRole.Table;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 import mainCity.restaurants.enaRestaurant.interfaces.Host;
 import mainCity.restaurants.enaRestaurant.test.mock.EventLog;

@@ -1,13 +1,13 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
 
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaHostRole;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
-
 import java.awt.*;
+
+import role.enaRestaurant.EnaCustomerRole;
+import role.enaRestaurant.EnaHostRole;
+import role.enaRestaurant.EnaWaiterRole;
+import role.enaRestaurant.EnaHostRole.Table;
+import role.enaRestaurant.EnaWaiterRole.MyCustomers;
 
 public class EnaHostGui implements Gui {
 

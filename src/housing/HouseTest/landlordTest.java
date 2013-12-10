@@ -1,11 +1,11 @@
 package housing.HouseTest;
 
 
+import role.enaRestaurant.EnaCashierRole;
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
 import mainCity.gui.PersonGui;
 import mainCity.interfaces.PersonGuiInterface;
-import mainCity.restaurants.enaRestaurant.EnaCashierRole;
 import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
 import mainCity.restaurants.enaRestaurant.test.mock.MockMarket;
 import mainCity.restaurants.enaRestaurant.test.mock.MockWaiter;

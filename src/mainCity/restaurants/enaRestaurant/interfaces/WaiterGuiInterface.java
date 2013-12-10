@@ -1,6 +1,6 @@
 package mainCity.restaurants.enaRestaurant.interfaces;
 
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
+import role.enaRestaurant.EnaHostRole.Table;
 
 
 public interface WaiterGuiInterface {

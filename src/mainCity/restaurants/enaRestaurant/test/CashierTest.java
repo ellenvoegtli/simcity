@@ -1,12 +1,12 @@
 package mainCity.restaurants.enaRestaurant.test;
 
+import role.enaRestaurant.EnaCashierRole;
+import role.enaRestaurant.EnaCashierRole.Tab;
+import role.enaRestaurant.EnaCashierRole.marketPay;
+import role.enaRestaurant.EnaCashierRole.payStatus;
 import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
 import mainCity.restaurants.enaRestaurant.test.mock.MockMarket;
 import mainCity.restaurants.enaRestaurant.test.mock.MockWaiter;
-import mainCity.restaurants.enaRestaurant.EnaCashierRole;
-import mainCity.restaurants.enaRestaurant.EnaCashierRole.Tab;
-import mainCity.restaurants.enaRestaurant.EnaCashierRole.marketPay;
-import mainCity.restaurants.enaRestaurant.EnaCashierRole.payStatus;
 //import restaurant.CashierAgent.cashierBillState;
 //import restaurant.WaiterAgent.Bill;
 import junit.framework.*;

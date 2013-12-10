@@ -104,6 +104,11 @@ public class CityPanel extends JPanel{
 	public void parseConfig(String filename) {
 		if(!occupants.isEmpty()) {
 			resetCity();
+			
+			if(filename.equals("config9.txt")) {
+				clock = 4;
+				day = 5;
+			}
 		}
 		
 		try {

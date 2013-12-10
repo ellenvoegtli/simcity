@@ -1,11 +1,12 @@
-package mainCity.restaurants.enaRestaurant;
+package role.enaRestaurant;
 
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole.MyCustomers;
 import role.Role;
+import role.enaRestaurant.EnaWaiterRole.MyCustomers;
+
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
