@@ -91,11 +91,13 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         carStops.add(new CarStopLocation(320, 105, PersonAgent.CityLocation.home)); 
         carStops.add(new CarStopLocation(610, 230, PersonAgent.CityLocation.restaurant_david)); 
         carStops.add(new CarStopLocation(155, 155, PersonAgent.CityLocation.restaurant_marcus)); 
-        carStops.add(new CarStopLocation(220, 355, PersonAgent.CityLocation.restaurant_jefferson)); 
+        carStops.add(new CarStopLocation(345, 355, PersonAgent.CityLocation.restaurant_jefferson)); 
         carStops.add(new CarStopLocation(155, 305, PersonAgent.CityLocation.restaurant_ellen)); 
         carStops.add(new CarStopLocation(215, 105, PersonAgent.CityLocation.restaurant_ena)); 
         carStops.add(new CarStopLocation(155, 230, PersonAgent.CityLocation.bank)); 
+        carStops.add(new CarStopLocation(610, 285, PersonAgent.CityLocation.bank2));
         carStops.add(new CarStopLocation(440, 105, PersonAgent.CityLocation.market)); 
+        carStops.add(new CarStopLocation(610, 140, PersonAgent.CityLocation.market2));
         
         //Bus Stop 
         try {
@@ -289,6 +291,8 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				}
 			}
 			
+			int CarLocation = -1;  
+			
 			for(int i=0; i<carStops.size(); i++){
 				for(int s=0; s<Cars.size(); s++){
 					if( ( Cars.get(s).getX() > (carStops.get(i).getXCoord()-5) ) 
@@ -297,15 +301,26 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 								&& (Cars.get(s).getY() < (carStops.get(i).getYCoord()+5) ) ) {
 						
 						if(carStops.get(i).getLocation() == Cars.get(s).owner.getDestination()) {
+							
 							Cars.get(s).owner.msgArrivedAtDestinationInCar();
+							
 							for(int g=0; g<lanes.size(); g++) { 
 								for(int v=0; v<lanes.get(g).vehicles.size(); v++) { 
-									if(lanes.get(g).vehicles.get(v) == Cars.get(s)) {
-										lanes.get(g).vehicles.remove(Cars.get(s));
-										Cars.remove(Cars.get(s));
+									
+									synchronized(lanes.get(g).vehicles){
+										synchronized(Cars){
+											if(lanes.get(g).vehicles.get(v) == Cars.get(s)) {
+												System.out.println("Removing car from lane " + g);
+												CarLocation = g;
+												break;
+											}
+										}
 									}
 								}
 							}
+							
+							lanes.get(CarLocation).vehicles.remove(Cars.get(s));
+							Cars.remove(Cars.get(s));
 						}
 					}
 				}

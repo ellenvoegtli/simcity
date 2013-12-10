@@ -239,36 +239,40 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		
 		switch(destination) {
 			case restaurant_marcus:
-				xDestination = xPos = 105;
+				xDestination = xPos = 155;
 				yDestination = yPos = 155;
 				break;
 			case restaurant_ellen:
-				xDestination = xPos = 105;
+				xDestination = xPos = 155;
 				yDestination = yPos = 305;
 				break;
 			case restaurant_ena:
 				xDestination = xPos = 215;
-				yDestination = yPos = 55;
+				yDestination = yPos = 105;
 				break;
 			case restaurant_jefferson:
-				xDestination = xPos = 220;
-				yDestination = yPos = 405;
+				xDestination = xPos = 345;
+				yDestination = yPos = 355;
 				break;
 			case restaurant_david: 
-				xDestination = xPos = 615; 
+				xDestination = xPos = 610; 
 				yDestination = yPos = 230; 
 				break;
 			case market:
-				xDestination = xPos = 445;
-				yDestination = yPos = 55;
+				xDestination = xPos = 440;
+				yDestination = yPos = 105;
 				break;
 			case market2:
-				xDestination = xPos = 670;
+				xDestination = xPos = 610;
 				yDestination = yPos = 140;
 				break;
 			case bank:
-				xDestination = xPos = 105;
+				xDestination = xPos = 155;
 				yDestination = yPos = 230;
+				break;
+			case bank2:
+				xDestination = xPos = 610;
+				yDestination = yPos = 285;
 				break;
 			case home:
 				xDestination = xPos = xHome;
@@ -309,13 +313,13 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				calculatePath(440, 55);
 				break;
 			case market2:
-				calculatePath(670, 140);
+				calculatePath(660, 230);
 				break;
 			case bank:
 				calculatePath(105, 230);
 				break;
 			case bank2:
-				calculatePath(670, 140);
+				calculatePath(660, 230);
 				break;
 			case home:
 				calculatePath(320, 55); 
@@ -358,11 +362,15 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				yDestination = yPos = 55;
 				break;
 			case market2:
-				xDestination = xPos = 670;
-				yDestination = yPos = 140;
+				xDestination = xPos = 660;
+				yDestination = yPos = 230;
 				break;
 			case bank:
 				xDestination = xPos = 105;
+				yDestination = yPos = 230;
+				break;
+			case bank2:
+				xDestination = xPos = 660;
 				yDestination = yPos = 230;
 				break;
 			case home:
