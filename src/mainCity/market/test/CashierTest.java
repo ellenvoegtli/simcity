@@ -21,6 +21,8 @@ public class CashierTest extends TestCase {
 	//non-norms
 	MockCustomer flake;
 	
+	MarketMenu menu;
+	
 	public void setUp() throws Exception{
         super.setUp();
         
@@ -34,12 +36,19 @@ public class CashierTest extends TestCase {
         
         employee = new MockEmployee("MockEmployee");
         
+        customer1.employee = employee;
+        customer1.cashier = cashier;
+        customer2.employee = employee;
+        customer2.cashier = cashier;
+        flake.employee = employee;
+        flake.cashier = cashier;
         
+        menu = new MarketMenu();
+        cashier.setMenu(menu);
 	}
 	
 		public void testOneNormalCustomerScenario(){	//one
-			customer1.cashier = cashier;
-			customer1.employee = employee;
+			System.out.println("Beginning OneNormalCustomerScenario");
 			
 			//check preconditions
             assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
@@ -123,6 +132,7 @@ public class CashierTest extends TestCase {
 			 * to the delivery man. The delivery man takes care of the rest of the order, so the cashier 
 			 * can delete the bill as soon as he computes it and gives it to the employee.
 			 */
+			System.out.println("Beginning OneNormalBusinessScenario");
 			
 			//check preconditions
             assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
@@ -161,7 +171,9 @@ public class CashierTest extends TestCase {
 		
 		
 		//=================NEXT TEST========================================================================================
-		public void testTwoNormalCustomersScenario(){	//two
+		public void testTwoNormalCustomersScenario(){	
+			System.out.println("Beginning TwoNormalCustomerScenario");
+			
 			customer1.cashier = cashier;
 			customer1.employee = employee;
 			customer2.cashier = cashier;
@@ -299,6 +311,7 @@ public class CashierTest extends TestCase {
 		
 		//=================NEXT TEST========================================================================================
 		public void testTwoNormalBusinessesScenario(){
+			System.out.println("Beginning TwoNormalBusinessesScenario");
 			
 			//check preconditions
             assertEquals("Cashier should have 0 bills in it. It doesn't.", cashier.getBills().size(), 0);
@@ -361,6 +374,7 @@ public class CashierTest extends TestCase {
 		
 		//=================NEXT TEST========================================================================================
 		public void testOneCustomerOneBusinessScenario(){	//one, one
+			System.out.println("Beginning OneCustomerOneBusinessScenario");
             customer1.cashier = cashier;
 			customer1.employee = employee;
 
@@ -470,6 +484,7 @@ public class CashierTest extends TestCase {
 		
 		//=================NEXT TEST========================================================================================
 		public void testOneFlakeCustomerScenario(){	//one flake customer
+			System.out.println("Beginning OneFlakeCustomerScenario");
 			flake.cashier = cashier;
 			flake.employee = employee;
 			
@@ -548,6 +563,7 @@ public class CashierTest extends TestCase {
 		
 		//=================NEXT TEST========================================================================================
 		public void testOneUnhappyCustomerScenario(){
+			System.out.println("Beginning OneUnhappyCustomerScenario");
 			/*
 			 * Customer gets the bill, and then (hypothetically) they don't think they were charged the right amount,
 			 * so they ask the cashier to recompute the bill.

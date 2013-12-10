@@ -106,11 +106,11 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	 */
 	@Override
 	public void msgEndShift() {
-		/*
+		
 		Do("bank closing");
 		onDuty = false;
 		stateChanged();
-		*/
+		
 	}
 	
 	
@@ -296,7 +296,7 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	public boolean isOpen(){
 		log("bank manager checking open");
 		if(tellers.isEmpty() || mbanker.b==null || !onDuty || !mbanker.b.isActive()){
-			System.out.println("false");
+			log("Open = false");
 			return false;
 		}
 		log("Open = true");
@@ -333,15 +333,35 @@ public class BankManagerRole extends Role implements ManagerRole, BankManager {
 	 */
 	@Override
 	public boolean closeBuilding() {
-		if(!teller_bankCustomers.isEmpty() || banker_bankCustomers.isEmpty()){
+		if(!teller_bankCustomers.isEmpty() || !banker_bankCustomers.isEmpty()){
 			return false;
 		}
 		
+		double payroll = 0;
 		
-		//TODO remove tellers/bankers from list
+		for (myTeller mt : tellers){
+			BankTellerRole temp = (BankTellerRole) mt.t;
+			double amount = temp.getShiftDuration()*50;
+			temp.msgGoOffDuty(amount);
+			payroll+=amount;
+		}
 		
+		if (mbanker!= null){
+			BankerRole temp = (BankerRole)mbanker.b;
+			double amount = temp.getShiftDuration();
+			temp.msgGoOffDuty(amount);
+			payroll+=amount;
+		}
+
+		addToCash(getShiftDuration()*100.00);
+		payroll += getShiftDuration()*100.00;	
 		
-		return false;
+		//Emblezzle Funds here
+		baccounts.FDICfund-= payroll;
+		setInactive();
+		onDuty = true;
+		return true;
+		
 	}
 
 

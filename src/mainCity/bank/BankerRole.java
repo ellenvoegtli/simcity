@@ -162,24 +162,24 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		
 		
 	
-	private void createAccount(myClient mc){
+	private void createAccount(myClient mctemp){
 		log("Creating new account");
 		double temp =ba.getNumberOfAccounts();
-		ba.addAccount(mc.mcname, mc.amount, mc.p, temp);
-		mc.bc.msgAccountCreated(temp);
+		ba.addAccount(mctemp.mcname, mctemp.amount, mctemp.p, temp);
+		mctemp.bc.msgAccountCreated(temp);
 		
-		mc.bc.msgRequestComplete(mc.amount*-1, mc.amount);
-		mc=null;
+		mctemp.bc.msgRequestComplete(mctemp.amount*-1, mctemp.amount);
+		mctemp=null;
 	}
 	
 	
-	private void processLoan(myClient mc){
+	private void processLoan(myClient mctemp){
 		log("processing loan");
-		if(mc.accountnumber==-1){
-			createAccount(mc);
+		if(mctemp.accountnumber==-1){
+			createAccount(mctemp);
 		}
 		for(BankAccount b: ba.accounts){
-			if(mc.accountnumber==b.accountNumber){
+			if(mctemp.accountnumber==b.accountNumber){
 				if(b.debt>=500){
 					b.creditScore-=20;
 				}
@@ -187,10 +187,10 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 					b.creditScore+=20;
 				}
 				if(b.creditScore>=600){
-					b.debt+=mc.amount;
-					mc.bc.msgLoanApproved(mc.amount);
+					b.debt+=mctemp.amount;
+					mctemp.bc.msgLoanApproved(mctemp.amount);
 					Do("Loan approved");
-					mc=null;
+					mctemp=null;
 					return;
 				}
 		
@@ -198,7 +198,7 @@ public class BankerRole extends Role implements WorkerRole, Banker {
 		}//end for
 		//else
 			
-			mc.bc.msgLoanDenied(mc.amount);
+			mctemp.bc.msgLoanDenied(mctemp.amount);
 			Do("Loan denied");
 			return;
 		

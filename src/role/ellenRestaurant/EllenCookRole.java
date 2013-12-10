@@ -30,8 +30,8 @@ public class EllenCookRole extends Role implements Cook{
 	Timer timer = new Timer();
 	
 	public List<Order> orders = Collections.synchronizedList(new ArrayList<Order>());	//from customers
-	private Map<String, Food> inventory = new TreeMap<String, Food>();	//what the cook has available
-	private Map<String, Integer> foodAtAvailableMarket = new TreeMap<String, Integer>();
+	private Map<String, Food> inventory = Collections.synchronizedMap(new TreeMap<String, Food>());	//what the cook has available
+	private Map<String, Integer> foodAtAvailableMarket = Collections.synchronizedMap(new TreeMap<String, Integer>());
 		
 	public enum OrderState {pending, cooking, plated, finished, pickedUp};
 	enum FoodState {none, depleted, requested, delivered, tryAgain};
@@ -80,7 +80,6 @@ public class EllenCookRole extends Role implements Cook{
 		return name;
 	}
 	public void setKitchenGui(KitchenGuiInterface gui){
-		log("setting kitchengui = " + gui);
 		kitchenGui = gui;
 	}
 	//for alert log trace statements
@@ -212,10 +211,12 @@ public class EllenCookRole extends Role implements Cook{
 		}
 		
 		synchronized(menu.menuItems){
-			Map<String, Integer>inventoryNeeded = new TreeMap<String, Integer>();
-			for (String i : menu.menuItems){
-				if (inventory.get(i).s == FoodState.depleted){
-					inventoryNeeded.put(i, inventory.get(i).amountToOrder);
+			Map<String, Integer>inventoryNeeded = Collections.synchronizedMap(new TreeMap<String, Integer>());
+			synchronized(inventoryNeeded){
+				for (String i : menu.menuItems){
+					if (inventory.get(i).s == FoodState.depleted){
+						inventoryNeeded.put(i, inventory.get(i).amountToOrder);
+					}
 				}
 			}
 			if(!inventoryNeeded.isEmpty()){
@@ -244,61 +245,9 @@ public class EllenCookRole extends Role implements Cook{
 	
 
 	// Actions
-	public void OrderFromMarket(Map<String, Integer>inventoryNeeded){
-		switch((int) (Math.random() * 2)){
-		case 0:
-			if (ContactList.getInstance().getMarket().getGreeter() == null){
-				if (ContactList.getInstance().getMarket2().getGreeter() != null){
-					ContactList.getInstance().getMarket2().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
-					for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
-						inventory.get(entry.getKey()).s = FoodState.requested;
-					}
-				}
-				else {
-					for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
-						inventory.get(entry.getKey()).s = FoodState.depleted;
-					}
-				}
-			}
-			else {
-				ContactList.getInstance().getMarket().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
-				for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
-					inventory.get(entry.getKey()).s = FoodState.requested;
-				}
-			}
-			break;
-			
-		case 1:
-			if (ContactList.getInstance().getMarket2().getGreeter() == null){
-				if (ContactList.getInstance().getMarket().getGreeter() != null){
-					ContactList.getInstance().getMarket().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
-					for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
-						inventory.get(entry.getKey()).s = FoodState.requested;
-					}
-				}
-				else {
-					for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
-						inventory.get(entry.getKey()).s = FoodState.depleted;
-					}
-				}
-			}
-			else {
-				ContactList.getInstance().getMarket2().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
-				for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
-					inventory.get(entry.getKey()).s = FoodState.requested;
-				}
-			}
-			break;
-		default:
-				break;
-			
-		}
-		
-			
-	}
 	
 	public void TryToCookIt(final Order o){
-		Map<String, Integer>inventoryNeeded = new TreeMap<String, Integer>();
+		Map<String, Integer>inventoryNeeded = Collections.synchronizedMap(new TreeMap<String, Integer>());
 		Food f = inventory.get(o.choice);
 		log("Amount of " + f.type + " left = " + f.amount);
 
@@ -359,15 +308,20 @@ public class EllenCookRole extends Role implements Cook{
 	}
 	
 	public void OrderFoodThatIsLow(){
-		Map<String, Integer>lowInventory = new TreeMap<String, Integer>();
+		Map<String, Integer>lowInventory = Collections.synchronizedMap(new TreeMap<String, Integer>());
 		
-		for (String c : menu.menuItems){
-			if (inventory.get(c).amount <= inventory.get(c).low){
-				log("Adding " + inventory.get(c).type + " to market order");
-				inventory.get(c).amountToOrder = (inventory.get(c).capacity - inventory.get(c).amount);
-				lowInventory.put(c, inventory.get(c).amountToOrder);
+		synchronized(menu.menuItems){
+			synchronized(lowInventory){
+				for (String c : menu.menuItems){
+					if (inventory.get(c).amount <= inventory.get(c).low){
+						log("Adding " + inventory.get(c).type + " to market order");
+						inventory.get(c).amountToOrder = (inventory.get(c).capacity - inventory.get(c).amount);
+						lowInventory.put(c, inventory.get(c).amountToOrder);
+					}
+				}
 			}
 		}
+		
 		if(!lowInventory.isEmpty()){
 			OrderFromMarket(lowInventory);
 		}
@@ -398,6 +352,72 @@ public class EllenCookRole extends Role implements Cook{
 			
 	}
 	
+	
+	public void OrderFromMarket(Map<String, Integer>inventoryNeeded){
+		switch((int) (Math.random() * 2)){
+		case 0:
+			if (ContactList.getInstance().getMarket().getGreeter() == null){
+				if (ContactList.getInstance().getMarket2().getGreeter() != null){
+					ContactList.getInstance().getMarket2().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
+					synchronized(inventoryNeeded){
+						for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+							inventory.get(entry.getKey()).s = FoodState.requested;
+						}
+					}
+				}
+				else {
+					synchronized(inventoryNeeded){
+						for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+							inventory.get(entry.getKey()).s = FoodState.depleted;
+						}
+					}
+				}
+			}
+			else {
+				ContactList.getInstance().getMarket().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
+				synchronized(inventoryNeeded){
+					for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+						inventory.get(entry.getKey()).s = FoodState.requested;
+					}
+				}
+			}
+			break;
+			
+		case 1:
+			if (ContactList.getInstance().getMarket2().getGreeter() == null){
+				if (ContactList.getInstance().getMarket().getGreeter() != null){
+					ContactList.getInstance().getMarket().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
+					synchronized(inventoryNeeded){
+						for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+							inventory.get(entry.getKey()).s = FoodState.requested;
+						}
+					}
+				}
+				else {
+					synchronized(inventoryNeeded){
+						for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+							inventory.get(entry.getKey()).s = FoodState.depleted;
+						}
+					}
+				}
+			}
+			else {
+				ContactList.getInstance().getMarket2().getGreeter().msgINeedInventory("EllenRestaurant", inventoryNeeded);
+				synchronized(inventoryNeeded){
+					for (Map.Entry<String, Integer> entry : inventoryNeeded.entrySet()){
+						inventory.get(entry.getKey()).s = FoodState.requested;
+					}
+				}
+			}
+			break;
+		default:
+				break;
+			
+		}
+		
+			
+	}
+	
 
 	
 	//inner classes
@@ -425,8 +445,8 @@ public class EllenCookRole extends Role implements Cook{
 		int cookingTime;
 		int amount; 
 		int amountToOrder;
-		int capacity = 10;
-		int low = 3;
+		int capacity = 15;
+		int low = 5;
 		int nextMarket = 0;
 		
 		FoodState s;

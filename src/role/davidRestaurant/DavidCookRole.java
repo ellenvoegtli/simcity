@@ -111,10 +111,10 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 		menu.add("Salad");
 		menu.add("Pizza");
 		
-		Inventory.put("Steak", new Food("Steak", 3, 5000));	//type, cookingTime, amount
-        Inventory.put("Chicken", new Food("Chicken", 3, 2500));
-        Inventory.put("Salad", new Food("Salad", 3, 1500));
-        Inventory.put("Pizza", new Food("Pizza", 3, 2000));
+		Inventory.put("Steak", new Food("Steak", 5, 5000));	//type, cookingTime, amount
+        Inventory.put("Chicken", new Food("Chicken", 5, 2500));
+        Inventory.put("Salad", new Food("Salad", 5, 1500));
+        Inventory.put("Pizza", new Food("Pizza", 5, 2000));
         
         log("Inventory Steak: " + Inventory.get("Steak").quantity);
 		log("Inventory Chicken: " + Inventory.get("Chicken").quantity);
@@ -385,7 +385,7 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 			log("Setting the quantity of " + entry.getKey() + " to " + entry.getValue().quantity);
 			entry.getValue().setState(FoodStatus.empty);
 		}
-		stateChanged();
+		CheckInventory();
 	}
 	
 	public void emptySteak() {

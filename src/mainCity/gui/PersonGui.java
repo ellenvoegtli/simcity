@@ -120,7 +120,6 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		
 		if(xPos == xDestination && yPos == yDestination && traveling && (inCar!=true) ) {
 			if(path.isEmpty()) {
-				System.out.println("Destination Reached");
 				traveling = false;
 				agent.msgAtDestination();
 				return;

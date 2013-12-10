@@ -16,9 +16,11 @@ import mainCity.gui.trace.AlertTag;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
 import mainCity.PersonAgent;
@@ -77,6 +79,14 @@ public void msgAtDestination()
 public void msgLeaveHome()
 {
 	setInactive();
+}
+
+public Map<String, Integer> getFood(){
+	Map<String, Integer> inventory = Collections.synchronizedMap(new TreeMap<String, Integer>());
+	for (String s : needFd){
+		inventory.put(s, 3);
+	}
+	return inventory;
 }
 	
 public OccupantRole(PersonAgent p, String personNm) 

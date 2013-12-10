@@ -18,7 +18,7 @@ public class EllenMenu {
 	= Collections.synchronizedList(new ArrayList<String>());
 	
 	Map<String, Double> prices 
-	= new TreeMap<String, Double>();
+	= Collections.synchronizedMap(new TreeMap<String, Double>());
 
 
 	public EllenMenu(){
