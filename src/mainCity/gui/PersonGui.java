@@ -439,7 +439,8 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		
 		while(current.x != destination.x || current.y != destination.y) {
 			for(int i = 0; i < corners.size(); ++i) {
-				nodes.put(getDistance(current, corners.get(i)), corners.get(i));
+				if(!path.contains(corners.get(i)))
+					nodes.put(getDistance(current, corners.get(i)), corners.get(i));
 			}
 			
 			nodes.put(getDistance(current, destination), destination);
@@ -455,7 +456,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				return;
 			}
 
-			Coordinate pathNext = (current.x != node1.x && current.y != node1.y) ? node1 : node2;
+			Coordinate pathNext = node1;//(current.x != node1.x && current.y != node1.y) ? node1 : node2;
 			if(getDistance(pathNext, destination) > getDistance(node2, destination)) {
 				pathNext = node2;
 			}

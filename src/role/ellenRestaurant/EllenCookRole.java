@@ -53,7 +53,7 @@ public class EllenCookRole extends Role implements Cook{
         inventory.put("pasta", new Food("pasta", 5000, 8));	//type, cookingTime, amount
         inventory.put("pizza", new Food("pizza", 2500, 8));
         inventory.put("meatballs", new Food("meatballs", 1000, 8));
-        inventory.put("bread", new Food("bread", 2000, 0));
+        inventory.put("bread", new Food("bread", 2000, 8));
         
         foodAtAvailableMarket.put("pasta", 0);
         foodAtAvailableMarket.put("pizza", 0);
@@ -91,12 +91,14 @@ public class EllenCookRole extends Role implements Cook{
 	
 	
 	// Messages
-	public void depleteInventory(String choice){
-		log("Deplete inventory message received");
-		Food f = inventory.get(choice);
-		f.amount = 0;
-		f.s = FoodState.depleted;
-		f.amountToOrder = f.capacity;
+	public void depleteInventory(){
+		log("depleteInventory message received");
+		for (Map.Entry<String, Food> entry : this.inventory.entrySet()){
+			Food f = entry.getValue();
+			f.amount = 0;
+			f.s = FoodState.depleted;
+			f.amountToOrder = f.capacity;
+		}
 		stateChanged();
 	}
 	
@@ -174,7 +176,6 @@ public class EllenCookRole extends Role implements Cook{
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	public boolean pickAndExecuteAnAction() {
-		//print("In cook scheduler");
 		
 		if (opened){
 				//check inventory when restaurant opens

@@ -130,6 +130,13 @@ public class JeffersonCookRole extends Role implements Cook{
 		}
 		
 	}
+	
+	public void depleteInventory(){
+		for (Map.Entry<String, Integer> entry : inventory.entrySet()){
+			entry.setValue(0);
+		}
+		orderStock(null, 0);
+	}
 
 	
 	// Messages

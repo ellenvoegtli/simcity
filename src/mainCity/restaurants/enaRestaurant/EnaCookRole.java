@@ -65,6 +65,14 @@ public class EnaCookRole extends Role implements MainCook {
 	public void setStand(RevolvingStand s) {
 		this.stand = s;
 	}
+	
+	public void depleteInventory(){
+		for (Map.Entry<String, Food> entry : Foods.entrySet()){
+			Food f = entry.getValue();
+			f.setAmount(0);
+		}
+		checkInventory();
+	}
 
 	//for alert log trace statements
 	public void log(String s){
