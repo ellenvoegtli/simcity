@@ -26,18 +26,11 @@ import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.*;
 import transportation.BusAgent;
 
-public class PersonAgent extends Agent {
-	
+public class PersonAgent extends Agent {	
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, inCar, walkingFromBus, walkingFromCar}
-<<<<<<< HEAD
 	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome, arrivedRenterApartment}
-
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2, renterHome}
-=======
-	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome, manageApartments}
-	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
->>>>>>> 700c6a014eb9b9777d4ac5b7f2df6d92e1ca4b04
-	
+
 	private PersonGuiInterface gui;
 	private String name;
 	private double cash;

@@ -45,8 +45,8 @@ Name:davidcashier;Cash:100;Renter:true;hasCar:false;Occupation:davidCashier;Shif
 Name:davidhost;Cash:100;Renter:false;hasCar:true;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:davidwaiter;Cash:100;Renter:false;hasCar:false;Occupation:davidWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Other
-Name:richpersonA;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:hungry,market,bank
-Name:richpersonB;Cash:250;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:market,restaurant
+Name:richpersonA;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home
+Name:richpersonB;Cash:250;Renter:true;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home
 Name:richpersonC;Cash:170;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market
 Name:richpersonD;Cash:250;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:hungry
 Name:richpersonE;Cash:20;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market

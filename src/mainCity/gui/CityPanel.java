@@ -229,6 +229,7 @@ public class CityPanel extends JPanel{
 		}
 		
 		toBeCreated.clear();
+		ContactList.getInstance().clearOccupants();
 		occupants.clear();
 	}
 	
