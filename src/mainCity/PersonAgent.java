@@ -29,7 +29,7 @@ import transportation.BusAgent;
 public class PersonAgent extends Agent {
 	
 	public enum PersonState {normal, working, inBuilding, waiting, boardingBus, inCar, walkingFromBus, walkingFromCar}
-	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, chooseGivenRestaurant, decidedRestaurant, needToBank, maintainWork,goHome}
+	public enum PersonEvent {none, arrivedAtHome, arrivedAtWork, arrivedAtMarket, arrivedAtMarket2, arrivedAtRestaurant, arrivedAtBank, timeToWork, needMarket, needMarket2, gotHungry, gotFood, chooseRestaurant, decidedRestaurant, needToBank, maintainWork,goHome, manageApartments}
 	public enum CityLocation {home, restaurant_david, restaurant_ellen, restaurant_ena, restaurant_jefferson, restaurant_marcus, bank, bank2, market, market2}
 	
 	private PersonGuiInterface gui;
@@ -37,8 +37,10 @@ public class PersonAgent extends Agent {
 	private double cash;
 	private double accountnumber;
 	private boolean traveling;
+	private boolean hasCar; 
 	private BusAgent currentBus; 
 	private Building homePlace;
+	private Building renterHome;
 	private int time;
 	private int day;
 	private Job job;
@@ -80,6 +82,10 @@ public class PersonAgent extends Agent {
 		return destination;
 	}
 	
+	public void setCar(boolean b) { 
+		hasCar = b;
+	}
+	
 	public boolean isHungryForRestaurant(){
 		synchronized(actions) {
 			if(actions.contains(ActionType.restaurant) || (currentAction != null && currentAction.type == ActionType.restaurant))
@@ -101,9 +107,7 @@ public class PersonAgent extends Agent {
 			return false;
 		}
 	}
-	public Building getBuilding(){
-		return homePlace;
-	}
+	
 	
 	public void updateOccupation(String o, int b, int e) {
 		job.occupation = o;
@@ -138,9 +142,18 @@ public class PersonAgent extends Agent {
 	}
 	
 	//A message for the landlord	
-	public void msgNeedToFix() {
+	public void msgNeedToFix(Building renterHome) {
+		
 		synchronized(actions) {
 			actions.add(new Action(ActionType.maintenance, 1));
+			stateChanged();
+		}
+	}
+	
+	public void msgGoToRenterHome(PersonAgent p)
+	{
+		synchronized(actions) {
+			actions.add(new Action(ActionType.fixing, 1));
 			stateChanged();
 		}
 	}
@@ -449,7 +462,10 @@ public class PersonAgent extends Agent {
 				decideWhereToEat();
 				return true;
 			}
-			
+			if(event == PersonEvent.manageApartments)
+			{
+				
+			}
 			if(event == PersonEvent.maintainWork) {
 				goToRenters();
 				return true;
@@ -873,6 +889,9 @@ public class PersonAgent extends Agent {
 			case work:
 				event = PersonEvent.timeToWork;
 				break;
+			case fixing:
+				event = PersonEvent.manageApartments;
+				break;
 			case maintenance:
 				event = PersonEvent.maintainWork;
 				break;
@@ -1227,6 +1246,7 @@ public class PersonAgent extends Agent {
 	public Building getHomePlace() {
 		return homePlace;
 	}
+	
 
 	public void setHomePlace(Building homePlace) {
 		this.homePlace = homePlace;
@@ -1270,7 +1290,7 @@ public class PersonAgent extends Agent {
 
 	//Lower the priority level, the more "important" it is (it'll get done earlier)
 	public enum ActionState {created, inProgress, done}
-	public enum ActionType {work, maintenance, self_maintenance, hungry, homeAndEat, 
+	public enum ActionType {work, fixing, maintenance, self_maintenance, hungry, homeAndEat, 
 		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
 		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, bankWithdraw2, bankDeposit2, bankLoan2, bankRob2, home}
 	public class Action implements Comparable<Object> {

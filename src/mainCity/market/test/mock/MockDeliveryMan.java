@@ -10,7 +10,7 @@ import mainCity.interfaces.MainCook;
 import mainCity.market.interfaces.*;
 
 public class MockDeliveryMan extends Mock implements DeliveryMan {
-	MockDeliveryMan(String name){
+	public MockDeliveryMan(String name){
 		super(name);
 	}
 	
@@ -35,9 +35,9 @@ public class MockDeliveryMan extends Mock implements DeliveryMan {
 	public void msgCheckForRedeliveries(){
 		
 	}
-	
+	@Override
 	public void msgHereIsOrderForDelivery(String restaurantName, Map<String, Integer>inventory, double billAmount){
-		
+		log.add(new LoggedEvent("Received msgHereIsOrderForDelivery for " + restaurantName));
 	}
 	public void msgHereIsPayment(double amount, String restaurantName){		//sent by any restaurant's cashier
 		

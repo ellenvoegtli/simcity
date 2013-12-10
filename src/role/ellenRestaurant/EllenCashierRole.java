@@ -95,19 +95,11 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	
 	//market delivery man messages
-	/*public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, Market1DeliveryManRole d){
-		log("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
-		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
-		stateChanged();
-	}*/
 	public void msgHereIsMarketBill(Map<String, Integer>inventory, double billAmount, DeliveryMan d){
 		log("Received msgHereIsMarketBill from " + d.getName() + " for $" + billAmount);
 		marketBills.add(new MarketBill(d, billAmount, inventory, MarketBillState.computing));
 		stateChanged();
 	}
-	
-	
-	
 	public void msgHereIsChange(double amount, DeliveryMan deliveryPerson){
 		log("Received msgHereIsChange: $" + amount);
 		MarketBill b = null;
@@ -262,13 +254,19 @@ public class EllenCashierRole extends Role implements Cashier {
 		if (b.amountChange == (b.amountPaid - b.billAmount)){
 			//correct change
 			log("Equal. Change verified.");
-			cash += b.amountChange;
-			b.deliveryMan.msgChangeVerified("ellenRestaurant");
-			b.s = MarketBillState.done;		//unnecessary
-			marketBills.remove(b);
+		}
+		else if (b.amountChange > (b.amountPaid - b.billAmount)){
+			//incorrect change - too much
+			log("More change than necessary, but I'll take it! Change verified.");
+		}
+		else {
+			//incorrect change - not enough
+			log("Not enough change! I'll deal with you later.");
 		}
 		
-		//else?******
+		cash += b.amountChange;
+		b.deliveryMan.msgChangeVerified("ellenRestaurant");
+		marketBills.remove(b);
 	}
 	public void AcknowledgeDebt(MarketBill b){
 		log("Acknowledging debt of: $" + b.amountOwed);

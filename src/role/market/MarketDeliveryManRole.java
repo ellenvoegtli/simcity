@@ -122,7 +122,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 			}
 		}
 		cash += b.amountMarketGets;
-		cash = Math.round(cash*100.0)/100.0;
+		cash = Math.round(cash*100.00)/100.00;
 		b.event = DeliveryEvent.acknowledgedDebt;
 		stateChanged();
 	}
@@ -290,21 +290,22 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	
 	
 	public void CalculateChange(Bill b){
-		log("Calculating change");
 
 		double dollars = 0;
 		if (b.amountPaid >= b.amountCharged){
-			dollars = Math.round((b.amountPaid - b.amountCharged)*100.0)/100.0;
+			dollars = Math.round((b.amountPaid - b.amountCharged)*100.00)/100.00;
 			b.cashier.msgHereIsChange(dollars, this);
+			log("Calculating change: $" + dollars);
 			
-			b.amountMarketGets = Math.round(b.amountCharged *100.0)/100.0;		//mostly for testing purposes
+			b.amountMarketGets = Math.round(b.amountCharged *100.00)/100.00;		//mostly for testing purposes
 			b.s = DeliveryState.waitingForVerification;
 		}
 		else {		//if they didn't pay enough
-			b.amountOwed = Math.round((b.amountCharged - b.amountPaid)*100.0)/100.0;		//mostly for testing purposes
+			b.amountOwed = Math.round((b.amountCharged - b.amountPaid)*100.00)/100.00;		//mostly for testing purposes
 			b.amountMarketGets = b.amountPaid;
 			
 			b.cashier.msgNotEnoughMoney(b.amountOwed, b.amountPaid);
+			log("Calculating change: Not enough money, only paid $" + b.amountPaid);
 			b.s = DeliveryState.oweMoney;
 		}
 	}

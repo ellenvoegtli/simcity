@@ -220,13 +220,14 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	// Actions
 	
 	public void ComputeBill(final Bill b){
-		log("Computing bill");
 		double dollars = 0;
 		synchronized(b.itemsBought){
-			for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-				for (Item i : marketMenu.menuItems){
-					if (i.getItem().equalsIgnoreCase(entry.getKey())){
-						dollars += i.getPrice() * entry.getValue();
+			synchronized(marketMenu.menuItems){
+				for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
+					for (Item i : marketMenu.menuItems){
+						if (i.getItem().equalsIgnoreCase(entry.getKey())){
+							dollars += i.getPrice() * entry.getValue();
+						}
 					}
 				}
 			}
@@ -234,10 +235,12 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 		b.amountCharged = Math.round(dollars * 100.00)/100.00;
 		
 		if (b.c == null){		//if it's a restaurant
+			log("Computing bill for " + b.restaurantName + ": $" + b.amountCharged);
 			b.e.msgHereIsBill(b.restaurantName, b.amountCharged);
 			bills.remove(b);		//employee hands it off to deliveryMan, it's handled there
 		}
 		else {		//if it's an in-store customer
+			log("Computing bill for " + b.c.getName() + ": $" + b.amountCharged);
 			b.e.msgHereIsBill(b.c, b.amountCharged);
 			b.s = BillState.waitingForPayment;
 		}
@@ -275,10 +278,12 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 		log("Recomputing bill");
 		double dollars = 0;
 		synchronized(b.itemsBought){
-			for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
-				for (Item i : marketMenu.menuItems){
-					if (i.getItem().equalsIgnoreCase(entry.getKey()))
-						dollars += i.getPrice() * entry.getValue();
+			synchronized(marketMenu.menuItems){
+				for (Map.Entry<String, Integer> entry : b.itemsBought.entrySet()){
+					for (Item i : marketMenu.menuItems){
+						if (i.getItem().equalsIgnoreCase(entry.getKey()))
+							dollars += i.getPrice() * entry.getValue();
+					}
 				}
 			}
 		}

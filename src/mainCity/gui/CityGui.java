@@ -677,7 +677,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			carMenu.setSelectedIndex(0);
 			restaurantMenu.setSelectedIndex(0);
 
-			cityPanel.addPerson(name, money, renter, occupation, sb, se, actions);
+			cityPanel.addPerson(name, money, renter, false, occupation, sb, se, actions);
 		}
 		
 		//===================== CONTROL PANEL BUTTONS ========================================
@@ -770,7 +770,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			ContactList.getInstance().enaCook.depleteInventory();
 		}
 		else if (e.getSource() == marcusRestButton){
-			//ContactList.getInstance().marcusCook.
+			ContactList.getInstance().marcusCook.depleteInventory();
 		}
 		else if (e.getSource() == jeffersonRestButton){
 			ContactList.getInstance().jeffersonCook.depleteInventory();
