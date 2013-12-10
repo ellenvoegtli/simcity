@@ -41,7 +41,7 @@ public class CityPanel extends JPanel{
 
     	//String[] actions = {"work"}; 
     	//addPerson("CarTest", 500, false, true, "enaWaiter", 6, 22, actions);
-		parseConfig("config1.txt");
+		parseConfig("config6.txt");
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
