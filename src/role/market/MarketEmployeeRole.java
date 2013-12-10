@@ -467,7 +467,6 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 			e.printStackTrace();
 		}
 		deliveryMan.msgHereIsOrderForDelivery(mb.restaurantName, /*mb.cook, mb.cashier,*/ mb.inventoryFulfilled, mb.billAmount);
-		mb.s = BusinessState.sentForDelivery;	//unnecessary
 		employeeGui.DoGoToStation();
 		
 		log("Removing customer: " + mb.restaurantName);
@@ -545,7 +544,9 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		public double getBillAmount(){
 			return billAmount;
 		}
-		
+		public BusinessState getState(){
+			return s;
+		}
 		
 	}
 	

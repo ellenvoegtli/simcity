@@ -29,7 +29,7 @@ public class MockCashier extends Mock implements MarketCashier {
 	}
     @Override
 	public void msgComputeBill(Map<String, Integer> inventory, String name, Employee e){
-		log.add(new LoggedEvent("Received msgCompute bill from " + e + " for " + name));
+		log.add(new LoggedEvent("Received msgComputeBill from " + e.getName() + " for " + name));
 	}
 	@Override
 	public void msgHereIsPayment(double amount, Customer cust){
