@@ -592,7 +592,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         leftPanel.add(controlPanel, BorderLayout.SOUTH);  
         
         
-        generatePeopleList();
+        //generatePeopleList();
 	}
 
 	public void showInfo(String name) {
@@ -801,17 +801,20 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	public void setView(CityView view) {
 		this.view = view;
 	}
-	
+	/*
 	private void generatePeopleList() {
 		Timer timer = new Timer();
         timer.schedule(new TimerTask() {
 			public void run() {
-		        for (PersonAgent p : cityPanel.getOccupants()){
-		        	personPanel.addPerson(p.getName());
-		        }
+				synchronized(cityPanel.getOccupants()) {
+			        for (PersonAgent p : cityPanel.getOccupants()){
+			        	personPanel.addPerson(p.getName());
+			        }
+				}
 			}
 		}, 200);
 	}
+	*/
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
