@@ -1010,6 +1010,7 @@ public class PersonAgent extends Agent {
 					}
 				}
 			}
+		}
 			else { 
 				if(forceWalk) { //chose to walk
 					output(name + " is walking to " + d);
@@ -1042,7 +1043,7 @@ public class PersonAgent extends Agent {
 					}
 				}
 			}
-		}
+		
 	}
 
 	private void chooseRestaurant() {
