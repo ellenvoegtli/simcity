@@ -43,8 +43,8 @@ public class ContactList {
 	public BusStop enaRestStop = new BusStop( 215 , 80, PersonAgent.CityLocation.restaurant_ena); 
 	public BusStop bankStop = new BusStop(130, 230, PersonAgent.CityLocation.bank); 
 	public BusStop marketStop = new BusStop( 440, 80 , PersonAgent.CityLocation.market);
-	public BusStop market2Stop = new BusStop( 635, 230 , PersonAgent.CityLocation.market2);
-	public BusStop bank2Stop = new BusStop ( 635, 230, PersonAgent.CityLocation.bank2);
+	public BusStop market2Stop = new BusStop( 635, 155 , PersonAgent.CityLocation.market2);
+	public BusStop bank2Stop = new BusStop ( 635, 308, PersonAgent.CityLocation.bank2);
 	public BusStop aptStop = new BusStop ( 440, 380, PersonAgent.CityLocation.renterHome);
 	
 	private static ContactList contactList = null;
