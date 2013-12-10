@@ -6,7 +6,6 @@ import mainCity.market.*;
 import mainCity.market.interfaces.*;
 
 import javax.swing.*;
-
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +14,6 @@ import java.util.Vector;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
 import role.Role;
 import role.market.MarketCashierRole;
 import role.market.MarketCustomerRole;
