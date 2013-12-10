@@ -510,6 +510,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.drawImage(stopSign, 215 , 55, null); 
         g2.drawImage(stopSign, 105, 230, null);
         g2.drawImage(stopSign, 440, 55, null);
+        g2.drawImage(stopSign, 440, 405, null);
       
         /*   ~~~~~~~~~~~~~~USED TO MAP OUT DOORWAYS FOR WHERE PEOPLE SHOULD GO.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         g2.setColor(Color.LIGHT_GRAY);
