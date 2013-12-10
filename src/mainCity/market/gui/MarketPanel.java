@@ -8,6 +8,7 @@ import mainCity.market.interfaces.*;
 import javax.swing.*;
 
 import java.awt.event.*;
+import java.util.Collections;
 import java.util.Vector;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -68,7 +69,6 @@ public class MarketPanel extends JPanel implements ActionListener{
     public void handleRole(Role r){
     	if(r instanceof MarketCashierRole) {
     		cashier = (MarketCashierRole) r;
-    		System.out.println("setting cashier");
     		if (r.getName().toLowerCase().contains("market2"))
     			cashier.setMenu(menu2);
     		else

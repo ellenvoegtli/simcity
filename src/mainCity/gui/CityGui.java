@@ -770,7 +770,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			ContactList.getInstance().enaCook.depleteInventory();
 		}
 		else if (e.getSource() == marcusRestButton){
-			//ContactList.getInstance().marcusCook.
+			ContactList.getInstance().marcusCook.depleteInventory();
 		}
 		else if (e.getSource() == jeffersonRestButton){
 			ContactList.getInstance().jeffersonCook.depleteInventory();

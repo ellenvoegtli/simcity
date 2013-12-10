@@ -33,27 +33,12 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     private Vector<EllenCustomerRole> customers = new Vector<EllenCustomerRole>();
     private Vector<EllenWaiterRole> waiters = new Vector<EllenWaiterRole>();
 
-    private JPanel restLabel = new JPanel();
-    public JPanel pausePanel = new JPanel();
-    JButton pauseBtn = new JButton("Pause");
-    JButton unpauseBtn = new JButton("Unpause");
-    private JPanel cookInventoryPanel = new JPanel();
-    JButton soupBtn = new JButton("Deplete soup");
-    JButton pizzaBtn = new JButton("Deplete pizza");
 
     public EllenRestaurantPanel(EllenAnimationPanel panel) {
     	this.animation = panel;
         
         setLayout(new GridLayout(1, 2, 0, 0));
 
-        add(restLabel);
-
-        cookInventoryPanel.setLayout(new GridLayout(1, 2, 5, 5));
-        soupBtn.addActionListener(this);
-        pizzaBtn.addActionListener(this);
-        cookInventoryPanel.add(soupBtn);
-        cookInventoryPanel.add(pizzaBtn);
-        //add(cookInventoryPanel);
                 
         //Thread to tell cook to check every so often
 		 Runnable standChecker = new Runnable() {
@@ -73,28 +58,6 @@ public class EllenRestaurantPanel extends JPanel implements ActionListener{
     
     
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == pauseBtn){
-        	System.out.println("PAUSE BUTTON PRESSED.");
-        	host.pause();
-        	cook.pause();
-        	for (EllenCustomerRole cust : customers){
-        		cust.pause();
-        	}
-        	for (EllenWaiterRole waiter : waiters){
-        		waiter.pause();
-        	}
-        }
-        else if (e.getSource() == unpauseBtn){
-        	System.out.println("RESTART BUTTON PRESSED.");
-        	host.restart();
-        	cook.restart();
-        	for (EllenCustomerRole cust : customers){
-        		cust.restart();
-        	}
-        	for (EllenWaiterRole waiter : waiters){
-        		waiter.restart();
-        	}
-        }
     }
 
 
