@@ -1,13 +1,14 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
 
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 import mainCity.restaurants.enaRestaurant.interfaces.WaiterGuiInterface;
 
 import java.awt.*;
+
+import role.enaRestaurant.EnaCustomerRole;
+import role.enaRestaurant.EnaWaiterRole;
+import role.enaRestaurant.EnaHostRole.Table;
 
 
 public class EnaWaiterGui implements Gui, WaiterGuiInterface

@@ -1,5 +1,5 @@
 package mainCity.restaurants.enaRestaurant.sharedData;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
+import role.enaRestaurant.EnaHostRole.Table;
 import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
 
 public class OrderTicket {

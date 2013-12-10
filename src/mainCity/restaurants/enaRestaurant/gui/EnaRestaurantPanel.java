@@ -3,12 +3,6 @@ package mainCity.restaurants.enaRestaurant.gui;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.market.gui.CustomerGui;
-import mainCity.restaurants.enaRestaurant.EnaCashierRole;
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaSharedWaiterRole;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
-import mainCity.restaurants.enaRestaurant.EnaHostRole;
-import mainCity.restaurants.enaRestaurant.EnaCookRole;
 import mainCity.restaurants.enaRestaurant.gui.EnaCookGui;
 import mainCity.restaurants.enaRestaurant.sharedData.RevolvingStand;
 import mainCity.restaurants.marcusRestaurant.gui.MarcusAnimationPanel;
@@ -16,6 +10,12 @@ import mainCity.restaurants.marcusRestaurant.gui.MarcusAnimationPanel;
 import javax.swing.*;
 
 import role.Role;
+import role.enaRestaurant.EnaCashierRole;
+import role.enaRestaurant.EnaCookRole;
+import role.enaRestaurant.EnaCustomerRole;
+import role.enaRestaurant.EnaHostRole;
+import role.enaRestaurant.EnaSharedWaiterRole;
+import role.enaRestaurant.EnaWaiterRole;
 
 import java.awt.*;
 import java.awt.event.*;

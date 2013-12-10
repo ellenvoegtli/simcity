@@ -87,9 +87,9 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private GroupLayout layout3 = new GroupLayout(subControlPanel3);
 	private JLabel scenario1Label = new JLabel("Scenario 1: All employees/many rich (Default)");
 	private JButton scenario1Button = new JButton("Run");
-	private JLabel scenario2Label = new JLabel("Scenario 2: Norm: All employees/1 rich");			//person doesn't prioritize going home first,  
+	private JLabel scenario2Label = new JLabel("Scenario 2: Norm: All employees/1 rich");			//DONE (working) 
 	private JButton scenario2Button = new JButton("Run");
-	private JLabel scenario3Label = new JLabel("Scenario 3: Norm: All employees/3 rich");			//need a hack? unit test?
+	private JLabel scenario3Label = new JLabel("Scenario 3: Norm: All employees/3 rich");			//DONE (working)
 	private JButton scenario3Button = new JButton("Run");
 	private JLabel scenario4Label = new JLabel("Scenario 4: Norm: Market/restaurant deliveries");	//DONE (working)
 	private JButton scenario4Button = new JButton("Run");

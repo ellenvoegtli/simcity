@@ -1,11 +1,17 @@
 package mainCity.restaurants.enaRestaurant.interfaces;
 
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
+import java.util.List;
+
+import role.enaRestaurant.EnaCustomerRole;
+import role.enaRestaurant.EnaHostRole.Table;
+import role.enaRestaurant.EnaWaiterRole.MyCustomers;
 
 
 public interface Waiter {
 	
 	
+	boolean breakTime = false;
+
 	public abstract void msgHereIsBill(double check, Customer c);
 
 	public abstract void msgOutofFood(String choice);
@@ -20,6 +26,8 @@ public interface Waiter {
 
 	public abstract void msgCheckPlease(Customer enaCustomer,
 			String choice);
+
+	public abstract List<MyCustomers> getMyCustomers();
 	
 
 

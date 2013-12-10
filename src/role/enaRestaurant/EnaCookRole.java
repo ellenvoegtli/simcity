@@ -1,5 +1,5 @@
 
-package mainCity.restaurants.enaRestaurant;
+package role.enaRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
@@ -7,11 +7,11 @@ import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.MainCook;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
 import java.util.*;
 
 import role.Role;
+import role.enaRestaurant.EnaHostRole.Table;
 import role.market.MarketGreeterRole;
 import mainCity.restaurants.enaRestaurant.gui.EnaCookGui;
 import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
@@ -363,6 +363,12 @@ public class EnaCookRole extends Role implements MainCook {
 	public void msgRemovePlating(String fdPlate)
 	{
 		cookGui.platingDone(fdPlate);
+	}
+
+
+	public void msgGoOffDuty(double d) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

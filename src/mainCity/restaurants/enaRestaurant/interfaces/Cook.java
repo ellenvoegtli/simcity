@@ -2,11 +2,11 @@ package mainCity.restaurants.enaRestaurant.interfaces;
 
 import java.util.Map;
 
+import role.enaRestaurant.EnaWaiterRole;
+import role.enaRestaurant.EnaCookRole.Order;
+import role.enaRestaurant.EnaCookRole.OrderStatus;
+import role.enaRestaurant.EnaHostRole.Table;
 import mainCity.interfaces.MainCook;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
-import mainCity.restaurants.enaRestaurant.EnaCookRole.Order;
-import mainCity.restaurants.enaRestaurant.EnaCookRole.OrderStatus;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 
 public interface Cook extends MainCook 
 {

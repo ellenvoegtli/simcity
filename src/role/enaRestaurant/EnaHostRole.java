@@ -1,23 +1,20 @@
 
-package mainCity.restaurants.enaRestaurant;
+package role.enaRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
 import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
 import java.util.*;
 
 import role.Role;
-import role.ellenRestaurant.EllenWaiterRole;
-import role.ellenRestaurant.EllenHostRole.MyWaiter;
-import role.ellenRestaurant.EllenHostRole.Table;
+import role.enaRestaurant.EnaCustomerRole.AgentEvent;
 import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 import mainCity.restaurants.enaRestaurant.interfaces.Host;
+import mainCity.restaurants.enaRestaurant.interfaces.Waiter;
 
 /**
  * Restaurant Host Agent
@@ -35,7 +32,7 @@ public class EnaHostRole extends Role implements Host {
 	public List<EnaCustomerRole> waitingLine = Collections.synchronizedList(new ArrayList<EnaCustomerRole>());
 	private EnaCookRole cook;
 	private EnaCashierRole cashier;
-	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
+	public List<Waiter> waiters = Collections.synchronizedList(new ArrayList<Waiter>());
 	public boolean OnBreak = false;
 	public static Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
@@ -78,9 +75,10 @@ public class EnaHostRole extends Role implements Host {
 		return tables;
 	}
 	
-	public void addWaiterRole(EnaWaiterRole w) 
+	public void addWaiterRole(Waiter w) 
 	{
 		waiters.add(w);
+		stateChanged();
 	}
 	
 	public void WantsBreak(EnaWaiterRole w)
@@ -198,11 +196,11 @@ public class EnaHostRole extends Role implements Host {
 						log("there is an empty table and a customer waiting and an available waiter");
 						int min = waiters.get(0).getMyCustomers().size();
 						int t;
-						EnaWaiterRole select = waiters.get(0);
+						EnaWaiterRole select = (EnaWaiterRole) waiters.get(0);
 						//////looking for waiters with the smallest customer lists
 						synchronized(waiters)
 						{
-							for(EnaWaiterRole waiter : waiters)
+							for(Waiter waiter : waiters)
 							{
 								if(waiter.breakTime == false)
 								{
@@ -210,7 +208,7 @@ public class EnaHostRole extends Role implements Host {
 									if(t<= min)
 									{
 										min = t;
-										select = waiter;
+										select = (EnaWaiterRole) waiter;
 									}
 								}
 							}
@@ -286,8 +284,8 @@ public boolean closeBuilding()
 	}
 	
 	double payroll = 0;
-	for(MyWaiter w : waiters) {
-		EnaWaiterRole temp = ((EnaWaiterRole) w.);
+	for(Waiter w : waiters) {
+		EnaWaiterRole temp = ((EnaWaiterRole) w);
 		double amount = temp.getShiftDuration()*4.75;
 		temp.msgGoOffDuty(amount);
 		payroll += amount;
@@ -307,7 +305,7 @@ public boolean closeBuilding()
 	
 	cashier.deductCash(payroll);
 	setInactive();
-	onDuty = true;
+	onShift = true;
 	return true;
 }
 	//utilities
@@ -320,10 +318,6 @@ public boolean closeBuilding()
 		return hostGui;
 	}*/
 
-	public class MyWaiters
-	{
-		
-	}
 	public class Table 
 	{
 		Customer occupiedBy;

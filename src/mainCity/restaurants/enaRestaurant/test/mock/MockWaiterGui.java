@@ -1,11 +1,11 @@
 package mainCity.restaurants.enaRestaurant.test.mock;
 
+import role.enaRestaurant.EnaCustomerRole;
+import role.enaRestaurant.EnaWaiterRole;
+import role.enaRestaurant.EnaHostRole.Table;
 import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 import mainCity.restaurants.enaRestaurant.interfaces.WaiterGuiInterface;
 import mainCity.restaurants.enaRestaurant.test.mock.LoggedEvent;
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
-import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 
 public class MockWaiterGui extends Mock implements WaiterGuiInterface {
  EnaWaiterRole waiter;

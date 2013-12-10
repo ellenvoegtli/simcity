@@ -15,6 +15,11 @@ import role.ellenRestaurant.EllenCustomerRole;
 import role.ellenRestaurant.EllenHostRole;
 import role.ellenRestaurant.EllenNormalWaiterRole;
 import role.ellenRestaurant.EllenWaiterRole;
+import role.enaRestaurant.EnaCashierRole;
+import role.enaRestaurant.EnaCookRole;
+import role.enaRestaurant.EnaCustomerRole;
+import role.enaRestaurant.EnaHostRole;
+import role.enaRestaurant.EnaWaiterRole;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import role.market.MarketCashierRole;
@@ -945,7 +950,7 @@ public class PersonTest extends TestCase {
 		EnaWaiterRole waiter = null;
 		assertNull("EnaNormalWaiterRole should be null. It isn't", waiter);
 		
-		waiter = new EnaWaiterRole(person, person.getName());
+		waiter = new EnaNormalWaiterRole(person, person.getName());
 		assertEquals("EnaNormalWaiterRole should have current person as holder. It's not", waiter.getPerson(), person);
 		//Nothing right now
 		assertTrue("Person's role map should be empty. It isn't.", person.getRoles().isEmpty());		

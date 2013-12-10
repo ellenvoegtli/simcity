@@ -1,4 +1,4 @@
-package mainCity.restaurants.enaRestaurant;
+package role.enaRestaurant;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -358,6 +358,21 @@ public boolean pickAndExecuteAnAction()
 	public void setHost(EnaHostRole host) 
 	{
 		this.host = host;		
+	}
+
+
+
+	public void msgGoOffDuty(double d) {
+		
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void deductCash(double payroll) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

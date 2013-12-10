@@ -1,8 +1,8 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
-import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
-
 import java.awt.*;
+
+import role.enaRestaurant.EnaCustomerRole;
 
 public class EnaCustomerGui implements Gui{
 

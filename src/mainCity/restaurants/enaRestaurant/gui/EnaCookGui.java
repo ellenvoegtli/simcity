@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import mainCity.restaurants.enaRestaurant.EnaCookRole;
+import role.enaRestaurant.EnaCookRole;
 
 public class EnaCookGui implements Gui 
 {

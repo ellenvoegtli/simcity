@@ -1,5 +1,7 @@
 package mainCity.restaurants.enaRestaurant.test;
 
+import role.enaRestaurant.EnaSharedWaiterRole;
+import role.enaRestaurant.EnaHostRole.Table;
 import junit.framework.TestCase;
 import mainCity.PersonAgent;
 import mainCity.restaurants.enaRestaurant.sharedData.RevolvingStand;
@@ -7,8 +9,6 @@ import mainCity.restaurants.enaRestaurant.test.mock.MockCashier;
 import mainCity.restaurants.enaRestaurant.test.mock.MockCustomer;
 import mainCity.restaurants.enaRestaurant.test.mock.MockHost;
 import mainCity.restaurants.enaRestaurant.test.mock.MockWaiterGui;
-import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
-import mainCity.restaurants.enaRestaurant.EnaSharedWaiterRole;
 
 public class SharedWaiterTest extends TestCase{
 	//these are instantiated for each test separately via the setUp() method.
