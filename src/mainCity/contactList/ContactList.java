@@ -363,4 +363,11 @@ public class ContactList {
 		return enaRestaurant;
 	}
 	
+	public void clearOccupants() {
+		peopleList.clear();
+		RenterList.clear();
+		LandLordList.clear();
+		LivingPlaces.clear();
+	}
+	
 }
