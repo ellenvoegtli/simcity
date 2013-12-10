@@ -279,10 +279,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 							&& ( Buses.get(s).getY() > (ContactList.stops.get(i).yLocation-2) ) 
 								&& (Buses.get(s).getY() < (ContactList.stops.get(i).yLocation)+2) ) {
 						
+						Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
 						Buses.get(s).atBusStop = true;
-						if(count % 100 == 0){
+						if(count % 50 == 0){
 							Buses.get(s).atBusStop = false;
-							Buses.get(s).agent.msgAtBusStop(ContactList.stops.get(i).stopLocation);
 						}	
 					}
 				}
