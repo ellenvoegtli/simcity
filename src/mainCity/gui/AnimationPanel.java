@@ -331,7 +331,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if(Buses.get(t).getX() == 105 && Buses.get(t).getY() == 105){  
 					lanes.get(3).redLight();
-					//System.out.println("Count: " + count);
 					if(count == 250) { 
 						lanes.get(3).greenLight();
 						lanes.get(3).vehicles.remove(Buses.get(t)); 
@@ -340,7 +339,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				}
 				
 				if(Buses.get(t).getX() == 130 && Buses.get(t).getY() == 110){
-					//System.out.println("Count: " + count);
 					intersections.get(0).vehicles.remove(Buses.get(t)); 
 					lanes.get(12).addVehicle(Buses.get(t)); 
 				}
@@ -485,7 +483,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.drawImage(stopSign, 105, 230, null);
         g2.drawImage(stopSign, 440, 55, null);
       
-        /*
+        /*   ~~~~~~~~~~~~~~USED TO MAP OUT DOORWAYS FOR WHERE PEOPLE SHOULD GO.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         g2.setColor(Color.LIGHT_GRAY);
         //Location of doorways 
         g2.fillRect(36, 55, 20, 20);  //house1 
