@@ -85,8 +85,8 @@ public class LandlordRole extends Role implements landLord
 	{
 		System.out.println("LANDLORD GETS MESSAGE TO FIX APPLIANCE FOR RENTER");
 		log.add(new LoggedEvent("message recieved to fix"));
-				getFixJobs().add(appName);
-				ToDo.put(occp, getFixJobs());
+				fixJobs.add(appName);
+				ToDo.put(occp, fixJobs);
 
 			stateChanged();
 pickAndExecuteAnAction();
@@ -126,12 +126,15 @@ pickAndExecuteAnAction();
 			log("the landlord is going to renters home");
 			log.add(new LoggedEvent("going to the renters home"));
 			
+			System.out.println(oc.person.getHomePlace().getXLoc());
+			System.out.println(oc.person.getHomePlace().getYLoc());
+			
 			person.msgNeedToFix(oc.person.getHomePlace());
 			
 			int xPos = 0;
 			int yPos = 0;
 			
-				for (String a : ToDo.get(occ))
+				for (String a : ToDo.get(oc))
 				{
 				  for (Appliance appl : oc.getHome().getAAList())
 				  {
@@ -149,7 +152,7 @@ pickAndExecuteAnAction();
 				
 			//gui.DoGoToAppliance(xPos, yPos);
 			repair();
-			ToDo.remove(occ);
+			ToDo.remove(oc);
 			if(ToDo.size() == 0)break;
 		}
 		//gui.DoLeave();	

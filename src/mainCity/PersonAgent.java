@@ -150,6 +150,7 @@ public class PersonAgent extends Agent {
 			actions.add(new Action(ActionType.maintenance, 1));
 			stateChanged();
 		}
+		output("-----------RECIEVED MESSAGE FOR OERSON TO FIX SOMETHING-------------");
 	}
 	
 
@@ -486,7 +487,9 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 			
-			if(event == PersonEvent.maintainWork) {
+			if(currentAction.type == ActionType.maintenance) {
+				
+				output("-------------------Scheduler to call walking function----------------------");
 				goToRenters();
 				return true;
 			}
@@ -559,6 +562,7 @@ public class PersonAgent extends Agent {
 		if(job.occupation.equals("rich") && event == PersonEvent.maintainWork) {
 			synchronized(actions) {
 				actions.add(new Action(ActionType.maintenance , 1));
+				stateChanged();
 			}
 		}
 		
@@ -1085,7 +1089,7 @@ public class PersonAgent extends Agent {
 	{
 		renterHome.setXRenterHome(renterHome.getXLoc());
 		renterHome.setYRenterHome(renterHome.getYLoc());
-		output("Going to a renters home for maintenance");
+		output("Going to a renters home for maintenance.................]]]]]]]]]]]]]]]]]]]");
 		travelToLocation(CityLocation.renterHome);
 		event = PersonEvent.arrivedRenterApartment;
 		stateChanged();
