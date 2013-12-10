@@ -1,6 +1,6 @@
 package mainCity.bank.interfaces;
 
-import mainCity.bank.BankManagerRole;
+import role.bank.BankManagerRole;
 import mainCity.bank.gui.BankCustomerGui;
 
 public interface BankCustomer {

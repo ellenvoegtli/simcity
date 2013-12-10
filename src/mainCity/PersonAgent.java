@@ -1,6 +1,11 @@
 package mainCity;
 import agent.Agent;
 import role.*;
+import role.bank.BankCustomerRole;
+import role.bank.BankManagerRole;
+import role.bank.BankRobberRole;
+import role.bank.BankTellerRole;
+import role.bank.BankerRole;
 import role.davidRestaurant.*;
 import role.ellenRestaurant.*;
 import role.jeffersonRestaurant.*;

@@ -1,4 +1,4 @@
-package mainCity.bank;
+package role.bank;
 
 import java.util.concurrent.Semaphore;
 

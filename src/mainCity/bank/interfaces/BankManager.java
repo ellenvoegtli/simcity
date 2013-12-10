@@ -1,8 +1,8 @@
 package mainCity.bank.interfaces;
 
+import role.bank.BankRobberRole;
+import role.bank.BankerRole;
 import mainCity.bank.BankAccounts;
-import mainCity.bank.BankRobberRole;
-import mainCity.bank.BankerRole;
 
 public interface BankManager {
 

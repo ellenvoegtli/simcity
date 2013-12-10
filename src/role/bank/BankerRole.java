@@ -1,9 +1,10 @@
-package mainCity.bank;
+package role.bank;
 
 import role.Role;
+import role.bank.BankTellerRole.ClientState;
+import role.bank.BankTellerRole.myClient;
+import mainCity.bank.BankAccounts;
 import mainCity.bank.BankAccounts.BankAccount;
-import mainCity.bank.BankTellerRole.ClientState;
-import mainCity.bank.BankTellerRole.myClient;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.gui.BankerGui;
 import mainCity.bank.interfaces.BankCustomer;

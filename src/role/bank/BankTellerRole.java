@@ -1,8 +1,9 @@
-package mainCity.bank;
+package role.bank;
 import java.util.List;
 
 import role.Role;
 import mainCity.PersonAgent;
+import mainCity.bank.BankAccounts;
 import mainCity.bank.BankAccounts.BankAccount;
 import mainCity.bank.gui.BankTellerGui;
 import mainCity.bank.interfaces.BankCustomer;
