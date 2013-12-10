@@ -4,11 +4,13 @@ package mainCity.restaurants.enaRestaurant.gui;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole;
 import mainCity.restaurants.enaRestaurant.EnaHostRole.Table;
 import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
+import mainCity.restaurants.enaRestaurant.interfaces.Customer;
+import mainCity.restaurants.enaRestaurant.interfaces.WaiterGuiInterface;
 
 import java.awt.*;
 
 
-public class EnaWaiterGui implements Gui
+public class EnaWaiterGui implements Gui, WaiterGuiInterface
 {
 	
 		
@@ -190,7 +192,7 @@ public class EnaWaiterGui implements Gui
 
 	}
 	    
-	public void DoBringToTable(EnaCustomerRole customer, int tableN) 
+	public void DoBringToTable(Customer customer, int tableN) 
 	{
 			//DoGetCustomer(customer);
 	    	xDestination = setPositionX(tableXX) + 20;
@@ -198,7 +200,7 @@ public class EnaWaiterGui implements Gui
 	    
 	 }
 	    
-	    public void DoGoToTable(EnaCustomerRole customer, Table t)
+	    public void DoGoToTable(Customer customer, Table t)
 		{
 	    	setXNum(t.getTableNumber());
 			xDestination = setPositionX(tableXX)+20;
@@ -241,6 +243,24 @@ public class EnaWaiterGui implements Gui
 	    public int getYPos() {
 	        return yPos;
 	    }
+
+		
+		@Override
+		public void GoOnBreak() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		
+
+		@Override
+		public void DoGetCustomer(Customer cust) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		
+		
 	}
 
 

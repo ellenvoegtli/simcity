@@ -2,6 +2,7 @@ package mainCity.restaurants.enaRestaurant;
 import mainCity.PersonAgent;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
+import mainCity.restaurants.enaRestaurant.interfaces.Customer;
 import mainCity.restaurants.enaRestaurant.sharedData.OrderTicket;
 import mainCity.restaurants.enaRestaurant.sharedData.RevolvingStand;
 //import mainCity.restaurants.EnaRestaurant.sharedData.*;
@@ -18,17 +19,19 @@ public class EnaSharedWaiterRole extends EnaWaiterRole {
 	}
 	
 	//for alert log trace statements
-	public void log(String s){
-        AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), s);
-        AlertLog.getInstance().logMessage(AlertTag.ENA_COOK, this.getName(), s);
-	}
+	
 
 
-	protected void handleOrder(MyCustomers c) {
+	protected void PassOrder(MyCustomers c) {
 		log("Writing down order onto order ticket..");
 		OrderTicket order = new OrderTicket(this, c.choice, c.table);
 		
 		waiterGui.DoGoToKitchen();
+		try {
+			getAtKitchen().acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		if(!stand.isFull()) {
 			log("Posting order to the board...");
@@ -41,5 +44,18 @@ public class EnaSharedWaiterRole extends EnaWaiterRole {
 		c.customerState = custState.Ordered;
 		waiterGui.DoLeaveCustomer();
 	}
+
+	@Override
+	public void msgDoneEating(Customer enaCustomer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void msgCheckPlease(Customer enaCustomer, String choice) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 

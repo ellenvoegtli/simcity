@@ -110,7 +110,7 @@ public class EnaCashierRole extends Role implements Cashier{
 				}
 		}
 
-		public void msgRestockBill(double reciept, Market ma)
+		/*public void msgRestockBill(double reciept, Market ma)
 		{
 			log.add(new LoggedEvent("recieved message to pay the market"));
 			log("receieved message to pay the market");
@@ -118,7 +118,7 @@ public class EnaCashierRole extends Role implements Cashier{
 			//state = marketPay.pending;
 			stateChanged();
 			
-		}
+		}*/
 		
 		public void msgPayment(String choice, double cash, Customer c)
 		{

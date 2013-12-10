@@ -3,6 +3,7 @@ package mainCity.restaurants.enaRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.enaRestaurant.EnaCustomerRole.AgentEvent;
@@ -11,7 +12,12 @@ import mainCity.restaurants.enaRestaurant.EnaWaiterRole;
 import java.util.*;
 
 import role.Role;
+import role.ellenRestaurant.EllenWaiterRole;
+import role.ellenRestaurant.EllenHostRole.MyWaiter;
+import role.ellenRestaurant.EllenHostRole.Table;
 import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
+import mainCity.restaurants.enaRestaurant.interfaces.Customer;
+import mainCity.restaurants.enaRestaurant.interfaces.Host;
 
 /**
  * Restaurant Host Agent
@@ -20,7 +26,7 @@ import mainCity.restaurants.enaRestaurant.gui.EnaHostGui;
 //does all the rest. Rather than calling the other agent a waiter, we called him
 //the HostAgent. A Host is the manager of a restaurant who sees that all
 //is proceeded as he wishes.
-public class EnaHostRole extends Role {
+public class EnaHostRole extends Role implements Host {
 	static final int NTABLES = 3;
 	//a global for the number of tables.
 	//Notice that we implement waitingCustomers using ArrayList, but type it
@@ -29,12 +35,14 @@ public class EnaHostRole extends Role {
 	public List<EnaCustomerRole> waitingLine = Collections.synchronizedList(new ArrayList<EnaCustomerRole>());
 	private EnaCookRole cook;
 	private EnaCashierRole cashier;
-	public List<EnaWaiterRole> waiters = Collections.synchronizedList(new ArrayList<EnaWaiterRole>());
+	public List<MyWaiter> waiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	public boolean OnBreak = false;
 	public static Collection<Table> tables;
 	//note that tables is typed with Collection semantics.
 	//Later we will see how it is implemented
 	private String name;
+	private boolean onShift;
+	private boolean newHost;
 	//public EnaHostGui hostGui;
 	Timer timer = new Timer();
 	public EnaHostRole( PersonAgent p, String name) 
@@ -42,6 +50,8 @@ public class EnaHostRole extends Role {
 		super(p);
 
 		this.name = name;
+		onShift = true;
+		newHost = true;
 		// make some tables
 		tables = new ArrayList<Table>(NTABLES);
 		for (int ix = 0; ix < NTABLES; ix++) 
@@ -128,6 +138,11 @@ public class EnaHostRole extends Role {
 		}
 	}
 
+	public void msgShiftEnd()
+	{
+		onShift = false;
+		stateChanged();
+	}
 	
 
 	/**
@@ -135,12 +150,17 @@ public class EnaHostRole extends Role {
 	 */
 	public boolean pickAndExecuteAnAction() 
 	{
-		log("host scheduler");
+		if(newHost)
+		{
+			ContactList.getInstance().setEnaHost(this);
+			newHost=false;
+		}
 		/* Think of this next rule as:
             Does there exist a table and customer,
             so that table is unoccupied and customer is waiting.
             If so seat him at the table.
 		 */
+		
 		
 		synchronized(waitingLine)
 		{
@@ -151,7 +171,7 @@ public class EnaHostRole extends Role {
 
 			}
 		}
-		synchronized(waiters)
+		/*synchronized(waiters)
 		{
 		for(EnaWaiterRole waiter: waiters)
 		{
@@ -165,7 +185,7 @@ public class EnaHostRole extends Role {
 				WaiterBreak(waiter);
 			}
 		}
-		}
+		}*/
 		
 		for (Table table : tables) 
 		{
@@ -206,7 +226,10 @@ public class EnaHostRole extends Role {
 				
 		}
 		
-
+		if(!onShift)
+		{
+			closeBuilding();
+		}
 		return false;
 		//we have tried all our rules and found
 		//nothing to do. So return false to main loop of abstract agent
@@ -252,6 +275,41 @@ public boolean isItOpen()
 	return (cook != null && cook.isActive()) && (cashier != null && cashier.isActive());
 }
 
+public boolean closeBuilding()
+{
+	if(!waitingCustomers.isEmpty()) return false;
+	
+	for(Table t : tables) {
+		if(t.isOccupied()) {
+			return false;
+		}
+	}
+	
+	double payroll = 0;
+	for(MyWaiter w : waiters) {
+		EnaWaiterRole temp = ((EnaWaiterRole) w.);
+		double amount = temp.getShiftDuration()*4.75;
+		temp.msgGoOffDuty(amount);
+		payroll += amount;
+	}
+	
+	if(cashier != null) {
+		payroll += cashier.getShiftDuration()*6.0;
+		cashier.msgGoOffDuty(cashier.getShiftDuration()*6.0);
+	}
+	if(cook != null){
+		payroll += cashier.getShiftDuration()*7.50;
+		cook.msgGoOffDuty(cook.getShiftDuration()*7.50);
+	}
+	
+	addToCash(getShiftDuration()*9.50);
+	payroll += getShiftDuration()*9.50;		
+	
+	cashier.deductCash(payroll);
+	setInactive();
+	onDuty = true;
+	return true;
+}
 	//utilities
 
 	/*public void setGui(EnaHostGui gui) {
@@ -262,9 +320,13 @@ public boolean isItOpen()
 		return hostGui;
 	}*/
 
+	public class MyWaiters
+	{
+		
+	}
 	public class Table 
 	{
-		EnaCustomerRole occupiedBy;
+		Customer occupiedBy;
 		int tableNumber;
 
 		Table(int tableNumber)
@@ -272,7 +334,7 @@ public boolean isItOpen()
 			this.tableNumber = tableNumber;
 		}
 
-		void setOccupant(EnaCustomerRole cust)
+		public void setOccupant(Customer cust)
 		{
 			occupiedBy = cust;
 		}
@@ -282,7 +344,7 @@ public boolean isItOpen()
 			occupiedBy = null;
 		}
 
-		EnaCustomerRole getOccupant() 
+		Customer getOccupant() 
 		{
 			return occupiedBy;
 		}
@@ -315,6 +377,12 @@ public boolean isItOpen()
 
 	public boolean isOpen() {
 		return false;
+	}
+
+	@Override
+	public void msgWaiterArrived(Customer cust) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
