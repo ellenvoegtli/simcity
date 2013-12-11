@@ -19,6 +19,7 @@ import transportation.gui.*;
 
 public class PersonGui implements Gui, PersonGuiInterface {
 	CityGui gui;
+	Rectangle rectangle = new Rectangle();
 	AnimationPanel animation; 
 	private String name;
 	private PersonAgent agent = null;
@@ -58,6 +59,8 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		
 		xDestination = xPos = 750;
 		yDestination = yPos = 80;
+		rectangle.setLocation(xPos, yPos);
+		rectangle.setSize(14, 19);
 		
 		myCar = new CarGui(p, 750, 80, 16, 16);
 		
@@ -91,8 +94,18 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	public PersonGui(PersonAgent p) {
 		this.agent = p;
 	}
+	
+	public Rectangle getRectangle() { 
+		return rectangle;
+	}
+	
+	public PersonAgent getPerson() { 
+		return agent;
+	}
 
 	public void updatePosition() {
+		
+		rectangle.setLocation(xPos, yPos);
 		
 		if(inCar){
 			if (xPos < xDestination)

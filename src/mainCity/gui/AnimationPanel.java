@@ -69,7 +69,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     private Image bufferImage;
     private Dimension bufferSize;
     
-    CityGui gui;
+    CityGui gui; 
     List<BusGui> Buses = Collections.synchronizedList(new ArrayList<BusGui>()); 
     List<CarGui> Cars = Collections.synchronizedList(new ArrayList<CarGui>()); 
     List<CarStopLocation> carStops = new ArrayList<CarStopLocation>();
@@ -459,6 +459,22 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 			}
 		}
 		
+		//Collision detection pls.
+		if(gui != null) {
+			if(gui.collision == true) { 
+				for(int i=0; i<personGuis.size(); i++) { 
+					for(int j=0; j<Cars.size(); j++) { 
+						if(((PersonGui) personGuis.get(i)).getRectangle().intersects(Cars.get(j))) { 
+							if(((PersonGui) personGuis.get(i)).myCar != Cars.get(j)) {
+								((PersonGui) personGuis.get(i)).getPerson().msgHitByVehicle();
+							}
+						}
+						
+					}
+				}
+			}
+		}
+		
 		
 		if(gui != null) {
 			for(Map.Entry<String, CityCard> r : gui.getView().getCards().entrySet()) {
@@ -466,15 +482,6 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					r.getValue().backgroundUpdate();
 				}
 			}
-			/*
-			for(Gui g : guis) {
-				if(g instanceof PersonGui) {
-					if(!((PersonGui) g).isVisible()) {
-						g.updatePosition();
-					}
-				}
-			}
-			*/
 		}
 		
 		repaint();  //Will have paintComponent called
@@ -514,7 +521,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
         g2.drawImage(stopSign, 440, 55, null);
         g2.drawImage(stopSign, 440, 405, null);
       
-        /*   ~~~~~~~~~~~~~~USED TO MAP OUT DOORWAYS FOR WHERE PEOPLE SHOULD GO.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        /*   ~~~~~~~~~~~~~~MAP OUT DOORWAYS FOR WHERE PEOPLE SHOULD GO.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         g2.setColor(Color.LIGHT_GRAY);
         //Location of doorways 
         g2.fillRect(36, 55, 20, 20);  //house1 
