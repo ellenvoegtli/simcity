@@ -49,7 +49,7 @@ public class CityPanel extends JPanel{
 		Runnable cityClock = new Runnable() {
 			 public void run() {
 				 clock = (clock+1) % 24;
-				System.out.println("Time is: " + clock);
+
 				 if(clock == 0) {
 					 day = (day+1) % 7;
 				
