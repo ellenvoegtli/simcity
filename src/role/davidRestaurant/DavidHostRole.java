@@ -54,7 +54,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 		super(p);
 		waiterLoc = -1;
 		this.name = name;
-		boolean onDuty = true;
+		onDuty = true;
 		entered = true;
 		// Make some tables, hardcoded for now
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
@@ -138,6 +138,11 @@ public class DavidHostRole extends Role implements ManagerRole{
 	public void msgImOffBreak(DavidWaiterRole w){ 
 		log("msgWaiterOffBreak called by " + w); 
 		//waiters.add(w); 
+		stateChanged();
+	}
+	
+	public void msgEndShift() {
+		onDuty = false;
 		stateChanged();
 	}
 
@@ -302,11 +307,6 @@ public class DavidHostRole extends Role implements ManagerRole{
 	public void setCook(DavidCookRole cook) {
 		this.cook = cook;
 		
-	}
-
-	public void msgEndShift() {
-		onDuty = false;
-		stateChanged();
 	}
 
 	
