@@ -24,6 +24,7 @@ import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
 import mainCity.PersonAgent;
+import mainCity.PersonAgent.ActionType;
 import role.Role;
 
 
@@ -309,7 +310,7 @@ public boolean pickAndExecuteAnAction()
 		PayRent();
 		return true;
 	}
-	if(!person.getRoles().isEmpty() && isFree == true) {//makes the person leave the home if there's something else to do
+	if(!person.getActions().isEmpty() && isFree == true && (person.getCurrentAction().type == ActionType.home || person.getCurrentAction().type == ActionType.homeAndEat)) {//makes the person leave the home if there's something else to do
 		gui.DoLeave();
 		if(owner)
 			landLord.setInactive();
@@ -362,10 +363,10 @@ public void serviceAppliance()
 			log("owner is performing maintenance himself");
 			fixAppliance(app, true);
 		}
-		synchronized(needsWork)
-		{
+		//synchronized(needsWork)
+		//{
 			needsWork.remove(app);
-		}
+		//}
 	  }
 	}
 	fState = fixState.fixed;

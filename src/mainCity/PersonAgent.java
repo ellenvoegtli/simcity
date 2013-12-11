@@ -345,7 +345,7 @@ public class PersonAgent extends Agent {
 					else
 						roles.get(currentAction.type).setActive();
 				}
-				
+
 				enterBuilding();
 				return true;
 			}
