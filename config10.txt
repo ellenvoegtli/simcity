@@ -19,7 +19,7 @@ Name:jeffersonwaiter2;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonWait
 -David Restaurant 
 Name:davidcook;Cash:100;Renter:true;hasCar:false;Occupation:davidCook;ShiftBegin:2;ShiftEnd:8;Actions:work
 Name:davidcashier;Cash:100;Renter:true;hasCar:false;Occupation:davidCashier;ShiftBegin:2;ShiftEnd:8;Actions:work
-Name:davidhost;Cash:100;Renter:false;hasCar:true;Occupation:davidHost;ShiftBegin:2;ShiftEnd:8;Actions:work
+Name:davidhostbus;Cash:100;Renter:false;hasCar:true;Occupation:davidHost;ShiftBegin:2;ShiftEnd:8;Actions:work
 Name:davidwaiter;Cash:100;Renter:false;hasCar:false;Occupation:davidWaiter;ShiftBegin:2;ShiftEnd:8;Actions:work
 Name:davidcook2;Cash:100;Renter:true;hasCar:false;Occupation:davidCook;ShiftBegin:14;ShiftEnd:20;Actions:bank
 Name:davidcashier2;Cash:100;Renter:true;hasCar:false;Occupation:davidCashier;ShiftBegin:14;ShiftEnd:20;Actions:bank
