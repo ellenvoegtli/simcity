@@ -318,7 +318,7 @@ public boolean pickAndExecuteAnAction()
 		return true;
 	}
 	
-	System.out.println("NOTHING LEFT TO DO IN OCCUPANT SCHEDULER");
+	//System.out.println("NOTHING LEFT TO DO IN OCCUPANT SCHEDULER");
 	return false;
 }
 	

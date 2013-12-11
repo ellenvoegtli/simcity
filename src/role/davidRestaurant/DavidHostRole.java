@@ -171,6 +171,9 @@ public class DavidHostRole extends Role implements ManagerRole{
 			} 
 		}
 		
+		if(!onDuty) { 
+			closeBuilding();
+		}
 		
 		return false;
 		//we have tried all our rules and found
