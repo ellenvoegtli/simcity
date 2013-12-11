@@ -320,7 +320,7 @@ public class PersonAgent extends Agent {
 		if(currentAction != null && state == PersonState.normal && !traveling) {
 			if(event == PersonEvent.arrivedAtHome) {
 				synchronized(actions) {
-					if(!actions.isEmpty()) { //If there's other stuff to do, don't go inside yet
+					if(!actions.isEmpty() && (!actionExists(ActionType.home) || !actionExists(ActionType.homeAndEat))) { //If there's other stuff to do, don't go inside yet
 						currentAction.state = ActionState.done;
 						return true;
 					}
@@ -974,7 +974,7 @@ public class PersonAgent extends Agent {
 		if((destination == CityLocation.home) || (destination == CityLocation.renterHome)) { 
 			walk = true;
 		}
-		walk = false;
+		//walk = false;
 
 		if(!chooseTransportation){
 			if((walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar)) { //chose to walk
