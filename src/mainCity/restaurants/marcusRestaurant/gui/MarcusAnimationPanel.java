@@ -1,5 +1,6 @@
 package mainCity.restaurants.marcusRestaurant.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import mainCity.contactList.ContactList;
@@ -9,6 +10,9 @@ import mainCity.gui.CityGui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -25,6 +29,8 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
     private Image bufferImage;
     private Dimension bufferSize;
 
+    private BufferedImage resttableImg = null;
+    
     private List<Gui> guis = new ArrayList<Gui>();
     private List<Gui> personGuis = new ArrayList<Gui>();
 
@@ -33,7 +39,13 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
     	ContactList.getInstance().setMarcusRestaurant(restaurant);
     	setSize(WINDOWX, WINDOWY);
         setVisible(true);
-        
+        StringBuilder path = new StringBuilder("imgs/");
+        try {
+			resttableImg = ImageIO.read(new File(path.toString() + "resttable.png"));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
         bufferSize = this.getSize();
         setLayout(null);
         
@@ -55,7 +67,8 @@ public class MarcusAnimationPanel extends CityCard implements ActionListener {
 	
 	    for(int i = 0; i < tableCount; i++) {
 	     	g2.setColor(Color.ORANGE);
-	        g2.fillRect(x+100*i, y, w, h);
+	        //g2.fillRect(x+100*i, y, w, h);
+	        g.drawImage(resttableImg,x+100*i, y,null);
 	    }
 	        
 	    kitchen.setColor(Color.GRAY);

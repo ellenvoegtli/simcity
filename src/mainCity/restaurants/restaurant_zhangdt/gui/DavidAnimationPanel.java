@@ -1,5 +1,6 @@
 package mainCity.restaurants.restaurant_zhangdt.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import mainCity.contactList.ContactList;
@@ -9,6 +10,9 @@ import mainCity.gui.CityGui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -32,7 +36,8 @@ public class DavidAnimationPanel extends CityCard implements ActionListener {
     
     private Image bufferImage;
     private Dimension bufferSize;
-
+    private BufferedImage resttableImg = null;
+    
     private List<Gui> guis = new ArrayList<Gui>();
     private List<Gui> personGuis = new ArrayList<Gui>();
 
@@ -43,6 +48,13 @@ public class DavidAnimationPanel extends CityCard implements ActionListener {
         setVisible(true);
         
         bufferSize = this.getSize();
+        StringBuilder path = new StringBuilder("imgs/");
+        try {
+			resttableImg = ImageIO.read(new File(path.toString() + "resttable.png"));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
  
     	Timer timer = new Timer(20, this );
     	timer.start();
@@ -61,11 +73,14 @@ public class DavidAnimationPanel extends CityCard implements ActionListener {
 
         //Here is the table
         g2.setColor(Color.ORANGE);
-        g2.fillRect(TableX1, TableY1, TableX, TableY);//200 and 250 need to be TABLE params
+        g.drawImage(resttableImg,TableX1, TableY1,null);
+        //g2.fillRect(TableX1, TableY1, TableX, TableY);//200 and 250 need to be TABLE params
         g2.setColor(Color.BLUE);
-        g2.fillRect(TableX2, TableY2, TableX, TableY);
+        g.drawImage(resttableImg,TableX2, TableY2,null);
+        //g2.fillRect(TableX2, TableY2, TableX, TableY);
         g2.setColor(Color.RED);
-        g2.fillRect(TableX3, TableY3, TableX, TableY);
+        g.drawImage(resttableImg,TableX3, TableY3,null);
+        //g2.fillRect(TableX3, TableY3, TableX, TableY);
         
         g2.setColor(Color.GRAY); 
         g2.fillRect(40, 185, 20, 50);
