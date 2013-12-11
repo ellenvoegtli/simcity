@@ -40,6 +40,7 @@ public class PersonAgent extends Agent {
 	private boolean hasCar; 
 	private boolean forceWalk; 
 	private boolean chooseTransportation; 
+	private boolean suicidal;
 	private BusAgent currentBus; 
 	private Building homePlace;
 	public Building renterHome;
@@ -72,6 +73,7 @@ public class PersonAgent extends Agent {
 		currentAction = null;
 		alive = true;
 		chooseTransportation = false;
+		suicidal = false;
 	}
 	
 	public Semaphore getIsMoving()
@@ -100,6 +102,10 @@ public class PersonAgent extends Agent {
 	
 	public void setTransportation(boolean b) {
 		chooseTransportation = true;
+	}
+	
+	public void setSuicidal(boolean b) { 
+		suicidal = true;
 	}
 	
 	public boolean isHungryForRestaurant(){
@@ -362,8 +368,7 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
-			if(event == PersonEvent.arrivedRenterApartment)
-			{
+			if(event == PersonEvent.arrivedRenterApartment) {
 				output("Arrived at renter home!");
 				handleRole(currentAction.type);
 				synchronized(roles) {
@@ -940,7 +945,6 @@ public class PersonAgent extends Agent {
 			case work:
 				event = PersonEvent.timeToWork;
 				break;
-			
 			case maintenance:
 				event = PersonEvent.maintainWork;
 				break;
@@ -954,12 +958,6 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.needMarket;
 				break;
 			case restaurant:
-			//======= restaurant hacks from gui ========
-			//case restaurant_ellen:
-			//case restaurant_david:
-			//case restaurant_ena:
-			//case restaurant_marcus:
-			//case restaurant_jefferson:
 				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
@@ -989,69 +987,77 @@ public class PersonAgent extends Agent {
 			walk = true;
 		}
 
-		if(!chooseTransportation){
-			if((walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar)) { //chose to walk
-				output(name + " is walking to " + d);
-				gui.DoGoToLocation(d); //call gui
-				waitForGui();
-				return;
-			}
-			else if(!walk) { //chose bus
-				if(hasCar) { 
-					System.out.println("Gonna drive"); 
-					gui.DoGetOnRoad(); 
+		if(!suicidal){
+			
+			if(!chooseTransportation){
+				if((walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar)) { //chose to walk
+					output(name + " is walking to " + d);
+					gui.DoGoToLocation(d); //call gui
 					waitForGui();
-					state = PersonState.inCar; 
-					gui.getInCar(); 
-					gui.DoGoInside();
-					gui.AddCarToLane();
-					gui.DoGoToLocationOnCar(d); 
 					return;
 				}
-				output(name + " is taking the bus to " + d);
-				gui.DoGoToStop();
-				waitForGui();
-					//add self to waiting list of BusStop once arrived
-				for(int i=0; i<ContactList.stops.size(); i++){ 
-					if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
-						ContactList.stops.get(i).ArrivedAtBusStop(this);
-						state = PersonState.waiting;
+				else if(!walk) { //chose bus
+					if(hasCar) { 
+						System.out.println("Gonna drive"); 
+						gui.DoGetOnRoad(); 
+						waitForGui();
+						state = PersonState.inCar; 
+						gui.getInCar(); 
+						gui.DoGoInside();
+						gui.AddCarToLane();
+						gui.DoGoToLocationOnCar(d); 
 						return;
+					}
+					output(name + " is taking the bus to " + d);
+					gui.DoGoToStop();
+					waitForGui();
+						//add self to waiting list of BusStop once arrived
+					for(int i=0; i<ContactList.stops.size(); i++){ 
+						if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+							ContactList.stops.get(i).ArrivedAtBusStop(this);
+							state = PersonState.waiting;
+							return;
+						}
 					}
 				}
 			}
-		}
+			else { 
+				if(forceWalk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
+					output(name + " is walking to " + d);
+					gui.DoGoToLocation(d); //call gui
+					waitForGui();
+					return;
+				}
+				else if(!forceWalk) { //chose bus
+					if(hasCar) { 
+						System.out.println("Gonna drive"); 
+						gui.DoGetOnRoad(); 
+						waitForGui();
+						state = PersonState.inCar; 
+						gui.getInCar(); 
+						gui.DoGoInside();
+						gui.AddCarToLane();
+						gui.DoGoToLocationOnCar(d); 
+						return;
+					}
+					output(name + " is taking the bus to " + d);
+					gui.DoGoToStop();
+					waitForGui();
+						//add self to waiting list of BusStop once arrived
+					for(int i=0; i<ContactList.stops.size(); i++){ 
+						if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
+							ContactList.stops.get(i).ArrivedAtBusStop(this);
+							state = PersonState.waiting;
+							return;
+						}
+					}
+				}
+			}
+			
+		} 
 		else { 
-			if(forceWalk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar) { //chose to walk
-				output(name + " is walking to " + d);
-				gui.DoGoToLocation(d); //call gui
-				waitForGui();
-				return;
-			}
-			else if(!forceWalk) { //chose bus
-				if(hasCar) { 
-					System.out.println("Gonna drive"); 
-					gui.DoGetOnRoad(); 
-					waitForGui();
-					state = PersonState.inCar; 
-					gui.getInCar(); 
-					gui.DoGoInside();
-					gui.AddCarToLane();
-					gui.DoGoToLocationOnCar(d); 
-					return;
-				}
-				output(name + " is taking the bus to " + d);
-				gui.DoGoToStop();
-				waitForGui();
-					//add self to waiting list of BusStop once arrived
-				for(int i=0; i<ContactList.stops.size(); i++){ 
-					if(ContactList.stops.get(i).stopLocation == gui.findNearestStop()) { 
-						ContactList.stops.get(i).ArrivedAtBusStop(this);
-						state = PersonState.waiting;
-						return;
-					}
-				}
-			}
+			gui.DoGoToLocationOnCar(d);
+			state = PersonState.waiting;
 		}
 	}
 
@@ -1208,6 +1214,10 @@ public class PersonAgent extends Agent {
 		gui.DoDie();
 		
 		synchronized(roles) {
+			if(!roles.containsKey(ActionType.home) || !roles.containsKey(ActionType.homeAndEat)) {
+				handleRole(ActionType.home);
+			}
+			
 			if(roles.containsKey(ActionType.home))
 				roles.get(ActionType.home).setActive();
 			else if (roles.containsKey(ActionType.homeAndEat))
@@ -1367,6 +1377,7 @@ public class PersonAgent extends Agent {
 	public PersonState getState() {
 		return state;
 	}
+
 	//----------------//
 	
 	private boolean actionExists(ActionType type) {
@@ -1382,8 +1393,7 @@ public class PersonAgent extends Agent {
 	//Lower the priority level, the more "important" it is (it'll get done earlier)
 	public enum ActionState {created, inProgress, done}
 	public enum ActionType {work, fixing, maintenance, self_maintenance, hungry, homeAndEat, 
-		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
-		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, bankWithdraw2, bankDeposit2, bankLoan2, bankRob2, home}
+		restaurant, market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, bankWithdraw2, bankDeposit2, bankLoan2, bankRob2, home}
 	public class Action implements Comparable<Object> {
 		public ActionState state;
 		public ActionType type;

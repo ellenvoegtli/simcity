@@ -68,6 +68,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     int count; 
     private Image bufferImage;
     private Dimension bufferSize;
+    private boolean recklessDriving = false;
     
     CityGui gui; 
     List<BusGui> Buses = Collections.synchronizedList(new ArrayList<BusGui>()); 
@@ -271,6 +272,14 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					}
 				}
 			}
+			
+			if(Cars.size() != 0) {
+				if(recklessDriving) { 
+					if(Cars.get(0).getX() == 610 && Cars.get(0).getY() == 206) { 
+						Cars.get(0).atBusStop = true;
+					}
+				}
+			}
 
 			for(int i=0; i<ContactList.stops.size(); i++){
 				for(int s=0; s<Buses.size(); s++){
@@ -459,7 +468,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 			}
 		}
 		
-		//Collision detection pls.
+		//Collision detection car vs person
 		if(gui != null) {
 			if(gui.collision == true) { 
 				for(int i=0; i<personGuis.size(); i++) { 
@@ -470,6 +479,27 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 							}
 						}
 						
+					}
+				}
+			}
+		}
+		
+		int Car1Loc = -1;
+		int Car2Loc = -1; 
+		//Collision Detection car vs car 
+		if(gui != null) {
+			if(gui.collision == true) { 		
+				for(int i=0; i<Cars.size(); i++) { 
+					for(int j=0; j<Cars.size(); j++) { 
+						if(Cars.get(i) != Cars.get(j)){ 
+							if(Cars.get(i).intersects(Cars.get(j))) {
+								Cars.get(i).owner.msgHitByVehicle(); 
+								Cars.get(j).owner.msgHitByVehicle(); 
+								lanes.get(16).vehicles.remove(Cars.get(i));
+								lanes.get(16).vehicles.remove(Cars.get(j));
+								Cars.clear();
+							}
+						}
 					}
 				}
 			}
@@ -634,6 +664,10 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
     
     public List<Gui> getPersonGuiList() {
     	return personGuis;
+    }
+    
+    public void setRecklessDriving(Boolean b) { 
+    	recklessDriving = b;
     }
     
 //Unused.

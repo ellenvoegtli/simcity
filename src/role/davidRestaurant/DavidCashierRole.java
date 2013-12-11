@@ -19,6 +19,7 @@ import role.davidRestaurant.DavidWaiterRole.myCustomer;
 import role.market.MarketDeliveryManRole;
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.DeliveryMan;
@@ -49,6 +50,7 @@ public class DavidCashierRole extends Role implements Cashier, WorkerRole {
 	public int MarketNumber;
 	List<Market> marketAgent = new ArrayList<Market>();
 	boolean onDuty;
+	boolean entered;
 	
 	public EventLog log = new EventLog();
 	
@@ -57,6 +59,7 @@ public class DavidCashierRole extends Role implements Cashier, WorkerRole {
 		super(p); 
 		this.name = name; 
 		onDuty = true;
+		entered = true;
 	}
 	
 	public enum CheckState
@@ -167,6 +170,12 @@ public class DavidCashierRole extends Role implements Cashier, WorkerRole {
 /*   Scheduler   */ 
 	
 	public boolean pickAndExecuteAnAction() { 
+		
+		if(entered) { 
+			ContactList.getInstance().setDavidCashier(this); 
+			entered = false;
+		}
+		
 		synchronized(checkList){
 			if(checkList.size() != 0) {
 				for(Check check : checkList) {
@@ -197,6 +206,11 @@ public class DavidCashierRole extends Role implements Cashier, WorkerRole {
 					AcknowledgeDebt(b); 
 					return true;
 				}
+			}
+			if(checkList.isEmpty() && !onDuty) {
+				setInactive(); 
+				onDuty = true; 
+				entered = true;
 			}
 		}
 		return false; 

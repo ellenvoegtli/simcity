@@ -7,13 +7,14 @@ SimCity201 Project Repository for CS 201 students
 
 #### Ellen :
   + Primarily responsible for the Market
-    + Market is integrated with each restaurant. All market roles have been unit tested (Employee tests encountered issues that wouldn't let me test the role properly, but the agent functions as it should)
+    + Market is integrated with each restaurant. All market roles have been unit tested successfully
     + Market has scenarios for handling verification issues (of the amount a customer or business got charged, or the change they received), which have been addressed in the unit tests
+    + Market roles go off-duty and shift change appropriately
   + Also responsible for: 
     + Market gui; 
-    + Updates to my own restaurant (verification that all employees are present and the market is open, & integration with the market host/delivery man) 
+    + Updates to my own restaurant (verification that all employees are present and the market is open, & integration with the market host/delivery man; updated GUI)
     + Setting up Trace/AlertLog system (with given CP code) and created CityGui trace panels layout;  
-    + Setting up the CityGui Create panel and CityGui Control panel displays and functionalities;
+    + Setting up the CityGui Create panel, Control panel, Scenario panel, and Inventory panel displays and functionalities;
     + Creating and setting up the Contact List.
 
 #### Ena :
@@ -27,12 +28,13 @@ SimCity201 Project Repository for CS 201 students
 
 #### Marcus : 
   + Created the PersonAgent as well as the base Role from which every other role derived from
-    1. Created all person AI decisions, priority making, animation, interacting with buildings, and settings roles active
-  + Created an algorithm to keep people from walking over buildings
-  + Created parser and function to populate people into the city on program run
+    1. Created all person AI decision-making, action priority, animation, interacting with buildings, and settings roles active
+  + Created an algorithm to keep people from walking over buildings (works except when they want to become a car)
+  + Created parser and function to populate people into the city on program run (staggers creation of people)
+    1. Enabled ability to reset state of city when changing scenarios
   + Helped implement card layout and bringing individual restaurant GUI's into the city
-  + Implemented shared data waiter
-  + Implemented functions for roles/workers to go off duty (with wages) based on city clock time
+  + Implemented shared data waiter and cook
+  + Implemented functions for roles/workers to go off & on duty (with wages) based on city clock time and day
 
 #### Jefferson : 
   + Responsible for the Bank as well as integration/functionality of jeffersonRestaurant
@@ -83,12 +85,9 @@ SimCity201 Project Repository for CS 201 students
 
 ## THINGS WE KNOW DON'T WORK / GENERAL NOTES ABOUT OUR V1 SUBMISSION
   + Some of our PersonAgents who take on jobs in certain restaurants will not be able to properly go off-duty after they end their shift. We figured out a way to do this successfully, but it hasn't been implemented everywhere due to time constraints
-  + Not all of our trace panels (buildings) have been populated with their AlertTags, due to time constraints 
+    + UPDATE: Most workplaces are now implementing going-off-duty functionalities properly.
   + An FYI: the way our hard-coded PersonAgents (from the configuration file) operate, their work duties are prioritized over their hunger, so even though you may tell them to get hungry, they won't act upon that until after their shift.
-  + When adding Persons though the "Create" panel on the CityGui, they also will have an occupation and will prioritize that over their hunger.
+  + When adding Persons though the "Create" panel on the CityGui, if they have an occupation they will prioritize that over their hunger.
   + We do not have waiter breaks implemented to where they can leave the restaurant and do other things.
-  + Occasionally in our restaurant animation windows, our waiters seem to get stuck when they go to pick up another customer. We couldn't find any debugging issues with the thread being locked, and sometimes the animation would pick up again, indicating it wasn't actually a semaphore issue but an animation issue.
-  + Sometimes the above issue can be unstuck/fixed when the whole window is minimized not on top
-  + Some restaurants have yet to implement shared data waiters. 
   + In the restaurant on the far right, if it ever gets stuck customers and 1 waiter, add a waiter and set his occupation as davidWaiter.
   + House GUI doesn't work, but messages are all there.

@@ -11,6 +11,8 @@ import mainCity.restaurants.restaurant_zhangdt.gui.WaiterGui;
 import mainCity.restaurants.restaurant_zhangdt.interfaces.Cook;
 import mainCity.restaurants.restaurant_zhangdt.sharedData.OrderTicket;
 import mainCity.restaurants.restaurant_zhangdt.sharedData.RevolvingStand;
+import mainCity.test.EventLog;
+import mainCity.test.LoggedEvent;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -29,7 +31,10 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	private String name; 
 	Timer cookTimer = new Timer(); 
 	
+	public EventLog log = new EventLog(); 
+	
 	boolean onDuty;
+	boolean entered;
 	
 	enum CookStatus
 	{none, Opening, sendingOrder, Checked, massOrderReady, recievedOrder, NoFood, checkingStand, ordering} 
@@ -104,6 +109,7 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	public DavidCookRole(String name, PersonAgent p) { 
 		super(p); 
 		onDuty = true;
+		entered = false;
 		this.name = name; 
 		
 		menu.add("Steak");
@@ -201,6 +207,7 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	}
 	
 	public void msgCheckStand() { 
+		log.add(new LoggedEvent("checking stand"));
 		cstate = CookStatus.checkingStand; 
 		stateChanged();
 	}
@@ -209,6 +216,11 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	
 	public boolean pickAndExecuteAnAction() { 
 		try{	
+			if(entered) { 
+				ContactList.getInstance().setDavidCook(this);
+				entered = false;
+			}
+			
 			if(cstate == CookStatus.Opening){
 				CheckInventory();
 				return true;
@@ -244,6 +256,13 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 				OrderFromMarket(inventoryNeeded); 
 				return true;
 			}
+			
+			if(!onDuty) { 
+				gui.DoLeaveRestaurant();
+				super.setInactive();
+				onDuty = true;
+				entered = true;
+			}
 		}
 			
 			return false; 
@@ -275,6 +294,7 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	}
 	
 	private void checkStand() { 
+		log.add(new LoggedEvent("adding order from stand"));
 		cstate = CookStatus.none; 
 		
 		if(stand.isEmpty()) { 
@@ -364,6 +384,10 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	
 	public String getName() { 
 		return name; 
+	}
+	
+	public List<Order> getOrders() { 
+		return pendingOrders;
 	}
 	
 	public void setGui(CookGui RG) {

@@ -272,7 +272,6 @@ public class EllenCashierRole extends Role implements Cashier {
 	public void AcknowledgeDebt(MarketBill b){
 		log("Acknowledging debt of: $" + b.amountOwed);
 		b.deliveryMan.msgIOweYou(b.amountOwed, "ellenRestaurant");
-		//message the restaurant manager to pay the market somehow?
 		marketBills.remove(b);
 	}
 	

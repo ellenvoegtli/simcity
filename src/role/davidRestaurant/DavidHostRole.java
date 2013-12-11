@@ -2,6 +2,7 @@ package role.davidRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
@@ -46,6 +47,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 	DavidCookRole cook;
 	
 	boolean onDuty;
+	boolean entered;
 
 	//Constructor
 	public DavidHostRole(String name, PersonAgent p) {
@@ -53,6 +55,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 		waiterLoc = -1;
 		this.name = name;
 		boolean onDuty = true;
+		entered = true;
 		// Make some tables, hardcoded for now
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		
@@ -147,6 +150,11 @@ public class DavidHostRole extends Role implements ManagerRole{
 			return false;
 		}
 		
+		if(entered) { 
+			ContactList.getInstance().setDavidHost(this); 
+			entered = false;
+		}
+		
 		if(hState == HostState.recievedRequest){ 
 			BreakAppropriate(); 
 		}
@@ -163,6 +171,9 @@ public class DavidHostRole extends Role implements ManagerRole{
 			} 
 		}
 		
+		if(!onDuty) { 
+			closeBuilding();
+		}
 		
 		return false;
 		//we have tried all our rules and found
@@ -222,9 +233,9 @@ public class DavidHostRole extends Role implements ManagerRole{
 		}
 	}
 	
-	public class Table {
+	public static class Table {
 		DavidCustomerRole occupiedBy;
-		int tableNumber;
+		public int tableNumber;
 		int xPos;
 		int yPos;
 		
@@ -233,7 +244,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 			this.tableNumber = tableNumber;
 		}
 		
-		Table(int tableNumber, int xPos, int yPos) {
+		public Table(int tableNumber, int xPos, int yPos) {
 			this.tableNumber = tableNumber;
 			this.xPos = xPos;
 			this.yPos = yPos;
@@ -344,6 +355,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 		cashier.deductCash(payroll); 
 		setInactive(); 
 		onDuty = true; 
+		entered = true;
 		return true;
 	}
 	

@@ -3,10 +3,14 @@ package role.davidRestaurant;
 import mainCity.PersonAgent;
 import mainCity.restaurants.restaurant_zhangdt.sharedData.OrderTicket;
 import mainCity.restaurants.restaurant_zhangdt.sharedData.RevolvingStand;
+import mainCity.test.EventLog;
+import mainCity.test.LoggedEvent;
 
 public class DavidSharedWaiterRole extends DavidWaiterRole{
 	private RevolvingStand stand;
 
+	EventLog log = new EventLog(); 
+	
 	public DavidSharedWaiterRole(String name, PersonAgent p) {
 		super(name, p);
 	}
@@ -16,7 +20,7 @@ public class DavidSharedWaiterRole extends DavidWaiterRole{
 	}
 	
 	protected void HeresAnOrder(myCustomer c) { 
-		print("Putting order onto stand..."); 
+		log.add(new LoggedEvent("Putting order onto stand...")); 
 		c.custState = CustomerStates.WaitingForOrder;
 		OrderTicket order = new OrderTicket(this, c.orderChoice, c.t); 
 		

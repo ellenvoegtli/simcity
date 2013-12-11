@@ -1701,7 +1701,7 @@ public class PersonTest extends TestCase {
 		
 		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
 		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());	
-		assertEquals("Person's current action should be going to bank .", person.getCurrentAction().type, ActionType.bankWithdraw);
+		assertTrue("Person's current action should be going to bank .", person.getCurrentAction().type.toString().contains("bankWithdraw"));
 		
 		//Arriving at market
 		person.setEvent(PersonEvent.arrivedAtBank);
@@ -1746,7 +1746,7 @@ public class PersonTest extends TestCase {
 		
 		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
 		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());	
-		assertEquals("Person's current action should be going to bank .", person.getCurrentAction().type, ActionType.bankDeposit);
+		assertTrue("Person's current action should be going to bank .", person.getCurrentAction().type.toString().contains("bankDeposit"));
 		
 		//Arriving at market
 		person.setEvent(PersonEvent.arrivedAtBank);
@@ -1791,7 +1791,7 @@ public class PersonTest extends TestCase {
 		
 		assertTrue("Person's pickAndExecute should return true. It didn't.", person.pickAndExecuteAnAction());
 		assertTrue("Person's action list should be empty again. It isn't.", person.getActions().isEmpty());	
-		assertEquals("Person's current action should be going to bank .", person.getCurrentAction().type, ActionType.bankLoan);
+		assertTrue("Person's current action should be going to bank .", person.getCurrentAction().type.toString().contains("bankLoan"));
 		
 		//Arriving at market
 		person.setEvent(PersonEvent.arrivedAtBank);

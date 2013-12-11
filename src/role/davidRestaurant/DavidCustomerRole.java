@@ -1,6 +1,7 @@
 package role.davidRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.restaurant_zhangdt.gui.CustomerGui;
@@ -523,6 +524,8 @@ public class DavidCustomerRole extends Role implements Customer {
 	}
 
 	public boolean restaurantOpen() {
+		host = (DavidHostRole) ContactList.getInstance().getDavidHost();
+		
 		if(host != null && host.isActive() && host.isOpen()){ 
 			return true;
 		}

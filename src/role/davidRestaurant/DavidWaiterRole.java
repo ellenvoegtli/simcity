@@ -210,7 +210,7 @@ public abstract class DavidWaiterRole extends Role implements Waiter, WorkerRole
 	}
 	
 	public void msgAtTable() {  //from animation
-		log("msgAtTable() called");
+		//log("msgAtTable() called");
 		if(atTable.availablePermits() < 1){
 			atTable.release();// = true;
 			stateChanged();
@@ -218,7 +218,7 @@ public abstract class DavidWaiterRole extends Role implements Waiter, WorkerRole
 	}
 	
 	public void msgHostFree() {
-		log("msgHostFree() called");
+		//log("msgHostFree() called");
 		if(hostFree.availablePermits() < 1) {
 			hostFree.release();
 			stateChanged();
