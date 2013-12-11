@@ -24,6 +24,7 @@ import java.util.TreeMap;
 import java.util.concurrent.Semaphore;
 
 import mainCity.PersonAgent;
+import mainCity.PersonAgent.ActionType;
 import role.Role;
 
 
@@ -307,7 +308,11 @@ public boolean pickAndExecuteAnAction()
 		PayRent();
 		return true;
 	}
+<<<<<<< HEAD
 	if(!person.getActions().isEmpty() && isFree == true) {//makes the person leave the home if there's something else to do
+=======
+	if(!person.getActions().isEmpty() && isFree == true && (person.getCurrentAction().type == ActionType.home || person.getCurrentAction().type == ActionType.homeAndEat)) {//makes the person leave the home if there's something else to do
+>>>>>>> bd8f9d5cae559bff47321ea27490d6a45019ea98
 		gui.DoLeave();
 		
 		if(owner)
@@ -361,8 +366,15 @@ public void serviceAppliance()
 			log("owner is performing maintenance himself");
 			fixAppliance(app, true);
 		}
+<<<<<<< HEAD
 			needsWork.remove(app);
 		
+=======
+		//synchronized(needsWork)
+		//{
+			needsWork.remove(app);
+		//}
+>>>>>>> bd8f9d5cae559bff47321ea27490d6a45019ea98
 	  }
 	}
 	fState = fixState.fixed;

@@ -1,5 +1,6 @@
 package mainCity.restaurants.enaRestaurant.gui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import mainCity.contactList.ContactList;
@@ -9,6 +10,9 @@ import mainCity.gui.CityGui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,7 +27,7 @@ public class EnaAnimationPanel extends CityCard implements ActionListener {
     private Image bufferImage;
     private Dimension bufferSize;
 	private EnaRestaurantPanel restaurant = new EnaRestaurantPanel(this);
-
+	private BufferedImage resttableImg = null;
 
     private List<Gui> guis = new ArrayList<Gui>();
     private List<Gui> personGuis = new ArrayList<Gui>();
@@ -37,6 +41,14 @@ public class EnaAnimationPanel extends CityCard implements ActionListener {
         
         bufferSize = this.getSize();
  
+        StringBuilder path = new StringBuilder("imgs/");
+        try {
+			resttableImg = ImageIO.read(new File(path.toString() + "resttable.png"));
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+        
     	Timer timer = new Timer(7, this );
     	timer.start();
     }
@@ -53,13 +65,16 @@ public class EnaAnimationPanel extends CityCard implements ActionListener {
         g2.fillRect(0, 0, WINDOWX, WINDOWY );
 
         //Here is the table
-        g2.setColor(Color.ORANGE);       
-        g2.fillRect(50 ,tableY, tableWidth, tableHeight);
+        g2.setColor(Color.ORANGE);    
+        g.drawImage(resttableImg,50, tableY,null);
+        g.drawImage(resttableImg,tableX, tableY,null);
+        g.drawImage(resttableImg,350, tableY,null);
+        //g2.fillRect(50 ,tableY, tableWidth, tableHeight);
 
-        g2.fillRect(tableX, tableY, tableWidth, tableHeight);//200 and 250 need to be table params
+        //g2.fillRect(tableX, tableY, tableWidth, tableHeight);//200 and 250 need to be table params
 
         
-        g2.fillRect(350,  tableY,  tableWidth,  tableHeight);
+        //g2.fillRect(350,  tableY,  tableWidth,  tableHeight);
 
         g.setColor(Color.RED);
         g.fillRect(275, 290, 90, 25);

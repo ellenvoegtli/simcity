@@ -1,19 +1,10 @@
 package mainCity;
 import agent.Agent;
 import role.*;
-import role.bank.BankCustomerRole;
-import role.bank.BankManagerRole;
-import role.bank.BankRobberRole;
-import role.bank.BankTellerRole;
-import role.bank.BankerRole;
+import role.bank.*;
 import role.davidRestaurant.*;
 import role.ellenRestaurant.*;
-import role.enaRestaurant.EnaCashierRole;
-import role.enaRestaurant.EnaCookRole;
-import role.enaRestaurant.EnaCustomerRole;
-import role.enaRestaurant.EnaHostRole;
-import role.enaRestaurant.EnaNormalWaiterRole;
-import role.enaRestaurant.EnaSharedWaiterRole;
+import role.enaRestaurant.*;
 import role.jeffersonRestaurant.*;
 import role.marcusRestaurant.*;
 import role.market.*;
@@ -25,7 +16,6 @@ import java.util.*;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.Semaphore;
 
-import mainCity.bank.*;
 import mainCity.bank.interfaces.BankCustomer;
 import mainCity.contactList.ContactList;
 import mainCity.gui.*;
@@ -34,7 +24,6 @@ import mainCity.gui.AnimationPanel.HomeObject;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.ManagerRole;
 import mainCity.interfaces.PersonGuiInterface;
-import mainCity.restaurants.enaRestaurant.*;
 import mainCity.test.*;
 import transportation.BusAgent;
 
@@ -130,6 +119,13 @@ public class PersonAgent extends Agent {
 	public boolean isGoingOrAtWork(){
 		synchronized(actions) {
 			if(actions.contains(ActionType.work) || (currentAction != null && currentAction.type == ActionType.work))
+				return true;
+			return false;
+		}
+	}
+	public boolean isGoingOrAtMarket(){
+		synchronized(actions) {
+			if(actions.contains(ActionType.market) || (currentAction != null && currentAction.type == ActionType.market))
 				return true;
 			return false;
 		}
@@ -335,7 +331,7 @@ public class PersonAgent extends Agent {
 		if(currentAction != null && state == PersonState.normal && !traveling) {
 			if(event == PersonEvent.arrivedAtHome) {
 				synchronized(actions) {
-					if(!actions.isEmpty()) { //If there's other stuff to do, don't go inside yet
+					if(!actions.isEmpty() && (!actionExists(ActionType.home) || !actionExists(ActionType.homeAndEat))) { //If there's other stuff to do, don't go inside yet
 						currentAction.state = ActionState.done;
 						return true;
 					}
@@ -360,7 +356,7 @@ public class PersonAgent extends Agent {
 					else
 						roles.get(currentAction.type).setActive();
 				}
-				
+
 				enterBuilding();
 				return true;
 			}
@@ -415,9 +411,6 @@ public class PersonAgent extends Agent {
 							currentAction.state = ActionState.done;
 							return true;
 						}
-						
-						currentAction.state = ActionState.done;
-						return true;
 					}
 										
 					customer.setActive();
@@ -994,7 +987,6 @@ public class PersonAgent extends Agent {
 		if((destination == CityLocation.home) || (destination == CityLocation.renterHome)) { 
 			walk = true;
 		}
-		walk = true;
 
 		if(!chooseTransportation){
 			if((walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar)) { //chose to walk

@@ -51,4 +51,7 @@ public class MockCustomerGui extends Mock implements CustomerGuiInterface {
 	public boolean goInside(Map<String, Integer> m){
 		return true;
 	}
+	public boolean goInside(){
+		return true;
+	}
 }

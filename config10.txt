@@ -1,0 +1,27 @@
+-Marcus Restaurant
+Name:marcuscook;Cash:100;Renter:false;hasCar:false;Occupation:marcusCook;ShiftBegin:6;ShiftEnd:12;Actions:work,bank
+Name:marcushost;Cash:100;Renter:true;hasCar:true;Occupation:marcusHost;ShiftBegin:6;ShiftEnd:12;Actions:work,market
+Name:marcuscashier;Cash:100;Renter:true;hasCar:false;Occupation:marcusCashier;ShiftBegin:6;ShiftEnd:12;Actions:work,hungry
+Name:marcuswaiter;Cash:100;Renter:true;hasCar:true;Occupation:marcusWaiter;ShiftBegin:6;ShiftEnd:12;Actions:work
+Name:marcuscook2;Cash:100;Renter:false;hasCar:false;Occupation:marcusCook;ShiftBegin:18;ShiftEnd:0;Actions:bank
+Name:marcushost2;Cash:100;Renter:true;hasCar:true;Occupation:marcusHost;ShiftBegin:18;ShiftEnd:0;Actions:bank
+Name:marcuscashier2;Cash:100;Renter:true;hasCar:false;Occupation:marcusCashier;ShiftBegin:18;ShiftEnd:0;Actions:hungry,bank
+Name:marcuswaiter2;Cash:100;Renter:true;hasCar:true;Occupation:marcusWaiter;ShiftBegin:18;ShiftEnd:0;Actions:hungry,market
+-Jefferson Restaurant
+Name:jeffersoncook;Cash:100;Renter:false;hasCar:false;Occupation:jeffersonCook;ShiftBegin:4;ShiftEnd:10;Actions:work
+Name:jeffersoncashier;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonCashier;ShiftBegin:4;ShiftEnd:10;Actions:work
+Name:jeffersonhost;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonHost;ShiftBegin:4;ShiftEnd:10;Actions:work
+Name:jeffersonwaiter;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonWaiter;ShiftBegin:4;ShiftEnd:10;Actions:work
+Name:jeffersoncook2;Cash:100;Renter:false;hasCar:false;Occupation:jeffersonCook;ShiftBegin:16;ShiftEnd:22;Actions:bank
+Name:jeffersoncashier2;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonCashier;ShiftBegin:16;ShiftEnd:22;Actions:market,hungry
+Name:jeffersonhost2;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonHost;ShiftBegin:16;ShiftEnd:22;Actions:restaurant
+Name:jeffersonwaiter2;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonWaiter;ShiftBegin:16;ShiftEnd:22;Actions:market,bank
+-David Restaurant 
+Name:davidcook;Cash:100;Renter:true;hasCar:false;Occupation:davidCook;ShiftBegin:2;ShiftEnd:8;Actions:work
+Name:davidcashier;Cash:100;Renter:true;hasCar:false;Occupation:davidCashier;ShiftBegin:2;ShiftEnd:8;Actions:work
+Name:davidhost;Cash:100;Renter:false;hasCar:true;Occupation:davidHost;ShiftBegin:2;ShiftEnd:8;Actions:work
+Name:davidwaiter;Cash:100;Renter:false;hasCar:false;Occupation:davidWaiter;ShiftBegin:2;ShiftEnd:8;Actions:work
+Name:davidcook2;Cash:100;Renter:true;hasCar:false;Occupation:davidCook;ShiftBegin:14;ShiftEnd:20;Actions:bank
+Name:davidcashier2;Cash:100;Renter:true;hasCar:false;Occupation:davidCashier;ShiftBegin:14;ShiftEnd:20;Actions:bank
+Name:davidhost2;Cash:100;Renter:false;hasCar:true;Occupation:davidHost;ShiftBegin:0;ShiftEnd:20;Actions:market,restaurant,
+Name:davidwaiter2;Cash:100;Renter:false;hasCar:false;Occupation:davidWaiter;ShiftBegin:14;ShiftEnd:20;Actions:market,home

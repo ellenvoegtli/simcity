@@ -23,5 +23,11 @@ public class MockDeliveryManGui extends Mock implements DeliveryManGuiInterface 
 		log.add(new LoggedEvent("Gui is told to DoDeliverOrder to " + restaurantName + " by agent."));
 	}
 
+	public void guiReappear(){
+		
+	}
+	public void hide(){
+		
+	}
 	
 }

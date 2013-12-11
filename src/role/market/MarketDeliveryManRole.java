@@ -33,6 +33,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	private Semaphore atDestination = new Semaphore(0, true);
 	private boolean onDuty;
 	private boolean entered;
+	private boolean needGui;
 	
 	
 	//constructor
@@ -42,6 +43,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		state = AgentState.doingNothing;
 		onDuty = true;
 		entered = true;
+		needGui = false;
 	}
 	public List<Bill> getBills(){
 		return bills;
@@ -166,11 +168,16 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	public boolean pickAndExecuteAnAction() {
+		if (needGui){
+			deliveryGui.guiReappear();
+			needGui = false;
+		}
 		if (entered){
 			if (this.getName().toLowerCase().contains("market2"))
 				ContactList.getInstance().setMarket2DeliveryMan(this);
 			else
 				ContactList.getInstance().setMarketDeliveryMan(this);
+			
 			entered = false;
 		}
 		
@@ -230,10 +237,11 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		
 		
 		if (bills.isEmpty() && !onDuty){		//officially going off-duty
-			deliveryGui.DoGoToHomePosition();
+			deliveryGui.hide();
 			super.setInactive();
 			onDuty = true;
 			entered = true;
+			needGui = true;
 		}
 
 
