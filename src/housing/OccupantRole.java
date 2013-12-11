@@ -319,11 +319,7 @@ public boolean pickAndExecuteAnAction()
 		needGui = true;
 		return true;
 	}
-	
-<<<<<<< HEAD
-=======
 	//System.out.println("NOTHING LEFT TO DO IN OCCUPANT SCHEDULER");
->>>>>>> 4eb299f1865b53a49686bfe3ad6eb9cb6e1fc937
 	return false;
 }
 	
