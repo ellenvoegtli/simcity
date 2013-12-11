@@ -41,6 +41,7 @@ public class GreeterTest extends TestCase {
 		//=============================== NEXT TEST =========================================================================
 		public void testOneCustomerOneEmployeeScenario(){
 			greeter.addEmployee(employee1);
+			greeter.setCashierArrived(true);
 			
 			//check preconditions
             assertEquals("Greeter should have 0 waitingCustomers in it. It doesn't.", greeter.getWaitingCustomers().size(), 0);
@@ -74,6 +75,7 @@ public class GreeterTest extends TestCase {
 		//=============================== NEXT TEST =========================================================================
 		public void testTwoCustomersOneEmployeeScenario(){
 			greeter.addEmployee(employee1);
+			greeter.setCashierArrived(true);
 			
 			//check preconditions
             assertEquals("Greeter should have 0 waitingCustomers in it. It doesn't.", greeter.getWaitingCustomers().size(), 0);
@@ -122,6 +124,7 @@ public class GreeterTest extends TestCase {
 		public void testTwoCustomersTwoEmployeesScenario(){
 			greeter.addEmployee(employee1);
 			greeter.addEmployee(employee2);
+			greeter.setCashierArrived(true);
 			
 			//check preconditions
             assertEquals("Greeter should have 0 waitingCustomers in it. It doesn't.", greeter.getWaitingCustomers().size(), 0);

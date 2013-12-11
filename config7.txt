@@ -1,6 +1,4 @@
 -Scenario: Vehicle-vehicle accident
-Name:davidcook;Cash:100;Renter:true;hasCar:false;Occupation:davidCook;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:davidcashier;Cash:100;Renter:true;hasCar:false;Occupation:davidCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:davidhost;Cash:100;Renter:false;hasCar:true;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:davidwaiter1;Cash:100;Renter:false;hasCar:false;Occupation:davidSharedWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:davidwaiter2;Cash:100;Renter:false;hasCar:false;Occupation:davidSharedWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:recklessDriverbus;Cash:100;Renter:true;hasCar:true;Occupation:jeffersonWaiter;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:sacrificebus;Cash:100;Renter:true;hasCar:true;Occupation:marcusTeller;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:banktellerbus;Cash:100;Renter:true;hasCar:true;Occupation:bankTeller;ShiftBegin:6;ShiftEnd:22;Actions:work

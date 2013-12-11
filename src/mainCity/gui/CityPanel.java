@@ -158,6 +158,15 @@ public class CityPanel extends JPanel{
 			person.setTransportation(true);
 			person.setWalk(false);
 		}
+		
+		if(person.getName().toLowerCase().contains("crash")){ 
+			person.setSuicidal(true);
+		}
+		
+		if(person.getName().toLowerCase().contains("reckless")){ 
+			gui.getAnimationPanel().setRecklessDriving(true);
+		}
+		
 		person.setHomePlace(renter);
 		person.setCar(hasCar);
 
