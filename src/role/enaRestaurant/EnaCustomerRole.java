@@ -29,6 +29,7 @@ public class EnaCustomerRole extends Role implements Customer{
 	private String choice; 
 	public double cash;
 	public double debt;
+	public double money;
 	private boolean returnCustomer = false;
 	// agent correspondents
 	private Host host;
@@ -56,6 +57,7 @@ public class EnaCustomerRole extends Role implements Customer{
 		super(p);
 		this.name = name;
 		this.debt = 0;
+		money = super.getCash();
 		
 		
 					if(name.equals("poor"))
@@ -274,7 +276,7 @@ public class EnaCustomerRole extends Role implements Customer{
 		{
 			log("customer is finished looking at the menu and is looking to the waiter");
 			state = AgentState.Ordering;
-			getCustomerGui().Deciding();
+			getGui().Deciding();
 			RequestOrder();
 			return true;
 		}
@@ -297,7 +299,7 @@ public class EnaCustomerRole extends Role implements Customer{
 		{
 			log("the customer is eating his food/finishing");
 			state = AgentState.DoneEating;
-			getCustomerGui().Decided();
+			getGui().Decided();
 			EatFood();
 			return true;
 		}
@@ -319,7 +321,7 @@ public class EnaCustomerRole extends Role implements Customer{
 		{
 			log("done");
 			state = AgentState.DoingNothing;
-			getCustomerGui().DoExitRestaurant();
+			getGui().DoExitRestaurant();
 			super.setInactive();
 			//no action
 			return true;
@@ -352,7 +354,7 @@ public class EnaCustomerRole extends Role implements Customer{
 	{
 		returnCustomer = true;
 		Do("Being seated. Going to table");
-		getCustomerGui().DoGoToSeat(tableNum);
+		getGui().DoGoToSeat(tableNum);
 	}
 	
 	private void MenuBrowse()
@@ -389,7 +391,7 @@ public class EnaCustomerRole extends Role implements Customer{
 
 	private void EatFood() 
 	{
-		getCustomerGui().Arriving(choice);
+		getGui().Arriving(choice);
 		
 		Do("Eating Food");
 		//This next complicated line creates and starts a timer thread.
@@ -413,7 +415,8 @@ public class EnaCustomerRole extends Role implements Customer{
 
 		private void FinishedMeal()
 		{
-			getCustomerGui().Arrived(choice);
+			getGui().Arrived(choice);
+
 			waiter.msgDoneEating(this);
 			//leaveTable();
 			//PayCashier();
@@ -447,20 +450,14 @@ public class EnaCustomerRole extends Role implements Customer{
 	}
 
 	public void setGui(EnaCustomerGui g) {
-		setCustomerGui(g);
+		this.customerGui = g;
 	}
 
 	public EnaCustomerGui getGui() {
-		return getCustomerGui();
-	}
-
-	public EnaCustomerGui getCustomerGui() {
 		return customerGui;
 	}
 
-	public void setCustomerGui(EnaCustomerGui customerGui) {
-		this.customerGui = customerGui;
-	}
+	
 
 	public void setXPos(int xp) {
 			customerGui.xPos = xp;

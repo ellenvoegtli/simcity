@@ -45,13 +45,13 @@ public class EnaSharedWaiterRole extends EnaWaiterRole {
 		waiterGui.DoLeaveCustomer();
 	}
 
-	@Override
+	
 	public void msgDoneEating(Customer enaCustomer) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	
 	public void msgCheckPlease(Customer enaCustomer, String choice) {
 		// TODO Auto-generated method stub
 		

@@ -132,8 +132,6 @@ public class EnaCustomerGui implements Gui{
 	
 	public boolean goInside() {
 		if(agent.restaurantOpen()) {
-			System.out.println("^^^^^^^^^^^^^^^");
-
 			isHungry = true;
 			agent.gotHungry();
 			setPresent(true);

@@ -35,13 +35,13 @@ public class EnaNormalWaiterRole extends EnaWaiterRole
 
 	
 
-	@Override
+	
 	public void msgDoneEating(Customer enaCustomerRole) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	
 	public void msgCheckPlease(Customer enaCustomerRole, String choice) {
 		// TODO Auto-generated method stub
 		

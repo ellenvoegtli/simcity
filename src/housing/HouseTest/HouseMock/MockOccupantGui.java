@@ -102,4 +102,12 @@ public class MockOccupantGui extends Mock implements OccupantGuiInterface{
 		
 	}
 
+
+
+	@Override
+	public void guiAppear() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

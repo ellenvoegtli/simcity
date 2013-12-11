@@ -286,7 +286,7 @@ public boolean closeBuilding()
 	double payroll = 0;
 	for(Waiter w : waiters) {
 		EnaWaiterRole temp = ((EnaWaiterRole) w);
-		double amount = temp.getShiftDuration()*4.75;
+		double amount = temp.getShiftDuration()*5.25;
 		temp.msgGoOffDuty(amount);
 		payroll += amount;
 	}

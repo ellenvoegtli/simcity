@@ -2,6 +2,7 @@ package housing;
 
 
 import housing.personHome.Appliance;
+import housing.HouseTest.HouseMock.MockOccupantGui;
 import housing.Interfaces.Occupant;
 import housing.Interfaces.OccupantGuiInterface;
 import housing.gui.HomePanel;
@@ -36,13 +37,14 @@ public class OccupantRole extends Role implements Occupant
 	Timer timer = new Timer();
 	private LandlordRole landLord;
 	private personHome home;
-	public OccupantGui gui;
+	public OccupantGuiInterface gui;
 	public boolean owner;
 	public boolean isFree;
 	public PersonAgent person;
 	private String meal = "pasta";
 	private String name;
 	private int rent;
+	private boolean needGui;
 		
 	private Semaphore destination = new Semaphore(0,true);
 	
@@ -95,6 +97,7 @@ public OccupantRole(PersonAgent p, String personNm)
 	super(p);
 	this.name = personNm;
 	this.person=p;
+	needGui = false;
 
 	for (HomeObject homer : AnimationPanel.houses)
 	{	
@@ -105,16 +108,19 @@ public OccupantRole(PersonAgent p, String personNm)
 		}
 	}
 	
-	int count = 0;
+	//int count = 0;
 	for(ApartmentObject apartment : AnimationPanel.apartments)
 	{
 		if(apartment.getBuild().equals(p.getHomePlace()))
 		{
 			owner = false;
 			rent = 850;
-			setLandLord(ContactList.getInstance().getLandLords().get(count));
+			if(ContactList.getInstance().getLandLords().size() != 0)
+			{
+				setLandLord(ContactList.getInstance().getLandLords().get(ContactList.getInstance().getLandLords().size()-1));
+			}
 		}
-		count++;
+		//count++;
 	}
 	
 	
@@ -217,19 +223,12 @@ public void msgCookFood(String foodCh)
 public boolean pickAndExecuteAnAction()
 {
 	
-	/*if(needsWork.size() == 0)
+	if(needGui)
 	{
-		for (Appliance app : home.Appliances)
-		{
-		if(app.working == false)
-		{
-			log("tool is broken" +app.appliance);
-			needsWork.add(app.appliance);
-			fState = fixState.fixing;
-		}
-		}
+		gui.guiAppear();
+		needGui = false;
 		return true;
-	}*/
+	}
 	
 	if(needsWork.isEmpty() && fState == fixState.nothing && eState == eatingState.nothing )
 	{
@@ -310,15 +309,21 @@ public boolean pickAndExecuteAnAction()
 		PayRent();
 		return true;
 	}
+
 	if(!person.getActions().isEmpty() && isFree == true && (person.getCurrentAction().type == ActionType.home || person.getCurrentAction().type == ActionType.homeAndEat)) {//makes the person leave the home if there's something else to do
 		gui.DoLeave();
+		
 		if(owner)
 			landLord.setInactive();
 		setInactive();
+		needGui = true;
 		return true;
 	}
 	
+<<<<<<< HEAD
+=======
 	//System.out.println("NOTHING LEFT TO DO IN OCCUPANT SCHEDULER");
+>>>>>>> 4eb299f1865b53a49686bfe3ad6eb9cb6e1fc937
 	return false;
 }
 	
@@ -363,10 +368,9 @@ public void serviceAppliance()
 			log("owner is performing maintenance himself");
 			fixAppliance(app, true);
 		}
-		//synchronized(needsWork)
-		//{
 			needsWork.remove(app);
-		//}
+		
+
 	  }
 	}
 	fState = fixState.fixed;
@@ -424,17 +428,16 @@ if (!owner)
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
-	
+
 	timer.schedule(new TimerTask() {
 		public void run() {
-			log("fixed appliance" + app);
+			log("fixed appliance");
 			//fState = fixState.fixed;
 			stateChanged();
 		}
 	},
 	2000);
 }
-	
 }
 
 
@@ -506,7 +509,7 @@ public void EatFood()
 {
 	eState = eatingState.eating;
 	//stateChanged();
-
+	
 	if (owner) gui.DoGoToKitchenTable();
 	if(!owner) gui.DoGoToKitchenTableA();
 				System.out.println("eating?");
@@ -586,13 +589,13 @@ public void setLandLord(LandlordRole lndlrd)
 }
 
 
-public void setGui(OccupantGui occupantGui) 
+public void setGui(OccupantGuiInterface oGui) 
 {
-	this.gui = occupantGui;	
+	this.gui = oGui;	
 }
 
 
-public OccupantGui getGui() {
+public OccupantGuiInterface getGui() {
 	return gui;
 }
 
@@ -613,6 +616,18 @@ public void setNotActive()
 {
 	super.setInactive();
 	hState = homeState.gone;
+}
+
+
+
+public boolean isNeedGui() {
+	return needGui;
+}
+
+
+
+public void setNeedGui(boolean needGui) {
+	this.needGui = needGui;
 }
 
 	

@@ -48,6 +48,7 @@ public class LandlordRole extends Role implements landLord
 	 public EventLog log = new EventLog();
 	 public enum landlordActive {leaving, working, nothing, done, end};
 	 public landlordActive lDActive = landlordActive.nothing;
+	 //public boolean needGui;
 	 
 	
 	 //for trace panel
@@ -131,12 +132,13 @@ public class LandlordRole extends Role implements landLord
 			lDActive = landlordActive.leaving;
 			occ.isFree = true;
 			occ.gui.DoLeave();
+			
 		try {
 			occ.getDestinationSem().acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		occ.gui.getAnimationP().getPersonGuis().remove(occ.gui);
+		//occ.gui.getAnimationP().getPersonGuis().remove(occ.gui);
 		super.setInactive();
 		occ.setNotActive();
 
@@ -160,7 +162,7 @@ public class LandlordRole extends Role implements landLord
 		log("the landlord is working on home");
 		int xPos = 0;
 		int yPos = 0;
-		for(OccupantRole oc : ToDo.keySet())
+		for(Occupant oc : ToDo.keySet())
 		{
 			for (String a : ToDo.get(oc))
 			{
@@ -212,7 +214,11 @@ public void goBackHome()
 {
 	super.setInactive();
 	person.roleInactive();
+	
 	person.msgGoHome();
+	
+	occ.setNeedGui(true);
+
 
 	lDActive = landlordActive.end;
 	stateChanged();
@@ -278,14 +284,13 @@ public void goBackHome()
 	}
 
 
+
+
 	@Override
 	public void msgPleaseFix(Occupant occp, String appName) {
 		// TODO Auto-generated method stub
 		
 	}
-
-
-	
 
 
 

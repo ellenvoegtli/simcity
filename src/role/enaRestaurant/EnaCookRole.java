@@ -33,7 +33,8 @@ public class EnaCookRole extends Role implements MainCook {
 	private RevolvingStand stand;
 	private List<MarketGreeterRole> markets;
 
-
+	private boolean onDuty;
+	private boolean needGui;
 	private boolean inventoryChecked = false;
 	public enum OrderStatus 
 	{pending, cooking, waiting, cooked, restocking, orderDone};
@@ -50,7 +51,8 @@ public class EnaCookRole extends Role implements MainCook {
 		super(p);
 		
 		markets = Collections.synchronizedList(new ArrayList<MarketGreeterRole>());
-
+		onDuty = true;
+		needGui = false;
 		this.name = name;
 		Foods.put( "steak", new Food("steak", 1));
 		Foods.put("porkchops", new Food("porkchops", 1));
@@ -143,7 +145,12 @@ public class EnaCookRole extends Role implements MainCook {
 	 */
 	public boolean pickAndExecuteAnAction() 
 	{
-		
+		if(needGui)
+		{
+			ContactList.getInstance().getEnaCook();
+			//cookGui.guiAppear();
+			needGui = false;
+		}
 		synchronized(Orders)
 		{
 			for (Order order : Orders) 
@@ -174,6 +181,13 @@ public class EnaCookRole extends Role implements MainCook {
 		{
 			checkStand();
 			return true;
+		}
+		
+		if(!onDuty) {
+			//cookGui.DoLeaveRestaurant();
+			super.setInactive();
+			onDuty = true;
+			needGui = true;
 		}
 		return false;
 		

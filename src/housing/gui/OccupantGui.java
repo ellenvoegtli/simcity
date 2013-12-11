@@ -202,6 +202,12 @@ public class OccupantGui implements Gui, OccupantGuiInterface
 			this.animation = animation;
 		}
 
+
+		public void guiAppear() {
+			xDestination = 20;
+			yDestination = 45;
+		}
+
 	
 
 }

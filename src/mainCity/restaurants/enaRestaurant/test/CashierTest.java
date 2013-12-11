@@ -280,7 +280,7 @@ public void testFiveScenerio()
 	//step 2 of the test	
 			cashier.msgPayment("steak", 20.00, customer);
 			cashier.msgPayment("lamb", 5.99, customer3);
-			cashier.msgRestockBill(43.00, market);
+			//cashier.msgRestockBill(43.00, market);
 		
 //check postConditions for step 2/ preconditions for step 3
 			

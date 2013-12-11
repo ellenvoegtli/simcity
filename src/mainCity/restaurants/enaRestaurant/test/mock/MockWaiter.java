@@ -2,6 +2,8 @@ package mainCity.restaurants.enaRestaurant.test.mock;
 
 
 //import restaurant.WaiterAgent.AgentEvent;
+import java.util.List;
+
 import role.enaRestaurant.EnaCustomerRole;
 import role.enaRestaurant.EnaHostRole.Table;
 import role.enaRestaurant.EnaWaiterRole.MyCustomers;
@@ -36,25 +38,32 @@ public class MockWaiter extends Mock implements Waiter {
 		log.add(new LoggedEvent("message that order is ready"));
 		
 	}
+	
+
 	@Override
-	public void msgReadyToOrder(EnaCustomerRole enaCustomerRole) {
-		// TODO Auto-generated method stub
+	public void msgReadyToOrder(Customer enaCustomer) {
+		log.add(new LoggedEvent("message ready to order"));
 		
 	}
 	@Override
-	public void msgHereIsMyChoice(String choice, EnaCustomerRole enaCustomerRole) {
-		// TODO Auto-generated method stub
+	public void msgHereIsMyChoice(String choice, Customer enaCustomer) {
+		log.add(new LoggedEvent("message here is choice"));
 		
 	}
 	@Override
-	public void msgDoneEating(EnaCustomerRole enaCustomerRole) {
-		// TODO Auto-generated method stub
+	public void msgDoneEating(Customer enaCustomer) {
+		log.add(new LoggedEvent("message done eating"));
 		
 	}
 	@Override
-	public void msgCheckPlease(EnaCustomerRole enaCustomerRole, String choice) {
-		// TODO Auto-generated method stub
+	public void msgCheckPlease(Customer enaCustomer, String choice) {
+		log.add(new LoggedEvent("message for check"));
 		
+	}
+	@Override
+	public List<MyCustomers> getMyCustomers() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
