@@ -18,5 +18,6 @@ public interface OccupantGuiInterface {
 	public abstract void DoGoToAppliance(int xPos, int yPos);
 	public abstract boolean isHungry();
 	public abstract void setHungry();
+	public abstract void guiAppear();
 
 }

@@ -42,6 +42,7 @@ public class OccupantRole extends Role implements Occupant
 	private String meal = "pasta";
 	private String name;
 	private int rent;
+	private boolean needGui;
 		
 	private Semaphore destination = new Semaphore(0,true);
 	
@@ -94,6 +95,7 @@ public OccupantRole(PersonAgent p, String personNm)
 	super(p);
 	this.name = personNm;
 	this.person=p;
+	needGui = false;
 
 	for (HomeObject homer : AnimationPanel.houses)
 	{	
@@ -219,19 +221,12 @@ public void msgCookFood(String foodCh)
 public boolean pickAndExecuteAnAction()
 {
 	
-	/*if(needsWork.size() == 0)
+	if(needGui)
 	{
-		for (Appliance app : home.Appliances)
-		{
-		if(app.working == false)
-		{
-			log("tool is broken" +app.appliance);
-			needsWork.add(app.appliance);
-			fState = fixState.fixing;
-		}
-		}
+		gui.guiAppear();
+		needGui = false;
 		return true;
-	}*/
+	}
 	
 	if(needsWork.isEmpty() && fState == fixState.nothing && eState == eatingState.nothing )
 	{
@@ -312,15 +307,16 @@ public boolean pickAndExecuteAnAction()
 		PayRent();
 		return true;
 	}
-	if(!person.getRoles().isEmpty() && isFree == true) {//makes the person leave the home if there's something else to do
+	if(!person.getActions().isEmpty() && isFree == true) {//makes the person leave the home if there's something else to do
 		gui.DoLeave();
+		
 		if(owner)
 			landLord.setInactive();
 		setInactive();
+		needGui = true;
 		return true;
 	}
 	
-	System.out.println("NOTHING LEFT TO DO IN OCCUPANT SCHEDULER");
 	return false;
 }
 	
@@ -365,10 +361,8 @@ public void serviceAppliance()
 			log("owner is performing maintenance himself");
 			fixAppliance(app, true);
 		}
-		synchronized(needsWork)
-		{
 			needsWork.remove(app);
-		}
+		
 	  }
 	}
 	fState = fixState.fixed;
@@ -508,7 +502,7 @@ public void EatFood()
 {
 	eState = eatingState.eating;
 	//stateChanged();
-
+	
 	if (owner) gui.DoGoToKitchenTable();
 	if(!owner) gui.DoGoToKitchenTableA();
 				System.out.println("eating?");
@@ -615,6 +609,18 @@ public void setNotActive()
 {
 	super.setInactive();
 	hState = homeState.gone;
+}
+
+
+
+public boolean isNeedGui() {
+	return needGui;
+}
+
+
+
+public void setNeedGui(boolean needGui) {
+	this.needGui = needGui;
 }
 
 	

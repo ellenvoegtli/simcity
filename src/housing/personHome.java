@@ -50,7 +50,7 @@ public class personHome
 	AAppliances.add(new Appliance("stove" , true, true));
 	AAppliances.add(new Appliance("fridge" , true, true));
 	AAppliances.add(new Appliance("sink" , true, true));
-	AAppliances.add(new Appliance("TV", false, true));
+	AAppliances.add(new Appliance("TV", true, true));
 
 		
 	}

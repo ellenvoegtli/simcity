@@ -48,6 +48,7 @@ public class LandlordRole extends Role implements landLord
 	 public EventLog log = new EventLog();
 	 public enum landlordActive {leaving, working, nothing, done, end};
 	 public landlordActive lDActive = landlordActive.nothing;
+	 //public boolean needGui;
 	 
 	
 	 //for trace panel
@@ -131,12 +132,13 @@ public class LandlordRole extends Role implements landLord
 			lDActive = landlordActive.leaving;
 			occ.isFree = true;
 			occ.gui.DoLeave();
+			
 		try {
 			occ.getDestinationSem().acquire();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		occ.gui.getAnimationP().getPersonGuis().remove(occ.gui);
+		//occ.gui.getAnimationP().getPersonGuis().remove(occ.gui);
 		super.setInactive();
 		occ.setNotActive();
 
@@ -212,7 +214,11 @@ public void goBackHome()
 {
 	super.setInactive();
 	person.roleInactive();
+	
 	person.msgGoHome();
+	
+	occ.setNeedGui(true);
+
 
 	lDActive = landlordActive.end;
 	stateChanged();
