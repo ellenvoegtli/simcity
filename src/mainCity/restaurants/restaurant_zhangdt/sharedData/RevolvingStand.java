@@ -58,5 +58,9 @@ public class RevolvingStand extends Object {
 	public boolean isEmpty() { 
 		return orderTickets.isEmpty(); 
 	}
+	
+	public Vector<OrderTicket> getOrderList() { 
+		return orderTickets; 
+	}
 }
 

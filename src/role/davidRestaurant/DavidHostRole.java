@@ -222,9 +222,9 @@ public class DavidHostRole extends Role implements ManagerRole{
 		}
 	}
 	
-	public class Table {
+	public static class Table {
 		DavidCustomerRole occupiedBy;
-		int tableNumber;
+		public int tableNumber;
 		int xPos;
 		int yPos;
 		
@@ -233,7 +233,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 			this.tableNumber = tableNumber;
 		}
 		
-		Table(int tableNumber, int xPos, int yPos) {
+		public Table(int tableNumber, int xPos, int yPos) {
 			this.tableNumber = tableNumber;
 			this.xPos = xPos;
 			this.yPos = yPos;
