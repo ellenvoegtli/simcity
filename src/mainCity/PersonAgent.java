@@ -985,7 +985,7 @@ public class PersonAgent extends Agent {
 		if((destination == CityLocation.home) || (destination == CityLocation.renterHome)) { 
 			walk = true;
 		}
-		walk = false;
+		walk = true;
 
 		if(!chooseTransportation){
 			if((walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar)) { //chose to walk

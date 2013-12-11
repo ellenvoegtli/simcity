@@ -17,6 +17,7 @@ public class DavidSharedWaiterRole extends DavidWaiterRole{
 	
 	protected void HeresAnOrder(myCustomer c) { 
 		print("Putting order onto stand..."); 
+		c.custState = CustomerStates.WaitingForOrder;
 		OrderTicket order = new OrderTicket(this, c.orderChoice, c.t); 
 		
 		waiterGui.DoMoveToCook(); 
@@ -34,6 +35,5 @@ public class DavidSharedWaiterRole extends DavidWaiterRole{
 		else{ 
 			print("Stand is full"); 
 		}
-		c.custState = CustomerStates.Ordered;
 	}
 }
