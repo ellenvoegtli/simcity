@@ -1,25 +1,25 @@
 -Scenario: Changing Shifts for Market and bank(?)
 -Market
-Name:marketgreeter;Cash:100;Renter:true;hasCar:true;Occupation:marketGreeter;ShiftBegin:6;ShiftEnd:16;Actions:work
-Name:marketcashier;Cash:100;Renter:true;hasCar:false;Occupation:marketCashier;ShiftBegin:6;ShiftEnd:16;Actions:work
-Name:marketemployee1;Cash:100;Renter:true;hasCar:true;Occupation:marketEmployee;ShiftBegin:6;ShiftEnd:16;Actions:work
-Name:marketemployee2;Cash:100;Renter:true;hasCar:false;Occupation:marketEmployee;ShiftBegin:6;ShiftEnd:16;Actions:work
-Name:marketdeliveryman;Cash:100;Renter:true;hasCar:true;Occupation:marketDeliveryMan;ShiftBegin:6;ShiftEnd:16;Actions:work
+Name:marketgreeter;Cash:100;Renter:true;hasCar:true;Occupation:marketGreeter;ShiftBegin:6;ShiftEnd:10;Actions:work
+Name:marketcashier;Cash:100;Renter:true;hasCar:false;Occupation:marketCashier;ShiftBegin:6;ShiftEnd:10;Actions:work
+Name:marketemployee1;Cash:100;Renter:true;hasCar:true;Occupation:marketEmployee;ShiftBegin:6;ShiftEnd:10;Actions:work
+Name:marketemployee2;Cash:100;Renter:true;hasCar:false;Occupation:marketEmployee;ShiftBegin:6;ShiftEnd:10;Actions:work
+Name:marketdeliveryman;Cash:100;Renter:true;hasCar:true;Occupation:marketDeliveryMan;ShiftBegin:6;ShiftEnd:10;Actions:work
 -Market: second shift
-Name:marketgreeterShift2;Cash:100;Renter:true;hasCar:true;Occupation:marketGreeter;ShiftBegin:18;ShiftEnd:2;Actions:
-Name:marketcashierShift2;Cash:100;Renter:true;hasCar:false;Occupation:marketCashier;ShiftBegin:18;ShiftEnd:2;Actions:
-Name:marketemployee1Shift2;Cash:100;Renter:true;hasCar:true;Occupation:marketEmployee;ShiftBegin:18;ShiftEnd:2;Actions:
-Name:marketemployee2Shift2;Cash:100;Renter:true;hasCar:false;Occupation:marketEmployee;ShiftBegin:18;ShiftEnd:2;Actions:
-Name:marketdeliverymanShift2;Cash:100;Renter:true;hasCar:true;Occupation:marketDeliveryMan;ShiftBegin:18;ShiftEnd:2;Actions:
+Name:marketgreeterShift2;Cash:100;Renter:true;hasCar:true;Occupation:marketGreeter;ShiftBegin:12;ShiftEnd:16;Actions:
+Name:marketcashierShift2;Cash:100;Renter:true;hasCar:false;Occupation:marketCashier;ShiftBegin:12;ShiftEnd:16;Actions:
+Name:marketemployee1Shift2;Cash:100;Renter:true;hasCar:true;Occupation:marketEmployee;ShiftBegin:12;ShiftEnd:16;Actions:
+Name:marketemployee2Shift2;Cash:100;Renter:true;hasCar:false;Occupation:marketEmployee;ShiftBegin:12;ShiftEnd:16;Actions:
+Name:marketdeliverymanShift2;Cash:100;Renter:true;hasCar:true;Occupation:marketDeliveryMan;ShiftBegin:12;ShiftEnd:16;Actions:
 -Market2
-Name:market2greeter;Cash:100;Renter:true;hasCar:true;Occupation:market2Greeter;ShiftBegin:6;ShiftEnd:16;Actions:work
-Name:market2cashier;Cash:100;Renter:true;hasCar:false;Occupation:market2Cashier;ShiftBegin:6;ShiftEnd:16;Actions:work
-Name:market2employee1;Cash:100;Renter:true;hasCar:true;Occupation:market2Employee;ShiftBegin:6;ShiftEnd:16;Actions:work
-Name:market2employee2;Cash:100;Renter:true;hasCar:false;Occupation:market2Employee;ShiftBegin:6;ShiftEnd:16;Actions:work
-Name:market2deliveryman;Cash:100;Renter:true;hasCar:true;Occupation:market2DeliveryMan;ShiftBegin:6;ShiftEnd:16;Actions:work
+Name:market2greeter;Cash:100;Renter:true;hasCar:true;Occupation:market2Greeter;ShiftBegin:6;ShiftEnd:10;Actions:work
+Name:market2cashier;Cash:100;Renter:true;hasCar:false;Occupation:market2Cashier;ShiftBegin:6;ShiftEnd:10;Actions:work
+Name:market2employee1;Cash:100;Renter:true;hasCar:true;Occupation:market2Employee;ShiftBegin:6;ShiftEnd:10;Actions:work
+Name:market2employee2;Cash:100;Renter:true;hasCar:false;Occupation:market2Employee;ShiftBegin:6;ShiftEnd:10;Actions:work
+Name:market2deliveryman;Cash:100;Renter:true;hasCar:true;Occupation:market2DeliveryMan;ShiftBegin:6;ShiftEnd:10;Actions:work
 -Market2: second shift
-Name:market2greeterShift2;Cash:100;Renter:true;hasCar:false;Occupation:market2Greeter;ShiftBegin:18;ShiftEnd:2;Actions:
-Name:market2cashierShift2;Cash:100;Renter:true;hasCar:false;Occupation:market2Cashier;ShiftBegin:18;ShiftEnd:2;Actions:
-Name:market2employee1Shift2;Cash:100;Renter:true;hasCar:false;Occupation:market2Employee;ShiftBegin:18;ShiftEnd:2;Actions:
-Name:market2employee2Shift2;Cash:100;Renter:true;hasCar:true;Occupation:market2Employee;ShiftBegin:18;ShiftEnd:2;Actions:
-Name:market2deliverymanShift2;Cash:100;Renter:true;hasCar:true;Occupation:market2DeliveryMan;ShiftBegin:18;ShiftEnd:2;Actions:
+Name:market2greeterShift2;Cash:100;Renter:true;hasCar:false;Occupation:market2Greeter;ShiftBegin:12;ShiftEnd:16;Actions:
+Name:market2cashierShift2;Cash:100;Renter:true;hasCar:false;Occupation:market2Cashier;ShiftBegin:12;ShiftEnd:16;Actions:
+Name:market2employee1Shift2;Cash:100;Renter:true;hasCar:false;Occupation:market2Employee;ShiftBegin:12;ShiftEnd:16;Actions:
+Name:market2employee2Shift2;Cash:100;Renter:true;hasCar:true;Occupation:market2Employee;ShiftBegin:12;ShiftEnd:16;Actions:
+Name:market2deliverymanShift2;Cash:100;Renter:true;hasCar:true;Occupation:market2DeliveryMan;ShiftBegin:12;ShiftEnd:16;Actions:

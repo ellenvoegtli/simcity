@@ -198,6 +198,12 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 			c.msgGoOffDuty(c.getShiftDuration()*6.0);
 		}
 		
+		if (deliveryMan != null){
+			MarketDeliveryManRole d = (MarketDeliveryManRole) deliveryMan;
+			payroll += d.getShiftDuration()*6.0;
+			d.msgGoOffDuty(d.getShiftDuration()*6.0);
+		}
+		
 		addToCash(getShiftDuration()*9.50);
 		payroll += getShiftDuration()*9.50;		
 		
