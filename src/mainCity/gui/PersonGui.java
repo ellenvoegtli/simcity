@@ -201,7 +201,8 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	public void DoGetOnRoad() { 
 		System.out.println("Gui is told to go to nearest road");
 		destination = findNearestRoad();
-		calculatePath(destination.x, destination.y); 
+		calculatePath(destination.x, destination.y);
+		
 		if(!path.isEmpty()) {
 			xDestination = destination.x; 
 			yDestination = destination.y;
@@ -438,6 +439,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				destination = roads.get(i);
 			}
 		}
+
 		return destination;
 	}
 	
