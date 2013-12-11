@@ -129,7 +129,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JButton jeffersonRestButton = new JButton("Deplete all");
 	
 	private Object currentPerson;
-
+	public boolean collision = false;
 	
 	public CityGui() { 
 		int WINDOWX = 1300; 
@@ -782,11 +782,13 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			cityPanel.parseConfig("config6.txt");
 		}
 		else if (e.getSource() == scenario7Button){
+			collision = true;
 			System.out.println("SCENARIO7 BUTTON PRESSED");
 			personPanel.resetPanel();
 			cityPanel.parseConfig("config7.txt");
 		}
 		else if (e.getSource() == scenario8Button){
+			collision = true;
 			System.out.println("SCENARIO8 BUTTON PRESSED");
 			personPanel.resetPanel();
 			cityPanel.parseConfig("config8.txt");
