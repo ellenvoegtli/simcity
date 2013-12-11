@@ -104,16 +104,19 @@ public OccupantRole(PersonAgent p, String personNm)
 		}
 	}
 	
-	int count = 0;
+	//int count = 0;
 	for(ApartmentObject apartment : AnimationPanel.apartments)
 	{
 		if(apartment.getBuild().equals(p.getHomePlace()))
 		{
 			owner = false;
 			rent = 850;
-			setLandLord(ContactList.getInstance().getLandLords().get(count));
+			if(ContactList.getInstance().getLandLords().size() != 0)
+			{
+				setLandLord(ContactList.getInstance().getLandLords().get(ContactList.getInstance().getLandLords().size()-1));
+			}
 		}
-		count++;
+		//count++;
 	}
 	
 	

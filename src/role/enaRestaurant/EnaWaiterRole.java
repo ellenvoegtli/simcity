@@ -299,7 +299,7 @@ try
 			if(customer.customerState == custState.waiting)
 			{
 					SeatCustomer(customer);
-					//log("customer..............seated");
+					log("customer..............seated");
 					customer.customerState = custState.Ordered;
 					return true;
 			}
@@ -686,6 +686,7 @@ catch(ConcurrentModificationException e){};
 
 		MyCustomers(Customer c, Table t, custState cSt, String fdc )
 		{
+			print("waiter gets new myCustomer......");
 			cust = c;
 			table = t;
 			customerState = cSt;	
