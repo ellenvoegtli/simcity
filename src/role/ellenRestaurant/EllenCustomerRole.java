@@ -1,6 +1,7 @@
 package role.ellenRestaurant;
 
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.restaurants.EllenRestaurant.*;
@@ -415,6 +416,8 @@ public class EllenCustomerRole extends Role implements Customer{
 	}
 	
 	public boolean restaurantOpen() {
+		host = (EllenHostRole) ContactList.getInstance().ellenHost;
+		
 		if(host != null && host.isActive() && host.isOpen())
 			return true;
 		return false;

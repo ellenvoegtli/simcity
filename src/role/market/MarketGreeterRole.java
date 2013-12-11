@@ -3,6 +3,7 @@ package role.market;
 import mainCity.PersonAgent;
 import mainCity.market.interfaces.*;
 import mainCity.market.test.mock.MockCashier;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.*;
 import mainCity.interfaces.*;
 import role.Role;
@@ -24,13 +25,14 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 	boolean cashierArrived = false;
 	boolean deliveryArrived = false;
 	private boolean onDuty;
+	private boolean entered;
 
 	
 	public MarketGreeterRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		onDuty = true;
-		
+		entered = true;
 	}
 	
 	public void addEmployee(Employee e){
@@ -110,6 +112,13 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if (entered){
+			if (this.getName().toLowerCase().contains("market2"))
+				ContactList.getInstance().setMarket2Greeter(this);
+			else
+				ContactList.getInstance().setMarketGreeter(this);
+			entered = false;
+		}
 
 		synchronized(waitingCustomers){
 			synchronized(myEmployees){
@@ -195,6 +204,7 @@ public class MarketGreeterRole extends Role implements Greeter, ManagerRole {
 		cashier.deductCash(payroll);
 		setInactive();
 		onDuty = true;
+		entered = true;
 		return true;
 	}
 

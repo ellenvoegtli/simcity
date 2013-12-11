@@ -39,6 +39,7 @@ public class EllenCookRole extends Role implements Cook{
 	private boolean isCheckingStand;
 	private boolean opened = true;
 	private boolean onDuty;
+	private boolean entered;
 	
 
 	public EllenCookRole(PersonAgent p, String name/*, int steakAmount, int pizzaAmount, int pastaAmount, int soupAmount*/) {
@@ -48,6 +49,7 @@ public class EllenCookRole extends Role implements Cook{
 		opened = true;
 		isCheckingStand = false;
 		onDuty = true;
+		entered = false;
 		
 		//initialize inventory map
         inventory.put("pasta", new Food("pasta", 5000, 8));	//type, cookingTime, amount
@@ -175,6 +177,10 @@ public class EllenCookRole extends Role implements Cook{
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	public boolean pickAndExecuteAnAction() {
+		if (entered){
+			ContactList.getInstance().setEllenCook(this);
+			entered = false;
+		}
 		
 		if (opened){
 				//check inventory when restaurant opens
@@ -233,6 +239,7 @@ public class EllenCookRole extends Role implements Cook{
 		if (orders.isEmpty() && !onDuty){
 			setInactive();
 			onDuty = true;
+			entered = true;
 		}
 		
 		

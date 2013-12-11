@@ -25,6 +25,7 @@ public class EllenHostRole extends Role implements Host, ManagerRole {
 	private Collection<MyWaiter> myWaiters = Collections.synchronizedList(new ArrayList<MyWaiter>());
 	
 	private boolean onDuty;
+	private boolean entered;
 
 	
 	public EllenHostRole(PersonAgent p, String name) {
@@ -36,6 +37,7 @@ public class EllenHostRole extends Role implements Host, ManagerRole {
 			tables.add(new Table(ix));//how you add to a collections
 		}
 		onDuty = true;
+		entered = true;
 	}
 	
 	public String getName() {
@@ -156,7 +158,10 @@ public class EllenHostRole extends Role implements Host, ManagerRole {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
-		
+		if (entered){
+			ContactList.getInstance().setEllenHost(this);
+			entered = false;
+		}
 		
 		synchronized(myWaiters){
 			for (MyWaiter mw: myWaiters){		//lowest priority
@@ -325,6 +330,7 @@ public class EllenHostRole extends Role implements Host, ManagerRole {
 		
 		setInactive();
 		onDuty = true;
+		entered = true;
 		return true;
 	}
 	

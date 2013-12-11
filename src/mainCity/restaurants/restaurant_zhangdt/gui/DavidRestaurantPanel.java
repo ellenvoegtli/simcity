@@ -48,7 +48,7 @@ public class DavidRestaurantPanel extends JPanel implements ActionListener{
         	public void run() { 
         		try { 
         			if(cook.isActive()) {
-        				//cook.msgCheckStand(); 
+        				cook.msgCheckStand(); 
         			}
         		}
         		catch(NullPointerException e) {

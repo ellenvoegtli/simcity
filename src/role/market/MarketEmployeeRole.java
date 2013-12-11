@@ -41,6 +41,7 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	
 	private boolean onDuty;
 	private boolean customer = false;
+	private boolean needGui;
 
 		
 
@@ -48,6 +49,7 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		super(p);
 		this.name = name;
 		onDuty = true;
+		needGui = false;
 		wState = WaiterState.doingNothing;
 	}
 	
@@ -234,6 +236,10 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if (needGui){
+			employeeGui.guiReappear();
+			needGui = false;
+		}
 		
 		try {
 			for (MyCustomer mc : myCustomers){
@@ -313,6 +319,7 @@ public class MarketEmployeeRole extends Role implements Employee, WorkerRole {
 		if(!onDuty){
 			leaveRestaurant();
 			onDuty = true;
+			needGui = true;
 		}
 		
 		return false;

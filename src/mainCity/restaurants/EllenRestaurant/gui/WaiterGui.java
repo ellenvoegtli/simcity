@@ -167,6 +167,10 @@ public class WaiterGui implements Gui, WaiterGuiInterface {
     	isPresent = p;
     }
     
+    public void guiReappear(){
+    	this.DoWait();
+    }
+    
     //getter functions
 	public boolean wantsBreak() {
 		return (s == State.wantsBreak);

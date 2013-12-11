@@ -283,8 +283,11 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 		
 		print("There are orders on the stand..."); 
 		while(!stand.isEmpty()) { 
+			print("added pending order");
 			OrderTicket tempTicket = stand.remove();
-			pendingOrders.add(new Order(tempTicket.getWaiter(), tempTicket.getChoice(), tempTicket.getTable().tableNumber)); 
+			Order tempOrder = new Order(tempTicket.getWaiter(), tempTicket.getChoice(), tempTicket.getTable().tableNumber);
+			tempOrder.os = OrderStatus.pending; 
+			pendingOrders.add(tempOrder); 
 			stateChanged();
 		}
 	}

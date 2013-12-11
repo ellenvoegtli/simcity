@@ -39,5 +39,9 @@ public class MockEmployeeGui extends Mock implements EmployeeGuiInterface {
     	employee.msgAtWaitingRoom();
     	log.add(new LoggedEvent("Gui told to DoPickUpWaitingCustomer by agent."));
     }
+    
+    public void guiReappear(){
+    	
+    }
 	
 }

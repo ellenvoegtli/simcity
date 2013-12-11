@@ -1,6 +1,7 @@
 package role.market;
 
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import role.Role;
@@ -73,8 +74,8 @@ public class MarketCustomerRole extends Role implements Customer {
 			myCash = 0;
 		else 
 			myCash = p.getCash();
-			//myCash = 30;
-			//myCash = 100;
+		
+		
 	
 	}
 
@@ -145,10 +146,27 @@ public class MarketCustomerRole extends Role implements Customer {
 	// Messages
 	public void goGetInventory(Map<String, Integer> inventoryNeeded){
 		log("Told to go to market to order inventory");
-		this.inventoryToOrder = Collections.synchronizedMap(new TreeMap<String, Integer>(inventoryNeeded));
+		
+		if (!inventoryNeeded.isEmpty()){
+			this.inventoryToOrder = Collections.synchronizedMap(new TreeMap<String, Integer>(inventoryNeeded));
+		}
+		//else just take the default 
 		
 		log("Items to order: ");
 		synchronized(inventoryToOrder){
+			for (Map.Entry<String, Integer> entry : inventoryToOrder.entrySet()){
+				log("Item: " + entry.getKey() + "; #: " + entry.getValue());
+			}
+		}
+		
+		event = AgentEvent.toldToGetInventory;
+		stateChanged();
+	}
+	public void goGetInventory(){		//if no inventory specified, use default list of things
+		log("Told to go to market to order inventory");
+		
+		log("Items to order: ");
+		synchronized(inventoryToOrder){		//instantiated in constructor
 			for (Map.Entry<String, Integer> entry : inventoryToOrder.entrySet()){
 				log("Item: " + entry.getKey() + "; #: " + entry.getValue());
 			}
@@ -425,6 +443,11 @@ public class MarketCustomerRole extends Role implements Customer {
 	}
 	
 	public boolean restaurantOpen() {
+		if (host.getName().toLowerCase().contains("market2"))
+			host = ContactList.getInstance().market2Greeter;
+		else
+			host = ContactList.getInstance().marketGreeter;
+		
 		if (host instanceof MarketGreeterRole){
 			MarketGreeterRole h = (MarketGreeterRole) host;
 			if (h !=null && h.isActive() && h.isOpen())

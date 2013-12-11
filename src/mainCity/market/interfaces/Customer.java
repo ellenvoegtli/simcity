@@ -15,6 +15,7 @@ public interface Customer {
 	
 	public abstract String getName();
 	public abstract void goGetInventory(Map<String, Integer> inventoryNeeded);
+	public abstract void goGetInventory();
 	public abstract void msgFollowMe(Employee e, int x, int y);
 	public abstract void msgMayITakeYourOrder(Employee e);
 	public abstract void msgHereIsYourOrder(Map<String, Integer> inventoryFulfilled, double amount);

@@ -50,4 +50,7 @@ public class MockWaiterGui extends Mock implements WaiterGuiInterface {
 	public void DoLeaveRestaurant(){
 		
 	}
+	public void guiReappear(){
+		
+	}
 }
