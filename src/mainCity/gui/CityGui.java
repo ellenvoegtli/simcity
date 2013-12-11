@@ -101,13 +101,13 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JButton scenario7Button = new JButton("Run");
 	private JLabel scenario8Label = new JLabel("Scenario 8: Non-norm: Vehicle hits person");
 	private JButton scenario8Button = new JButton("Run");
-	private JLabel scenario9Label = new JLabel("Scenario 9: Non-norm: Weekend");					//DONE (think it's working)
+	private JLabel scenario9Label = new JLabel("Scenario 9: Non-norm: Weekend");					//DONE (working)
 	private JButton scenario9Button = new JButton("Run");
 	private JLabel scenario10Label = new JLabel("Scenario 10: Non-norm: Changing shifts: M/D/J REST");
 	private JButton scenario10Button = new JButton("Run");
-	private JLabel scenario11Label = new JLabel("Scenario 11: Non-norm: Changing shifts: E/E REST");
+	private JLabel scenario11Label = new JLabel("Scenario 11: Non-norm: Changing shifts: E/E REST");	//DONE
 	private JButton scenario11Button = new JButton("Run");
-	private JLabel scenario12Label = new JLabel("Scenario 12: Non-norm: Changing shifts: MARKET/BANK");
+	private JLabel scenario12Label = new JLabel("Scenario 12: Non-norm: Changing shifts: MARKET/BANK");	//WORKING (without bank)
 	private JButton scenario12Button = new JButton("Run");
 	private JLabel scenario13Label = new JLabel("Scenario 13: Housing");
 	private JButton scenario13Button = new JButton("Run"); 
@@ -639,6 +639,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
         restaurantButton.setEnabled(!p.isHungryForRestaurant());
         homeButton.setEnabled(!p.isHungryForHome());
         workCB.setEnabled(!p.isGoingOrAtWork());
+        marketButton.setEnabled(!p.isGoingOrAtMarket());
         
         if (restaurantButton.isEnabled())
         	restaurantMenu.setSelectedIndex(0);

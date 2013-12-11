@@ -11,10 +11,14 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -49,6 +53,16 @@ public class ApartAnimationPanel extends HomeAnimationPanel{
 	private HomePanel home = new HomePanel(this);
 	Dimension dim = new Dimension(WINDOWX,50);
 
+	private BufferedImage sinkImg = null;
+    private BufferedImage stoveImg = null;
+    private BufferedImage fridgeImg = null;
+    private BufferedImage tableImg = null;
+    private BufferedImage couchImg = null;
+    private BufferedImage tvImg = null;
+    private BufferedImage bedImg = null;
+    private BufferedImage booksImg = null;
+    private BufferedImage computerImg = null;
+	
     private List<HomeAnimationPanel> apts = new ArrayList<HomeAnimationPanel>();
     
     private HomeAnimationPanel apt1 = new HomeAnimationPanel(gui, false);
@@ -61,6 +75,24 @@ public class ApartAnimationPanel extends HomeAnimationPanel{
 	{
 		super(gui, false);
 		setPreferredSize(new Dimension(520,380));
+		
+		
+		StringBuilder path = new StringBuilder("imgs/");
+		try {
+			sinkImg = ImageIO.read(new File(path.toString() + "sink.png"));
+			stoveImg = ImageIO.read(new File(path.toString() + "stove.png"));
+			fridgeImg = ImageIO.read(new File(path.toString() + "fridge.png"));
+			tableImg = ImageIO.read(new File(path.toString() + "table.png"));
+			couchImg = ImageIO.read(new File(path.toString()+ "couch.png"));
+			tvImg = ImageIO.read(new File(path.toString()+ "tv.png"));
+			bedImg = ImageIO.read(new File(path.toString()+ "bed.png"));
+			booksImg = ImageIO.read(new File(path.toString()+ "books.png"));
+			computerImg = ImageIO.read(new File(path.toString()+ "computer.png"));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	
 
 		setSize(520, 380);
         setVisible(true);

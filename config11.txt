@@ -1,0 +1,40 @@
+-Scenario: Changing Shifts for Ena Restaurant and Ellen Restaurant
+-Market
+Name:marketgreeter;Cash:100;Renter:true;hasCar:true;Occupation:marketGreeter;ShiftBegin:4;ShiftEnd:24;Actions:work
+Name:marketcashier;Cash:100;Renter:true;hasCar:false;Occupation:marketCashier;ShiftBegin:4;ShiftEnd:24;Actions:work
+Name:marketemployee1;Cash:100;Renter:true;hasCar:true;Occupation:marketEmployee;ShiftBegin:4;ShiftEnd:24;Actions:work
+Name:marketemployee2;Cash:100;Renter:true;hasCar:false;Occupation:marketEmployee;ShiftBegin:4;ShiftEnd:24;Actions:work
+Name:marketdeliveryman;Cash:100;Renter:true;hasCar:true;Occupation:marketDeliveryMan;ShiftBegin:4;ShiftEnd:24;Actions:work
+-Market2
+Name:market2greeter;Cash:100;Renter:true;hasCar:false;Occupation:market2Greeter;ShiftBegin:4;ShiftEnd:24;Actions:work
+Name:market2cashier;Cash:100;Renter:true;hasCar:false;Occupation:market2Cashier;ShiftBegin:4;ShiftEnd:24;Actions:work
+Name:market2employee1;Cash:100;Renter:true;hasCar:false;Occupation:market2Employee;ShiftBegin:4;ShiftEnd:24;Actions:work
+Name:market2employee2;Cash:100;Renter:true;hasCar:true;Occupation:market2Employee;ShiftBegin:4;ShiftEnd:24;Actions:work
+Name:market2deliveryman;Cash:100;Renter:true;hasCar:true;Occupation:market2DeliveryMan;ShiftBegin:4;ShiftEnd:24;Actions:work
+-Ellen Restaurant
+Name:ellencook;Cash:100;Renter:true;hasCar:false;Occupation:ellenCook;ShiftBegin:6;ShiftEnd:12;Actions:work
+Name:ellencashier;Cash:100;Renter:true;hasCar:true;Occupation:ellenCashier;ShiftBegin:6;ShiftEnd:12;Actions:work
+Name:ellenhost;Cash:100;Renter:true;hasCar:false;Occupation:ellenHost;ShiftBegin:6;ShiftEnd:12;Actions:work
+Name:ellenwaiter1;Cash:100;Renter:true;hasCar:true;Occupation:ellenShareWaiter;ShiftBegin:6;ShiftEnd:12;Actions:work
+Name:ellenwaiter2;Cash:100;Renter:true;hasCar:false;Occupation:ellenWaiter;ShiftBegin:6;ShiftEnd:12;Actions:work
+-Ellen Restaurant: second shift
+Name:ellencookShift2;Cash:100;Renter:true;hasCar:false;Occupation:ellenCook;ShiftBegin:14;ShiftEnd:18;Actions:
+Name:ellencashierShift2;Cash:100;Renter:true;hasCar:true;Occupation:ellenCashier;ShiftBegin:14;ShiftEnd:18;Actions:
+Name:ellenhostShift2;Cash:100;Renter:true;hasCar:false;Occupation:ellenHost;ShiftBegin:14;ShiftEnd:18;Actions:
+Name:ellenwaiter1Shift2;Cash:100;Renter:true;hasCar:true;Occupation:ellenShareWaiter;ShiftBegin:14;ShiftEnd:18;Actions:
+Name:ellenwaiter2Shift2;Cash:100;Renter:true;hasCar:false;Occupation:ellenWaiter;ShiftBegin:14;ShiftEnd:18;Actions:
+-Ena Restaurant
+Name:enacashier;Cash:100;Renter:true;hasCar:false;Occupation:enaCashier;ShiftBegin:6;ShiftEnd:12;Actions:work
+Name:enacook;Cash:100;Renter:true;hasCar:false;Occupation:enaCook;ShiftBegin:6;ShiftEnd:12;Actions:work
+Name:enahost;Cash:100;Renter:true;hasCar:false;Occupation:enaHost;ShiftBegin:6;ShiftEnd:12;Actions:work
+Name:enawaiter;Cash:100;Renter:true;hasCar:true;Occupation:enaWaiter;ShiftBegin:6;ShiftEnd:12;Actions:work
+-Ena Restaurant: second shift
+Name:enacashierShift2;Cash:100;Renter:true;hasCar:false;Occupation:enaCashier;ShiftBegin:14;ShiftEnd:18;Actions:work
+Name:enacookShift2;Cash:100;Renter:true;hasCar:false;Occupation:enaCook;ShiftBegin:14;ShiftEnd:18;Actions:work
+Name:enahostShift2;Cash:100;Renter:true;hasCar:false;Occupation:enaHost;ShiftBegin:14;ShiftEnd:18;Actions:work
+Name:enawaiterShift2;Cash:100;Renter:true;hasCar:true;Occupation:enaWaiter;ShiftBegin:14;ShiftEnd:18;Actions:work
+-Other
+Name:richpersonA;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home
+Name:richpersonB;Cash:250;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home
+Name:richpersonC;Cash:170;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market
+Name:richpersonD;Cash:250;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:hungry

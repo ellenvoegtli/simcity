@@ -33,6 +33,7 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
 	
 	private boolean atDestination = true;
 	private boolean isDeliveringFood = false;
+	private boolean hide;
 	private BufferedImage myImg = null;
 	
 
@@ -45,6 +46,7 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
 		}
     	
         this.agent = agent;
+        hide = false;
         xPos = xDestination = homeX = x;
         yPos = yDestination = homeY = y;
         
@@ -113,7 +115,8 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     }
     
     public void draw(Graphics2D g) {
-        g.drawImage(truckImg,xPos,yPos,null);
+    	if (!hide)
+    		g.drawImage(truckImg,xPos,yPos,null);
     }
 
 
@@ -123,6 +126,14 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     
     public void setPresent(boolean p){
     	isPresent = p;
+    }
+    public void guiReappear(){
+    	xDestination = homeX;
+    	yDestination = homeY;
+    	hide = false;
+    }
+    public void hide(){
+    	hide = true;
     }
     
     public void setReadyToWork(){

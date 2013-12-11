@@ -39,19 +39,16 @@ public class CityPanel extends JPanel{
     	gui.getAnimationPanel().addBusGui(bg1); 
     	bus1.startThread();
 
-    	//String[] actions = {"work"}; 
-    	//addPerson("CarTest", 500, false, false, "enaWaiter", 6, 22, actions);
-
 		//parseConfig("config8.txt");
-
 
 		//Instantiation of the Global City Clock
 		Runnable cityClock = new Runnable() {
 			 public void run() {
 				 clock = (clock+1) % 24;
+
 				 if(clock == 0) {
-					 day = (day+1) % 6;
-					 
+					 day = (day+1) % 7;
+				
 					 switch(day) {
 						case 0:
 						 	System.out.println("It is now Sunday");

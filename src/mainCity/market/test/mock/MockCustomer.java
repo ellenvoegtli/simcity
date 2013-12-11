@@ -28,6 +28,9 @@ public class MockCustomer extends Mock implements Customer {
     	public void goGetInventory(Map<String, Integer> inventoryNeeded){
     		
     	}
+    	public void goGetInventory(){
+    		
+    	}
     	@Override
     	public void msgFollowMe(Employee e, int x, int y){
     		log.add(new LoggedEvent("Received msgFollowMe from " + e.getName()));
