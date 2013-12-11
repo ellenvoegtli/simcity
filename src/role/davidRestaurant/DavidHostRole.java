@@ -2,6 +2,7 @@ package role.davidRestaurant;
 
 import agent.Agent;
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.ManagerRole;
@@ -46,6 +47,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 	DavidCookRole cook;
 	
 	boolean onDuty;
+	boolean entered;
 
 	//Constructor
 	public DavidHostRole(String name, PersonAgent p) {
@@ -53,6 +55,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 		waiterLoc = -1;
 		this.name = name;
 		boolean onDuty = true;
+		entered = true;
 		// Make some tables, hardcoded for now
 		tables = Collections.synchronizedList(new ArrayList<Table>(NTABLES));
 		
@@ -145,6 +148,11 @@ public class DavidHostRole extends Role implements ManagerRole{
 	public boolean pickAndExecuteAnAction() {
 		if(!checkWaiters()) {
 			return false;
+		}
+		
+		if(entered) { 
+			ContactList.getInstance().setDavidHost(this); 
+			entered = false;
 		}
 		
 		if(hState == HostState.recievedRequest){ 
@@ -344,6 +352,7 @@ public class DavidHostRole extends Role implements ManagerRole{
 		cashier.deductCash(payroll); 
 		setInactive(); 
 		onDuty = true; 
+		entered = true;
 		return true;
 	}
 	

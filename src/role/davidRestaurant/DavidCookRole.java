@@ -34,6 +34,7 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	public EventLog log = new EventLog(); 
 	
 	boolean onDuty;
+	boolean entered;
 	
 	enum CookStatus
 	{none, Opening, sendingOrder, Checked, massOrderReady, recievedOrder, NoFood, checkingStand, ordering} 
@@ -108,6 +109,7 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	public DavidCookRole(String name, PersonAgent p) { 
 		super(p); 
 		onDuty = true;
+		entered = false;
 		this.name = name; 
 		
 		menu.add("Steak");
@@ -214,6 +216,11 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 	
 	public boolean pickAndExecuteAnAction() { 
 		try{	
+			if(entered) { 
+				ContactList.getInstance().setDavidCook(this);
+				entered = false;
+			}
+			
 			if(cstate == CookStatus.Opening){
 				CheckInventory();
 				return true;
@@ -248,6 +255,13 @@ public class DavidCookRole extends Role implements Cook, WorkerRole{
 			if(!inventoryNeeded.isEmpty()) { 
 				OrderFromMarket(inventoryNeeded); 
 				return true;
+			}
+			
+			if(!onDuty) { 
+				gui.DoLeaveRestaurant();
+				super.setInactive();
+				onDuty = true;
+				entered = true;
 			}
 		}
 			

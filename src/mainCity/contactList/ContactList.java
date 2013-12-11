@@ -341,6 +341,9 @@ public class ContactList {
 	public void setDavidHost(DavidHostRole h){
 		davidHost = h;
 	}
+	public DavidHostRole getDavidHost() { 
+		return davidHost;
+	}
 	public void setDavidCook(DavidCookRole cook){
 		davidCook = cook;
 	}

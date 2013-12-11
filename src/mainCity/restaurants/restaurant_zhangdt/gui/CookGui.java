@@ -16,6 +16,7 @@ public class CookGui implements Gui{
     private int FridgeX = 0, FridgeY = 200; 
     private int GrillX, GrillY; 
     private int PlatingX, PlatingY;
+    private boolean onDuty;
     
     public CookGui(DavidCookRole agent, int xStart, int yStart, int xStartDest, int yStartDest) {
         this.agent = agent;
@@ -23,6 +24,7 @@ public class CookGui implements Gui{
         yPos = yStart; 
         xDestination = xStartDest; 
         yDestination = yStartDest;
+        onDuty = true;
     }
 	
 	public void updatePosition() {
@@ -44,9 +46,10 @@ public class CookGui implements Gui{
 	}
 
 	public void draw(Graphics2D g) {
-		// TODO Auto-generated method stub
-		g.setColor(Color.CYAN);
-		g.fillRect(20, 200, 20, 20);
+		if(onDuty){
+			g.setColor(Color.CYAN);
+			g.fillRect(20, 200, 20, 20);
+		}
 	}
 
 	public boolean isPresent() {
@@ -67,6 +70,14 @@ public class CookGui implements Gui{
 	public void DoMoveToFridge(){ 
 		xDestination = 0; 
         yDestination = 170;
+	}
+	
+	public void DoLeaveRestaurant() { 
+		onDuty = false;
+	}
+	
+	public void DoEnterRestaurant() { 
+		onDuty = true;
 	}
 
 }
