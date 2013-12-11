@@ -357,8 +357,7 @@ public class PersonAgent extends Agent {
 				return true;
 			}
 
-			if(event == PersonEvent.arrivedRenterApartment)
-			{
+			if(event == PersonEvent.arrivedRenterApartment) {
 				output("Arrived at renter home!");
 				handleRole(currentAction.type);
 				synchronized(roles) {
@@ -935,7 +934,6 @@ public class PersonAgent extends Agent {
 			case work:
 				event = PersonEvent.timeToWork;
 				break;
-			
 			case maintenance:
 				event = PersonEvent.maintainWork;
 				break;
@@ -949,12 +947,6 @@ public class PersonAgent extends Agent {
 				event = PersonEvent.needMarket;
 				break;
 			case restaurant:
-			//======= restaurant hacks from gui ========
-			//case restaurant_ellen:
-			//case restaurant_david:
-			//case restaurant_ena:
-			//case restaurant_marcus:
-			//case restaurant_jefferson:
 				event = PersonEvent.chooseRestaurant;
 				break;
 			case bankWithdraw:
@@ -1376,8 +1368,7 @@ public class PersonAgent extends Agent {
 	//Lower the priority level, the more "important" it is (it'll get done earlier)
 	public enum ActionState {created, inProgress, done}
 	public enum ActionType {work, fixing, maintenance, self_maintenance, hungry, homeAndEat, 
-		restaurant, restaurant_ellen, restaurant_marcus, restaurant_ena, restaurant_david, restaurant_jefferson,
-		market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, bankWithdraw2, bankDeposit2, bankLoan2, bankRob2, home}
+		restaurant, market, market2, bankWithdraw, bankDeposit, bankLoan, bankRob, bankWithdraw2, bankDeposit2, bankLoan2, bankRob2, home}
 	public class Action implements Comparable<Object> {
 		public ActionState state;
 		public ActionType type;
