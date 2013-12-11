@@ -1,1 +1,3 @@
 -Scenario: vehicle-person accident
+Name:crashdummy;Cash:100;Renter:true;hasCar:false;Occupation:davidWaiter;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:banktellerbus;Cash:100;Renter:true;hasCar:true;Occupation:bankTeller;ShiftBegin:6;ShiftEnd:22;Actions:work
