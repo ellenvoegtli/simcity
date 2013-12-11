@@ -1210,6 +1210,10 @@ public class PersonAgent extends Agent {
 		gui.DoDie();
 		
 		synchronized(roles) {
+			if(!roles.containsKey(ActionType.home) || !roles.containsKey(ActionType.homeAndEat)) {
+				handleRole(ActionType.home);
+			}
+			
 			if(roles.containsKey(ActionType.home))
 				roles.get(ActionType.home).setActive();
 			else if (roles.containsKey(ActionType.homeAndEat))
