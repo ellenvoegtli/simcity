@@ -63,7 +63,7 @@ public class JeffersonAnimationPanel extends CityCard implements ActionListener 
     
     public void backgroundUpdate() {
     	synchronized(guis){
-	    	for(Gui guit : guis) {
+	    	for(Gui guit : personGuis) {
 	            if (guit.isPresent()) {
 	                guit.updatePosition();
 	            }

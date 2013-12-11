@@ -131,7 +131,6 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	}
 	
 	public void draw(Graphics2D g) {
-
 		if(isVisible) {
 			g.setColor(Color.ORANGE);
 			g.drawImage(personImg, xPos,yPos, null);
@@ -147,7 +146,6 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	public void setPresent(boolean p) {
 		isPresent = p;
 	}
-	
 
 	public void DoGoToLocation(PersonAgent.CityLocation destination) {
 		switch(destination) {
@@ -201,7 +199,8 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	public void DoGetOnRoad() { 
 		System.out.println("Gui is told to go to nearest road");
 		destination = findNearestRoad();
-		calculatePath(destination.x, destination.y); 
+		calculatePath(destination.x, destination.y);
+		
 		if(!path.isEmpty()) {
 			xDestination = destination.x; 
 			yDestination = destination.y;
@@ -233,7 +232,6 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	}
 	
 	public void DoGoToLocationOnCar(PersonAgent.CityLocation destination) { 
-		
 		switch(destination) {
 			case restaurant_marcus:
 				xDestination = xPos = 155;
@@ -284,8 +282,6 @@ public class PersonGui implements Gui, PersonGuiInterface {
 	
 	public void DoGoToStop() {
 		System.out.println("Gui is told to go to nearest bus stop");
-		
-		//Looking for stop that is the minimum distance.
 		PersonAgent.CityLocation destination = findNearestStop();
 		
 		System.out.println("Walking toward " + destination + " bus stop");
@@ -426,7 +422,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 		return destination;
 	}
 	
-	public Coordinate findNearestRoad() { 
+	private Coordinate findNearestRoad() { 
 		Coordinate destination = new Coordinate(0,0); 
 		int distance = Math.abs(xPos - roads.get(0).x) + Math.abs(yPos - roads.get(0).y);
 		destination = roads.get(0); 
@@ -438,6 +434,7 @@ public class PersonGui implements Gui, PersonGuiInterface {
 				destination = roads.get(i);
 			}
 		}
+
 		return destination;
 	}
 	
