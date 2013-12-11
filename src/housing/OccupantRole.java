@@ -311,11 +311,6 @@ public boolean pickAndExecuteAnAction()
 	}
 	if(!person.getRoles().isEmpty() && isFree == true) {//makes the person leave the home if there's something else to do
 		gui.DoLeave();
-		try{
-			getDestinationSem().acquire();
-			} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		if(owner)
 			landLord.setInactive();
 		setInactive();

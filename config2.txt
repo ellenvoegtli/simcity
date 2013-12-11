@@ -14,11 +14,11 @@ Name:marketemployee1;Cash:100;Renter:false;hasCar:false;Occupation:marketEmploye
 Name:marketemployee2;Cash:100;Renter:false;hasCar:true;Occupation:marketEmployee;ShiftBegin:6;ShiftEnd:22;Actions:work
 Name:marketdeliveryman;Cash:100;Renter:false;hasCar:false;Occupation:marketDeliveryMan;ShiftBegin:6;ShiftEnd:22;Actions:work
 -Market2
-Name:market2greeter;Cash:100;Renter:false;hasCar:false;Occupation:market2Greeter;ShiftBegin:6;ShiftEnd:22;Actions:work
-Name:market2cashier;Cash:100;Renter:false;hasCar:false;Occupation:market2Cashier;ShiftBegin:6;ShiftEnd:22;Actions:work
-Name:market2employee1;Cash:100;Renter:false;hasCar:true;Occupation:market2Employee;ShiftBegin:6;ShiftEnd:22;Actions:work
-Name:market2employee2;Cash:100;Renter:false;hasCar:false;Occupation:market2Employee;ShiftBegin:6;ShiftEnd:22;Actions:work
-Name:market2deliveryman;Cash:100;Renter:false;hasCar:false;Occupation:market2DeliveryMan;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:market2greeter;Cash:100;Renter:true;hasCar:false;Occupation:market2Greeter;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:market2cashier;Cash:100;Renter:true;hasCar:false;Occupation:market2Cashier;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:market2employee1;Cash:100;Renter:true;hasCar:true;Occupation:market2Employee;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:market2employee2;Cash:100;Renter:true;hasCar:false;Occupation:market2Employee;ShiftBegin:6;ShiftEnd:22;Actions:work
+Name:market2deliveryman;Cash:100;Renter:true;hasCar:false;Occupation:market2DeliveryMan;ShiftBegin:6;ShiftEnd:22;Actions:work
 -Marcus Restaurant
 Name:marcuscook;Cash:100;Renter:true;hasCar:false;Occupation:marcusCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:marcushost;Cash:100;Renter:true;hasCar:true;Occupation:marcusHost;ShiftBegin:7;ShiftEnd:19;Actions:work

@@ -93,7 +93,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JButton scenario3Button = new JButton("Run");
 	private JLabel scenario4Label = new JLabel("Scenario 4: Norm: Market/restaurant deliveries");	//DONE (working)
 	private JButton scenario4Button = new JButton("Run");
-	private JLabel scenario5Label = new JLabel("Scenario 5: Non-norm: Workplaces closing");			//ALMOST WORKING (action prioritization issues...)
+	private JLabel scenario5Label = new JLabel("Scenario 5: Non-norm: Workplaces closing");			//DONE (working)
 	private JButton scenario5Button = new JButton("Run");
 	private JLabel scenario6Label = new JLabel("Scenario 6: Non-norm: Market delivery fails");		//DONE (working)
 	private JButton scenario6Button = new JButton("Run");
@@ -101,7 +101,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JButton scenario7Button = new JButton("Run");
 	private JLabel scenario8Label = new JLabel("Scenario 8: Non-norm: Vehicle hits person");
 	private JButton scenario8Button = new JButton("Run");
-	private JLabel scenario9Label = new JLabel("Scenario 9: Non-norm: Weekend");
+	private JLabel scenario9Label = new JLabel("Scenario 9: Non-norm: Weekend");					//DONE (think it's working)
 	private JButton scenario9Button = new JButton("Run");
 	private JLabel scenario10Label = new JLabel("Scenario 10: Non-norm: Changing shifts: M/D/J REST");
 	private JButton scenario10Button = new JButton("Run");
@@ -109,7 +109,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JButton scenario11Button = new JButton("Run");
 	private JLabel scenario12Label = new JLabel("Scenario 12: Non-norm: Changing shifts: MARKET/BANK");
 	private JButton scenario12Button = new JButton("Run");
-	private JLabel scenario13Label = new JLabel("");
+	private JLabel scenario13Label = new JLabel("Scenario 13: Housing");
 	private JButton scenario13Button = new JButton("Run"); 
 	
 	
@@ -312,13 +312,15 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	            addComponent(scenario1Label).addComponent(scenario2Label).addComponent(scenario3Label).
 	            addComponent(scenario4Label).addComponent(scenario5Label).addComponent(scenario6Label).
 	            addComponent(scenario7Label).addComponent(scenario8Label).addComponent(scenario9Label).
-	            addComponent(scenario10Label).addComponent(scenario11Label).addComponent(scenario12Label)
+	            addComponent(scenario10Label).addComponent(scenario11Label).addComponent(scenario12Label).
+	            addComponent(scenario13Label)
 	            );
 		hGroup3.addGroup(layout3.createParallelGroup().
 	            addComponent(scenario1Button).addComponent(scenario2Button).addComponent(scenario3Button).
 	            addComponent(scenario4Button).addComponent(scenario5Button).addComponent(scenario6Button).
 	            addComponent(scenario7Button).addComponent(scenario8Button).addComponent(scenario9Button).
-	            addComponent(scenario10Button).addComponent(scenario11Button).addComponent(scenario12Button)
+	            addComponent(scenario10Button).addComponent(scenario11Button).addComponent(scenario12Button).
+	            addComponent(scenario13Button)
 	            );
 		layout3.setHorizontalGroup(hGroup3);
 		
@@ -347,6 +349,8 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 				addComponent(scenario11Label).addComponent(scenario11Button));
 		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
 				addComponent(scenario12Label).addComponent(scenario12Button));
+		vGroup3.addGroup(layout3.createParallelGroup(Alignment.BASELINE).
+				addComponent(scenario13Label).addComponent(scenario13Button));
 		layout3.setVerticalGroup(vGroup3);
 		//==================END GROUP LAYOUT 3=====================================================
 		JScrollPane scenarioPane = new JScrollPane(subControlPanel3);
@@ -366,6 +370,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 		scenario10Button.addActionListener(this);
 		scenario11Button.addActionListener(this);
 		scenario12Button.addActionListener(this);
+		scenario13Button.addActionListener(this);
 		
 		
 		//=================== END SUBCONTROLPANEL2 =================================================
@@ -804,6 +809,11 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 			System.out.println("SCENARIO12 BUTTON PRESSED");
 			personPanel.resetPanel();
 			cityPanel.parseConfig("config12.txt");
+		}
+		else if (e.getSource() == scenario13Button){
+			System.out.println("SCENARIO13 BUTTON PRESSED");
+			personPanel.resetPanel();
+			cityPanel.parseConfig("config13.txt");
 		}
 		
 		

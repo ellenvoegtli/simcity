@@ -26,12 +26,14 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	
 	public enum BillState {computing, waitingForPayment, recomputingBill, calculatingChange, recalculatingChange, oweMoney, paid};
 	private boolean onDuty;
+	private boolean entered;
 	
 	//constructor
 	public MarketCashierRole(PersonAgent p, String name) {
 		super(p);
 		this.name = name;
 		onDuty = true;
+		entered = true;
 	}
 	public void addWaiter(Employee w){	//hack
 		employees.add(w);
@@ -167,6 +169,14 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	public boolean pickAndExecuteAnAction() {
+		if (entered){
+			if (this.getName().toLowerCase().contains("market2"))
+				ContactList.getInstance().setMarket2Cashier(this);
+			else
+				ContactList.getInstance().setMarketCashier(this);
+			entered = false;
+		}
+		
 		/*Later actions are prioritized above earlier actions (want to get each customer out the door ASAP!).
 		 * If they've been asking for recalculations, they need to be taken care of first.
 		 * They've been here the longest.
@@ -208,6 +218,7 @@ public class MarketCashierRole extends Role implements MarketCashier, WorkerRole
 		if(!bills.isEmpty() && !onDuty){
 			setInactive();
 			onDuty = true;
+			entered = true;
 		}
 
 

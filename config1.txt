@@ -25,28 +25,28 @@ Name:marcuscashier;Cash:100;Renter:true;hasCar:false;Occupation:marcusCashier;Sh
 Name:marcuswaiter;Cash:100;Renter:true;hasCar:true;Occupation:marcusWaiter;ShiftBegin:6;ShiftEnd:18;Actions:work,bank,market
 -Ellen Restaurant
 Name:ellencook;Cash:100;Renter:true;hasCar:false;Occupation:ellenCook;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:ellencashier;Cash:100;Renter:false;hasCar:true;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:ellenhost;Cash:100;Renter:false;hasCar:false;Occupation:ellenHost;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:ellenwaiter1;Cash:100;Renter:false;hasCar:true;Occupation:ellenShareWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:ellenwaiter2;Cash:100;Renter:false;hasCar:false;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:ellencashier;Cash:100;Renter:true;hasCar:true;Occupation:ellenCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:ellenhost;Cash:100;Renter:true;hasCar:false;Occupation:ellenHost;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:ellenwaiter1;Cash:100;Renter:true;hasCar:true;Occupation:ellenShareWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:ellenwaiter2;Cash:100;Renter:true;hasCar:false;Occupation:ellenWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Ena Restaurant
-Name:enacashier;Cash:100;Renter:false;hasCar:false;Occupation:enaCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:enacashier;Cash:100;Renter:true;hasCar:false;Occupation:enaCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:enacook;Cash:100;Renter:true;hasCar:false;Occupation:enaCook;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:enahost;Cash:100;Renter:false;hasCar:false;Occupation:enaHost;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:enawaiter;Cash:100;Renter:false;hasCar:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:enahost;Cash:100;Renter:true;hasCar:false;Occupation:enaHost;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:enawaiter;Cash:100;Renter:true;hasCar:true;Occupation:enaWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Jefferson Restaurant
-Name:jeffersoncook;Cash:100;Renter:false;hasCar:false;Occupation:jeffersonCook;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:jeffersoncook;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:jeffersoncashier;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:jeffersonhost;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonHost;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:jeffersonwaiter;Cash:100;Renter:true;hasCar:false;Occupation:jeffersonWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -David Restaurant 
 Name:davidcook;Cash:100;Renter:true;hasCar:false;Occupation:davidCook;ShiftBegin:7;ShiftEnd:19;Actions:work
 Name:davidcashier;Cash:100;Renter:true;hasCar:false;Occupation:davidCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:davidhost;Cash:100;Renter:false;hasCar:true;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work
-Name:davidwaiter;Cash:100;Renter:false;hasCar:false;Occupation:davidWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:davidhost;Cash:100;Renter:true;hasCar:true;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:davidwaiter;Cash:100;Renter:true;hasCar:false;Occupation:davidWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
 -Other
 Name:richpersonA;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home
-Name:richpersonB;Cash:250;Renter:true;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home
+Name:richpersonB;Cash:250;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home
 Name:richpersonC;Cash:170;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market
 Name:richpersonD;Cash:250;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:hungry
 Name:richpersonE;Cash:20;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:restaurant,market

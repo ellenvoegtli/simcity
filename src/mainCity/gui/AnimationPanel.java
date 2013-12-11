@@ -327,7 +327,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if(Buses.get(t).getX() == 105 && Buses.get(t).getY() == 105){  
 					lanes.get(3).redLight();
-					if(count % 150 == 0) { 
+					if(count % 100 == 0) { 
 						lanes.get(3).greenLight();
 						lanes.get(3).vehicles.remove(Buses.get(t)); 
 						intersections.get(0).addVehicle(Buses.get(t));
@@ -341,7 +341,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if(Buses.get(t).getX() == 130 && Buses.get(t).getY() == 331){ 
 					lanes.get(12).redLight();
-					if(count % 150 == 0) { 
+					if(count % 100 == 0) { 
 						lanes.get(12).greenLight();
 						lanes.get(12).vehicles.remove(Buses.get(t));
 						intersections.get(1).addVehicle(Buses.get(t));
@@ -355,7 +355,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if(Buses.get(t).getX() == 586 && Buses.get(t).getY() == 380){ 
 					lanes.get(10).redLight();
-					if(count % 150 == 0) { 
+					if(count % 100 == 0) { 
 						lanes.get(10).greenLight();	
 						lanes.get(10).vehicles.remove(Buses.get(t));
 						intersections.get(2).addVehicle(Buses.get(t));
@@ -369,7 +369,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if(Buses.get(t).getX() == 635 && Buses.get(t).getY() == 129){ 
 					lanes.get(17).redLight();
-					if(count % 150 == 0) { 
+					if(count % 100 == 0) { 
 						lanes.get(17).greenLight();	
 						lanes.get(17).vehicles.remove(Buses.get(t));
 						intersections.get(3).addVehicle(Buses.get(t));
@@ -378,12 +378,12 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 				
 				if(Buses.get(t).getX() == 610 && Buses.get(t).getY() == 80){ 
 					intersections.get(3).vehicles.remove(Buses.get(t)); 
-					lanes.get(1).vehicles.add(Buses.get(t));
+					lanes.get(1).addVehicle(Buses.get(t));
 				}
 				
 				if( (Buses.get(t).getX() == 179) || (Buses.get(t).getX() == 180) && Buses.get(t).getY() == 80){  
 					lanes.get(1).redLight();
-					if(count % 150 == 0) { 
+					if(count % 100 == 0) { 
 						lanes.get(1).greenLight();	
 						lanes.get(1).vehicles.remove(Buses.get(t)); 
 						intersections.get(0).addVehicle(Buses.get(t));
@@ -398,7 +398,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					
 					if(Cars.get(c).getX() == 610 && Cars.get(c).getY() == 331){  
 						lanes.get(16).redLight();
-						if(count % 150 == 0) { 
+						if(count % 100 == 0) { 
 							lanes.get(16).greenLight();
 							lanes.get(16).vehicles.remove(Cars.get(c)); 
 							intersections.get(2).addVehicle(Cars.get(c));
@@ -412,7 +412,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					
 					if(Cars.get(c).getX() == 179 && Cars.get(c).getY() == 355){ 
 						lanes.get(7).redLight();
-						if(count % 150 == 0) { 
+						if(count % 100 == 0) { 
 							lanes.get(7).greenLight();
 							lanes.get(7).vehicles.remove(Cars.get(c));
 							intersections.get(1).addVehicle(Cars.get(c));
@@ -426,7 +426,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					
 					if(Cars.get(c).getX() == 155 && Cars.get(c).getY() == 129){
 						lanes.get(13).redLight();
-						if(count % 150 == 0) { 
+						if(count % 100 == 0) { 
 							lanes.get(13).greenLight();
 							lanes.get(13).vehicles.remove(Cars.get(c));
 							intersections.get(0).addVehicle(Cars.get(c));
@@ -442,7 +442,7 @@ public class AnimationPanel extends JPanel implements ActionListener, MouseListe
 					
 					if(Cars.get(c).getX() == 586 && Cars.get(c).getY() == 105){ 
 						lanes.get(4).redLight();
-						if(count % 150 == 0) { 
+						if(count % 100 == 0) { 
 							lanes.get(4).greenLight();	
 							lanes.get(4).vehicles.remove(Cars.get(c));
 							intersections.get(3).addVehicle(Cars.get(c));

@@ -144,6 +144,7 @@ public class EllenCashierRole extends Role implements Cashier {
 	public boolean pickAndExecuteAnAction() {
 		if (opened){
 			getDailyCapital();
+			ContactList.getInstance().setEllenCashier(this);
 			opened = false;
 		}
 		
@@ -195,6 +196,7 @@ public class EllenCashierRole extends Role implements Cashier {
 		if (checks.isEmpty() && marketBills.isEmpty() && !onDuty){
 			setInactive();
 			onDuty = true;
+			opened = false;
 		}
 
 		return false;
@@ -210,7 +212,6 @@ public class EllenCashierRole extends Role implements Cashier {
 	
 	public void ComputeBill(final Check c){
 		log("Computing bill");
-		//c.w.msgHereIsCheck(prices.get(c.choice), c.cust);
 		c.w.msgHereIsCheck(menu.getPrice(c.choice), c.cust);
 		c.s = CheckState.waitingForPayment;
 	}
