@@ -61,6 +61,8 @@ SimCity201 Project Repository for CS 201 students
     1. Created Building class and designated locations for each different building.
 	1. Mapped out coordinates for roads, buildings, doorways, and bus stops
   + Helped implement card layout based on code in the simcity demo.
+  + Added shared data for david restaurant 
+  + Added Intersections, traffic behavior, and cars
 
 
 ## HOW TO RUN OUR SYSTEM
@@ -82,6 +84,8 @@ SimCity201 Project Repository for CS 201 students
   
   + The Banks unit tests: 
 	+ In the package mainCity.bank.test, you will find BankManagerTest.java, BankTellerTest.java, BankerTest.java, . Right click on the file, go to Run As -> JUnit Test.	
+	
+  + All scenarios are runnable under scenario tab in GUI.
 
 ## THINGS WE KNOW DON'T WORK / GENERAL NOTES ABOUT OUR V1 SUBMISSION
   + Some of our PersonAgents who take on jobs in certain restaurants will not be able to properly go off-duty after they end their shift. We figured out a way to do this successfully, but it hasn't been implemented everywhere due to time constraints
