@@ -1,1 +1,6 @@
 -Scenario: Vehicle-vehicle accident
+Name:davidcook;Cash:100;Renter:true;hasCar:false;Occupation:davidCook;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:davidcashier;Cash:100;Renter:true;hasCar:false;Occupation:davidCashier;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:davidhost;Cash:100;Renter:false;hasCar:true;Occupation:davidHost;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:davidwaiter1;Cash:100;Renter:false;hasCar:false;Occupation:davidSharedWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work
+Name:davidwaiter2;Cash:100;Renter:false;hasCar:false;Occupation:davidSharedWaiter;ShiftBegin:7;ShiftEnd:19;Actions:work

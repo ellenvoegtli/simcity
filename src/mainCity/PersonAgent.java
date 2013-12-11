@@ -396,6 +396,11 @@ public class PersonAgent extends Agent {
 						}
 					}
 					else {
+						if (event == PersonEvent.arrivedAtMarket && !((MarketCustomerRole) customer).getGui().goInside()){
+							currentAction.state = ActionState.done;
+							return true;
+						}
+						
 						currentAction.state = ActionState.done;
 						return true;
 					}
@@ -974,7 +979,6 @@ public class PersonAgent extends Agent {
 		if((destination == CityLocation.home) || (destination == CityLocation.renterHome)) { 
 			walk = true;
 		}
-		//walk = false;
 
 		if(!chooseTransportation){
 			if((walk || state == PersonState.walkingFromBus || state == PersonState.walkingFromCar)) { //chose to walk

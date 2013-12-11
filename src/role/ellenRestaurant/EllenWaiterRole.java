@@ -50,6 +50,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	protected boolean wantToGoOnBreak = false;
 	protected boolean wantToGoOffBreak = false;
 	private boolean onDuty;
+	private boolean needGui;
 	
 
 	public EllenWaiterRole(PersonAgent p, String name) {
@@ -58,6 +59,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		onDuty = true;
 		
 		myCustomers = new ArrayList<MyCustomer>();
+		needGui = false;
 	}
 	
 	public void setCook(Cook cook) {
@@ -277,6 +279,10 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 	 * Scheduler.  Determine what action is called for, and do it.
 	 */
 	public boolean pickAndExecuteAnAction() {
+		if (needGui){
+			waiterGui.guiReappear();
+			needGui = false;
+		}
 		/*
 		Always check to see if the waiter is at the "checkpoint" position ("doingNothing")
 		before carrying out the next action.
@@ -322,13 +328,6 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 					return true;
 				}
 			}
-			/*for (MyCustomer mc : myCustomers) {
-				if (mc.s == CustomerState.waitingForFood && wState == WaiterState.doingNothing){
-					log("waiting for food");
-					//no action - waiting
-					return true;
-				}
-			}*/
 			for (MyCustomer mc : myCustomers) {
 				if (mc.s == CustomerState.orderReady && wState == WaiterState.doingNothing){
 					deliverFood(mc);
@@ -372,6 +371,7 @@ public abstract class EllenWaiterRole extends Role implements Waiter {
 		if (myCustomers.isEmpty() && !onDuty){
 			leaveRestaurant();
 			onDuty = true;
+			needGui = true;
 		}
 		
 		return false;

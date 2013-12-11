@@ -154,6 +154,11 @@ public class EmployeeGui implements Gui, EmployeeGuiInterface {
     	this.isDeliveringFood = isDeliveringFood;
     }
     
+    public void guiReappear(){
+    	xDestination = homeX;
+    	yDestination = homeY;
+    }
+    
     public void setReadyToWork(){
     	setPresent(true);
     	xDestination = homeX;

@@ -42,7 +42,7 @@ public class CityPanel extends JPanel{
     	//String[] actions = {"work"}; 
     	//addPerson("CarTest", 500, false, false, "enaWaiter", 6, 22, actions);
 
-		//parseConfig("config9.txt");
+		parseConfig("config7.txt");
 
 
 		//Instantiation of the Global City Clock

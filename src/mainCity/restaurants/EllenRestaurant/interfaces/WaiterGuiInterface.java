@@ -13,4 +13,5 @@ public interface WaiterGuiInterface {
 	public abstract void DoPickUpWaitingCustomer(int x, int y);
 	public abstract void setIsDeliveringFood(boolean b);
 	public abstract void DoLeaveRestaurant();
+	public abstract void guiReappear();
 }

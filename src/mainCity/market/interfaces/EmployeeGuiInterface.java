@@ -10,5 +10,6 @@ public interface EmployeeGuiInterface {
     public abstract void DoLeaveMarket();
     
     public abstract void DoPickUpWaitingCustomer(int x, int y);
+    public abstract void guiReappear();
     
 }

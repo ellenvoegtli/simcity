@@ -107,36 +107,6 @@ public class CustomerGui implements Gui, CustomerGuiInterface{
 	public void draw(Graphics2D g) {
 		g.setColor(Color.GREEN);
 		g.fillRect(xPos, yPos, customerWidth, customerHeight);
-		
-		g.setColor(Color.BLACK);	//draw the appropriate string under the appropriate table
-		if (orderedFood){
-			if (myChoice == "steak"){
-        		g.drawString("STK" + "?", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
-        	}
-        	else if (myChoice == "pasta"){
-        		g.drawString("PST" + "?", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
-        	}
-        	else if (myChoice == "pizza"){
-        		g.drawString("PZA" + "?", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
-        	}
-        	else if (myChoice == "soup"){
-        		g.drawString("SP" + "?", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
-        	}
-		}
-		else if (gotFood){
-			if (myChoice == "steak"){
-        		g.drawString("STK", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
-        	}
-        	else if (myChoice == "pasta"){
-        		g.drawString("PST", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
-        	}
-        	else if (myChoice == "pizza"){
-        		g.drawString("PZA", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
-        	}
-        	else if (myChoice == "soup"){
-        		g.drawString("SP", tableX.get(myTable), tableY.get(myTable) + 60); //"carrying" the food behind him
-        	}
-		}
 	}
 	
 	public void setOrderedFood(boolean hasOrderedFood){		//to manage food text label + "?" drawing
@@ -155,6 +125,15 @@ public class CustomerGui implements Gui, CustomerGuiInterface{
 		if (agent.restaurantOpen()){
 			needsInventory = true;
 			agent.goGetInventory(inventoryNeeded);
+			setPresent(true);
+			return true;
+		}
+		return false;
+	}
+	public boolean goInside(){
+		if (agent.restaurantOpen()){
+			needsInventory = true;
+			agent.goGetInventory();
 			setPresent(true);
 			return true;
 		}
