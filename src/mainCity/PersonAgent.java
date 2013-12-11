@@ -85,6 +85,10 @@ public class PersonAgent extends Agent {
 		chooseTransportation = false;
 	}
 	
+	public Semaphore getIsMoving()
+	{
+		return isMoving;
+	}
 	public void setGui(PersonGuiInterface g) {
 		this.gui = g;
 	}
