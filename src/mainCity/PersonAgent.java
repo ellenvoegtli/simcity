@@ -407,6 +407,11 @@ public class PersonAgent extends Agent {
 						}
 					}
 					else {
+						if (event == PersonEvent.arrivedAtMarket && !((MarketCustomerRole) customer).getGui().goInside()){
+							currentAction.state = ActionState.done;
+							return true;
+						}
+						
 						currentAction.state = ActionState.done;
 						return true;
 					}
