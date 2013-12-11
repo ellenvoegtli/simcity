@@ -411,9 +411,6 @@ public class PersonAgent extends Agent {
 							currentAction.state = ActionState.done;
 							return true;
 						}
-						
-						currentAction.state = ActionState.done;
-						return true;
 					}
 										
 					customer.setActive();

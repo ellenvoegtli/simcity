@@ -124,6 +124,10 @@ public class DeliveryManGui implements Gui, DeliveryManGuiInterface {
     public void setPresent(boolean p){
     	isPresent = p;
     }
+    public void guiReappear(){
+    	xDestination = homeX;
+    	yDestination = homeY;
+    }
     
     public void setReadyToWork(){
     	setPresent(true);

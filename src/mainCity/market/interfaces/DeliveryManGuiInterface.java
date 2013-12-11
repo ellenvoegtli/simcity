@@ -7,4 +7,6 @@ public interface DeliveryManGuiInterface {
 	
 	public abstract void DoDeliverOrder(String restaurantName);
 	
+	public abstract void guiReappear();
+	
 }

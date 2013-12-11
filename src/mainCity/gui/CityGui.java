@@ -107,7 +107,7 @@ public class CityGui extends JFrame implements ActionListener, KeyListener{
 	private JButton scenario10Button = new JButton("Run");
 	private JLabel scenario11Label = new JLabel("Scenario 11: Non-norm: Changing shifts: E/E REST");
 	private JButton scenario11Button = new JButton("Run");
-	private JLabel scenario12Label = new JLabel("Scenario 12: Non-norm: Changing shifts: MARKET/BANK");
+	private JLabel scenario12Label = new JLabel("Scenario 12: Non-norm: Changing shifts: MARKET/BANK");	//WORKING (without bank)
 	private JButton scenario12Button = new JButton("Run");
 	private JLabel scenario13Label = new JLabel("Scenario 13: Housing");
 	private JButton scenario13Button = new JButton("Run"); 
