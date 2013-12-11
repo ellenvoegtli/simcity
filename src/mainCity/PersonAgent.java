@@ -286,6 +286,7 @@ public class PersonAgent extends Agent {
 	
 	//A message received from the transportation object to remove the person
 	public void msgHitByVehicle() {
+		print("I'm hit!");
 		if(isMoving.availablePermits() == 0)
 			isMoving.release();
 		alive = false;
@@ -1189,6 +1190,7 @@ public class PersonAgent extends Agent {
 	}
 	
 	private void respawnPerson() {
+		print("Respawning at home...");
 		alive = true;
 		actions.clear();
 		gui.DoDie();
