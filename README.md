@@ -39,8 +39,14 @@ SimCity201 Project Repository for CS 201 students
   + Scenarios are in place for handling no existing account when requesting transactions, paying back loans, and criteria for approval of loans
   + Establishment can be "closed" and turn away customers if not all essential employees are present (manager, teller, banker)
   + Defined Person rules for depositing and withdrawing (cash thresholds)
-  + Visually upgraded external buildings drawn in MainCity
-
+  + Implemented functions for businesses to acquire starting capital and direct deposit money
+  + Added tags to Bank and my restaurant roles to be used with trace panels
+  + Acquired,extracted, and resized all sprites and images (non-blocks) used in city both internal and external
+    1. Visually upgraded external buildings drawn in MainCity
+    1. Visually upgraded all internal building views
+ 
+  
+  
 
 #### David :
   + Responsible for transportation 
