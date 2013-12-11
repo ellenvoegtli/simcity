@@ -12,4 +12,6 @@ public interface Greeter {
 	public abstract void msgINeedInventory(Customer c, int x, int y);
 	public abstract void msgINeedInventory(String restaurantName, Map<String, Integer> inventoryNeeded);
 	
+	public abstract String getName();
+	
 }

@@ -1,6 +1,7 @@
 package role.market;
 
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import role.Role;
@@ -425,6 +426,11 @@ public class MarketCustomerRole extends Role implements Customer {
 	}
 	
 	public boolean restaurantOpen() {
+		if (host.getName().toLowerCase().contains("market2"))
+			host = ContactList.getInstance().market2Greeter;
+		else
+			host = ContactList.getInstance().marketGreeter;
+		
 		if (host instanceof MarketGreeterRole){
 			MarketGreeterRole h = (MarketGreeterRole) host;
 			if (h !=null && h.isActive() && h.isOpen())
