@@ -1,6 +1,9 @@
 package housing.HouseTest;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mainCity.PersonAgent;
 import mainCity.PersonAgent.ActionType;
 import mainCity.gui.PersonGui;
@@ -166,6 +169,21 @@ public class OccupantTest extends TestCase
 
 	       
 	       
+	       List<String> needFoods = new ArrayList<String>();
+			needFoods.add("pasta");
+			
+			occupant2.msgNeedFood(needFoods);
+			
+		       assertEquals("occupant should have one thing it needs to buy. It doesn't.", occupant2.needFd.size(), 1);;
+		       
+		       //assertEquals("occupant should have one thing it needs to fix. It doesn't.", occupant2.sState.needMarket, shoppingState.needMarket);
+
+		       assertTrue("occupants scheduler should have returned true (needs to react to new job), but didn't.",
+		    		   occupant2.pickAndExecuteAnAction());
+
+
+
+	       
 	       //nothing left to do
 	       assertFalse("occupants scheduler should have returned true (needs to react to new job), but didn't.",
  	        		occupant2.pickAndExecuteAnAction());
@@ -173,26 +191,6 @@ public class OccupantTest extends TestCase
 	}
 	
 	
-	public void testThreeScenerio()
-	{
-		//occupant wants something to eat, must go to market
-		
-
-		 assertEquals("occupant should have one thing it needs to fix. It doesn't.", occupant.eState.hungry, eatingState.hungry);
-	       assertEquals("occupant should have one thing it needs to fix. It doesn't.", occupant.fState.nothing, fixState.nothing);
-	       assertEquals("occupant should have one thing it needs to fix. It doesn't.", occupant.sState.nothing, shoppingState.nothing);
-
-		
-		home3.setOccupant(occupant3);
-		oGui3.occupant = occupant3;
-		occupant3.owner = false;
-		
-	
-
-		
-		
-		
-	}
 	
 	
 	

@@ -2,6 +2,7 @@ package housing;
 
 
 import housing.personHome.Appliance;
+import housing.HouseTest.HouseMock.MockOccupantGui;
 import housing.Interfaces.Occupant;
 import housing.Interfaces.OccupantGuiInterface;
 import housing.gui.HomePanel;
@@ -36,7 +37,7 @@ public class OccupantRole extends Role implements Occupant
 	Timer timer = new Timer();
 	private LandlordRole landLord;
 	private personHome home;
-	public OccupantGui gui;
+	public OccupantGuiInterface gui;
 	public boolean owner;
 	public boolean isFree;
 	public PersonAgent person;
@@ -308,11 +309,8 @@ public boolean pickAndExecuteAnAction()
 		PayRent();
 		return true;
 	}
-<<<<<<< HEAD
-	if(!person.getActions().isEmpty() && isFree == true) {//makes the person leave the home if there's something else to do
-=======
+
 	if(!person.getActions().isEmpty() && isFree == true && (person.getCurrentAction().type == ActionType.home || person.getCurrentAction().type == ActionType.homeAndEat)) {//makes the person leave the home if there's something else to do
->>>>>>> bd8f9d5cae559bff47321ea27490d6a45019ea98
 		gui.DoLeave();
 		
 		if(owner)
@@ -366,15 +364,9 @@ public void serviceAppliance()
 			log("owner is performing maintenance himself");
 			fixAppliance(app, true);
 		}
-<<<<<<< HEAD
 			needsWork.remove(app);
 		
-=======
-		//synchronized(needsWork)
-		//{
-			needsWork.remove(app);
-		//}
->>>>>>> bd8f9d5cae559bff47321ea27490d6a45019ea98
+
 	  }
 	}
 	fState = fixState.fixed;
@@ -432,17 +424,16 @@ if (!owner)
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}
-	
+
 	timer.schedule(new TimerTask() {
 		public void run() {
-			log("fixed appliance" + app);
+			log("fixed appliance");
 			//fState = fixState.fixed;
 			stateChanged();
 		}
 	},
 	2000);
 }
-	
 }
 
 
@@ -594,13 +585,13 @@ public void setLandLord(LandlordRole lndlrd)
 }
 
 
-public void setGui(OccupantGui occupantGui) 
+public void setGui(OccupantGuiInterface oGui) 
 {
-	this.gui = occupantGui;	
+	this.gui = oGui;	
 }
 
 
-public OccupantGui getGui() {
+public OccupantGuiInterface getGui() {
 	return gui;
 }
 

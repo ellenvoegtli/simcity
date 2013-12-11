@@ -162,7 +162,7 @@ public class LandlordRole extends Role implements landLord
 		log("the landlord is working on home");
 		int xPos = 0;
 		int yPos = 0;
-		for(OccupantRole oc : ToDo.keySet())
+		for(Occupant oc : ToDo.keySet())
 		{
 			for (String a : ToDo.get(oc))
 			{
@@ -284,14 +284,13 @@ public void goBackHome()
 	}
 
 
+
+
 	@Override
 	public void msgPleaseFix(Occupant occp, String appName) {
 		// TODO Auto-generated method stub
 		
 	}
-
-
-	
 
 
 

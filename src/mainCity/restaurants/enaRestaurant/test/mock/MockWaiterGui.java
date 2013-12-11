@@ -39,11 +39,7 @@ public class MockWaiterGui extends Mock implements WaiterGuiInterface {
 		
 	}
 
-	@Override
-	public void GoOnBreak() {
-		log.add(new LoggedEvent("Going on break"));	
-		
-	}
+	
 
 	@Override
 	public void DoGoToCashier() {
@@ -68,11 +64,41 @@ public class MockWaiterGui extends Mock implements WaiterGuiInterface {
 		log.add(new LoggedEvent("Going to table " + table.getTableNumber()));	
 		
 	}
+	
+	@Override
+	public void DoGoOnBreak()
+	{
+		log.add(new LoggedEvent(" waiter going on break"));	
+
+	}
 
 	@Override
-	public void Arriving(String choice) {
+	public void setXNum(int tableNumber) {
+		
+	}
+
+	@Override
+	public void setBreak() {
+		
+	}
+
+	@Override
+	public void SubmitOrder(String choice) {
+		log.add(new LoggedEvent(" submit order to cook"));	
+		
+	}
+
+	@Override
+	public void guiAppear() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void DoLeaveRestaurant() {
+
+		log.add(new LoggedEvent(" waiter leaving restaurant"));	
+
 	}
 
 	@Override
@@ -82,15 +108,13 @@ public class MockWaiterGui extends Mock implements WaiterGuiInterface {
 	}
 
 	@Override
-	public void setXNum(int tableNumber) {
+	public void Arriving(String choice) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void setBreak() {
-		// TODO Auto-generated method stub
-		
+	public Object getLog() {
+		return log;
 	}
 
 	

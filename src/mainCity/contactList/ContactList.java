@@ -365,6 +365,11 @@ public class ContactList {
 	public void setEnaCook(EnaCookRole cook){
 		enaCook = cook;
 	}
+	
+	public EnaCookRole getEnaCook()
+	{
+		return enaCook;
+	}
 	public void setEnaCashier(EnaCashierRole c){
 		enaCashier = c;
 	}

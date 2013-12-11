@@ -6,6 +6,8 @@ import housing.gui.OccupantGui;
 
 import java.util.List;
 
+import mainCity.PersonAgent;
+
 public interface Occupant {
 
 
@@ -14,6 +16,7 @@ public interface Occupant {
 	//Object needsWork = null;
 
 	List<String> needsWork = null;
+	//PersonAgent person = null;
 
 	public abstract void msgAtDestination();
 

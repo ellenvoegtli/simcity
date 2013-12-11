@@ -178,13 +178,15 @@ public class EnaWaiterGui implements Gui, WaiterGuiInterface
 	{
 	      return true;
 	}
-
+	
 	public void SubmitOrder(String ch)
 	{
 		fd = ch;
 	}
 	
-	public void DoGetCustomer(EnaCustomerRole customer)
+	
+	@Override
+	public void DoGetCustomer(Customer customer)
 	{
 		xDestination = customer.getXPos();
 		System.out.println(xDestination);
@@ -192,7 +194,9 @@ public class EnaWaiterGui implements Gui, WaiterGuiInterface
 		System.out.println(yDestination);
 
 	}
-	    
+	
+	
+	@Override   
 	public void DoBringToTable(Customer customer, int tableN) 
 	{
 			//DoGetCustomer(customer);
@@ -200,7 +204,8 @@ public class EnaWaiterGui implements Gui, WaiterGuiInterface
 			yDestination = yTable - 20;
 	    
 	 }
-	    
+		
+		@Override
 	    public void DoGoToTable(Customer customer, Table t)
 		{
 	    	setXNum(t.getTableNumber());
@@ -208,22 +213,29 @@ public class EnaWaiterGui implements Gui, WaiterGuiInterface
 			yDestination = yTable - 20;
 		}
 	    
+	    
+	    @Override
 		public void DoGoToKitchen()
 		{
 			xDestination = 280;
 			yDestination = 280;
 		}
+		
+		@Override
 		public void DoGoToCashier()
 		{
 			xDestination = 20;
 			yDestination = 0;
 		}
+		
+		@Override
 		public void DoGoOnBreak()
 		{
 			xDestination = -20;
 			yDestination = -20;
 		}
 
+		@Override
 		public void DoServe(String choice, Table table)
 		{
 			setXNum(table.getTableNumber());
@@ -231,32 +243,37 @@ public class EnaWaiterGui implements Gui, WaiterGuiInterface
 			yDestination = yTable - 20;
 		}
 		
+		
+		@Override
 	    public void DoLeaveCustomer() 
 	    {
 	        xDestination = 400;
 	        yDestination = home;
 	    }
-
+		
+	    
 	    public int getXPos() {
 	        return xPos;
 	    }
-
+	    
+	    
+	    
 	    public int getYPos() {
 	        return yPos;
 	    }
 
+	    @Override
+	    public void DoLeaveRestaurant()
+	    {
+	    	xDestination = -10;
+	    	yDestination = 30;
+	    }
 		
-		@Override
-		public void GoOnBreak() {
-			// TODO Auto-generated method stub
-			
-		}
 
-		
 
 		@Override
-		public void DoGetCustomer(Customer cust) {
-			// TODO Auto-generated method stub
+		public void guiAppear() {
+			this.DoLeaveCustomer();
 			
 		}
 

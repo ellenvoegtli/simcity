@@ -27,6 +27,7 @@ public interface Customer {
 	public abstract void msgHereIsYourFood(String choice);
 	public abstract void setChoice(String choice);
 	public abstract void msgFollowToTable();
+	public abstract int getXPos();
 	
 	
 }

@@ -1,0 +1,3 @@
+-Ena Restaurant
+Name:richpersonA;Cash:80;Renter:false;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home
+Name:richpersonB;Cash:250;Renter:true;hasCar:false;Occupation:rich;ShiftBegin:-1;ShiftEnd:-1;Actions:home

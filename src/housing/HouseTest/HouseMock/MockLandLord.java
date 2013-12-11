@@ -30,6 +30,14 @@ public class MockLandLord extends Mock implements landLord
 	
 	}
 
+	@Override
+	public void msgPleaseFix(OccupantRole occp, String appName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
 	
 	
 

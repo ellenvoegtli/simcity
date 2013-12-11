@@ -75,17 +75,17 @@ public class MockCustomer extends Mock implements Customer {
 	}
 	@Override
 	public void msgHereIsYourCheck() {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Recieved message for check"));
 		
 	}
 	@Override
 	public void msgWhatWouldYouLike() {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("recieved msgWhatWouldYouLike"));
 		
 	}
 	@Override
 	public void msgWhatElseWouldYouLike() {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("need new choice"));
 		
 	}
 	@Override
@@ -95,7 +95,7 @@ public class MockCustomer extends Mock implements Customer {
 	}
 	@Override
 	public void msgHereIsYourFood(String choice) {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Recieved msgHereIsYourFood"));
 		
 	}
 	@Override
@@ -105,8 +105,13 @@ public class MockCustomer extends Mock implements Customer {
 	}
 	@Override
 	public void msgFollowToTable() {
-		// TODO Auto-generated method stub
+		log.add(new LoggedEvent("Recieved msgFollowToTable"));
 		
+	}
+	@Override
+	public int getXPos() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 

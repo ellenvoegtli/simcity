@@ -8,6 +8,7 @@ import java.util.Map;
 import role.Role;
 import role.market.MarketDeliveryManRole;
 import mainCity.PersonAgent;
+import mainCity.contactList.ContactList;
 import mainCity.gui.trace.AlertLog;
 import mainCity.gui.trace.AlertTag;
 import mainCity.interfaces.DeliveryMan;
@@ -29,6 +30,8 @@ public class EnaCashierRole extends Role implements Cashier{
 		private EnaHostRole host;
 		public EventLog log = new EventLog();
 		private String name;
+		private boolean onDuty;
+		private boolean entered;
 		public enum payStatus 
 		{pending, billed, paying, paid, done};
 		payStatus status = payStatus.pending;
@@ -43,6 +46,8 @@ public class EnaCashierRole extends Role implements Cashier{
 			super(p);
 
 			this.name = name;
+			onDuty = true;
+			entered= true;
 		}
 
 		
@@ -109,6 +114,13 @@ public class EnaCashierRole extends Role implements Cashier{
 					}
 				}
 		}
+		
+		public void msgGoOffDuty(double amount){
+			addToCash(amount);
+			ContactList.getInstance().getBank().directDeposit("enaRestaurant", restCash);
+			onDuty = false;
+			stateChanged();
+		}
 
 		/*public void msgRestockBill(double reciept, Market ma)
 		{
@@ -148,6 +160,13 @@ public class EnaCashierRole extends Role implements Cashier{
 		
 public boolean pickAndExecuteAnAction() 
 {
+	if(entered) {
+		print("Withdrawing $1200 from bank");
+		ContactList.getInstance().getBank().directWithdraw("enaRestaurant", 1200);
+		ContactList.getInstance().setEnaCashier(this);
+		restCash = 1200;
+		entered = false;
+	}
 		synchronized(marketChecks)
 		{
 			for(MarketTab checks : marketChecks)
@@ -189,6 +208,13 @@ public boolean pickAndExecuteAnAction()
 					ComputeChange(tab);						
 					return true;
 				}
+			}
+			
+			
+			if(Tabs.isEmpty() && !onDuty) {
+				setInactive();
+				onDuty = true;
+				entered = true;
 			}
 			return false;
 			
@@ -362,12 +388,7 @@ public boolean pickAndExecuteAnAction()
 
 
 
-	public void msgGoOffDuty(double d) {
-		
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 
 
 	public void deductCash(double payroll) {

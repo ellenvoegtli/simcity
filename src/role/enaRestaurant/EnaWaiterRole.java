@@ -43,28 +43,26 @@ public abstract class EnaWaiterRole extends Role implements Waiter{
 	private Semaphore atLobby = new Semaphore(0, true);
 	private Semaphore atCashier = new Semaphore(0,true);
 	private Semaphore atEntrance = new Semaphore(0,true);
-	public WaiterGuiInterface waiterGui;
+	public WaiterGuiInterface waiterGui = null;
 	public boolean breakTime = false;
 	public EnaHostGui hostGui;
 	public Host host;
 	public EnaCookRole cook;
 	public Cashier cashier;
+	public boolean needGui, onDuty;
 
 	public EnaWaiterRole(PersonAgent p, String name)
 	{
 		super( p);
 		this.name = name;
-		
+		needGui = false;
+		onDuty = true;
 		Menu.add("steak");
 		Menu.add("porkchops");
 		Menu.add("lamb");
 		Menu.add("lambchops");
 	}
 
-	public String getMaitreDName()
-	{
-		return name;
-	}
 
 	public String getName()
 	{
@@ -85,6 +83,13 @@ public abstract class EnaWaiterRole extends Role implements Waiter{
 	public void wantBreak() {//from animation
 		log("Wants a Break");
 		state = waiterState.wantsBreak;
+		stateChanged();
+	}
+	
+	public void msgGoOffDuty(double amount)
+	{
+		addToCash(amount);
+		onDuty = false;
 		stateChanged();
 	}
 	
@@ -135,6 +140,8 @@ public abstract class EnaWaiterRole extends Role implements Waiter{
 	
 	public void msgReadyToOrder( Customer c)
 	{
+				log(c + " is ready to order");
+
 		for(MyCustomers customer: MyCust)
 		{
 			if(customer.cust == c)
@@ -186,8 +193,9 @@ public abstract class EnaWaiterRole extends Role implements Waiter{
 			}
 		}
 	}
-	public void msgDoneEating(EnaCustomerRole c)
+	public void msgDoneEating(Customer c)
 	{
+		print("customer done eating message recieved??");
 		for(MyCustomers customer: MyCust)
 		{
 			if(customer.cust == c)
@@ -201,7 +209,7 @@ public abstract class EnaWaiterRole extends Role implements Waiter{
 		}
 	}
 	
-	public void msgCheckPlease(EnaCustomerRole c, String choice)
+	public void msgCheckPlease(Customer c, String choice)
 	{
 		for(MyCustomers customer: MyCust)
 		{
@@ -272,8 +280,11 @@ public abstract class EnaWaiterRole extends Role implements Waiter{
 	 */
 	public boolean pickAndExecuteAnAction() 
 	{
-		//log("waiter scheduler");
-	
+		if(needGui)
+		{
+			waiterGui.guiAppear();
+			needGui = false;
+		}
 		if(state == waiterState.wantsBreak)
 		{
 			log("checking if break available");
@@ -291,9 +302,12 @@ public abstract class EnaWaiterRole extends Role implements Waiter{
 			BreakChange();
 			return true; 
 		}
-		
-try
-{
+	
+if(!MyCust.isEmpty())
+{	
+	try{		
+
+
 		for (MyCustomers customer : MyCust)
 		{
 			if(customer.customerState == custState.waiting)
@@ -376,10 +390,20 @@ try
 			}
 		}
 		
-}
+		
+}catch(ConcurrentModificationException e){
+	print("Error");
+	return false;
+	}
 
-catch(ConcurrentModificationException e){};
+}
 	
+else if (!onDuty)
+{
+	leaveRestaurant();
+	onDuty = true;
+	needGui = true;
+}
 
 		return false;
 		//we have tried all our rules and found
@@ -391,6 +415,7 @@ catch(ConcurrentModificationException e){};
 
 	public void SeatCustomer(MyCustomers c)
 	{
+		print("  Customer is being Seated.  ");
 		waiterGui.DoGetCustomer(c.cust);
 		//log("at entrance semaphore acquiring");
 		try {
@@ -417,9 +442,10 @@ catch(ConcurrentModificationException e){};
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		log("LEAVING CUST");
+		log("LEAVING CUSTOMER");
 		
 	}
+	protected abstract void PassOrder(MyCustomers c);
 
 	
 	private void TakeOrder(MyCustomers c)
@@ -446,23 +472,19 @@ catch(ConcurrentModificationException e){};
 		}
 		AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "OLD CHOICE " + c.choice + "IS OUT OF STOCK CHOOSE SOMETHING ELSE");
 
-		//log ("OLD CHOICE " + c.choice + "IS OUT OF STOCK CHOOSE SOMETHING ELSE");
 		c.cust.msgWhatElseWouldYouLike();
 		for(int i=0; i<Menu.size(); i++)
 		{
 		  if(c.cust.getName().equals("onlyChoice"))
 		  {
-				AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "no money for new choice, customer will leave the restaurant");
-
-			  //log("no money for new choice, customer will leave the restaurant");
+			  AlertLog.getInstance().logMessage(AlertTag.ENA_RESTAURANT, this.getName(), "no money for new choice, customer will leave the restaurant");
 			  c.cust.gui.DoExitRestaurant();
 			  waiterGui.DoLeaveCustomer();
 			  EmptyTable(c);
 		  }
 		  else
 		  {
-			  
-		  
+
 			if(c.choice == Menu.get(3))
 			{
 				c.setChoice(Menu.get(0));
@@ -518,7 +540,6 @@ catch(ConcurrentModificationException e){};
 	
 	}
 	
-	protected abstract void PassOrder(MyCustomers c);
 	
 	private void Deliver(MyCustomers c)
 	{		
@@ -626,6 +647,14 @@ catch(ConcurrentModificationException e){};
 		
 				waiterGui.DoBringToTable(c.cust, c.table.tableNumber);
 	}
+	
+	private void leaveRestaurant()
+	{
+		waiterGui.DoLeaveRestaurant();
+		setInactive();
+		onDuty = true;
+		needGui = true;
+	}
 
 	//utilities
 	public void setGui(WaiterGuiInterface gui) {
@@ -705,10 +734,7 @@ catch(ConcurrentModificationException e){};
 
 
 
-	public void msgGoOffDuty(double amount) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 
 
