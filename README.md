@@ -90,4 +90,3 @@ SimCity201 Project Repository for CS 201 students
   + When adding Persons though the "Create" panel on the CityGui, if they have an occupation they will prioritize that over their hunger.
   + We do not have waiter breaks implemented to where they can leave the restaurant and do other things.
   + In the restaurant on the far right, if it ever gets stuck customers and 1 waiter, add a waiter and set his occupation as davidWaiter.
-  + House GUI doesn't work, but messages are all there.

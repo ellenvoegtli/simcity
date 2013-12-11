@@ -62,6 +62,7 @@ public abstract class DavidWaiterRole extends Role implements Waiter, WorkerRole
 	private boolean onBreak = false;
 	
 	private boolean onDuty; 
+	private boolean needGui;
 	
 	Order currentOrder; 
 	private String orderChoice;
@@ -79,6 +80,7 @@ public abstract class DavidWaiterRole extends Role implements Waiter, WorkerRole
 		super(p);
 		this.name = name;
 		onDuty = true;
+		needGui = false;
 	}
 
 	public String getMaitreDName() {
@@ -257,11 +259,23 @@ public abstract class DavidWaiterRole extends Role implements Waiter, WorkerRole
 		stateChanged();
 	}
 	
+	public void msgGoOffDuty(double amount) {
+		addToCash(amount); 
+		onDuty = false; 
+		stateChanged();
+	}
+	
     
 /*   Scheduler   */
 	
 	public boolean pickAndExecuteAnAction() {
 		try{
+			
+			if(needGui) { 
+				waiterGui.guiAppear(); 
+				needGui = false;
+			}
+			
 			if(customerList.size() != 0) {
 				for(myCustomer customer : customerList) {
 					if(customer.custState == CustomerStates.Waiting) {
@@ -331,6 +345,7 @@ public abstract class DavidWaiterRole extends Role implements Waiter, WorkerRole
 			if(!onDuty) { 
 				leaveRestaurant(); 
 				onDuty = false;
+				needGui = true;
 			}
 			return false;
 			//we have tried all our rules and found
@@ -354,6 +369,7 @@ public abstract class DavidWaiterRole extends Role implements Waiter, WorkerRole
 		} 
 		setInactive(); 
 		onDuty = true;
+		needGui = true;
 		
 	}
 
@@ -566,11 +582,7 @@ public abstract class DavidWaiterRole extends Role implements Waiter, WorkerRole
 		this.onBreak = onBreak;
 	}
 
-	public void msgGoOffDuty(double amount) {
-		addToCash(amount); 
-		onDuty = false; 
-		stateChanged();
-	}
+
 
 
 }

@@ -182,4 +182,8 @@ public class WaiterGui implements Gui {
 		xDestination = -20; 
 		yDestination = -20;
 	}
+	
+	public void guiAppear() { 
+		this.DoLeaveCustomer();
+	}
 }
