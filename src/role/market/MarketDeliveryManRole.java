@@ -237,7 +237,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		
 		
 		if (bills.isEmpty() && !onDuty){		//officially going off-duty
-			deliveryGui.DoGoToHomePosition();
+			deliveryGui.hide();
 			super.setInactive();
 			onDuty = true;
 			entered = true;

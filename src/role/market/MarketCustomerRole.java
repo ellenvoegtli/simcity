@@ -75,7 +75,9 @@ public class MarketCustomerRole extends Role implements Customer {
 		else 
 			myCash = p.getCash();
 		
-		
+		inventoryToOrder = Collections.synchronizedMap(new TreeMap<String, Integer>());
+		inventoryToOrder.put("steak", 1);
+		inventoryToOrder.put("swiss", 2);
 	
 	}
 
@@ -148,7 +150,8 @@ public class MarketCustomerRole extends Role implements Customer {
 		log("Told to go to market to order inventory");
 		
 		if (!inventoryNeeded.isEmpty()){
-			this.inventoryToOrder = Collections.synchronizedMap(new TreeMap<String, Integer>(inventoryNeeded));
+			inventoryToOrder.clear();
+			inventoryToOrder = inventoryNeeded;
 		}
 		//else just take the default 
 		
@@ -443,10 +446,12 @@ public class MarketCustomerRole extends Role implements Customer {
 	}
 	
 	public boolean restaurantOpen() {
-		if (host.getName().toLowerCase().contains("market2"))
-			host = ContactList.getInstance().market2Greeter;
-		else
-			host = ContactList.getInstance().marketGreeter;
+		if (host != null){
+			if (host.getName().toLowerCase().contains("market2"))
+				host = ContactList.getInstance().market2Greeter;
+			else
+				host = ContactList.getInstance().marketGreeter;
+		}
 		
 		if (host instanceof MarketGreeterRole){
 			MarketGreeterRole h = (MarketGreeterRole) host;

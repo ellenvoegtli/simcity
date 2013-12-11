@@ -26,5 +26,8 @@ public class MockDeliveryManGui extends Mock implements DeliveryManGuiInterface 
 	public void guiReappear(){
 		
 	}
+	public void hide(){
+		
+	}
 	
 }
