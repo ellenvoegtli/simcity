@@ -32,6 +32,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	private Semaphore atHome = new Semaphore(0, true);
 	private Semaphore atDestination = new Semaphore(0, true);
 	private boolean onDuty;
+	private boolean entered;
 	
 	
 	//constructor
@@ -40,6 +41,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 		this.name = name;
 		state = AgentState.doingNothing;
 		onDuty = true;
+		entered = true;
 	}
 	public List<Bill> getBills(){
 		return bills;
@@ -164,6 +166,13 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 	 // Scheduler.  Determine what action is called for, and do it.
 	 
 	public boolean pickAndExecuteAnAction() {
+		if (entered){
+			if (this.getName().toLowerCase().contains("market2"))
+				ContactList.getInstance().setMarket2DeliveryMan(this);
+			else
+				ContactList.getInstance().setMarketDeliveryMan(this);
+			entered = false;
+		}
 		
 		synchronized(bills){
 			for(Bill b: bills){
@@ -224,6 +233,7 @@ public class MarketDeliveryManRole extends Role implements DeliveryMan{			//only
 			deliveryGui.DoGoToHomePosition();
 			super.setInactive();
 			onDuty = true;
+			entered = true;
 		}
 
 
