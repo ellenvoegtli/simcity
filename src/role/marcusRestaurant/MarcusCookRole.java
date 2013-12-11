@@ -58,8 +58,10 @@ public class MarcusCookRole extends Role implements Cook, WorkerRole {
 		
 		needGui = false;
 		
-		markets.add(ContactList.getInstance().getMarket().getGreeter());
-		markets.add(ContactList.getInstance().getMarket2().getGreeter());
+		if(ContactList.getInstance().getMarket() != null && ContactList.getInstance().getMarket2() != null) {
+			markets.add(ContactList.getInstance().getMarket().getGreeter());
+			markets.add(ContactList.getInstance().getMarket2().getGreeter());
+		}
 	}
 
 	public void setGui(CookGuiInterface g) {
