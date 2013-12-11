@@ -57,9 +57,10 @@ public class EnaCookRole extends Role implements MainCook {
 		Foods.put("lamb" , new Food("lamb", 1));
 		Foods.put("lambchops", new Food("lambchops", 1));
 		
+		if(ContactList.getInstance().getMarket() != null && ContactList.getInstance().getMarket2() != null) {
 		markets.add(ContactList.getInstance().getMarket().getGreeter());
 		markets.add(ContactList.getInstance().getMarket2().getGreeter());
-		
+		}
 	}
 
 
