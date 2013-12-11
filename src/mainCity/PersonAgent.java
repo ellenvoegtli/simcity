@@ -119,6 +119,13 @@ public class PersonAgent extends Agent {
 			return false;
 		}
 	}
+	public boolean isGoingOrAtMarket(){
+		synchronized(actions) {
+			if(actions.contains(ActionType.market) || (currentAction != null && currentAction.type == ActionType.market))
+				return true;
+			return false;
+		}
+	}
 	
 	
 	public void updateOccupation(String o, int b, int e) {
