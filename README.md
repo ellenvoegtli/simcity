@@ -3,7 +3,7 @@ team24
 
 SimCity201 Project Repository for CS 201 students
 
-## See [LICENSE](https://github.com/ellenvoegtli/simcity/LICENSE.txt)
+## See [LICENSE](https://github.com/ellenvoegtli/simcity/blob/master/LICENSE.txt)
 
 ## WORK DONE
 
